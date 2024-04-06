@@ -1,4 +1,5 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
+const defaultTheme = require('tailwindcss/defaultConfig');
 
 const config: Config = {
   content: [
@@ -8,13 +9,22 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      ...defaultTheme,
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'btn-primary':
+          'linear-gradient(135deg, #78D6EF 0%, #3879B6 50%, #0C6399 75%,  #0C6399 100% )',
+        'btn-primary-hover':
+          'linear-gradient(135deg, #0C6399 0%, #60ADF3 100%)',
+      },
+      backgroundSize: {
+        200: '200%',
+      },
+      backgroundPosition: {
+        top: 'top',
+        bottom: 'bottom',
       },
     },
   },
   plugins: [],
-}
-export default config
+};
+export default config;
