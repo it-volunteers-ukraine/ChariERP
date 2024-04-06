@@ -1,8 +1,36 @@
-import { Icon } from '@/assets';
-export const Button = ({}) => {
+import { getStyles } from './styles';
+import { IButtonProps } from './types';
+
+export const Button = ({
+  text,
+  onClick,
+  disabled,
+  isLoading,
+  isNarrow = false,
+  styleType = 'primary',
+}: IButtonProps) => {
+  const { btn, span, overlay } = getStyles({
+    isNarrow: isNarrow,
+    styleType: styleType,
+  });
+
+  const handleClick = () => {
+    if (isLoading && disabled || isLoading) {
+      return;
+    }
+
+    onClick && onClick();
+  };
+
   return (
     <>
-      <span className="p-8 transition-all duration-1000 bg-bottom bg-200 bg-btn-primary hover:bg-top hover:border hover:border-red-500"></span>
+      <button onClick={handleClick} disabled={disabled} className={btn}>
+        <span className={span}>{text}</span>
+
+        {!disabled && styleType === 'primary' && (
+          <div className={overlay}></div>
+        )}
+      </button>
     </>
   );
 };
