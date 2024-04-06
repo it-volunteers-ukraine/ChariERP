@@ -1,7 +1,14 @@
-export default function HomePage() {
+import { Inter } from 'next/font/google';
+import { Button } from '@/components';
+
+const inter = Inter({ subsets: ['latin'] });
+
+export default function Home() {
   return (
-    <>
-      <h1>Home page</h1>
-    </>
-  )
+    <main
+      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
+    >
+      <Button />
+    </main>
+  );
 }
