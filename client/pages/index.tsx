@@ -1,5 +1,10 @@
-import { Button } from '@/components';
+import { Input } from '@/components';
 
 export default function Home() {
-  return <div>Home</div>;
+  return (
+    <div>
+      Home
+      <Input />
+    </div>
+  );
 }

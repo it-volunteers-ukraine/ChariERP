@@ -1,3 +1,3 @@
 export const Input = ({}) => {
-  return <>Input</>;
+  return <input className="border" />;
 };
