@@ -5,13 +5,15 @@ on:
     branches: [ main ]
     paths:
       - 'client/**'
-      - '!client/dist'
+      - '!client/.next'
+      - '!client/coverage'
       - '!client/node_modules'
   pull_request:
     branches: [ main ]
     paths:
       - 'client/**'
-      - '!client/dist'
+      - '!client/.next'
+      - '!client/coverage'
       - '!client/node_modules'
 
 jobs:
