@@ -23,7 +23,7 @@ const config: Config = {
 
   // An object that configures minimum threshold enforcement for coverage results
   // coverageThreshold: undefined,
-
+  setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
   // Make calling deprecated APIs throw helpful error messages
   errorOnDeprecated: false,
 
