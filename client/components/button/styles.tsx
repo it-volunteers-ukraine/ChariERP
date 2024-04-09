@@ -5,6 +5,8 @@ interface IStylesButton {
   styleType: 'primary' | 'outline' | 'secondary' | 'secondary-outline';
 }
 
+const secondary = 'btn-secondary-hover';
+
 export const getStyles = ({ isNarrow, styleType }: IStylesButton) => ({
   btn: clsx(
     'group flex items-center justify-center overflow-hidden relative text-btn-text rounded-[50px] transition-all duration-300',

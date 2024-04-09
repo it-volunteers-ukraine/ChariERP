@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer components {
+  * {
+    @apply box-border text-base font-roboto font-normal;
+  }
   input {
     @apply outline-none;
   }
