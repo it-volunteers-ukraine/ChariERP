@@ -1,6 +1,8 @@
 import type { Config } from 'tailwindcss';
 const defaultTheme = require('tailwindcss/defaultConfig');
 
+const blue = '#2C73AC';
+
 const config: Config = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -11,7 +13,9 @@ const config: Config = {
     extend: {
       ...defaultTheme,
       colors: {
-        'dark-blue': '#2C73AC',
+        white: '#FFFFFF',
+        btn: {},
+        'dark-blue': blue,
         'btn-text': '#FFFFFF',
         'btn-secondary-text': '#2C73AC',
         'btn-secondary-hover': '#84BB46',
@@ -42,6 +46,10 @@ const config: Config = {
       },
       borderRadius: {
         50: '50px',
+      },
+      fontFamily: {
+        roboto: ['var(--font-roboto)', 'sans-serif'],
+        scada: ['var(--font-scada)', 'sans-serif'],
       },
     },
   },
