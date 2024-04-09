@@ -1,0 +1,182 @@
+# I as a representative of an organization I want to register a company to gain access to the account.
+## [Link to project in Figma](https://www.figma.com/file/bwR3wSSptI35S27sC2bjNL/Chari?type=design&node-id=22-4681&mode=design&t=tsaSFqMaN3sCxPJd-4)
+## [Link to the state of fields in Figma](https://www.figma.com/file/bwR3wSSptI35S27sC2bjNL/Chari?type=design&node-id=568-40639&mode=design&t=e4VpJhdQdG8YEgi8-4)
+
+# Consists of:
+
+## 1.	Основна Інформація
+### - Input: Full organization name / Повна назва організації 
+1. Validation:
+	- Max. Length – 300 symbols
+	- Min. Length – 1 symbol
+	- Any symbols can be entered, including: «»/.!@№-! including Arabic and Roman numerals.
+
+2. Error handling:
+	- If the input field becomes active and then becomes inactive and does not contain any symbols, this should be indicated in the error field when the input field becomes inactive.
+Specify the text in the error field - This field is required / Це поле є обов'язковим для заповнення.
+
+3. Information icon + description
+
+4. Placeholder 
+
+### - Input: Organization YEDRPOU / ЄДРПОУ організації
+1. Validation:
+	- Number of symbols - 8 pcs.
+	- Only Arabic numerals possible numbers can be entered.
+	- When filling in the input field, check for the presence of such a YEDRPOU. Do not allow registration if such YEDRPOU has already registered. 
+
+2. Error handling:
+	- If this YEDRPOU already exists, then indicate this in the error field.
+Specify the text in the error field - This YEDRPOU already exists / Цей ЄДРПОУ вже використовуеться.
+	- If the input field becomes active and then becomes inactive and does not contain any symbols, this should be indicated in the error field when the input field becomes inactive. Specify the text in the error field - This field is required / Це поле є обов'язковим 
+
+3. Placeholder 
+
+### - Input: Certificate of registration / Довідка про внесення в реєстр
+1. Validation: 
+
+- Active
+	- File can be uploaded by clicking the "attachment" button or clicking on the Input field.
+	- The file can be added with any symbols.
+	- The "Clear" button appears when the file is attached.
+	- The maximum file size for a file attachment is 50 MB.
+	- valid file formats for adding: pdf; jpg; jpeg; png. 
+	- Only 1 file can be attached.
+
+- Inactive 
+	- The "Clear" button disappears when there is no attached file.
+
+2. Error handling:
+	- If the file does not comply with valid file formats for uploading, then it must indicate this in the error field.
+Specify the text in the error field - Invalid format / Невірний формат.
+	- If the input field becomes active and then becomes inactive and does not contain any symbols, this should be indicated in the error field when the input field becomes inactive.
+Specify the text in the error field - This field is required / Це поле є обов'язковим для заповнення.
+
+3. Information icon + description
+
+4. Placeholder 
+
+### - Input: Organization registration date / Дата реєстрації організації: 
+Consists of:    
+	- Input select of the Year
+	- Input select of the month
+	- Input select of the day
+
+1. Validation:
+	- Dates must correspond to the number of days in the month, considering leap years.
+	- Input select must be filled in sequentially: year, then month, then day.
+Access to the next Input select opens after selecting the previous one, as shown here: https://dpsdealers.com/vehicle-search/
+
+Scenario: Validate the registration date input field
+    Given the user is on the registration page
+    When the user selects a registration date
+    Then the year select should allow selection up to 100 years ago from the current date
+    And the month select should allow selection of any month
+    And the day select should allow selection of any day
+
+Scenario Outline: Validate the registration date input field with various dates
+    Given the user is on the registration page
+    When the user selects a registration date "<registration_date>"
+    Then the registration date "<registration_date>" should be within the allowed range
+    Examples:
+        | registration_date   |
+        | 26 March 1924       |  # 100 years ago
+        | 26 March 2024       |  # current date
+
+2. Error handling:
+	- If the input field becomes active and then becomes inactive and does not contain any symbols, this should be indicated in the error field when the input field becomes inactive.
+Specify the text in the error field - These fields are required / Ці поля є обов’язковими для заповнення.
+
+## 2.	Contact Information / Контактна інформація 
+
+### - Input: Position of organization representative / Посада представника організації 
+1. Validation:
+	- Max. Length – 100 symbols
+	- Min. Length – 1 symbol
+	- Cyrillic symbols are allowed
+
+2. Error handling:
+	- If the input field becomes active and then becomes inactive and does not contain any symbols, this should be indicated in the error field when the input field becomes inactive.
+Specify the text in the error field - This field is required / Це поле є обов'язковим для заповнення.
+
+3. Information icon + description
+
+4. Placeholder
+
+### - Input: Full name of organization representative / ПІБ Представника організації
+1. Validation:
+	- Max. Length – 100 symbols
+	- Min. Length – 1 symbol
+	- Cyrillic symbols are allowed
+
+2. Error handling:
+	- If the input field becomes active and then becomes inactive and does not contain any symbols, this should be indicated in the error field when the input field becomes inactive.
+Specify the text in the error field - This field is required / Це поле є обов'язковим для заповнення.
+
+3. Placeholder
+
+### - Input: Representative's phone number /  Телефон представника 
+1. Validation:
+	- use the phone number format, for example, (+ country code, city/operator code, number). Use mask: +38(0__) according to the layout.
+	- A possible number of symbols to enter – 9 pcs.
+
+2. Error handling:
+	- If the input field becomes active and then becomes inactive and does not contain any symbols, this should be indicated in the error field when the input field becomes inactive.
+Specify the text in the error field - This field is required / Це поле є обов'язковим для заповнення.
+	- After you enter less than 9 numbers in the password field, it should indicate this in the error field.
+Specify the text in the error field - Please enter 9 numbers / Будь ласка, введіть 9 цифр.
+
+3. Information icon + description
+
+4. Placeholder
+
+### - Input: Representative's email / Електронна скринька представника  
+1. Validation:
+	- Max. Length – 50 symbols
+	- Min. Length – 6 symbols
+	- Recipient name
+	- @ symbol
+	- Domain name
+	- Top-level domain
+	- After filling out the input field, check whether such a user exists in the system. Do not allow registration if this email has already been registered.
+	- Cyrillic symbols are not allowed.
+	- The user can`t submit the form with Cyrillic symbols in the email.
+
+2. Error handling:
+	- If an organization with this login is already registered, then it must indicate this in the error field.
+Enter the text in the error field - This email is already in use / Ця електронна адреса вже використовується.
+	- If the input field becomes active and then becomes inactive and does not contain any symbols, this should be indicated in the error field when the input field becomes inactive.
+Specify the text in the error field - This field is required / Це поле є обов'язковим для заповнення.
+	- Invalid email address
+
+3. Information icon + description
+
+4. Placeholder
+
+### - Input: Media / Медіа
+Consists of:
+	- Input The organization's Internet page /  Інтернет-сторінка організації
+	- Input A link to a social network / Посилання на соц.мережу
+	- Button + Add another link / + Додати ще посилання
+
+1. Validation:
+	- Max. Length – 2000 symbols
+	- Min. Length – 10 symbols
+	- Any symbols can be used.
+	- The "Clear" button appears when at least one symbol is added.
+	- The "Clear" button disappears when there is no at least 1 symbol in the input field.
+
+2. Button "+ Add another link" / «+ Додати ще посилання»
+	- Pressing the button adds another "Social media link" field / «Посилання на соц.мережу».
+	- The maximum number of additional fields is 5 pcs.
+
+3. Information icon + description
+
+4. Placeholder
+
+
+## Acceptance Criteria
+1. If the organization representative enters valid data into the forms and submits the form, he should see a Pop-up with text according to the layout.
+Where the “Accept” / "Зрозуміло" button leads to the Main Page, and the “Contact” / "Зв'язатись" button leads to the Contact page.
+2. If the organization representative enters valid data in the forms and submits the form, the application is to be sent to the SuperAdmin for consideration.
+3. An organization representative can not apply if he has at least one verification error.
