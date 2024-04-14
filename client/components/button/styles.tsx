@@ -2,17 +2,23 @@ import clsx from 'clsx';
 
 interface IStylesButton {
   isNarrow?: boolean;
+  className?: string;
   styleType: 'primary' | 'outline' | 'secondary' | 'secondary-outline';
 }
 
 const secondary = 'btn-secondary-hover';
 
-export const getStyles = ({ isNarrow, styleType }: IStylesButton) => ({
+export const getStyles = ({
+  isNarrow,
+  styleType,
+  className,
+}: IStylesButton) => ({
   btn: clsx(
     'group flex items-center justify-center overflow-hidden relative text-btn-text rounded-[50px] transition-all duration-300',
     {
       'text-base leading-4 h-[42px] px-[20px]': !isNarrow,
       'text-xs leading-[14px] h-[24px] px-[12px]': isNarrow,
+      [`${className}`]: className,
       'enabled:shadow-btn-inset disabled:bg-btn-disabled enabled:bg-btn-primary bg-repeat bg-200 bg-[top_left] hover:bg-[bottom_right]':
         styleType === 'primary',
 

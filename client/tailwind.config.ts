@@ -2,6 +2,7 @@ import type { Config } from 'tailwindcss';
 const defaultTheme = require('tailwindcss/defaultConfig');
 
 const blue = '#2C73AC';
+const white = '#FFFFFF';
 
 const config: Config = {
   content: [
@@ -13,30 +14,38 @@ const config: Config = {
     extend: {
       ...defaultTheme,
       colors: {
-        white: '#FFFFFF',
-        btn: {},
+        white: white,
         'dark-blue': blue,
-        'btn-text': '#FFFFFF',
-        'btn-secondary-text': '#2C73AC',
-        'btn-secondary-hover': '#84BB46',
-        'btn-secondary-hover-text': '#FFFFFF',
-        'btn-secondary-active': '#2C73AC',
-        'btn-secondary-disabled-text': '#BEC6D0',
-        'btn-secondary-disabled-border': '#D0CBCB',
-        'btn-outline-border': '#FFFFFF',
-        'btn-outline-hover-text': '#2C73AC',
-        'btn-outline-disabled': 'rgba(104, 122, 149, 0.50)',
+        btn: {
+          text: white,
+          'secondary-text': blue,
+          'secondary-hover': '#84BB46',
+          'secondary-hover-text': white,
+          'secondary-active': blue,
+          'secondary-disabled-text': '#BEC6D0',
+          'secondary-disabled-border': '#D0CBCB',
+          'outline-border': white,
+          'outline-hover-text': blue,
+          'outline-disabled': 'rgba(104, 122, 149, 0.50)',
+        },
       },
       backgroundColor: {
-        'btn-outline': '#FFFFFF',
-        'btn-secondary': '#FFFFFF',
-        'btn-disabled': '#C2C3C5',
-        'btn-outline-active': '#D2E1EF',
+        btn: {
+          outline: white,
+          secondary: white,
+          disabled: '#C2C3C5',
+          'outline-active': '#D2E1EF',
+        },
       },
       backgroundImage: {
-        'btn-primary':
-          'linear-gradient(135deg, #78D6EF 0%, #3879B6 40%,#0C6399 65%, #60ADF3 100%)',
-        'btn-active': 'linear-gradient(135deg, #0C6399 0%, #0C6399 100%)',
+        burger: ' linear-gradient(315deg, #78D6EF 0%, #3879B6 100%)',
+        'burger-tablet': 'linear-gradient(315deg, #3879B6 0%, #78D6EF 100%)',
+        'header-gradient': 'linear-gradient(135deg, #78D6EF 0%, #3879B6 100%)',
+        btn: {
+          primary:
+            'linear-gradient(135deg, #78D6EF 0%, #3879B6 40%,#0C6399 65%, #60ADF3 100%)',
+          active: 'linear-gradient(135deg, #0C6399 0%, #0C6399 100%)',
+        },
       },
       boxShadow: {
         'btn-inset': 'inset 0px 0px 5px 2px rgba(0,0,0,0.1)',
@@ -50,6 +59,25 @@ const config: Config = {
       fontFamily: {
         roboto: ['var(--font-roboto)', 'sans-serif'],
         scada: ['var(--font-scada)', 'sans-serif'],
+      },
+      screens: {
+        //  @media (min-width: 768px)
+        tablet: '768px',
+        //  @media (min-width: 992px)
+        laptop: '992px',
+        //  @media (min-width: 1440px)
+        desktop: '1440px',
+        //  @media (min-width: 1919px)
+        desktopXl: '1919px',
+      },
+      dropShadow: {
+        logo: [
+          '4px 2px 2px rgba(0, 0, 0, 0.25)',
+          '-4px -2px 3px rgba(0, 0, 0, 0.15)',
+        ],
+      },
+      transitionProperty: {
+        rounded: 'border-radius',
       },
     },
   },

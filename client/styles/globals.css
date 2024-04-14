@@ -4,7 +4,7 @@
 
 @layer components {
   * {
-    @apply box-border text-base font-roboto font-normal;
+    @apply box-border text-base font-normal font-roboto;
   }
   input {
     @apply outline-none;
@@ -21,10 +21,72 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-.asd {
-  background-position: top left;
+.container-chari {
+  @apply w-full px-2;
 }
 
-.asd:hover {
-  background-position: bottom left;
+@media screen and (min-width: 768px) {
+  .container-chari {
+    @apply px-4;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .container-chari {
+    @apply px-0 max-w-[1168px] mx-auto;
+  }
+}
+
+@media screen and (min-width: 1919px) {
+  .container-chari {
+    @apply max-w-[1736px];
+  }
+}
+.nav-toggle {
+  position: relative;
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.nav-toggle:focus {
+  outline-width: 0;
+}
+
+.nav-toggle [class*='bar-'] {
+  background: white;
+  display: block;
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: 0.33s ease all;
+  transition: 0.33s ease all;
+
+  border-radius: 13px;
+  height: 2px;
+  width: 24px;
+  margin-bottom: 4px;
+}
+.nav-toggle:hover [class*='bar-'] {
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+}
+
+.nav-toggle .bar-bot {
+  margin-bottom: 0;
+}
+
+.opened .bar-top {
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transform-origin: 15% 15%;
+  transform-origin: 15% 15%;
+}
+.opened .bar-mid {
+  opacity: 0;
+  -webkit-transition: 0.12s ease all;
+  transition: 0.12s ease all;
+}
+.opened .bar-bot {
+  -webkit-transform: rotate(45deg);
+  transform: rotate(-45deg);
+  -webkit-transform-origin: 15% 95%;
+  transform-origin: 15% 95%;
 }

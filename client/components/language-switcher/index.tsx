@@ -5,12 +5,16 @@ import { Icon } from '@/assets';
 import { getStyles } from './styles';
 import { ILanguageSwitcherProps } from './types';
 
-export const LanguageSwitcher = ({ isNarrow }: ILanguageSwitcherProps) => {
+export const LanguageSwitcher = ({
+  isNarrow,
+  className,
+}: ILanguageSwitcherProps) => {
   const [activeLanguage, setActiveLanguage] = useState<'en' | 'ua'>('en');
 
-  const { en, ua, icon, iconWrapper, wrapper } = getStyles({
+  const { en, ua, icon, iconWrapper, wrapper, span } = getStyles({
     isNarrow: isNarrow,
     activeLanguage: activeLanguage,
+    className,
   });
 
   const handleClick = () => {
@@ -19,8 +23,8 @@ export const LanguageSwitcher = ({ isNarrow }: ILanguageSwitcherProps) => {
 
   return (
     <div onClick={handleClick} className={wrapper}>
-      <span className="select-none">EN</span>
-      <span className="select-none">UA</span>
+      <span className={span}>EN</span>
+      <span className={span}>UA</span>
 
       <div className={iconWrapper}>
         <Icon.UA className={`${icon} ${ua}`} />
