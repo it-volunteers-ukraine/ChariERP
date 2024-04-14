@@ -16,8 +16,6 @@ export const getStyles = ({
   btn: clsx(
     'group flex items-center justify-center overflow-hidden relative text-btn-text rounded-[50px] transition-all duration-300',
     {
-      'text-base leading-4 h-[42px] px-[20px]': !isNarrow,
-      'text-xs leading-[14px] h-[24px] px-[12px]': isNarrow,
       [`${className}`]: className,
       'enabled:shadow-btn-inset disabled:bg-btn-disabled enabled:bg-btn-primary bg-repeat bg-200 bg-[top_left] hover:bg-[bottom_right]':
         styleType === 'primary',
@@ -32,7 +30,13 @@ export const getStyles = ({
         styleType === 'secondary-outline',
     },
   ),
-  span: 'relative z-[1] select-none',
+  span: clsx(
+    'relative z-[1] select-none flex items-center justify-center text-scada top-[2px]',
+    {
+      'text-base leading-4 h-[42px] px-[20px]': !isNarrow,
+      'text-xs leading-[14px] h-[24px] px-[12px]': isNarrow,
+    },
+  ),
   overlay:
     'absolute top-0 enabled:shadow-btn-inset left-0 w-full h-full transition-all duration-300 opacity-0 z-[0] bg-btn-active group-active:opacity-100',
 });

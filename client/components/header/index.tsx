@@ -30,7 +30,7 @@ export const Header = ({}) => {
             className="hidden desktop:flex"
           />
 
-          <Icon.Search className="w-[18px] aspect-[1/1] text-white cursor-pointer hover:drop-shadow-sm ml-auto desktop:ml-3" />
+          <Icon.Search className="w-[18px] aspect-[1/1] text-white cursor-pointer hover:drop-shadow-sm ml-auto desktop:ml-3 desktop:mr-3" />
 
           <Burger />
 
