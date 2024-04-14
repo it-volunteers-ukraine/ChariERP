@@ -10,8 +10,8 @@ export const Navigation = ({ inHeader, className }: INavigationProps) => {
 
   return (
     <ul className={ul}>
-      {links.map(({ text, href }) => (
-        <li>
+      {links.map(({ text, href }, idx) => (
+        <li key={`navigation-item-${idx}`}>
           <Link href={href} className={link}>
             {text}
           </Link>
