@@ -5,19 +5,22 @@ export const Button = ({
   text,
   onClick,
   disabled,
+  className,
   isLoading,
-  styleType,
   isNarrow = false,
+  styleType = 'primary',
 }: IButtonProps) => {
   const { btn, span, overlay } = getStyles({
     isNarrow: isNarrow,
     styleType: styleType,
+    className,
   });
 
   const handleClick = () => {
-    if (isLoading && disabled) {
+    if ((isLoading && disabled) || isLoading) {
       return;
     }
+
     onClick && onClick();
   };
 
