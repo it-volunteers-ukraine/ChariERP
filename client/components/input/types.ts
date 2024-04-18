@@ -6,7 +6,9 @@ interface CustomInput
     HTMLInputElement | HTMLTextAreaElement
   > {}
 
-export interface InputProps extends CustomInput {
+export interface InputProps extends Omit<CustomInput, 'ref'> {
   label: string;
   error?: string;
+  placeholderItalic?: boolean;
+  info?: string | React.ReactNode;
 }

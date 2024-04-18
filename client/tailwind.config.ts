@@ -2,6 +2,14 @@ import type { Config } from 'tailwindcss';
 const defaultTheme = require('tailwindcss/defaultConfig');
 
 const blue = '#2C73AC';
+const error = '#B3261E';
+const white = '#FFFFFF';
+const green = '#84BB46';
+const comet = '#5D647C';
+const mobster = '#79747E';
+const cerise = '#E23A81';
+const caret = '#61B6DB';
+const swissCoffee = '#D0CBCB';
 
 const config: Config = {
   content: [
@@ -13,33 +21,48 @@ const config: Config = {
     extend: {
       ...defaultTheme,
       colors: {
-        white: '#FFFFFF',
-        btn: {},
+        white,
         'dark-blue': blue,
-        'btn-text': '#FFFFFF',
-        'btn-secondary-text': '#2C73AC',
-        'btn-secondary-hover': '#84BB46',
-        'btn-secondary-hover-text': '#FFFFFF',
-        'btn-secondary-active': '#2C73AC',
-        'btn-secondary-disabled-text': '#BEC6D0',
-        'btn-secondary-disabled-border': '#D0CBCB',
-        'btn-outline-border': '#FFFFFF',
-        'btn-outline-hover-text': '#2C73AC',
-        'btn-outline-disabled': 'rgba(104, 122, 149, 0.50)',
+        input: {
+          text: comet,
+          error,
+          star: cerise,
+          hover: mobster,
+          focus: blue,
+          caret,
+          disabled: swissCoffee,
+          info: '#687A9580',
+        },
+        btn: {
+          text: white,
+          'secondary-text': blue,
+          'secondary-hover': green,
+          'secondary-hover-text': white,
+          'secondary-active': blue,
+          'secondary-disabled-text': '#BEC6D0',
+          'secondary-disabled-border': swissCoffee,
+          'outline-border': white,
+          'outline-hover-text': blue,
+          'outline-disabled': 'rgba(104, 122, 149, 0.50)',
+        },
       },
       backgroundColor: {
-        'btn-outline': '#FFFFFF',
-        'btn-secondary': '#FFFFFF',
-        'btn-disabled': '#C2C3C5',
-        'btn-outline-active': '#D2E1EF',
+        btn: {
+          outline: white,
+          secondary: white,
+          disabled: '#C2C3C5',
+          'outline-active': '#D2E1EF',
+        },
       },
       backgroundImage: {
-        'btn-primary':
-          'linear-gradient(135deg, #78D6EF 0%, #3879B6 40%,#0C6399 65%, #60ADF3 100%)',
-        'btn-active': 'linear-gradient(135deg, #0C6399 0%, #0C6399 100%)',
+        btn: {
+          primary:
+            'linear-gradient(135deg, #78D6EF 0%, #3879B6 40%,#0C6399 65%, #60ADF3 100%)',
+          active: 'linear-gradient(135deg, #0C6399 0%, #0C6399 100%)',
+        },
       },
       boxShadow: {
-        'btn-inset': 'inset 0px 0px 5px 2px rgba(0,0,0,0.1)',
+        btn: { inset: 'inset 0px 0px 5px 2px rgba(0,0,0,0.1)' },
       },
       backgroundSize: {
         200: '201%',
