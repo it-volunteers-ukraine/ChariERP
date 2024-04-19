@@ -2,9 +2,9 @@ import { Icon } from '@/assets';
 import {
   Logo,
   Burger,
+  Button,
   Navigation,
   LanguageSwitcher,
-  Button,
 } from '@/components';
 
 export const Header = ({}) => {
