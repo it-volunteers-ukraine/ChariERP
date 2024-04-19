@@ -3,13 +3,15 @@ import { useState } from 'react';
 import { Icon } from '@/assets';
 
 import { getStyles } from './styles';
-import { ILanguageSwitcherProps } from './types';
+import { ActiveLanguage, ILanguageSwitcherProps } from './types';
 
 export const LanguageSwitcher = ({
   isNarrow,
   className,
 }: ILanguageSwitcherProps) => {
-  const [activeLanguage, setActiveLanguage] = useState<'en' | 'ua'>('en');
+  const [activeLanguage, setActiveLanguage] = useState<ActiveLanguage>(
+    ActiveLanguage.UA,
+  );
 
   const { en, ua, icon, iconWrapper, wrapper, span } = getStyles({
     isNarrow: isNarrow,
@@ -18,7 +20,11 @@ export const LanguageSwitcher = ({
   });
 
   const handleClick = () => {
-    setActiveLanguage(activeLanguage === 'en' ? 'ua' : 'en');
+    setActiveLanguage(
+      activeLanguage === ActiveLanguage.EN
+        ? ActiveLanguage.UA
+        : ActiveLanguage.EN,
+    );
   };
 
   return (

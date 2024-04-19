@@ -1,4 +1,4 @@
-import { Header, Input, LanguageSwitcher } from '@/components';
+import { Header, Input } from '@/components';
 
 export default function Home() {
   return (
