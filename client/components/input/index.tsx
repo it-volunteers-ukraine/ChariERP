@@ -81,7 +81,7 @@ export const Input = ({
       </div>
 
       {info && (
-        <div className="flex text-input-info laptop:mt-3">
+        <div className="flex text-input-info laptop:mt-4 self-start">
           <Icon.Info
             width={24}
             height={24}
