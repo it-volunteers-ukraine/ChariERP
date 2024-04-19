@@ -15,9 +15,8 @@
   },
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx"], // Применять только к TypeScript файлам
+      "files": ["*.ts", "*.tsx"],
       "rules": {
-        // Отключаем правило no-unused-vars для интерфейсов
         "@typescript-eslint/no-unused-vars": [
           "error",
           {

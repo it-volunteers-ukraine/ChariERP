@@ -1,10 +1,11 @@
 import { getStyles } from './styles';
-import { IButtonProps } from './types';
+import { IButtonProps, StyleType } from './types';
 
 export const Button = ({
   text,
   onClick,
   disabled,
+  className,
   isLoading,
   isNarrow = false,
   styleType = 'primary',
@@ -12,10 +13,11 @@ export const Button = ({
   const { btn, span, overlay } = getStyles({
     isNarrow: isNarrow,
     styleType: styleType,
+    className,
   });
 
   const handleClick = () => {
-    if (isLoading && disabled || isLoading) {
+    if ((isLoading && disabled) || isLoading) {
       return;
     }
 

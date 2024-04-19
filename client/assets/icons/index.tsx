@@ -4,3 +4,5 @@ export { default as Eye } from './eye.svg';
 export { default as EyeOff } from './eye-off.svg';
 export { default as Warning } from './warning.svg';
 export { default as Info } from './info.svg';
+export { default as Logo } from './logo.svg';
+export { default as Search } from './search.svg';
