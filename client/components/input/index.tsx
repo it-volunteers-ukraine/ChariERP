@@ -33,7 +33,7 @@ export const Input = ({
   };
 
   return (
-    <div className="flex flex-col gap-1 w-full">
+    <div className="flex flex-col laptop:flex-row gap-1 laptop:gap-6 items-center w-full">
       <div className="flex flex-col gap-1 w-full">
         <fieldset className={styles.fieldset}>
           <legend className="ml-[10px] px-1 pb-1">
@@ -81,14 +81,13 @@ export const Input = ({
       </div>
 
       {info && (
-        <div className="flex text-input-info">
+        <div className="flex text-input-info laptop:mt-3">
           <Icon.Info
-            width={14}
-            height={14}
-            className="self-center text-input-info mr-1"
+            width={24}
+            height={24}
+            className="hidden tablet:flex self-center text-input-info mr-3 shrink-0"
           />
-
-          {info}
+          <span className={styles.infoSpan}>{info}</span>
         </div>
       )}
     </div>

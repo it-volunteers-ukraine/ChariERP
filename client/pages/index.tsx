@@ -19,11 +19,16 @@ export default function Home() {
           type="password"
         />
         <Input
-          label="Login"
-          error=""
-          placeholder="Placeholder"
           disabled
-          info="adfasdfasdf asdfas ad fsdaf"
+          label="Login"
+          placeholder="Placeholder"
+          info={
+            <>
+              Українською мовою (відповідно до Статуту) Наприклад: Громадська
+              організація{' '}
+              <span className="font-bold text-input-focus">«ЖИВИ»</span>
+            </>
+          }
         />
       </div>
     </div>

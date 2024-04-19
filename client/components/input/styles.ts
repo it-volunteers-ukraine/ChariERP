@@ -47,4 +47,5 @@ export const getStyles = ({
     'absolute mb-3 right-3 transition-all duration-300 text-input-text',
   ),
   error: 'text-input-error text-[12px]/[14px]',
+  infoSpan: 'text-input-info text-[14px]/[20px]',
 });
