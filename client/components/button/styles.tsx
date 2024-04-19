@@ -1,12 +1,17 @@
 import clsx from 'clsx';
 
+enum StyleType {
+  Primary = 'primary',
+  Outline = 'outline',
+  Secondary = 'secondary',
+  SecondaryOutline = 'secondary-outline',
+}
+
 interface IStylesButton {
   isNarrow?: boolean;
   className?: string;
-  styleType: 'primary' | 'outline' | 'secondary' | 'secondary-outline';
+  styleType: StyleType;
 }
-
-const secondary = 'btn-secondary-hover';
 
 export const getStyles = ({
   isNarrow,

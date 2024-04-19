@@ -1,9 +1,11 @@
 import clsx from 'clsx';
 
+import { ActiveLanguage } from './types';
+
 interface IStylesLanguageSwitcher {
   className?: string;
   isNarrow?: boolean;
-  activeLanguage?: 'en' | 'ua';
+  activeLanguage?: ActiveLanguage;
 }
 
 export const getStyles = ({
@@ -19,7 +21,7 @@ export const getStyles = ({
       'text-[20px] h-[48px] px-[12px] w-[86px]': !isNarrow,
     },
   ),
-  icon: clsx('absolute top-0 left-0 transition-all duration-300', {
+  icon: clsx('absolute top-0 left-0 transition-all duration-300 rounded-full', {
     'w-[18px] h-[18px]': isNarrow,
     'w-[36px] h-[36px]': !isNarrow,
   }),
