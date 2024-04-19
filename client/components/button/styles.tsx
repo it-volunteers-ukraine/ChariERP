@@ -1,11 +1,5 @@
 import clsx from 'clsx';
-
-enum StyleType {
-  Primary = 'primary',
-  Outline = 'outline',
-  Secondary = 'secondary',
-  SecondaryOutline = 'secondary-outline',
-}
+import { StyleType } from './types';
 
 interface IStylesButton {
   isNarrow?: boolean;

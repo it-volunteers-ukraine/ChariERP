@@ -1,5 +1,5 @@
 import { getStyles } from './styles';
-import { IButtonProps } from './types';
+import { IButtonProps, StyleType } from './types';
 
 export const Button = ({
   text,
