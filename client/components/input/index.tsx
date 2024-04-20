@@ -6,16 +6,16 @@ import { getStyles } from './styles';
 import { InputProps } from './types';
 
 export const Input = ({
-  name,
   info,
   label,
   error,
   disabled,
+  onChange,
   type = 'text',
   placeholderItalic,
   ...props
 }: InputProps) => {
-  const [visiblePassword, setVisiblePassword] = useState(type);
+  const [inputType, setInputType] = useState(type);
   const ref = useRef<HTMLInputElement>(null);
 
   const styles = getStyles({
@@ -23,7 +23,7 @@ export const Input = ({
     error: !!error,
     placeholderItalic,
     isTypePassword: type === 'password',
-    visiblePassword: visiblePassword === 'text',
+    visiblePassword: inputType === 'text',
   });
 
   const handleFocus = () => {
@@ -43,28 +43,28 @@ export const Input = ({
 
           <input
             ref={ref}
-            name={name}
+            type={inputType}
             disabled={disabled}
-            type={visiblePassword}
             className={styles.input}
+            onChange={(e) => onChange && onChange(e.target.value)}
             {...props}
           />
 
           {type === 'password' && (
             <div className={styles.div} onClick={handleFocus}>
-              {visiblePassword === 'password' ? (
+              {inputType === 'password' ? (
                 <Icon.EyeOff
                   width={24}
                   height={24}
                   className={styles.iconEye}
-                  onClick={() => setVisiblePassword('text')}
+                  onClick={() => setInputType('text')}
                 />
               ) : (
                 <Icon.Eye
                   width={24}
                   height={24}
                   className={styles.iconEye}
-                  onClick={() => setVisiblePassword('password')}
+                  onClick={() => setInputType('password')}
                 />
               )}
             </div>
@@ -81,7 +81,7 @@ export const Input = ({
       </div>
 
       {info && (
-        <div className="flex text-input-info laptop:mt-4 self-start">
+        <div className="flex text-input-info laptop:mt-3 self-center w-full">
           <Icon.Info
             width={24}
             height={24}
