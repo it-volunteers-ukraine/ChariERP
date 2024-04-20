@@ -30,7 +30,7 @@ export const getStyles = ({
     },
   ),
   span: clsx(
-    'relative z-[1] select-none flex items-center justify-center text-scada top-[2px]',
+    'relative z-[1] select-none flex items-center justify-center text-scada',
     {
       'text-base leading-4 h-[42px] px-[20px]': !isNarrow,
       'text-xs leading-[14px] h-[24px] px-[12px]': isNarrow,
