@@ -1,13 +1,14 @@
-import { Header, Input } from '@/components';
+import { DashboardAside, Header, Input } from '@/components';
 
 export default function Home() {
   return (
     <>
       <Header />
-      <div className="flex w-full h-full flex-col items-center justify-center p-10">
+      <div className="flex flex-col items-center justify-center w-full h-full p-10">
         <Input label="Логин" error="1" />
         <Input label="Login" error="" />
       </div>
+      <DashboardAside />
     </>
   );
 }

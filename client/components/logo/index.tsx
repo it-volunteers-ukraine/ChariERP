@@ -1,15 +1,18 @@
 import Link from 'next/link';
+import clsx from 'clsx';
 
 import { Icon } from '@/assets';
 
 import { ILogoProps } from './types';
 
-export const Logo = ({ to, onClick }: ILogoProps) => {
+export const Logo = ({ to, onClick, className }: ILogoProps) => {
   return (
     <Link
       onClick={onClick}
       href={to ? to : ''}
-      className="group/logo block w-[68px] h-[23px] text-white"
+      className={clsx('group/logo block w-[68px] h-[23px] text-white', {
+        [`${className}`]: className,
+      })}
     >
       <Icon.Logo className="transition-all duration-200 group-hover/logo:drop-shadow-logo" />
     </Link>

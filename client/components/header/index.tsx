@@ -9,13 +9,13 @@ import {
 
 export const Header = ({}) => {
   return (
-    <header className="bg-header-gradient py-[19px] desktop:py-[21px]">
-      <div className="flex items-center justify-between container-chari gap-8">
+    <header className="fixed w-full bg-header-gradient py-[19px] desktop:py-[21px]">
+      <div className="flex items-center justify-between gap-8 container-chari">
         <Logo />
 
         <Navigation inHeader className="hidden desktop:flex" />
 
-        <div className="flex gap-8 items-center desktop:gap-3">
+        <div className="flex items-center gap-8 desktop:gap-3">
           <Button
             isNarrow
             text="Реєстрація"
