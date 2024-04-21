@@ -8,8 +8,8 @@ export const DashboardHeader = ({}) => {
   };
 
   return (
-    <header className="h-[96px] w-full bg-boardHeader border-b border-transparent px-[32px] desktopXl:px-0">
-      <div className="h-full  desktopXl:max-w-[1566px] desktopXl:mx-8 flex items-center justify-between ">
+    <header className="w-full bg-boardHeader px-[32px] desktopXl:px-0">
+      <div className="h-[96px]  desktopXl:max-w-[1566px] desktopXl:mx-8 flex items-center justify-between ">
         <span className="font-scada text-lightBlue text-[20px] font-normal">
           Main Page
         </span>
