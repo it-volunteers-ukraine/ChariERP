@@ -21,8 +21,10 @@ export const scada = Scada({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main className={`${roboto.variable} ${scada.variable}`}>
-      <Component {...pageProps} />;
+    <main
+      className={`${roboto.variable} ${scada.variable} pt-[62px] desktop:pt-[68px]`}
+    >
+      <Component {...pageProps} />
     </main>
   );
 }

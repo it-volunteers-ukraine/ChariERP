@@ -1,10 +1,14 @@
 import type { Config } from 'tailwindcss';
 const defaultTheme = require('tailwindcss/defaultConfig');
 
+//Colors
 const blue = '#2C73AC';
 const white = '#FFFFFF';
+const lightBlue = '#61B6DB';
 const blueCrayola = '#78D6EF';
 const deepBlue = '#3879B6';
+
+//Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
 
 const config: Config = {
@@ -17,7 +21,8 @@ const config: Config = {
     extend: {
       ...defaultTheme,
       colors: {
-        white: white,
+        white,
+        lightBlue,
         'dark-blue': blue,
         btn: {
           text: white,
@@ -48,6 +53,7 @@ const config: Config = {
           hover: '#3B91BE',
           active: white,
         },
+        boardHeader: '#F4F7FE',
       },
       backgroundImage: {
         burger: 'linear-gradient(315deg, #78D6EF 0%, #3879B6 100%)',
