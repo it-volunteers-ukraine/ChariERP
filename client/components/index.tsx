@@ -5,3 +5,4 @@ export { Input } from './input';
 export { LanguageSwitcher } from './language-switcher';
 export { Logo } from './logo';
 export { Navigation } from './navigation';
+export { RootLayout } from './root-layout'
