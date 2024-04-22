@@ -1,3 +1,4 @@
+'use client';
 import { Icon } from '@/assets';
 
 import { Avatar } from '../avatar';
@@ -13,6 +14,7 @@ export const DashboardHeader = ({}) => {
         <span className="font-scada text-lightBlue text-[20px] font-normal">
           Main Page
         </span>
+
         <div className="flex gap-6">
           <Avatar img={null} name="Super_admin1" />
 

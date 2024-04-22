@@ -5,7 +5,7 @@ import { Icon } from '@/assets';
 
 import { ILogoProps } from './types';
 
-export const Logo = ({ to, onClick, className }: ILogoProps) => {
+export const Logo = ({ to, onClick, className, logoClass }: ILogoProps) => {
   return (
     <Link
       onClick={onClick}
@@ -14,7 +14,14 @@ export const Logo = ({ to, onClick, className }: ILogoProps) => {
         [`${className}`]: className,
       })}
     >
-      <Icon.Logo className="transition-all duration-200 group-hover/logo:drop-shadow-logo w-[68px] h-[23px]" />
+      <Icon.Logo
+        className={clsx(
+          'transition-all duration-200 group-hover/logo:drop-shadow-logo w-[68px] h-[23px]',
+          {
+            [`${logoClass}`]: logoClass,
+          },
+        )}
+      />
     </Link>
   );
 };

@@ -1,7 +1,6 @@
 import { Roboto, Scada } from 'next/font/google';
 
 import { ChildrenProps } from '@/types';
-import { Header } from '@/components';
 
 import '../styles/globals.css';
 
@@ -24,11 +23,7 @@ export const scada = Scada({
 export default async function RootLayout({ children }: ChildrenProps) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${roboto.variable} ${scada.variable}`}>
-        <Header />
-
-        {children}
-      </body>
+      <body className={`${roboto.variable} ${scada.variable}`}>{children}</body>
     </html>
   );
 }
