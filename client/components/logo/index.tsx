@@ -14,7 +14,7 @@ export const Logo = ({ to, onClick, className }: ILogoProps) => {
         [`${className}`]: className,
       })}
     >
-      <Icon.Logo className="transition-all duration-200 group-hover/logo:drop-shadow-logo" />
+      <Icon.Logo className="transition-all duration-200 group-hover/logo:drop-shadow-logo w-[68px] h-[23px]" />
     </Link>
   );
 };
