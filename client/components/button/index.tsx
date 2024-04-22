@@ -1,3 +1,4 @@
+'use client';
 import { getStyles } from './styles';
 import { IButtonProps } from './types';
 

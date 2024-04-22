@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 
 import { Icon } from '@/assets';
@@ -8,7 +9,7 @@ import { ActiveLanguage, ILanguageSwitcherProps } from './types';
 export const LanguageSwitcher = ({
   isNarrow,
   className,
-}: ILanguageSwitcherProps) => {
+}: ILanguageSwitcherProps): JSX.Element => {
   const [activeLanguage, setActiveLanguage] = useState<ActiveLanguage>(
     ActiveLanguage.UA,
   );

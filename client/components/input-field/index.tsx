@@ -1,3 +1,4 @@
+'use client';
 import { Field, FieldProps } from 'formik';
 
 import { Input } from '../input';
