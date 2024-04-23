@@ -3,7 +3,7 @@ import { Icon } from '@/assets';
 
 import { Avatar } from '../avatar';
 
-export const DashboardHeader = ({}) => {
+export const DashboardHeader = () => {
   const onExit = () => {
     console.log('Exit');
   };
