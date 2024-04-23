@@ -5,7 +5,7 @@ export interface IButtonProps {
   className?: string;
   isLoading?: boolean;
   onClick?: () => void;
-  styleType: StyleType;
+  styleType?: StyleType;
 }
 
 export type StyleType =

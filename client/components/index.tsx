@@ -1,3 +1,4 @@
+export { AuthLinks } from './auth-links';
 export { Burger } from './burger';
 export { Button } from './button';
 export { Header } from './header';

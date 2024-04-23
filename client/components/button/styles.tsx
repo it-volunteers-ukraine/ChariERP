@@ -16,7 +16,7 @@ export const getStyles = ({
     'group flex items-center justify-center overflow-hidden relative text-btn-text rounded-[50px] transition-all duration-300',
     {
       [`${className}`]: className,
-      'enabled:shadow-btn-inset disabled:bg-btn-disabled enabled:bg-btn-primary bg-repeat bg-200 bg-[top_left] hover:bg-[bottom_right]':
+      'enabled:shadow-btn-inset disabled:bg-btn-disabled enabled:bg-btnPrimaryGradient bg-repeat bg-200 bg-[top_left] hover:bg-[bottom_right]':
         styleType === 'primary',
 
       'bg-transparent enabled:active:border-transparent disabled:text-btn-outline-disabled disabled:border-btn-outline-disabled border enabled:border-btn-outline-border enabled:active:bg-btn-outline-active enabled:hover:bg-btn-outline enabled:hover:text-btn-outline-hover-text':
@@ -37,5 +37,5 @@ export const getStyles = ({
     },
   ),
   overlay:
-    'absolute top-0 enabled:shadow-btn-inset left-0 w-full h-full transition-all duration-300 opacity-0 z-[0] bg-btn-active group-active:opacity-100',
+    'absolute top-0 enabled:shadow-btn-inset left-0 w-full h-full transition-all duration-300 opacity-0 z-[0] bg-btnActiveGradient group-active:opacity-100',
 });
