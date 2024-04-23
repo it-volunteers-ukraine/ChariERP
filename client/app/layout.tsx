@@ -4,7 +4,7 @@ import { ChildrenProps } from '@/types';
 
 import '../styles/globals.css';
 
-export const roboto = Roboto({
+const roboto = Roboto({
   weight: ['400', '500', '700'],
   style: ['normal', 'italic'],
   variable: '--font-roboto',
@@ -12,7 +12,7 @@ export const roboto = Roboto({
   display: 'swap',
 });
 
-export const scada = Scada({
+const scada = Scada({
   weight: ['400', '700'],
   style: ['normal', 'italic'],
   variable: '--font-scada',
