@@ -8,7 +8,7 @@ export const getStyles = ({ active }: { active: boolean }) => ({
   ),
   overlay: clsx(
     'absolute top-0 left-0 w-full h-full rounded-t-[42px] z-10 transition-all duration-300',
-    { 'bg-bgAuthLinks opacity-100': active },
+    { 'bg-bgAuthLinks opacity-100 z-10 ': active },
     { 'bg-transparent opacity-0': !active },
   ),
 });

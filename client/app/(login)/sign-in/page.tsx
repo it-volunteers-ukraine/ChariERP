@@ -1,11 +1,13 @@
-import { Button } from '@/components';
+import { Metadata } from 'next';
+import SignIn from './sign-in';
 
-const SignIn = () => {
-  return (
-    <>
-      <Button text="УВІЙТИ" styleType="primary" />
-    </>
-  );
+export const metadata: Metadata = {
+  title: 'Sign In',
+  description: 'Sign in page',
 };
 
-export default SignIn;
+const SignInPage = () => {
+  return <SignIn />;
+};
+
+export default SignInPage;

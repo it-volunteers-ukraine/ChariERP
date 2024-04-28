@@ -9,7 +9,7 @@ const links = [
 
 export const AuthLinks = () => {
   return (
-    <div className="flex tablet:gap-6">
+    <div className="flex tablet:gap-6 mx-4 tablet:mx-0">
       {links.map(({ text, href }) => (
         <Links key={text} text={text} href={href} />
       ))}

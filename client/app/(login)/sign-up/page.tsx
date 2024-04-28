@@ -1,4 +1,10 @@
+import { Metadata } from 'next';
 import { Button } from '@/components';
+
+export const metadata: Metadata = {
+  title: 'Sign Up',
+  description: 'Sign up page',
+};
 
 const SignUp = () => {
   return (

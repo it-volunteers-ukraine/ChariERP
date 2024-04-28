@@ -8,6 +8,8 @@ interface ILinks {
   text: string;
   href: string;
 }
+
+// TODO: Add hover animation
 export const Links = ({ text, href }: ILinks) => {
   const pathname = usePathname();
 

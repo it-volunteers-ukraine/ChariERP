@@ -1,4 +1,12 @@
-export interface IButtonProps {
+import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
+
+interface CustomButton
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {}
+
+export interface IButtonProps extends CustomButton {
   text?: string;
   isNarrow?: boolean;
   disabled?: boolean;
