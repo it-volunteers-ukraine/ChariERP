@@ -20,7 +20,7 @@ const scada = Scada({
   display: 'swap',
 });
 
-export default async function RootLayout({ children }: ChildrenProps) {
+export default function RootLayout({ children }: ChildrenProps) {
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${roboto.variable} ${scada.variable}`}>{children}</body>

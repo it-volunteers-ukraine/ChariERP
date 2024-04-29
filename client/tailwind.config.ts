@@ -14,6 +14,7 @@ const mobster = '#79747E';
 const cerise = '#E23A81';
 const caret = '#61B6DB';
 const swissCoffee = '#D0CBCB';
+const lynch = '#687A95';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -39,7 +40,7 @@ const config: Config = {
           focus: blue,
           caret,
           disabled: swissCoffee,
-          info: '#687A9580',
+          info: `${lynch}80`,
         },
         btn: {
           text: white,
@@ -77,14 +78,16 @@ const config: Config = {
         boardAside: blueCrayolaToDeepBlue,
         'burger-tablet': 'linear-gradient(315deg, #3879B6 0%, #78D6EF 100%)',
         'header-gradient': blueCrayolaToDeepBlue,
-        btn: {
-          primary:
-            'linear-gradient(135deg, #78D6EF 0%, #3879B6 40%,#0C6399 65%, #60ADF3 100%)',
-          active: 'linear-gradient(135deg, #0C6399 0%, #0C6399 100%)',
-        },
+        btnPrimaryGradient:
+          'linear-gradient(135deg, #78D6EF 0%, #3879B6 40%,#0C6399 65%, #60ADF3 100%)',
+        btnActiveGradient: 'linear-gradient(135deg, #0C6399 0%, #0C6399 100%)',
+        bgAuthGradient:
+          'linear-gradient(90.36deg, #cfedf8 0.31%, #ffffff 25.15%, #FFFFFF 74.85%, #cfeef7 99.69%)',
+        bgAuthLinks: 'linear-gradient(135deg, #78D6EF 0%, #3879B6 100%)',
       },
       boxShadow: {
         btn: { inset: 'inset 0px 0px 5px 2px rgba(0,0,0,0.1)' },
+        auth: '0px 0px 10px 4px rgba(0, 0, 0, 0.05)',
       },
       backgroundSize: {
         200: '201%',
