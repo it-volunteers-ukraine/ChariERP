@@ -6,3 +6,4 @@ export { default as Warning } from './warning.svg';
 export { default as Info } from './info.svg';
 export { default as Logo } from './logo.svg';
 export { default as Search } from './search.svg';
+export * as DashboardIcon from './dashboard';

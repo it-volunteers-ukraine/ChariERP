@@ -1,9 +1,13 @@
 import type { Config } from 'tailwindcss';
 const defaultTheme = require('tailwindcss/defaultConfig');
 
+//Colors
 const blue = '#2C73AC';
 const error = '#B3261E';
 const white = '#FFFFFF';
+const lightBlue = '#61B6DB';
+const blueCrayola = '#78D6EF';
+const deepBlue = '#3879B6';
 const green = '#84BB46';
 const comet = '#5D647C';
 const mobster = '#79747E';
@@ -11,6 +15,9 @@ const cerise = '#E23A81';
 const caret = '#61B6DB';
 const swissCoffee = '#D0CBCB';
 const lynch = '#687A95';
+
+//Gradients
+const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
 
 const config: Config = {
   content: [
@@ -23,6 +30,7 @@ const config: Config = {
       ...defaultTheme,
       colors: {
         white,
+        lightBlue,
         'dark-blue': blue,
         input: {
           text: comet,
@@ -46,6 +54,11 @@ const config: Config = {
           'outline-hover-text': blue,
           'outline-disabled': 'rgba(104, 122, 149, 0.50)',
         },
+        navItem: {
+          disabled: '#A3AED0',
+          hover: white,
+          active: '#61B6DB',
+        },
       },
       backgroundColor: {
         btn: {
@@ -54,11 +67,17 @@ const config: Config = {
           disabled: '#C2C3C5',
           'outline-active': '#D2E1EF',
         },
+        navItem: {
+          hover: '#3B91BE',
+          active: white,
+        },
+        boardHeader: '#F4F7FE',
       },
       backgroundImage: {
-        burger: ' linear-gradient(315deg, #78D6EF 0%, #3879B6 100%)',
+        burger: 'linear-gradient(315deg, #78D6EF 0%, #3879B6 100%)',
+        boardAside: blueCrayolaToDeepBlue,
         'burger-tablet': 'linear-gradient(315deg, #3879B6 0%, #78D6EF 100%)',
-        'header-gradient': 'linear-gradient(135deg, #78D6EF 0%, #3879B6 100%)',
+        'header-gradient': blueCrayolaToDeepBlue,
         btnPrimaryGradient:
           'linear-gradient(135deg, #78D6EF 0%, #3879B6 40%,#0C6399 65%, #60ADF3 100%)',
         btnActiveGradient: 'linear-gradient(135deg, #0C6399 0%, #0C6399 100%)',
