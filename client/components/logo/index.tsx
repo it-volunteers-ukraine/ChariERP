@@ -11,7 +11,7 @@ export const Logo = ({ to, onClick }: ILogoProps) => {
       href={to ? to : ''}
       className="group/logo block w-[68px] h-[23px] text-white"
     >
-      <Icon.Logo className="transition-all duration-200 group-hover/logo:drop-shadow-logo" />
+      <Icon.Logo className="transition-all duration-200 group-hover/logo:drop-shadow-logo w-[68px] h-[23px]" />
     </Link>
   );
 };

@@ -1,8 +1,8 @@
 export const routes = {
   faq: '/faq',
-  login: '/sing-in',
+  login: '/sign-in',
   aboutUs: '/about_us',
   contacts: '/contacts',
-  registration: '/sing-up',
+  registration: '/sign-up',
   aboutService: '/about_service',
 };

@@ -1,3 +1,4 @@
+'use client';
 import { getStyles } from './styles';
 import { IButtonProps } from './types';
 
@@ -9,6 +10,7 @@ export const Button = ({
   isLoading,
   isNarrow = false,
   styleType = 'primary',
+  ...props
 }: IButtonProps) => {
   const { btn, span, overlay } = getStyles({
     isNarrow,
@@ -25,7 +27,12 @@ export const Button = ({
   };
 
   return (
-    <button onClick={handleClick} disabled={disabled} className={btn}>
+    <button
+      className={btn}
+      disabled={disabled}
+      onClick={handleClick}
+      {...props}
+    >
       <span className={span}>{text}</span>
 
       {!disabled && styleType === 'primary' && <div className={overlay}></div>}

@@ -2,7 +2,15 @@ import type { Config } from 'tailwindcss';
 const defaultTheme = require('tailwindcss/defaultConfig');
 
 const blue = '#2C73AC';
+const error = '#B3261E';
 const white = '#FFFFFF';
+const green = '#84BB46';
+const comet = '#5D647C';
+const mobster = '#79747E';
+const cerise = '#E23A81';
+const caret = '#61B6DB';
+const swissCoffee = '#D0CBCB';
+const lynch = '#687A95';
 
 const config: Config = {
   content: [
@@ -14,16 +22,26 @@ const config: Config = {
     extend: {
       ...defaultTheme,
       colors: {
-        white: white,
+        white,
         'dark-blue': blue,
+        input: {
+          text: comet,
+          error,
+          star: cerise,
+          hover: mobster,
+          focus: blue,
+          caret,
+          disabled: swissCoffee,
+          info: `${lynch}80`,
+        },
         btn: {
           text: white,
           'secondary-text': blue,
-          'secondary-hover': '#84BB46',
+          'secondary-hover': green,
           'secondary-hover-text': white,
           'secondary-active': blue,
           'secondary-disabled-text': '#BEC6D0',
-          'secondary-disabled-border': '#D0CBCB',
+          'secondary-disabled-border': swissCoffee,
           'outline-border': white,
           'outline-hover-text': blue,
           'outline-disabled': 'rgba(104, 122, 149, 0.50)',
@@ -41,14 +59,16 @@ const config: Config = {
         burger: ' linear-gradient(315deg, #78D6EF 0%, #3879B6 100%)',
         'burger-tablet': 'linear-gradient(315deg, #3879B6 0%, #78D6EF 100%)',
         'header-gradient': 'linear-gradient(135deg, #78D6EF 0%, #3879B6 100%)',
-        btn: {
-          primary:
-            'linear-gradient(135deg, #78D6EF 0%, #3879B6 40%,#0C6399 65%, #60ADF3 100%)',
-          active: 'linear-gradient(135deg, #0C6399 0%, #0C6399 100%)',
-        },
+        btnPrimaryGradient:
+          'linear-gradient(135deg, #78D6EF 0%, #3879B6 40%,#0C6399 65%, #60ADF3 100%)',
+        btnActiveGradient: 'linear-gradient(135deg, #0C6399 0%, #0C6399 100%)',
+        bgAuthGradient:
+          'linear-gradient(90.36deg, #cfedf8 0.31%, #ffffff 25.15%, #FFFFFF 74.85%, #cfeef7 99.69%)',
+        bgAuthLinks: 'linear-gradient(135deg, #78D6EF 0%, #3879B6 100%)',
       },
       boxShadow: {
-        'btn-inset': 'inset 0px 0px 5px 2px rgba(0,0,0,0.1)',
+        btn: { inset: 'inset 0px 0px 5px 2px rgba(0,0,0,0.1)' },
+        auth: '0px 0px 10px 4px rgba(0, 0, 0, 0.05)',
       },
       backgroundSize: {
         200: '201%',
@@ -83,4 +103,5 @@ const config: Config = {
   },
   plugins: [],
 };
+
 export default config;
