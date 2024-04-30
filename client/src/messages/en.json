@@ -1,1 +1,10 @@
-{}
+{
+  "auth-page": {
+    "links": {
+      "login": "Sign In",
+      "registration": "Sign Up"
+    },
+    "login": {},
+    "registration": {}
+  }
+}

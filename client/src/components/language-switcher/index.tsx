@@ -1,5 +1,7 @@
 'use client';
 import { useState } from 'react';
+import { useLocale } from 'next-intl';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { Icon } from '@/assets';
 
@@ -10,8 +12,12 @@ export const LanguageSwitcher = ({
   isNarrow,
   className,
 }: ILanguageSwitcherProps): JSX.Element => {
+  const local = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+
   const [activeLanguage, setActiveLanguage] = useState<ActiveLanguage>(
-    ActiveLanguage.UA,
+    local as ActiveLanguage,
   );
 
   const { en, ua, icon, iconWrapper, wrapper, span } = getStyles({
@@ -21,11 +27,19 @@ export const LanguageSwitcher = ({
   });
 
   const handleClick = () => {
-    setActiveLanguage(
-      activeLanguage === ActiveLanguage.EN
-        ? ActiveLanguage.UA
-        : ActiveLanguage.EN,
-    );
+    if (activeLanguage === ActiveLanguage.EN) {
+      setActiveLanguage(ActiveLanguage.UA);
+      const path = pathname.replace(local, ActiveLanguage.UA);
+
+      router.replace(path);
+    }
+
+    if (activeLanguage === ActiveLanguage.UA) {
+      setActiveLanguage(ActiveLanguage.EN);
+      const path = pathname.replace(local, ActiveLanguage.EN);
+
+      router.replace(path);
+    }
   };
 
   return (

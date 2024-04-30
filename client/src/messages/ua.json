@@ -1,1 +1,10 @@
-{}
+{
+  "auth-page": {
+    "links": {
+      "login": "Вхід",
+      "registration": "Реєстрація"
+    },
+    "login": {},
+    "registration": {}
+  }
+}

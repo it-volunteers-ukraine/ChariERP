@@ -2,6 +2,7 @@
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
 
+import { Helpers } from '@/utils';
 import { routes } from '@/constants';
 import { Header, AuthLinks } from '@/components';
 import { ChildrenProps, LocalizationProps } from '@/types';
@@ -14,8 +15,14 @@ export default function Layout({
 
   const styles = clsx(
     'flex flex-col justify-center items-center w-full bg-white py-16 px-4 tablet:rounded-b-3xl shadow-auth',
-    { 'tablet:rounded-tl-3xl': pathname === routes.login },
-    { 'tablet:rounded-tr-3xl': pathname === routes.registration },
+    {
+      'tablet:rounded-tl-3xl':
+        pathname === Helpers.getPathname(locale, routes.login),
+    },
+    {
+      'tablet:rounded-tr-3xl':
+        pathname === Helpers.getPathname(locale, routes.registration),
+    },
   );
 
   return (

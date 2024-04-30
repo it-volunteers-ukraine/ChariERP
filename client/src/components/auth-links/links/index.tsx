@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { Locale } from '@/types';
+import { Helpers } from '@/utils';
 
 import { getStyles } from './styles';
 
@@ -16,7 +17,7 @@ interface ILinks {
 export const Links = ({ text, href, locale }: ILinks) => {
   const pathname = usePathname();
 
-  const active = pathname === `/${locale}${href}`;
+  const active = pathname === Helpers.getPathname(locale, href);
 
   const styles = getStyles({
     active,
