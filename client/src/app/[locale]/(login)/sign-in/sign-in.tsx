@@ -8,6 +8,7 @@ import { initialValues, validationSchema } from './config';
 
 const SignIn = () => {
   const login = useTranslations('auth-page.login');
+  const message = useTranslations('validation');
 
   const onSubmit = (values: FormikValues) => {
     console.log(values);
@@ -17,7 +18,14 @@ const SignIn = () => {
     <Formik
       onSubmit={onSubmit}
       initialValues={initialValues}
-      validationSchema={validationSchema}
+      validationSchema={validationSchema({
+        required: message('required'),
+        matches: message('matches_english', { field: 'Password' }),
+        min6: message('minPlural', { int: 6 }),
+        min8: message('minPlural', { int: 8 }),
+        max20: message('minPlural', { int: 20 }),
+        max50: message('maxPlural', { int: 50 }),
+      })}
     >
       {() => (
         <Form className="flex flex-col items-center gap-10 max-w-[400px] w-full">

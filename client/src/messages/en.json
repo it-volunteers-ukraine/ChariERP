@@ -12,6 +12,12 @@
       "button": "Submit Form"
     }
   },
+  "validation": {
+    "minPlural": "Minimum {int} characters",
+    "maxPlural": "Maximum {int} characters",
+    "required": "Required field",
+    "matches_english": "{field} must not contain Cyrillic characters"
+  },
   "header": {
     "about": "About Us",
     "contacts": "Contacts",

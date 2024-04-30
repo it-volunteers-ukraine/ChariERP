@@ -27,19 +27,16 @@ export const LanguageSwitcher = ({
   });
 
   const handleClick = () => {
-    if (activeLanguage === ActiveLanguage.EN) {
-      setActiveLanguage(ActiveLanguage.UA);
-      const path = pathname.replace(local, ActiveLanguage.UA);
+    const newLanguage =
+      activeLanguage === ActiveLanguage.EN
+        ? ActiveLanguage.UA
+        : ActiveLanguage.EN;
 
-      router.replace(path);
-    }
+    setActiveLanguage(newLanguage);
 
-    if (activeLanguage === ActiveLanguage.UA) {
-      setActiveLanguage(ActiveLanguage.EN);
-      const path = pathname.replace(local, ActiveLanguage.EN);
+    const path = pathname.replace(local, newLanguage);
 
-      router.replace(path);
-    }
+    router.replace(path);
   };
 
   return (
