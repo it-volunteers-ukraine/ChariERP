@@ -1,4 +1,5 @@
 'use client';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 import { Icon } from '@/assets';
@@ -13,6 +14,7 @@ import { routes } from '@/constants';
 
 export const Header = () => {
   const router = useRouter();
+  const auth = useTranslations('auth-page.links');
 
   return (
     <header className="fixed w-full top-0 bg-header-gradient py-[19px] desktop:py-[21px]">
@@ -24,16 +26,16 @@ export const Header = () => {
         <div className="flex items-center gap-8 desktop:gap-3">
           <Button
             isNarrow
-            text="Реєстрація"
             styleType="secondary"
+            text={auth('registration')}
             className="hidden desktop:flex"
             onClick={() => router.push(routes.registration)}
           />
 
           <Button
             isNarrow
-            text="Вхід"
             styleType="outline"
+            text={auth('login')}
             className="hidden desktop:flex"
             onClick={() => router.push(routes.login)}
           />

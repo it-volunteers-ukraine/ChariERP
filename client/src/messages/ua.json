@@ -4,7 +4,19 @@
       "login": "Вхід",
       "registration": "Реєстрація"
     },
-    "login": {},
-    "registration": {}
+    "login": {
+      "email": "Email",
+      "password": "Пароль",
+      "button": "Увійти"
+    },
+    "registration": {
+      "button": "Відправити Форму"
+    }
+  },
+  "header": {
+    "about": "Про нас",
+    "contacts": "Контакти",
+    "service": "Про cервіс",
+    "faq": "Поширені питання"
   }
 }

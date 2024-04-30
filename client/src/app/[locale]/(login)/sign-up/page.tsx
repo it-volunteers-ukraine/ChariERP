@@ -1,4 +1,6 @@
 import { Metadata } from 'next';
+import { useTranslations } from 'next-intl';
+
 import { Button } from '@/components';
 
 export const metadata: Metadata = {
@@ -7,12 +9,14 @@ export const metadata: Metadata = {
 };
 
 const SignUp = () => {
+  const registration = useTranslations('auth-page.registration');
+
   return (
     <>
       <Button
         styleType="primary"
         className="uppercase"
-        text="Відправити Форму"
+        text={registration('button')}
       />
     </>
   );

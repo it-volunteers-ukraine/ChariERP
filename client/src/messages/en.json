@@ -4,7 +4,18 @@
       "login": "Sign In",
       "registration": "Sign Up"
     },
-    "login": {},
-    "registration": {}
+    "login": {
+      "password": "Password",
+      "button": "Sign In"
+    },
+    "registration": {
+      "button": "Submit Form"
+    }
+  },
+  "header": {
+    "about": "About Us",
+    "contacts": "Contacts",
+    "service": "About service",
+    "faq": "FAQs"
   }
 }
