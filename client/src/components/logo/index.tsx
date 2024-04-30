@@ -9,7 +9,7 @@ export const Logo = ({ to, onClick, className, logoClass }: ILogoProps) => {
   return (
     <Link
       onClick={onClick}
-      href={to ? to : ''}
+      href={to ? to : '/'}
       className={clsx('group/logo block w-[68px] h-[23px] text-white', {
         [`${className}`]: className,
       })}

@@ -1,8 +1,10 @@
+import { notFound } from 'next/navigation';
 import { Roboto, Scada } from 'next/font/google';
+import { useLocale as UseLocale } from 'next-intl';
 
-import { ChildrenProps } from '@/types';
+import { ChildrenProps, LocalizationProps } from '@/types';
 
-import '../styles/globals.css';
+import '../../styles/globals.css';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -20,9 +22,20 @@ const scada = Scada({
   display: 'swap',
 });
 
-export default function RootLayout({ children }: ChildrenProps) {
+export default function RootLayout({
+  params,
+  children,
+}: ChildrenProps<LocalizationProps>) {
+  const locale = UseLocale();
+
+  console.log(locale);
+
+  if (params.locale !== locale) {
+    notFound();
+  }
+
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang={locale} className="scroll-smooth">
       <body className={`${roboto.variable} ${scada.variable}`}>{children}</body>
     </html>
   );

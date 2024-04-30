@@ -2,18 +2,21 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { Locale } from '@/types';
+
 import { getStyles } from './styles';
 
 interface ILinks {
   text: string;
   href: string;
+  locale: Locale;
 }
 
 // TODO: Add hover animation
-export const Links = ({ text, href }: ILinks) => {
+export const Links = ({ text, href, locale }: ILinks) => {
   const pathname = usePathname();
 
-  const active = pathname === href;
+  const active = pathname === `/${locale}${href}`;
 
   const styles = getStyles({
     active,

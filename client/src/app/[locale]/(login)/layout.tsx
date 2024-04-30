@@ -3,10 +3,13 @@ import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
 
 import { routes } from '@/constants';
-import { ChildrenProps } from '@/types';
 import { Header, AuthLinks } from '@/components';
+import { ChildrenProps, LocalizationProps } from '@/types';
 
-export default function Layout({ children }: ChildrenProps) {
+export default function Layout({
+  children,
+  params: { locale },
+}: ChildrenProps<LocalizationProps>) {
   const pathname = usePathname();
 
   const styles = clsx(
@@ -19,9 +22,9 @@ export default function Layout({ children }: ChildrenProps) {
     <>
       <Header />
 
-      <main className="bg-bgAuthGradient pt-[61px] desktop:pt-[68px]  tablet:px-8 h-[calc(100vh-61px)] desktop:h-[calc(100vh-64px)]">
-        <div className="max-w-[1168px] mx-auto my-10">
-          <AuthLinks />
+      <main className="bg-bgAuthGradient py-10 tablet:px-8 h-[calc(100vh-61px)] desktop:h-[calc(100vh-64px)]">
+        <div className="max-w-[1168px] mx-auto">
+          <AuthLinks locale={locale} />
 
           <div className={styles}>{children}</div>
         </div>
