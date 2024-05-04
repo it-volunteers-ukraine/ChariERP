@@ -9,6 +9,12 @@ const lightBlue = '#61B6DB';
 const blueCrayola = '#78D6EF';
 const deepBlue = '#3879B6';
 const green = '#84BB46';
+const greenNormal = '#5BC780';
+const greenHover = '#34AB5D';
+const greenActive = '#178D40';
+const red = '#DD6B64';
+const redHover = '#C83C34';
+const redActive = '#B3261E';
 const comet = '#5D647C';
 const mobster = '#79747E';
 const cerise = '#E23A81';
@@ -65,6 +71,12 @@ const config: Config = {
           secondary: white,
           disabled: '#C2C3C5',
           'outline-active': '#D2E1EF',
+          green: greenNormal,
+          'green-hover': greenHover,
+          'green-active': greenActive,
+          red: red,
+          'red-hover': redHover,
+          'red-active': redActive,
         },
         navItem: {
           hover: '#3B91BE',

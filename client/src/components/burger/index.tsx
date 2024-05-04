@@ -1,17 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
 import { Button, LanguageSwitcher, Navigation } from '@/components';
 
 import { getStyles } from './styles';
+import { useOutsideClick } from '@/hooks';
 
 export const Burger = () => {
   const router = useRouter();
+  const ref = useRef(null);
   const [isActive, setIsActive] = useState(false);
   const { burger, nav } = getStyles({ isActive });
+
+  useOutsideClick(ref, () => setIsActive(false));
 
   return (
     <>
@@ -21,7 +25,7 @@ export const Burger = () => {
         <span className="bar-bot"></span>
       </button>
 
-      <nav className={nav}>
+      <nav className={nav} ref={ref}>
         <div className="flex flex-col gap-[45px]">
           <Navigation />
 
