@@ -2,20 +2,27 @@
 
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
+import { useOutsideClick } from '@/hooks';
 import { Button, LanguageSwitcher, Navigation } from '@/components';
 
 import { getStyles } from './styles';
-import { useOutsideClick } from '@/hooks';
 
 export const Burger = () => {
-  const router = useRouter();
   const ref = useRef(null);
+  const router = useRouter();
   const [isActive, setIsActive] = useState(false);
   const { burger, nav } = getStyles({ isActive });
+  const auth = useTranslations('auth-page.links');
 
   useOutsideClick(ref, () => setIsActive(false));
+
+  const onHandleClick = async (route: string) => {
+    await router.push(route);
+    setIsActive(false);
+  };
 
   return (
     <>
@@ -27,19 +34,21 @@ export const Burger = () => {
 
       <nav className={nav} ref={ref}>
         <div className="flex flex-col gap-[45px]">
-          <Navigation />
+          <Navigation onBurgerClose={() => setIsActive(false)} />
 
           <div className="flex justify-between gap-[13px_35px] flex-wrap">
             <Button
-              text="РЕЄСТРАЦІЯ"
+              text={auth('registration')}
               styleType="secondary"
-              onClick={() => router.push(routes.registration)}
+              onClick={() => onHandleClick(routes.registration)}
+              className="uppercase"
             />
+
             <Button
-              text="ВХІД"
+              text={auth('login')}
               styleType="outline"
-              onClick={() => router.push(routes.login)}
-              className="min-w-[138px] tablet:min-w-[89px]"
+              onClick={() => onHandleClick(routes.login)}
+              className="min-w-[138px] tablet:min-w-[89px] uppercase"
             />
             <LanguageSwitcher className="tablet:ml-auto" />
           </div>

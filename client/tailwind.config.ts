@@ -1,6 +1,8 @@
 import type { Config } from 'tailwindcss';
 const defaultTheme = require('tailwindcss/defaultConfig');
 
+import { media } from './src/constants';
+
 //Colors
 const blue = '#2C73AC';
 const error = '#B3261E';
@@ -112,13 +114,13 @@ const config: Config = {
       },
       screens: {
         //  @media (min-width: 768px)
-        tablet: '768px',
+        tablet: `${media.tablet}px`,
         //  @media (min-width: 992px)
-        laptop: '992px',
+        laptop: `${media.laptop}px`,
         //  @media (min-width: 1440px)
-        desktop: '1440px',
+        desktop: `${media.desktop}px`,
         //  @media (min-width: 1919px)
-        desktopXl: '1919px',
+        desktopXl: `${media.desktopXL}px`,
       },
       dropShadow: {
         logo: [
