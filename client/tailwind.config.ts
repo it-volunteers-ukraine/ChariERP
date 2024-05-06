@@ -39,6 +39,8 @@ const config: Config = {
         white,
         lightBlue,
         'dark-blue': blue,
+        error,
+        green,
         input: {
           text: comet,
           error,

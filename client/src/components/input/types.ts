@@ -18,3 +18,7 @@ export interface InputProps extends Omit<CustomInput, 'ref'> {
   info?: string | React.ReactNode;
   onChange?: (e: InputOnChangeEventType) => void;
 }
+
+export interface FileInputProps extends Omit<InputProps, 'onChange'> {
+  maxSize?: number;
+}

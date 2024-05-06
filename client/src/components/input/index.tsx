@@ -16,10 +16,12 @@ export const Input = ({
   placeholderItalic,
   ...props
 }: InputProps) => {
-  const [inputType, setInputType] = useState(type);
+  const initialType = type === 'file' ? 'text' : type;
+  const [inputType, setInputType] = useState(initialType);
   const ref = useRef<HTMLInputElement>(null);
 
   const styles = getStyles({
+    type,
     disabled,
     error: !!error,
     placeholderItalic,
@@ -33,23 +35,45 @@ export const Input = ({
     }
   };
 
+  const onClearFile = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    onChange && onChange('');
+  };
+
   return (
     <div className="flex flex-col laptop:flex-row gap-1 laptop:gap-6 items-center w-full">
-      <div className="flex flex-col gap-1 w-full">
+      <label className="flex flex-col gap-1 w-full">
         <fieldset className={styles.fieldset}>
           <legend className="ml-[10px] px-1 pb-1">
             <span className={styles.star}>*</span>
             <span className={styles.label}>{label}</span>
           </legend>
 
-          <input
-            ref={ref}
-            type={inputType}
-            disabled={disabled}
-            className={styles.input}
-            onChange={(e) => onChange && onChange(e.target.value)}
-            {...props}
-          />
+          {type === 'file' && (
+            <>
+              <input
+                type="file"
+                name={props.name}
+                accept={props.accept}
+                className={styles.fileType}
+                onChange={(e) => onChange && onChange(e)}
+              />
+
+              <span className={styles.input}>{props.value}</span>
+            </>
+          )}
+
+          {type !== 'file' && (
+            <input
+              ref={ref}
+              type={inputType}
+              disabled={disabled}
+              className={styles.input}
+              onChange={(e) => onChange && onChange(e.target.value)}
+              {...props}
+            />
+          )}
 
           {type === 'password' && (
             <div className={styles.div} onClick={handleFocus}>
@@ -70,6 +94,27 @@ export const Input = ({
               )}
             </div>
           )}
+
+          {type === 'file' && (
+            <div className={styles.div}>
+              {!props.value && (
+                <Icon.Clip
+                  width={24}
+                  height={24}
+                  className={`${styles.iconEye} ${styles.iconClip}`}
+                />
+              )}
+
+              {props.value && (
+                <Icon.Close
+                  width={24}
+                  height={24}
+                  onClick={onClearFile}
+                  className={`${styles.iconEye} ${styles.iconClose}`}
+                />
+              )}
+            </div>
+          )}
         </fieldset>
 
         {error && (
@@ -79,7 +124,7 @@ export const Input = ({
             <span className={styles.error}>{error}</span>
           </div>
         )}
-      </div>
+      </label>
 
       {info && (
         <div className="flex text-input-info laptop:mt-3 self-center w-full">
