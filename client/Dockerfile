@@ -24,6 +24,10 @@ RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder --chown=nextjs:nodejs /client/.next ./.next
 COPY --from=builder /client/node_modules ./node_modules
+COPY --from=builder /client/next.config.js ./next.config.js
+COPY --from=builder /client/postcss.config.js ./postcss.config.js
+COPY --from=builder /client/tailwind.config.ts ./tailwind.config.ts
+COPY --from=builder /client/tsconfig.json ./tsconfig.json
 COPY --from=builder /client/package.json ./package.json
 
 USER nextjs
