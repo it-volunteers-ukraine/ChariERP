@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useLocale } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 
-import { Icon } from '@/assets';
+import { UA, EN } from '@/assets/icons';
 
 import { getStyles } from './styles';
 import { ActiveLanguage, ILanguageSwitcherProps } from './types';
@@ -45,8 +45,8 @@ export const LanguageSwitcher = ({
       <span className={span}>UA</span>
 
       <div className={iconWrapper}>
-        <Icon.UA className={`${icon} ${ua}`} />
-        <Icon.EN className={`${icon} ${en}`} />
+        <UA className={`${icon} ${ua}`} />
+        <EN className={`${icon} ${en}`} />
       </div>
     </div>
   );

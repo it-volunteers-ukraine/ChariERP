@@ -1,5 +1,5 @@
 'use client';
-import { Icon } from '@/assets';
+import { Exit } from '@/assets/icons';
 
 import { Avatar } from '../avatar';
 
@@ -18,7 +18,7 @@ export const DashboardHeader = () => {
         <div className="flex gap-6">
           <Avatar img={null} name="Super_admin1" />
 
-          <Icon.DashboardIcon.ExitIcon
+          <Exit
             onClick={onExit}
             className="w-6 h-6 transition-all duration-300 cursor-pointer text-lightBlue hover:scale-110 hover:drop-shadow-md"
           />
