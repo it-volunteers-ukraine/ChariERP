@@ -2,7 +2,7 @@
 import { useRef, useState } from 'react';
 import InputMask from 'react-input-mask';
 
-import { EyeOff, Eye, Warning, Info } from '@/assets/icons';
+import { EyeOff, Eye, Warning, Info, Cross } from '@/assets/icons';
 
 import { getStyles } from './styles';
 import { InputProps } from './types';
@@ -99,7 +99,7 @@ export const Input = ({
 
           {cross && value !== '' && (
             <div className={styles.div} onClick={handleClearInput}>
-              <Icon.Cross width={24} height={24} className={styles.iconEye} />
+              <Cross width={24} height={24} className={styles.iconEye} />
             </div>
           )}
         </fieldset>
