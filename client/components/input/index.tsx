@@ -1,5 +1,6 @@
 'use client';
 import { useRef, useState } from 'react';
+import InputMask from 'react-input-mask';
 
 import { Icon } from '@/assets';
 
@@ -9,10 +10,13 @@ import { InputProps } from './types';
 export const Input = ({
   info,
   label,
+  value,
   error,
   disabled,
   onChange,
   type = 'text',
+  cross = false,
+  isMasked = false,
   placeholderItalic,
   ...props
 }: InputProps) => {
@@ -20,6 +24,7 @@ export const Input = ({
   const ref = useRef<HTMLInputElement>(null);
 
   const styles = getStyles({
+    cross,
     disabled,
     error: !!error,
     placeholderItalic,
@@ -33,6 +38,15 @@ export const Input = ({
     }
   };
 
+  const handleClearInput = () => {
+    if (ref.current) {
+      ref.current.value = '';
+      if (onChange) {
+        onChange('');
+      }
+    }
+  };
+
   return (
     <div className="flex flex-col laptop:flex-row gap-1 laptop:gap-6 items-center w-full">
       <div className="flex flex-col gap-1 w-full">
@@ -42,14 +56,26 @@ export const Input = ({
             <span className={styles.label}>{label}</span>
           </legend>
 
-          <input
-            ref={ref}
-            type={inputType}
-            disabled={disabled}
-            className={styles.input}
-            onChange={(e) => onChange && onChange(e.target.value)}
-            {...props}
-          />
+          {!isMasked ? (
+            <input
+              ref={ref}
+              value={value}
+              type={inputType}
+              disabled={disabled}
+              className={styles.input}
+              onChange={(e) => onChange && onChange(e.target.value)}
+              {...props}
+            />
+          ) : (
+            <InputMask
+              maskChar="_"
+              disabled={disabled}
+              mask="+38(099)999-99-99"
+              className={styles.input}
+              onChange={(e) => onChange && onChange(e.target.value)}
+              {...props}
+            />
+          )}
 
           {type === 'password' && (
             <div className={styles.div} onClick={handleFocus}>
@@ -68,6 +94,12 @@ export const Input = ({
                   onClick={() => setInputType('password')}
                 />
               )}
+            </div>
+          )}
+
+          {cross && value !== '' && (
+            <div className={styles.div} onClick={handleClearInput}>
+              <Icon.Cross width={24} height={24} className={styles.iconEye} />
             </div>
           )}
         </fieldset>

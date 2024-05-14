@@ -14,6 +14,8 @@ export interface InputProps extends Omit<CustomInput, 'ref'> {
   name: string;
   label: string;
   error?: string;
+  cross?: boolean;
+  isMasked?: boolean;
   placeholderItalic?: boolean;
   info?: string | React.ReactNode;
   onChange?: (e: InputOnChangeEventType) => void;

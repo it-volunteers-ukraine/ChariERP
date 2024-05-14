@@ -1,7 +1,9 @@
 import clsx from 'clsx';
 
 interface IStylesInput {
+  cross?: boolean;
   error?: boolean;
+  isMasked?: boolean;
   disabled?: boolean;
   isTypePassword: boolean;
   visiblePassword: boolean;
@@ -12,6 +14,7 @@ export const getStyles = ({
   error,
   disabled,
   isTypePassword,
+  cross,
   visiblePassword,
   placeholderItalic,
 }: IStylesInput) => ({
@@ -39,7 +42,7 @@ export const getStyles = ({
       'placeholder:italic': placeholderItalic,
       'placeholder:text-input-disabled bg-transparent': disabled,
     },
-    { 'pr-12': isTypePassword },
+    { 'pr-12': isTypePassword || cross },
     { 'focus:text-input-focus': !visiblePassword },
   ),
   div: 'flex cursor-pointer peer-focus:[&>svg]:text-input-focus',
