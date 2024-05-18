@@ -1,7 +1,10 @@
 import { notFound } from 'next/navigation';
 import { Roboto, Scada } from 'next/font/google';
-import { useLocale as UseLocale } from 'next-intl';
-import { NextIntlClientProvider, useMessages } from 'next-intl';
+import {
+  useMessages,
+  NextIntlClientProvider,
+  useLocale as UseLocale,
+} from 'next-intl';
 
 import { ChildrenProps, LocalizationProps } from '@/types';
 
