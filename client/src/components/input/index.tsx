@@ -12,20 +12,23 @@ export const Input = ({
   label,
   value,
   error,
+  cross,
   disabled,
   onChange,
+  isMasked,
+  isTextarea,
   type = 'text',
-  cross = false,
-  isMasked = false,
   placeholderItalic,
   ...props
 }: InputProps) => {
   const [inputType, setInputType] = useState(type);
-  const ref = useRef<HTMLInputElement>(null);
+
+  const ref = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
 
   const styles = getStyles({
     cross,
     disabled,
+    isTextarea,
     error: !!error,
     placeholderItalic,
     isTypePassword: type === 'password',
@@ -56,7 +59,7 @@ export const Input = ({
             <span className={styles.label}>{label}</span>
           </legend>
 
-          {!isMasked ? (
+          {!isMasked && !isTextarea && (
             <input
               ref={ref}
               value={value}
@@ -66,11 +69,25 @@ export const Input = ({
               onChange={(e) => onChange && onChange(e.target.value)}
               {...props}
             />
-          ) : (
+          )}
+
+          {isMasked && (
             <InputMask
               maskChar="_"
               disabled={disabled}
               mask="+38(099)999-99-99"
+              className={styles.input}
+              onChange={(e) => onChange && onChange(e.target.value)}
+              {...props}
+            />
+          )}
+
+          {isTextarea && (
+            <textarea
+              rows={5}
+              ref={ref}
+              value={value}
+              disabled={disabled}
               className={styles.input}
               onChange={(e) => onChange && onChange(e.target.value)}
               {...props}

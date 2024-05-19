@@ -5,16 +5,18 @@ interface IStylesInput {
   error?: boolean;
   isMasked?: boolean;
   disabled?: boolean;
+  isTextarea?: boolean;
   isTypePassword: boolean;
   visiblePassword: boolean;
   placeholderItalic?: boolean;
 }
 
 export const getStyles = ({
+  cross,
   error,
   disabled,
+  isTextarea,
   isTypePassword,
-  cross,
   visiblePassword,
   placeholderItalic,
 }: IStylesInput) => ({
@@ -26,6 +28,7 @@ export const getStyles = ({
         !error && !disabled,
       'border-input-text': !disabled,
       'border-input-disabled': disabled,
+      'h-auto': isTextarea,
     },
   ),
   star: clsx('text-[14px]/[13px] tracking-[0.4px]', {
@@ -41,6 +44,7 @@ export const getStyles = ({
     {
       'placeholder:italic': placeholderItalic,
       'placeholder:text-input-disabled bg-transparent': disabled,
+      'outline-none': isTextarea,
     },
     { 'pr-12': isTypePassword || cross },
     { 'focus:text-input-focus': !visiblePassword },
