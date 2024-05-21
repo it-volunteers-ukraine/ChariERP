@@ -1,7 +1,8 @@
 'use client';
 import { useRef, useState } from 'react';
+import InputMask from 'react-input-mask';
 
-import { EyeOff, Eye, Warning, Info } from '@/assets/icons';
+import { EyeOff, Eye, Warning, Info, Cross } from '@/assets/icons';
 
 import { getStyles } from './styles';
 import { InputProps } from './types';
@@ -9,18 +10,25 @@ import { InputProps } from './types';
 export const Input = ({
   info,
   label,
+  value,
   error,
+  cross,
   disabled,
   onChange,
+  isMasked,
+  isTextarea,
   type = 'text',
   placeholderItalic,
   ...props
 }: InputProps) => {
   const [inputType, setInputType] = useState(type);
-  const ref = useRef<HTMLInputElement>(null);
+
+  const ref = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
 
   const styles = getStyles({
+    cross,
     disabled,
+    isTextarea,
     error: !!error,
     placeholderItalic,
     isTypePassword: type === 'password',
@@ -33,6 +41,15 @@ export const Input = ({
     }
   };
 
+  const handleClearInput = () => {
+    if (ref.current) {
+      ref.current.value = '';
+      if (onChange) {
+        onChange('');
+      }
+    }
+  };
+
   return (
     <div className="flex flex-col laptop:flex-row gap-1 laptop:gap-6 items-center w-full">
       <div className="flex flex-col gap-1 w-full">
@@ -42,14 +59,40 @@ export const Input = ({
             <span className={styles.label}>{label}</span>
           </legend>
 
-          <input
-            ref={ref}
-            type={inputType}
-            disabled={disabled}
-            className={styles.input}
-            onChange={(e) => onChange && onChange(e.target.value)}
-            {...props}
-          />
+          {!isMasked && !isTextarea && (
+            <input
+              ref={ref}
+              value={value}
+              type={inputType}
+              disabled={disabled}
+              className={styles.input}
+              onChange={(e) => onChange && onChange(e.target.value)}
+              {...props}
+            />
+          )}
+
+          {isMasked && (
+            <InputMask
+              maskChar="_"
+              disabled={disabled}
+              mask="+38(099)999-99-99"
+              className={styles.input}
+              onChange={(e) => onChange && onChange(e.target.value)}
+              {...props}
+            />
+          )}
+
+          {isTextarea && (
+            <textarea
+              rows={5}
+              ref={ref}
+              value={value}
+              disabled={disabled}
+              className={styles.input}
+              onChange={(e) => onChange && onChange(e.target.value)}
+              {...props}
+            />
+          )}
 
           {type === 'password' && (
             <div className={styles.div} onClick={handleFocus}>
@@ -68,6 +111,12 @@ export const Input = ({
                   onClick={() => setInputType('password')}
                 />
               )}
+            </div>
+          )}
+
+          {cross && value !== '' && (
+            <div className={styles.div} onClick={handleClearInput}>
+              <Cross width={24} height={24} className={styles.iconEye} />
             </div>
           )}
         </fieldset>

@@ -1,4 +1,6 @@
 export { default as AvatarIcon } from './avatar.svg';
+export { default as Close } from './close.svg';
+export { default as Cross } from './cross.svg';
 export { default as EN } from './en.svg';
 export { default as Exit } from './exit.svg';
 export { default as Eye } from './eye.svg';
