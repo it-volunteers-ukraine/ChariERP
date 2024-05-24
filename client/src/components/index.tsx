@@ -2,6 +2,7 @@ export { AuthLinks } from './auth-links';
 export { Avatar, DashboardHeader, DashboardAside } from './dashboard';
 export { Burger } from './burger';
 export { Button } from './button';
+export { Checkbox } from './checkbox';
 export { Header } from './header';
 export { Input } from './input';
 export { InputField } from './input-field';

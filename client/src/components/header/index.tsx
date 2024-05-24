@@ -7,6 +7,7 @@ import {
   Logo,
   Burger,
   Button,
+  Checkbox,
   Navigation,
   LanguageSwitcher,
 } from '@/components';
@@ -20,6 +21,14 @@ export const Header = () => {
     <header className="fixed w-full top-0 bg-header-gradient py-[19px] desktop:py-[21px]">
       <div className="flex items-center justify-between gap-8 container-chari">
         <Logo />
+
+        <Checkbox
+          checked={true}
+          disabled={true}
+          // error={true}
+          hrefText="Політикою конфіденційності"
+          label="Я погоджуюсь на обробку персональних даних згідно з"
+        />
 
         <Navigation inHeader className="hidden desktop:flex" />
 

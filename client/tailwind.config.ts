@@ -15,6 +15,7 @@ const cerise = '#E23A81';
 const caret = '#61B6DB';
 const swissCoffee = '#D0CBCB';
 const lynch = '#687A95';
+const lobLolly = '#BEC6D0';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -41,13 +42,30 @@ const config: Config = {
           disabled: swissCoffee,
           info: `${lynch}80`,
         },
+        checkbox: {
+          'default-border': lynch,
+          'disabled-border': swissCoffee,
+          'disabled-selected': lobLolly,
+          // selected: blueCrayolaToDeepBlue,
+          selected: {
+            bluecrayola: blueCrayola,
+            deepblue: deepBlue,
+          },
+          'default-text': comet,
+          'disabled-text': swissCoffee,
+          'link-default': caret,
+          'link-disabled': swissCoffee,
+          'link-disabled-selected': lobLolly,
+          error: error,
+          'link-error': error,
+        },
         btn: {
           text: white,
           'secondary-text': blue,
           'secondary-hover': green,
           'secondary-hover-text': white,
           'secondary-active': blue,
-          'secondary-disabled-text': '#BEC6D0',
+          'secondary-disabled-text': lobLolly,
           'secondary-disabled-border': swissCoffee,
           'outline-border': white,
           'outline-hover-text': blue,
