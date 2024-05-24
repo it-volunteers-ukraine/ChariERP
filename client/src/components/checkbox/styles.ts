@@ -11,21 +11,29 @@ export const getStyles = ({
 }: ICheckboxProps) => ({
   label: 'flex items-start w-fit group',
   checkbox: clsx(
-    'flex items-center justify-center min-w-[18px] h-[18px] rounded-[2px] border',
+    'flex items-center justify-center min-w-[18px] h-[18px] rounded-[2px] border border-checkbox-default-border',
     {
       'mt-[3px]': label,
-      'border-checkbox-default-border': !disabled && !error && !checked,
       'border-checkbox-disabled-border': disabled && !checked,
-      'border-0': checked,
-      // 'bg-checkbox-selected transition duration-500 ease-in-out':
-      //   checked,
-      'bg-gradient-to-r from-checkbox-selected-bluecrayola to-checkbox-selected-deepblue transition duration-500 ease-in-out':
+      // 'border-0 bg-checkbox-selected': !disabled && checked,
+      'border-0 bg-gradient-to-r from-checkbox-selected-bluecrayola to-checkbox-selected-deepblue':
         !disabled && checked,
       'bg-checkbox-disabled-selected': disabled && checked,
       'border-2 border-checkbox-error': !disabled && error && !checked,
       'group-hover:border-black': !checked && !disabled && !error,
     },
   ),
+  radio: clsx(
+    'flex items-center justify-center min-w-[18px] h-[18px] rounded-[50%] border-2 border-radio-default-border',
+    {
+      'mt-[3px]': label,
+      'border-radio-disabled-border':
+        (disabled && !checked) || (disabled && checked),
+    },
+  ),
+  radioChecked: clsx('w-[8px] h-[8px] rounded-[50%] bg-radio-default-border', {
+    'bg-checkbox-disabled-border': disabled && checked,
+  }),
   input: 'hidden',
   text: clsx('ml-[22px] text-checkbox-default-text', {
     'text-checkbox-disabled-text': disabled && !checked,

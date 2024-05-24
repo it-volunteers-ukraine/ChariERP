@@ -59,6 +59,10 @@ const config: Config = {
           error: error,
           'link-error': error,
         },
+        radio: {
+          'default-border': lightBlue,
+          'disabled-border': swissCoffee,
+        },
         btn: {
           text: white,
           'secondary-text': blue,

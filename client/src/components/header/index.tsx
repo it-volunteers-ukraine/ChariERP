@@ -25,6 +25,7 @@ export const Header = () => {
         <Logo />
 
         <Checkbox
+          type="radio"
           // error={true}
           // disabled={true}
           checked={checked}

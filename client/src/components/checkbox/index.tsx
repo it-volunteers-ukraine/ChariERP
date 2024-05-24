@@ -29,7 +29,7 @@ const Checkbox = ({
 
   return (
     <label onChange={onChange} className={styles.label}>
-      <div className={styles.checkbox}>
+      <div className={type === 'checkbox' ? styles.checkbox : styles.radio}>
         <input
           type={type}
           checked={checked}
@@ -37,7 +37,10 @@ const Checkbox = ({
           className={styles.input}
         />
 
-        {checked && <Check disabled={disabled} />}
+        {checked && type === 'checkbox' && <Check disabled={disabled} />}
+        {checked && type === 'radio' && (
+          <div className={styles.radioChecked}></div>
+        )}
       </div>
 
       {label && (
