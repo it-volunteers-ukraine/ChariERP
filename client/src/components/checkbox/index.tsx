@@ -4,21 +4,9 @@ import Link from 'next/link';
 
 // import { Check } from '@/assets/icons';
 import { Check } from './icon';
+import { ICheckboxProps } from './types';
 
 import { getStyles } from './styles';
-
-type BtnType = 'checkbox' | 'radio';
-
-interface ICheckboxProps {
-  href?: string;
-  width?: string;
-  type?: BtnType;
-  label?: string;
-  error?: boolean;
-  checked: boolean;
-  hrefText?: string;
-  disabled?: boolean;
-}
 
 const Checkbox = ({
   error,

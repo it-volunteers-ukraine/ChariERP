@@ -1,12 +1,6 @@
 import clsx from 'clsx';
 
-interface IStylesInput {
-  label?: string;
-  width?: string;
-  error?: boolean;
-  checked: boolean;
-  disabled?: boolean;
-}
+import { ICheckboxProps } from './types';
 
 export const getStyles = ({
   error,
@@ -14,8 +8,8 @@ export const getStyles = ({
   label,
   checked,
   disabled,
-}: IStylesInput) => ({
-  label: 'flex items-start w-fit',
+}: ICheckboxProps) => ({
+  label: 'flex items-start w-fit group',
   checkbox: clsx(
     'flex items-center justify-center min-w-[18px] h-[18px] rounded-[2px] border',
     {
@@ -29,14 +23,15 @@ export const getStyles = ({
         !disabled && checked,
       'bg-checkbox-disabled-selected': disabled && checked,
       'border-2 border-checkbox-error': !disabled && error && !checked,
+      'group-hover:border-black': !checked && !disabled && !error,
     },
-    'group-hover:border-black',
   ),
   input: 'hidden',
   text: clsx('ml-[22px] text-checkbox-default-text', {
     'text-checkbox-disabled-text': disabled && !checked,
     'text-checkbox-disabled-selected': checked && disabled,
     'text-checkbox-error': !disabled && error && !checked,
+    'group-hover:text-black': !checked && !disabled && !error,
   }),
   textStyle: width ? { width } : undefined,
   link: clsx(
