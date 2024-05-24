@@ -24,7 +24,7 @@ export const Header = () => {
 
         <Checkbox
           checked={true}
-          disabled={true}
+          // disabled={true}
           // error={true}
           hrefText="Політикою конфіденційності"
           label="Я погоджуюсь на обробку персональних даних згідно з"
