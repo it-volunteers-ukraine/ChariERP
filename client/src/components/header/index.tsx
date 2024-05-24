@@ -12,10 +12,12 @@ import {
   LanguageSwitcher,
 } from '@/components';
 import { routes } from '@/constants';
+import { useState } from 'react';
 
 export const Header = () => {
   const router = useRouter();
   const auth = useTranslations('auth-page.links');
+  const [checked, setChecked] = useState<boolean>(false);
 
   return (
     <header className="fixed w-full top-0 bg-header-gradient py-[19px] desktop:py-[21px]">
@@ -23,10 +25,11 @@ export const Header = () => {
         <Logo />
 
         <Checkbox
-          checked={true}
-          // disabled={true}
           // error={true}
+          // disabled={true}
+          checked={checked}
           hrefText="Політикою конфіденційності"
+          onChange={() => setChecked(!checked)}
           label="Я погоджуюсь на обробку персональних даних згідно з"
         />
 

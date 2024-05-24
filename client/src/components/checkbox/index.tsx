@@ -1,5 +1,4 @@
-'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 
 // import { Check } from '@/assets/icons';
@@ -13,33 +12,32 @@ const Checkbox = ({
   label,
   width,
   checked,
+  onChange,
   disabled,
   hrefText,
   href = '#',
   type = 'checkbox',
 }: ICheckboxProps) => {
-  const [check, setCheck] = useState<boolean>(false);
   const styles = getStyles({
     error,
     width,
     label,
-    checked: check,
+    checked,
     disabled,
+    onChange,
   });
 
-  console.log(checked);
-
   return (
-    <label onChange={() => setCheck(!check)} className={styles.label}>
+    <label onChange={onChange} className={styles.label}>
       <div className={styles.checkbox}>
         <input
           type={type}
-          checked={check}
+          checked={checked}
           disabled={disabled}
           className={styles.input}
         />
 
-        {check && <Check disabled={disabled} />}
+        {checked && <Check disabled={disabled} />}
       </div>
 
       {label && (

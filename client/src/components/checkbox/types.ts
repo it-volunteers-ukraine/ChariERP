@@ -9,4 +9,5 @@ export interface ICheckboxProps {
   checked: boolean;
   hrefText?: string;
   disabled?: boolean;
+  onChange: () => void;
 }
