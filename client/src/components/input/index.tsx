@@ -102,12 +102,12 @@ export const Input = ({
           {type === 'file' && (
             <>
               <input
-                type="file"
                 ref={ref}
+                type="file"
                 name={props.name}
+                onChange={onChange}
                 accept={props.accept}
                 className={styles.fileType}
-                onChange={onChange}
               />
 
               <span className={styles.input}>{value}</span>

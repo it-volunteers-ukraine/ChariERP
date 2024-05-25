@@ -31,17 +31,14 @@ export const FileField = ({
           if (!file) {
             return;
           }
+
           const extension = file.name.split('.').pop()?.toLowerCase();
 
-          if (accept && !!extension) {
-            const isExtensionAccept = accept.includes(extension);
+          if (accept && extension && !accept.includes(extension)) {
+            form.setFieldError(name, `${errors('extensions')} ${accept}`);
+            form.setFieldTouched(name, true, false);
 
-            if (!isExtensionAccept) {
-              form.setFieldError(name, `${errors('extensions')} ${accept}`);
-              form.setFieldTouched(name, true, false);
-
-              return;
-            }
+            return;
           }
 
           if (maxSize && file.size / (1024 * 1024) > maxSize) {

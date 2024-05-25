@@ -38,15 +38,15 @@ export const Burger = () => {
 
           <div className="flex justify-between gap-[13px_35px] flex-wrap">
             <Button
-              text={auth('registration')}
               styleType="secondary"
-              onClick={() => onHandleClick(routes.registration)}
               className="uppercase"
+              text={auth('registration')}
+              onClick={() => onHandleClick(routes.registration)}
             />
 
             <Button
-              text={auth('login')}
               styleType="outline"
+              text={auth('login')}
               onClick={() => onHandleClick(routes.login)}
               className="min-w-[138px] tablet:min-w-[89px] uppercase"
             />
