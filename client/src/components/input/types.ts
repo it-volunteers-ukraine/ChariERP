@@ -1,4 +1,8 @@
-import { DetailedHTMLProps, InputHTMLAttributes } from 'react';
+import {
+  DetailedHTMLProps,
+  InputHTMLAttributes,
+  TextareaHTMLAttributes,
+} from 'react';
 
 export type InputOnChangeEventType =
   | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -6,14 +10,25 @@ export type InputOnChangeEventType =
 
 interface CustomInput
   extends DetailedHTMLProps<
-    InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement>,
-    HTMLInputElement | HTMLTextAreaElement
+    InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
   > {}
 
-export interface InputProps extends Omit<CustomInput, 'ref'> {
+interface CustomTextarea
+  extends DetailedHTMLProps<
+    TextareaHTMLAttributes<HTMLTextAreaElement>,
+    HTMLTextAreaElement
+  > {}
+
+export interface InputProps extends Omit<CustomInput & CustomTextarea, 'ref'> {
   name: string;
   label: string;
   error?: string;
+  rows?: number;
+  cross?: boolean;
+  required?: boolean;
+  isMasked?: boolean;
+  isTextarea?: boolean;
   placeholderItalic?: boolean;
   info?: string | React.ReactNode;
   onChange?: (e: InputOnChangeEventType) => void;

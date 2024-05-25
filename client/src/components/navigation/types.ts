@@ -3,3 +3,8 @@ export interface INavigationProps {
   className?: string;
   onBurgerClose?: () => void;
 }
+
+export interface INavigationStylesProps {
+  inHeader?: boolean;
+  className?: string;
+}

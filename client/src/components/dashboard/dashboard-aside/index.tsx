@@ -2,7 +2,7 @@
 import { NavItem } from './item';
 
 import { Logo } from '@/components';
-import { DashboardIcon } from '@/assets/icons';
+import { Tablet } from '@/assets/icons';
 
 export const DashboardAside = () => {
   return (
@@ -12,24 +12,11 @@ export const DashboardAside = () => {
       </div>
 
       <nav className="p-[44px_36px] flex flex-col">
-        <NavItem
-          href="/"
-          text="Заявки"
-          Icon={DashboardIcon.NavBarIcon.Tablet}
-        />
+        <NavItem href="/" text="Заявки" Icon={Tablet} />
 
-        <NavItem
-          href="/asd"
-          text="Заявки"
-          Icon={DashboardIcon.NavBarIcon.Tablet}
-        />
+        <NavItem href="/asd" text="Заявки" Icon={Tablet} />
 
-        <NavItem
-          disabled
-          href="/"
-          text="Заявки"
-          Icon={DashboardIcon.NavBarIcon.Tablet}
-        />
+        <NavItem disabled href="/" text="Заявки" Icon={Tablet} />
       </nav>
     </aside>
   );

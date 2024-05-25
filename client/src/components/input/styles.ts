@@ -2,8 +2,11 @@ import clsx from 'clsx';
 
 interface IStylesInput {
   type?: string;
+  cross?: boolean;
   error?: boolean;
+  isMasked?: boolean;
   disabled?: boolean;
+  isTextarea?: boolean;
   isTypePassword: boolean;
   visiblePassword: boolean;
   placeholderItalic?: boolean;
@@ -11,8 +14,10 @@ interface IStylesInput {
 
 export const getStyles = ({
   type,
+  cross,
   error,
   disabled,
+  isTextarea,
   isTypePassword,
   visiblePassword,
   placeholderItalic,
@@ -26,6 +31,7 @@ export const getStyles = ({
       'border-input-text': !disabled,
       'border-input-disabled': disabled,
       'cursor-pointer': type === 'file',
+      'h-auto': isTextarea,
     },
   ),
   star: clsx('text-[14px]/[13px] tracking-[0.4px]', {
@@ -41,8 +47,9 @@ export const getStyles = ({
     {
       'placeholder:italic': placeholderItalic,
       'placeholder:text-input-disabled bg-transparent': disabled,
+      'outline-none': isTextarea,
     },
-    { 'pr-12': isTypePassword || type === 'file' },
+    { 'pr-12': isTypePassword || type === 'file' || cross },
     { 'focus:text-input-focus': !visiblePassword },
   ),
   div: 'flex cursor-pointer peer-focus:[&>svg]:text-input-focus',

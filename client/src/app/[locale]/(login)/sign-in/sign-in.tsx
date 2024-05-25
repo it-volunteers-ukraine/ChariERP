@@ -29,8 +29,9 @@ const SignIn = () => {
     >
       {() => (
         <Form className="flex flex-col items-center gap-10 max-w-[400px] w-full">
-          <InputField name="email" label="Email" />
+          <InputField name="email" label="Email" required />
           <InputField
+            required
             name="password"
             type="password"
             label={login('password')}

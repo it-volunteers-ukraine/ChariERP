@@ -1,7 +1,8 @@
 'use client';
 import { useRef, useState } from 'react';
+import InputMask from 'react-input-mask';
 
-import { Icon } from '@/assets';
+import { EyeOff, Eye, Warning, Info, Cross, Clip, Close } from '@/assets/icons';
 
 import { getStyles } from './styles';
 import { InputProps } from './types';
@@ -9,20 +10,28 @@ import { InputProps } from './types';
 export const Input = ({
   info,
   label,
+  value,
   error,
+  cross,
+  required,
   disabled,
   onChange,
+  isMasked,
+  isTextarea,
   type = 'text',
   placeholderItalic,
   ...props
 }: InputProps) => {
   const initialType = type === 'file' ? 'text' : type;
   const [inputType, setInputType] = useState(initialType);
-  const ref = useRef<HTMLInputElement>(null);
+
+  const ref = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
 
   const styles = getStyles({
     type,
+    cross,
     disabled,
+    isTextarea,
     error: !!error,
     placeholderItalic,
     isTypePassword: type === 'password',
@@ -35,10 +44,15 @@ export const Input = ({
     }
   };
 
-  const onClearFile = (e: React.MouseEvent) => {
+  const handleClearInput = (e: React.MouseEvent) => {
     e.preventDefault();
 
-    onChange && onChange('');
+    if (ref.current) {
+      ref.current.value = '';
+      if (onChange) {
+        onChange('');
+      }
+    }
   };
 
   return (
@@ -46,27 +60,14 @@ export const Input = ({
       <label className="flex flex-col gap-1 w-full">
         <fieldset className={styles.fieldset}>
           <legend className="ml-[10px] px-1 pb-1">
-            <span className={styles.star}>*</span>
+            {required && <span className={styles.star}>*</span>}
             <span className={styles.label}>{label}</span>
           </legend>
 
-          {type === 'file' && (
-            <>
-              <input
-                type="file"
-                name={props.name}
-                accept={props.accept}
-                className={styles.fileType}
-                onChange={(e) => onChange && onChange(e)}
-              />
-
-              <span className={styles.input}>{props.value}</span>
-            </>
-          )}
-
-          {type !== 'file' && (
+          {!isMasked && !isTextarea && type !== 'file' && (
             <input
               ref={ref}
+              value={value}
               type={inputType}
               disabled={disabled}
               className={styles.input}
@@ -75,17 +76,55 @@ export const Input = ({
             />
           )}
 
+          {isMasked && (
+            <InputMask
+              maskChar="_"
+              disabled={disabled}
+              mask="+38(099)999-99-99"
+              className={styles.input}
+              onChange={(e) => onChange && onChange(e.target.value)}
+              {...props}
+            />
+          )}
+
+          {isTextarea && (
+            <textarea
+              rows={5}
+              ref={ref}
+              value={value}
+              disabled={disabled}
+              className={styles.input}
+              onChange={(e) => onChange && onChange(e.target.value)}
+              {...props}
+            />
+          )}
+
+          {type === 'file' && (
+            <>
+              <input
+                type="file"
+                ref={ref}
+                name={props.name}
+                accept={props.accept}
+                className={styles.fileType}
+                onChange={onChange}
+              />
+
+              <span className={styles.input}>{value}</span>
+            </>
+          )}
+
           {type === 'password' && (
             <div className={styles.div} onClick={handleFocus}>
               {inputType === 'password' ? (
-                <Icon.EyeOff
+                <EyeOff
                   width={24}
                   height={24}
                   className={styles.iconEye}
                   onClick={() => setInputType('text')}
                 />
               ) : (
-                <Icon.Eye
+                <Eye
                   width={24}
                   height={24}
                   className={styles.iconEye}
@@ -95,21 +134,27 @@ export const Input = ({
             </div>
           )}
 
+          {cross && value !== '' && (
+            <div className={styles.div} onClick={handleClearInput}>
+              <Cross width={24} height={24} className={styles.iconEye} />
+            </div>
+          )}
+
           {type === 'file' && (
             <div className={styles.div}>
-              {!props.value && (
-                <Icon.Clip
+              {!value && (
+                <Clip
                   width={24}
                   height={24}
                   className={`${styles.iconEye} ${styles.iconClip}`}
                 />
               )}
 
-              {props.value && (
-                <Icon.Close
+              {value && (
+                <Close
                   width={24}
                   height={24}
-                  onClick={onClearFile}
+                  onClick={handleClearInput}
                   className={`${styles.iconEye} ${styles.iconClose}`}
                 />
               )}
@@ -119,7 +164,7 @@ export const Input = ({
 
         {error && (
           <div className="flex gap-1">
-            <Icon.Warning width={14} height={14} />
+            <Warning width={14} height={14} />
 
             <span className={styles.error}>{error}</span>
           </div>
@@ -128,7 +173,7 @@ export const Input = ({
 
       {info && (
         <div className="flex text-input-info laptop:mt-3 self-center w-full">
-          <Icon.Info
+          <Info
             width={24}
             height={24}
             className="hidden tablet:flex self-center text-input-info mr-3 shrink-0"

@@ -58,6 +58,7 @@ export const FileField = ({
           <Input
             {...fieldProps}
             {...props}
+            readOnly
             type="file"
             name={name}
             label={label}

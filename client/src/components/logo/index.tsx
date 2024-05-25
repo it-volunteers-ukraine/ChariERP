@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import clsx from 'clsx';
 
-import { Icon } from '@/assets';
+import { LogoIcon } from '@/assets/icons';
 
 import { ILogoProps } from './types';
 
@@ -14,7 +14,7 @@ export const Logo = ({ to, onClick, className, logoClass }: ILogoProps) => {
         [`${className}`]: className,
       })}
     >
-      <Icon.Logo
+      <LogoIcon
         className={clsx(
           'transition-all duration-200 group-hover/logo:drop-shadow-logo w-[68px] h-[23px]',
           {

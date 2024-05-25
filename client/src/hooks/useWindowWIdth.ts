@@ -22,10 +22,10 @@ export function useWindowWidth(): IUseWidowWidthProps {
     width,
     isMobile: width < tablet,
     isNotMobile: width > tablet,
-    isTablet: width >= tablet && width < laptop,
-    isLaptop: width >= laptop && width < desktop,
+    isTablet: width >= tablet,
+    isLaptop: width >= laptop,
     isNotDesktop: width < desktop,
-    isDesktop: width >= desktop && width < desktopXL,
+    isDesktop: width >= desktop,
     isDesktopXL: width >= desktopXL,
   };
 }
