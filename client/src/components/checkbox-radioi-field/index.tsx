@@ -18,7 +18,7 @@ export const CheckboxRadioField = ({
         const error = Error.controlError(meta, name, label);
 
         const change = async (e: ChangeEvent<HTMLInputElement>) => {
-          if (name && e) {
+          if (name) {
             await form.setFieldValue(name, e.target.checked);
             form.setFieldTouched(name);
           }
