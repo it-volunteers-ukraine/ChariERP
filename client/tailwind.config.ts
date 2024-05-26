@@ -37,6 +37,15 @@ const config: Config = {
   theme: {
     extend: {
       ...defaultTheme,
+      keyframes: {
+        appearBg: {
+          '0%': { opacity: '0' },
+          '100%': {
+            background: 'linear-gradient(135deg, #78D6EF 0%, #3879B6 100%)',
+            opacity: '1',
+          },
+        },
+      },
       colors: {
         white,
         lightBlue,
@@ -56,24 +65,19 @@ const config: Config = {
         checkbox: {
           'default-border': lynch,
           'disabled-border': swissCoffee,
-          'disabled-selected': lobLolly,
-          selected: {
-            bluecrayola: blueCrayola,
-            deepblue: deepBlue,
-          },
+          'disabled-selected-bg': lobLolly,
           'default-text': comet,
           'disabled-text': swissCoffee,
+          'disabled-selected-text': lobLolly,
           'link-default': caret,
           'link-disabled': swissCoffee,
           'link-disabled-selected': lobLolly,
-          error: error,
-          'link-error': error,
-          check: spunPearl,
+          'disabled-check': spunPearl,
         },
         radio: {
           'default-border': lightBlue,
           'disabled-border': swissCoffee,
-          error: error,
+          error,
         },
         btn: {
           text: white,

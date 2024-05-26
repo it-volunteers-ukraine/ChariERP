@@ -15,10 +15,10 @@ export const getStyles = ({
     {
       'mt-[3px]': label,
       'border-checkbox-disabled-border': disabled && !checked,
-      'border-0 bg-gradient-to-r from-checkbox-selected-bluecrayola to-checkbox-selected-deepblue':
+      'border-0 animate-[appearBg_0.2s_ease-in-out_forwards]':
         !disabled && checked,
-      'bg-checkbox-disabled-selected border-0': disabled && checked,
-      'border-2 border-checkbox-error': !disabled && error && !checked,
+      'bg-checkbox-disabled-selected-bg border-0': disabled && checked,
+      'border-2 border-error': !disabled && error && !checked,
       'group-hover:border-black': !checked && !disabled && !error,
     },
   ),
@@ -33,19 +33,18 @@ export const getStyles = ({
     },
   ),
   check: clsx('text-white', {
-    'text-checkbox-check': disabled,
+    'text-checkbox-disabled-check': disabled,
   }),
   radioCheck: clsx('w-[8px] h-[8px] rounded-[50%] bg-radio-default-border', {
-    'bg-radio-disabled-border': (disabled && !checked) || (disabled && checked),
-    'bg-checkbox-error': error && !checked,
+    'bg-radio-disabled-border': disabled && checked,
     'group-hover:bg-black': !checked && !disabled && !error,
   }),
   input:
     'absolute appearance-none -webkit-appearance-none -moz-appearance-none',
   text: clsx('ml-[22px] text-checkbox-default-text', {
     'text-checkbox-disabled-text': disabled && !checked,
-    'text-checkbox-disabled-selected': checked && disabled,
-    'text-checkbox-error': !disabled && error && !checked,
+    'text-checkbox-disabled-selected-text': checked && disabled,
+    'text-error': !disabled && error && !checked,
     'group-hover:text-black': !checked && !disabled && !error,
   }),
   textStyle: width ? { width } : undefined,
@@ -54,7 +53,7 @@ export const getStyles = ({
     {
       'text-checkbox-link-disabled': disabled && !checked,
       'text-checkbox-link-disabled-selected': checked && disabled,
-      'text-checkbox-link-error': error && !disabled && !checked,
+      'text-error': error && !disabled && !checked,
     },
   ),
 });
