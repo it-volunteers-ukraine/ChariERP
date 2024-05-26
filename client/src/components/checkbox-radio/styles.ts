@@ -40,7 +40,8 @@ export const getStyles = ({
     'bg-checkbox-error': error && !checked,
     'group-hover:bg-black': !checked && !disabled && !error,
   }),
-  input: 'hidden',
+  input:
+    'absolute appearance-none -webkit-appearance-none -moz-appearance-none',
   text: clsx('ml-[22px] text-checkbox-default-text', {
     'text-checkbox-disabled-text': disabled && !checked,
     'text-checkbox-disabled-selected': checked && disabled,
