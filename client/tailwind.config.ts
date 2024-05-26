@@ -71,6 +71,7 @@ const config: Config = {
           active: white,
         },
         boardHeader: '#F4F7FE',
+        overlay: '#687a95',
       },
       backgroundImage: {
         burger: 'linear-gradient(315deg, #78D6EF 0%, #3879B6 100%)',
