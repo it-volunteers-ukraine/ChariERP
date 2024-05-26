@@ -1,11 +1,11 @@
 'use client';
+import { ChangeEvent } from 'react';
 import { Field, FieldProps } from 'formik';
 
 import { Error } from '@/utils';
 
 import { CheckboxRadio } from '../checkbox-radio';
 import { ICheckboxProps } from '../checkbox-radio/types';
-import { ChangeEvent } from 'react';
 
 export const CheckboxRadioField = ({
   name,

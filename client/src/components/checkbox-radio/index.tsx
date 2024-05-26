@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import { Check } from '@/assets/icons';
+
 import { ICheckboxProps } from './types';
 
 import { getStyles } from './styles';
