@@ -4,8 +4,8 @@ import { Field, FieldProps } from 'formik';
 import { Error } from '@/utils';
 
 import { CheckboxRadio } from '../checkbox-radio';
-import { InputOnChangeEventType } from '../input/types';
 import { ICheckboxProps } from '../checkbox-radio/types';
+import { ChangeEvent } from 'react';
 
 export const CheckboxRadioField = ({
   name,
@@ -17,9 +17,9 @@ export const CheckboxRadioField = ({
       {({ meta, form, field: { ...fieldProps } }: FieldProps) => {
         const error = Error.controlError(meta, name, label);
 
-        const change = async (newValue: InputOnChangeEventType) => {
-          if (name) {
-            await form.setFieldValue(name, newValue);
+        const change = async (e: ChangeEvent<HTMLInputElement>) => {
+          if (name && e) {
+            await form.setFieldValue(name, e.target.checked);
             form.setFieldTouched(name);
           }
         };
@@ -30,7 +30,7 @@ export const CheckboxRadioField = ({
             {...props}
             error={error}
             label={label}
-            onChange={() => change(label)}
+            onChange={change}
           />
         );
       }}

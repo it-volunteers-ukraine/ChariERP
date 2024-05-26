@@ -15,7 +15,6 @@ export const getStyles = ({
     {
       'mt-[3px]': label,
       'border-checkbox-disabled-border': disabled && !checked,
-      // 'border-0 bg-checkbox-selected': !disabled && checked,
       'border-0 bg-gradient-to-r from-checkbox-selected-bluecrayola to-checkbox-selected-deepblue':
         !disabled && checked,
       'bg-checkbox-disabled-selected border-0': disabled && checked,

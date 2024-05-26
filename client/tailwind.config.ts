@@ -57,7 +57,6 @@ const config: Config = {
           'default-border': lynch,
           'disabled-border': swissCoffee,
           'disabled-selected': lobLolly,
-          // selected: blueCrayolaToDeepBlue,
           selected: {
             bluecrayola: blueCrayola,
             deepblue: deepBlue,

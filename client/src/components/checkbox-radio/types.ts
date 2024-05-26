@@ -1,3 +1,4 @@
+import { ChangeEvent } from 'react';
 import { InputProps } from '../input/types';
 
 export interface IStylesProps {
@@ -8,10 +9,11 @@ export interface IStylesProps {
   disabled?: boolean;
 }
 
-export interface ICheckboxProps extends InputProps {
+export interface ICheckboxProps extends Omit<InputProps, 'onChange'> {
   href?: string;
   width?: string;
   error?: string;
   checked: boolean;
   hrefText?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
