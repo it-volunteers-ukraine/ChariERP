@@ -23,5 +23,11 @@
     "contacts": "Contacts",
     "service": "About service",
     "faq": "FAQs"
+  },
+  "errors": {
+    "file": {
+      "extensions": "Invalid file format. Available formats:",
+      "maxSize": "File size exceeds "
+    }
   }
 }

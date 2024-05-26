@@ -1,12 +1,16 @@
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
 
 import { getStyles } from './styles';
 import { INavigationProps } from './types';
-import { useTranslations } from 'next-intl';
 
-export const Navigation = ({ inHeader, className }: INavigationProps) => {
+export const Navigation = ({
+  inHeader,
+  className,
+  onBurgerClose,
+}: INavigationProps) => {
   const { link, ul } = getStyles({ inHeader, className });
   const header = useTranslations('header');
 
@@ -21,7 +25,7 @@ export const Navigation = ({ inHeader, className }: INavigationProps) => {
     <ul className={ul}>
       {links.map(({ text, href }, idx) => (
         <li key={`navigation-item-${idx}`}>
-          <Link href={href} className={link}>
+          <Link href={href} className={link} onClick={onBurgerClose}>
             {text}
           </Link>
         </li>
