@@ -6,7 +6,8 @@ import { ICheckboxProps } from './types';
 
 import { getStyles } from './styles';
 
-const Checkbox = ({
+const CheckboxRadio = ({
+  name,
   error,
   label,
   width,
@@ -23,16 +24,17 @@ const Checkbox = ({
     label,
     checked,
     disabled,
-    onChange,
   });
 
   return (
-    <label onChange={onChange} className={styles.label}>
+    <label className={styles.label}>
       <div className={type === 'checkbox' ? styles.checkbox : styles.radio}>
         <input
+          name={name}
           type={type}
           checked={checked}
           disabled={disabled}
+          onChange={onChange}
           className={styles.input}
         />
 
@@ -56,4 +58,4 @@ const Checkbox = ({
   );
 };
 
-export { Checkbox };
+export { CheckboxRadio };

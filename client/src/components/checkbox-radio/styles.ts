@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import { ICheckboxProps } from './types';
+import { IStylesProps } from './types';
 
 export const getStyles = ({
   error,
@@ -8,7 +8,7 @@ export const getStyles = ({
   label,
   checked,
   disabled,
-}: ICheckboxProps) => ({
+}: IStylesProps) => ({
   label: 'flex items-start w-fit group',
   checkbox: clsx(
     'flex items-center justify-center min-w-[18px] h-[18px] rounded-[2px] border border-checkbox-default-border',

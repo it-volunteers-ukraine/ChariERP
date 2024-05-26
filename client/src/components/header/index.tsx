@@ -7,31 +7,30 @@ import {
   Logo,
   Burger,
   Button,
-  Checkbox,
   Navigation,
+  CheckboxRadio,
   LanguageSwitcher,
 } from '@/components';
 import { routes } from '@/constants';
-import { useState } from 'react';
 
 export const Header = () => {
   const router = useRouter();
   const auth = useTranslations('auth-page.links');
-  const [checked, setChecked] = useState<boolean>(true);
 
   return (
     <header className="fixed w-full top-0 bg-header-gradient py-[19px] desktop:py-[21px]">
       <div className="flex items-center justify-between gap-8 container-chari">
         <Logo />
 
-        <Checkbox
+        <CheckboxRadio
           type="checkbox"
           // error={true}
           // disabled={true}
-          checked={checked}
+          checked={true}
           hrefText="Політикою конфіденційності"
-          onChange={() => setChecked(!checked)}
+          onChange={(value) => console.log(value)}
           label="Я погоджуюсь на обробку персональних даних згідно з"
+          name={''}
         />
 
         <Navigation inHeader className="hidden desktop:flex" />
