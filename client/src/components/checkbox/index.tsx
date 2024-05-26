@@ -38,7 +38,7 @@ const Checkbox = ({
 
         {checked && type === 'checkbox' && <Check className={styles.check} />}
 
-        {checked && type === 'radio' && <div className={styles.radioChecked} />}
+        {checked && type === 'radio' && <div className={styles.radioCheck} />}
       </div>
 
       {label && (

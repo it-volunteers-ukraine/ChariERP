@@ -64,6 +64,7 @@ const config: Config = {
         radio: {
           'default-border': lightBlue,
           'disabled-border': swissCoffee,
+          error: error,
         },
         btn: {
           text: white,

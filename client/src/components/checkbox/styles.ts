@@ -29,10 +29,17 @@ export const getStyles = ({
       'mt-[3px]': label,
       'border-radio-disabled-border':
         (disabled && !checked) || (disabled && checked),
+      'border-radio-error': error && !checked,
+      'group-hover:border-black': !checked && !disabled && !error,
     },
   ),
-  radioChecked: clsx('w-[8px] h-[8px] rounded-[50%] bg-radio-default-border', {
-    'bg-checkbox-disabled-border': disabled && checked,
+  check: clsx('text-white', {
+    'text-checkbox-check': disabled,
+  }),
+  radioCheck: clsx('w-[8px] h-[8px] rounded-[50%] bg-radio-default-border', {
+    'bg-radio-disabled-border': (disabled && !checked) || (disabled && checked),
+    'bg-checkbox-error': error && !checked,
+    'group-hover:bg-black': !checked && !disabled && !error,
   }),
   input: 'hidden',
   text: clsx('ml-[22px] text-checkbox-default-text', {
@@ -50,7 +57,4 @@ export const getStyles = ({
       'text-checkbox-link-error': error && !disabled && !checked,
     },
   ),
-  check: clsx('text-white', {
-    'text-checkbox-check': disabled,
-  }),
 });
