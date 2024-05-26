@@ -17,7 +17,7 @@ import { useState } from 'react';
 export const Header = () => {
   const router = useRouter();
   const auth = useTranslations('auth-page.links');
-  const [checked, setChecked] = useState<boolean>(false);
+  const [checked, setChecked] = useState<boolean>(true);
 
   return (
     <header className="fixed w-full top-0 bg-header-gradient py-[19px] desktop:py-[21px]">
@@ -25,7 +25,7 @@ export const Header = () => {
         <Logo />
 
         <Checkbox
-          type="radio"
+          type="checkbox"
           // error={true}
           // disabled={true}
           checked={checked}

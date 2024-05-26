@@ -16,6 +16,7 @@ const caret = '#61B6DB';
 const swissCoffee = '#D0CBCB';
 const lynch = '#687A95';
 const lobLolly = '#BEC6D0';
+const spunPearl = '#A8A8AD';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -58,6 +59,7 @@ const config: Config = {
           'link-disabled-selected': lobLolly,
           error: error,
           'link-error': error,
+          check: spunPearl,
         },
         radio: {
           'default-border': lightBlue,

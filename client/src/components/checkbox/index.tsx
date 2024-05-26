@@ -1,8 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-// import { Check } from '@/assets/icons';
-import { Check } from './icon';
+import { Check } from '@/assets/icons';
 import { ICheckboxProps } from './types';
 
 import { getStyles } from './styles';
@@ -37,10 +36,9 @@ const Checkbox = ({
           className={styles.input}
         />
 
-        {checked && type === 'checkbox' && <Check disabled={disabled} />}
-        {checked && type === 'radio' && (
-          <div className={styles.radioChecked}></div>
-        )}
+        {checked && type === 'checkbox' && <Check className={styles.check} />}
+
+        {checked && type === 'radio' && <div className={styles.radioChecked} />}
       </div>
 
       {label && (

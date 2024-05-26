@@ -18,7 +18,7 @@ export const getStyles = ({
       // 'border-0 bg-checkbox-selected': !disabled && checked,
       'border-0 bg-gradient-to-r from-checkbox-selected-bluecrayola to-checkbox-selected-deepblue':
         !disabled && checked,
-      'bg-checkbox-disabled-selected': disabled && checked,
+      'bg-checkbox-disabled-selected border-0': disabled && checked,
       'border-2 border-checkbox-error': !disabled && error && !checked,
       'group-hover:border-black': !checked && !disabled && !error,
     },
@@ -50,4 +50,7 @@ export const getStyles = ({
       'text-checkbox-link-error': error && !disabled && !checked,
     },
   ),
+  check: clsx('text-white', {
+    'text-checkbox-check': disabled,
+  }),
 });
