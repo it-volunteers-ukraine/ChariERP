@@ -5,7 +5,7 @@ export default async function Layout({ children }: ChildrenProps) {
   return (
     <>
       <Header />
-      {children}
+      <main className="mt-[61px] desktop:mt-[68px]">{children}</main>
     </>
   );
 }

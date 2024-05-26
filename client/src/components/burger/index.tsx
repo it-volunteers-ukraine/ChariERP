@@ -1,17 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
+import { useOutsideClick } from '@/hooks';
 import { Button, LanguageSwitcher, Navigation } from '@/components';
 
 import { getStyles } from './styles';
 
 export const Burger = () => {
+  const ref = useRef(null);
   const router = useRouter();
   const [isActive, setIsActive] = useState(false);
   const { burger, nav } = getStyles({ isActive });
+  const auth = useTranslations('auth-page.links');
+
+  useOutsideClick(ref, () => setIsActive(false));
+
+  const onHandleClick = async (route: string) => {
+    await router.push(route);
+    setIsActive(false);
+  };
 
   return (
     <>
@@ -21,21 +32,23 @@ export const Burger = () => {
         <span className="bar-bot"></span>
       </button>
 
-      <nav className={nav}>
+      <nav className={nav} ref={ref}>
         <div className="flex flex-col gap-[45px]">
-          <Navigation />
+          <Navigation onBurgerClose={() => setIsActive(false)} />
 
           <div className="flex justify-between gap-[13px_35px] flex-wrap">
             <Button
-              text="РЕЄСТРАЦІЯ"
               styleType="secondary"
-              onClick={() => router.push(routes.registration)}
+              className="uppercase"
+              text={auth('registration')}
+              onClick={() => onHandleClick(routes.registration)}
             />
+
             <Button
-              text="ВХІД"
               styleType="outline"
-              onClick={() => router.push(routes.login)}
-              className="min-w-[138px] tablet:min-w-[89px]"
+              text={auth('login')}
+              onClick={() => onHandleClick(routes.login)}
+              className="min-w-[138px] tablet:min-w-[89px] uppercase"
             />
             <LanguageSwitcher className="tablet:ml-auto" />
           </div>
