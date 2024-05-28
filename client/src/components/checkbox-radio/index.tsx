@@ -27,9 +27,11 @@ const CheckboxRadio = ({
     className,
   });
 
+  const checkboxClass = type === 'checkbox' ? styles.checkbox : styles.radio;
+
   return (
     <label className={styles.label}>
-      <div className={type === 'checkbox' ? styles.checkbox : styles.radio}>
+      <div className={checkboxClass}>
         <input
           name={name}
           type={type}
