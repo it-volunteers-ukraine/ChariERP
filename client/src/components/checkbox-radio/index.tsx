@@ -16,6 +16,7 @@ const CheckboxRadio = ({
   onChange,
   disabled,
   hrefText,
+  className,
   href = '#',
   type = 'checkbox',
 }: ICheckboxProps) => {
@@ -25,6 +26,7 @@ const CheckboxRadio = ({
     label,
     checked,
     disabled,
+    className,
   });
 
   return (

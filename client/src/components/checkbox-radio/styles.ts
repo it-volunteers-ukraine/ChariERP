@@ -8,8 +8,12 @@ export const getStyles = ({
   label,
   checked,
   disabled,
+  className,
 }: IStylesProps) => ({
-  label: 'flex items-start w-fit group',
+  label: clsx('flex items-start w-fit group', {
+    [`${className}`]: !!className,
+  }),
+
   checkbox: clsx(
     'flex items-center justify-center min-w-[18px] h-[18px] rounded-[2px] border border-checkbox-default-border',
     {
@@ -39,8 +43,7 @@ export const getStyles = ({
     'bg-radio-disabled-border': disabled && checked,
     'group-hover:bg-black': !checked && !disabled && !error,
   }),
-  input:
-    'absolute appearance-none -webkit-appearance-none -moz-appearance-none',
+  input: 'absolute appearance-none',
   text: clsx('ml-[22px] text-checkbox-default-text', {
     'text-checkbox-disabled-text': disabled && !checked,
     'text-checkbox-disabled-selected-text': checked && disabled,

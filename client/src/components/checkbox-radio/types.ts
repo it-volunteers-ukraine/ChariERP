@@ -8,6 +8,7 @@ export interface IStylesProps {
   error?: string;
   checked: boolean;
   disabled?: boolean;
+  className?: string;
 }
 
 export interface ICheckboxProps extends Omit<InputProps, 'onChange'> {
@@ -16,5 +17,6 @@ export interface ICheckboxProps extends Omit<InputProps, 'onChange'> {
   error?: string;
   checked: boolean;
   hrefText?: string;
+  className?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
