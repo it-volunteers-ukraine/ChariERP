@@ -8,8 +8,8 @@ import {
   Burger,
   Button,
   Navigation,
-  LanguageSwitcher,
   ResponseWrapper,
+  LanguageSwitcher,
 } from '@/components';
 import { routes } from '@/constants';
 
