@@ -2,7 +2,7 @@
 import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikValues } from 'formik';
 
-import { Button, DateField, InputField } from '@/components';
+import { Button, InputField } from '@/components';
 
 import { initialValues, validationSchema } from './config';
 
@@ -42,8 +42,6 @@ const SignIn = () => {
             className="w-[115px]"
             text={login('button')}
           />
-
-          <DateField label="Date" name="date" placeholder="Оберіть дату" />
         </Form>
       )}
     </Formik>
