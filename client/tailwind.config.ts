@@ -23,6 +23,8 @@ const cerise = '#E23A81';
 const caret = '#61B6DB';
 const swissCoffee = '#D0CBCB';
 const lynch = '#687A95';
+const lobLolly = '#BEC6D0';
+const spunPearl = '#A8A8AD';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -35,6 +37,15 @@ const config: Config = {
   theme: {
     extend: {
       ...defaultTheme,
+      keyframes: {
+        appearBg: {
+          '0%': { opacity: '0' },
+          '100%': {
+            background: 'linear-gradient(135deg, #78D6EF 0%, #3879B6 100%)',
+            opacity: '1',
+          },
+        },
+      },
       colors: {
         white,
         lightBlue,
@@ -51,13 +62,30 @@ const config: Config = {
           disabled: swissCoffee,
           info: `${lynch}80`,
         },
+        checkbox: {
+          'default-border': lynch,
+          'disabled-border': swissCoffee,
+          'disabled-selected-bg': lobLolly,
+          'default-text': comet,
+          'disabled-text': swissCoffee,
+          'disabled-selected-text': lobLolly,
+          'link-default': caret,
+          'link-disabled': swissCoffee,
+          'link-disabled-selected': lobLolly,
+          'disabled-check': spunPearl,
+        },
+        radio: {
+          'default-border': lightBlue,
+          'disabled-border': swissCoffee,
+          error,
+        },
         btn: {
           text: white,
           'secondary-text': blue,
           'secondary-hover': green,
           'secondary-hover-text': white,
           'secondary-active': blue,
-          'secondary-disabled-text': '#BEC6D0',
+          'secondary-disabled-text': lobLolly,
           'secondary-disabled-border': swissCoffee,
           'outline-border': white,
           'outline-hover-text': blue,
