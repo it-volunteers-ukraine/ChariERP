@@ -3,11 +3,6 @@
 }
 
 #DatePicker
-  .react-datepicker__navigation.react-datepicker__navigation--years.react-datepicker__navigation--years-previous::before {
-  @apply content-['ASD'] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full;
-}
-
-#DatePicker
   .react-datepicker__navigation.react-datepicker__navigation--previous {
   @apply left-[30px] top-[20px];
 }

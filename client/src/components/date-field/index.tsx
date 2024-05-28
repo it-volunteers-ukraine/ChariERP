@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useLocale } from 'next-intl';
 import { Field, FieldProps } from 'formik';
 import { uk, enGB } from 'date-fns/locale';
@@ -18,6 +18,28 @@ registerLocale('en', enGB);
 
 export const DateField = ({ name, label, placeholder }: DateFieldProps) => {
   const locale = useLocale();
+  const pickerRef = useRef<DatePicker>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const openPicker = async () => {
+    const currentWrapper = wrapperRef.current;
+    const currentPicker = pickerRef.current;
+
+    if (currentPicker) {
+      await currentPicker.setOpen(true);
+      currentWrapper?.blur();
+    }
+  };
+
+  useEffect(() => {
+    const currentWrapper = wrapperRef.current;
+
+    if (currentWrapper) {
+      currentWrapper.addEventListener('focus', openPicker);
+    }
+
+    return () => currentWrapper?.removeEventListener('focus', openPicker);
+  }, [wrapperRef]);
 
   return (
     <Field name={name}>
@@ -27,9 +49,10 @@ export const DateField = ({ name, label, placeholder }: DateFieldProps) => {
         };
 
         return (
-          <div className="[&>div]:w-full w-full">
+          <div className="[&>div]:w-full w-full" tabIndex={0} ref={wrapperRef}>
             <DatePicker
               withPortal
+              ref={pickerRef}
               locale={locale}
               showYearDropdown
               selected={value}
@@ -51,7 +74,7 @@ export const DateField = ({ name, label, placeholder }: DateFieldProps) => {
                   name={name}
                   label={label}
                   value={value}
-                  error={(meta.error && meta.error) || ''}
+                  error={meta.error || ''}
                 />
               }
             />
