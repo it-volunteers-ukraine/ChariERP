@@ -11,7 +11,6 @@ const CheckboxRadio = ({
   name,
   error,
   label,
-  width,
   checked,
   onChange,
   disabled,
@@ -22,7 +21,6 @@ const CheckboxRadio = ({
 }: ICheckboxProps) => {
   const styles = getStyles({
     error,
-    width,
     label,
     checked,
     disabled,
@@ -47,7 +45,7 @@ const CheckboxRadio = ({
       </div>
 
       {label && (
-        <div className={styles.text} style={styles.textStyle}>
+        <div className={styles.text}>
           {label}
 
           {hrefText && (

@@ -4,7 +4,6 @@ import { IStylesProps } from './types';
 
 export const getStyles = ({
   error,
-  width,
   label,
   checked,
   disabled,
@@ -50,7 +49,6 @@ export const getStyles = ({
     'text-error': !disabled && error && !checked,
     'group-hover:text-black': !checked && !disabled && !error,
   }),
-  textStyle: width ? { width } : undefined,
   link: clsx(
     'ml-[5px] underline leading-6 font-medium text-checkbox-link-default',
     {
