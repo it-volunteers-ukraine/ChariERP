@@ -10,32 +10,17 @@ import {
   Navigation,
   ResponseWrapper,
   LanguageSwitcher,
-  CheckboxRadio,
 } from '@/components';
 import { routes } from '@/constants';
-import { ChangeEvent, useState } from 'react';
 
 export const Header = () => {
   const router = useRouter();
   const auth = useTranslations('auth-page.links');
-  const [e, setE] = useState<boolean>(false);
-
-  const change = async (e: ChangeEvent<HTMLInputElement>) => {
-    setE(e.target.checked);
-  };
 
   return (
     <header className="fixed w-full top-0 bg-header-gradient py-[19px] desktop:py-[21px] z-[999]">
       <div className="flex items-center justify-between gap-8 container-chari">
         <Logo />
-
-        <CheckboxRadio
-          checked={e}
-          hrefText="fghfgh"
-          onChange={change}
-          name={'checkbox'}
-          label={'Checkbox'}
-        />
 
         <ResponseWrapper endpoint="isDesktop">
           <Navigation inHeader className="hidden desktop:flex" />
