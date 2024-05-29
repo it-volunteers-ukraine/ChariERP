@@ -7,7 +7,7 @@ const MONGO_PASS = process.env.MONGO_PASS;
 const connectDB = async () => {
   if (!MONGO_URI) {
     throw new Error(
-      'Please define the MONGO_URI environment variable inside .env.local',
+      'Please define the MONGO_URI environment variable inside .env',
     );
   }
 
@@ -16,13 +16,17 @@ const connectDB = async () => {
       return true;
     }
 
-    await mongoose.connect(MONGO_URI, { user: MONGO_USER, pass: MONGO_PASS });
+    await mongoose.connect(MONGO_URI, {
+      user: MONGO_USER,
+      pass: MONGO_PASS,
+      dbName: 'ChariERP',
+    });
 
     console.log('Connected to MongoDB');
 
     return true;
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 };
 
