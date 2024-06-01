@@ -23,14 +23,18 @@ export const getStyles = ({
   placeholderItalic,
 }: IStylesInput) => ({
   fieldset: clsx(
-    'relative flex align-center w-full overflow-hidden h-[64px] transition-all duration-300 border rounded group/item',
+    'relative flex align-center pb-3 w-full overflow-hidden transition-all duration-300 border rounded group/item',
     {
+      'h-[64px]': type !== 'search',
       'enabled:border-input-error': error && !disabled,
       'enabled:focus-within:!border-input-focus enabled:hover:border-[#1D1B20]':
         !error && !disabled,
-      'border-input-text': !disabled,
+      'border-lightGray': !disabled && type === 'search',
+      'border-input-text': !disabled && type !== 'search',
       'border-input-disabled': disabled,
       'cursor-pointer': type === 'file',
+      'rounded-[28px] pl-[19px] pr-[14px] py-[10px] h-[44px] items-center':
+        type === 'search',
       'h-auto': isTextarea,
     },
   ),
@@ -43,15 +47,16 @@ export const getStyles = ({
     'text-input-disabled': disabled,
   }),
   input: clsx(
-    'peer w-full mb-3 px-[14px] text-input-text caret-input-focus placeholder-input-info',
+    'peer w-full px-[14px] text-input-text caret-input-focus placeholder-input-info',
     {
       'placeholder:italic': placeholderItalic,
       'placeholder:text-input-disabled bg-transparent': disabled,
       'outline-none': isTextarea,
       'cursor-pointer': type === 'date',
+      'cancel-search-btn px-0 h-[23px]': type === 'search',
+      'pr-12': isTypePassword || type === 'file' || cross || type === 'date',
+      'focus:text-input-focus': !visiblePassword,
     },
-    { 'pr-12': isTypePassword || type === 'file' || cross || type === 'date' },
-    { 'focus:text-input-focus': !visiblePassword },
   ),
   div: 'flex cursor-pointer peer-focus:[&>svg]:text-input-focus peer-focus:[&>svg]:hover:text-error',
   iconEye: clsx(
@@ -62,4 +67,6 @@ export const getStyles = ({
   fileType: 'hidden',
   iconClip: 'group-hover/item:text-green',
   iconClose: 'hover:text-error',
+  search:
+    'w-[18px] text-lightBlue cursor-pointer hover:scale-110 transition-all duration-200',
 });

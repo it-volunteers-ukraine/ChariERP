@@ -25,6 +25,7 @@ const swissCoffee = '#D0CBCB';
 const lynch = '#687A95';
 const lobLolly = '#BEC6D0';
 const spunPearl = '#A8A8AD';
+const liteGray = '#A3A3A3';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -61,6 +62,7 @@ const config: Config = {
           caret,
           disabled: swissCoffee,
           info: `${lynch}80`,
+          liteGray,
         },
         checkbox: {
           'default-border': lynch,

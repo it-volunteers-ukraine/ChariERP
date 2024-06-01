@@ -11,8 +11,10 @@ import {
   EyeOff,
   Warning,
   Calendar,
+  Search,
 } from '@/assets/icons';
 
+import './styles.css';
 import { getStyles } from './styles';
 import { InputProps } from './types';
 
@@ -30,6 +32,7 @@ export const Input = forwardRef<
       required,
       disabled,
       onChange,
+      onSearch,
       isMasked,
       isTextarea,
       type = 'text',
@@ -67,10 +70,19 @@ export const Input = forwardRef<
       <div className="flex flex-col laptop:flex-row gap-1 laptop:gap-6 items-center w-full">
         <label className="flex flex-col gap-1 w-full">
           <fieldset className={styles.fieldset}>
-            <legend className="ml-[10px] px-1 pb-1">
-              {required && <span className={styles.star}>*</span>}
-              <span className={styles.label}>{label}</span>
-            </legend>
+            {type !== 'search' && (
+              <legend className="ml-[10px] px-1 pb-1">
+                {required && <span className={styles.star}>*</span>}
+                <span className={styles.label}>{label}</span>
+              </legend>
+            )}
+
+            {type === 'search' && (
+              <Search
+                className={styles.search}
+                onClick={() => onSearch && onSearch(value)}
+              />
+            )}
 
             {!isMasked && !isTextarea && type !== 'file' && (
               <input
