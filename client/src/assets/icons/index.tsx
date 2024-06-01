@@ -1,4 +1,5 @@
 export { default as AvatarIcon } from './avatar.svg';
+export { default as ArrowLeft } from './arrowLeft.svg';
 export { default as Calendar } from './calendar.svg';
 export { default as Clip } from './clip.svg';
 export { default as Close } from './input-close.svg';
@@ -14,3 +15,6 @@ export { default as Tablet } from './tablet.svg';
 export { default as UA } from './ua.svg';
 export { default as Warning } from './warning.svg';
 export { default as Check } from './check.svg';
+export { default as Edit } from './edit.svg';
+export { default as Menu } from './menu.svg';
+export { default as Save } from './save.svg';

@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
+import { ReactNode, DetailedHTMLProps, ButtonHTMLAttributes } from 'react';
 
 interface CustomButton
   extends DetailedHTMLProps<
@@ -14,12 +14,16 @@ export interface IButtonProps extends CustomButton {
   isLoading?: boolean;
   onClick?: () => void;
   styleType?: StyleType;
+  Icon?: ReactNode;
 }
 
 export type StyleType =
+  | 'red'
+  | 'white'
+  | 'green'
   | 'primary'
   | 'outline'
   | 'secondary'
-  | 'secondary-outline'
-  | 'green'
-  | 'red';
+  | 'icon-primary'
+  | 'icon-secondary'
+  | 'secondary-outline';

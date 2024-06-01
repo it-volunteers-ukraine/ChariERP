@@ -2,6 +2,7 @@ export { AuthLinks } from './auth-links';
 export { Avatar, DashboardHeader, DashboardAside } from './dashboard';
 export { Burger } from './burger';
 export { Button } from './button';
+export { ButtonIcon } from './button-icon';
 export { CheckboxRadio } from './checkbox-radio';
 export { DateField } from './date-field';
 export { FileField } from './file-field';
