@@ -8,7 +8,7 @@ on:
 env:
   AWS_REGION: eu-central-1
   ECR_REPOSITORY: chari_erp_repository
-  CONTAINER_NAME: chari-erp
+  CONTAINER_NAME: chariERP-DEV
   ECS_SERVICE: ChariERP-DEV
   ECS_CLUSTER: ChariERP_DevCluster
   ECS_TASK_DEFINITION: .aws/task-definition-DEV.json
