@@ -9,6 +9,9 @@ env:
   AWS_REGION: eu-central-1
   ECR_REPOSITORY: chari_erp_repository
   CONTAINER_NAME: chari-erp
+  ECS_SERVICE: ChariERP-DEV
+  ECS_CLUSTER: ChariERP_DevCluster
+  ECS_TASK_DEFINITION: .aws/task-definition-DEV.json
 
 permissions:
   id-token: write   # This is required for requesting the JWT
@@ -49,3 +52,19 @@ jobs:
       - name: Sts GetCallerIdentity
         run: |
           aws sts get-caller-identity
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: render-web-container
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.render-web-container.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
