@@ -1,6 +1,8 @@
 import type { Config } from 'tailwindcss';
 const defaultTheme = require('tailwindcss/defaultConfig');
 
+import { media } from './src/constants';
+
 //Colors
 const blue = '#2C73AC';
 const error = '#B3261E';
@@ -9,12 +11,20 @@ const lightBlue = '#61B6DB';
 const blueCrayola = '#78D6EF';
 const deepBlue = '#3879B6';
 const green = '#84BB46';
+const greenNormal = '#5BC780';
+const greenHover = '#34AB5D';
+const greenActive = '#178D40';
+const red = '#DD6B64';
+const redHover = '#C83C34';
+const redActive = '#B3261E';
 const comet = '#5D647C';
 const mobster = '#79747E';
 const cerise = '#E23A81';
 const caret = '#61B6DB';
 const swissCoffee = '#D0CBCB';
 const lynch = '#687A95';
+const lobLolly = '#BEC6D0';
+const spunPearl = '#A8A8AD';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -27,10 +37,21 @@ const config: Config = {
   theme: {
     extend: {
       ...defaultTheme,
+      keyframes: {
+        appearBg: {
+          '0%': { opacity: '0' },
+          '100%': {
+            background: 'linear-gradient(135deg, #78D6EF 0%, #3879B6 100%)',
+            opacity: '1',
+          },
+        },
+      },
       colors: {
         white,
         lightBlue,
         'dark-blue': blue,
+        error,
+        green,
         input: {
           text: comet,
           error,
@@ -41,13 +62,30 @@ const config: Config = {
           disabled: swissCoffee,
           info: `${lynch}80`,
         },
+        checkbox: {
+          'default-border': lynch,
+          'disabled-border': swissCoffee,
+          'disabled-selected-bg': lobLolly,
+          'default-text': comet,
+          'disabled-text': swissCoffee,
+          'disabled-selected-text': lobLolly,
+          'link-default': caret,
+          'link-disabled': swissCoffee,
+          'link-disabled-selected': lobLolly,
+          'disabled-check': spunPearl,
+        },
+        radio: {
+          'default-border': lightBlue,
+          'disabled-border': swissCoffee,
+          error,
+        },
         btn: {
           text: white,
           'secondary-text': blue,
           'secondary-hover': green,
           'secondary-hover-text': white,
           'secondary-active': blue,
-          'secondary-disabled-text': '#BEC6D0',
+          'secondary-disabled-text': lobLolly,
           'secondary-disabled-border': swissCoffee,
           'outline-border': white,
           'outline-hover-text': blue,
@@ -65,6 +103,12 @@ const config: Config = {
           secondary: white,
           disabled: '#C2C3C5',
           'outline-active': '#D2E1EF',
+          green: greenNormal,
+          'green-hover': greenHover,
+          'green-active': greenActive,
+          red: red,
+          'red-hover': redHover,
+          'red-active': redActive,
         },
         navItem: {
           hover: '#3B91BE',
@@ -100,13 +144,13 @@ const config: Config = {
       },
       screens: {
         //  @media (min-width: 768px)
-        tablet: '768px',
+        tablet: `${media.tablet}px`,
         //  @media (min-width: 992px)
-        laptop: '992px',
+        laptop: `${media.laptop}px`,
         //  @media (min-width: 1440px)
-        desktop: '1440px',
+        desktop: `${media.desktop}px`,
         //  @media (min-width: 1919px)
-        desktopXl: '1919px',
+        desktopXl: `${media.desktopXL}px`,
       },
       dropShadow: {
         logo: [
