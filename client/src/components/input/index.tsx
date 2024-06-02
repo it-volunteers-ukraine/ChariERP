@@ -206,6 +206,10 @@ export const Input = forwardRef<
               className="hidden tablet:flex self-center text-input-info mr-3 shrink-0"
             />
 
+            {/* <span className={styles.infoSpan}>
+              {info}
+            </span> */}
+
             <div className="flex justify-start items-center">
               <div className="leading-4 tablet:leading-5">
                 <span
