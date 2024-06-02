@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 
 const MONGO_URI = process.env.MONGO_URI;
-const MONGO_USER = process.env.MONGO_USER;
-const MONGO_PASS = process.env.MONGO_PASS;
 
 const connectDB = async () => {
   if (!MONGO_URI) {
@@ -17,16 +15,23 @@ const connectDB = async () => {
     }
 
     await mongoose.connect(MONGO_URI, {
-      user: MONGO_USER,
-      pass: MONGO_PASS,
       dbName: 'ChariERP',
+      serverApi: {
+        version: '1',
+        strict: true,
+        deprecationErrors: true,
+      },
+      serverSelectionTimeoutMS: 5000,
     });
 
+    await mongoose.connection.db.admin().command({ ping: 1 });
     console.log('Connected to MongoDB');
 
     return true;
   } catch (error) {
     console.log(error);
+  } finally {
+    await mongoose.disconnect();
   }
 };
 
