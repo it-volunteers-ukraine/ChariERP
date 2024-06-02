@@ -14,7 +14,7 @@ export default function Layout({
   const pathname = usePathname();
 
   const styles = clsx(
-    'flex flex-col justify-center items-center w-full bg-white py-16 px-4 tablet:rounded-b-3xl shadow-auth',
+    'flex flex-col justify-center items-center w-full bg-white pt-9 desktop:pt-14 pb-14 desktop:pb-16 px-4 tablet:px-10 desktopXl:px-8 tablet:rounded-b-3xl shadow-auth',
     {
       'tablet:rounded-tl-3xl':
         pathname === Helpers.getPathname(locale, routes.login),
