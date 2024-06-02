@@ -23,7 +23,7 @@ const SignUp = () => {
       validationSchema={validationSchema}
     >
       {() => (
-        <Form className="flex flex-col items-center w-full">
+        <Form className="w-full">
           <div className={styles.inputWrapper}>
             <FileField
               name="file"
@@ -39,27 +39,25 @@ const SignUp = () => {
           <div className={styles.inputWrapper}>
             <InputField
               required
-              name="email"
+              name="organizationName"
               info="Українською мовою (відповідно до Статуту)"
               infoAddl="Наприклад: Громадська організація «ЖИВИ»"
-              label="Електронна скринька представника (e-mail)"
+              label="Повна назва організації"
             />
           </div>
 
-          <div className={styles.inputWrapper}>
-            <div className="laptop:w-[49%]">
-              <InputField
-                required
-                name="text"
-                label="Електронна скринька представника (e-mail)"
-              />
-            </div>
+          <div className={`${styles.inputWrapper} laptop:w-[49%]`}>
+            <InputField
+              required
+              name="email"
+              label="Електронна скринька представника (e-mail)"
+            />
           </div>
 
           <Button
             type="submit"
             styleType="primary"
-            className="uppercase"
+            className="uppercase m-auto"
             text={registration('button')}
           />
         </Form>
