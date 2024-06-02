@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, forwardRef } from 'react';
+import Link from 'next/link';
 import InputMask from 'react-input-mask';
+import React, { useState, forwardRef } from 'react';
 
 import {
   Eye,
@@ -31,7 +32,10 @@ export const Input = forwardRef<
       disabled,
       onChange,
       isMasked,
+      infoAddl,
       isTextarea,
+      infoLinkText,
+      infoLinkRout,
       type = 'text',
       placeholderItalic,
       ...props
@@ -201,7 +205,33 @@ export const Input = forwardRef<
               height={24}
               className="hidden tablet:flex self-center text-input-info mr-3 shrink-0"
             />
-            <span className={styles.infoSpan}>{info}</span>
+
+            <div className="flex justify-start items-center">
+              <div className="leading-4 tablet:leading-5">
+                <span
+                  className={`${styles.infoSpan} leading-4 tablet:leading-5`}
+                >
+                  {info}
+                </span>
+
+                {infoAddl && (
+                  <span
+                    className={`${styles.infoSpan} ml-[3px] italic font-medium leading-4 tablet:leading-5`}
+                  >
+                    {infoAddl}
+                  </span>
+                )}
+
+                {infoLinkText && infoLinkRout && (
+                  <Link
+                    href={infoLinkRout}
+                    className={`${styles.infoSpan} ml-[3px] italic font-medium leading-4 tablet:leading-5 text-input-link underline decoration-input-link`}
+                  >
+                    {infoLinkText}
+                  </Link>
+                )}
+              </div>
+            </div>
           </div>
         )}
       </div>
