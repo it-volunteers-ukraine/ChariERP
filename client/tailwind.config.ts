@@ -61,6 +61,8 @@ const config: Config = {
           caret,
           disabled: swissCoffee,
           info: `${lynch}80`,
+          infoDefault: lynch,
+          link: lightBlue,
         },
         checkbox: {
           'default-border': lynch,
