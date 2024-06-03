@@ -4,13 +4,12 @@ import { icon } from '../types';
 
 import { getStyles } from './style';
 
-export const IconBtn = ({
-  icon,
-  type,
-}: {
+interface IIconBtnProps {
   icon: icon;
   type: 'primary' | 'secondary';
-}) => {
+}
+
+export const IconBtn = ({ icon, type }: IIconBtnProps) => {
   const { arrowLeft, edit, save, menu, arrowRight } = getStyles({ type });
 
   switch (icon) {
@@ -24,5 +23,8 @@ export const IconBtn = ({
       return <Save className={save} />;
     case 'menu':
       return <Menu className={menu} />;
+
+    default:
+      return null;
   }
 };
