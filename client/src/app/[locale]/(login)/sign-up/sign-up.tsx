@@ -114,7 +114,7 @@ const SignUp = () => {
             />
           </div>
 
-          <div className={`${styles.inputWrapper} pb-[30px]`}>
+          <div className={`${styles.inputWrapper} pb-[10px]`}>
             <InputField
               required
               name="email"
