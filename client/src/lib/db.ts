@@ -26,12 +26,8 @@ const connectDB = async () => {
 
     await mongoose.connection.db.admin().command({ ping: 1 });
     console.log('Connected to MongoDB');
-
-    return true;
   } catch (error) {
     console.log(error);
-  } finally {
-    await mongoose.disconnect();
   }
 };
 
