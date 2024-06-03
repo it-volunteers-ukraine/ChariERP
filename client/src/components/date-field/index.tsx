@@ -16,7 +16,12 @@ import { DateFieldProps } from './types';
 registerLocale('ua', uk);
 registerLocale('en', enGB);
 
-export const DateField = ({ name, label, placeholder }: DateFieldProps) => {
+export const DateField = ({
+  name,
+  label,
+  placeholder,
+  ...props
+}: DateFieldProps) => {
   const locale = useLocale();
   const pickerRef = useRef<DatePicker>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -68,6 +73,7 @@ export const DateField = ({ name, label, placeholder }: DateFieldProps) => {
               customInput={
                 <Input
                   {...fieldProps}
+                  {...props}
                   readOnly
                   ref={null}
                   type="date"

@@ -199,7 +199,7 @@ export const Input = forwardRef<
         </label>
 
         {info && (
-          <div className="flex text-input-info laptop:mt-3 self-center w-full">
+          <div className="flex items-center text-input-info laptop:mt-3 self-center w-full">
             <Info
               width={24}
               height={24}
@@ -236,6 +236,22 @@ export const Input = forwardRef<
                 )}
               </div>
             </div>
+          </div>
+        )}
+
+        {infoAddl && !info && (
+          <div className="flex justify-start items-center text-input-info laptop:mt-3 self-center w-full">
+            <Info
+              width={24}
+              height={24}
+              className="hidden tablet:flex self-center text-input-info mr-3 shrink-0"
+            />
+
+            <span
+              className={`${styles.infoSpan} italic font-medium leading-4 tablet:leading-5`}
+            >
+              {infoAddl}
+            </span>
           </div>
         )}
       </div>

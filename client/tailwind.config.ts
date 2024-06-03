@@ -25,6 +25,7 @@ const swissCoffee = '#D0CBCB';
 const lynch = '#687A95';
 const lobLolly = '#BEC6D0';
 const spunPearl = '#A8A8AD';
+const Magnolia = '#5D647CB2';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -52,6 +53,10 @@ const config: Config = {
         'dark-blue': blue,
         error,
         green,
+        title: {
+          title: caret,
+          media: Magnolia,
+        },
         input: {
           text: comet,
           error,
