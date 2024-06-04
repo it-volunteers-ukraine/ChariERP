@@ -45,6 +45,7 @@ const SignUp = () => {
     'auth-page.registration.socialNetworks',
   );
   const button = useTranslations('auth-page.registration.button');
+  const checkbox = useTranslations('auth-page.registration.checkbox');
 
   const onSubmit = (values: FormikValues) => {
     console.log(values);
@@ -201,7 +202,7 @@ const SignUp = () => {
 
           {inputFields.map((name, index) => {
             return (
-              <div key={index} className={styles.inputWrapper}>
+              <div key={index} className={`${styles.inputWrapper} mb-0`}>
                 <InputField
                   required
                   name={name}
@@ -222,7 +223,7 @@ const SignUp = () => {
           {inputFields.length < 5 && (
             <button
               onClick={addInputField}
-              className="flex justify-center items-center mb-16 text-[15px] font-medium text-title-title pointer"
+              className="flex justify-center items-center mt-[-15px] mb-16 text-[15px] font-medium text-title-title pointer"
             >
               <span className="mr-[8px] text-[20px] font-medium">+</span>
               {button('addNewInput')}
@@ -230,11 +231,12 @@ const SignUp = () => {
           )}
 
           <CheckboxRadioField
+            href="#"
             name="agree"
             checked={false}
-            className="mb-16"
-            hrefText="Політикою конфіденційності"
-            label={'Я погоджуюсь на обробку персональних даних згідно з '}
+            className="mb-16 laptop:mx-auto"
+            label={checkbox('info')}
+            hrefText={checkbox('link')}
           />
 
           <Button

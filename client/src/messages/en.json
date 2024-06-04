@@ -66,6 +66,10 @@
       "button": {
         "submit": "Submit Form",
         "addNewInput": "Add more links"
+      },
+      "checkbox": {
+        "link": "Privacy Policy",
+        "info": "I agree to the processing of personal data in accordance with the"
       }
     }
   },
