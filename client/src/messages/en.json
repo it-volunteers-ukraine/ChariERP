@@ -24,6 +24,7 @@
       },
       "certificateOfRegister": {
         "infoLinkText": "How to download the file.",
+        "downloadDocument": "Download the document",
         "label": "Certificate of entry into the register",
         "info": "To download the document, click on the paperclip icon or the 'Download file' button. jpg, jpeg, png or pdf format. The maximum size is 5 MB."
       },

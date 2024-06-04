@@ -26,6 +26,7 @@
       "certificateOfRegister": {
         "infoLinkText": "Як завантажити файл.",
         "label": "Довідка про внесення в реєстр",
+        "downloadDocument": "Завантажити документ",
         "info": "Для завантаження документу натисніть на іконку скрепки або наполе “Завантажити файл” .Формат jpg, jpeg, png або pdf. Максимальний розмір 5 МБ."
       },
       "dateOfRegistrOrganization": {
