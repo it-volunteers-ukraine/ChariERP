@@ -18,7 +18,32 @@ const SignUp = () => {
 
   const styles = getStyles();
 
-  const registration = useTranslations('auth-page.registration');
+  const title = useTranslations('auth-page.registration.title');
+  const organizationName = useTranslations(
+    'auth-page.registration.organizationName',
+  );
+  const organizationTaxNumber = useTranslations(
+    'auth-page.registration.organizationTaxNumber',
+  );
+  const certificateOfRegister = useTranslations(
+    'auth-page.registration.certificateOfRegister',
+  );
+  const dateOfRegistrOrganization = useTranslations(
+    'auth-page.registration.dateOfRegistrOrganization',
+  );
+  const positionOrganization = useTranslations(
+    'auth-page.registration.positionOrganization',
+  );
+  const lastName = useTranslations('auth-page.registration.lastName');
+  const name = useTranslations('auth-page.registration.name');
+  const middleName = useTranslations('auth-page.registration.middleName');
+  const phone = useTranslations('auth-page.registration.phone');
+  const email = useTranslations('auth-page.registration.email');
+  const site = useTranslations('auth-page.registration.site');
+  const socialNetworks = useTranslations(
+    'auth-page.registration.socialNetworks',
+  );
+  const button = useTranslations('auth-page.registration.button');
 
   const onSubmit = (values: FormikValues) => {
     console.log(values);
@@ -36,15 +61,18 @@ const SignUp = () => {
     >
       {() => (
         <Form className="w-full">
-          <Title className="mb-8 mx-auto w-fit" title="основна інформація" />
+          <Title
+            className="mb-8 mx-auto w-fit"
+            title={title('basicInformation')}
+          />
 
           <div className={styles.inputWrapper}>
             <InputField
               required
               name="organizationName"
-              info="Українською мовою (відповідно до Статуту)"
-              infoAddl="Наприклад: Громадська організація «ЖИВИ»"
-              label="Повна назва організації"
+              info={organizationName('info')}
+              label={organizationName('label')}
+              infoAddl={organizationName('infoAddl')}
             />
           </div>
 
@@ -52,7 +80,7 @@ const SignUp = () => {
             <InputField
               required
               name="organizationTaxNumber"
-              label="ЄДРПОУ організації (податковий номер)"
+              label={organizationTaxNumber('label')}
             />
           </div>
 
@@ -61,11 +89,9 @@ const SignUp = () => {
               required
               infoLinkRout="#"
               name="certificateOfRegister"
-              infoLinkText=" Як завантажити файл."
-              label="Довідка про внесення в реєстр"
-              info=" Для завантаження документу натисніть на іконку скрепки або на
-              поле “Завантажити файл”.Формат jpg, jpeg, png або pdf.
-              Максимальний розмір 5 МБ."
+              info={certificateOfRegister('info')}
+              label={certificateOfRegister('label')}
+              infoLinkText={certificateOfRegister('infoLinkText')}
             />
           </div>
 
@@ -73,35 +99,39 @@ const SignUp = () => {
             <DateField
               required
               name="dateOfRegistrOrganization"
-              label="Дата реєстрації організації"
-              placeholder="Оберіть дату"
+              label={dateOfRegistrOrganization('label')}
+              placeholder={dateOfRegistrOrganization('placeholder')}
             />
           </div>
 
           <Title
             className="mt-16 mb-8 mx-auto w-fit"
-            title="контактна інформація"
+            title={title('contactInformation')}
           />
 
           <div className={styles.inputWrapper}>
             <InputField
               required
               name="positionOrganization"
-              label="Посада представника організації"
-              infoAddl="Наприклад: Керівник, ВО, Бухгалтер і т.д."
+              label={positionOrganization('label')}
+              infoAddl={positionOrganization('infoAddl')}
             />
           </div>
 
           <div className={`${styles.inputWrapper} laptop:w-[49%]`}>
-            <InputField required name="lastName" label="Прізвище" />
+            <InputField required name="lastName" label={lastName('label')} />
           </div>
 
           <div className={`${styles.inputWrapper} laptop:w-[49%]`}>
-            <InputField required name="name" label="Ім'я" />
+            <InputField required name="name" label={name('label')} />
           </div>
 
           <div className={`${styles.inputWrapper} laptop:w-[49%]`}>
-            <InputField required name="middleName" label="По батькові" />
+            <InputField
+              required
+              name="middleName"
+              label={middleName('label')}
+            />
           </div>
 
           <div className={styles.inputWrapper}>
@@ -109,8 +139,8 @@ const SignUp = () => {
               required
               isMasked
               name="phone"
-              label="Телефон представника (з кодом міста)"
-              infoAddl="Наприклад: +38(050)123-45-36 або +38(044)222-22-33"
+              label={phone('label')}
+              infoAddl={phone('infoAddl')}
             />
           </div>
 
@@ -118,21 +148,21 @@ const SignUp = () => {
             <InputField
               required
               name="email"
-              label="Електронна скринька представника (e-mail)"
-              info="Данна елетронна адреса скриньки буде логіном. Ви отримаєте листа на вказану електронну скриньку стосовно результатів обробки вашого запиту на реєстрацію."
+              label={email('label')}
+              info={email('info')}
             />
           </div>
 
           <div className="mb-6 w-fit font-medium text-[18px] leading-6 text-title-media">
-            Медіа
+            {title('media')}
           </div>
 
           <div className={styles.inputWrapper}>
             <InputField
               required
               name="site"
-              label="Інтернет-сторінка організації (сайт)"
-              info="Вкажіть веб-сайт організації. Наприклад: https://gozhivi.com.ua/"
+              info={site('info')}
+              label={site('label')}
             />
           </div>
 
@@ -142,9 +172,8 @@ const SignUp = () => {
                 <InputField
                   required
                   name={name}
-                  label="Посилання на соц.мережу"
-                  info="Додайте посилання на соціальні мережі (Facebook, Instagram, LinkedIn, TikTok, Youtube тощо). 
-              Наприклад: https://www.facebook.com/gozhivi"
+                  label={socialNetworks('label')}
+                  info={socialNetworks('info')}
                 />
               </div>
             );
@@ -156,7 +185,7 @@ const SignUp = () => {
               className="flex justify-center items-center mb-16 text-[15px] font-medium text-title-title pointer"
             >
               <span className="mr-[8px] text-[20px] font-medium">+</span>
-              Додати ще посилання
+              {button('addNewInput')}
             </button>
           )}
 
@@ -172,7 +201,7 @@ const SignUp = () => {
             type="submit"
             styleType="primary"
             className="uppercase m-auto"
-            text={registration('button')}
+            text={button('submit')}
           />
         </Form>
       )}

@@ -9,7 +9,61 @@
       "button": "Sign In"
     },
     "registration": {
-      "button": "Submit Form"
+      "title": {
+        "basicInformation": "Basic information",
+        "contactInformation": "Contact information",
+        "media": "Media"
+      },
+      "organizationName": {
+        "label": "Full name of the organization",
+        "info": "In Ukrainian (in accordance with the Charter)",
+        "infoAddl": "For example: Public organization  'LIVE'"
+      },
+      "organizationTaxNumber": {
+        "label": "USREOU of the organization (tax number)"
+      },
+      "certificateOfRegister": {
+        "infoLinkText": "How to download the file.",
+        "label": "Certificate of entry into the register",
+        "info": "To download the document, click on the paperclip icon or the 'Download file' button. jpg, jpeg, png or pdf format. The maximum size is 5 MB."
+      },
+      "dateOfRegistrOrganization": {
+        "label": "Date of registration of the organization",
+        "placeholder": "Choose a date"
+      },
+      "positionOrganization": {
+        "label": "Position of the organization's representative",
+        "infoAddl": "For example: Manager, IA, Accountant, etc."
+      },
+      "lastName": {
+        "label": "Last name"
+      },
+      "name": {
+        "label": "Name"
+      },
+      "middleName": {
+        "label": "Middle name"
+      },
+      "phone": {
+        "label": "Representative's phone number (with area code)",
+        "infoAddl": "For example: +38(050)123-45-36 or +38(044)222-22-33"
+      },
+      "email": {
+        "label": "Representative's e-mail address (e-mail)",
+        "info": "This email address will be your login. You will receive a letter to the specified email address regarding the results of processing your registration request."
+      },
+      "site": {
+        "label": "Internet page of the organization (website)",
+        "info": "Include the organization's website. For example: https://gozhivi.com.ua/"
+      },
+      "socialNetworks": {
+        "label": "Link to the social network",
+        "info": "Add links to social media (Facebook, Instagram, LinkedIn, TikTok, Youtube, etc.). For example: https://www.facebook.com/gozhivi"
+      },
+      "button": {
+        "submit": "Submit Form",
+        "addNewInput": "Add more links"
+      }
     }
   },
   "validation": {
