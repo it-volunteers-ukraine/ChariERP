@@ -29,11 +29,9 @@ export interface InputProps extends Omit<CustomInput & CustomTextarea, 'ref'> {
   required?: boolean;
   isMasked?: boolean;
   isTextarea?: boolean;
-  infoLinkRout?: string;
+  placeholder?: string;
   placeholderItalic?: boolean;
   info?: string | React.ReactNode;
-  infoAddl?: string | React.ReactNode;
-  infoLinkText?: string | React.ReactNode;
   onChange?: (e: InputOnChangeEventType) => void;
 }
 

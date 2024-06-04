@@ -12,6 +12,7 @@ import { initialValues, validationSchema } from './config';
 
 import { getStyles } from './styles';
 import { CheckboxRadioField } from '@/components/checkbox-radio-field';
+import Link from 'next/link';
 
 const SignUp = () => {
   const [inputFields, setInputFields] = useState<string[]>(['socialNetworks']);
@@ -70,9 +71,15 @@ const SignUp = () => {
             <InputField
               required
               name="organizationName"
-              info={organizationName('info')}
               label={organizationName('label')}
-              infoAddl={organizationName('infoAddl')}
+              info={
+                <div>
+                  {organizationName('info')}
+                  <span className={styles.spanStyles}>
+                    {organizationName('infoItalic')}
+                  </span>
+                </div>
+              }
             />
           </div>
 
@@ -87,11 +94,21 @@ const SignUp = () => {
           <div className={styles.inputWrapper}>
             <FileField
               required
-              infoLinkRout="#"
+              placeholderItalic
               name="certificateOfRegister"
-              info={certificateOfRegister('info')}
               label={certificateOfRegister('label')}
-              infoLinkText={certificateOfRegister('infoLinkText')}
+              placeholder={certificateOfRegister('placeholder')}
+              info={
+                <div>
+                  {certificateOfRegister('info')}
+                  <Link
+                    href="#"
+                    className={`${styles.spanStyles} text-input-link underline`}
+                  >
+                    {certificateOfRegister('link')}
+                  </Link>
+                </div>
+              }
             />
           </div>
 
@@ -114,7 +131,11 @@ const SignUp = () => {
               required
               name="positionOrganization"
               label={positionOrganization('label')}
-              infoAddl={positionOrganization('infoAddl')}
+              info={
+                <span className={`${styles.spanStyles} italic`}>
+                  {positionOrganization('infoItalic')}
+                </span>
+              }
             />
           </div>
 
@@ -140,7 +161,12 @@ const SignUp = () => {
               isMasked
               name="phone"
               label={phone('label')}
-              infoAddl={phone('infoAddl')}
+              placeholder="+38(0__)___-__-__"
+              info={
+                <span className={`${styles.spanStyles} italic`}>
+                  {phone('infoItalic')}
+                </span>
+              }
             />
           </div>
 
@@ -161,8 +187,15 @@ const SignUp = () => {
             <InputField
               required
               name="site"
-              info={site('info')}
               label={site('label')}
+              info={
+                <div>
+                  {site('info')}
+                  <span className={`${styles.spanStyles} italic`}>
+                    {site('infoItalic')}
+                  </span>
+                </div>
+              }
             />
           </div>
 
@@ -173,7 +206,14 @@ const SignUp = () => {
                   required
                   name={name}
                   label={socialNetworks('label')}
-                  info={socialNetworks('info')}
+                  info={
+                    <div>
+                      {socialNetworks('info')}
+                      <span className={`${styles.spanStyles} italic`}>
+                        {socialNetworks('infoItalic')}
+                      </span>
+                    </div>
+                  }
                 />
               </div>
             );

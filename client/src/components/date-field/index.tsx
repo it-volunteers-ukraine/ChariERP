@@ -81,6 +81,7 @@ export const DateField = ({
                   label={label}
                   value={value}
                   error={meta.error || ''}
+                  placeholder={placeholder}
                 />
               }
             />

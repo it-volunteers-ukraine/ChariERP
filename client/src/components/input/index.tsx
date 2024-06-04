@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import InputMask from 'react-input-mask';
 import React, { useState, forwardRef } from 'react';
 
@@ -32,10 +31,7 @@ export const Input = forwardRef<
       disabled,
       onChange,
       isMasked,
-      infoAddl,
       isTextarea,
-      infoLinkText,
-      infoLinkRout,
       type = 'text',
       placeholderItalic,
       ...props
@@ -52,6 +48,8 @@ export const Input = forwardRef<
       isTextarea,
       error: !!error,
       placeholderItalic,
+      value: value as string,
+      placeholder: props.placeholder,
       isTypePassword: type === 'password',
       visiblePassword: inputType === 'text',
     });
@@ -88,7 +86,11 @@ export const Input = forwardRef<
               />
             )}
 
-            {type === 'date' && <span className={styles.input}>{value}</span>}
+            {type === 'date' && (
+              <span className={styles.input}>
+                {value ? value : props.placeholder}
+              </span>
+            )}
 
             {isMasked && (
               <InputMask
@@ -117,14 +119,16 @@ export const Input = forwardRef<
               <>
                 <input
                   type="file"
-                  name={props.name}
                   onChange={onChange}
                   accept={props.accept}
                   className={styles.fileType}
                   ref={ref as React.Ref<HTMLInputElement>}
+                  {...props}
                 />
 
-                <span className={styles.input}>{value}</span>
+                <span className={styles.input}>
+                  {value ? value : props.placeholder}
+                </span>
               </>
             )}
 
@@ -157,6 +161,7 @@ export const Input = forwardRef<
                 />
               </div>
             )}
+
             {type === 'date' && (
               <div className={styles.div}>
                 <Calendar
@@ -206,52 +211,7 @@ export const Input = forwardRef<
               className="hidden tablet:flex self-center text-input-info mr-3 shrink-0"
             />
 
-            {/* <span className={styles.infoSpan}>
-              {info}
-            </span> */}
-
-            <div className="flex justify-start items-center">
-              <div className="leading-4 tablet:leading-5">
-                <span
-                  className={`${styles.infoSpan} leading-4 tablet:leading-5`}
-                >
-                  {info}
-                </span>
-
-                {infoAddl && (
-                  <span
-                    className={`${styles.infoSpan} ml-[3px] italic font-medium leading-4 tablet:leading-5`}
-                  >
-                    {infoAddl}
-                  </span>
-                )}
-
-                {infoLinkText && infoLinkRout && (
-                  <Link
-                    href={infoLinkRout}
-                    className={`${styles.infoSpan} ml-[3px] italic font-medium leading-4 tablet:leading-5 text-input-link underline decoration-input-link`}
-                  >
-                    {infoLinkText}
-                  </Link>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {infoAddl && !info && (
-          <div className="flex justify-start items-center text-input-info laptop:mt-3 self-center w-full">
-            <Info
-              width={24}
-              height={24}
-              className="hidden tablet:flex self-center text-input-info mr-3 shrink-0"
-            />
-
-            <span
-              className={`${styles.infoSpan} italic font-medium leading-4 tablet:leading-5`}
-            >
-              {infoAddl}
-            </span>
+            <span className={styles.infoSpan}>{info}</span>
           </div>
         )}
       </div>

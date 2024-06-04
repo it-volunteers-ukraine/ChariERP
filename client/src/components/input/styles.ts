@@ -2,11 +2,13 @@ import clsx from 'clsx';
 
 interface IStylesInput {
   type?: string;
+  value?: string;
   cross?: boolean;
   error?: boolean;
   isMasked?: boolean;
   disabled?: boolean;
   isTextarea?: boolean;
+  placeholder?: string;
   isTypePassword: boolean;
   visiblePassword: boolean;
   placeholderItalic?: boolean;
@@ -16,8 +18,10 @@ export const getStyles = ({
   type,
   cross,
   error,
+  value,
   disabled,
   isTextarea,
+  placeholder,
   isTypePassword,
   visiblePassword,
   placeholderItalic,
@@ -46,6 +50,7 @@ export const getStyles = ({
     'peer w-full mb-3 px-[14px] text-input-text caret-input-focus placeholder-input-info',
     {
       'placeholder:italic': placeholderItalic,
+      'text-input-info italic': placeholder && !value,
       'placeholder:text-input-disabled bg-transparent': disabled,
       'outline-none': isTextarea,
       'cursor-pointer': type === 'date',
