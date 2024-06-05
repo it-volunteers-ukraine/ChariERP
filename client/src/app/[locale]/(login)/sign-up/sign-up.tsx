@@ -75,7 +75,7 @@ const SignUp = () => {
         error(key as string, params),
       )}
     >
-      {({ values, handleBlur, setFieldError }) => (
+      {({ values, setFieldError }) => (
         <Form className="w-full">
           <Title
             className="mb-8 mx-auto w-fit"
@@ -148,7 +148,6 @@ const SignUp = () => {
           <div className={styles.inputWrapper}>
             <InputField
               required
-              onBlur={handleBlur}
               name="positionOrganization"
               label={positionOrganization('label')}
               info={
@@ -181,7 +180,6 @@ const SignUp = () => {
               isMasked
               name="phone"
               placeholderItalic
-              onBlur={handleBlur}
               label={phone('label')}
               placeholder="+38(0__)___-__-__"
               info={
@@ -196,7 +194,6 @@ const SignUp = () => {
             <InputField
               required
               name="email"
-              onBlur={handleBlur}
               info={email('info')}
               label={email('label')}
             />
@@ -210,7 +207,6 @@ const SignUp = () => {
             <InputField
               cross
               name="site"
-              onBlur={handleBlur}
               label={site('label')}
               info={
                 <div>
@@ -229,7 +225,6 @@ const SignUp = () => {
                 <InputField
                   cross
                   name={name}
-                  onBlur={handleBlur}
                   label={socialNetworks('label')}
                   info={
                     <div>
