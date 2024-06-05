@@ -47,10 +47,12 @@ export const getStyles = ({
     'text-input-disabled': disabled,
   }),
   input: clsx(
-    'peer w-full mb-3 px-[14px] text-input-text caret-input-focus placeholder-input-info',
+    'peer w-full mb-3 px-[14px] caret-input-focus placeholder:text-input-info',
     {
       'placeholder:italic': placeholderItalic,
-      'text-input-info italic': placeholder && !value,
+      italic: placeholderItalic && !value,
+      'text-input-text': value,
+      'text-input-info': placeholder && !value,
       'placeholder:text-input-disabled bg-transparent': disabled,
       'outline-none': isTextarea,
       'cursor-pointer': type === 'date',

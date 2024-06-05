@@ -116,6 +116,7 @@ const SignUp = () => {
           <div className={`${styles.inputWrapper} laptop:w-[49%]`}>
             <DateField
               required
+              placeholderItalic
               name="dateOfRegistrOrganization"
               label={dateOfRegistrOrganization('label')}
               placeholder={dateOfRegistrOrganization('placeholder')}
@@ -161,6 +162,7 @@ const SignUp = () => {
               required
               isMasked
               name="phone"
+              placeholderItalic
               label={phone('label')}
               placeholder="+38(0__)___-__-__"
               info={

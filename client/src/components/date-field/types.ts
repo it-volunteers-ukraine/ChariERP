@@ -4,4 +4,5 @@ export interface DateFieldProps {
   readonly?: boolean;
   required?: boolean;
   placeholder: string;
+  placeholderItalic?: boolean;
 }
