@@ -46,9 +46,10 @@ const SignUp = () => {
   );
   const button = useTranslations('auth-page.registration.button');
   const checkbox = useTranslations('auth-page.registration.checkbox');
+  const error = useTranslations('validation');
 
   const onSubmit = (values: FormikValues) => {
-    console.log(values);
+    console.log('data', values);
   };
 
   const addInputField = () => {
@@ -59,7 +60,9 @@ const SignUp = () => {
     <Formik
       onSubmit={onSubmit}
       initialValues={initialValues}
-      validationSchema={validationSchema}
+      validationSchema={validationSchema((key, params) =>
+        error(key as string, params),
+      )}
     >
       {() => (
         <Form className="w-full">
@@ -95,8 +98,10 @@ const SignUp = () => {
           <div className={styles.inputWrapper}>
             <FileField
               required
+              maxSize={5}
               placeholderItalic
               name="certificateOfRegister"
+              accept={'pdf, jpg, jpeg, png'}
               label={certificateOfRegister('label')}
               placeholder={certificateOfRegister('placeholder')}
               info={
@@ -188,7 +193,7 @@ const SignUp = () => {
 
           <div className={styles.inputWrapper}>
             <InputField
-              required
+              cross
               name="site"
               label={site('label')}
               info={
@@ -206,7 +211,7 @@ const SignUp = () => {
             return (
               <div key={index} className={`${styles.inputWrapper} mb-0`}>
                 <InputField
-                  required
+                  cross
                   name={name}
                   label={socialNetworks('label')}
                   info={
@@ -235,17 +240,16 @@ const SignUp = () => {
           <CheckboxRadioField
             href="#"
             name="agree"
-            checked={false}
-            className="mb-16 laptop:mx-auto"
             label={checkbox('info')}
             hrefText={checkbox('link')}
+            className="mb-16 laptop:mx-auto"
           />
 
           <Button
             type="submit"
             styleType="primary"
-            className="uppercase m-auto"
             text={button('submit')}
+            className="uppercase m-auto"
           />
         </Form>
       )}

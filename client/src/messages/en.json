@@ -77,7 +77,13 @@
     "minPlural": "Minimum {int} characters",
     "maxPlural": "Maximum {int} characters",
     "required": "Required field",
-    "matches_english": "{field} must not contain Cyrillic characters"
+    "matches_english": "{field} must not contain Cyrillic characters",
+    "taxNumber": "Tax number must contain exactly 8 Arabic numerals.",
+    "extensionsFile": "Invalid file format. Available formats: jpg, jpeg, png or pdf",
+    "maxSizeFile": "File size exceeds 5MB",
+    "phone": "Please enter 9 digits",
+    "notValidEmail": "Invalid e-mail address",
+    "siteStart": "The input field must begin with https://..."
   },
   "header": {
     "about": "About Us",

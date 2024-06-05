@@ -49,7 +49,6 @@ export const getStyles = ({
   input: clsx(
     'peer w-full mb-3 px-[14px] caret-input-focus placeholder:text-input-info',
     {
-      'placeholder:italic': placeholderItalic,
       italic: placeholderItalic && !value,
       'text-input-text': value,
       'text-input-info': placeholder && !value,

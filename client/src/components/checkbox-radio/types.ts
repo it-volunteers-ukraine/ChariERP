@@ -5,7 +5,7 @@ import { InputProps } from '../input/types';
 export interface IStylesProps {
   label?: string;
   error?: string;
-  checked: boolean;
+  checked?: boolean;
   disabled?: boolean;
   className?: string;
 }
@@ -13,7 +13,6 @@ export interface IStylesProps {
 export interface ICheckboxProps extends Omit<InputProps, 'onChange'> {
   href?: string;
   error?: string;
-  checked: boolean;
   hrefText?: string;
   className?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;

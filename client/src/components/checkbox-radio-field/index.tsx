@@ -19,6 +19,7 @@ export const CheckboxRadioField = ({
 
         const change = async (e: ChangeEvent<HTMLInputElement>) => {
           if (name) {
+            console.log(e.target.checked);
             await form.setFieldValue(name, e.target.checked);
             form.setFieldTouched(name);
           }
@@ -31,6 +32,7 @@ export const CheckboxRadioField = ({
             error={error}
             label={label}
             onChange={change}
+            checked={fieldProps.value}
           />
         );
       }}

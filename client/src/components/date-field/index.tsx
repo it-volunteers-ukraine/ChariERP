@@ -51,6 +51,11 @@ export const DateField = ({
       {({ meta, form, field: { value, ...fieldProps } }: FieldProps) => {
         const onChange = async (value: Date | null) => {
           await form.setFieldValue(name, value);
+          await form.setFieldTouched(name);
+        };
+
+        const handelClose = async () => {
+          await form.setFieldTouched(name);
         };
 
         return (
@@ -70,6 +75,7 @@ export const DateField = ({
               placeholderText={placeholder}
               minDate={new Date('1991-01-01')}
               onChange={(date) => onChange(date)}
+              onCalendarClose={() => handelClose()}
               customInput={
                 <Input
                   {...fieldProps}
