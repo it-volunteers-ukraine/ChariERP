@@ -74,13 +74,11 @@ export const validationSchema = (
       .trim()
       .matches(/^https:\/\/.*$/, error('siteStart'))
       .min(10, error('minPlural', { int: 10 }))
-      .max(200, error('maxPlural', { int: 200 }))
-      .required(error('required')),
+      .max(200, error('maxPlural', { int: 200 })),
     socialNetworks: Yup.string()
       .trim()
       .matches(/^https:\/\/.*$/, error('siteStart'))
       .min(10, error('minPlural', { int: 10 }))
-      .max(200, error('maxPlural', { int: 200 }))
-      .required(error('required')),
+      .max(200, error('maxPlural', { int: 200 })),
     agree: Yup.boolean().oneOf([true]).required(),
   });

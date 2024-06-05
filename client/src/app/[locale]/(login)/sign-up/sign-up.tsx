@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikValues } from 'formik';
 
@@ -12,7 +13,6 @@ import { initialValues, validationSchema } from './config';
 
 import { getStyles } from './styles';
 import { CheckboxRadioField } from '@/components/checkbox-radio-field';
-import Link from 'next/link';
 
 const SignUp = () => {
   const [inputFields, setInputFields] = useState<string[]>(['socialNetworks']);
@@ -56,15 +56,26 @@ const SignUp = () => {
     setInputFields([...inputFields, 'socialNetworks']);
   };
 
+  const handleCheckTaxNumber = (
+    values: FormikValues,
+    setFieldError: (field: string, message: string | undefined) => void,
+  ) => {
+    if (values.organizationTaxNumber === '99999999') {
+      setFieldError('organizationTaxNumber', 'error');
+    }
+  };
+
   return (
     <Formik
       onSubmit={onSubmit}
+      validateOnBlur={true}
+      validateOnChange={false}
       initialValues={initialValues}
       validationSchema={validationSchema((key, params) =>
         error(key as string, params),
       )}
     >
-      {() => (
+      {({ values, handleBlur, setFieldError }) => (
         <Form className="w-full">
           <Title
             className="mb-8 mx-auto w-fit"
@@ -92,6 +103,7 @@ const SignUp = () => {
               required
               name="organizationTaxNumber"
               label={organizationTaxNumber('label')}
+              onBlur={() => handleCheckTaxNumber(values, setFieldError)}
             />
           </div>
 
@@ -136,6 +148,7 @@ const SignUp = () => {
           <div className={styles.inputWrapper}>
             <InputField
               required
+              onBlur={handleBlur}
               name="positionOrganization"
               label={positionOrganization('label')}
               info={
@@ -168,6 +181,7 @@ const SignUp = () => {
               isMasked
               name="phone"
               placeholderItalic
+              onBlur={handleBlur}
               label={phone('label')}
               placeholder="+38(0__)___-__-__"
               info={
@@ -182,8 +196,9 @@ const SignUp = () => {
             <InputField
               required
               name="email"
-              label={email('label')}
+              onBlur={handleBlur}
               info={email('info')}
+              label={email('label')}
             />
           </div>
 
@@ -195,6 +210,7 @@ const SignUp = () => {
             <InputField
               cross
               name="site"
+              onBlur={handleBlur}
               label={site('label')}
               info={
                 <div>
@@ -213,6 +229,7 @@ const SignUp = () => {
                 <InputField
                   cross
                   name={name}
+                  onBlur={handleBlur}
                   label={socialNetworks('label')}
                   info={
                     <div>
@@ -229,6 +246,7 @@ const SignUp = () => {
 
           {inputFields.length < 5 && (
             <button
+              type="button"
               onClick={addInputField}
               className="flex justify-center items-center mt-[-15px] mb-16 text-[15px] font-medium text-title-title pointer"
             >
