@@ -68,12 +68,12 @@ const SignUp = () => {
   return (
     <Formik
       onSubmit={onSubmit}
-      validateOnBlur={true}
-      validateOnChange={false}
       initialValues={initialValues}
       validationSchema={validationSchema((key, params) =>
         error(key as string, params),
       )}
+      validateOnBlur={true}
+      validateOnChange={false}
     >
       {({ values, setFieldError }) => (
         <Form className="w-full">
