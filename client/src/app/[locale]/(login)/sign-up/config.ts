@@ -6,7 +6,7 @@ interface FormValues {
   organizationName: string;
   organizationTaxNumber: string;
   certificateOfRegister: string;
-  dateOfRegistrOrganization: string;
+  dateOfRegisterOrganization: string;
   positionOrganization: string;
   lastName: string;
   name: string;
@@ -22,7 +22,7 @@ export const initialValues: FormValues = {
   organizationName: '',
   organizationTaxNumber: '',
   certificateOfRegister: '',
-  dateOfRegistrOrganization: '',
+  dateOfRegisterOrganization: '',
   positionOrganization: '',
   lastName: '',
   name: '',
@@ -44,7 +44,7 @@ export const validationSchema = (
     organizationTaxNumber: Yup.string()
       .matches(/^\d{8}$/, error('taxNumber'))
       .required(error('required')),
-    dateOfRegistrOrganization: Yup.string().required(error('required')),
+    dateOfRegisterOrganization: Yup.string().required(error('required')),
     positionOrganization: Yup.string()
       .trim()
       .max(100, error('maxPlural', { int: 100 }))

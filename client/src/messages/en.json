@@ -28,7 +28,7 @@
         "label": "Certificate of entry into the register",
         "info": "To download the document, click on the paperclip icon or the 'Download file' button. jpg, jpeg, png or pdf format. The maximum size is 5 MB."
       },
-      "dateOfRegistrOrganization": {
+      "dateOfRegisterOrganization": {
         "placeholder": "Choose a date",
         "label": "Date of registration of the organization"
       },

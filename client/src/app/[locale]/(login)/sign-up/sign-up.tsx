@@ -29,8 +29,8 @@ const SignUp = () => {
   const certificateOfRegister = useTranslations(
     'auth-page.registration.certificateOfRegister',
   );
-  const dateOfRegistrOrganization = useTranslations(
-    'auth-page.registration.dateOfRegistrOrganization',
+  const dateOfRegisterOrganization = useTranslations(
+    'auth-page.registration.dateOfRegisterOrganization',
   );
   const positionOrganization = useTranslations(
     'auth-page.registration.positionOrganization',
@@ -56,15 +56,6 @@ const SignUp = () => {
     setInputFields([...inputFields, 'socialNetworks']);
   };
 
-  const handleCheckTaxNumber = (
-    values: FormikValues,
-    setFieldError: (field: string, message: string | undefined) => void,
-  ) => {
-    if (values.organizationTaxNumber === '99999999') {
-      setFieldError('organizationTaxNumber', 'error');
-    }
-  };
-
   return (
     <Formik
       onSubmit={onSubmit}
@@ -75,7 +66,7 @@ const SignUp = () => {
       validateOnBlur={true}
       validateOnChange={false}
     >
-      {({ values, setFieldError }) => (
+      {() => (
         <Form className="w-full">
           <Title
             className="mb-8 mx-auto w-fit"
@@ -101,9 +92,9 @@ const SignUp = () => {
           <div className={`${styles.inputWrapper} laptop:w-[49%]`}>
             <InputField
               required
+              type="number"
               name="organizationTaxNumber"
               label={organizationTaxNumber('label')}
-              onBlur={() => handleCheckTaxNumber(values, setFieldError)}
             />
           </div>
 
@@ -134,9 +125,9 @@ const SignUp = () => {
             <DateField
               required
               placeholderItalic
-              name="dateOfRegistrOrganization"
-              label={dateOfRegistrOrganization('label')}
-              placeholder={dateOfRegistrOrganization('placeholder')}
+              name="dateOfRegisterOrganization"
+              label={dateOfRegisterOrganization('label')}
+              placeholder={dateOfRegisterOrganization('placeholder')}
             />
           </div>
 

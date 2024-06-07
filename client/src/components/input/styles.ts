@@ -55,6 +55,8 @@ export const getStyles = ({
       'placeholder:text-input-disabled bg-transparent': disabled,
       'outline-none': isTextarea,
       'cursor-pointer': type === 'date',
+      'focus:text-input-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none':
+        type === 'number',
     },
     { 'pr-12': isTypePassword || type === 'file' || cross || type === 'date' },
     { 'focus:text-input-focus': !visiblePassword },
