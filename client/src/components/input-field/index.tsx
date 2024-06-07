@@ -1,3 +1,4 @@
+/* eslint-disable padding-line-between-statements */
 'use client';
 import { Field, FieldProps } from 'formik';
 
@@ -15,7 +16,6 @@ export const InputField = ({ name, label, ...props }: InputProps) => {
         const change = async (newValue: InputOnChangeEventType) => {
           if (name) {
             await form.setFieldValue(name, newValue);
-            form.setFieldTouched(name);
           }
         };
 
@@ -24,8 +24,8 @@ export const InputField = ({ name, label, ...props }: InputProps) => {
             {...fieldProps}
             {...props}
             name={name}
-            error={error}
             label={label}
+            error={error}
             onChange={change}
           />
         );

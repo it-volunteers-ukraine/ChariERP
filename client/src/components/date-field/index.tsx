@@ -8,10 +8,12 @@ import DatePicker, { registerLocale } from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
+import { Error } from '@/utils';
+
 import { Input } from '../input';
+import { DateFieldProps } from './types';
 
 import './style.css';
-import { DateFieldProps } from './types';
 
 registerLocale('ua', uk);
 registerLocale('en', enGB);
@@ -49,9 +51,10 @@ export const DateField = ({
   return (
     <Field name={name}>
       {({ meta, form, field: { value, ...fieldProps } }: FieldProps) => {
+        const error = Error.controlError(meta, name, label);
+
         const onChange = async (value: Date | null) => {
           await form.setFieldValue(name, value);
-          await form.setFieldTouched(name);
         };
 
         const handelClose = async () => {
@@ -86,7 +89,7 @@ export const DateField = ({
                   name={name}
                   label={label}
                   value={value}
-                  error={meta.error || ''}
+                  error={error}
                   placeholder={placeholder}
                 />
               }
