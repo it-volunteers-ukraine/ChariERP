@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import { useLocale } from 'next-intl';
 import { Field, FieldProps } from 'formik';
 import { uk, enGB } from 'date-fns/locale';
@@ -12,15 +12,30 @@ import { Error } from '@/utils';
 
 import { Input } from '../input';
 import { DateFieldProps } from './types';
+import { InputProps } from '../input/types';
 
 import './style.css';
 
 registerLocale('ua', uk);
 registerLocale('en', enGB);
 
+const DatePickerInput = forwardRef(
+  (
+    props: InputProps & { isrequired?: string },
+    ref: React.Ref<HTMLInputElement>,
+  ) => {
+    const required = props.isrequired === 'true' ? true : false;
+
+    return <Input {...props} required={required} ref={ref} />;
+  },
+);
+
+DatePickerInput.displayName = 'DatePickerInput';
+
 export const DateField = ({
   name,
   label,
+  required,
   placeholder,
   ...props
 }: DateFieldProps) => {
@@ -76,21 +91,20 @@ export const DateField = ({
               dateFormat="dd.MM.yyyy"
               yearDropdownItemNumber={150}
               placeholderText={placeholder}
+              onCalendarClose={handelClose}
               minDate={new Date('1991-01-01')}
               onChange={(date) => onChange(date)}
-              onCalendarClose={() => handelClose()}
               customInput={
-                <Input
+                <DatePickerInput
                   {...fieldProps}
                   {...props}
                   readOnly
-                  ref={null}
                   type="date"
                   name={name}
                   label={label}
                   value={value}
                   error={error}
-                  placeholder={placeholder}
+                  isrequired={`${required}`}
                 />
               }
             />
