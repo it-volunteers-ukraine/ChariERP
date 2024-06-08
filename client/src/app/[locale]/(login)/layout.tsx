@@ -31,7 +31,7 @@ export default function Layout({
 
       <main className="bg-bgAuthGradient py-10 tablet:px-8 h-[calc(100vh-61px)] desktop:h-[calc(100vh-68px)] mt-[61px] desktop:mt-[68px]">
         <div className="max-w-[1168px] mx-auto">
-          <AuthLinks locale={locale} />
+          <AuthLinks />
 
           <div className={styles}>{children}</div>
         </div>
