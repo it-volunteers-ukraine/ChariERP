@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { TranslationValues } from 'next-intl';
+import { isValidPhoneNumber } from 'libphonenumber-js';
 
 interface FormValues {
   email: string;
@@ -62,8 +63,10 @@ export const validationSchema = (
       .max(100, error('maxPlural', { int: 100 }))
       .required(error('required')),
     phone: Yup.string()
-      .required('required')
-      .matches(/^\+38\(\d{3}\)\d{3}-\d{2}-\d{2}$/, error('phone')),
+      .test('is-valid-phone', error('notValidPhone'), (value) =>
+        value && isValidPhoneNumber(value) ? true : false,
+      )
+      .required('required'),
     email: Yup.string()
       .trim()
       .min(6, error('minPlural', { int: 6 }))

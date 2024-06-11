@@ -1,7 +1,9 @@
 'use client';
 
-import InputMask from 'react-input-mask';
 import React, { useState, forwardRef } from 'react';
+import PhoneInput from 'react-phone-number-input';
+
+import 'react-phone-number-input/style.css';
 
 import {
   Eye,
@@ -93,12 +95,14 @@ export const Input = forwardRef<
             )}
 
             {isMasked && (
-              <InputMask
-                maskChar="_"
+              <PhoneInput
+                international
+                defaultCountry="UA"
                 disabled={disabled}
-                mask="+38(099)999-99-99"
+                withCountryCallingCode
                 className={styles.input}
-                onChange={(e) => onChange && onChange(e.target.value)}
+                value={(value as string) || undefined}
+                onChange={(newValue) => onChange && onChange(newValue || '')}
                 {...props}
               />
             )}
