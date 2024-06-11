@@ -45,6 +45,7 @@ export const validationSchema = (
     organizationTaxNumber: Yup.string()
       .matches(/^\d{8}$/, error('taxNumber'))
       .required(error('required')),
+    certificateOfRegister: Yup.string().required(error('required')),
     dateOfRegisterOrganization: Yup.string().required(error('required')),
     positionOrganization: Yup.string()
       .trim()
