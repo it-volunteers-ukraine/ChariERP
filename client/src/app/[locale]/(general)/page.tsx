@@ -1,5 +1,5 @@
-const Home = () => {
+async function Home() {
   return <>Home</>;
-};
+}
 
 export default Home;
