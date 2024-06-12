@@ -9,4 +9,5 @@ export { InputField } from './input-field';
 export { LanguageSwitcher } from './language-switcher';
 export { Logo } from './logo';
 export { Navigation } from './navigation';
+export { Overlay } from './overlay';
 export { ResponseWrapper } from './response';

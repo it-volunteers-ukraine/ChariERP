@@ -134,6 +134,30 @@ const config: Config = {
       transitionProperty: {
         rounded: 'border-radius',
       },
+      keyframes: {
+        appearance: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
+        disappearance: {
+          '0%': { opacity: 1 },
+          '100%': { opacity: 0 },
+        },
+        appearanceModal: {
+          '0%': { transform: 'scale(0)' },
+          '100%': { transform: 'scale(1)' },
+        },
+        disappearanceModal: {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(0)' },
+        },
+      },
+      animation: {
+        portalOpen: 'appearance ease-in-out forwards',
+        portalClose: 'disappearance ease-in-out forwards',
+        modalOpen: 'appearanceModal ease-in-out forwards',
+        modalClose: 'disappearanceModal ease-in-out forwards',
+      },
     },
   },
   plugins: [],

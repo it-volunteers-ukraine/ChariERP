@@ -14,13 +14,13 @@ export const initialValues = {
   password: '',
 };
 
-export const validationSchema = ({
-  required,
-  matches,
+export const getValidationSchema = ({
   min6,
   min8,
   max20,
   max50,
+  matches,
+  required,
 }: IConfig) =>
   Yup.object().shape({
     email: Yup.string()

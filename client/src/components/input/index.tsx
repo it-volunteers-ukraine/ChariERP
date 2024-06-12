@@ -2,7 +2,15 @@
 import { useRef, useState } from 'react';
 import InputMask from 'react-input-mask';
 
-import { EyeOff, Eye, Warning, Info, Cross, Clip, Close } from '@/assets/icons';
+import {
+  Eye,
+  Info,
+  Clip,
+  Cross,
+  EyeOff,
+  Warning,
+  InputClose,
+} from '@/assets/icons';
 
 import { getStyles } from './styles';
 import { InputProps } from './types';
@@ -151,7 +159,7 @@ export const Input = ({
               )}
 
               {value && (
-                <Close
+                <InputClose
                   width={24}
                   height={24}
                   onClick={handleClearInput}
