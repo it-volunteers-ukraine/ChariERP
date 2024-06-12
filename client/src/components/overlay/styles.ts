@@ -11,7 +11,7 @@ export const getStyles = (opened: boolean) => ({
     },
   ),
   modal: clsx(
-    'relative flex bg-white pt-11 px-8 pb-8 rounded-lg max-w-[500px] w-full min-h-[208px] z-30',
+    'relative flex bg-white mx-2 pt-11 px-8 pb-8 rounded-lg max-w-[500px] w-full min-h-[208px] z-30',
     {
       'animate-modalOpen': opened,
     },
