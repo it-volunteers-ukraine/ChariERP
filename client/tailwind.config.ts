@@ -37,15 +37,7 @@ const config: Config = {
   theme: {
     extend: {
       ...defaultTheme,
-      keyframes: {
-        appearBg: {
-          '0%': { opacity: '0' },
-          '100%': {
-            background: 'linear-gradient(135deg, #78D6EF 0%, #3879B6 100%)',
-            opacity: '1',
-          },
-        },
-      },
+
       colors: {
         white,
         lightBlue,
@@ -115,6 +107,7 @@ const config: Config = {
           active: white,
         },
         boardHeader: '#F4F7FE',
+        overlay: '#687a95',
       },
       backgroundImage: {
         burger: 'linear-gradient(315deg, #78D6EF 0%, #3879B6 100%)',
@@ -160,6 +153,37 @@ const config: Config = {
       },
       transitionProperty: {
         rounded: 'border-radius',
+      },
+      keyframes: {
+        appearBg: {
+          '0%': { opacity: '0' },
+          '100%': {
+            background: 'linear-gradient(135deg, #78D6EF 0%, #3879B6 100%)',
+            opacity: '1',
+          },
+        },
+        appearanceOverlay: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
+        disappearanceOverlay: {
+          '0%': { opacity: 1 },
+          '100%': { opacity: 0 },
+        },
+        appearanceModal: {
+          '0%': { transform: 'scale(0)' },
+          '100%': { transform: 'scale(1)' },
+        },
+        disappearanceModal: {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(0)' },
+        },
+      },
+      animation: {
+        portalOpen: 'appearanceOverlay ease-in-out forwards',
+        portalClose: 'disappearanceOverlay ease-in-out forwards',
+        modalOpen: 'appearanceModal ease-in-out forwards',
+        modalClose: 'disappearanceModal ease-in-out forwards',
       },
     },
   },
