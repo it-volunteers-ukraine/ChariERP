@@ -27,6 +27,16 @@ export const Overlay = ({
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      function focusElement(
+        compareElement: HTMLElement,
+        focusElement: HTMLElement,
+      ) {
+        if (document.activeElement === compareElement) {
+          event.preventDefault();
+          focusElement.focus();
+        }
+      }
+
       if (event.key === 'Escape') {
         onClose();
       }
@@ -36,27 +46,20 @@ export const Overlay = ({
           modalRef.current.querySelectorAll<HTMLElement>(
             'a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])',
           );
+
+        if (focusableElements.length === 0) return;
+
         const firstElement = focusableElements[0];
         const lastElement = focusableElements[focusableElements.length - 1];
 
-        if (event.shiftKey) {
-          if (document.activeElement === firstElement) {
-            event.preventDefault();
-            lastElement.focus();
-          }
-        } else {
-          if (document.activeElement === lastElement) {
-            event.preventDefault();
-            firstElement.focus();
-          }
-        }
+        event.shiftKey
+          ? focusElement(firstElement, lastElement)
+          : focusElement(lastElement, firstElement);
       }
     };
 
     if (opened) {
       window.addEventListener('keydown', handleKeyDown);
-    } else {
-      window.removeEventListener('keydown', handleKeyDown);
     }
 
     return () => {
