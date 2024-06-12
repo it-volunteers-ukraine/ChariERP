@@ -43,7 +43,6 @@ export default function RootLayout({
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
-        <div id="modal-root" />
       </body>
     </html>
   );
