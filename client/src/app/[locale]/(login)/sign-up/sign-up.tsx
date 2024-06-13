@@ -7,12 +7,12 @@ import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikValues } from 'formik';
 
 import { Title } from '@/components/title';
+import { CheckboxRadioField } from '@/components/checkbox-radio-field';
 import { Button, DateField, FileField, InputField } from '@/components';
 
 import { initialValues, validationSchema } from './config';
 
 import { getStyles } from './styles';
-import { CheckboxRadioField } from '@/components/checkbox-radio-field';
 
 const SignUp = () => {
   const [inputFields, setInputFields] = useState<string[]>(['socialNetworks']);
