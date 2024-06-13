@@ -68,7 +68,7 @@ export const Input = forwardRef<
     };
 
     return (
-      <div className="flex flex-col laptop:flex-row gap-1 laptop:gap-6 items-start justify-start w-full">
+      <div className="relative flex flex-col laptop:flex-row gap-1 laptop:gap-6 items-start w-full">
         <label className="flex flex-col gap-1 w-full">
           <fieldset className={styles.fieldset}>
             <legend className="ml-[10px] px-1 pb-1">
@@ -202,7 +202,7 @@ export const Input = forwardRef<
           </fieldset>
 
           {error && (
-            <div className="flex gap-1">
+            <div className="laptop:absolute laptop:bottom-[-17px] flex gap-1">
               <Warning width={14} height={14} />
 
               <span className={styles.error}>{error}</span>
@@ -211,7 +211,7 @@ export const Input = forwardRef<
         </label>
 
         {info && (
-          <div className="flex items-center text-input-info laptop:mt-3 laptop:mb-5 self-center w-full laptop:h-[50px]">
+          <div className="flex items-center text-input-info laptop:mt-3 self-center w-full laptop:h-[50px]">
             <Info
               width={24}
               height={24}
