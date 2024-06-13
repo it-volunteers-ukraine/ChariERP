@@ -155,8 +155,8 @@ const SignUp = () => {
               isMasked
               name="phone"
               placeholderItalic
-              label={registration('phone.label')}
               placeholder="+38(0__)___-__-__"
+              label={registration('phone.label')}
               info={
                 <span className={`${styles.spanStyles} italic`}>
                   {registration('phone.infoItalic')}

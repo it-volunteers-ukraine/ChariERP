@@ -47,7 +47,7 @@ export const getStyles = ({
     'text-input-disabled': disabled,
   }),
   input: clsx(
-    'peer w-full mb-3 px-[14px] caret-input-focus placeholder:text-input-info',
+    'peer items-start w-full mb-3 px-[14px] caret-input-focus placeholder:text-input-info',
     {
       italic: placeholderItalic && !value,
       'text-input-text': value,
