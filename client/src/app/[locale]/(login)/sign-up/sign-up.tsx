@@ -19,33 +19,7 @@ const SignUp = () => {
 
   const styles = getStyles();
 
-  const title = useTranslations('auth-page.registration.title');
-  const organizationName = useTranslations(
-    'auth-page.registration.organizationName',
-  );
-  const organizationTaxNumber = useTranslations(
-    'auth-page.registration.organizationTaxNumber',
-  );
-  const certificateOfRegister = useTranslations(
-    'auth-page.registration.certificateOfRegister',
-  );
-  const dateOfRegisterOrganization = useTranslations(
-    'auth-page.registration.dateOfRegisterOrganization',
-  );
-  const positionOrganization = useTranslations(
-    'auth-page.registration.positionOrganization',
-  );
-  const lastName = useTranslations('auth-page.registration.lastName');
-  const name = useTranslations('auth-page.registration.name');
-  const middleName = useTranslations('auth-page.registration.middleName');
-  const phone = useTranslations('auth-page.registration.phone');
-  const email = useTranslations('auth-page.registration.email');
-  const site = useTranslations('auth-page.registration.site');
-  const socialNetworks = useTranslations(
-    'auth-page.registration.socialNetworks',
-  );
-  const button = useTranslations('auth-page.registration.button');
-  const checkbox = useTranslations('auth-page.registration.checkbox');
+  const registration = useTranslations('auth-page.registration');
   const error = useTranslations('validation');
 
   const onSubmit = (values: FormikValues) => {
@@ -70,19 +44,19 @@ const SignUp = () => {
         <Form className="w-full">
           <Title
             className="mb-8 mx-auto w-fit"
-            title={title('basicInformation')}
+            title={registration('title.basicInformation')}
           />
 
           <div className={styles.inputWrapper}>
             <InputField
               required
               name="organizationName"
-              label={organizationName('label')}
+              label={registration('organizationName.label')}
               info={
                 <div>
-                  {organizationName('info')}
+                  {registration('organizationName.info')}
                   <span className={styles.spanStyles}>
-                    {organizationName('infoItalic')}
+                    {registration('organizationName.infoItalic')}
                   </span>
                 </div>
               }
@@ -94,7 +68,7 @@ const SignUp = () => {
               required
               type="number"
               name="organizationTaxNumber"
-              label={organizationTaxNumber('label')}
+              label={registration('organizationTaxNumber.label')}
             />
           </div>
 
@@ -105,16 +79,16 @@ const SignUp = () => {
               placeholderItalic
               name="certificateOfRegister"
               accept={'pdf, jpg, jpeg, png'}
-              label={certificateOfRegister('label')}
-              placeholder={certificateOfRegister('placeholder')}
+              label={registration('certificateOfRegister.label')}
+              placeholder={registration('certificateOfRegister.placeholder')}
               info={
                 <div>
-                  {certificateOfRegister('info')}
+                  {registration('certificateOfRegister.info')}
                   <Link
                     href="#"
                     className={`${styles.spanStyles} text-input-link underline`}
                   >
-                    {certificateOfRegister('link')}
+                    {registration('certificateOfRegister.link')}
                   </Link>
                 </div>
               }
@@ -126,42 +100,52 @@ const SignUp = () => {
               required
               placeholderItalic
               name="dateOfRegisterOrganization"
-              label={dateOfRegisterOrganization('label')}
-              placeholder={dateOfRegisterOrganization('placeholder')}
+              label={registration('dateOfRegisterOrganization.label')}
+              placeholder={registration(
+                'dateOfRegisterOrganization.placeholder',
+              )}
             />
           </div>
 
           <Title
             className="mt-16 mb-8 mx-auto w-fit"
-            title={title('contactInformation')}
+            title={registration('title.contactInformation')}
           />
 
           <div className={styles.inputWrapper}>
             <InputField
               required
               name="positionOrganization"
-              label={positionOrganization('label')}
+              label={registration('positionOrganization.label')}
               info={
                 <span className={`${styles.spanStyles} italic`}>
-                  {positionOrganization('infoItalic')}
+                  {registration('positionOrganization.infoItalic')}
                 </span>
               }
             />
           </div>
 
           <div className={`${styles.inputWrapper} laptop:w-[49%]`}>
-            <InputField required name="lastName" label={lastName('label')} />
+            <InputField
+              required
+              name="lastName"
+              label={registration('lastName.label')}
+            />
           </div>
 
           <div className={`${styles.inputWrapper} laptop:w-[49%]`}>
-            <InputField required name="name" label={name('label')} />
+            <InputField
+              required
+              name="name"
+              label={registration('name.label')}
+            />
           </div>
 
           <div className={`${styles.inputWrapper} laptop:w-[49%]`}>
             <InputField
               required
               name="middleName"
-              label={middleName('label')}
+              label={registration('middleName.label')}
             />
           </div>
 
@@ -171,11 +155,11 @@ const SignUp = () => {
               isMasked
               name="phone"
               placeholderItalic
-              label={phone('label')}
+              label={registration('phone.label')}
               placeholder="+38(0__)___-__-__"
               info={
                 <span className={`${styles.spanStyles} italic`}>
-                  {phone('infoItalic')}
+                  {registration('phone.infoItalic')}
                 </span>
               }
             />
@@ -185,25 +169,25 @@ const SignUp = () => {
             <InputField
               required
               name="email"
-              info={email('info')}
-              label={email('label')}
+              info={registration('email.info')}
+              label={registration('email.label')}
             />
           </div>
 
           <div className="mb-6 w-fit font-medium text-[18px] leading-6 text-title-media">
-            {title('media')}
+            {registration('title.media')}
           </div>
 
           <div className={styles.inputWrapper}>
             <InputField
               cross
               name="site"
-              label={site('label')}
+              label={registration('site.label')}
               info={
                 <div>
-                  {site('info')}
+                  {registration('site.info')}
                   <span className={`${styles.spanStyles} italic`}>
-                    {site('infoItalic')}
+                    {registration('site.infoItalic')}
                   </span>
                 </div>
               }
@@ -216,12 +200,12 @@ const SignUp = () => {
                 <InputField
                   cross
                   name={name}
-                  label={socialNetworks('label')}
+                  label={registration('socialNetworks.label')}
                   info={
                     <div>
-                      {socialNetworks('info')}
+                      {registration('socialNetworks.info')}
                       <span className={`${styles.spanStyles} italic`}>
-                        {socialNetworks('infoItalic')}
+                        {registration('socialNetworks.infoItalic')}
                       </span>
                     </div>
                   }
@@ -237,22 +221,22 @@ const SignUp = () => {
               className="flex justify-center items-center mt-[-15px] mb-16 text-[15px] font-medium text-title-title pointer"
             >
               <span className="mr-[8px] text-[20px] font-medium">+</span>
-              {button('addNewInput')}
+              {registration('button.addNewInput')}
             </button>
           )}
 
           <CheckboxRadioField
             href="#"
             name="agree"
-            label={checkbox('info')}
-            hrefText={checkbox('link')}
+            label={registration('checkbox.info')}
+            hrefText={registration('checkbox.link')}
             className="mb-16 laptop:mx-auto"
           />
 
           <Button
             type="submit"
             styleType="primary"
-            text={button('submit')}
+            text={registration('button.submit')}
             className="uppercase m-auto"
           />
         </Form>

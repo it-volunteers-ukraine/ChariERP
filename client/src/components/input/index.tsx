@@ -97,12 +97,15 @@ export const Input = forwardRef<
             {isMasked && (
               <PhoneInput
                 international
+                limitMaxLength
                 defaultCountry="UA"
                 disabled={disabled}
                 withCountryCallingCode
+                value={value as string}
                 className={styles.input}
-                value={(value as string) || undefined}
-                onChange={(newValue) => onChange && onChange(newValue || '')}
+                onChange={(newValue) =>
+                  onChange && onChange(newValue as string)
+                }
                 {...props}
               />
             )}
