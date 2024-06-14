@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import { useLocale } from 'next-intl';
 import { Field, FieldProps } from 'formik';
 import { uk, enGB } from 'date-fns/locale';
@@ -8,15 +8,37 @@ import DatePicker, { registerLocale } from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
+import { Error } from '@/utils';
+
 import { Input } from '../input';
+import { DateFieldProps } from './types';
+import { InputProps } from '../input/types';
 
 import './style.css';
-import { DateFieldProps } from './types';
 
 registerLocale('ua', uk);
 registerLocale('en', enGB);
 
-export const DateField = ({ name, label, placeholder }: DateFieldProps) => {
+const DatePickerInput = forwardRef(
+  (
+    props: InputProps & { isrequired?: string },
+    ref: React.Ref<HTMLInputElement>,
+  ) => {
+    const required = props.isrequired === 'true';
+
+    return <Input {...props} required={required} ref={ref} />;
+  },
+);
+
+DatePickerInput.displayName = 'DatePickerInput';
+
+export const DateField = ({
+  name,
+  label,
+  required,
+  placeholder,
+  ...props
+}: DateFieldProps) => {
   const locale = useLocale();
   const pickerRef = useRef<DatePicker>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -44,8 +66,14 @@ export const DateField = ({ name, label, placeholder }: DateFieldProps) => {
   return (
     <Field name={name}>
       {({ meta, form, field: { value, ...fieldProps } }: FieldProps) => {
+        const error = Error.controlError(meta, name, label);
+
         const onChange = async (value: Date | null) => {
           await form.setFieldValue(name, value);
+        };
+
+        const handelClose = async () => {
+          await form.setFieldTouched(name);
         };
 
         return (
@@ -63,18 +91,20 @@ export const DateField = ({ name, label, placeholder }: DateFieldProps) => {
               dateFormat="dd.MM.yyyy"
               yearDropdownItemNumber={150}
               placeholderText={placeholder}
+              onCalendarClose={handelClose}
               minDate={new Date('1991-01-01')}
               onChange={(date) => onChange(date)}
               customInput={
-                <Input
+                <DatePickerInput
                   {...fieldProps}
+                  {...props}
                   readOnly
-                  ref={null}
                   type="date"
                   name={name}
                   label={label}
                   value={value}
-                  error={meta.error || ''}
+                  error={error}
+                  isrequired={`${required}`}
                 />
               }
             />

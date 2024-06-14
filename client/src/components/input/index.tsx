@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, forwardRef } from 'react';
-import InputMask from 'react-input-mask';
+import { PatternFormat } from 'react-number-format';
 
 import {
   Eye,
@@ -48,6 +48,8 @@ export const Input = forwardRef<
       isTextarea,
       error: !!error,
       placeholderItalic,
+      value: value as string,
+      placeholder: props.placeholder,
       isTypePassword: type === 'password',
       visiblePassword: inputType === 'text',
     });
@@ -64,7 +66,7 @@ export const Input = forwardRef<
     };
 
     return (
-      <div className="flex flex-col laptop:flex-row gap-1 laptop:gap-6 items-center w-full">
+      <div className="relative flex flex-col laptop:flex-row gap-1 laptop:gap-6 items-start w-full">
         <label className="flex flex-col gap-1 w-full">
           <fieldset className={styles.fieldset}>
             <legend className="ml-[10px] px-1 pb-1">
@@ -84,15 +86,23 @@ export const Input = forwardRef<
               />
             )}
 
-            {type === 'date' && <span className={styles.input}>{value}</span>}
+            {type === 'date' && (
+              <span className={styles.input}>{value || props.placeholder}</span>
+            )}
 
             {isMasked && (
-              <InputMask
-                maskChar="_"
+              <PatternFormat
                 disabled={disabled}
-                mask="+38(099)999-99-99"
                 className={styles.input}
+                format="+38 (###) ### ## ##"
+                placeholder={props.placeholder}
+                value={(value as string) || undefined}
                 onChange={(e) => onChange && onChange(e.target.value)}
+                defaultValue={
+                  Array.isArray(value) && value.length > 0
+                    ? value[0]
+                    : undefined
+                }
                 {...props}
               />
             )}
@@ -113,14 +123,16 @@ export const Input = forwardRef<
               <>
                 <input
                   type="file"
-                  name={props.name}
                   onChange={onChange}
                   accept={props.accept}
                   className={styles.fileType}
                   ref={ref as React.Ref<HTMLInputElement>}
+                  {...props}
                 />
 
-                <span className={styles.input}>{value}</span>
+                <span className={styles.input}>
+                  {value || props.placeholder}
+                </span>
               </>
             )}
 
@@ -153,6 +165,7 @@ export const Input = forwardRef<
                 />
               </div>
             )}
+
             {type === 'date' && (
               <div className={styles.div}>
                 <Calendar
@@ -186,7 +199,7 @@ export const Input = forwardRef<
           </fieldset>
 
           {error && (
-            <div className="flex gap-1">
+            <div className="laptop:absolute laptop:bottom-[-17px] flex gap-1">
               <Warning width={14} height={14} />
 
               <span className={styles.error}>{error}</span>
@@ -195,12 +208,13 @@ export const Input = forwardRef<
         </label>
 
         {info && (
-          <div className="flex text-input-info laptop:mt-3 self-center w-full">
+          <div className="flex items-center text-input-info laptop:mt-3 self-center w-full laptop:h-[50px]">
             <Info
               width={24}
               height={24}
               className="hidden tablet:flex self-center text-input-info mr-3 shrink-0"
             />
+
             <span className={styles.infoSpan}>{info}</span>
           </div>
         )}
