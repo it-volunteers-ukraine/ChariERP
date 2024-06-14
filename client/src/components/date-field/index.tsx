@@ -24,7 +24,7 @@ const DatePickerInput = forwardRef(
     props: InputProps & { isrequired?: string },
     ref: React.Ref<HTMLInputElement>,
   ) => {
-    const required = props.isrequired === 'true' ? true : false;
+    const required = props.isrequired === 'true';
 
     return <Input {...props} required={required} ref={ref} />;
   },
