@@ -87,9 +87,7 @@ export const Input = forwardRef<
             )}
 
             {type === 'date' && (
-              <span className={styles.input}>
-                {value ? value : props.placeholder}
-              </span>
+              <span className={styles.input}>{value || props.placeholder}</span>
             )}
 
             {isMasked && (
@@ -133,7 +131,7 @@ export const Input = forwardRef<
                 />
 
                 <span className={styles.input}>
-                  {value ? value : props.placeholder}
+                  {value || props.placeholder}
                 </span>
               </>
             )}
