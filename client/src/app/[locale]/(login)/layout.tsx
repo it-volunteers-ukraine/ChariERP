@@ -25,11 +25,18 @@ export default function Layout({
     },
   );
 
+  const wrapper = clsx(
+    'bg-bgAuthGradient py-10 tablet:px-8 h-[calc(100vh-61px)] desktop:h-[calc(100vh-68px)]',
+    {
+      'h-auto': pathname === routes.registration,
+    },
+  );
+
   return (
     <>
       <Header />
 
-      <main className="bg-bgAuthGradient py-10 tablet:px-8 h-[calc(100vh-61px)] desktop:h-[calc(100vh-68px)]">
+      <main className={wrapper}>
         <div className="max-w-[1168px] mx-auto">
           <AuthLinks />
 
