@@ -2,26 +2,20 @@
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
 
-import { Helpers } from '@/utils';
 import { routes } from '@/constants';
 import { Header, AuthLinks } from '@/components';
 import { ChildrenProps, LocalizationProps } from '@/types';
 
-export default function Layout({
-  children,
-  params: { locale },
-}: ChildrenProps<LocalizationProps>) {
+export default function Layout({ children }: ChildrenProps<LocalizationProps>) {
   const pathname = usePathname();
 
   const styles = clsx(
     'flex flex-col justify-center items-center w-full bg-white pt-9 desktop:pt-14 pb-14 desktop:pb-16 px-4 tablet:px-10 desktopXl:px-8 tablet:rounded-b-3xl shadow-auth',
     {
-      'tablet:rounded-tl-3xl':
-        pathname === Helpers.getPathname(locale, routes.login),
+      'tablet:rounded-tl-3xl': pathname === routes.login,
     },
     {
-      'tablet:rounded-tr-3xl':
-        pathname === Helpers.getPathname(locale, routes.registration),
+      'tablet:rounded-tr-3xl': pathname === routes.registration,
     },
   );
 
