@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
