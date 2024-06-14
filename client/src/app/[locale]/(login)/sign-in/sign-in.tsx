@@ -4,11 +4,20 @@ import { Form, Formik, FormikValues } from 'formik';
 
 import { Button, InputField } from '@/components';
 
-import { initialValues, validationSchema } from './config';
+import { initialValues, getValidationSchema } from './config';
 
 const SignIn = () => {
   const login = useTranslations('auth-page.login');
   const message = useTranslations('validation');
+
+  const validationSchema = getValidationSchema({
+    required: message('required'),
+    matches: message('matches_english', { field: 'Password' }),
+    min6: message('minPlural', { int: 6 }),
+    min8: message('minPlural', { int: 8 }),
+    max20: message('minPlural', { int: 20 }),
+    max50: message('maxPlural', { int: 50 }),
+  });
 
   const onSubmit = (values: FormikValues) => {
     console.log(values);
@@ -18,14 +27,7 @@ const SignIn = () => {
     <Formik
       onSubmit={onSubmit}
       initialValues={initialValues}
-      validationSchema={validationSchema({
-        required: message('required'),
-        matches: message('matches_english', { field: 'Password' }),
-        min6: message('minPlural', { int: 6 }),
-        min8: message('minPlural', { int: 8 }),
-        max20: message('minPlural', { int: 20 }),
-        max50: message('maxPlural', { int: 50 }),
-      })}
+      validationSchema={validationSchema}
     >
       {() => (
         <Form className="flex flex-col items-center pt-7 pb-2 desktop:pt-[30px] desktop:pb-[22px] gap-10 max-w-[400px] w-full">

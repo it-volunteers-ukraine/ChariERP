@@ -1,12 +1,11 @@
 'use client';
 import { useTranslations } from 'next-intl';
 
-import { Locale } from '@/types';
 import { routes } from '@/constants';
 
 import { Links } from './links';
 
-export const AuthLinks = ({ locale }: { locale: Locale }) => {
+export const AuthLinks = () => {
   const login = useTranslations('auth-page.links');
 
   const links = [
@@ -17,7 +16,7 @@ export const AuthLinks = ({ locale }: { locale: Locale }) => {
   return (
     <div className="flex tablet:gap-6 mx-4 tablet:mx-0">
       {links.map(({ text, href }) => (
-        <Links key={text} text={text} href={href} locale={locale} />
+        <Links key={text} text={text} href={href} />
       ))}
     </div>
   );

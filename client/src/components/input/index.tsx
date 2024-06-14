@@ -9,10 +9,10 @@ import {
   Eye,
   Info,
   Clip,
-  Close,
   EyeOff,
   Warning,
   Calendar,
+  InputClose,
 } from '@/assets/icons';
 
 import { getStyles } from './styles';
@@ -184,10 +184,10 @@ export const Input = forwardRef<
 
             {cross && value && (
               <div className={styles.div} onClick={handleClearInput}>
-                <Close
+                <InputClose
                   width={24}
                   height={24}
-                  className={`${styles.iconEye}  ${styles.iconClose}`}
+                  className={`${styles.iconEye} ${styles.iconClose}`}
                 />
               </div>
             )}
@@ -213,7 +213,7 @@ export const Input = forwardRef<
                 )}
 
                 {value && (
-                  <Close
+                  <InputClose
                     width={24}
                     height={24}
                     onClick={handleClearInput}
