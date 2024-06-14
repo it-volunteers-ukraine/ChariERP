@@ -64,8 +64,10 @@ export const validationSchema = (
       .max(100, error('maxPlural', { int: 100 }))
       .required(error('required')),
     phone: Yup.string()
-      .test('is-valid-phone', error('notValidPhone'), (value) =>
-        value && isValidPhoneNumber(value) ? true : false,
+      .test(
+        'is-valid-phone',
+        error('notValidPhone'),
+        (value) => !!isValidPhoneNumber(value as string),
       )
       .required('required'),
     email: Yup.string()
