@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, forwardRef } from 'react';
-import PhoneInput from 'react-phone-number-input';
+// import PhoneInput from 'react-phone-number-input';
 
-import 'react-phone-number-input/style.css';
+// import 'react-phone-number-input/style.css';
 
 import {
   Eye,
@@ -67,6 +67,34 @@ export const Input = forwardRef<
       onChange && onChange('');
     };
 
+    const handlePhoneChange = (inputValue: string) => {
+      inputValue = inputValue.replace(/[^\d+]/g, '');
+
+      let formattedValue = '';
+
+      if (inputValue.length > 0) {
+        formattedValue += inputValue.substring(0, 3);
+
+        if (inputValue.length > 3) {
+          formattedValue += ` (${inputValue.substring(3, 6)})`;
+
+          if (inputValue.length > 6) {
+            formattedValue += ` ${inputValue.substring(6, 9)}`;
+
+            if (inputValue.length > 9) {
+              formattedValue += `-${inputValue.substring(9, 11)}`;
+
+              if (inputValue.length > 11) {
+                formattedValue += `-${inputValue.substring(11, 13)}`;
+              }
+            }
+          }
+        }
+      }
+
+      onChange && onChange(formattedValue);
+    };
+
     return (
       <div className="relative flex flex-col laptop:flex-row gap-1 laptop:gap-6 items-start w-full">
         <label className="flex flex-col gap-1 w-full">
@@ -95,17 +123,12 @@ export const Input = forwardRef<
             )}
 
             {isMasked && (
-              <PhoneInput
-                international
-                limitMaxLength
-                defaultCountry="UA"
-                disabled={disabled}
-                withCountryCallingCode
-                value={value as string}
+              <input
+                type="text"
+                value={value}
+                maxLength={19}
                 className={styles.input}
-                onChange={(newValue) =>
-                  onChange && onChange(newValue as string)
-                }
+                onChange={(e) => handlePhoneChange(e.target.value)}
                 {...props}
               />
             )}
