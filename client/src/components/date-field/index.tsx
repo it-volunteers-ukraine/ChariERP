@@ -15,6 +15,7 @@ import { DateFieldProps } from './types';
 import { InputProps } from '../input/types';
 
 import './style.css';
+import clsx from 'clsx';
 
 registerLocale('ua', uk);
 registerLocale('en', enGB);
@@ -37,11 +38,16 @@ export const DateField = ({
   label,
   required,
   placeholder,
+  wrapperClass,
   ...props
 }: DateFieldProps) => {
   const locale = useLocale();
   const pickerRef = useRef<DatePicker>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const wrapperClassName = clsx('[&>div]:w-full w-full', {
+    [`${wrapperClass}`]: !!wrapperClass,
+  });
 
   const openPicker = async () => {
     const currentWrapper = wrapperRef.current;
@@ -77,7 +83,7 @@ export const DateField = ({
         };
 
         return (
-          <div className="[&>div]:w-full w-full" tabIndex={0} ref={wrapperRef}>
+          <div className={wrapperClassName} tabIndex={0} ref={wrapperRef}>
             <DatePicker
               withPortal
               ref={pickerRef}

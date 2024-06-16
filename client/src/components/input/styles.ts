@@ -9,6 +9,7 @@ interface IStylesInput {
   disabled?: boolean;
   isTextarea?: boolean;
   placeholder?: string;
+  wrapperClass?: string;
   isTypePassword: boolean;
   visiblePassword: boolean;
   placeholderItalic?: boolean;
@@ -22,10 +23,15 @@ export const getStyles = ({
   disabled,
   isTextarea,
   placeholder,
+  wrapperClass,
   isTypePassword,
   visiblePassword,
   placeholderItalic,
 }: IStylesInput) => ({
+  wrapper: clsx(
+    'relative items-baseline flex flex-col laptop:flex-row gap-1 laptop:gap-6 items-start w-full',
+    { [`${wrapperClass}`]: !!wrapperClass },
+  ),
   fieldset: clsx(
     'relative flex align-center pb-3 w-full overflow-hidden transition-all duration-300 border rounded group/item',
     {
@@ -51,7 +57,7 @@ export const getStyles = ({
     'text-input-disabled': disabled,
   }),
   input: clsx(
-    'peer items-start w-full mb-3 px-[14px] caret-input-focus placeholder:text-input-info',
+    'peer items-center w-full  px-[14px] caret-input-focus placeholder:text-input-info bg-transparent',
     {
       italic: placeholderItalic && !value,
       'text-input-text': value,
