@@ -34,9 +34,7 @@ const SignUp = () => {
       validateOnChange
       onSubmit={onSubmit}
       initialValues={initialValues}
-      validationSchema={validationSchema((key, params) =>
-        error(key as string, params),
-      )}
+      validationSchema={validationSchema((key, params) => error(key, params))}
     >
       {() => (
         <Form className="w-full">
