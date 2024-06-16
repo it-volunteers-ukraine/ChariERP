@@ -1,10 +1,8 @@
-import { ReactNode } from 'react';
-
 export interface IPagination {
   total: number;
   current: number;
   pageSize: number;
-  children: ReactNode;
+  className?: string;
   showTitle?: boolean;
   showLessItems?: boolean;
   onChange: (page: number) => void;
