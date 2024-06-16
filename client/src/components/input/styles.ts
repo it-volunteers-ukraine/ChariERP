@@ -9,6 +9,7 @@ interface IStylesInput {
   disabled?: boolean;
   isTextarea?: boolean;
   placeholder?: string;
+  wrapperClass?: string;
   isTypePassword: boolean;
   visiblePassword: boolean;
   placeholderItalic?: boolean;
@@ -22,19 +23,28 @@ export const getStyles = ({
   disabled,
   isTextarea,
   placeholder,
+  wrapperClass,
   isTypePassword,
   visiblePassword,
   placeholderItalic,
 }: IStylesInput) => ({
+  wrapper: clsx(
+    'relative items-baseline flex flex-col laptop:flex-row gap-1 laptop:gap-6 items-start w-full',
+    { [`${wrapperClass}`]: !!wrapperClass },
+  ),
   fieldset: clsx(
-    'relative flex align-center w-full overflow-hidden h-[64px] transition-all duration-300 border rounded group/item',
+    'relative flex align-center pb-3 w-full overflow-hidden transition-all duration-300 border rounded group/item',
     {
+      'h-[64px]': type !== 'search',
       'enabled:border-input-error': error && !disabled,
       'enabled:focus-within:!border-input-focus enabled:hover:border-[#1D1B20]':
         !error && !disabled,
-      'border-input-text': !disabled,
+      'border-lightGray': !disabled && type === 'search',
+      'border-input-text': !disabled && type !== 'search',
       'border-input-disabled': disabled,
       'cursor-pointer': type === 'file',
+      'rounded-[28px] pl-[19px] pr-[14px] py-[10px] h-[44px] items-center':
+        type === 'search',
       'h-auto': isTextarea,
     },
   ),
@@ -47,7 +57,7 @@ export const getStyles = ({
     'text-input-disabled': disabled,
   }),
   input: clsx(
-    'peer items-start w-full mb-3 px-[14px] caret-input-focus placeholder:text-input-info',
+    'peer items-center w-full  px-[14px] caret-input-focus placeholder:text-input-info bg-transparent',
     {
       italic: placeholderItalic && !value,
       'text-input-text': value,
@@ -55,11 +65,12 @@ export const getStyles = ({
       'placeholder:text-input-disabled bg-transparent': disabled,
       'outline-none': isTextarea,
       'cursor-pointer': type === 'date',
+      'cancel-search-btn px-0 h-[23px]': type === 'search',
+      'pr-12': isTypePassword || type === 'file' || cross || type === 'date',
+      'focus:text-input-focus': !visiblePassword,
       'focus:text-input-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none':
         type === 'number',
     },
-    { 'pr-12': isTypePassword || type === 'file' || cross || type === 'date' },
-    { 'focus:text-input-focus': !visiblePassword },
   ),
   div: 'flex cursor-pointer peer-focus:[&>svg]:text-input-focus peer-focus:[&>svg]:hover:text-error',
   iconEye: clsx(
@@ -72,4 +83,6 @@ export const getStyles = ({
   iconClose: 'hover:text-error',
   iconCopyDiv: 'flex cursor-pointer peer-focus:[&>svg]:text-input-focus ',
   iconCopy: 'hover:text-green',
+  search:
+    'w-[18px] text-lightBlue cursor-pointer hover:scale-110 transition-all duration-200',
 });

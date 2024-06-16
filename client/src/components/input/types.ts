@@ -20,6 +20,8 @@ interface CustomTextarea
     HTMLTextAreaElement
   > {}
 
+type SearchValue = string | number | readonly string[] | undefined;
+
 export interface InputProps extends Omit<CustomInput & CustomTextarea, 'ref'> {
   name: string;
   label: string;
@@ -31,8 +33,10 @@ export interface InputProps extends Omit<CustomInput & CustomTextarea, 'ref'> {
   isMasked?: boolean;
   isTextarea?: boolean;
   placeholder?: string;
+  wrapperClass?: string;
   placeholderItalic?: boolean;
   info?: string | React.ReactNode;
+  onSearch?: (value: SearchValue) => void;
   onChange?: (e: InputOnChangeEventType) => void;
 }
 

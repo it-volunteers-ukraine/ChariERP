@@ -7,6 +7,11 @@ interface IStylesButton {
   styleType: StyleType;
 }
 
+const primaryClasses =
+  'enabled:shadow-btn-inset disabled:bg-btn-disabled enabled:bg-btnPrimaryGradient bg-repeat bg-200 bg-[top_left] hover:bg-[bottom_right]';
+
+const iconSize = 'w-9 h-9';
+
 export const getStyles = ({
   isNarrow,
   styleType,
@@ -16,8 +21,7 @@ export const getStyles = ({
     'group flex items-center justify-center overflow-hidden relative text-btn-text rounded-[50px] transition-all duration-300',
     {
       [`${className}`]: className,
-      'enabled:shadow-btn-inset disabled:bg-btn-disabled enabled:bg-btnPrimaryGradient bg-repeat bg-200 bg-[top_left] hover:bg-[bottom_right]':
-        styleType === 'primary',
+      [`${primaryClasses}`]: styleType === 'primary',
 
       'bg-transparent enabled:active:border-transparent disabled:text-btn-outline-disabled disabled:border-btn-outline-disabled border enabled:border-btn-outline-border enabled:active:bg-btn-outline-active enabled:hover:bg-btn-outline enabled:hover:text-btn-outline-hover-text':
         styleType === 'outline',
@@ -31,8 +35,14 @@ export const getStyles = ({
         styleType === 'green',
       'text-btn-text disabled:bg-btn-disabled enabled:bg-btn-red enabled:hover:bg-btn-red-hover enabled:active:bg-btn-red-active':
         styleType === 'red',
+      [`${primaryClasses} ${iconSize}`]: styleType === 'icon-primary',
+      [`enabled:bg-whiteSecond disabled:bg-btn-disabled ${iconSize}`]:
+        styleType === 'icon-secondary',
+      'enabled:bg-whiteSecond enabled:text-dimGray items-center disabled:bg-btn-disabled disabled:text-btn-white enabled:active:bg-lightBlue enabled:hover:bg-btn-steelBlue enabled:active:text-white enabled:hover:text-white':
+        styleType === 'white',
     },
   ),
+  iconWrapper: 'z-[3]',
   span: clsx(
     'relative z-[1] select-none flex items-center justify-center text-scada',
     {

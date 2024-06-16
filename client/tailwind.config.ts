@@ -7,9 +7,11 @@ import { media } from './src/constants';
 const blue = '#2C73AC';
 const error = '#B3261E';
 const white = '#FFFFFF';
+const whiteSecond = '#F4F7FE';
 const lightBlue = '#61B6DB';
 const blueCrayola = '#78D6EF';
 const deepBlue = '#3879B6';
+const disabled = '#C2C3C5';
 const green = '#84BB46';
 const greenNormal = '#5BC780';
 const greenHover = '#34AB5D';
@@ -25,6 +27,9 @@ const swissCoffee = '#D0CBCB';
 const lynch = '#687A95';
 const lobLolly = '#BEC6D0';
 const spunPearl = '#A8A8AD';
+const liteGray = '#A3A3A3';
+const dimGray = '#656575B2';
+const steelBlue = '#3B91BE';
 const Magnolia = '#5D647CB2';
 
 //Gradients
@@ -41,7 +46,9 @@ const config: Config = {
 
       colors: {
         white,
+        whiteSecond,
         lightBlue,
+        dimGray,
         'dark-blue': blue,
         error,
         green,
@@ -58,6 +65,7 @@ const config: Config = {
           caret,
           disabled: swissCoffee,
           info: `${lynch}80`,
+          liteGray,
           infoDefault: lynch,
           link: lightBlue,
         },
@@ -80,6 +88,7 @@ const config: Config = {
         },
         btn: {
           text: white,
+          steelBlue,
           'secondary-text': blue,
           'secondary-hover': green,
           'secondary-hover-text': white,
@@ -93,14 +102,14 @@ const config: Config = {
         navItem: {
           disabled: '#A3AED0',
           hover: white,
-          active: '#61B6DB',
+          active: lightBlue,
         },
       },
       backgroundColor: {
         btn: {
+          disabled,
           outline: white,
           secondary: white,
-          disabled: '#C2C3C5',
           'outline-active': '#D2E1EF',
           green: greenNormal,
           'green-hover': greenHover,
@@ -110,10 +119,10 @@ const config: Config = {
           'red-active': redActive,
         },
         navItem: {
-          hover: '#3B91BE',
+          hover: steelBlue,
           active: white,
         },
-        boardHeader: '#F4F7FE',
+        boardHeader: whiteSecond,
         overlay: '#687a95',
       },
       backgroundImage: {
