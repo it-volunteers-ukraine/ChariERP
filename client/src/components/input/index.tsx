@@ -11,6 +11,7 @@ import {
   Warning,
   Calendar,
   InputClose,
+  Copy,
 } from '@/assets/icons';
 
 import { getStyles } from './styles';
@@ -27,6 +28,7 @@ export const Input = forwardRef<
       value,
       error,
       cross,
+      isCopy,
       required,
       disabled,
       onChange,
@@ -63,6 +65,10 @@ export const Input = forwardRef<
     const handleClearInput = (e: React.MouseEvent) => {
       e.preventDefault();
       onChange && onChange('');
+    };
+
+    const onCopyToClipboard = async () => {
+      await navigator.clipboard.writeText(value as string);
     };
 
     return (
@@ -162,6 +168,16 @@ export const Input = forwardRef<
                   width={24}
                   height={24}
                   className={`${styles.iconEye} ${styles.iconClose}`}
+                />
+              </div>
+            )}
+
+            {isCopy && (
+              <div className={styles.iconCopyDiv} onClick={onCopyToClipboard}>
+                <Copy
+                  width={24}
+                  height={24}
+                  className={`${styles.iconEye} ${styles.iconCopy}`}
                 />
               </div>
             )}

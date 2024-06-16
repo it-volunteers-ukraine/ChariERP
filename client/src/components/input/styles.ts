@@ -70,4 +70,6 @@ export const getStyles = ({
   fileType: 'hidden',
   iconClip: 'group-hover/item:text-green',
   iconClose: 'hover:text-error',
+  iconCopyDiv: 'flex cursor-pointer peer-focus:[&>svg]:text-input-focus ',
+  iconCopy: 'hover:text-green',
 });
