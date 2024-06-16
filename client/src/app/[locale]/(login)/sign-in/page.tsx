@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+
 import SignIn from './sign-in';
 
 export const metadata: Metadata = {

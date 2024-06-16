@@ -31,6 +31,7 @@ export const CheckboxRadioField = ({
             error={error}
             label={label}
             onChange={change}
+            checked={fieldProps.value}
           />
         );
       }}

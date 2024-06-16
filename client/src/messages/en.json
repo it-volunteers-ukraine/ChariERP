@@ -9,14 +9,81 @@
       "button": "Sign In"
     },
     "registration": {
-      "button": "Submit Form"
+      "title": {
+        "basicInformation": "Basic information",
+        "contactInformation": "Contact information",
+        "media": "Media"
+      },
+      "organizationName": {
+        "label": "Full name of the organization",
+        "info": "In Ukrainian (in accordance with the Charter)",
+        "infoItalic": "For example: Public organization  'LIVE'"
+      },
+      "organizationTaxNumber": {
+        "label": "USREOU of the organization (tax number)"
+      },
+      "certificateOfRegister": {
+        "link": " How to download the file.",
+        "placeholder": "Download the document",
+        "label": "Certificate of entry into the register",
+        "info": "To download the document, click on the paperclip icon or the 'Download file' button. jpg, jpeg, png or pdf format. The maximum size is 5 MB."
+      },
+      "dateOfRegisterOrganization": {
+        "placeholder": "Choose a date",
+        "label": "Date of registration of the organization"
+      },
+      "positionOrganization": {
+        "label": "Position of the organization's representative",
+        "infoItalic": "For example: Manager, IA, Accountant, etc."
+      },
+      "lastName": {
+        "label": "Last name"
+      },
+      "name": {
+        "label": "Name"
+      },
+      "middleName": {
+        "label": "Middle name"
+      },
+      "phone": {
+        "label": "Representative's phone number (with area code)",
+        "infoItalic": "For example: +38(050)123-45-36 or +38(044)222-22-33"
+      },
+      "email": {
+        "label": "Representative's e-mail address (e-mail)",
+        "info": "This email address will be your login. You will receive a letter to the specified email address regarding the results of processing your registration request."
+      },
+      "site": {
+        "label": "Internet page of the organization (website)",
+        "info": "Include the organization's website.",
+        "infoItalic": "For example: https://gozhivi.com.ua/"
+      },
+      "socialNetworks": {
+        "label": "Link to the social network",
+        "info": "Add links to social media (Facebook, Instagram, LinkedIn, TikTok, Youtube, etc.). ",
+        "infoItalic": "For example: https://www.facebook.com/gozhivi"
+      },
+      "button": {
+        "submit": "Submit Form",
+        "addNewInput": "Add more links"
+      },
+      "checkbox": {
+        "link": "Privacy Policy",
+        "info": "I agree to the processing of personal data in accordance with the"
+      }
     }
   },
   "validation": {
     "minPlural": "Minimum {int} characters",
     "maxPlural": "Maximum {int} characters",
     "required": "Required field",
-    "matches_english": "{field} must not contain Cyrillic characters"
+    "matches_english": "{field} must not contain Cyrillic characters",
+    "taxNumber": "Tax number must contain exactly 8 Arabic numerals.",
+    "extensionsFile": "Invalid file format. Available formats: jpg, jpeg, png or pdf",
+    "maxSizeFile": "File size exceeds 5MB",
+    "notValidPhone": "Wrong number dialed",
+    "notValidEmail": "Invalid e-mail address",
+    "siteStart": "The input field must begin with https://..."
   },
   "header": {
     "about": "About Us",
