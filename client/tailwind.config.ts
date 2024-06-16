@@ -27,6 +27,7 @@ const swissCoffee = '#D0CBCB';
 const lynch = '#687A95';
 const lobLolly = '#BEC6D0';
 const spunPearl = '#A8A8AD';
+const liteGray = '#A3A3A3';
 const dimGray = '#656575B2';
 const steelBlue = '#3B91BE';
 const Magnolia = '#5D647CB2';
@@ -64,6 +65,7 @@ const config: Config = {
           caret,
           disabled: swissCoffee,
           info: `${lynch}80`,
+          liteGray,
           infoDefault: lynch,
           link: lightBlue,
         },
