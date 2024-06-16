@@ -1,6 +1,6 @@
-import { icon } from '../types';
+import { TypeIConBtn, icon } from '../types';
 
 export interface IIconBtnProps {
   icon: icon;
-  type: 'primary' | 'secondary';
+  type: TypeIConBtn;
 }

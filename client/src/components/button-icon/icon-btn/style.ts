@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 
-export const getStyles = ({ type }: { type: 'primary' | 'secondary' }) => ({
+import { TypeIConBtn } from '../types';
+
+export const getStyles = ({ type }: { type: TypeIConBtn }) => ({
   arrowRight: clsx('w-[9px] h-[12px] rotate-180', {
     'text-white': type === 'primary',
     'text-lightBlue': type === 'secondary',
