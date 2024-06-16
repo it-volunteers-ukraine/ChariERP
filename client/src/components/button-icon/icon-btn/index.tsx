@@ -1,13 +1,7 @@
 import { ArrowLeft, Edit, Menu, Save } from '@/assets/icons';
 
-import { icon } from '../types';
-
 import { getStyles } from './style';
-
-interface IIconBtnProps {
-  icon: icon;
-  type: 'primary' | 'secondary';
-}
+import { IIconBtnProps } from './types';
 
 export const IconBtn = ({ icon, type }: IIconBtnProps) => {
   const { arrowLeft, edit, save, menu, arrowRight } = getStyles({ type });
