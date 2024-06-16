@@ -7,11 +7,11 @@ import {
   Eye,
   Info,
   Clip,
+  Copy,
   EyeOff,
   Warning,
   Calendar,
   InputClose,
-  Copy,
 } from '@/assets/icons';
 
 import { getStyles } from './styles';
