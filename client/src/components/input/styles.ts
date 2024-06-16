@@ -81,6 +81,8 @@ export const getStyles = ({
   fileType: 'hidden',
   iconClip: 'group-hover/item:text-green',
   iconClose: 'hover:text-error',
+  iconCopyDiv: 'flex cursor-pointer peer-focus:[&>svg]:text-input-focus ',
+  iconCopy: 'hover:text-green',
   search:
     'w-[18px] text-lightBlue cursor-pointer hover:scale-110 transition-all duration-200',
 });

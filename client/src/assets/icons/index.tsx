@@ -4,6 +4,7 @@ export { default as Calendar } from './calendar.svg';
 export { default as Check } from './check.svg';
 export { default as Clip } from './clip.svg';
 export { default as Close } from './close.svg';
+export { default as Copy } from './copy.svg';
 export { default as Edit } from './edit.svg';
 export { default as EN } from './en.svg';
 export { default as Exit } from './exit.svg';
