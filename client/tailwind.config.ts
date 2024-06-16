@@ -29,6 +29,7 @@ const lobLolly = '#BEC6D0';
 const spunPearl = '#A8A8AD';
 const dimGray = '#656575B2';
 const steelBlue = '#3B91BE';
+const Magnolia = '#5D647CB2';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -41,15 +42,7 @@ const config: Config = {
   theme: {
     extend: {
       ...defaultTheme,
-      keyframes: {
-        appearBg: {
-          '0%': { opacity: '0' },
-          '100%': {
-            background: 'linear-gradient(135deg, #78D6EF 0%, #3879B6 100%)',
-            opacity: '1',
-          },
-        },
-      },
+
       colors: {
         white,
         whiteSecond,
@@ -58,6 +51,10 @@ const config: Config = {
         'dark-blue': blue,
         error,
         green,
+        title: {
+          title: caret,
+          media: Magnolia,
+        },
         input: {
           text: comet,
           error,
@@ -67,6 +64,8 @@ const config: Config = {
           caret,
           disabled: swissCoffee,
           info: `${lynch}80`,
+          infoDefault: lynch,
+          link: lightBlue,
         },
         checkbox: {
           'default-border': lynch,
@@ -122,6 +121,7 @@ const config: Config = {
           active: white,
         },
         boardHeader: whiteSecond,
+        overlay: '#687a95',
       },
       backgroundImage: {
         burger: 'linear-gradient(315deg, #78D6EF 0%, #3879B6 100%)',
@@ -167,6 +167,37 @@ const config: Config = {
       },
       transitionProperty: {
         rounded: 'border-radius',
+      },
+      keyframes: {
+        appearBg: {
+          '0%': { opacity: '0' },
+          '100%': {
+            background: 'linear-gradient(135deg, #78D6EF 0%, #3879B6 100%)',
+            opacity: '1',
+          },
+        },
+        appearanceOverlay: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
+        disappearanceOverlay: {
+          '0%': { opacity: 1 },
+          '100%': { opacity: 0 },
+        },
+        appearanceModal: {
+          '0%': { transform: 'scale(0)' },
+          '100%': { transform: 'scale(1)' },
+        },
+        disappearanceModal: {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(0)' },
+        },
+      },
+      animation: {
+        portalOpen: 'appearanceOverlay ease-in-out forwards',
+        portalClose: 'disappearanceOverlay ease-in-out forwards',
+        modalOpen: 'appearanceModal ease-in-out forwards',
+        modalClose: 'disappearanceModal ease-in-out forwards',
       },
     },
   },
