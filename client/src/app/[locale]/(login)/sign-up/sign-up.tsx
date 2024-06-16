@@ -112,7 +112,7 @@ const SignUp = () => {
               name="positionOrganization"
               label={registration('positionOrganization.label')}
               info={
-                <span className={`${styles.spanStyles} italic`}>
+                <span className={`${styles.spanStyles}`}>
                   {registration('positionOrganization.infoItalic')}
                 </span>
               }
@@ -147,7 +147,7 @@ const SignUp = () => {
               placeholder="+38(0__)___-__-__"
               label={registration('phone.label')}
               info={
-                <span className={`${styles.spanStyles} italic`}>
+                <span className={`${styles.spanStyles}`}>
                   {registration('phone.infoItalic')}
                 </span>
               }
@@ -173,7 +173,7 @@ const SignUp = () => {
               info={
                 <div>
                   {registration('site.info')}
-                  <span className={`${styles.spanStyles} italic`}>
+                  <span className={`${styles.spanStyles}`}>
                     {registration('site.infoItalic')}
                   </span>
                 </div>
@@ -190,7 +190,7 @@ const SignUp = () => {
                   info={
                     <div>
                       {registration('socialNetworks.info')}
-                      <span className={`${styles.spanStyles} italic`}>
+                      <span className={`${styles.spanStyles}`}>
                         {registration('socialNetworks.infoItalic')}
                       </span>
                     </div>

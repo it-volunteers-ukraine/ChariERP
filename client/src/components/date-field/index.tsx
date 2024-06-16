@@ -1,6 +1,7 @@
 'use client';
 
 import React, { forwardRef, useEffect, useRef } from 'react';
+import clsx from 'clsx';
 import { useLocale } from 'next-intl';
 import { Field, FieldProps } from 'formik';
 import { uk, enGB } from 'date-fns/locale';
@@ -15,7 +16,6 @@ import { DateFieldProps } from './types';
 import { InputProps } from '../input/types';
 
 import './style.css';
-import clsx from 'clsx';
 
 registerLocale('ua', uk);
 registerLocale('en', enGB);
