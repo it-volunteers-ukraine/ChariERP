@@ -1,0 +1,34 @@
+.custom-pagination .rc-pagination-item,
+.custom-pagination .rc-pagination-prev,
+.custom-pagination .rc-pagination-next,
+.custom-pagination .rc-pagination-jump-prev,
+.custom-pagination .rc-pagination-jump-next {
+  @apply flex justify-center items-center mx-2 w-[32px] h-[32px] text-sm text-pagination-color list-none shadow-circle rounded-full outline-0 cursor-pointer;
+}
+
+.custom-pagination .rc-pagination-item:hover,
+.custom-pagination .rc-pagination-prev:hover svg,
+.custom-pagination .rc-pagination-next:hover svg,
+.custom-pagination .rc-pagination-jump-prev:hover button,
+.custom-pagination .rc-pagination-jump-next:hover button {
+  @apply transform scale-110;
+}
+
+.custom-pagination .rc-pagination-item:focus,
+.custom-pagination .rc-pagination-item-active {
+  @apply text-white bg-lightBlue border-lightBlue;
+}
+
+.custom-pagination .rc-pagination-jump-prev button,
+.custom-pagination .rc-pagination-jump-next button {
+  @apply w-[32px] h-[32px] rounded-full outline-0 cursor-pointer text-pagination-color;
+}
+
+.custom-pagination .rc-pagination-disabled {
+  @apply opacity-50 pointer-events-none;
+}
+
+.custom-pagination .rc-pagination-jump-prev button::after,
+.custom-pagination .rc-pagination-jump-next button::after {
+  content: '•••';
+}

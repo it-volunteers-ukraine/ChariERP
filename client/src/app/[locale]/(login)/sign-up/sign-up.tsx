@@ -34,9 +34,7 @@ const SignUp = () => {
       validateOnChange
       onSubmit={onSubmit}
       initialValues={initialValues}
-      validationSchema={validationSchema((key, params) =>
-        error(key as string, params),
-      )}
+      validationSchema={validationSchema((key, params) => error(key, params))}
     >
       {() => (
         <Form className="w-full">
@@ -194,7 +192,7 @@ const SignUp = () => {
 
           {inputFields.map((name, index) => {
             return (
-              <div key={index} className={`${styles.inputWrapper} mb-0`}>
+              <div key={index + name} className={`${styles.inputWrapper} mb-0`}>
                 <InputField
                   cross
                   name={name}

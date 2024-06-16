@@ -14,3 +14,5 @@ export { default as Search } from './search.svg';
 export { default as Tablet } from './tablet.svg';
 export { default as UA } from './ua.svg';
 export { default as Warning } from './warning.svg';
+export { default as Next } from './next.svg';
+export { default as Prev } from './prev.svg';
