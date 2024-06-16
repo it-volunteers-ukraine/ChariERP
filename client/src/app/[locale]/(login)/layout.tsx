@@ -23,7 +23,7 @@ export default function Layout({ children }: ChildrenProps<LocalizationProps>) {
     <>
       <Header />
 
-      <main className="bg-bgAuthGradient py-10 tablet:px-8 min-h-[calc(100vh-61px)] desktop:min-h-[calc(100vh-68px)]">
+      <main className="bg-bgAuthGradient pt-10 tablet:p-[40px_0_50px] desktopXl:p-[40px_0_112px] tablet:px-8 min-h-[calc(100vh-61px)] desktop:min-h-[calc(100vh-68px)]">
         <div className="max-w-[1168px] mx-auto">
           <AuthLinks />
 
