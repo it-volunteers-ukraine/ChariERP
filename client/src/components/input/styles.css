@@ -1,0 +1,6 @@
+.cancel-search-btn::-webkit-search-decoration,
+.cancel-search-btn::-webkit-search-cancel-button,
+.cancel-search-btn::-webkit-search-results-button,
+.cancel-search-btn::-webkit-search-results-decoration {
+  display: none;
+}
