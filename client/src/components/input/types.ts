@@ -31,6 +31,7 @@ export interface InputProps extends Omit<CustomInput & CustomTextarea, 'ref'> {
   required?: boolean;
   isMasked?: boolean;
   isTextarea?: boolean;
+  placeholder?: string;
   placeholderItalic?: boolean;
   info?: string | React.ReactNode;
   onSearch?: (value: SearchValue) => void;

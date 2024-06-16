@@ -1,7 +1,8 @@
 'use client';
 import { useState } from 'react';
+import Cookies from 'js-cookie';
 import { useLocale } from 'next-intl';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { UA, EN } from '@/assets/icons';
 
@@ -14,16 +15,15 @@ export const LanguageSwitcher = ({
 }: ILanguageSwitcherProps): JSX.Element => {
   const local = useLocale();
   const router = useRouter();
-  const pathname = usePathname();
 
   const [activeLanguage, setActiveLanguage] = useState<ActiveLanguage>(
     local as ActiveLanguage,
   );
 
   const { en, ua, icon, iconWrapper, wrapper, span } = getStyles({
-    isNarrow: isNarrow,
-    activeLanguage: activeLanguage,
+    isNarrow,
     className,
+    activeLanguage,
   });
 
   const handleClick = () => {
@@ -34,9 +34,9 @@ export const LanguageSwitcher = ({
 
     setActiveLanguage(newLanguage);
 
-    const path = pathname.replace(local, newLanguage);
+    Cookies.set('NEXT_LOCALE', newLanguage);
 
-    router.replace(path);
+    router.refresh();
   };
 
   return (
