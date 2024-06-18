@@ -11,6 +11,7 @@ import { Button, DateField, FileField, InputField } from '@/components';
 import { initialValues, validationSchema } from './config';
 
 import { getStyles } from './styles';
+import { AddBtn } from '@/components/add-button';
 
 const SignUp = () => {
   const [inputFields, setInputFields] = useState<string[]>(['socialNetworks']);
@@ -199,14 +200,11 @@ const SignUp = () => {
           </div>
 
           {inputFields.length < 5 && (
-            <button
-              type="button"
+            <AddBtn
               onClick={addInputField}
-              className="flex justify-center items-center mb-16 text-[15px] font-medium text-title-title pointer"
-            >
-              <span className="mr-[8px] text-[20px] font-medium">+</span>
-              {registration('button.addNewInput')}
-            </button>
+              text={registration('button.addNewInput')}
+              className="mb-12 tablet:mb-[78px] desktop:mb-[86px]"
+            />
           )}
 
           <CheckboxRadioField
