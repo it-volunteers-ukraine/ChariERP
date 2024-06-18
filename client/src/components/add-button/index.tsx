@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { IAddBtn } from './types';
-
 import { getStyles } from './styles';
 
 export const AddBtn = ({ text, onClick, className }: IAddBtn) => {
