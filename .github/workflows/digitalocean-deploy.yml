@@ -56,6 +56,6 @@ jobs:
             🔗 Last merged changes' deploy is 🏁COMPLETED🏁 🎉
 
             🛫 LAST DEPLOYED COMMIT 🛫
-            👩‍💻 Author: ${{ github.event.pull_request.user.login }}
-            🗨️ Message: ${{ github.event.workflow_run.head_commit.message }}
+            👩‍💻 Author: ${{ github.event.commits[0].author.name }}
+            🗨️ Message: ${{ github.event.commits[0].message }}
             📃 Changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
