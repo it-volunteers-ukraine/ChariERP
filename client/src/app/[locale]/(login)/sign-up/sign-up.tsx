@@ -40,7 +40,7 @@ const SignUp = () => {
       {() => (
         <Form className="w-full">
           <Title
-            className="mb-8 mx-auto w-fit"
+            className="mb-8 mx-auto w-fit text-[26px]"
             title={registration('title.basicInformation')}
           />
 
@@ -101,7 +101,7 @@ const SignUp = () => {
           </div>
 
           <Title
-            className="mt-16 mb-8 mx-auto w-fit"
+            className="mt-16 mb-8 mx-auto w-fit text-[26px]"
             title={registration('title.contactInformation')}
           />
 
@@ -203,7 +203,7 @@ const SignUp = () => {
             <AddBtn
               onClick={addInputField}
               text={registration('button.addNewInput')}
-              className="mb-12 tablet:mb-[78px] desktop:mb-[86px]"
+              className="justify-center mb-12 tablet:mb-[78px] desktop:mb-[86px]"
             />
           )}
 
