@@ -3,35 +3,35 @@ import { TranslationValues } from 'next-intl';
 import { isValidPhoneNumber } from 'libphonenumber-js';
 
 interface FormValues {
+  name: string;
+  site: string;
   email: string;
+  phone: string;
+  agree: boolean;
+  lastName: string;
+  middleName: string;
+  socialNetworks: string;
   organizationName: string;
+  positionOrganization: string;
   organizationTaxNumber: string;
   certificateOfRegister: string;
   dateOfRegisterOrganization: string;
-  positionOrganization: string;
-  lastName: string;
-  name: string;
-  middleName: string;
-  phone: string;
-  site: string;
-  socialNetworks: string;
-  agree: boolean;
 }
 
 export const initialValues: FormValues = {
+  name: '',
+  site: '',
   email: '',
+  phone: '',
+  lastName: '',
+  agree: false,
+  middleName: '',
+  socialNetworks: '',
   organizationName: '',
+  positionOrganization: '',
   organizationTaxNumber: '',
   certificateOfRegister: '',
   dateOfRegisterOrganization: '',
-  positionOrganization: '',
-  lastName: '',
-  name: '',
-  middleName: '',
-  phone: '',
-  site: '',
-  socialNetworks: '',
-  agree: false,
 };
 
 export const validationSchema = (
