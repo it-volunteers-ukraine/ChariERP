@@ -31,9 +31,9 @@ export const getStyles = ({
 
       'bg-transparent border disabled:border-btn-secondary-disabled-border disabled:text-btn-secondary-disabled-text enabled:text-btn-text enabled:border-btn-outline-border enabled:hover:border-transparent enabled:hover:bg-btn-secondary-hover enabled:active:bg-btn-secondary-active':
         styleType === 'secondary-outline',
-      'text-btn-text disabled:bg-btn-disabled enabled:bg-btn-green enabled:hover:bg-btn-green-hover enabled:active:bg-btn-green-active':
+      'text-btn-text h-[44px] disabled:bg-btn-disabled enabled:bg-btn-green enabled:hover:bg-btn-green-hover enabled:active:bg-btn-green-active':
         styleType === 'green',
-      'text-btn-text disabled:bg-btn-disabled enabled:bg-btn-red enabled:hover:bg-btn-red-hover enabled:active:bg-btn-red-active':
+      'text-btn-text h-[44px] disabled:bg-btn-disabled enabled:bg-btn-red enabled:hover:bg-btn-red-hover enabled:active:bg-btn-red-active':
         styleType === 'red',
       [`${primaryClasses} ${iconSize}`]: styleType === 'icon-primary',
       [`enabled:bg-whiteSecond disabled:bg-btn-disabled ${iconSize}`]:
