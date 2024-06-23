@@ -1,0 +1,61 @@
+name: Deploy to Digital Ocean
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'client/**'
+      - '.github/workflows/**'
+
+env:
+  DO_REGISTRY: it-volunteers-ukraine
+  DO_REPOSITORY: chari_erp_repository
+  CONTAINER_NAME: ChariERP
+
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+
+jobs:
+  deploy:
+    name: Build & Push
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Build container image
+        working-directory: ./client
+        run: docker build -t registry.digitalocean.com/$DO_REGISTRY/$DO_REPOSITORY .
+
+      - name: Log in to DigitalOcean Container Registry with short-lived credentials
+        run: doctl registry login --expiry-seconds 1200
+
+      - name: Push image to DigitalOcean Container Registry
+        run: docker push registry.digitalocean.com/$DO_REGISTRY/$DO_REPOSITORY
+
+  inform:
+    name: Inform
+    runs-on: ubuntu-latest
+    needs: [ deploy ]
+    steps:
+      - name: send telegram message on push
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            🤖 GitHub Actions 🤖 
+            🔗 Last merged changes' deploy is 🏁COMPLETED🏁 🎉
+
+            🛫 LAST DEPLOYED COMMIT 🛫
+            👩‍💻 Author: ${{ github.event.commits[0].author.name }}
+            🗨️ Message: ${{ github.event.commits[0].message }}
+            📃 Changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}

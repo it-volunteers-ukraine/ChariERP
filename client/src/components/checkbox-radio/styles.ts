@@ -4,19 +4,17 @@ import { IStylesProps } from './types';
 
 export const getStyles = ({
   error,
-  label,
   checked,
   disabled,
   className,
 }: IStylesProps) => ({
-  label: clsx('flex items-start w-fit group', {
+  label: clsx('flex items-center w-fit group cursor-pointer gap-[20px]', {
     [`${className}`]: !!className,
   }),
 
   checkbox: clsx(
-    'flex items-center justify-center min-w-[18px] h-[18px] rounded-[2px] border border-checkbox-default-border',
+    'flex items-center justify-center min-w-[18px] w-[18px] h-[18px] rounded-[2px] border border-checkbox-default-border',
     {
-      'mt-[3px]': label,
       'border-checkbox-disabled-border': disabled && !checked,
       'border-0 animate-[appearBg_0.2s_ease-in-out_forwards]':
         !disabled && checked,
@@ -28,7 +26,6 @@ export const getStyles = ({
   radio: clsx(
     'flex items-center justify-center min-w-[18px] h-[18px] rounded-[50%] border-2 border-radio-default-border',
     {
-      'mt-[3px]': label,
       'border-radio-disabled-border':
         (disabled && !checked) || (disabled && checked),
       'border-radio-error': error && !checked,
@@ -43,14 +40,14 @@ export const getStyles = ({
     'group-hover:bg-black': !checked && !disabled && !error,
   }),
   input: 'absolute appearance-none',
-  text: clsx('ml-[22px] text-checkbox-default-text', {
+  text: clsx('text-checkbox-default-text leading-[18px]', {
     'text-checkbox-disabled-text': disabled && !checked,
     'text-checkbox-disabled-selected-text': checked && disabled,
     'text-error': !disabled && error && !checked,
     'group-hover:text-black': !checked && !disabled && !error,
   }),
   link: clsx(
-    'ml-[5px] underline leading-6 font-medium text-checkbox-link-default',
+    'ml-[5px] underline leading-[18px] font-medium text-checkbox-link-default',
     {
       'text-checkbox-link-disabled': disabled && !checked,
       'text-checkbox-link-disabled-selected': checked && disabled,

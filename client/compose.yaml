@@ -4,7 +4,7 @@ services:
       context: .
       target: runner
     restart: unless-stopped
-    env_file: .env
+    env_file: .env.development.local
     volumes:
       - .:/client
     command: npm run dev
@@ -20,7 +20,7 @@ services:
   database:
     image: mongo:latest
     restart: unless-stopped
-    env_file: .env
+    env_file: .env.development.local
     volumes:
       - ./mongo:/var/lib/mongo
     ports:

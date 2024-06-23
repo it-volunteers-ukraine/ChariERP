@@ -11,6 +11,7 @@ import { Button, DateField, FileField, InputField } from '@/components';
 import { initialValues, validationSchema } from './config';
 
 import { getStyles } from './styles';
+import { AddBtn } from '@/components/add-button';
 
 const SignUp = () => {
   const [inputFields, setInputFields] = useState<string[]>(['socialNetworks']);
@@ -34,9 +35,7 @@ const SignUp = () => {
       validateOnChange
       onSubmit={onSubmit}
       initialValues={initialValues}
-      validationSchema={validationSchema((key, params) =>
-        error(key as string, params),
-      )}
+      validationSchema={validationSchema((key, params) => error(key, params))}
     >
       {() => (
         <Form className="w-full">
@@ -45,7 +44,7 @@ const SignUp = () => {
             title={registration('title.basicInformation')}
           />
 
-          <div className={styles.inputWrapper}>
+          <div className="flex flex-col gap-6 tablet:gap-[34px] laptop:gap-[46px] desktop:gap-[34px]">
             <InputField
               required
               name="organizationName"
@@ -59,18 +58,15 @@ const SignUp = () => {
                 </div>
               }
             />
-          </div>
 
-          <div className={`${styles.inputWrapper} laptop:w-[49%]`}>
             <InputField
               required
               type="number"
               name="organizationTaxNumber"
+              wrapperClass="laptop:max-w-[calc(50%-12px)]"
               label={registration('organizationTaxNumber.label')}
             />
-          </div>
 
-          <div className={styles.inputWrapper}>
             <FileField
               required
               maxSize={5}
@@ -91,13 +87,12 @@ const SignUp = () => {
                 </div>
               }
             />
-          </div>
 
-          <div className={`${styles.inputWrapper} laptop:w-[49%]`}>
             <DateField
               required
               placeholderItalic
               name="dateOfRegisterOrganization"
+              wrapperClass="laptop:max-w-[calc(50%-12px)]"
               label={registration('dateOfRegisterOrganization.label')}
               placeholder={registration(
                 'dateOfRegisterOrganization.placeholder',
@@ -110,44 +105,39 @@ const SignUp = () => {
             title={registration('title.contactInformation')}
           />
 
-          <div className={styles.inputWrapper}>
+          <div className="flex flex-col gap-6 tablet:gap-[34px] laptop:gap-[46px] desktop:gap-[34px] mb-[36px] tablet:mb-[42px] ">
             <InputField
               required
               name="positionOrganization"
               label={registration('positionOrganization.label')}
               info={
-                <span className={`${styles.spanStyles} italic`}>
+                <span className={`${styles.spanStyles}`}>
                   {registration('positionOrganization.infoItalic')}
                 </span>
               }
             />
-          </div>
 
-          <div className={`${styles.inputWrapper} laptop:w-[49%]`}>
             <InputField
               required
               name="lastName"
               label={registration('lastName.label')}
+              wrapperClass="laptop:max-w-[calc(50%-12px)]"
             />
-          </div>
 
-          <div className={`${styles.inputWrapper} laptop:w-[49%]`}>
             <InputField
               required
               name="name"
               label={registration('name.label')}
+              wrapperClass="laptop:max-w-[calc(50%-12px)]"
             />
-          </div>
 
-          <div className={`${styles.inputWrapper} laptop:w-[49%]`}>
             <InputField
               required
               name="middleName"
               label={registration('middleName.label')}
+              wrapperClass="laptop:max-w-[calc(50%-12px)]"
             />
-          </div>
 
-          <div className={styles.inputWrapper}>
             <InputField
               required
               isMasked
@@ -156,14 +146,12 @@ const SignUp = () => {
               placeholder="+38(0__)___-__-__"
               label={registration('phone.label')}
               info={
-                <span className={`${styles.spanStyles} italic`}>
+                <span className={`${styles.spanStyles}`}>
                   {registration('phone.infoItalic')}
                 </span>
               }
             />
-          </div>
 
-          <div className={`${styles.inputWrapper} pb-[10px]`}>
             <InputField
               required
               name="email"
@@ -176,7 +164,7 @@ const SignUp = () => {
             {registration('title.media')}
           </div>
 
-          <div className={styles.inputWrapper}>
+          <div className="flex flex-col gap-6 tablet:gap-[34px] laptop:gap-[46px] desktop:gap-[34px] mb-[22px]">
             <InputField
               cross
               name="site"
@@ -184,43 +172,39 @@ const SignUp = () => {
               info={
                 <div>
                   {registration('site.info')}
-                  <span className={`${styles.spanStyles} italic`}>
+                  <span className={`${styles.spanStyles}`}>
                     {registration('site.infoItalic')}
                   </span>
                 </div>
               }
             />
-          </div>
 
-          {inputFields.map((name, index) => {
-            return (
-              <div key={index} className={`${styles.inputWrapper} mb-0`}>
+            {inputFields.map((name, index) => {
+              return (
                 <InputField
                   cross
                   name={name}
+                  key={`media-signUp-${index}`}
                   label={registration('socialNetworks.label')}
                   info={
                     <div>
                       {registration('socialNetworks.info')}
-                      <span className={`${styles.spanStyles} italic`}>
+                      <span className={`${styles.spanStyles}`}>
                         {registration('socialNetworks.infoItalic')}
                       </span>
                     </div>
                   }
                 />
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
 
           {inputFields.length < 5 && (
-            <button
-              type="button"
+            <AddBtn
               onClick={addInputField}
-              className="flex justify-center items-center mt-[-15px] mb-16 text-[15px] font-medium text-title-title pointer"
-            >
-              <span className="mr-[8px] text-[20px] font-medium">+</span>
-              {registration('button.addNewInput')}
-            </button>
+              text={registration('button.addNewInput')}
+              className="mb-12 tablet:mb-[78px] desktop:mb-[86px]"
+            />
           )}
 
           <CheckboxRadioField
@@ -228,14 +212,14 @@ const SignUp = () => {
             name="agree"
             label={registration('checkbox.info')}
             hrefText={registration('checkbox.link')}
-            className="mb-16 laptop:mx-auto"
+            className="mb-16 laptop:mx-auto !items-start laptop:!items-center"
           />
 
           <Button
             type="submit"
             styleType="primary"
-            text={registration('button.submit')}
             className="uppercase m-auto"
+            text={registration('button.submit')}
           />
         </Form>
       )}

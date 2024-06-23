@@ -1,20 +1,18 @@
 'use client';
-
 import { usePathname } from 'next/navigation';
 
+import { AuthLinks, Header } from '@/components';
 import { routes } from '@/constants';
-import { Header, AuthLinks } from '@/components';
 import { ChildrenProps, LocalizationProps } from '@/types';
 
 import { getStyles } from './styles';
 
 export default function Layout({ children }: ChildrenProps<LocalizationProps>) {
   const pathname = usePathname();
-
-  const styles = getStyles({
-    isLogin: pathname === routes.login,
-    isRegistration: pathname === routes.registration,
-  });
+  const styles = getStyles(
+    pathname === routes.login,
+    pathname === routes.registration,
+  );
 
   return (
     <>
@@ -24,7 +22,7 @@ export default function Layout({ children }: ChildrenProps<LocalizationProps>) {
         <div className={styles.wrapper}>
           <AuthLinks />
 
-          <div className={styles.wrapperChildren}>{children}</div>
+          <div className={styles.children}>{children}</div>
         </div>
       </main>
     </>

@@ -4,6 +4,7 @@ import { IButtonProps } from './types';
 
 export const Button = ({
   text,
+  Icon,
   onClick,
   disabled,
   className,
@@ -12,7 +13,7 @@ export const Button = ({
   styleType = 'primary',
   ...props
 }: IButtonProps) => {
-  const { btn, span, overlay } = getStyles({
+  const { btn, span, overlay, iconWrapper } = getStyles({
     isNarrow,
     styleType,
     className,
@@ -33,9 +34,14 @@ export const Button = ({
       onClick={handleClick}
       {...props}
     >
-      <span className={span}>{text}</span>
+      {text && <span className={span}>{text}</span>}
 
-      {!disabled && styleType === 'primary' && <div className={overlay}></div>}
+      {Icon && <div className={iconWrapper}>{Icon}</div>}
+
+      {!disabled &&
+        (styleType === 'primary' || styleType === 'icon-primary') && (
+          <div className={overlay}></div>
+        )}
     </button>
   );
 };

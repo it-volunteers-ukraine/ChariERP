@@ -21,16 +21,16 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-COPY --from=builder --chown=nextjs:nodejs /client/.next ./.next
-COPY --from=builder /client/node_modules ./node_modules
-COPY --from=builder /client/next.config.js ./next.config.js
-COPY --from=builder /client/postcss.config.js ./postcss.config.js
-COPY --from=builder /client/tailwind.config.ts ./tailwind.config.ts
-COPY --from=builder /client/tsconfig.json ./tsconfig.json
-COPY --from=builder /client/package.json ./package.json
+# Set the correct permission for prerender cache
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+COPY --from=builder --chown=nextjs:nodejs /client/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /client/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /client/public ./public
 
 USER nextjs
 EXPOSE 3000
 ENV PORT 3000
 
-CMD ["npm", "start"]
+CMD HOSTNAME="0.0.0.0" node server.js
