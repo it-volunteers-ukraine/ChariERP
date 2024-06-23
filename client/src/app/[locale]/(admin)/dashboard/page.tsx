@@ -122,10 +122,8 @@ const Dashboard = () => {
                   />
                 </div>
 
-                <div className="px-3">
-                  <div className="p-[20px] border rounded-md border-lightBlue text-mobster italic">
-                    {dashboard('modal.text.reject')}
-                  </div>
+                <div className="p-[20px] mx-3 border rounded-md border-lightBlue text-mobster italic">
+                  {dashboard('modal.text.reject')}
                 </div>
               </div>
             }
