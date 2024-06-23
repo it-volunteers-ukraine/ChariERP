@@ -17,6 +17,7 @@ const CheckboxRadio = ({
   hrefText,
   className,
   href = '#',
+  classNameText,
   type = 'checkbox',
 }: ICheckboxProps) => {
   const styles = getStyles({
@@ -25,6 +26,7 @@ const CheckboxRadio = ({
     checked,
     disabled,
     className,
+    classNameText,
   });
 
   const checkboxClass = type === 'checkbox' ? styles.checkbox : styles.radio;

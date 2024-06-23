@@ -7,6 +7,7 @@ export const getStyles = ({
   checked,
   disabled,
   className,
+  classNameText,
 }: IStylesProps) => ({
   label: clsx('flex items-center w-fit group cursor-pointer gap-[20px]', {
     [`${className}`]: !!className,
@@ -45,6 +46,7 @@ export const getStyles = ({
     'text-checkbox-disabled-selected-text': checked && disabled,
     'text-error': !disabled && error && !checked,
     'group-hover:text-black': !checked && !disabled && !error,
+    [`${classNameText}`]: !!classNameText,
   }),
   link: clsx(
     'ml-[5px] underline leading-[18px] font-medium text-checkbox-link-default',
