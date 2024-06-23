@@ -21,6 +21,7 @@ import { CheckboxRadioField } from '@/components/checkbox-radio-field';
 const Dashboard = () => {
   const [inputFields, setInputFields] = useState<string[]>(['socialNetworks']);
   const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
+  const [isOpenAccept, setIsOpenAccept] = useState<boolean>(false);
   const [isOpenDecline, setIsOpenDecline] = useState<boolean>(false);
   const router = useRouter();
 
@@ -57,6 +58,23 @@ const Dashboard = () => {
           />
 
           <ModalAdmin
+            isOpen={isOpenAccept}
+            onConfirm={() => {}}
+            onClose={() => setIsOpenAccept(false)}
+            title={dashboard('modal.title.register')}
+            btnCancelText={dashboard('modal.btn.no')}
+            btnConfirmText={dashboard('modal.btn.yes')}
+            content={
+              <div className="flex flex-col text-center text-mobster lending-6">
+                <span>ГО Живи</span>
+                <span>
+                  {dashboard('modal.text.register')} {' adshfg@mail.com'}
+                </span>
+              </div>
+            }
+          />
+
+          <ModalAdmin
             onConfirm={() => {}}
             isOpen={isOpenDecline}
             onClose={() => setIsOpenDecline(false)}
@@ -75,7 +93,7 @@ const Dashboard = () => {
                     type="radio"
                     name={'adsf'}
                     className="p-2"
-                    classNameText="!text-mobster"
+                    classNameText="text-mobster"
                     label={dashboard('modal.radioBtn.notValidUSREOU')}
                   />
 
@@ -83,7 +101,7 @@ const Dashboard = () => {
                     type="radio"
                     name={'hg'}
                     className="p-2"
-                    classNameText="!text-mobster"
+                    classNameText="text-mobster"
                     label={dashboard('modal.radioBtn.InsufficientDocuments')}
                   />
 
@@ -91,7 +109,7 @@ const Dashboard = () => {
                     type="radio"
                     name={'uyt'}
                     className="p-2"
-                    classNameText="!text-mobster"
+                    classNameText="text-mobster"
                     label={dashboard('modal.radioBtn.nonCompliance')}
                   />
 
@@ -99,7 +117,7 @@ const Dashboard = () => {
                     type="radio"
                     name={'345'}
                     className="p-2"
-                    classNameText="!text-mobster"
+                    classNameText="text-mobster"
                     label={dashboard('modal.radioBtn.other')}
                   />
                 </div>
@@ -145,6 +163,7 @@ const Dashboard = () => {
                   <div className="flex items-center gap-6">
                     <InputField
                       isCopy
+                      required
                       type="number"
                       wrapperClass="max-w-[140px]"
                       name="organizationTaxNumber"
@@ -153,6 +172,7 @@ const Dashboard = () => {
 
                     <InputField
                       isCopy
+                      required
                       name="organizationName"
                       label={text('organizationName.label')}
                     />
@@ -160,6 +180,7 @@ const Dashboard = () => {
 
                   <div className="flex items-center gap-16">
                     <FileField
+                      required
                       maxSize={5}
                       placeholderItalic
                       name="certificateOfRegister"
@@ -169,6 +190,7 @@ const Dashboard = () => {
                     />
 
                     <DateField
+                      required
                       placeholderItalic
                       name="dateOfRegisterOrganization"
                       label={text('dateOfRegisterOrganization.label')}
@@ -187,11 +209,13 @@ const Dashboard = () => {
                 >
                   <div className="flex items-center gap-16">
                     <InputField
+                      required
                       name="positionOrganization"
                       label={text('positionOrganization.label')}
                     />
 
                     <InputField
+                      required
                       name="lastName"
                       label={text('lastName.label')}
                     />
@@ -271,6 +295,7 @@ const Dashboard = () => {
                     text="Accept"
                     styleType="green"
                     className="w-[90px]"
+                    onClick={() => setIsOpenAccept(true)}
                   />
 
                   <Button
