@@ -27,7 +27,7 @@ export const Accordion = ({
       >
         <Title className={classNameTitle} title={title} />
 
-        <div className="p-[6px]">
+        <div className={styles.arrow}>
           <ArrowUp />
         </div>
       </div>

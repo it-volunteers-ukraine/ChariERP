@@ -124,8 +124,8 @@ const Dashboard = () => {
                   <Accordion
                     initialState={true}
                     classNameTitle="text-[20px]"
-                    title={text('title.contactInformation')}
                     classNameChildren="flex flex-col gap-6"
+                    title={text('title.contactInformation')}
                   >
                     <div className="flex items-center gap-16">
                       <InputField
