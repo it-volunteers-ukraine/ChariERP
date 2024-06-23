@@ -49,6 +49,7 @@ const config: Config = {
         whiteSecond,
         lightBlue,
         dimGray,
+        mobster,
         'dark-blue': blue,
         error,
         green,

@@ -11,6 +11,7 @@ export { Input } from './input';
 export { InputField } from './input-field';
 export { LanguageSwitcher } from './language-switcher';
 export { Logo } from './logo';
+export { ModalAdmin } from './modal-admin';
 export { Navigation } from './navigation';
 export { Overlay } from './overlay';
 export { Pagination } from './pagination';
