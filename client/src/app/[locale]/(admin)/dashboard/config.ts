@@ -18,21 +18,21 @@ interface FormValues {
   dateOfRegisterOrganization: string;
 }
 
-export const initialValues: FormValues = {
-  name: '',
-  site: '',
-  email: '',
-  phone: '',
-  lastName: '',
-  agree: false,
-  middleName: '',
-  socialNetworks: '',
-  organizationName: '',
-  positionOrganization: '',
-  organizationTaxNumber: '',
-  certificateOfRegister: '',
-  dateOfRegisterOrganization: '',
-};
+export const initialValues = (data?: FormValues) => ({
+  name: data?.name ?? '',
+  site: data?.site ?? '',
+  email: data?.email ?? '',
+  phone: data?.phone ?? '',
+  agree: data?.agree ?? '',
+  lastName: data?.lastName ?? '',
+  middleName: data?.middleName ?? '',
+  socialNetworks: data?.socialNetworks ?? '',
+  organizationName: data?.organizationName ?? '',
+  positionOrganization: data?.positionOrganization ?? '',
+  organizationTaxNumber: data?.organizationTaxNumber ?? '',
+  certificateOfRegister: data?.certificateOfRegister ?? '',
+  dateOfRegisterOrganization: data?.dateOfRegisterOrganization ?? '',
+});
 
 export const validationSchema = (
   error: (key: string, params?: TranslationValues) => string,

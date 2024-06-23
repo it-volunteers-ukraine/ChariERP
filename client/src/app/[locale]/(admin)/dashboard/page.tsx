@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikValues } from 'formik';
 
@@ -8,18 +9,21 @@ import { Title } from '@/components/title';
 import { AddBtn } from '@/components/add-button';
 import {
   Button,
-  ButtonIcon,
   DateField,
   FileField,
   InputField,
+  ButtonIcon,
 } from '@/components';
 
 import { initialValues, validationSchema } from './config';
 
 const Dashboard = () => {
   const [inputFields, setInputFields] = useState<string[]>(['socialNetworks']);
-  const text = useTranslations('auth-page.registration');
+  const router = useRouter();
+
   const error = useTranslations('validation');
+  const text = useTranslations('auth-page.registration');
+  const dashboardText = useTranslations('auth-page.dashboard');
 
   const onSubmit = (values: FormikValues) => {
     console.log('data', values);
@@ -34,7 +38,7 @@ const Dashboard = () => {
       validateOnBlur
       validateOnChange
       onSubmit={onSubmit}
-      initialValues={initialValues}
+      initialValues={initialValues()}
       validationSchema={validationSchema((key, params) => error(key, params))}
     >
       {() => (
@@ -43,7 +47,12 @@ const Dashboard = () => {
             <div className="w-[994px]">
               <div className="flex items-center justify-between mb-4 py-6 pr-2 border-b-2 border-lightBlue">
                 <div className="flex items-center gap-4">
-                  <ButtonIcon icon={'back'} iconType={'primary'} />
+                  <ButtonIcon
+                    icon={'back'}
+                    iconType={'primary'}
+                    onClick={() => router.back()}
+                  />
+
                   <ButtonIcon icon={'save'} iconType={'primary'} />
                 </div>
 
@@ -55,7 +64,10 @@ const Dashboard = () => {
               <div className="flex flex-col gap-12">
                 <div className="flex flex-col gap-6">
                   <div className="flex items-center justify-start">
-                    <Title title="основна інформація" className="text-[20px]" />
+                    <Title
+                      className="text-[20px]"
+                      title={text('title.basicInformation')}
+                    />
                     <div className="p-[6px]">
                       <ArrowUp />
                     </div>
@@ -67,7 +79,7 @@ const Dashboard = () => {
                       type="number"
                       wrapperClass="max-w-[140px]"
                       name="organizationTaxNumber"
-                      label={'SDFDF'}
+                      label={dashboardText('organizationTaxNumber.label')}
                     />
 
                     <InputField
@@ -100,7 +112,10 @@ const Dashboard = () => {
 
                 <div className="flex flex-col gap-6">
                   <div className="flex items-center justify-start">
-                    <Title title="основна інформація" className="text-[20px]" />
+                    <Title
+                      className="text-[20px]"
+                      title={text('title.contactInformation')}
+                    />
                     <div className="p-[6px]">
                       <ArrowUp />
                     </div>
@@ -138,8 +153,8 @@ const Dashboard = () => {
                       isMasked
                       name="phone"
                       placeholderItalic
-                      placeholder="+38(0__)___-__-__"
                       label={text('phone.label')}
+                      placeholder="+38(0__)___-__-__"
                     />
 
                     <InputField
@@ -151,9 +166,12 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-6">
-                  <div className="flex items-center justify-start">
-                    <Title title="media" className="text-[20px]" />
+                <div className="flex flex-col">
+                  <div className="flex items-center justify-start mb-6">
+                    <Title
+                      className="text-[20px]"
+                      title={text('title.media')}
+                    />
                     <div className="p-[6px]">
                       <ArrowUp />
                     </div>
@@ -162,7 +180,7 @@ const Dashboard = () => {
                   <InputField
                     cross
                     name="site"
-                    wrapperClass="w-[465px]"
+                    wrapperClass="mb-6 max-w-[465px]"
                     label={text('site.label')}
                   />
 
@@ -172,15 +190,19 @@ const Dashboard = () => {
                       name={name}
                       key={`media-signUp-${index}`}
                       label={text('socialNetworks.label')}
-                      wrapperClass="w-[465px]"
+                      wrapperClass={
+                        index === inputFields.length - 1
+                          ? 'max-w-[465px]'
+                          : 'mb-6 max-w-[465px]'
+                      }
                     />
                   ))}
 
                   {inputFields.length < 5 && (
                     <AddBtn
                       onClick={addInputField}
-                      className="flex justify-start"
                       text={text('button.addNewInput')}
+                      className="flex justify-start py-2 leading-4"
                     />
                   )}
 
@@ -190,7 +212,9 @@ const Dashboard = () => {
                       styleType="green"
                       className="w-[90px]"
                     />
+
                     <Button
+                      type="submit"
                       text="Decline"
                       styleType="red"
                       className="w-[90px]"
