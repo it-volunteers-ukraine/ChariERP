@@ -2,7 +2,10 @@
   "auth-page": {
     "links": {
       "login": "Вхід",
-      "registration": "Реєстрація"
+      "registration": "Реєстрація",
+      "requests": "Заявки",
+      "rejected": "Відхилені",
+      "organizations": "Організації"
     },
     "login": {
       "email": "Email",

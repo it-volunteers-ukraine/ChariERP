@@ -1,5 +1,13 @@
+import { Metadata } from 'next';
+
+import { DashboardPage } from './dashboard-page';
+
+export const metadata: Metadata = {
+  title: 'Requests',
+  description: 'Requests page',
+};
 const Dashboard = () => {
-  return <h1> DASHBOARD</h1>;
+  return <DashboardPage />;
 };
 
 export default Dashboard;

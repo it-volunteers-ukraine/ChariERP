@@ -1,3 +1,4 @@
+'use client';
 import { useRouter, usePathname } from 'next/navigation';
 
 import { getStyles } from './styles';
@@ -13,7 +14,7 @@ export const NavItem = ({
   const router = useRouter();
   const path = usePathname();
 
-  const isActive = path.includes(href);
+  const isActive = path === href;
 
   const { wrapper, icon, span } = getStyles({
     isActive,

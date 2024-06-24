@@ -2,7 +2,10 @@
   "auth-page": {
     "links": {
       "login": "Sign In",
-      "registration": "Sign Up"
+      "registration": "Sign Up",
+      "requests": "Requests",
+      "rejected": "Declined",
+      "organizations": "Organizations"
     },
     "login": {
       "password": "Password",

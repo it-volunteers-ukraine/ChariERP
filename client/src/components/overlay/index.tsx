@@ -21,7 +21,7 @@ export const Overlay = ({
   duration = 300,
 }: ChildrenProps<IOverlayProps>) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const { mounted } = useMounted({ opened, duration });
+  const { unmounted } = useMounted({ opened, duration });
 
   const styles = getStyles(opened);
 
@@ -74,7 +74,7 @@ export const Overlay = ({
     }
   };
 
-  if (!mounted) return null;
+  if (!unmounted) return null;
 
   return (
     <Portal opened={opened}>

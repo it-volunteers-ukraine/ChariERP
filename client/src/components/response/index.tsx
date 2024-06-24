@@ -1,6 +1,6 @@
 'use client';
 
-import { useWindowWidth } from '@/hooks/useWindowWIdth';
+import { useWindowWidth } from '@/hooks';
 
 type Endpoints =
   | 'isMobile'
