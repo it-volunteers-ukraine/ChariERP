@@ -4,6 +4,7 @@ export { Burger } from './burger';
 export { Button } from './button';
 export { ButtonIcon } from './button-icon';
 export { CheckboxRadio } from './checkbox-radio';
+export { CheckboxRadioField } from './checkbox-radio-field';
 export { DateField } from './date-field';
 export { FileField } from './file-field';
 export { Header } from './header';

@@ -2,7 +2,7 @@
 import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
-import { CheckboxRadioField } from '@/components/checkbox-radio-field';
+import { CheckboxRadioField } from '@/components';
 
 import { getStyles } from './styles';
 import { IModalContent } from './types';

@@ -91,14 +91,14 @@ const Dashboard = () => {
               <div className="flex items-center justify-between mb-4 py-6 pr-2 border-b-2 border-lightBlue">
                 <div className="flex items-center gap-4">
                   <ButtonIcon
-                    icon={'back'}
-                    iconType={'primary'}
+                    icon="back"
+                    iconType="primary"
                     onClick={() => router.back()}
                   />
 
                   <ButtonIcon
-                    icon={'save'}
-                    iconType={'primary'}
+                    icon="save"
+                    iconType="primary"
                     onClick={() => setIsOpenSave(true)}
                   />
                 </div>
@@ -110,7 +110,7 @@ const Dashboard = () => {
 
               <div className="flex flex-col gap-12">
                 <Accordion
-                  initialState={true}
+                  initialState
                   classNameTitle="text-[20px]"
                   title={text('title.basicInformation')}
                   classNameChildren="flex flex-col gap-6"
@@ -139,7 +139,7 @@ const Dashboard = () => {
                       maxSize={5}
                       placeholderItalic
                       name="certificateOfRegister"
-                      accept={'pdf, jpg, jpeg, png'}
+                      accept="pdf, jpg, jpeg, png"
                       label={text('certificateOfRegister.label')}
                       placeholder={text('certificateOfRegister.placeholder')}
                     />
@@ -157,7 +157,7 @@ const Dashboard = () => {
                 </Accordion>
 
                 <Accordion
-                  initialState={true}
+                  initialState
                   classNameTitle="text-[20px]"
                   classNameChildren="flex flex-col gap-6"
                   title={text('title.contactInformation')}
@@ -210,7 +210,7 @@ const Dashboard = () => {
                 </Accordion>
 
                 <Accordion
-                  initialState={true}
+                  initialState
                   classNameWrapper="gap-0"
                   title={text('title.media')}
                   classNameTitle="text-[20px]"
