@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikValues } from 'formik';
 
 import { AddBtn } from '@/components/add-button';
+import { Accordion } from '@/components/accordion';
 import {
   Button,
   DateField,
@@ -14,9 +15,8 @@ import {
   ModalAdmin,
 } from '@/components';
 
+import { ModalContent } from './components/modal-content';
 import { initialValues, validationSchema } from './config';
-import { Accordion } from '@/components/accordion';
-import { CheckboxRadioField } from '@/components/checkbox-radio-field';
 
 const Dashboard = () => {
   const [inputFields, setInputFields] = useState<string[]>(['socialNetworks']);
@@ -82,50 +82,7 @@ const Dashboard = () => {
             btnCancelText={dashboard('modal.btn.decline')}
             btnConfirmText={dashboard('modal.btn.accept')}
             content={
-              <div>
-                <div className="flex flex-col gap-4 mb-1">
-                  <div className="flex flex-col text-center text-mobster lending-6">
-                    <span>ГО Живи</span>
-                    <span>{dashboard('modal.title.reject.subTitle')}</span>
-                  </div>
-
-                  <CheckboxRadioField
-                    type="radio"
-                    name={'adsf'}
-                    className="p-2"
-                    classNameText="text-mobster"
-                    label={dashboard('modal.radioBtn.notValidUSREOU')}
-                  />
-
-                  <CheckboxRadioField
-                    type="radio"
-                    name={'hg'}
-                    className="p-2"
-                    classNameText="text-mobster"
-                    label={dashboard('modal.radioBtn.InsufficientDocuments')}
-                  />
-
-                  <CheckboxRadioField
-                    type="radio"
-                    name={'uyt'}
-                    className="p-2"
-                    classNameText="text-mobster"
-                    label={dashboard('modal.radioBtn.nonCompliance')}
-                  />
-
-                  <CheckboxRadioField
-                    type="radio"
-                    name={'345'}
-                    className="p-2"
-                    classNameText="text-mobster"
-                    label={dashboard('modal.radioBtn.other')}
-                  />
-                </div>
-
-                <div className="p-[20px] mx-3 border rounded-md border-lightBlue text-mobster italic">
-                  {dashboard('modal.text.reject')}
-                </div>
-              </div>
+              <ModalContent name="rejectReason" organizationName={'ГО Живи'} />
             }
           />
 

@@ -9,17 +9,21 @@ import { ICheckboxProps } from '../checkbox-radio/types';
 
 export const CheckboxRadioField = ({
   name,
+  type,
   label,
   ...props
 }: ICheckboxProps) => {
   return (
     <Field name={name}>
-      {({ meta, form, field: { ...fieldProps } }: FieldProps) => {
+      {({ meta, form, field: { value, ...fieldProps } }: FieldProps) => {
         const error = Error.controlError(meta, name, label);
+        const checked = type === 'radio' ? value === label : value;
 
         const change = async (e: ChangeEvent<HTMLInputElement>) => {
           if (name) {
-            await form.setFieldValue(name, e.target.checked);
+            const value = type === 'radio' ? e.target.value : e.target.checked;
+
+            await form.setFieldValue(name, value);
             form.setFieldTouched(name);
           }
         };
@@ -28,10 +32,11 @@ export const CheckboxRadioField = ({
           <CheckboxRadio
             {...fieldProps}
             {...props}
+            type={type}
             error={error}
             label={label}
             onChange={change}
-            checked={fieldProps.value}
+            checked={checked}
           />
         );
       }}
