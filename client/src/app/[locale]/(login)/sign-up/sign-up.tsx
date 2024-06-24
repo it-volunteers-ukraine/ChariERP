@@ -4,9 +4,14 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikValues } from 'formik';
 
-import { Title } from '@/components/title';
-import { CheckboxRadioField } from '@/components/checkbox-radio-field';
-import { Button, DateField, FileField, InputField } from '@/components';
+import {
+  Title,
+  Button,
+  DateField,
+  FileField,
+  InputField,
+  CheckboxRadioField,
+} from '@/components';
 
 import { initialValues, validationSchema } from './config';
 

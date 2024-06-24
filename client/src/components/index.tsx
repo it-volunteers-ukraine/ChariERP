@@ -17,3 +17,4 @@ export { Navigation } from './navigation';
 export { Overlay } from './overlay';
 export { Pagination } from './pagination';
 export { ResponseWrapper } from './response';
+export { Title } from './title';
