@@ -6,6 +6,7 @@ import { Form, Formik, FormikValues } from 'formik';
 
 import {
   Title,
+  AddBtn,
   Button,
   DateField,
   FileField,
@@ -16,7 +17,6 @@ import {
 import { initialValues, validationSchema } from './config';
 
 import { getStyles } from './styles';
-import { AddBtn } from '@/components/add-button';
 
 const SignUp = () => {
   const [inputFields, setInputFields] = useState<string[]>(['socialNetworks']);

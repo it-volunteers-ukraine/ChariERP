@@ -29,32 +29,40 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
         </div>
 
         <CheckboxRadioField
-          type="radio"
+          id="1"
+          multiple
           name={name}
+          type="radio"
           className="p-2"
           classNameText="text-mobster"
           label={dashboard('modal.radioBtn.notValidUSREOU')}
         />
 
         <CheckboxRadioField
-          type="radio"
+          id="2"
+          multiple
           name={name}
+          type="radio"
           className="p-2"
           classNameText="text-mobster"
           label={dashboard('modal.radioBtn.InsufficientDocuments')}
         />
 
         <CheckboxRadioField
-          type="radio"
+          id="3"
+          multiple
           name={name}
+          type="radio"
           className="p-2"
           classNameText="text-mobster"
           label={dashboard('modal.radioBtn.nonCompliance')}
         />
 
         <CheckboxRadioField
-          type="radio"
+          id="4"
+          multiple
           name={name}
+          type="radio"
           className="p-2"
           itemRef={radioRef}
           classNameText="text-mobster"

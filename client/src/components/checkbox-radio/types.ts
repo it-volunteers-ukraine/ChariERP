@@ -16,6 +16,7 @@ export interface ICheckboxProps
   href?: string;
   error?: string;
   hrefText?: string;
+  multiple?: boolean;
   className?: string;
   classNameText?: string;
   itemRef?: RefObject<HTMLInputElement>;

@@ -1,3 +1,5 @@
+export { Accordion } from './accordion';
+export { AddBtn } from './add-button';
 export { AuthLinks } from './auth-links';
 export { Avatar, DashboardHeader, DashboardAside } from './dashboard';
 export { Burger } from './burger';

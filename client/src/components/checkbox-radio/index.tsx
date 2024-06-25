@@ -36,10 +36,9 @@ const CheckboxRadio = ({
     <label className={styles.label}>
       <div className={checkboxClass}>
         <input
-          ref={itemRef}
           name={name}
           type={type}
-          value={label}
+          ref={itemRef}
           checked={checked}
           disabled={disabled}
           onChange={onChange}

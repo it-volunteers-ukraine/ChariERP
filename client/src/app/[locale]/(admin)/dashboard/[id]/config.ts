@@ -16,9 +16,16 @@ interface FormValues {
   organizationTaxNumber: string;
   certificateOfRegister: string;
   dateOfRegisterOrganization: string;
+  rejectReason:
+    | string
+    | {
+        id: string;
+        value: string;
+      };
 }
 
 export const initialValues = (data?: FormValues) => ({
+  rejectReason: data?.rejectReason ?? '',
   name: data?.name ?? '',
   site: data?.site ?? '',
   email: data?.email ?? '',
