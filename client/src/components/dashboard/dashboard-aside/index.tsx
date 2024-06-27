@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
@@ -12,20 +12,14 @@ import { getLinks } from './config';
 
 export const DashboardAside = () => {
   const ref = useRef(null);
-  const { isLaptop } = useWindowWidth();
+  const { isDesktop } = useWindowWidth();
   const linkText = useTranslations('auth-page.links');
 
   const [isOpen, setIsOpen] = useState(false);
 
   useOutsideClick(ref, () => {
-    if (!isLaptop) setIsOpen(false);
+    if (!isDesktop) setIsOpen(false);
   });
-
-  useEffect(() => {
-    if (isLaptop) {
-      setIsOpen(true);
-    }
-  }, [isLaptop]);
 
   const links = getLinks({
     request: linkText('requests'),
@@ -35,11 +29,14 @@ export const DashboardAside = () => {
 
   const styles = {
     aside: clsx(
-      'h-full bg-boardAside max-w-[290px] w-full absolute laptop:relative transition-all duration-300',
-      { '-translate-x-full': !isOpen, 'translate-x-0': isOpen },
+      'h-full bg-boardAside max-w-[290px] w-full absolute desktop:relative transition-all duration-300',
+      {
+        '-translate-x-full desktop:translate-x-0': !isOpen,
+        'translate-x-0': isOpen,
+      },
     ),
     button: clsx(
-      'flex laptop:hidden items-center justify-center absolute bottom-28 rounded-full w-7 h-7 bg-white group shadow-buttonAside hover:scale-125 transition-all duration-300',
+      'flex desktop:hidden items-center justify-center absolute bottom-28 rounded-full w-7 h-7 bg-white group shadow-buttonAside hover:scale-125 transition-all duration-300',
       { '-right-4': isOpen },
       { '-right-8': !isOpen },
     ),
