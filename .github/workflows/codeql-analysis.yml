@@ -51,8 +51,7 @@ jobs:
       run: |
         npm ci
         npm run build
-        # TODO remove next line
-        # npm run test
+        npm run test
       working-directory: client
 
     - name: Perform CodeQL Analysis
