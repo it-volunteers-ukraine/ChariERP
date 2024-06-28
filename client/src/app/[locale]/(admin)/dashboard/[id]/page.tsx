@@ -5,6 +5,10 @@ import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikValues } from 'formik';
 
 import {
+  organizationValidation,
+  organizationInitialValues,
+} from '@/formik-config';
+import {
   AddBtn,
   Button,
   DateField,
@@ -16,7 +20,6 @@ import {
 } from '@/components';
 
 import { ModalContent } from './components/modal-content';
-import { initialValues, validationSchema } from './config';
 
 const Dashboard1 = () => {
   const [inputFields, setInputFields] = useState<string[]>(['socialNetworks']);
@@ -42,8 +45,10 @@ const Dashboard1 = () => {
       validateOnBlur
       validateOnChange
       onSubmit={onSubmit}
-      initialValues={initialValues()}
-      validationSchema={validationSchema((key, params) => error(key, params))}
+      initialValues={organizationInitialValues()}
+      validationSchema={organizationValidation((key, params) =>
+        error(key, params),
+      )}
     >
       {() => (
         <Form className="w-full h-full bg-boardHeader">

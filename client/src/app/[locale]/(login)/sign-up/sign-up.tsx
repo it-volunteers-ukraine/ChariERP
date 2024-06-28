@@ -5,6 +5,10 @@ import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikValues } from 'formik';
 
 import {
+  organizationInitialValues,
+  organizationValidation,
+} from '@/formik-config';
+import {
   Title,
   AddBtn,
   Button,
@@ -13,8 +17,6 @@ import {
   InputField,
   CheckboxRadioField,
 } from '@/components';
-
-import { initialValues, validationSchema } from './config';
 
 import { getStyles } from './styles';
 
@@ -39,8 +41,10 @@ const SignUp = () => {
       validateOnBlur
       validateOnChange
       onSubmit={onSubmit}
-      initialValues={initialValues}
-      validationSchema={validationSchema((key, params) => error(key, params))}
+      initialValues={organizationInitialValues()}
+      validationSchema={organizationValidation((key, params) =>
+        error(key, params),
+      )}
     >
       {() => (
         <Form className="w-full">
