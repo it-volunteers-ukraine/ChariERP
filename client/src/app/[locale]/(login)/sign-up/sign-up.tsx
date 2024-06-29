@@ -4,14 +4,21 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikValues } from 'formik';
 
-import { Title } from '@/components/title';
-import { CheckboxRadioField } from '@/components/checkbox-radio-field';
-import { Button, DateField, FileField, InputField } from '@/components';
-
-import { initialValues, validationSchema } from './config';
+import {
+  organizationValidation,
+  organizationInitialValues,
+} from '@/formik-config';
+import {
+  Title,
+  AddBtn,
+  Button,
+  DateField,
+  FileField,
+  InputField,
+  CheckboxRadioField,
+} from '@/components';
 
 import { getStyles } from './styles';
-import { AddBtn } from '@/components/add-button';
 
 const SignUp = () => {
   const [inputFields, setInputFields] = useState<string[]>(['socialNetworks']);
@@ -34,13 +41,15 @@ const SignUp = () => {
       validateOnBlur
       validateOnChange
       onSubmit={onSubmit}
-      initialValues={initialValues}
-      validationSchema={validationSchema((key, params) => error(key, params))}
+      initialValues={organizationInitialValues()}
+      validationSchema={organizationValidation((key, params) =>
+        error(key, params),
+      )}
     >
       {() => (
         <Form className="w-full">
           <Title
-            className="mb-8 mx-auto w-fit"
+            className="mb-8 mx-auto w-fit text-[26px]"
             title={registration('title.basicInformation')}
           />
 
@@ -101,7 +110,7 @@ const SignUp = () => {
           </div>
 
           <Title
-            className="mt-16 mb-8 mx-auto w-fit"
+            className="mt-16 mb-8 mx-auto w-fit text-[26px]"
             title={registration('title.contactInformation')}
           />
 
@@ -203,7 +212,7 @@ const SignUp = () => {
             <AddBtn
               onClick={addInputField}
               text={registration('button.addNewInput')}
-              className="mb-12 tablet:mb-[78px] desktop:mb-[86px]"
+              className="justify-center mb-12 tablet:mb-[78px] desktop:mb-[86px]"
             />
           )}
 

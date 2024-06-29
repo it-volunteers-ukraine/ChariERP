@@ -145,6 +145,7 @@ const config: Config = {
         btn: { inset: 'inset 0px 0px 5px 2px rgba(0,0,0,0.1)' },
         auth: '0px 0px 10px 4px rgba(0, 0, 0, 0.05)',
         circle: '0px 0px 3px 0px rgba(0, 0, 0, 0.13)',
+        bg: '0px 2px 12px 0px rgba(101, 101, 117, 0.15)',
       },
       backgroundSize: {
         200: '201%',
