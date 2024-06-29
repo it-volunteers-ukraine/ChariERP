@@ -15,7 +15,7 @@ const config: Config = {
   clearMocks: true,
   collectCoverage: true,
   coverageDirectory: 'coverage',
-  coveragePathIgnorePatterns: ['\\\\node_modules\\\\'],
+  coveragePathIgnorePatterns: ['node_modules', '.husky', 'public'],
   coverageProvider: 'v8',
   testEnvironment: 'node',
 
