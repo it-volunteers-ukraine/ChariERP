@@ -17,6 +17,8 @@ const config: Config = {
   coverageDirectory: 'coverage',
   coveragePathIgnorePatterns: ['node_modules', '.husky', 'public'],
   coverageProvider: 'v8',
+  collectCoverageFrom: ['src/**/*.{ts,tsx}'],
+  coverageReporters: ['text-summary'],
   testEnvironment: 'node',
 
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
