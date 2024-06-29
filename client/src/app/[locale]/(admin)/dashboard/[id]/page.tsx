@@ -21,12 +21,12 @@ import {
 
 import { ModalContent } from './components/modal-content';
 
-const Dashboard1 = () => {
+const Edit = () => {
+  const router = useRouter();
   const [inputFields, setInputFields] = useState<string[]>(['socialNetworks']);
   const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
   const [isOpenAccept, setIsOpenAccept] = useState<boolean>(false);
   const [isOpenDecline, setIsOpenDecline] = useState<boolean>(false);
-  const router = useRouter();
 
   const error = useTranslations('validation');
   const text = useTranslations('auth-page.registration');
@@ -275,4 +275,4 @@ const Dashboard1 = () => {
   );
 };
 
-export default Dashboard1;
+export default Edit;

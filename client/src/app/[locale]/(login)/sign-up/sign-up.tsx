@@ -5,8 +5,8 @@ import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikValues } from 'formik';
 
 import {
-  organizationInitialValues,
   organizationValidation,
+  organizationInitialValues,
 } from '@/formik-config';
 import {
   Title,
