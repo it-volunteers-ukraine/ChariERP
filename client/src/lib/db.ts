@@ -4,13 +4,11 @@ const MONGO_URI = process.env.MONGO_URI;
 
 const connectDB = async () => {
   if (!MONGO_URI) {
-    throw new Error(
-      'Please define the MONGO_URI environment variable inside .env',
-    );
+    throw new Error('Please define the MONGO_URI environment variable inside .env');
   }
 
   try {
-    if (mongoose.connections[0].readyState) {
+    if (mongoose.connections[0].readyState === 1) {
       return true;
     }
 
