@@ -8,7 +8,7 @@ const connectDB = async () => {
   }
 
   try {
-    if (mongoose.connections[0].readyState === 1) {
+    if (mongoose.connection.readyState === 1) {
       return true;
     }
 
