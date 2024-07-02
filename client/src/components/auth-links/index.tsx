@@ -1,17 +1,20 @@
 'use client';
 import { useTranslations } from 'next-intl';
-
-import { routes } from '@/constants';
+import { usePathname } from 'next/navigation';
 
 import { Links } from './links';
+import { getLinks } from './config';
 
 export const AuthLinks = () => {
+  const pathname = usePathname();
   const login = useTranslations('auth-page.links');
 
-  const links = [
-    { text: login('registration'), href: routes.registration },
-    { text: login('login'), href: routes.login },
-  ];
+  const links = getLinks({
+    pathname,
+    admin: login('admin'),
+    login: login('login'),
+    registration: login('registration'),
+  });
 
   return (
     <div className="flex tablet:gap-6 mx-4 tablet:mx-0">

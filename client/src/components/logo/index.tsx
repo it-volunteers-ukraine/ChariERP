@@ -15,12 +15,9 @@ export const Logo = ({ to, onClick, className, logoClass }: ILogoProps) => {
       })}
     >
       <LogoIcon
-        className={clsx(
-          'transition-all duration-200 group-hover/logo:drop-shadow-logo w-[68px] h-[23px]',
-          {
-            [`${logoClass}`]: logoClass,
-          },
-        )}
+        className={clsx('transition-all duration-200 group-hover/logo:drop-shadow-logo w-[68px] h-[23px]', {
+          [`${logoClass}`]: logoClass,
+        })}
       />
     </Link>
   );

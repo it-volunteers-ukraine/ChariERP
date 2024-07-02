@@ -1,9 +1,9 @@
 import { Schema, model, models } from 'mongoose';
 
-const AdminSchema = new Schema({
+const SuperAdminSchema = new Schema({
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  role: { type: String, required: true },
+  role: { type: String, default: 'admin' },
 });
 
-export default models.Admin || model('Admin', AdminSchema);
+export default models.SuperAdmin || model('SuperAdmin', SuperAdminSchema);

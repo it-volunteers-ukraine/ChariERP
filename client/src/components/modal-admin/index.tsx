@@ -22,17 +22,11 @@ export const ModalAdmin = ({
             {title}
           </h1>
 
-          {subtitle && (
-            <h2 className="text-roboto font-normal text-dimGray text-center">
-              {subtitle}
-            </h2>
-          )}
+          {subtitle && <h2 className="text-roboto font-normal text-dimGray text-center">{subtitle}</h2>}
         </div>
 
         {content && isContentString && (
-          <span className="text-roboto font-normal text-dimGray text-center">
-            {content}
-          </span>
+          <span className="text-roboto font-normal text-dimGray text-center">{content}</span>
         )}
 
         {content && !isContentString && content}

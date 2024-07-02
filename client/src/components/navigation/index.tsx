@@ -6,11 +6,7 @@ import { routes } from '@/constants';
 import { getStyles } from './styles';
 import { INavigationProps } from './types';
 
-export const Navigation = ({
-  inHeader,
-  className,
-  onBurgerClose,
-}: INavigationProps) => {
+export const Navigation = ({ inHeader, className, onBurgerClose }: INavigationProps) => {
   const { link, ul } = getStyles({ inHeader, className });
   const header = useTranslations('header');
 

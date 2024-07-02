@@ -20,27 +20,15 @@ import './style.css';
 registerLocale('ua', uk);
 registerLocale('en', enGB);
 
-const DatePickerInput = forwardRef(
-  (
-    props: InputProps & { isrequired?: string },
-    ref: React.Ref<HTMLInputElement>,
-  ) => {
-    const required = props.isrequired === 'true';
+const DatePickerInput = forwardRef((props: InputProps & { isrequired?: string }, ref: React.Ref<HTMLInputElement>) => {
+  const required = props.isrequired === 'true';
 
-    return <Input {...props} required={required} ref={ref} />;
-  },
-);
+  return <Input {...props} required={required} ref={ref} />;
+});
 
 DatePickerInput.displayName = 'DatePickerInput';
 
-export const DateField = ({
-  name,
-  label,
-  required,
-  placeholder,
-  wrapperClass,
-  ...props
-}: DateFieldProps) => {
+export const DateField = ({ name, label, required, placeholder, wrapperClass, ...props }: DateFieldProps) => {
   const locale = useLocale();
   const pickerRef = useRef<DatePicker>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);

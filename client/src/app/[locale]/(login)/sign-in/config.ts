@@ -14,21 +14,9 @@ export const initialValues = {
   password: '',
 };
 
-export const getValidationSchema = ({
-  min6,
-  min8,
-  max20,
-  max50,
-  matches,
-  required,
-}: IConfig) =>
+export const getValidationSchema = ({ min6, min8, max20, max50, matches, required }: IConfig) =>
   Yup.object().shape({
-    email: Yup.string()
-      .trim()
-      .min(6, min6)
-      .max(50, max50)
-      .email()
-      .required(required),
+    email: Yup.string().trim().min(6, min6).max(50, max50).email().required(required),
     password: Yup.string()
       .trim()
       .min(8, min8)

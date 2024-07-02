@@ -2,8 +2,7 @@
   @apply top-1/2 -translate-y-[calc(50%+2px)] rotate-[135deg];
 }
 
-#DatePicker
-  .react-datepicker__navigation.react-datepicker__navigation--previous {
+#DatePicker .react-datepicker__navigation.react-datepicker__navigation--previous {
   @apply left-[30px] top-[20px];
 }
 
@@ -15,12 +14,10 @@
   @apply flex flex-col gap-2;
 }
 
-#DatePicker
-  .react-datepicker__year-dropdown.react-datepicker__year-dropdown--scrollable {
+#DatePicker .react-datepicker__year-dropdown.react-datepicker__year-dropdown--scrollable {
   @apply top-[38px];
 }
 
-#DatePicker
-  .react-datepicker__current-month.react-datepicker__current-month--hasYearDropdown {
+#DatePicker .react-datepicker__current-month.react-datepicker__current-month--hasYearDropdown {
   @apply capitalize;
 }

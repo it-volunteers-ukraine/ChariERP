@@ -1,10 +1,6 @@
 import { notFound } from 'next/navigation';
 import { Roboto, Scada } from 'next/font/google';
-import {
-  useMessages,
-  NextIntlClientProvider,
-  useLocale as UseLocale,
-} from 'next-intl';
+import { useMessages, NextIntlClientProvider, useLocale as UseLocale } from 'next-intl';
 
 import { ChildrenProps, LocalizationProps } from '@/types';
 
@@ -26,10 +22,7 @@ const scada = Scada({
   display: 'swap',
 });
 
-export default function RootLayout({
-  params,
-  children,
-}: ChildrenProps<LocalizationProps>) {
+export default function RootLayout({ params, children }: ChildrenProps<LocalizationProps>) {
   const locale = UseLocale();
   const messages = useMessages();
 
@@ -40,9 +33,7 @@ export default function RootLayout({
   return (
     <html lang={locale} className="scroll-smooth">
       <body className={`${roboto.variable} ${scada.variable}`}>
-        <NextIntlClientProvider messages={messages}>
-          {children}
-        </NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
       </body>
     </html>
   );

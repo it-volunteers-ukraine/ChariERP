@@ -3,14 +3,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 import { Search } from '@/assets/icons';
-import {
-  Logo,
-  Burger,
-  Button,
-  Navigation,
-  ResponseWrapper,
-  LanguageSwitcher,
-} from '@/components';
+import { Logo, Burger, Button, Navigation, ResponseWrapper, LanguageSwitcher } from '@/components';
 import { routes } from '@/constants';
 
 export const Header = () => {

@@ -21,10 +21,7 @@ export const Accordion = ({
 
   return (
     <div className={styles.wrapper}>
-      <div
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-start cursor-pointer"
-      >
+      <div onClick={() => setIsOpen(!isOpen)} className="flex items-center justify-start cursor-pointer">
         <Title className={classNameTitle} title={title} />
 
         <div className={styles.arrow}>

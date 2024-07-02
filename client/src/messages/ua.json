@@ -1,6 +1,7 @@
 {
   "auth-page": {
     "links": {
+      "admin": "Створити Адміна",
       "login": "Вхід",
       "registration": "Реєстрація"
     },

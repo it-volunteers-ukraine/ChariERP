@@ -5,13 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Input } from '../input';
 import { FileInputProps, InputOnChangeEventType } from '../input/types';
 
-export const FileField = ({
-  name,
-  label,
-  accept,
-  maxSize,
-  ...props
-}: FileInputProps) => {
+export const FileField = ({ name, label, accept, maxSize, ...props }: FileInputProps) => {
   const errors = useTranslations('errors.file');
 
   return (

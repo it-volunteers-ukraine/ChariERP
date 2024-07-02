@@ -11,8 +11,7 @@ export interface IStylesProps {
   classNameText?: string;
 }
 
-export interface ICheckboxProps
-  extends Omit<InputProps, 'onChange' | 'itemRef'> {
+export interface ICheckboxProps extends Omit<InputProps, 'onChange' | 'itemRef'> {
   href?: string;
   error?: string;
   hrefText?: string;

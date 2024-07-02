@@ -2,14 +2,7 @@
 
 import { useWindowWidth } from '@/hooks/useWindowWIdth';
 
-type Endpoints =
-  | 'isMobile'
-  | 'isLaptop'
-  | 'isTablet'
-  | 'isDesktop'
-  | 'isDesktopXL'
-  | 'isNotMobile'
-  | 'isNotDesktop';
+type Endpoints = 'isMobile' | 'isLaptop' | 'isTablet' | 'isDesktop' | 'isDesktopXL' | 'isNotMobile' | 'isNotDesktop';
 interface IResponseProps {
   endpoint: Endpoints;
   children: React.ReactNode;

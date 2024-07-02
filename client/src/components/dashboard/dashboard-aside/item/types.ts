@@ -1,5 +1,4 @@
-export interface INavItemProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface INavItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   href: string;
   text: string;
   className?: string;
