@@ -31,11 +31,11 @@ export async function POST(request: Request) {
 
       const compare = await bcrypt.compare(body.password, foundUser.password);
 
-      if (!compare) {
-        return NextResponse.json({ message: 'User incorrect' }, { status: 403 });
+      if (compare) {
+        return NextResponse.json(foundUser, { status: 201 });
       }
 
-      return NextResponse.json(foundUser, { status: 201 });
+      return NextResponse.json({ message: 'User incorrect' }, { status: 403 });
     }
 
     return NextResponse.json({ message: 'User not found' }, { status: 404 });
