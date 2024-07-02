@@ -2,9 +2,7 @@ import * as Yup from 'yup';
 import { TranslationValues } from 'next-intl';
 import { isValidPhoneNumber } from 'libphonenumber-js';
 
-export const organizationValidation = (
-  error: (key: string, params?: TranslationValues) => string,
-) =>
+export const organizationValidation = (error: (key: string, params?: TranslationValues) => string) =>
   Yup.object().shape({
     organizationName: Yup.string()
       .trim()
@@ -32,11 +30,7 @@ export const organizationValidation = (
       .max(100, error('maxPlural', { int: 100 }))
       .required(error('required')),
     phone: Yup.string()
-      .test(
-        'is-valid-phone',
-        error('notValidPhone'),
-        (value) => !!isValidPhoneNumber(value as string),
-      )
+      .test('is-valid-phone', error('notValidPhone'), (value) => !!isValidPhoneNumber(value as string))
       .required('required'),
     email: Yup.string()
       .trim()
@@ -49,10 +43,10 @@ export const organizationValidation = (
       .matches(/^https:\/\/.*$/, error('siteStart'))
       .min(10, error('minPlural', { int: 10 }))
       .max(2000, error('maxPlural', { int: 2000 })),
-    socialNetworks: Yup.string()
-      .trim()
-      .matches(/^https:\/\/.*$/, error('siteStart'))
-      .min(10, error('minPlural', { int: 10 }))
-      .max(2000, error('maxPlural', { int: 2000 })),
+    // socialNetworks: Yup.string()
+    //   .trim()
+    //   .matches(/^https:\/\/.*$/, error('siteStart'))
+    //   .min(10, error('minPlural', { int: 10 }))
+    //   .max(2000, error('maxPlural', { int: 2000 })),
     agree: Yup.boolean().oneOf([true]).required(),
   });

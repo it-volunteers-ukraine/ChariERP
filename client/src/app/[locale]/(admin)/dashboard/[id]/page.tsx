@@ -2,28 +2,15 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Form, Formik, FormikValues } from 'formik';
+import { FieldArray, Form, Formik, FormikValues } from 'formik';
 
-import {
-  organizationValidation,
-  organizationInitialValues,
-} from '@/formik-config';
-import {
-  AddBtn,
-  Button,
-  DateField,
-  Accordion,
-  FileField,
-  InputField,
-  ButtonIcon,
-  ModalAdmin,
-} from '@/components';
+import { organizationValidation, organizationInitialValues } from '@/formik-config';
+import { AddBtn, Button, DateField, Accordion, FileField, InputField, ButtonIcon, ModalAdmin } from '@/components';
 
 import { ModalContent } from './components/modal-content';
 
 const Edit = () => {
   const router = useRouter();
-  const [inputFields, setInputFields] = useState<string[]>(['socialNetworks']);
   const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
   const [isOpenAccept, setIsOpenAccept] = useState<boolean>(false);
   const [isOpenDecline, setIsOpenDecline] = useState<boolean>(false);
@@ -36,21 +23,15 @@ const Edit = () => {
     console.log('data', values);
   };
 
-  const addInputField = () => {
-    setInputFields([...inputFields, 'socialNetworks']);
-  };
-
   return (
     <Formik
       validateOnBlur
       validateOnChange
       onSubmit={onSubmit}
       initialValues={organizationInitialValues()}
-      validationSchema={organizationValidation((key, params) =>
-        error(key, params),
-      )}
+      validationSchema={organizationValidation((key, params) => error(key, params))}
     >
-      {() => (
+      {({ values }) => (
         <Form className="w-full h-full bg-boardHeader">
           <ModalAdmin
             isOpen={isOpenSave}
@@ -86,31 +67,19 @@ const Edit = () => {
             title={dashboard('modal.title.reject.title')}
             btnCancelText={dashboard('modal.btn.decline')}
             btnConfirmText={dashboard('modal.btn.accept')}
-            content={
-              <ModalContent name="rejectReason" organizationName={'ГО Живи'} />
-            }
+            content={<ModalContent name="rejectReason" organizationName={'ГО Живи'} />}
           />
 
           <div className="flex justify-start px-8 pb-12 bg-white rounded-lg shadow-bg">
             <div className="w-[994px]">
               <div className="flex items-center justify-between mb-4 py-6 pr-2 border-b-2 border-lightBlue">
                 <div className="flex items-center gap-4">
-                  <ButtonIcon
-                    icon="back"
-                    iconType="primary"
-                    onClick={() => router.back()}
-                  />
+                  <ButtonIcon icon="back" iconType="primary" onClick={() => router.back()} />
 
-                  <ButtonIcon
-                    icon="save"
-                    iconType="primary"
-                    onClick={() => setIsOpenSave(true)}
-                  />
+                  <ButtonIcon icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
                 </div>
 
-                <div className="text-[18px] text-lightBlue leading-6 capitalize">
-                  №2223
-                </div>
+                <div className="text-[18px] text-lightBlue leading-6 capitalize">№2223</div>
               </div>
 
               <div className="flex flex-col gap-12">
@@ -130,12 +99,7 @@ const Edit = () => {
                       label={dashboard('organizationTaxNumber.label')}
                     />
 
-                    <InputField
-                      isCopy
-                      required
-                      name="organizationName"
-                      label={text('organizationName.label')}
-                    />
+                    <InputField isCopy required name="organizationName" label={text('organizationName.label')} />
                   </div>
 
                   <div className="flex items-center gap-16">
@@ -154,9 +118,7 @@ const Edit = () => {
                       placeholderItalic
                       name="dateOfRegisterOrganization"
                       label={text('dateOfRegisterOrganization.label')}
-                      placeholder={text(
-                        'dateOfRegisterOrganization.placeholder',
-                      )}
+                      placeholder={text('dateOfRegisterOrganization.placeholder')}
                     />
                   </div>
                 </Accordion>
@@ -168,31 +130,15 @@ const Edit = () => {
                   title={text('title.contactInformation')}
                 >
                   <div className="flex items-center gap-16">
-                    <InputField
-                      required
-                      name="positionOrganization"
-                      label={text('positionOrganization.label')}
-                    />
+                    <InputField required name="positionOrganization" label={text('positionOrganization.label')} />
 
-                    <InputField
-                      required
-                      name="lastName"
-                      label={text('lastName.label')}
-                    />
+                    <InputField required name="lastName" label={text('lastName.label')} />
                   </div>
 
                   <div className="flex items-center gap-16">
-                    <InputField
-                      required
-                      name="name"
-                      label={text('name.label')}
-                    />
+                    <InputField required name="name" label={text('name.label')} />
 
-                    <InputField
-                      required
-                      name="middleName"
-                      label={text('middleName.label')}
-                    />
+                    <InputField required name="middleName" label={text('middleName.label')} />
                   </div>
 
                   <div className="flex items-center gap-16">
@@ -205,12 +151,7 @@ const Edit = () => {
                       placeholder="+38(0__)___-__-__"
                     />
 
-                    <InputField
-                      isCopy
-                      required
-                      name="email"
-                      label={text('email.label')}
-                    />
+                    <InputField isCopy required name="email" label={text('email.label')} />
                   </div>
                 </Accordion>
 
@@ -220,43 +161,43 @@ const Edit = () => {
                   title={text('title.media')}
                   classNameTitle="text-[20px]"
                 >
-                  <InputField
-                    cross
-                    name="site"
-                    wrapperClass="mb-6 max-w-[465px]"
-                    label={text('site.label')}
+                  <InputField cross name="site" wrapperClass="mb-6 max-w-[465px]" label={text('site.label')} />
+
+                  <FieldArray
+                    name="socialNetworks"
+                    render={(arrayHelpers) => (
+                      <>
+                        {values.socialNetworks.map((_, index) => (
+                          <div key={index}>
+                            <InputField
+                              cross
+                              key={`media-signUp-${index}`}
+                              name={`socialNetworks.${index}`}
+                              label={text('socialNetworks.label')}
+                              wrapperClass={
+                                index + 1 === values.socialNetworks.length - 1 ? 'max-w-[465px]' : 'mb-6 max-w-[465px]'
+                              }
+                            />
+                            {/* <button type="button" onClick={() => arrayHelpers.remove(index)}>
+                        delete
+                      </button> */}
+                          </div>
+                        ))}
+
+                        {values.socialNetworks.length < 5 && (
+                          <AddBtn
+                            onClick={() => arrayHelpers.push('')}
+                            text={text('button.addNewInput')}
+                            className="justify-start !leading-4"
+                          />
+                        )}
+                      </>
+                    )}
                   />
-
-                  {inputFields.map((name, index) => (
-                    <InputField
-                      cross
-                      name={name}
-                      key={`media-signUp-${index}`}
-                      label={text('socialNetworks.label')}
-                      wrapperClass={
-                        index === inputFields.length - 1
-                          ? 'max-w-[465px]'
-                          : 'mb-6 max-w-[465px]'
-                      }
-                    />
-                  ))}
-
-                  {inputFields.length < 5 && (
-                    <AddBtn
-                      onClick={addInputField}
-                      text={text('button.addNewInput')}
-                      className="flex justify-start py-2 leading-4"
-                    />
-                  )}
                 </Accordion>
 
                 <div className="flex justify-end w-full gap-6">
-                  <Button
-                    text="Accept"
-                    styleType="green"
-                    className="w-[90px]"
-                    onClick={() => setIsOpenAccept(true)}
-                  />
+                  <Button text="Accept" styleType="green" className="w-[90px]" onClick={() => setIsOpenAccept(true)} />
 
                   <Button
                     type="submit"
