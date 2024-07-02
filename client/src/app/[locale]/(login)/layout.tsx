@@ -9,10 +9,7 @@ import { getStyles } from './styles';
 
 export default function Layout({ children }: ChildrenProps<LocalizationProps>) {
   const pathname = usePathname();
-  const styles = getStyles(
-    pathname === routes.login,
-    pathname === routes.registration,
-  );
+  const styles = getStyles(pathname === routes.login, pathname === routes.registration);
 
   return (
     <>

@@ -9,16 +9,11 @@ import { UA, EN } from '@/assets/icons';
 import { getStyles } from './styles';
 import { ActiveLanguage, ILanguageSwitcherProps } from './types';
 
-export const LanguageSwitcher = ({
-  isNarrow,
-  className,
-}: ILanguageSwitcherProps): JSX.Element => {
+export const LanguageSwitcher = ({ isNarrow, className }: ILanguageSwitcherProps): JSX.Element => {
   const local = useLocale();
   const router = useRouter();
 
-  const [activeLanguage, setActiveLanguage] = useState<ActiveLanguage>(
-    local as ActiveLanguage,
-  );
+  const [activeLanguage, setActiveLanguage] = useState<ActiveLanguage>(local as ActiveLanguage);
 
   const { en, ua, icon, iconWrapper, wrapper, span } = getStyles({
     isNarrow,
@@ -27,10 +22,7 @@ export const LanguageSwitcher = ({
   });
 
   const handleClick = () => {
-    const newLanguage =
-      activeLanguage === ActiveLanguage.EN
-        ? ActiveLanguage.UA
-        : ActiveLanguage.EN;
+    const newLanguage = activeLanguage === ActiveLanguage.EN ? ActiveLanguage.UA : ActiveLanguage.EN;
 
     setActiveLanguage(newLanguage);
 
