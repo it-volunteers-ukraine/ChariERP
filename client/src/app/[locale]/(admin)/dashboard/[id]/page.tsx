@@ -175,7 +175,7 @@ const Edit = () => {
                               name={`socialNetworks.${index}`}
                               label={text('socialNetworks.label')}
                               wrapperClass={
-                                index + 1 === values.socialNetworks.length - 1 ? 'max-w-[465px]' : 'mb-6 max-w-[465px]'
+                                index === values.socialNetworks.length - 1 ? 'max-w-[465px]' : 'mb-6 max-w-[465px]'
                               }
                             />
                             {/* <button type="button" onClick={() => arrayHelpers.remove(index)}>
@@ -188,7 +188,7 @@ const Edit = () => {
                           <AddBtn
                             onClick={() => arrayHelpers.push('')}
                             text={text('button.addNewInput')}
-                            className="justify-start !leading-4"
+                            className="justify-start mt-3 !leading-4"
                           />
                         )}
                       </>

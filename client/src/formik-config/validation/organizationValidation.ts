@@ -43,10 +43,12 @@ export const organizationValidation = (error: (key: string, params?: Translation
       .matches(/^https:\/\/.*$/, error('siteStart'))
       .min(10, error('minPlural', { int: 10 }))
       .max(2000, error('maxPlural', { int: 2000 })),
-    // socialNetworks: Yup.string()
-    //   .trim()
-    //   .matches(/^https:\/\/.*$/, error('siteStart'))
-    //   .min(10, error('minPlural', { int: 10 }))
-    //   .max(2000, error('maxPlural', { int: 2000 })),
+    socialNetworks: Yup.array().of(
+      Yup.string()
+        .trim()
+        .matches(/^https:\/\/.*$/, error('siteStart'))
+        .min(10, error('minPlural', { int: 10 }))
+        .max(2000, error('maxPlural', { int: 2000 })),
+    ),
     agree: Yup.boolean().oneOf([true]).required(),
   });
