@@ -1,10 +1,6 @@
 import { ReactNode, DetailedHTMLProps, ButtonHTMLAttributes } from 'react';
 
-interface CustomButton
-  extends DetailedHTMLProps<
-    ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  > {}
+interface CustomButton extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {}
 
 export interface IButtonProps extends CustomButton {
   text?: string;

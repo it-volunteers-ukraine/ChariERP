@@ -28,20 +28,12 @@ export const Button = ({
   };
 
   return (
-    <button
-      className={btn}
-      disabled={disabled}
-      onClick={handleClick}
-      {...props}
-    >
+    <button className={btn} disabled={disabled} onClick={handleClick} {...props}>
       {text && <span className={span}>{text}</span>}
 
       {Icon && <div className={iconWrapper}>{Icon}</div>}
 
-      {!disabled &&
-        (styleType === 'primary' || styleType === 'icon-primary') && (
-          <div className={overlay}></div>
-        )}
+      {!disabled && (styleType === 'primary' || styleType === 'icon-primary') && <div className={overlay}></div>}
     </button>
   );
 };

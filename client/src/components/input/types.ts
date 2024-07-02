@@ -1,24 +1,10 @@
-import {
-  DetailedHTMLProps,
-  InputHTMLAttributes,
-  TextareaHTMLAttributes,
-} from 'react';
+import { DetailedHTMLProps, InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
 
-export type InputOnChangeEventType =
-  | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  | string;
+export type InputOnChangeEventType = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string;
 
-interface CustomInput
-  extends DetailedHTMLProps<
-    InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  > {}
+interface CustomInput extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {}
 
-interface CustomTextarea
-  extends DetailedHTMLProps<
-    TextareaHTMLAttributes<HTMLTextAreaElement>,
-    HTMLTextAreaElement
-  > {}
+interface CustomTextarea extends DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> {}
 
 type SearchValue = string | number | readonly string[] | undefined;
 

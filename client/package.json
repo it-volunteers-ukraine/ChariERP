@@ -13,8 +13,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/react-datepicker": "^6.2.0",
     "aws4": "^1.13.0",
+    "axios": "^1.7.2",
+    "bcrypt": "^5.1.1",
     "clsx": "^2.1.0",
     "date-fns": "^3.6.0",
     "formik": "^2.4.5",

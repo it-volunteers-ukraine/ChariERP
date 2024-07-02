@@ -2,11 +2,7 @@ import clsx from 'clsx';
 
 import { INavItemStylesProps } from './types';
 
-export const getStyles = ({
-  className,
-  isActive,
-  disabled,
-}: INavItemStylesProps) => ({
+export const getStyles = ({ className, isActive, disabled }: INavItemStylesProps) => ({
   wrapper: clsx(
     'group/navItem items-center bg-transparent rounded-[5px]  flex w-full max-w-[214px] p-[10px_12px] gap-5 outline-none focus-visible:outline-none focus:outline-none transition-all duration-300',
     className,

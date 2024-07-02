@@ -1,20 +1,21 @@
 'use client';
 import axios, { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
 import { FormikHelpers, FormikValues } from 'formik';
+import { useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
 
 import { LoginForm } from '../login-form';
 
-const SignIn = () => {
+const AdminPage = () => {
   const router = useRouter();
-  const onSubmit = async (values: FormikValues, handleFormik?: FormikHelpers<FormikValues>) => {
+
+  const onSubmit = async ({ email, password }: FormikValues, handleFormik?: FormikHelpers<FormikValues>) => {
     try {
-      await axios.post('/api/users', { email: values.email, password: values.password });
+      await axios.post(`/api/admin`, { email, password }).then(({ data }) => data);
 
       router.push(routes.dashboard);
-    } catch (error) {
+    } catch (error: unknown) {
       if (error instanceof AxiosError) {
         handleFormik?.setFieldError('email', error.response?.data.message);
       }
@@ -24,4 +25,4 @@ const SignIn = () => {
   return <LoginForm onSubmit={onSubmit} />;
 };
 
-export default SignIn;
+export default AdminPage;

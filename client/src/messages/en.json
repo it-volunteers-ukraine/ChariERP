@@ -1,6 +1,7 @@
 {
   "auth-page": {
     "links": {
+      "admin": "Create Admin",
       "login": "Sign In",
       "registration": "Sign Up"
     },

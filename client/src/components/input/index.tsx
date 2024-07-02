@@ -3,26 +3,13 @@
 import React, { useState, forwardRef } from 'react';
 import { PatternFormat } from 'react-number-format';
 
-import {
-  Eye,
-  Info,
-  Clip,
-  Copy,
-  EyeOff,
-  Search,
-  Warning,
-  Calendar,
-  InputClose,
-} from '@/assets/icons';
+import { Eye, Info, Clip, Copy, EyeOff, Search, Warning, Calendar, InputClose } from '@/assets/icons';
 
 import './styles.css';
 import { getStyles } from './styles';
 import { InputProps } from './types';
 
-export const Input = forwardRef<
-  HTMLInputElement | HTMLTextAreaElement,
-  InputProps
->(
+export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
   (
     {
       info,
@@ -87,12 +74,7 @@ export const Input = forwardRef<
               </legend>
             )}
 
-            {type === 'search' && (
-              <Search
-                className={styles.search}
-                onClick={() => onSearch && onSearch(value)}
-              />
-            )}
+            {type === 'search' && <Search className={styles.search} onClick={() => onSearch && onSearch(value)} />}
 
             {!isMasked && !isTextarea && type !== 'file' && (
               <input
@@ -106,9 +88,7 @@ export const Input = forwardRef<
               />
             )}
 
-            {type === 'date' && (
-              <span className={styles.input}>{value || props.placeholder}</span>
-            )}
+            {type === 'date' && <span className={styles.input}>{value || props.placeholder}</span>}
 
             {isMasked && (
               <PatternFormat
@@ -118,11 +98,7 @@ export const Input = forwardRef<
                 placeholder={props.placeholder}
                 value={(value as string) || undefined}
                 onChange={(e) => onChange && onChange(e.target.value)}
-                defaultValue={
-                  Array.isArray(value) && value.length > 0
-                    ? value[0]
-                    : undefined
-                }
+                defaultValue={Array.isArray(value) && value.length > 0 ? value[0] : undefined}
                 {...props}
               />
             )}
@@ -150,71 +126,41 @@ export const Input = forwardRef<
                   {...props}
                 />
 
-                <span className={styles.input}>
-                  {value || props.placeholder}
-                </span>
+                <span className={styles.input}>{value || props.placeholder}</span>
               </>
             )}
 
             {type === 'password' && (
               <div className={styles.div} onClick={handleFocus}>
                 {inputType === 'password' ? (
-                  <EyeOff
-                    width={24}
-                    height={24}
-                    className={styles.iconEye}
-                    onClick={() => setInputType('text')}
-                  />
+                  <EyeOff width={24} height={24} className={styles.iconEye} onClick={() => setInputType('text')} />
                 ) : (
-                  <Eye
-                    width={24}
-                    height={24}
-                    className={styles.iconEye}
-                    onClick={() => setInputType('password')}
-                  />
+                  <Eye width={24} height={24} className={styles.iconEye} onClick={() => setInputType('password')} />
                 )}
               </div>
             )}
 
             {cross && value && (
               <div className={styles.div} onClick={handleClearInput}>
-                <InputClose
-                  width={24}
-                  height={24}
-                  className={`${styles.iconEye} ${styles.iconClose}`}
-                />
+                <InputClose width={24} height={24} className={`${styles.iconEye} ${styles.iconClose}`} />
               </div>
             )}
 
             {isCopy && (
               <div className={styles.iconCopyDiv} onClick={onCopyToClipboard}>
-                <Copy
-                  width={24}
-                  height={24}
-                  className={`${styles.iconEye} ${styles.iconCopy}`}
-                />
+                <Copy width={24} height={24} className={`${styles.iconEye} ${styles.iconCopy}`} />
               </div>
             )}
 
             {type === 'date' && (
               <div className={styles.div}>
-                <Calendar
-                  width={24}
-                  height={24}
-                  className={`${styles.iconEye} ${styles.iconClip}`}
-                />
+                <Calendar width={24} height={24} className={`${styles.iconEye} ${styles.iconClip}`} />
               </div>
             )}
 
             {type === 'file' && (
               <div className={styles.div}>
-                {!value && (
-                  <Clip
-                    width={24}
-                    height={24}
-                    className={`${styles.iconEye} ${styles.iconClip}`}
-                  />
-                )}
+                {!value && <Clip width={24} height={24} className={`${styles.iconEye} ${styles.iconClip}`} />}
 
                 {value && (
                   <InputClose
@@ -239,11 +185,7 @@ export const Input = forwardRef<
 
         {info && (
           <div className="flex items-center text-input-info w-full relative top-1">
-            <Info
-              width={24}
-              height={24}
-              className="hidden tablet:flex self-center text-input-info mr-3 shrink-0"
-            />
+            <Info width={24} height={24} className="hidden tablet:flex self-center text-input-info mr-3 shrink-0" />
 
             <span className={styles.infoSpan}>{info}</span>
           </div>
