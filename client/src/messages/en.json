@@ -72,6 +72,38 @@
         "link": "Privacy Policy",
         "info": "I agree to the processing of personal data in accordance with the"
       }
+    },
+    "dashboard": {
+      "organizationTaxNumber": {
+        "label": "USREOU"
+      },
+      "modal": {
+        "btn": {
+          "yes": "YES",
+          "no": "NO",
+          "accept": "ACCEPT",
+          "decline": "DECLINE"
+        },
+        "radioBtn": {
+          "notValidUSREOU": "Incorrect or inaccurate data in the EDRPOU.",
+          "InsufficientDocuments": "Insufficient documents to confirm the status of a charitable organization..",
+          "nonCompliance": "Failure to comply with the requirements or norms stipulated by law for charitable organizations.",
+          "other": "Other"
+        },
+        "title": {
+          "register": "REGISTER?",
+          "save": "SAVE CHANGES?",
+          "reject": {
+            "title": "REJECT THE APPLICATION?",
+            "subTitle": "Please specify the reason:"
+          }
+        },
+        "text": {
+          "register": "and send an email with the password to ",
+          "save": "This page contains data that was not saved.",
+          "reject": "Unfortunately, your application cannot be reviewed due to duplicate information. We have already received a similar application from your organization, so in this case, you do not need to apply again. Please expect a response by."
+        }
+      }
     }
   },
   "validation": {

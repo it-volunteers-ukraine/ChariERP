@@ -15,9 +15,13 @@ const config: Config = {
   clearMocks: true,
   collectCoverage: true,
   coverageDirectory: 'coverage',
-  coveragePathIgnorePatterns: ['\\\\node_modules\\\\'],
+  coveragePathIgnorePatterns: ['node_modules', '.husky', 'public'],
   coverageProvider: 'v8',
-  testEnvironment: 'jsdom',
+  collectCoverageFrom: ['src/**/*.{ts,tsx}'],
+  coverageReporters: ['text-summary'],
+  testEnvironment: 'node',
+
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 
   // An object that configures minimum threshold enforcement for coverage results
   // coverageThreshold: undefined,
