@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikValues } from 'formik';
 
 import { organizationValidation, organizationInitialValues } from '@/formik-config';
-import { Title, AddBtn, Button, DateField, FileField, InputField, CheckboxRadioField } from '@/components';
+import { Title, AddBtn, Button, DateField, FileField, InputField, CheckboxRadioField, showMessage } from '@/components';
 
 import { getStyles } from './styles';
 
@@ -24,6 +24,8 @@ const SignUp = () => {
   const addInputField = () => {
     setInputFields([...inputFields, 'socialNetworks']);
   };
+
+  console.log(showMessage.error('fgfhj'));
 
   return (
     <Formik

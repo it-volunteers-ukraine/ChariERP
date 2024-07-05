@@ -20,3 +20,4 @@ export { Overlay } from './overlay';
 export { Pagination } from './pagination';
 export { ResponseWrapper } from './response';
 export { Title } from './title';
+export { Toast, showMessage } from './toastify';
