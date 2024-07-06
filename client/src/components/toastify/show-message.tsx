@@ -1,7 +1,7 @@
-'use client';
+// 'use client';
 import { toast, ToastContainerProps } from 'react-toastify';
 
-const getOptions = (options?: ToastContainerProps) => (options ? options : { autoClose: 3000 });
+const getOptions = (options?: ToastContainerProps) => options || { autoClose: 3000 };
 
 const messageShow = () => ({
   info: (message: string, options?: ToastContainerProps) => {
