@@ -1,17 +1,19 @@
-import { DashboardAside, DashboardHeader } from '@/components';
-
 import { ChildrenProps } from '@/types';
+import { RoleProvider } from '@/context';
+import { DashboardAside, DashboardHeader } from '@/components';
 
 export default async function Layout({ children }: ChildrenProps) {
   return (
-    <div className="flex h-dvh">
-      <DashboardAside />
+    <RoleProvider>
+      <div className="flex h-dvh">
+        <DashboardAside />
 
-      <div className="flex flex-col w-[calc(100vw-290px)]">
-        <DashboardHeader />
+        <div className="flex flex-col w-[calc(100vw-290px)]">
+          <DashboardHeader />
 
-        <div className="w-full h-full overflow-y-auto">{children}</div>
+          <div className="w-full h-full overflow-y-auto">{children}</div>
+        </div>
       </div>
-    </div>
+    </RoleProvider>
   );
 }
