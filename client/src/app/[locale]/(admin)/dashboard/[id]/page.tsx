@@ -17,8 +17,8 @@ const Edit = () => {
   const [isOpenDecline, setIsOpenDecline] = useState<boolean>(false);
 
   const error = useTranslations('validation');
-  const text = useTranslations('auth-page.registration');
-  const dashboard = useTranslations('auth-page.dashboard');
+  const modal = useTranslations('auth-page.model');
+  const text = useTranslations('auth-page.organization');
 
   const onSubmit = (values: FormikValues) => {
     console.log('data', values);
@@ -37,29 +37,29 @@ const Edit = () => {
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
       {() => (
-        <Form className="w-full h-full bg-boardHeader">
+        <Form className="w-full">
           <ModalAdmin
             isOpen={isOpenSave}
             onConfirm={() => {}}
+            title={modal('title.save')}
+            content={modal('text.save')}
+            btnCancelText={modal('btn.no')}
+            btnConfirmText={modal('btn.yes')}
             onClose={() => setIsOpenSave(false)}
-            title={dashboard('modal.title.save')}
-            content={dashboard('modal.text.save')}
-            btnCancelText={dashboard('modal.btn.no')}
-            btnConfirmText={dashboard('modal.btn.yes')}
           />
 
           <ModalAdmin
             isOpen={isOpenAccept}
             onConfirm={() => {}}
+            title={modal('title.register')}
+            btnCancelText={modal('btn.no')}
+            btnConfirmText={modal('btn.yes')}
             onClose={() => setIsOpenAccept(false)}
-            title={dashboard('modal.title.register')}
-            btnCancelText={dashboard('modal.btn.no')}
-            btnConfirmText={dashboard('modal.btn.yes')}
             content={
               <div className="flex flex-col text-center text-mobster lending-6">
                 <span>ГО Живи</span>
                 <span>
-                  {dashboard('modal.text.register')} {' adshfg@mail.com'}
+                  {modal('text.register')} {' adshfg@mail.com'}
                 </span>
               </div>
             }
@@ -69,9 +69,9 @@ const Edit = () => {
             onConfirm={() => {}}
             isOpen={isOpenDecline}
             onClose={() => setIsOpenDecline(false)}
-            title={dashboard('modal.title.reject.title')}
-            btnCancelText={dashboard('modal.btn.decline')}
-            btnConfirmText={dashboard('modal.btn.accept')}
+            title={modal('title.reject.title')}
+            btnCancelText={modal('btn.decline')}
+            btnConfirmText={modal('btn.accept')}
             content={<ModalContent name="rejectReason" organizationName={'ГО Живи'} />}
           />
 
@@ -101,7 +101,7 @@ const Edit = () => {
                       type="number"
                       wrapperClass="max-w-[140px]"
                       name="organizationTaxNumber"
-                      label={dashboard('organizationTaxNumber.label')}
+                      label={text('organizationTaxNumber.label2')}
                     />
 
                     <InputField isCopy required name="organizationName" label={text('organizationName.label')} />
