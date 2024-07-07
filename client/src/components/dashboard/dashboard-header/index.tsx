@@ -1,11 +1,17 @@
 'use client';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
+
 import { Exit } from '@/assets/icons';
 
 import { Avatar } from '../avatar';
 
 export const DashboardHeader = () => {
+  const router = useRouter();
+
   const onExit = () => {
-    console.log('Exit');
+    Cookies.remove('id');
+    router.push('/');
   };
 
   return (

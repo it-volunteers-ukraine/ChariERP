@@ -11,12 +11,15 @@ export async function GET() {
     await connectDB();
 
     const admin = await Admin.findById(id?.value);
+
+    if (admin) {
+      return NextResponse.json(admin);
+    }
+
     const user = await User.findById(id?.value);
 
-    const foundUser = user || admin;
-
-    if (foundUser) {
-      return NextResponse.json(foundUser);
+    if (user) {
+      return NextResponse.json(user);
     }
 
     return NextResponse.json({ message: 'User not found' }, { status: 404 });

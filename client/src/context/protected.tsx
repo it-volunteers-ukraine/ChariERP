@@ -1,9 +1,9 @@
 'use client';
-import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { routes } from '@/constants';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
+import { routes } from '@/constants';
 import { ChildrenProps, Roles } from '@/types';
 
 interface IProtectedContext {
@@ -21,18 +21,18 @@ export const useRole = () => {
 };
 
 export const RoleProvider = ({ children }: ChildrenProps) => {
+  const router = useRouter();
   const [role, setRole] = useState<Roles | null>(null);
 
-  const getRoles = async () => {
+  const getRoles = useCallback(async () => {
     try {
       const { data } = await axios.get('/api/roles');
 
       setRole(data.role);
     } catch (error) {
-      console.log(error);
-      redirect(routes.login);
+      router.push(routes.login);
     }
-  };
+  }, [role]);
 
   useEffect(() => {
     if (!role) {

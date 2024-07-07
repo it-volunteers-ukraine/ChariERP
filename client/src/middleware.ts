@@ -1,6 +1,8 @@
+import { Types } from 'mongoose';
 import createMiddleware from 'next-intl/middleware';
-import { locales } from './constants';
 import { NextRequest, NextResponse } from 'next/server';
+
+import { locales, routes } from './constants';
 
 const intlMiddleware = createMiddleware({
   locales,
@@ -8,15 +10,25 @@ const intlMiddleware = createMiddleware({
   localePrefix: 'never',
 });
 
-const isLogin = true;
-
 export async function middleware(request: NextRequest) {
   const response = intlMiddleware(request);
 
-  if (!isLogin && request.nextUrl.pathname === '/sign-in') {
+  const cookies = request.cookies;
+  const id = cookies.get('id')?.value || '';
+  const isValidId = Types.ObjectId.isValid(id);
+
+  if (!isValidId && request.nextUrl.pathname.includes(routes.dashboard)) {
     const url = request.nextUrl.clone();
 
-    url.pathname = '/';
+    url.pathname = routes.login;
+
+    return NextResponse.redirect(url);
+  }
+
+  if (isValidId && request.nextUrl.pathname === routes.login) {
+    const url = request.nextUrl.clone();
+
+    url.pathname = routes.dashboard;
 
     return NextResponse.redirect(url);
   }
