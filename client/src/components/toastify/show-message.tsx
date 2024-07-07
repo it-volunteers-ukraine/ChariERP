@@ -1,4 +1,3 @@
-// 'use client';
 import { toast, ToastContainerProps } from 'react-toastify';
 
 const getOptions = (options?: ToastContainerProps) => options || { autoClose: 3000 };

@@ -1,4 +1,3 @@
-'use client';
 import { ToastContainer, ToastContainerProps } from 'react-toastify';
 
 import { showMessage } from './show-message';

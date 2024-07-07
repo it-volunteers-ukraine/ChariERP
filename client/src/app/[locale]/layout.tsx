@@ -2,10 +2,10 @@ import { notFound } from 'next/navigation';
 import { Roboto, Scada } from 'next/font/google';
 import { useMessages, NextIntlClientProvider, useLocale as UseLocale } from 'next-intl';
 
-import { Toast } from '@/components';
 import { ChildrenProps, LocalizationProps } from '@/types';
 
 import '../../styles/globals.css';
+import { WidthToast } from './width-toast';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -34,8 +34,9 @@ export default function RootLayout({ params, children }: ChildrenProps<Localizat
   return (
     <html lang={locale} className="scroll-smooth">
       <body className={`${roboto.variable} ${scada.variable}`}>
-        <Toast limit={5} />
-        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages}>
+          <WidthToast>{children}</WidthToast>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
