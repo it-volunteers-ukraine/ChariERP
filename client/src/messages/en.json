@@ -6,10 +6,12 @@
       "registration": "Sign Up"
     },
     "login": {
+      "email": "Email",
       "password": "Password",
       "button": "Sign In"
     },
     "organization": {
+      "mainInfo": "On this page, you can edit the data that was specified during registration. Name of the organization, add or change media links, organization phone number, etc.",
       "title": {
         "basicInformation": "Basic information",
         "contactInformation": "Contact information",
