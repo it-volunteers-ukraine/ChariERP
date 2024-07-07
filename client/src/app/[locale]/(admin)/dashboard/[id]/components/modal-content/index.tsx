@@ -11,7 +11,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
   const [value, setValue] = useState<string>('');
 
   const radioRef: RefObject<HTMLInputElement> = useRef(null);
-  const dashboard = useTranslations('auth-page.dashboard');
+  const modal = useTranslations('auth-page.modal');
   const isChecked = radioRef.current?.checked;
 
   const styles = getStyles(isChecked);
@@ -25,7 +25,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
       <div className="flex flex-col gap-4 mb-1">
         <div className="flex flex-col text-center text-mobster lending-6">
           <span>{organizationName}</span>
-          <span>{dashboard('modal.title.reject.subTitle')}</span>
+          <span>{modal('modal.title.reject.subTitle')}</span>
         </div>
 
         <CheckboxRadioField
@@ -35,7 +35,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           type="radio"
           className="p-2"
           classNameText="text-mobster"
-          label={dashboard('modal.radioBtn.notValidUSREOU')}
+          label={modal('radioBtn.notValidUSREOU')}
         />
 
         <CheckboxRadioField
@@ -45,7 +45,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           type="radio"
           className="p-2"
           classNameText="text-mobster"
-          label={dashboard('modal.radioBtn.InsufficientDocuments')}
+          label={modal('radioBtn.InsufficientDocuments')}
         />
 
         <CheckboxRadioField
@@ -55,7 +55,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           type="radio"
           className="p-2"
           classNameText="text-mobster"
-          label={dashboard('modal.radioBtn.nonCompliance')}
+          label={modal('radioBtn.nonCompliance')}
         />
 
         <CheckboxRadioField
@@ -66,7 +66,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           className="p-2"
           itemRef={radioRef}
           classNameText="text-mobster"
-          label={dashboard('modal.radioBtn.other')}
+          label={modal('radioBtn.other')}
         />
       </div>
 
