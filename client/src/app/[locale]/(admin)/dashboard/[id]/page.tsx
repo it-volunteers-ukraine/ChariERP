@@ -63,10 +63,10 @@ const Edit = () => {
           <ModalAdmin
             onConfirm={() => {}}
             isOpen={isOpenDecline}
+            title={modal('title.reject.title')}
+            btnCancelText={modal('btn.decline')}
+            btnConfirmText={modal('btn.accept')}
             onClose={() => setIsOpenDecline(false)}
-            title={modal('modal.title.reject.title')}
-            btnCancelText={modal('modal.btn.decline')}
-            btnConfirmText={modal('modal.btn.accept')}
             content={<ModalContent name="rejectReason" organizationName={'ГО Живи'} />}
           />
 
