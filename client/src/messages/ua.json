@@ -10,7 +10,7 @@
       "password": "Пароль",
       "button": "Увійти"
     },
-    "registration": {
+    "organization": {
       "title": {
         "basicInformation": "основна інформація",
         "contactInformation": "контактна інформація",
