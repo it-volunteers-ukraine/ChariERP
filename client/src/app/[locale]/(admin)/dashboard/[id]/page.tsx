@@ -21,6 +21,7 @@ import { ModalContent } from './components/modal-content';
 
 const Edit = () => {
   const router = useRouter();
+  const btn = useTranslations('button');
   const modal = useTranslations('modal');
   const error = useTranslations('validation');
   const text = useTranslations('auth-page.organization');
@@ -46,25 +47,27 @@ const Edit = () => {
           <ModalAdmin
             isOpen={isOpenSave}
             onConfirm={() => {}}
+            classNameBtn="w-[82px]"
+            title={modal('save.title')}
+            content={modal('save.text')}
             onClose={() => setIsOpenSave(false)}
-            title={modal('title.save')}
-            content={modal('text.save')}
-            btnCancelText={modal('btn.no')}
-            btnConfirmText={modal('btn.yes')}
+            btnCancelText={modal('save.btn.no')}
+            btnConfirmText={modal('save.btn.yes')}
           />
 
           <ModalAdmin
             isOpen={isOpenAccept}
             onConfirm={() => {}}
+            classNameBtn="w-[82px]"
+            title={modal('register.title')}
             onClose={() => setIsOpenAccept(false)}
-            title={modal('title.register')}
-            btnCancelText={modal('btn.no')}
-            btnConfirmText={modal('btn.yes')}
+            btnCancelText={modal('register.btn.no')}
+            btnConfirmText={modal('register.btn.yes')}
             content={
               <div className="flex flex-col text-center text-mobster lending-6">
                 <span>ГО Живи</span>
                 <span>
-                  {modal('text.register')} {' adshfg@mail.com'}
+                  {modal('register.text')} {'adshfg@mail.com'}
                 </span>
               </div>
             }
@@ -73,11 +76,12 @@ const Edit = () => {
           <ModalAdmin
             onConfirm={() => {}}
             isOpen={isOpenDecline}
-            title={modal('title.reject.title')}
-            btnCancelText={modal('btn.decline')}
-            btnConfirmText={modal('btn.accept')}
+            classNameBtn="w-[82px]"
+            title={modal('decline.title')}
+            btnCancelText={modal('decline.btn.no')}
             onClose={() => setIsOpenDecline(false)}
-            content={<ModalContent name="rejectReason" organizationName={'ГО Живи'} />}
+            btnConfirmText={modal('decline.btn.yes')}
+            content={<ModalContent name="declineReason" organizationName={'ГО Живи'} />}
           />
 
           <div className="flex justify-start px-8 pb-12 bg-white rounded-lg shadow-bg">
@@ -191,8 +195,8 @@ const Edit = () => {
                               {values.socialNetworks.length < 5 && index === values.socialNetworks.length - 1 && (
                                 <SmallBtn
                                   type="add"
-                                  text={text('button.addNewInput')}
                                   onClick={() => push('')}
+                                  text={text('button.addField')}
                                   className="flex justify-start mt-3 w-full !leading-4"
                                 />
                               )}
@@ -200,8 +204,8 @@ const Edit = () => {
                               {index !== 0 && (
                                 <SmallBtn
                                   type="delete"
-                                  text={text('button.delete')}
                                   onClick={() => remove(index)}
+                                  text={text('button.deleteField')}
                                   className="flex justify-end mt-3 w-full !leading-4"
                                 />
                               )}
@@ -214,13 +218,18 @@ const Edit = () => {
                 </Accordion>
 
                 <div className="flex justify-end w-full gap-6">
-                  <Button text="Accept" styleType="green" className="w-[90px]" onClick={() => setIsOpenAccept(true)} />
-
                   <Button
                     type="submit"
-                    text="Decline"
+                    styleType="green"
+                    text={btn('accept')}
+                    className="uppercase"
+                    onClick={() => setIsOpenAccept(true)}
+                  />
+
+                  <Button
                     styleType="red"
-                    className="w-[90px]"
+                    text={btn('decline')}
+                    className="uppercase"
                     onClick={() => setIsOpenDecline(true)}
                   />
                 </div>

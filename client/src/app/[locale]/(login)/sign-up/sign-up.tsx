@@ -19,6 +19,7 @@ import { getStyles } from './styles';
 
 const SignUp = () => {
   const styles = getStyles();
+  const btn = useTranslations('button');
   const error = useTranslations('validation');
   const text = useTranslations('auth-page.organization');
 
@@ -180,8 +181,8 @@ const SignUp = () => {
                               {values.socialNetworks.length < 5 && index === values.socialNetworks.length - 1 && (
                                 <SmallBtn
                                   type="add"
-                                  text={text('button.addNewInput')}
                                   onClick={() => push('')}
+                                  text={text('button.addField')}
                                   className="flex justify-start mt-3 !leading-4"
                                 />
                               )}
@@ -190,8 +191,8 @@ const SignUp = () => {
                             {index !== 0 && (
                               <SmallBtn
                                 type="delete"
-                                text={text('button.delete')}
                                 onClick={() => remove(index)}
+                                text={text('button.deleteField')}
                                 className="flex justify-end mt-3 !leading-4"
                               />
                             )}
@@ -213,7 +214,7 @@ const SignUp = () => {
             className="laptop:mx-auto !items-start laptop:!items-center"
           />
 
-          <Button type="submit" styleType="primary" className="uppercase m-auto" text={text('button.submit')} />
+          <Button type="submit" styleType="primary" className="uppercase m-auto" text={btn('submit')} />
         </Form>
       )}
     </Formik>

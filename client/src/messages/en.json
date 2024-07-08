@@ -65,11 +65,6 @@
         "info": "Add links to social media (Facebook, Instagram, LinkedIn, TikTok, Youtube, etc.). ",
         "infoItalic": "For example: https://www.facebook.com/gozhivi"
       },
-      "button": {
-        "submit": "Submit Form",
-        "addNewInput": "Add more links",
-        "delete": "Delete"
-      },
       "checkbox": {
         "link": "Privacy Policy",
         "info": "I agree to the processing of personal data in accordance with the"
@@ -77,31 +72,52 @@
     }
   },
   "modal": {
-    "btn": {
-      "yes": "YES",
-      "no": "NO",
-      "accept": "ACCEPT",
-      "decline": "DECLINE"
+    "register": {
+      "title": "REGISTER?",
+      "btn": {
+        "yes": "YES",
+        "no": "NO"
+      },
+      "text": "and send an email with the password to "
     },
-    "radioBtn": {
-      "notValidUSREOU": "Incorrect or inaccurate data in the EDRPOU.",
-      "InsufficientDocuments": "Insufficient documents to confirm the status of a charitable organization..",
-      "nonCompliance": "Failure to comply with the requirements or norms stipulated by law for charitable organizations.",
-      "other": "Other"
+    "save": {
+      "title": "SAVE CHANGES?",
+      "btn": {
+        "yes": "YES",
+        "no": "NO"
+      },
+      "text": "This page contains data that was not saved."
     },
-    "title": {
-      "register": "REGISTER?",
-      "save": "SAVE CHANGES?",
-      "reject": {
-        "title": "REJECT THE APPLICATION?",
-        "subTitle": "Please specify the reason:"
+    "remove": {
+      "title": "REMOVE FROM THE SYSTEM?",
+      "btn": {
+        "yes": "YES",
+        "no": "NO"
+      },
+      "text": "Application from "
+    },
+    "decline": {
+      "title": "DECLINE THE APPLICATION?",
+      "subTitle": "Please specify the reason:",
+      "btn": {
+        "yes": "YES",
+        "no": "NO"
+      },
+      "radioBtn": {
+        "notValidUSREOU": "Incorrect or inaccurate data in the EDRPOU.",
+        "InsufficientDocuments": "Insufficient documents to confirm the status of a charitable organization..",
+        "nonCompliance": "Failure to comply with the requirements or norms stipulated by law for charitable organizations.",
+        "other": "Other"
       }
-    },
-    "text": {
-      "register": "and send an email with the password to ",
-      "save": "This page contains data that was not saved.",
-      "reject": "Unfortunately, your application cannot be reviewed due to duplicate information. We have already received a similar application from your organization, so in this case, you do not need to apply again. Please expect a response by."
     }
+  },
+  "button": {
+    "submit": "Submit Form",
+    "addField": "Add more links",
+    "deleteField": "Delete field",
+    "delete": "delete",
+    "accept": "accept",
+    "decline": "decline"
   },
   "validation": {
     "minPlural": "Minimum {int} characters",

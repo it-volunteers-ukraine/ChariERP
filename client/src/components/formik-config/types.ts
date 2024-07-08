@@ -12,7 +12,7 @@ export interface OrganizationFormValues {
   organizationTaxNumber: string;
   certificateOfRegister: string;
   dateOfRegisterOrganization: string;
-  rejectReason:
+  declineReason:
     | string
     | {
         id: string;

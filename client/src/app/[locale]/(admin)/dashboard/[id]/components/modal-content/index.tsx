@@ -24,7 +24,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
       <div className="flex flex-col gap-4 mb-1">
         <div className="flex flex-col text-center text-mobster lending-6">
           <span>{organizationName}</span>
-          <span>{modal('modal.title.reject.subTitle')}</span>
+          <span>{modal('decline.subTitle')}</span>
         </div>
 
         <CheckboxRadioField
@@ -34,7 +34,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           type="radio"
           className="p-2"
           classNameText="text-mobster"
-          label={modal('radioBtn.notValidUSREOU')}
+          label={modal('decline.radioBtn.notValidUSREOU')}
         />
 
         <CheckboxRadioField
@@ -44,7 +44,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           type="radio"
           className="p-2"
           classNameText="text-mobster"
-          label={modal('radioBtn.InsufficientDocuments')}
+          label={modal('decline.radioBtn.InsufficientDocuments')}
         />
 
         <CheckboxRadioField
@@ -54,7 +54,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           type="radio"
           className="p-2"
           classNameText="text-mobster"
-          label={modal('radioBtn.nonCompliance')}
+          label={modal('decline.radioBtn.nonCompliance')}
         />
 
         <CheckboxRadioField
@@ -65,11 +65,11 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           className="p-2"
           itemRef={radioRef}
           classNameText="text-mobster"
-          label={modal('radioBtn.other')}
+          label={modal('decline.radioBtn.other')}
         />
       </div>
 
-      <div className="mx-3">
+      <div>
         <textarea
           value={value}
           disabled={!isChecked}
