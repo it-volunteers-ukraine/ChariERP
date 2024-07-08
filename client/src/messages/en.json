@@ -93,8 +93,8 @@
       },
       "radioBtn": {
         "notValidUSREOU": "Incorrect or inaccurate data in the EDRPOU.",
-        "InsufficientDocuments": "Insufficient documents to confirm the status of a charitable organization..",
-        "nonCompliance": "Failure to comply with the requirements or norms stipulated by law for charitable organizations.",
+        "insufficientDocuments": "Insufficient documents to confirm the status of a charitable organization..",
+        "noneCompliance": "Failure to comply with the requirements or norms stipulated by law for charitable organizations.",
         "other": "Other"
       }
     }
