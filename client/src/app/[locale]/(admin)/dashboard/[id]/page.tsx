@@ -4,8 +4,18 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikValues } from 'formik';
 
-import { organizationValidation, organizationInitialValues } from '@/formik-config';
-import { SmallBtn, Button, DateField, Accordion, FileField, InputField, ButtonIcon, ModalAdmin } from '@/components';
+import {
+  Button,
+  SmallBtn,
+  DateField,
+  Accordion,
+  FileField,
+  InputField,
+  ButtonIcon,
+  ModalAdmin,
+  organizationValidation,
+  organizationInitialValues,
+} from '@/components';
 
 import { ModalContent } from './components/modal-content';
 

@@ -15,6 +15,7 @@ export { LanguageSwitcher } from './language-switcher';
 export { Logo } from './logo';
 export { ModalAdmin } from './modal-admin';
 export { Navigation } from './navigation';
+export { organizationValidation, organizationInitialValues } from './formik-config';
 export { Overlay } from './overlay';
 export { Pagination } from './pagination';
 export { ResponseWrapper } from './response';

@@ -3,8 +3,17 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikValues } from 'formik';
 
-import { organizationValidation, organizationInitialValues } from '@/formik-config';
-import { Title, SmallBtn, Button, DateField, FileField, InputField, CheckboxRadioField } from '@/components';
+import {
+  Title,
+  SmallBtn,
+  Button,
+  DateField,
+  FileField,
+  InputField,
+  CheckboxRadioField,
+  organizationValidation,
+  organizationInitialValues,
+} from '@/components';
 
 import { getStyles } from './styles';
 
