@@ -9,7 +9,7 @@ import { IModalContent } from './types';
 
 export const ModalContent = ({ name, organizationName }: IModalContent) => {
   const radioRef: RefObject<HTMLInputElement> = useRef(null);
-  const modal = useTranslations('modal');
+  const modal = useTranslations('modal.decline');
   const isChecked = radioRef.current?.checked;
   const styles = getStyles(isChecked);
 
@@ -24,7 +24,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
       <div className="flex flex-col gap-4 mb-1">
         <div className="flex flex-col text-center text-mobster lending-6">
           <span>{organizationName}</span>
-          <span>{modal('decline.subTitle')}</span>
+          <span>{modal('subTitle')}</span>
         </div>
 
         <CheckboxRadioField
@@ -34,7 +34,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           type="radio"
           className="p-2"
           classNameText="text-mobster"
-          label={modal('decline.radioBtn.notValidUSREOU')}
+          label={modal('radioBtn.notValidUSREOU')}
         />
 
         <CheckboxRadioField
@@ -44,7 +44,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           type="radio"
           className="p-2"
           classNameText="text-mobster"
-          label={modal('decline.radioBtn.InsufficientDocuments')}
+          label={modal('radioBtn.InsufficientDocuments')}
         />
 
         <CheckboxRadioField
@@ -54,7 +54,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           type="radio"
           className="p-2"
           classNameText="text-mobster"
-          label={modal('decline.radioBtn.nonCompliance')}
+          label={modal('radioBtn.nonCompliance')}
         />
 
         <CheckboxRadioField
@@ -65,7 +65,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           className="p-2"
           itemRef={radioRef}
           classNameText="text-mobster"
-          label={modal('decline.radioBtn.other')}
+          label={modal('radioBtn.other')}
         />
       </div>
 

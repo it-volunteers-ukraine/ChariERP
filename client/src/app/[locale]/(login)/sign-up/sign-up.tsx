@@ -20,8 +20,8 @@ import { getStyles } from './styles';
 const SignUp = () => {
   const styles = getStyles();
   const btn = useTranslations('button');
+  const text = useTranslations('inputs');
   const error = useTranslations('validation');
-  const text = useTranslations('auth-page.organization');
 
   const onSubmit = (values: FormikValues) => {
     console.log('data', values);
@@ -162,43 +162,48 @@ const SignUp = () => {
                   name="socialNetworks"
                   render={({ push, remove }) => (
                     <>
-                      {values.socialNetworks.map((_, index) => (
-                        <div key={index}>
-                          <InputField
-                            cross
-                            key={`media-signUp-${index}`}
-                            name={`socialNetworks.${index}`}
-                            label={text('socialNetworks.label')}
-                            info={
+                      {values.socialNetworks.map((_, index) => {
+                        const isRightLength = values.socialNetworks.length < 5;
+                        const isLastIndex = index === values.socialNetworks.length - 1;
+
+                        return (
+                          <div key={index}>
+                            <InputField
+                              cross
+                              key={`media-signUp-${index}`}
+                              name={`socialNetworks.${index}`}
+                              label={text('socialNetworks.label')}
+                              info={
+                                <div>
+                                  {text('socialNetworks.info')}
+                                  <span className={`${styles.spanStyles}`}>{text('socialNetworks.infoItalic')}</span>
+                                </div>
+                              }
+                            />
+                            <div className="flex items-center justify-between max-w-[calc(50%-12px)]">
                               <div>
-                                {text('socialNetworks.info')}
-                                <span className={`${styles.spanStyles}`}>{text('socialNetworks.infoItalic')}</span>
+                                {isRightLength && isLastIndex && (
+                                  <SmallBtn
+                                    type="add"
+                                    onClick={() => push('')}
+                                    text={text('button.addField')}
+                                    className="flex justify-start mt-3 !leading-4"
+                                  />
+                                )}
                               </div>
-                            }
-                          />
-                          <div className="flex items-center justify-between max-w-[calc(50%-12px)]">
-                            <div>
-                              {values.socialNetworks.length < 5 && index === values.socialNetworks.length - 1 && (
+
+                              {index !== 0 && (
                                 <SmallBtn
-                                  type="add"
-                                  onClick={() => push('')}
-                                  text={text('button.addField')}
-                                  className="flex justify-start mt-3 !leading-4"
+                                  type="delete"
+                                  onClick={() => remove(index)}
+                                  text={text('button.deleteField')}
+                                  className="flex justify-end mt-3 !leading-4"
                                 />
                               )}
                             </div>
-
-                            {index !== 0 && (
-                              <SmallBtn
-                                type="delete"
-                                onClick={() => remove(index)}
-                                text={text('button.deleteField')}
-                                className="flex justify-end mt-3 !leading-4"
-                              />
-                            )}
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </>
                   )}
                 />

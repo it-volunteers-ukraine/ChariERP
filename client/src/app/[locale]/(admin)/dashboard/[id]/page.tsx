@@ -22,9 +22,9 @@ import { ModalContent } from './components/modal-content';
 const Edit = () => {
   const router = useRouter();
   const btn = useTranslations('button');
+  const text = useTranslations('inputs');
   const modal = useTranslations('modal');
   const error = useTranslations('validation');
-  const text = useTranslations('auth-page.organization');
 
   const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
   const [isOpenAccept, setIsOpenAccept] = useState<boolean>(false);
@@ -48,21 +48,21 @@ const Edit = () => {
             isOpen={isOpenSave}
             onConfirm={() => {}}
             classNameBtn="w-[82px]"
+            btnCancelText={btn('no')}
             title={modal('save.title')}
+            btnConfirmText={btn('yes')}
             content={modal('save.text')}
             onClose={() => setIsOpenSave(false)}
-            btnCancelText={modal('save.btn.no')}
-            btnConfirmText={modal('save.btn.yes')}
           />
 
           <ModalAdmin
             isOpen={isOpenAccept}
             onConfirm={() => {}}
             classNameBtn="w-[82px]"
+            btnCancelText={btn('no')}
+            btnConfirmText={btn('yes')}
             title={modal('register.title')}
             onClose={() => setIsOpenAccept(false)}
-            btnCancelText={modal('register.btn.no')}
-            btnConfirmText={modal('register.btn.yes')}
             content={
               <div className="flex flex-col text-center text-mobster lending-6">
                 <span>ГО Живи</span>
@@ -77,10 +77,10 @@ const Edit = () => {
             onConfirm={() => {}}
             isOpen={isOpenDecline}
             classNameBtn="w-[82px]"
+            btnCancelText={btn('no')}
+            btnConfirmText={btn('yes')}
             title={modal('decline.title')}
-            btnCancelText={modal('decline.btn.no')}
             onClose={() => setIsOpenDecline(false)}
-            btnConfirmText={modal('decline.btn.yes')}
             content={<ModalContent name="declineReason" organizationName={'ГО Живи'} />}
           />
 
@@ -182,36 +182,41 @@ const Edit = () => {
                     name="socialNetworks"
                     render={({ push, remove }) => (
                       <>
-                        {values.socialNetworks.map((_, index) => (
-                          <div key={index}>
-                            <InputField
-                              cross
-                              wrapperClass="max-w-[465px]"
-                              key={`media-signUp-${index}`}
-                              name={`socialNetworks.${index}`}
-                              label={text('socialNetworks.label')}
-                            />
-                            <div className="flex items-center justify-between max-w-[465px]">
-                              {values.socialNetworks.length < 5 && index === values.socialNetworks.length - 1 && (
-                                <SmallBtn
-                                  type="add"
-                                  onClick={() => push('')}
-                                  text={text('button.addField')}
-                                  className="flex justify-start mt-3 w-full !leading-4"
-                                />
-                              )}
+                        {values.socialNetworks.map((_, index) => {
+                          const isRightLength = values.socialNetworks.length < 5;
+                          const isLastIndex = index === values.socialNetworks.length - 1;
 
-                              {index !== 0 && (
-                                <SmallBtn
-                                  type="delete"
-                                  onClick={() => remove(index)}
-                                  text={text('button.deleteField')}
-                                  className="flex justify-end mt-3 w-full !leading-4"
-                                />
-                              )}
+                          return (
+                            <div key={index}>
+                              <InputField
+                                cross
+                                wrapperClass="max-w-[465px]"
+                                key={`media-signUp-${index}`}
+                                name={`socialNetworks.${index}`}
+                                label={text('socialNetworks.label')}
+                              />
+                              <div className="flex items-center justify-between max-w-[465px]">
+                                {isRightLength && isLastIndex && (
+                                  <SmallBtn
+                                    type="add"
+                                    onClick={() => push('')}
+                                    text={text('button.addNewInput')}
+                                    className="flex justify-start mt-3 w-full !leading-4"
+                                  />
+                                )}
+
+                                {index !== 0 && (
+                                  <SmallBtn
+                                    type="delete"
+                                    onClick={() => remove(index)}
+                                    text={text('button.deleteField')}
+                                    className="flex justify-end mt-3 w-full !leading-4"
+                                  />
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </>
                     )}
                   />
