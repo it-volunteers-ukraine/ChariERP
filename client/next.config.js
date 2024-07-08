@@ -4,6 +4,9 @@ const withNextIntl = require('next-intl/plugin')('./src/i18n.ts');
 
 const nextConfig = {
   output: 'standalone',
+  experimental: {
+    instrumentationHook: true,
+  },
   webpack(config) {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.('.svg'));
