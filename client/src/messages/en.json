@@ -73,7 +73,8 @@
       },
       "button": {
         "submit": "Submit Form",
-        "addNewInput": "Add more links"
+        "addNewInput": "Add more links",
+        "changePass": "Change password"
       },
       "checkbox": {
         "link": "Privacy Policy",

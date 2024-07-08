@@ -73,6 +73,7 @@
       },
       "button": {
         "submit": "Відправити Форму",
+        "changePass": "Змінити Пароль",
         "addNewInput": "Додати ще посилання"
       },
       "checkbox": {

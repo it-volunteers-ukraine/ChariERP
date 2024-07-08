@@ -10,15 +10,13 @@ import Link from 'next/link';
 
 const Organization = () => {
   const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
-  // const [isOpenDecline, setIsOpenDecline] = useState<boolean>(false);
   const onSubmit = (values: FormikValues) => {
     console.log('data', values);
   };
 
   const error = useTranslations('validation');
-  const login = useTranslations('auth-page.login');
+  const modal = useTranslations('auth-page.modal');
   const text = useTranslations('auth-page.organization');
-  const modal = useTranslations('auth-page.dashboard');
 
   return (
     <Formik
@@ -50,10 +48,7 @@ const Organization = () => {
             <div className="flex items-start gap-3">
               <Info width={24} height={24} className="text-lightBlue" />
 
-              <span className="text-input-info">
-                На даній сторінці Ви можете відредагувати данні, що були вказані при реєстрації. Назву організації,
-                додати або змінити данні медіа лінки, телефон організації і т.д.
-              </span>
+              <span className="text-input-info">{text('mainInfo')}</span>
             </div>
 
             <Accordion
@@ -163,7 +158,7 @@ const Organization = () => {
                 required
                 name="password"
                 type="password"
-                label={login('password')}
+                label={text('password.pass')}
                 wrapperClass="laptop:max-w-[calc(50%-12px)]"
               />
             </Accordion>

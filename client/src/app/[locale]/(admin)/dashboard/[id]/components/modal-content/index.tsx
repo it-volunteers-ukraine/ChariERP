@@ -25,7 +25,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
       <div className="flex flex-col gap-4 mb-1">
         <div className="flex flex-col text-center text-mobster lending-6">
           <span>{organizationName}</span>
-          <span>{modal('modal.title.reject.subTitle')}</span>
+          <span>{modal('title.reject.subTitle')}</span>
         </div>
 
         <CheckboxRadioField
