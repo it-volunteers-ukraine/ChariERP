@@ -66,7 +66,8 @@
       },
       "button": {
         "submit": "Submit Form",
-        "addNewInput": "Add more links"
+        "addNewInput": "Add more links",
+        "delete": "Delete"
       },
       "checkbox": {
         "link": "Privacy Policy",

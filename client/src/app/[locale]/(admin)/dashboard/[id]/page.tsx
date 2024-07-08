@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikValues } from 'formik';
 
 import { organizationValidation, organizationInitialValues } from '@/formik-config';
-import { AddBtn, Button, DateField, Accordion, FileField, InputField, ButtonIcon, ModalAdmin } from '@/components';
+import { SmallBtn, Button, DateField, Accordion, FileField, InputField, ButtonIcon, ModalAdmin } from '@/components';
 
 import { ModalContent } from './components/modal-content';
 
@@ -160,8 +160,9 @@ const Edit = () => {
                   classNameWrapper="gap-0"
                   title={text('title.media')}
                   classNameTitle="text-[20px]"
+                  classNameChildren="flex flex-col gap-6"
                 >
-                  <InputField cross name="site" wrapperClass="mb-6 max-w-[465px]" label={text('site.label')} />
+                  <InputField cross name="site" wrapperClass="max-w-[465px]" label={text('site.label')} />
 
                   <FieldArray
                     name="socialNetworks"
@@ -171,26 +172,32 @@ const Edit = () => {
                           <div key={index}>
                             <InputField
                               cross
+                              wrapperClass="max-w-[465px]"
                               key={`media-signUp-${index}`}
                               name={`socialNetworks.${index}`}
                               label={text('socialNetworks.label')}
-                              wrapperClass={
-                                index === values.socialNetworks.length - 1 ? 'max-w-[465px]' : 'mb-6 max-w-[465px]'
-                              }
                             />
-                            {/* <button type="button" onClick={() => arrayHelpers.remove(index)}>
-                        delete
-                      </button> */}
+                            <div className="flex items-center justify-between max-w-[465px]">
+                              {values.socialNetworks.length < 5 && index === values.socialNetworks.length - 1 && (
+                                <SmallBtn
+                                  type="add"
+                                  text={text('button.addNewInput')}
+                                  onClick={() => arrayHelpers.push('')}
+                                  className="flex justify-start mt-3 w-full !leading-4"
+                                />
+                              )}
+
+                              {index !== 0 && (
+                                <SmallBtn
+                                  type="delete"
+                                  text={text('button.delete')}
+                                  onClick={() => arrayHelpers.remove(index)}
+                                  className="flex justify-end mt-3 w-full !leading-4"
+                                />
+                              )}
+                            </div>
                           </div>
                         ))}
-
-                        {values.socialNetworks.length < 5 && (
-                          <AddBtn
-                            onClick={() => arrayHelpers.push('')}
-                            text={text('button.addNewInput')}
-                            className="justify-start mt-3 !leading-4"
-                          />
-                        )}
                       </>
                     )}
                   />

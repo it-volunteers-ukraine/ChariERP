@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikValues } from 'formik';
 
 import { organizationValidation, organizationInitialValues } from '@/formik-config';
-import { Title, AddBtn, Button, DateField, FileField, InputField, CheckboxRadioField } from '@/components';
+import { Title, SmallBtn, Button, DateField, FileField, InputField, CheckboxRadioField } from '@/components';
 
 import { getStyles } from './styles';
 
@@ -167,19 +167,29 @@ const SignUp = () => {
                               </div>
                             }
                           />
-                          {/* <button type="button" onClick={() => arrayHelpers.remove(index)}>
-                        delete
-                      </button> */}
+                          <div className="flex items-center justify-between max-w-[calc(50%-12px)]">
+                            <div>
+                              {values.socialNetworks.length < 5 && index === values.socialNetworks.length - 1 && (
+                                <SmallBtn
+                                  type="add"
+                                  text={text('button.addNewInput')}
+                                  onClick={() => arrayHelpers.push('')}
+                                  className="flex justify-start mt-3 !leading-4"
+                                />
+                              )}
+                            </div>
+
+                            {index !== 0 && (
+                              <SmallBtn
+                                type="delete"
+                                text={text('button.delete')}
+                                onClick={() => arrayHelpers.remove(index)}
+                                className="flex justify-end mt-3 !leading-4"
+                              />
+                            )}
+                          </div>
                         </div>
                       ))}
-
-                      {values.socialNetworks.length < 5 && (
-                        <AddBtn
-                          onClick={() => arrayHelpers.push('')}
-                          text={text('button.addNewInput')}
-                          className="justify-start !leading-4"
-                        />
-                      )}
                     </>
                   )}
                 />

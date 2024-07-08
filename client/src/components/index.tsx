@@ -1,5 +1,4 @@
 export { Accordion } from './accordion';
-export { AddBtn } from './add-button';
 export { AuthLinks } from './auth-links';
 export { Avatar, DashboardHeader, DashboardAside } from './dashboard';
 export { Burger } from './burger';
@@ -19,4 +18,5 @@ export { Navigation } from './navigation';
 export { Overlay } from './overlay';
 export { Pagination } from './pagination';
 export { ResponseWrapper } from './response';
+export { SmallBtn } from './small-button';
 export { Title } from './title';
