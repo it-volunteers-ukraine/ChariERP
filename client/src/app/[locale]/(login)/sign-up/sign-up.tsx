@@ -51,8 +51,8 @@ const SignUp = () => {
                 required
                 type="number"
                 name="organizationTaxNumber"
-                wrapperClass="laptop:max-w-[calc(50%-12px)]"
                 label={text('organizationTaxNumber.label')}
+                wrapperClass="laptop:max-w-[calc(50%-12px)]"
               />
 
               <FileField
@@ -151,7 +151,7 @@ const SignUp = () => {
 
                 <FieldArray
                   name="socialNetworks"
-                  render={(arrayHelpers) => (
+                  render={({ push, remove }) => (
                     <>
                       {values.socialNetworks.map((_, index) => (
                         <div key={index}>
@@ -173,7 +173,7 @@ const SignUp = () => {
                                 <SmallBtn
                                   type="add"
                                   text={text('button.addNewInput')}
-                                  onClick={() => arrayHelpers.push('')}
+                                  onClick={() => push('')}
                                   className="flex justify-start mt-3 !leading-4"
                                 />
                               )}
@@ -183,7 +183,7 @@ const SignUp = () => {
                               <SmallBtn
                                 type="delete"
                                 text={text('button.delete')}
-                                onClick={() => arrayHelpers.remove(index)}
+                                onClick={() => remove(index)}
                                 className="flex justify-end mt-3 !leading-4"
                               />
                             )}

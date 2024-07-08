@@ -166,7 +166,7 @@ const Edit = () => {
 
                   <FieldArray
                     name="socialNetworks"
-                    render={(arrayHelpers) => (
+                    render={({ push, remove }) => (
                       <>
                         {values.socialNetworks.map((_, index) => (
                           <div key={index}>
@@ -182,7 +182,7 @@ const Edit = () => {
                                 <SmallBtn
                                   type="add"
                                   text={text('button.addNewInput')}
-                                  onClick={() => arrayHelpers.push('')}
+                                  onClick={() => push('')}
                                   className="flex justify-start mt-3 w-full !leading-4"
                                 />
                               )}
@@ -191,7 +191,7 @@ const Edit = () => {
                                 <SmallBtn
                                   type="delete"
                                   text={text('button.delete')}
-                                  onClick={() => arrayHelpers.remove(index)}
+                                  onClick={() => remove(index)}
                                   className="flex justify-end mt-3 w-full !leading-4"
                                 />
                               )}
