@@ -21,8 +21,8 @@ import { ModalContent } from './components/modal-content';
 
 const Edit = () => {
   const router = useRouter();
+  const modal = useTranslations('modal');
   const error = useTranslations('validation');
-  const modal = useTranslations('auth-page.modal');
   const text = useTranslations('auth-page.organization');
 
   const [isOpenSave, setIsOpenSave] = useState<boolean>(false);

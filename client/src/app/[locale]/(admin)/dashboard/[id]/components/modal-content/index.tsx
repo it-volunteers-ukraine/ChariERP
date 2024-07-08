@@ -9,7 +9,7 @@ import { IModalContent } from './types';
 
 export const ModalContent = ({ name, organizationName }: IModalContent) => {
   const radioRef: RefObject<HTMLInputElement> = useRef(null);
-  const modal = useTranslations('auth-page.modal');
+  const modal = useTranslations('modal');
   const isChecked = radioRef.current?.checked;
   const styles = getStyles(isChecked);
 
