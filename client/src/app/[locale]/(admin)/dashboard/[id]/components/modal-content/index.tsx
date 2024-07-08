@@ -8,13 +8,12 @@ import { getStyles } from './styles';
 import { IModalContent } from './types';
 
 export const ModalContent = ({ name, organizationName }: IModalContent) => {
-  const [value, setValue] = useState<string>('');
-
   const radioRef: RefObject<HTMLInputElement> = useRef(null);
   const modal = useTranslations('auth-page.modal');
   const isChecked = radioRef.current?.checked;
-
   const styles = getStyles(isChecked);
+
+  const [value, setValue] = useState<string>('');
 
   useEffect(() => {
     if (!isChecked) setValue('');

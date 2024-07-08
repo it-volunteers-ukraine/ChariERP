@@ -10,7 +10,6 @@ import { getStyles } from './styles';
 
 const SignUp = () => {
   const styles = getStyles();
-
   const error = useTranslations('validation');
   const text = useTranslations('auth-page.organization');
 

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { ISmallBtn } from './types';
 import { getStyles } from './styles';
 

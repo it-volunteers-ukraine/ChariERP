@@ -11,13 +11,13 @@ import { ModalContent } from './components/modal-content';
 
 const Edit = () => {
   const router = useRouter();
-  const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
-  const [isOpenAccept, setIsOpenAccept] = useState<boolean>(false);
-  const [isOpenDecline, setIsOpenDecline] = useState<boolean>(false);
-
   const error = useTranslations('validation');
   const modal = useTranslations('auth-page.modal');
   const text = useTranslations('auth-page.organization');
+
+  const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
+  const [isOpenAccept, setIsOpenAccept] = useState<boolean>(false);
+  const [isOpenDecline, setIsOpenDecline] = useState<boolean>(false);
 
   const onSubmit = (values: FormikValues) => {
     console.log('data', values);
