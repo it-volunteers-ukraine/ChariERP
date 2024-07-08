@@ -23,8 +23,8 @@
       "infoItalic": "Наприклад: Громадська організація «ЖИВИ»"
     },
     "organizationTaxNumber": {
-      "label": "ЄДРПОУ організації (податковий номер)",
-      "labelShort": "ЄДРПОУ"
+      "labelErdpouOfOrganization": "ЄДРПОУ організації (податковий номер)",
+      "labelErdpou": "ЄДРПОУ"
     },
     "certificateOfRegister": {
       "link": " Як завантажити файл.",

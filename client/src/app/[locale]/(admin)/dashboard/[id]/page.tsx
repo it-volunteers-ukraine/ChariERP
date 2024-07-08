@@ -110,7 +110,7 @@ const Edit = () => {
                       type="number"
                       wrapperClass="max-w-[140px]"
                       name="organizationTaxNumber"
-                      label={text('organizationTaxNumber.label2')}
+                      label={text('organizationTaxNumber.labelErdpou')}
                     />
 
                     <InputField isCopy required name="organizationName" label={text('organizationName.label')} />

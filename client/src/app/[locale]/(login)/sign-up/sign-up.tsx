@@ -60,8 +60,8 @@ const SignUp = () => {
                 required
                 type="number"
                 name="organizationTaxNumber"
-                label={text('organizationTaxNumber.label')}
                 wrapperClass="laptop:max-w-[calc(50%-12px)]"
+                label={text('organizationTaxNumber.labelErdpouOfOrganization')}
               />
 
               <FileField

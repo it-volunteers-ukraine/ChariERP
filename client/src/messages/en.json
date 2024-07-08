@@ -22,8 +22,8 @@
       "infoItalic": "For example: Public organization 'LIVE'"
     },
     "organizationTaxNumber": {
-      "label": "USREOU of the organization (tax number)",
-      "labelShort": "USREOU"
+      "labelErdpouOfOrganization": "USREOU of the organization (tax number)",
+      "labelErdpou": "USREOU"
     },
     "certificateOfRegister": {
       "link": " How to download the file.",
