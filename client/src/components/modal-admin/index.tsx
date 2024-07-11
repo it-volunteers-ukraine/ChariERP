@@ -9,6 +9,7 @@ export const ModalAdmin = ({
   onClose,
   subtitle,
   onConfirm,
+  classNameBtn,
   btnCancelText,
   btnConfirmText,
 }: IModalAdminProps) => {
@@ -32,9 +33,9 @@ export const ModalAdmin = ({
         {content && !isContentString && content}
 
         <div className="flex gap-6 items-center justify-center pt-2 w-full">
-          <Button styleType="green" onClick={onConfirm} text={btnConfirmText} />
+          <Button styleType="green" className={classNameBtn} onClick={onConfirm} text={btnConfirmText} />
 
-          <Button styleType="red" onClick={onClose} text={btnCancelText} />
+          <Button styleType="red" className={classNameBtn} onClick={onClose} text={btnCancelText} />
         </div>
       </div>
     </Overlay>

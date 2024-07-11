@@ -8,13 +8,12 @@ import { getStyles } from './styles';
 import { IModalContent } from './types';
 
 export const ModalContent = ({ name, organizationName }: IModalContent) => {
-  const [value, setValue] = useState<string>('');
-
   const radioRef: RefObject<HTMLInputElement> = useRef(null);
-  const modal = useTranslations('auth-page.modal');
+  const modal = useTranslations('modal.decline');
   const isChecked = radioRef.current?.checked;
-
   const styles = getStyles(isChecked);
+
+  const [value, setValue] = useState<string>('');
 
   useEffect(() => {
     if (!isChecked) setValue('');
@@ -25,7 +24,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
       <div className="flex flex-col gap-4 mb-1">
         <div className="flex flex-col text-center text-mobster lending-6">
           <span>{organizationName}</span>
-          <span>{modal('title.reject.subTitle')}</span>
+          <span>{modal('subTitle')}</span>
         </div>
 
         <CheckboxRadioField
@@ -70,7 +69,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
         />
       </div>
 
-      <div className="mx-3">
+      <div>
         <textarea
           value={value}
           disabled={!isChecked}

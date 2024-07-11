@@ -1,28 +1,30 @@
 'use client';
-import { useState } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Form, Formik, FormikValues } from 'formik';
+import { FieldArray, Form, Formik, FormikValues } from 'formik';
 
-import { organizationValidation, organizationInitialValues } from '@/formik-config';
-import { Title, AddBtn, Button, DateField, FileField, InputField, CheckboxRadioField } from '@/components';
+import {
+  Title,
+  SmallBtn,
+  Button,
+  DateField,
+  FileField,
+  InputField,
+  CheckboxRadioField,
+  organizationValidation,
+  organizationInitialValues,
+} from '@/components';
 
 import { getStyles } from './styles';
 
 const SignUp = () => {
-  const [inputFields, setInputFields] = useState<string[]>(['socialNetworks']);
-
   const styles = getStyles();
-
+  const btn = useTranslations('button');
+  const text = useTranslations('inputs');
   const error = useTranslations('validation');
-  const text = useTranslations('auth-page.organization');
 
   const onSubmit = (values: FormikValues) => {
     console.log('data', values);
-  };
-
-  const addInputField = () => {
-    setInputFields([...inputFields, 'socialNetworks']);
   };
 
   return (
@@ -33,148 +35,195 @@ const SignUp = () => {
       initialValues={organizationInitialValues()}
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
-      {() => (
-        <Form className="w-full">
-          <Title className="mb-8 mx-auto w-fit text-[26px]" title={text('title.basicInformation')} />
-
-          <div className="flex flex-col gap-6 tablet:gap-[34px] laptop:gap-[46px] desktop:gap-[34px]">
-            <InputField
-              required
-              name="organizationName"
-              label={text('organizationName.label')}
-              info={
-                <div>
-                  {text('organizationName.info')}
-                  <span className={styles.spanStyles}>{text('organizationName.infoItalic')}</span>
-                </div>
-              }
+      {({ values }) => (
+        <Form className="flex flex-col gap-12 tablet:gap-16 desktop:gap-18 w-full">
+          <div>
+            <Title
+              className="mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
+              title={text('title.basicInformation')}
             />
 
-            <InputField
-              required
-              type="number"
-              name="organizationTaxNumber"
-              wrapperClass="laptop:max-w-[calc(50%-12px)]"
-              label={text('organizationTaxNumber.label')}
-            />
+            <div className="flex flex-col gap-8 tablet:gap-[42px]">
+              <InputField
+                required
+                name="organizationName"
+                label={text('organizationName.label')}
+                info={
+                  <div>
+                    {text('organizationName.information')}
+                    <span className={styles.spanStyles}>{text('organizationName.forExample')}</span>
+                  </div>
+                }
+              />
 
-            <FileField
-              required
-              maxSize={5}
-              placeholderItalic
-              name="certificateOfRegister"
-              accept={'pdf, jpg, jpeg, png'}
-              label={text('certificateOfRegister.label')}
-              placeholder={text('certificateOfRegister.placeholder')}
-              info={
-                <div>
-                  {text('certificateOfRegister.info')}
-                  <Link href="#" className={`${styles.spanStyles} text-input-link underline`}>
-                    {text('certificateOfRegister.link')}
-                  </Link>
-                </div>
-              }
-            />
+              <InputField
+                required
+                type="number"
+                name="organizationTaxNumber"
+                wrapperClass="laptop:max-w-[calc(50%-12px)]"
+                label={text('organizationTaxNumber.labelErdpouOfOrganization')}
+              />
 
-            <DateField
-              required
-              placeholderItalic
-              name="dateOfRegisterOrganization"
-              wrapperClass="laptop:max-w-[calc(50%-12px)]"
-              label={text('dateOfRegisterOrganization.label')}
-              placeholder={text('dateOfRegisterOrganization.placeholder')}
-            />
+              <FileField
+                required
+                maxSize={5}
+                placeholderItalic
+                name="certificateOfRegister"
+                accept={'pdf, jpg, jpeg, png'}
+                label={text('certificateOfRegister.label')}
+                placeholder={text('certificateOfRegister.downloadDoc')}
+                info={
+                  <div>
+                    {text('certificateOfRegister.information')}
+                    <Link href="#" className={`${styles.spanStyles} text-input-link underline`}>
+                      {text('certificateOfRegister.howDownloadFile')}
+                    </Link>
+                  </div>
+                }
+              />
+
+              <DateField
+                required
+                placeholderItalic
+                name="dateOfRegisterOrganization"
+                wrapperClass="laptop:max-w-[calc(50%-12px)]"
+                label={text('dateOfRegisterOrganization.label')}
+                placeholder={text('dateOfRegisterOrganization.chooseDate')}
+              />
+            </div>
           </div>
 
-          <Title className="mt-16 mb-8 mx-auto w-fit text-[26px]" title={text('title.contactInformation')} />
-
-          <div className="flex flex-col gap-6 tablet:gap-[34px] laptop:gap-[46px] desktop:gap-[34px] mb-[36px] tablet:mb-[42px] ">
-            <InputField
-              required
-              name="positionOrganization"
-              label={text('positionOrganization.label')}
-              info={<span className={`${styles.spanStyles}`}>{text('positionOrganization.infoItalic')}</span>}
+          <div>
+            <Title
+              className="mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
+              title={text('title.contactInformation')}
             />
 
-            <InputField
-              required
-              name="lastName"
-              label={text('lastName.label')}
-              wrapperClass="laptop:max-w-[calc(50%-12px)]"
-            />
+            <div className="flex flex-col gap-8 tablet:gap-[42px]">
+              <InputField
+                required
+                name="positionOrganization"
+                label={text('positionOrganization.label')}
+                info={<span className={`${styles.spanStyles}`}>{text('positionOrganization.forExample')}</span>}
+              />
 
-            <InputField required name="name" label={text('name.label')} wrapperClass="laptop:max-w-[calc(50%-12px)]" />
+              <InputField
+                required
+                name="lastName"
+                label={text('lastName.label')}
+                wrapperClass="laptop:max-w-[calc(50%-12px)]"
+              />
 
-            <InputField
-              required
-              name="middleName"
-              label={text('middleName.label')}
-              wrapperClass="laptop:max-w-[calc(50%-12px)]"
-            />
+              <InputField
+                required
+                name="name"
+                label={text('name.label')}
+                wrapperClass="laptop:max-w-[calc(50%-12px)]"
+              />
 
-            <InputField
-              required
-              isMasked
-              name="phone"
-              placeholderItalic
-              placeholder="+38(0__)___-__-__"
-              label={text('phone.label')}
-              info={<span className={`${styles.spanStyles}`}>{text('phone.infoItalic')}</span>}
-            />
+              <InputField
+                required
+                name="middleName"
+                label={text('middleName.label')}
+                wrapperClass="laptop:max-w-[calc(50%-12px)]"
+              />
 
-            <InputField required name="email" info={text('email.info')} label={text('email.label')} />
-          </div>
+              <InputField
+                required
+                isMasked
+                name="phone"
+                placeholderItalic
+                placeholder="+38(0__)___-__-__"
+                label={text('phone.label')}
+                info={<span className={`${styles.spanStyles}`}>{text('phone.forExample')}</span>}
+              />
 
-          <div className="mb-6 w-fit font-medium text-[18px] leading-6 text-title-media">{text('title.media')}</div>
+              <InputField required name="email" info={text('email.information')} label={text('email.label')} />
 
-          <div className="flex flex-col gap-6 tablet:gap-[34px] laptop:gap-[46px] desktop:gap-[34px] mb-[22px]">
-            <InputField
-              cross
-              name="site"
-              label={text('site.label')}
-              info={
-                <div>
-                  {text('site.info')}
-                  <span className={`${styles.spanStyles}`}>{text('site.infoItalic')}</span>
-                </div>
-              }
-            />
+              <div className="flex flex-col gap-8 tablet:gap-6">
+                <Title
+                  title={text('title.media')}
+                  className="w-fit font-medium text-[18px] !leading-4 !text-title-media"
+                />
 
-            {inputFields.map((name, index) => {
-              return (
                 <InputField
                   cross
-                  name={name}
-                  key={`media-signUp-${index}`}
-                  label={text('socialNetworks.label')}
+                  name="site"
+                  label={text('site.label')}
                   info={
                     <div>
-                      {text('socialNetworks.info')}
-                      <span className={`${styles.spanStyles}`}>{text('socialNetworks.infoItalic')}</span>
+                      {text('site.information')}
+                      <span className={`${styles.spanStyles}`}>
+                        {text('site.forExample', { link: 'https://gozhivi.com.ua/' })}
+                      </span>
                     </div>
                   }
                 />
-              );
-            })}
-          </div>
 
-          {inputFields.length < 5 && (
-            <AddBtn
-              onClick={addInputField}
-              text={text('button.addNewInput')}
-              className="justify-center mb-12 tablet:mb-[78px] desktop:mb-[86px]"
-            />
-          )}
+                <FieldArray
+                  name="socialNetworks"
+                  render={({ push, remove }) => (
+                    <>
+                      {values.socialNetworks.map((_, index) => {
+                        const isRightLength = values.socialNetworks.length < 5;
+                        const isLastIndex = index === values.socialNetworks.length - 1;
+
+                        return (
+                          <div key={index}>
+                            <InputField
+                              cross
+                              key={`media-signUp-${index}`}
+                              name={`socialNetworks.${index}`}
+                              label={text('socialNetworks.label')}
+                              info={
+                                <div>
+                                  {text('socialNetworks.information')}
+                                  <span className={`${styles.spanStyles}`}>
+                                    {text('socialNetworks.forExample', { link: 'https://www.facebook.com/gozhivi' })}
+                                  </span>
+                                </div>
+                              }
+                            />
+                            <div className="flex items-center justify-between max-w-[calc(50%-12px)]">
+                              <div>
+                                {isRightLength && isLastIndex && (
+                                  <SmallBtn
+                                    type="add"
+                                    onClick={() => push('')}
+                                    text={btn('addField')}
+                                    className="flex justify-start mt-3 !leading-4"
+                                  />
+                                )}
+                              </div>
+
+                              {index !== 0 && (
+                                <SmallBtn
+                                  type="delete"
+                                  onClick={() => remove(index)}
+                                  text={btn('deleteField')}
+                                  className="flex justify-end mt-3 !leading-4"
+                                />
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </>
+                  )}
+                />
+              </div>
+            </div>
+          </div>
 
           <CheckboxRadioField
             href="#"
             name="agree"
-            label={text('checkbox.info')}
-            hrefText={text('checkbox.link')}
-            className="mb-16 laptop:mx-auto !items-start laptop:!items-center"
+            label={text('checkbox.information')}
+            hrefText={text('checkbox.privacyPolicy')}
+            className="laptop:mx-auto !items-start laptop:!items-center"
           />
 
-          <Button type="submit" styleType="primary" className="uppercase m-auto" text={text('button.submit')} />
+          <Button type="submit" styleType="primary" className="uppercase m-auto" text={btn('submit')} />
         </Form>
       )}
     </Formik>

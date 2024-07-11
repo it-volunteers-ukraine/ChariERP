@@ -3,8 +3,16 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikValues } from 'formik';
 
-import { Accordion, ButtonIcon, DateField, FileField, InputField, ModalAdmin } from '@/components';
-import { organizationInitialValues, organizationValidation } from '@/formik-config';
+import {
+  Accordion,
+  ButtonIcon,
+  DateField,
+  FileField,
+  InputField,
+  ModalAdmin,
+  organizationInitialValues,
+  organizationValidation,
+} from '@/components';
 import { Info } from '@/assets/icons';
 import Link from 'next/link';
 
