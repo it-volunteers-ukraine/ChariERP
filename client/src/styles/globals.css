@@ -90,3 +90,15 @@ body {
   -webkit-transform-origin: 15% 95%;
   transform-origin: 15% 95%;
 }
+
+.scroll-blue::-webkit-scrollbar {
+  @apply w-1;
+}
+
+.scroll-blue::-webkit-scrollbar-track {
+  @apply w-1;
+}
+
+.scroll-blue::-webkit-scrollbar-thumb {
+  @apply cursor-pointer bg-lightBlue w-1 rounded-sm;
+}

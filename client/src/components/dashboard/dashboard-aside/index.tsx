@@ -1,6 +1,5 @@
 'use client';
 import { useRef, useState } from 'react';
-import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import { Logo } from '@/components';
@@ -9,6 +8,7 @@ import { useOutsideClick, useWindowWidth } from '@/hooks';
 
 import { NavItem } from './item';
 import { getLinks } from './config';
+import { getStyles } from './styles';
 
 export const DashboardAside = () => {
   const ref = useRef(null);
@@ -27,20 +27,7 @@ export const DashboardAside = () => {
     organizations: linkText('organizations'),
   });
 
-  const styles = {
-    aside: clsx(
-      'h-full bg-boardAside max-w-[290px] w-full absolute desktop:relative transition-all duration-300',
-      {
-        '-translate-x-full desktop:translate-x-0': !isOpen,
-        'translate-x-0': isOpen,
-      },
-    ),
-    button: clsx(
-      'flex desktop:hidden items-center justify-center absolute bottom-28 rounded-full w-7 h-7 bg-white group shadow-buttonAside hover:scale-125 transition-all duration-300',
-      { '-right-4': isOpen },
-      { '-right-8': !isOpen },
-    ),
-  };
+  const styles = getStyles(isOpen);
 
   return (
     <aside className={styles.aside} ref={ref}>
@@ -61,7 +48,7 @@ export const DashboardAside = () => {
       </nav>
 
       <button className={styles.button} onClick={() => setIsOpen(!isOpen)}>
-        <Prev className="group-hover:scale-125 transition-all duration-300" />
+        <Prev className={styles.icon} />
       </button>
     </aside>
   );

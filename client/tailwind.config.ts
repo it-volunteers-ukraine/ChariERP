@@ -31,6 +31,7 @@ const liteGray = '#A3A3A3';
 const dimGray = '#656575B2';
 const steelBlue = '#3B91BE';
 const Magnolia = '#5D647CB2';
+const superBlue = '#DFF0F8';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -50,6 +51,7 @@ const config: Config = {
         lightBlue,
         dimGray,
         mobster,
+        superBlue,
         'dark-blue': blue,
         error,
         green,
