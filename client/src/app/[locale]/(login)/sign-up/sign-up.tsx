@@ -167,6 +167,7 @@ const SignUp = () => {
                       {values.socialNetworks.map((_, index) => {
                         const isRightLength = values.socialNetworks.length < 5;
                         const isLastIndex = index === values.socialNetworks.length - 1;
+                        const isMoreThanOne = values.socialNetworks.length > 1;
 
                         return (
                           <div key={index}>
@@ -196,7 +197,7 @@ const SignUp = () => {
                                 )}
                               </div>
 
-                              {index !== 0 && (
+                              {isMoreThanOne && (
                                 <SmallBtn
                                   type="delete"
                                   onClick={() => remove(index)}

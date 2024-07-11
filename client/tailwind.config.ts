@@ -142,7 +142,7 @@ const config: Config = {
         btn: { inset: 'inset 0px 0px 5px 2px rgba(0,0,0,0.1)' },
         auth: '0px 0px 10px 4px rgba(0, 0, 0, 0.05)',
         circle: '0px 0px 3px 0px rgba(0, 0, 0, 0.13)',
-        dashboard: '0px 2px 12px 0px rgba(101, 101, 117, 0.15)',
+        dashboard: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
         buttonAside: '0px 0px 3px 2px rgba(97, 182, 219, 0.4)',
       },
       backgroundSize: {

@@ -9,6 +9,7 @@ export interface IAccordionProps {
 
 export interface IStylesAccordion {
   isOpen: boolean;
+  classNameTitle?: string;
   classNameWrapper?: string;
   classNameChildren?: string;
 }

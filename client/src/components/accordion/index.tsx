@@ -17,12 +17,12 @@ export const Accordion = ({
 }: IAccordionProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(initialState);
 
-  const styles = getStyles({ isOpen, classNameWrapper, classNameChildren });
+  const styles = getStyles({ isOpen, classNameTitle, classNameWrapper, classNameChildren });
 
   return (
     <div className={styles.wrapper}>
-      <div onClick={() => setIsOpen(!isOpen)} className="flex items-center justify-start cursor-pointer">
-        <Title className={classNameTitle} title={title} />
+      <div onClick={() => setIsOpen(!isOpen)} className="flex items-center justify-start cursor-pointer w-fit">
+        <Title className={styles.title} title={title} />
 
         <div className={styles.arrow}>
           <ArrowUp />

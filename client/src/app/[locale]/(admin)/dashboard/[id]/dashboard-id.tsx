@@ -42,7 +42,7 @@ const DashboardId = () => {
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
       {({ values }) => (
-        <div className="w-full h-full bg-boardHeader">
+        <div className="w-full h-full bg-boardHeader overflow-y-auto scroll-blue">
           <ModalAdmin
             isOpen={isOpenSave}
             onConfirm={() => {}}
@@ -83,8 +83,8 @@ const DashboardId = () => {
             content={<ModalContent name="declineReason" organizationName={'ГО Живи'} />}
           />
 
-          <div className="flex justify-start px-8 pb-12 bg-white rounded-lg shadow-bg">
-            <div className="w-[994px]">
+          <div className="flex justify-start mb-20 px-8 pb-12 bg-white rounded-lg shadow-dashboard">
+            <div className="w-full desktop:mr-32">
               <div className="flex items-center justify-between mb-4 py-6 pr-2 border-b-2 border-lightBlue">
                 <div className="flex items-center gap-4">
                   <ButtonIcon icon="back" iconType="primary" onClick={() => router.back()} />
@@ -184,6 +184,7 @@ const DashboardId = () => {
                         {values.socialNetworks.map((_, index) => {
                           const isRightLength = values.socialNetworks.length < 5;
                           const isLastIndex = index === values.socialNetworks.length - 1;
+                          const isMoreThanOne = values.socialNetworks.length > 1;
 
                           return (
                             <div key={index}>
@@ -198,17 +199,17 @@ const DashboardId = () => {
                                 {isRightLength && isLastIndex && (
                                   <SmallBtn
                                     type="add"
-                                    onClick={() => push('')}
                                     text={btn('addField')}
+                                    onClick={() => push('')}
                                     className="flex justify-start mt-3 w-full !leading-4"
                                   />
                                 )}
 
-                                {index !== 0 && (
+                                {isMoreThanOne && (
                                   <SmallBtn
                                     type="delete"
-                                    onClick={() => remove(index)}
                                     text={btn('deleteField')}
+                                    onClick={() => remove(index)}
                                     className="flex justify-end mt-3 w-full !leading-4"
                                   />
                                 )}
