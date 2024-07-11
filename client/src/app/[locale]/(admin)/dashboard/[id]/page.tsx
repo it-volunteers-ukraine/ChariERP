@@ -124,7 +124,7 @@ const Edit = () => {
                       name="certificateOfRegister"
                       accept="pdf, jpg, jpeg, png"
                       label={text('certificateOfRegister.label')}
-                      placeholder={text('certificateOfRegister.placeholder')}
+                      placeholder={text('certificateOfRegister.downloadDoc')}
                     />
 
                     <DateField
@@ -132,7 +132,7 @@ const Edit = () => {
                       placeholderItalic
                       name="dateOfRegisterOrganization"
                       label={text('dateOfRegisterOrganization.label')}
-                      placeholder={text('dateOfRegisterOrganization.placeholder')}
+                      placeholder={text('dateOfRegisterOrganization.chooseDate')}
                     />
                   </div>
                 </Accordion>
@@ -200,7 +200,7 @@ const Edit = () => {
                                   <SmallBtn
                                     type="add"
                                     onClick={() => push('')}
-                                    text={text('button.addNewInput')}
+                                    text={btn('addField')}
                                     className="flex justify-start mt-3 w-full !leading-4"
                                   />
                                 )}
@@ -209,7 +209,7 @@ const Edit = () => {
                                   <SmallBtn
                                     type="delete"
                                     onClick={() => remove(index)}
-                                    text={text('button.deleteField')}
+                                    text={btn('deleteField')}
                                     className="flex justify-end mt-3 w-full !leading-4"
                                   />
                                 )}

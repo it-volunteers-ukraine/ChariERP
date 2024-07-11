@@ -50,8 +50,8 @@ const SignUp = () => {
                 label={text('organizationName.label')}
                 info={
                   <div>
-                    {text('organizationName.info')}
-                    <span className={styles.spanStyles}>{text('organizationName.infoItalic')}</span>
+                    {text('organizationName.information')}
+                    <span className={styles.spanStyles}>{text('organizationName.forExample')}</span>
                   </div>
                 }
               />
@@ -71,12 +71,12 @@ const SignUp = () => {
                 name="certificateOfRegister"
                 accept={'pdf, jpg, jpeg, png'}
                 label={text('certificateOfRegister.label')}
-                placeholder={text('certificateOfRegister.placeholder')}
+                placeholder={text('certificateOfRegister.downloadDoc')}
                 info={
                   <div>
-                    {text('certificateOfRegister.info')}
+                    {text('certificateOfRegister.information')}
                     <Link href="#" className={`${styles.spanStyles} text-input-link underline`}>
-                      {text('certificateOfRegister.link')}
+                      {text('certificateOfRegister.howDownloadFile')}
                     </Link>
                   </div>
                 }
@@ -88,7 +88,7 @@ const SignUp = () => {
                 name="dateOfRegisterOrganization"
                 wrapperClass="laptop:max-w-[calc(50%-12px)]"
                 label={text('dateOfRegisterOrganization.label')}
-                placeholder={text('dateOfRegisterOrganization.placeholder')}
+                placeholder={text('dateOfRegisterOrganization.chooseDate')}
               />
             </div>
           </div>
@@ -104,7 +104,7 @@ const SignUp = () => {
                 required
                 name="positionOrganization"
                 label={text('positionOrganization.label')}
-                info={<span className={`${styles.spanStyles}`}>{text('positionOrganization.infoItalic')}</span>}
+                info={<span className={`${styles.spanStyles}`}>{text('positionOrganization.forExample')}</span>}
               />
 
               <InputField
@@ -135,10 +135,10 @@ const SignUp = () => {
                 placeholderItalic
                 placeholder="+38(0__)___-__-__"
                 label={text('phone.label')}
-                info={<span className={`${styles.spanStyles}`}>{text('phone.infoItalic')}</span>}
+                info={<span className={`${styles.spanStyles}`}>{text('phone.forExample')}</span>}
               />
 
-              <InputField required name="email" info={text('email.info')} label={text('email.label')} />
+              <InputField required name="email" info={text('email.information')} label={text('email.label')} />
 
               <div className="flex flex-col gap-8 tablet:gap-6">
                 <Title
@@ -152,8 +152,10 @@ const SignUp = () => {
                   label={text('site.label')}
                   info={
                     <div>
-                      {text('site.info')}
-                      <span className={`${styles.spanStyles}`}>{text('site.infoItalic')}</span>
+                      {text('site.information')}
+                      <span className={`${styles.spanStyles}`}>
+                        {text('site.forExample', { link: 'https://gozhivi.com.ua/' })}
+                      </span>
                     </div>
                   }
                 />
@@ -175,8 +177,10 @@ const SignUp = () => {
                               label={text('socialNetworks.label')}
                               info={
                                 <div>
-                                  {text('socialNetworks.info')}
-                                  <span className={`${styles.spanStyles}`}>{text('socialNetworks.infoItalic')}</span>
+                                  {text('socialNetworks.information')}
+                                  <span className={`${styles.spanStyles}`}>
+                                    {text('socialNetworks.forExample', { link: 'https://www.facebook.com/gozhivi' })}
+                                  </span>
                                 </div>
                               }
                             />
@@ -186,7 +190,7 @@ const SignUp = () => {
                                   <SmallBtn
                                     type="add"
                                     onClick={() => push('')}
-                                    text={text('button.addField')}
+                                    text={btn('addField')}
                                     className="flex justify-start mt-3 !leading-4"
                                   />
                                 )}
@@ -196,7 +200,7 @@ const SignUp = () => {
                                 <SmallBtn
                                   type="delete"
                                   onClick={() => remove(index)}
-                                  text={text('button.deleteField')}
+                                  text={btn('deleteField')}
                                   className="flex justify-end mt-3 !leading-4"
                                 />
                               )}
@@ -214,8 +218,8 @@ const SignUp = () => {
           <CheckboxRadioField
             href="#"
             name="agree"
-            label={text('checkbox.info')}
-            hrefText={text('checkbox.link')}
+            label={text('checkbox.information')}
+            hrefText={text('checkbox.privacyPolicy')}
             className="laptop:mx-auto !items-start laptop:!items-center"
           />
 
