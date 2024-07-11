@@ -6,13 +6,13 @@ export interface OrganizationFormValues {
   agree: boolean;
   lastName: string;
   middleName: string;
-  socialNetworks: string;
+  socialNetworks: string[];
   organizationName: string;
   positionOrganization: string;
   organizationTaxNumber: string;
   certificateOfRegister: string;
   dateOfRegisterOrganization: string;
-  rejectReason:
+  declineReason:
     | string
     | {
         id: string;
