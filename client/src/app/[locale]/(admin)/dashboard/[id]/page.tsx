@@ -103,7 +103,7 @@ const Edit = () => {
                   title={text('title.basicInformation')}
                   classNameChildren="flex flex-col gap-6"
                 >
-                  <div className="flex items-center gap-6">
+                  <div className="flex items-start gap-6">
                     <InputField
                       isCopy
                       required
@@ -116,7 +116,7 @@ const Edit = () => {
                     <InputField isCopy required name="organizationName" label={text('organizationName.label')} />
                   </div>
 
-                  <div className="flex items-center gap-16">
+                  <div className="flex items-start gap-16">
                     <FileField
                       required
                       maxSize={5}
@@ -143,19 +143,19 @@ const Edit = () => {
                   classNameChildren="flex flex-col gap-6"
                   title={text('title.contactInformation')}
                 >
-                  <div className="flex items-center gap-16">
+                  <div className="flex items-start gap-16">
                     <InputField required name="positionOrganization" label={text('positionOrganization.label')} />
 
                     <InputField required name="lastName" label={text('lastName.label')} />
                   </div>
 
-                  <div className="flex items-center gap-16">
+                  <div className="flex items-start gap-16">
                     <InputField required name="name" label={text('name.label')} />
 
                     <InputField required name="middleName" label={text('middleName.label')} />
                   </div>
 
-                  <div className="flex items-center gap-16">
+                  <div className="flex items-start gap-16">
                     <InputField
                       required
                       isMasked
