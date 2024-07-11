@@ -45,7 +45,7 @@ const DashboardId = () => {
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
       {() => (
-        <Form className="w-full h-full bg-boardHeader">
+        <Form className="w-full h-full overflow-y-auto bg-boardHeader">
           <ModalAdmin
             isOpen={isOpenSave}
             onConfirm={() => {}}
@@ -84,7 +84,7 @@ const DashboardId = () => {
           />
 
           <div className="flex justify-start px-8 pb-12 bg-white rounded-lg shadow-dashboard">
-            <div className="w-[994px]">
+            <div className="w-full">
               <div className="flex items-center justify-between mb-4 py-6 pr-2 border-b-2 border-lightBlue">
                 <div className="flex items-center gap-4">
                   <ButtonIcon icon="back" iconType="primary" onClick={() => router.back()} />
