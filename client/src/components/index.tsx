@@ -21,3 +21,4 @@ export { Pagination } from './pagination';
 export { ResponseWrapper } from './response';
 export { SmallBtn } from './small-button';
 export { Title } from './title';
+export { Toast, showMessage } from './toastify';

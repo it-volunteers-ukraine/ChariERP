@@ -5,6 +5,7 @@ import { useMessages, NextIntlClientProvider, useLocale as UseLocale } from 'nex
 import { ChildrenProps, LocalizationProps } from '@/types';
 
 import '../../styles/globals.css';
+import { WidthToast } from './width-toast';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -33,7 +34,9 @@ export default function RootLayout({ params, children }: ChildrenProps<Localizat
   return (
     <html lang={locale} className="scroll-smooth">
       <body className={`${roboto.variable} ${scada.variable}`}>
-        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages}>
+          <WidthToast>{children}</WidthToast>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
