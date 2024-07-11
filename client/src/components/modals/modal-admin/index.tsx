@@ -1,5 +1,5 @@
-import { Button } from '../button';
-import { Overlay } from '../overlay';
+import { Overlay, Button } from '@/components';
+
 import { IModalAdminProps } from './types';
 
 export const ModalAdmin = ({
