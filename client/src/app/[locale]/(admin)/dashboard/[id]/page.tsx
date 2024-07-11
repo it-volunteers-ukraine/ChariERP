@@ -2,30 +2,36 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Form, Formik, FormikValues } from 'formik';
+import { FieldArray, Form, Formik, FormikValues } from 'formik';
 
-import { organizationValidation, organizationInitialValues } from '@/formik-config';
-import { AddBtn, Button, DateField, Accordion, FileField, InputField, ButtonIcon, ModalAdmin } from '@/components';
+import {
+  Button,
+  SmallBtn,
+  DateField,
+  Accordion,
+  FileField,
+  InputField,
+  ButtonIcon,
+  ModalAdmin,
+  organizationValidation,
+  organizationInitialValues,
+} from '@/components';
 
 import { ModalContent } from './components/modal-content';
 
 const Edit = () => {
   const router = useRouter();
-  const [inputFields, setInputFields] = useState<string[]>(['socialNetworks']);
+  const btn = useTranslations('button');
+  const text = useTranslations('inputs');
+  const modal = useTranslations('modal');
+  const error = useTranslations('validation');
+
   const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
   const [isOpenAccept, setIsOpenAccept] = useState<boolean>(false);
   const [isOpenDecline, setIsOpenDecline] = useState<boolean>(false);
 
-  const error = useTranslations('validation');
-  const text = useTranslations('auth-page.registration');
-  const dashboard = useTranslations('auth-page.dashboard');
-
   const onSubmit = (values: FormikValues) => {
     console.log('data', values);
-  };
-
-  const addInputField = () => {
-    setInputFields([...inputFields, 'socialNetworks']);
   };
 
   return (
@@ -36,30 +42,32 @@ const Edit = () => {
       initialValues={organizationInitialValues()}
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
-      {() => (
-        <Form className="w-full h-full bg-boardHeader">
+      {({ values }) => (
+        <div className="w-full h-full bg-boardHeader">
           <ModalAdmin
             isOpen={isOpenSave}
             onConfirm={() => {}}
+            classNameBtn="w-[82px]"
+            btnCancelText={btn('no')}
+            title={modal('save.title')}
+            btnConfirmText={btn('yes')}
+            content={modal('save.text')}
             onClose={() => setIsOpenSave(false)}
-            title={dashboard('modal.title.save')}
-            content={dashboard('modal.text.save')}
-            btnCancelText={dashboard('modal.btn.no')}
-            btnConfirmText={dashboard('modal.btn.yes')}
           />
 
           <ModalAdmin
             isOpen={isOpenAccept}
             onConfirm={() => {}}
+            classNameBtn="w-[82px]"
+            btnCancelText={btn('no')}
+            btnConfirmText={btn('yes')}
+            title={modal('register.title')}
             onClose={() => setIsOpenAccept(false)}
-            title={dashboard('modal.title.register')}
-            btnCancelText={dashboard('modal.btn.no')}
-            btnConfirmText={dashboard('modal.btn.yes')}
             content={
               <div className="flex flex-col text-center text-mobster lending-6">
                 <span>ГО Живи</span>
                 <span>
-                  {dashboard('modal.text.register')} {' adshfg@mail.com'}
+                  {modal('register.text')} {'adshfg@mail.com'}
                 </span>
               </div>
             }
@@ -68,11 +76,12 @@ const Edit = () => {
           <ModalAdmin
             onConfirm={() => {}}
             isOpen={isOpenDecline}
+            classNameBtn="w-[82px]"
+            btnCancelText={btn('no')}
+            btnConfirmText={btn('yes')}
+            title={modal('decline.title')}
             onClose={() => setIsOpenDecline(false)}
-            title={dashboard('modal.title.reject.title')}
-            btnCancelText={dashboard('modal.btn.decline')}
-            btnConfirmText={dashboard('modal.btn.accept')}
-            content={<ModalContent name="rejectReason" organizationName={'ГО Живи'} />}
+            content={<ModalContent name="declineReason" organizationName={'ГО Живи'} />}
           />
 
           <div className="flex justify-start px-8 pb-12 bg-white rounded-lg shadow-bg">
@@ -87,27 +96,27 @@ const Edit = () => {
                 <div className="text-[18px] text-lightBlue leading-6 capitalize">№2223</div>
               </div>
 
-              <div className="flex flex-col gap-12">
+              <Form className="flex flex-col gap-12">
                 <Accordion
                   initialState
                   classNameTitle="text-[20px]"
                   title={text('title.basicInformation')}
                   classNameChildren="flex flex-col gap-6"
                 >
-                  <div className="flex items-center gap-6">
+                  <div className="flex items-start gap-6">
                     <InputField
                       isCopy
                       required
                       type="number"
                       wrapperClass="max-w-[140px]"
                       name="organizationTaxNumber"
-                      label={dashboard('organizationTaxNumber.label')}
+                      label={text('organizationTaxNumber.labelErdpou')}
                     />
 
                     <InputField isCopy required name="organizationName" label={text('organizationName.label')} />
                   </div>
 
-                  <div className="flex items-center gap-16">
+                  <div className="flex items-start gap-16">
                     <FileField
                       required
                       maxSize={5}
@@ -115,7 +124,7 @@ const Edit = () => {
                       name="certificateOfRegister"
                       accept="pdf, jpg, jpeg, png"
                       label={text('certificateOfRegister.label')}
-                      placeholder={text('certificateOfRegister.placeholder')}
+                      placeholder={text('certificateOfRegister.downloadDoc')}
                     />
 
                     <DateField
@@ -123,7 +132,7 @@ const Edit = () => {
                       placeholderItalic
                       name="dateOfRegisterOrganization"
                       label={text('dateOfRegisterOrganization.label')}
-                      placeholder={text('dateOfRegisterOrganization.placeholder')}
+                      placeholder={text('dateOfRegisterOrganization.chooseDate')}
                     />
                   </div>
                 </Accordion>
@@ -134,19 +143,19 @@ const Edit = () => {
                   classNameChildren="flex flex-col gap-6"
                   title={text('title.contactInformation')}
                 >
-                  <div className="flex items-center gap-16">
+                  <div className="flex items-start gap-16">
                     <InputField required name="positionOrganization" label={text('positionOrganization.label')} />
 
                     <InputField required name="lastName" label={text('lastName.label')} />
                   </div>
 
-                  <div className="flex items-center gap-16">
+                  <div className="flex items-start gap-16">
                     <InputField required name="name" label={text('name.label')} />
 
                     <InputField required name="middleName" label={text('middleName.label')} />
                   </div>
 
-                  <div className="flex items-center gap-16">
+                  <div className="flex items-start gap-16">
                     <InputField
                       required
                       isMasked
@@ -165,43 +174,74 @@ const Edit = () => {
                   classNameWrapper="gap-0"
                   title={text('title.media')}
                   classNameTitle="text-[20px]"
+                  classNameChildren="flex flex-col gap-6"
                 >
-                  <InputField cross name="site" wrapperClass="mb-6 max-w-[465px]" label={text('site.label')} />
+                  <InputField cross name="site" wrapperClass="max-w-[465px]" label={text('site.label')} />
 
-                  {inputFields.map((name, index) => (
-                    <InputField
-                      cross
-                      name={name}
-                      key={`media-signUp-${index}`}
-                      label={text('socialNetworks.label')}
-                      wrapperClass={index === inputFields.length - 1 ? 'max-w-[465px]' : 'mb-6 max-w-[465px]'}
-                    />
-                  ))}
+                  <FieldArray
+                    name="socialNetworks"
+                    render={({ push, remove }) => (
+                      <>
+                        {values.socialNetworks.map((_, index) => {
+                          const isRightLength = values.socialNetworks.length < 5;
+                          const isLastIndex = index === values.socialNetworks.length - 1;
 
-                  {inputFields.length < 5 && (
-                    <AddBtn
-                      onClick={addInputField}
-                      text={text('button.addNewInput')}
-                      className="flex justify-start py-2 leading-4"
-                    />
-                  )}
+                          return (
+                            <div key={index}>
+                              <InputField
+                                cross
+                                wrapperClass="max-w-[465px]"
+                                key={`media-signUp-${index}`}
+                                name={`socialNetworks.${index}`}
+                                label={text('socialNetworks.label')}
+                              />
+                              <div className="flex items-center justify-between max-w-[465px]">
+                                {isRightLength && isLastIndex && (
+                                  <SmallBtn
+                                    type="add"
+                                    onClick={() => push('')}
+                                    text={btn('addField')}
+                                    className="flex justify-start mt-3 w-full !leading-4"
+                                  />
+                                )}
+
+                                {index !== 0 && (
+                                  <SmallBtn
+                                    type="delete"
+                                    onClick={() => remove(index)}
+                                    text={btn('deleteField')}
+                                    className="flex justify-end mt-3 w-full !leading-4"
+                                  />
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </>
+                    )}
+                  />
                 </Accordion>
 
                 <div className="flex justify-end w-full gap-6">
-                  <Button text="Accept" styleType="green" className="w-[90px]" onClick={() => setIsOpenAccept(true)} />
-
                   <Button
                     type="submit"
-                    text="Decline"
+                    styleType="green"
+                    text={btn('accept')}
+                    className="uppercase"
+                    onClick={() => setIsOpenAccept(true)}
+                  />
+
+                  <Button
                     styleType="red"
-                    className="w-[90px]"
+                    text={btn('decline')}
+                    className="uppercase"
                     onClick={() => setIsOpenDecline(true)}
                   />
                 </div>
-              </div>
+              </Form>
             </div>
           </div>
-        </Form>
+        </div>
       )}
     </Formik>
   );

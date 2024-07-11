@@ -1,5 +1,4 @@
 export { Accordion } from './accordion';
-export { AddBtn } from './add-button';
 export { AuthLinks } from './auth-links';
 export { Avatar, DashboardHeader, DashboardAside } from './dashboard';
 export { Burger } from './burger';
@@ -16,8 +15,10 @@ export { LanguageSwitcher } from './language-switcher';
 export { Logo } from './logo';
 export { ModalAdmin } from './modal-admin';
 export { Navigation } from './navigation';
+export { organizationValidation, organizationInitialValues } from './formik-config';
 export { Overlay } from './overlay';
 export { Pagination } from './pagination';
 export { ResponseWrapper } from './response';
+export { SmallBtn } from './small-button';
 export { Title } from './title';
 export { Toast, showMessage } from './toastify';

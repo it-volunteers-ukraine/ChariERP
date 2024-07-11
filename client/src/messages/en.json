@@ -6,105 +6,109 @@
       "registration": "Sign Up"
     },
     "login": {
+      "email": "Email",
       "password": "Password",
       "button": "Sign In"
+    }
+  },
+  "inputs": {
+    "title": {
+      "basicInformation": "Basic information",
+      "contactInformation": "Contact information",
+      "media": "Media"
     },
-    "registration": {
-      "title": {
-        "basicInformation": "Basic information",
-        "contactInformation": "Contact information",
-        "media": "Media"
-      },
-      "organizationName": {
-        "label": "Full name of the organization",
-        "info": "In Ukrainian (in accordance with the Charter)",
-        "infoItalic": "For example: Public organization  'LIVE'"
-      },
-      "organizationTaxNumber": {
-        "label": "USREOU of the organization (tax number)"
-      },
-      "certificateOfRegister": {
-        "link": " How to download the file.",
-        "placeholder": "Download the document",
-        "label": "Certificate of entry into the register",
-        "info": "To download the document, click on the paperclip icon or the 'Download file' button. jpg, jpeg, png or pdf format. The maximum size is 5 MB."
-      },
-      "dateOfRegisterOrganization": {
-        "placeholder": "Choose a date",
-        "label": "Date of registration of the organization"
-      },
-      "positionOrganization": {
-        "label": "Position of the organization's representative",
-        "infoItalic": "For example: Manager, IA, Accountant, etc."
-      },
-      "lastName": {
-        "label": "Last name"
-      },
-      "name": {
-        "label": "Name"
-      },
-      "middleName": {
-        "label": "Middle name"
-      },
-      "phone": {
-        "label": "Representative's phone number (with area code)",
-        "infoItalic": "For example: +38(050)123-45-36 or +38(044)222-22-33"
-      },
-      "email": {
-        "label": "Representative's e-mail address (e-mail)",
-        "info": "This email address will be your login. You will receive a letter to the specified email address regarding the results of processing your registration request."
-      },
-      "site": {
-        "label": "Internet page of the organization (website)",
-        "info": "Include the organization's website.",
-        "infoItalic": "For example: https://gozhivi.com.ua/"
-      },
-      "socialNetworks": {
-        "label": "Link to the social network",
-        "info": "Add links to social media (Facebook, Instagram, LinkedIn, TikTok, Youtube, etc.). ",
-        "infoItalic": "For example: https://www.facebook.com/gozhivi"
-      },
-      "button": {
-        "submit": "Submit Form",
-        "addNewInput": "Add more links"
-      },
-      "checkbox": {
-        "link": "Privacy Policy",
-        "info": "I agree to the processing of personal data in accordance with the"
-      }
+    "organizationName": {
+      "label": "Full name of the organization",
+      "information": "In Ukrainian (in accordance with the Charter)",
+      "forExample": "For example: Public organization 'LIVE'"
     },
-    "dashboard": {
-      "organizationTaxNumber": {
-        "label": "USREOU"
+    "organizationTaxNumber": {
+      "labelErdpouOfOrganization": "USREOU of the organization (tax number)",
+      "labelErdpou": "USREOU"
+    },
+    "certificateOfRegister": {
+      "howDownloadFile": " How to download the file.",
+      "downloadDoc": "Download the document",
+      "label": "Certificate of entry into the register",
+      "information": "To download the document, click on the paperclip icon or the 'Download file' button. jpg, jpeg, png or pdf format. The maximum size is 5 MB."
+    },
+    "dateOfRegisterOrganization": {
+      "chooseDate": "Choose a date",
+      "label": "Date of registration of the organization"
+    },
+    "positionOrganization": {
+      "label": "Position of the organization's representative",
+      "forExample": "For example: Manager, IA, Accountant, etc."
+    },
+    "lastName": {
+      "label": "Last name"
+    },
+    "name": {
+      "label": "Name"
+    },
+    "middleName": {
+      "label": "Middle name"
+    },
+    "phone": {
+      "label": "Representative's phone number (with area code)",
+      "forExample": "For example: +38(050)123-45-36 or +38(044)222-22-33"
+    },
+    "email": {
+      "label": "Representative's e-mail address (e-mail)",
+      "information": "This email address will be your login. You will receive a letter to the specified email address regarding the results of processing your registration request."
+    },
+    "site": {
+      "label": "Internet page of the organization (website)",
+      "information": "Include the organization's website.",
+      "forExample": "For example: {link}"
+    },
+    "socialNetworks": {
+      "label": "Link to the social network",
+      "information": "Add links to social media (Facebook, Instagram, LinkedIn, TikTok, Youtube, etc.). ",
+      "forExample": "For example: {link}"
+    },
+    "checkbox": {
+      "privacyPolicy": "Privacy Policy",
+      "information": "I agree to the processing of personal data in accordance with the"
+    }
+  },
+  "modal": {
+    "register": {
+      "title": "REGISTER?",
+      "text": "and send an email with the password to "
+    },
+    "save": {
+      "title": "SAVE CHANGES?",
+      "text": "This page contains data that was not saved."
+    },
+    "remove": {
+      "title": "REMOVE FROM THE SYSTEM?",
+      "text": "Application from "
+    },
+    "decline": {
+      "title": "DECLINE THE APPLICATION?",
+      "subTitle": "Please specify the reason:",
+      "btn": {
+        "yes": "YES",
+        "no": "NO"
       },
-      "modal": {
-        "btn": {
-          "yes": "YES",
-          "no": "NO",
-          "accept": "ACCEPT",
-          "decline": "DECLINE"
-        },
-        "radioBtn": {
-          "notValidUSREOU": "Incorrect or inaccurate data in the EDRPOU.",
-          "InsufficientDocuments": "Insufficient documents to confirm the status of a charitable organization..",
-          "nonCompliance": "Failure to comply with the requirements or norms stipulated by law for charitable organizations.",
-          "other": "Other"
-        },
-        "title": {
-          "register": "REGISTER?",
-          "save": "SAVE CHANGES?",
-          "reject": {
-            "title": "REJECT THE APPLICATION?",
-            "subTitle": "Please specify the reason:"
-          }
-        },
-        "text": {
-          "register": "and send an email with the password to ",
-          "save": "This page contains data that was not saved.",
-          "reject": "Unfortunately, your application cannot be reviewed due to duplicate information. We have already received a similar application from your organization, so in this case, you do not need to apply again. Please expect a response by."
-        }
+      "radioBtn": {
+        "notValidUSREOU": "Incorrect or inaccurate data in the EDRPOU.",
+        "insufficientDocuments": "Insufficient documents to confirm the status of a charitable organization..",
+        "noneCompliance": "Failure to comply with the requirements or norms stipulated by law for charitable organizations.",
+        "other": "Other"
       }
     }
+  },
+  "button": {
+    "submit": "Submit Form",
+    "addField": "Add more links",
+    "deleteField": "Delete field",
+    "delete": "delete",
+    "accept": "accept",
+    "decline": "decline",
+    "yes": "YES",
+    "no": "NO"
   },
   "validation": {
     "minPlural": "Minimum {int} characters",
