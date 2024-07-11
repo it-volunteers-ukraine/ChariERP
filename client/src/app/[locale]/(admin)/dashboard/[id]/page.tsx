@@ -43,7 +43,7 @@ const Edit = () => {
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
       {({ values }) => (
-        <Form className="w-full h-full bg-boardHeader">
+        <div className="w-full h-full bg-boardHeader">
           <ModalAdmin
             isOpen={isOpenSave}
             onConfirm={() => {}}
@@ -96,7 +96,7 @@ const Edit = () => {
                 <div className="text-[18px] text-lightBlue leading-6 capitalize">№2223</div>
               </div>
 
-              <div className="flex flex-col gap-12">
+              <Form className="flex flex-col gap-12">
                 <Accordion
                   initialState
                   classNameTitle="text-[20px]"
@@ -238,10 +238,10 @@ const Edit = () => {
                     onClick={() => setIsOpenDecline(true)}
                   />
                 </div>
-              </div>
+              </Form>
             </div>
           </div>
-        </Form>
+        </div>
       )}
     </Formik>
   );
