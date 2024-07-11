@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import { TranslationValues } from 'next-intl';
 import { isValidPhoneNumber } from 'libphonenumber-js';
 
-const siteNeedStart = /^https:\/\/.*$/;
+const linkRegExp = /^https:\/\/.*$/;
 
 export const organizationValidation = (error: (key: string, params?: TranslationValues) => string) =>
   Yup.object().shape({
@@ -42,13 +42,13 @@ export const organizationValidation = (error: (key: string, params?: Translation
       .required(error('required')),
     site: Yup.string()
       .trim()
-      .matches(siteNeedStart, error('siteStart'))
+      .matches(linkRegExp, error('siteStart'))
       .min(10, error('minPlural', { int: 10 }))
       .max(2000, error('maxPlural', { int: 2000 })),
     socialNetworks: Yup.array().of(
       Yup.string()
         .trim()
-        .matches(siteNeedStart, error('siteStart'))
+        .matches(linkRegExp, error('siteStart'))
         .min(10, error('minPlural', { int: 10 }))
         .max(2000, error('maxPlural', { int: 2000 })),
     ),
