@@ -37,13 +37,7 @@ export const DashboardAside = () => {
 
       <nav className="p-[44px_36px] flex flex-col">
         {links.map(({ text, href, icon, disabled }) => (
-          <NavItem
-            key={href}
-            href={href}
-            text={text}
-            Icon={icon}
-            disabled={disabled}
-          />
+          <NavItem key={href} href={href} text={text} Icon={icon} disabled={disabled} />
         ))}
       </nav>
 

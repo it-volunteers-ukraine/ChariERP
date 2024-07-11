@@ -4,13 +4,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { getStyles } from './styles';
 import { INavItemProps } from './types';
 
-export const NavItem = ({
-  Icon,
-  text,
-  href,
-  className,
-  ...props
-}: INavItemProps) => {
+export const NavItem = ({ Icon, text, href, className, ...props }: INavItemProps) => {
   const router = useRouter();
   const path = usePathname();
 

@@ -14,11 +14,7 @@ interface LinkProps {
   disabled?: boolean;
   icon: React.ComponentType<SVGProps<SVGSVGElement>>;
 }
-export const getLinks = ({
-  request,
-  rejected,
-  organizations,
-}: IGetLinksProps): LinkProps[] => {
+export const getLinks = ({ request, rejected, organizations }: IGetLinksProps): LinkProps[] => {
   return [
     { text: request, href: '/dashboard', icon: Tablet },
     { text: rejected, href: '/dashboard/rejected', icon: Rejected },

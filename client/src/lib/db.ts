@@ -1,16 +1,14 @@
 import mongoose from 'mongoose';
 
-const MONGO_URI = process.env.MONGO_URI;
-
 const connectDB = async () => {
+  const MONGO_URI = process.env.MONGO_URI;
+
   if (!MONGO_URI) {
-    throw new Error(
-      'Please define the MONGO_URI environment variable inside .env',
-    );
+    throw new Error('Please define the MONGO_URI environment variable inside .env');
   }
 
   try {
-    if (mongoose.connections[0].readyState) {
+    if (mongoose.connection.readyState === mongoose.ConnectionStates.connected) {
       return true;
     }
 
@@ -24,8 +22,11 @@ const connectDB = async () => {
       serverSelectionTimeoutMS: 5000,
     });
 
-    await mongoose.connection.db.admin().command({ ping: 1 });
+    const document = await mongoose.connection.db.admin().command({ ping: 1 });
+
     console.log('Connected to MongoDB');
+
+    return document;
   } catch (error) {
     console.log(error);
   }

@@ -18,16 +18,7 @@ export const InputField = ({ name, label, ...props }: InputProps) => {
           }
         };
 
-        return (
-          <Input
-            {...fieldProps}
-            {...props}
-            name={name}
-            label={label}
-            error={error}
-            onChange={change}
-          />
-        );
+        return <Input {...fieldProps} {...props} name={name} label={label} error={error} onChange={change} />;
       }}
     </Field>
   );

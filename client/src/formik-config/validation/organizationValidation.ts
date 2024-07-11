@@ -2,41 +2,7 @@ import * as Yup from 'yup';
 import { TranslationValues } from 'next-intl';
 import { isValidPhoneNumber } from 'libphonenumber-js';
 
-interface FormValues {
-  email: string;
-  organizationName: string;
-  organizationTaxNumber: string;
-  certificateOfRegister: string;
-  dateOfRegisterOrganization: string;
-  positionOrganization: string;
-  lastName: string;
-  name: string;
-  middleName: string;
-  phone: string;
-  site: string;
-  socialNetworks: string;
-  agree: boolean;
-}
-
-export const initialValues: FormValues = {
-  email: '',
-  organizationName: '',
-  organizationTaxNumber: '',
-  certificateOfRegister: '',
-  dateOfRegisterOrganization: '',
-  positionOrganization: '',
-  lastName: '',
-  name: '',
-  middleName: '',
-  phone: '',
-  site: '',
-  socialNetworks: '',
-  agree: false,
-};
-
-export const validationSchema = (
-  error: (key: string, params?: TranslationValues) => string,
-) =>
+export const organizationValidation = (error: (key: string, params?: TranslationValues) => string) =>
   Yup.object().shape({
     organizationName: Yup.string()
       .trim()
@@ -64,11 +30,7 @@ export const validationSchema = (
       .max(100, error('maxPlural', { int: 100 }))
       .required(error('required')),
     phone: Yup.string()
-      .test(
-        'is-valid-phone',
-        error('notValidPhone'),
-        (value) => !!isValidPhoneNumber(value as string),
-      )
+      .test('is-valid-phone', error('notValidPhone'), (value) => !!isValidPhoneNumber(value as string))
       .required('required'),
     email: Yup.string()
       .trim()

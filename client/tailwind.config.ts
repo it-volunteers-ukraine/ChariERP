@@ -37,10 +37,7 @@ const superBlue = '#DFF0F8';
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
 
 const config: Config = {
-  content: [
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  content: ['./src/components/**/*.{js,ts,jsx,tsx,mdx}', './src/app/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       ...defaultTheme,
@@ -136,11 +133,9 @@ const config: Config = {
         boardAside: blueCrayolaToDeepBlue,
         'burger-tablet': 'linear-gradient(315deg, #3879B6 0%, #78D6EF 100%)',
         'header-gradient': blueCrayolaToDeepBlue,
-        btnPrimaryGradient:
-          'linear-gradient(135deg, #78D6EF 0%, #3879B6 40%,#0C6399 65%, #60ADF3 100%)',
+        btnPrimaryGradient: 'linear-gradient(135deg, #78D6EF 0%, #3879B6 40%,#0C6399 65%, #60ADF3 100%)',
         btnActiveGradient: 'linear-gradient(135deg, #0C6399 0%, #0C6399 100%)',
-        bgAuthGradient:
-          'linear-gradient(90.36deg, #cfedf8 0.31%, #ffffff 25.15%, #FFFFFF 74.85%, #cfeef7 99.69%)',
+        bgAuthGradient: 'linear-gradient(90.36deg, #cfedf8 0.31%, #ffffff 25.15%, #FFFFFF 74.85%, #cfeef7 99.69%)',
         bgAuthLinks: 'linear-gradient(135deg, #78D6EF 0%, #3879B6 100%)',
       },
       boxShadow: {
@@ -171,10 +166,7 @@ const config: Config = {
         desktopXl: `${media.desktopXL}px`,
       },
       dropShadow: {
-        logo: [
-          '4px 2px 2px rgba(0, 0, 0, 0.25)',
-          '-4px -2px 3px rgba(0, 0, 0, 0.15)',
-        ],
+        logo: ['4px 2px 2px rgba(0, 0, 0, 0.25)', '-4px -2px 3px rgba(0, 0, 0, 0.15)'],
       },
       transitionProperty: {
         rounded: 'border-radius',
