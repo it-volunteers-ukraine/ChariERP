@@ -1,5 +1,6 @@
 export interface IAccordionProps {
   title: string;
+  changedLength?: number;
   initialState?: boolean;
   classNameTitle?: string;
   classNameWrapper?: string;

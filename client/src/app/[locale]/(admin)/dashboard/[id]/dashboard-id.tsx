@@ -174,6 +174,7 @@ const DashboardId = () => {
                   title={text('title.media')}
                   classNameTitle="text-[20px]"
                   classNameChildren="flex flex-col gap-6"
+                  changedLength={values.socialNetworks.length}
                 >
                   <InputField cross name="site" wrapperClass="max-w-[465px]" label={text('site.label')} />
 
