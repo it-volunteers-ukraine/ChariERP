@@ -54,7 +54,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           type="radio"
           className="p-2"
           classNameText="text-mobster"
-          label={modal('radioBtn.nonCompliance')}
+          label={modal('radioBtn.noneCompliance')}
         />
 
         <CheckboxRadioField

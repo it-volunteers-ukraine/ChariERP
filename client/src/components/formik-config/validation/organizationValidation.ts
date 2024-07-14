@@ -33,7 +33,7 @@ export const organizationValidation = (error: (key: string, params?: Translation
       .required(error('required')),
     phone: Yup.string()
       .test('is-valid-phone', error('notValidPhone'), (value) => !!isValidPhoneNumber(value as string))
-      .required('required'),
+      .required(error('required')),
     email: Yup.string()
       .trim()
       .min(6, error('minPlural', { int: 6 }))
