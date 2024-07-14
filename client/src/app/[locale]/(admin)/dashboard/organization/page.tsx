@@ -45,6 +45,7 @@ const Organization = () => {
             onConfirm={() => {}}
             title={modal('title')}
             content={modal('text')}
+            classNameBtn="w-[82px]"
             btnCancelText={btn('no')}
             btnConfirmText={btn('yes')}
             onClose={() => setIsOpenSave(false)}
