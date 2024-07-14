@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Form, Formik, FormikValues } from 'formik';
+import { FieldArray, Form, Formik, FormikValues } from 'formik';
 
 import {
   Accordion,
@@ -12,19 +12,22 @@ import {
   ModalAdmin,
   organizationInitialValues,
   organizationValidation,
+  SmallBtn,
 } from '@/components';
 import { Info } from '@/assets/icons';
 import Link from 'next/link';
 
 const Organization = () => {
+  const btn = useTranslations('button');
+  const text = useTranslations('inputs');
+  const error = useTranslations('validation');
+  const modal = useTranslations('modal.save');
+
   const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
+
   const onSubmit = (values: FormikValues) => {
     console.log('data', values);
   };
-
-  const error = useTranslations('validation');
-  const modal = useTranslations('auth-page.modal');
-  const text = useTranslations('auth-page.organization');
 
   return (
     <Formik
@@ -34,15 +37,15 @@ const Organization = () => {
       initialValues={organizationInitialValues()}
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
-      {() => (
+      {({ values }) => (
         <Form className="p-[0_32px_32px] w-full bg-white rounded-lg shadow-bg">
           <ModalAdmin
             isOpen={isOpenSave}
             onConfirm={() => {}}
-            title={modal('title.save')}
-            content={modal('text.save')}
-            btnCancelText={modal('btn.no')}
-            btnConfirmText={modal('btn.yes')}
+            title={modal('title')}
+            content={modal('text')}
+            btnCancelText={btn('no')}
+            btnConfirmText={btn('yes')}
             onClose={() => setIsOpenSave(false)}
           />
 
@@ -56,11 +59,11 @@ const Organization = () => {
             <div className="flex items-start gap-3">
               <Info width={24} height={24} className="text-lightBlue" />
 
-              <span className="text-input-info">{text('mainInfo')}</span>
+              <span className="text-input-info text-[14px]">{text('mainInformation')}</span>
             </div>
 
             <Accordion
-              classNameTitle="text-[20px]"
+              classNameTitle="text-[20px] uppercase"
               title={text('title.basicInformation')}
               classNameChildren="flex flex-col gap-[42px]"
             >
@@ -75,8 +78,8 @@ const Organization = () => {
                 required
                 type="number"
                 name="organizationTaxNumber"
-                label={text('organizationTaxNumber.label')}
                 wrapperClass="laptop:max-w-[calc(50%-12px)]"
+                label={text('organizationTaxNumber.labelErdpouOfOrganization')}
               />
 
               <FileField
@@ -86,12 +89,12 @@ const Organization = () => {
                 name="certificateOfRegister"
                 accept={'pdf, jpg, jpeg, png'}
                 label={text('certificateOfRegister.label')}
-                placeholder={text('certificateOfRegister.placeholder')}
+                placeholder={text('certificateOfRegister.downloadDoc')}
                 info={
                   <div>
-                    {text('certificateOfRegister.info')}
+                    {text('certificateOfRegister.information')}
                     <Link href="#" className="italic font-medium text-input-link underline">
-                      {text('certificateOfRegister.link')}
+                      {text('certificateOfRegister.howDownloadFile')}
                     </Link>
                   </div>
                 }
@@ -103,12 +106,12 @@ const Organization = () => {
                 name="dateOfRegisterOrganization"
                 wrapperClass="laptop:max-w-[calc(50%-12px)]"
                 label={text('dateOfRegisterOrganization.label')}
-                placeholder={text('dateOfRegisterOrganization.placeholder')}
+                placeholder={text('dateOfRegisterOrganization.chooseDate')}
               />
             </Accordion>
 
             <Accordion
-              classNameTitle="text-[20px]"
+              classNameTitle="text-[20px] uppercase"
               title={text('title.contactInformation')}
               classNameChildren="flex flex-col gap-[42px]"
             >
@@ -150,24 +153,77 @@ const Organization = () => {
               />
             </Accordion>
 
-            <Accordion
-              classNameTitle="text-[20px]"
-              title={text('title.loginInfo')}
-              classNameChildren="flex flex-col gap-8"
-            >
-              <InputField
-                required
-                name="email"
-                label={text('email.label')}
-                wrapperClass="laptop:max-w-[calc(50%-12px)]"
-              />
+            <Accordion classNameTitle="text-[20px] uppercase" title={text('title.loginInformation')}>
+              <div className="flex flex-col gap-8">
+                <InputField
+                  required
+                  name="email"
+                  label={text('email.label')}
+                  wrapperClass="laptop:max-w-[calc(50%-12px)]"
+                />
 
-              <InputField
-                required
-                name="password"
-                type="password"
-                label={text('password.pass')}
-                wrapperClass="laptop:max-w-[calc(50%-12px)]"
+                <InputField
+                  required
+                  name="password"
+                  type="password"
+                  label={text('password.label')}
+                  wrapperClass="laptop:max-w-[calc(50%-12px)]"
+                />
+              </div>
+
+              <SmallBtn className="mt-2" text={btn('changePass')} type="changePass" onClick={() => {}} />
+            </Accordion>
+
+            <Accordion
+              initialState
+              classNameWrapper="gap-0"
+              title={text('title.media')}
+              classNameTitle="text-[20px] uppercase"
+              classNameChildren="flex flex-col gap-6"
+            >
+              <InputField cross name="site" wrapperClass="max-w-[465px]" label={text('site.label')} />
+
+              <FieldArray
+                name="socialNetworks"
+                render={({ push, remove }) => (
+                  <>
+                    {values.socialNetworks.map((_, index) => {
+                      const isRightLength = values.socialNetworks.length < 5;
+                      const isLastIndex = index === values.socialNetworks.length - 1;
+
+                      return (
+                        <div key={index}>
+                          <InputField
+                            cross
+                            wrapperClass="max-w-[465px]"
+                            key={`media-signUp-${index}`}
+                            name={`socialNetworks.${index}`}
+                            label={text('socialNetworks.label')}
+                          />
+                          <div className="flex items-center justify-between max-w-[465px]">
+                            {isRightLength && isLastIndex && (
+                              <SmallBtn
+                                type="add"
+                                onClick={() => push('')}
+                                text={btn('addField')}
+                                className="flex justify-start mt-3 w-full !leading-4"
+                              />
+                            )}
+
+                            {index !== 0 && (
+                              <SmallBtn
+                                type="delete"
+                                onClick={() => remove(index)}
+                                text={btn('deleteField')}
+                                className="flex justify-end mt-3 w-full !leading-4"
+                              />
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
               />
             </Accordion>
           </div>
