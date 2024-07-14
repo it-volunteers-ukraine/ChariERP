@@ -110,6 +110,8 @@
     "addField": "Add more links",
     "changePass": "Change password",
     "deleteField": "Delete field",
+    "cancelChanges": "Cancel changes",
+    "saveChanges": "Save changes",
     "delete": "delete",
     "accept": "accept",
     "decline": "decline",

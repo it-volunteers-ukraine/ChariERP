@@ -5,6 +5,7 @@ import { FieldArray, Form, Formik, FormikValues } from 'formik';
 
 import {
   Accordion,
+  Button,
   ButtonIcon,
   DateField,
   FileField,
@@ -226,6 +227,18 @@ const Organization = () => {
                 )}
               />
             </Accordion>
+
+            <div className="flex items-center justify-center gap-6">
+              <Button
+                type="submit"
+                styleType="green"
+                onClick={() => {}}
+                className="uppercase"
+                text={btn('saveChanges')}
+              />
+
+              <Button className="uppercase" onClick={() => {}} styleType="red" text={btn('cancelChanges')} />
+            </div>
           </div>
         </Form>
       )}
