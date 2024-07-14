@@ -4,7 +4,7 @@
 
 @layer components {
   * {
-    @apply box-border text-base font-normal font-roboto;
+    @apply box-border text-base font-normal font-roboto text-inherit;
   }
   input {
     @apply outline-none;

@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+
 import { StyleType } from './types';
 
 interface IStylesButton {
