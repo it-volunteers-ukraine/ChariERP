@@ -204,8 +204,8 @@ const Organization = () => {
                             {isRightLength && isLastIndex && (
                               <SmallBtn
                                 type="add"
-                                onClick={() => push('')}
                                 text={btn('addField')}
+                                onClick={() => push('')}
                                 className="flex justify-start mt-3 w-full !leading-4"
                               />
                             )}
@@ -213,8 +213,8 @@ const Organization = () => {
                             {index !== 0 && (
                               <SmallBtn
                                 type="delete"
-                                onClick={() => remove(index)}
                                 text={btn('deleteField')}
+                                onClick={() => remove(index)}
                                 className="flex justify-end mt-3 w-full !leading-4"
                               />
                             )}
