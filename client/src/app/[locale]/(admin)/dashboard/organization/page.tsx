@@ -26,7 +26,7 @@ const Organization = () => {
 
   const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
 
-  const onSubmit = (values: FormikValues) => {
+  const onSubmit = async (values: FormikValues) => {
     console.log('data', values);
   };
 
@@ -42,12 +42,12 @@ const Organization = () => {
         <Form className="p-[0_32px_32px] w-full bg-white rounded-lg shadow-bg">
           <ModalAdmin
             isOpen={isOpenSave}
-            onConfirm={() => {}}
             title={modal('title')}
             content={modal('text')}
             classNameBtn="w-[82px]"
             btnCancelText={btn('no')}
             btnConfirmText={btn('yes')}
+            onConfirm={() => onSubmit(values)}
             onClose={() => setIsOpenSave(false)}
           />
 
@@ -233,9 +233,9 @@ const Organization = () => {
               <Button
                 type="submit"
                 styleType="green"
-                onClick={() => {}}
                 className="uppercase"
                 text={btn('saveChanges')}
+                onClick={() => onSubmit(values)}
               />
 
               <Button className="uppercase" onClick={() => {}} styleType="red" text={btn('cancelChanges')} />
