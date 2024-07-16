@@ -4,6 +4,7 @@ interface Organization {
   EDRPOU: number;
   date: string;
   doc: string;
+  email: string;
 }
 
 export const data: Organization[] = [
@@ -14,6 +15,7 @@ export const data: Organization[] = [
     EDRPOU: 1234567,
     date: '22.02.2023',
     doc: 'https://www.learningcontainer.com/wp-content/uploads/2019/09/sample-pdf-file.pdf',
+    email: 'qZjzA@example.com',
   },
   {
     id: '2',
@@ -21,6 +23,7 @@ export const data: Organization[] = [
     EDRPOU: 12345678,
     date: '22.02.2023',
     doc: 'https://www.w3schools.com/w3images/lights.jpg',
+    email: 'qZjzA@example.com',
   },
   {
     id: '3',
@@ -28,6 +31,7 @@ export const data: Organization[] = [
     EDRPOU: 12345678,
     date: '22.02.2023',
     doc: 'https://www.w3schools.com/w3images/lights.jpg',
+    email: 'qZjzA@example.com',
   },
   {
     id: '4',
@@ -35,6 +39,8 @@ export const data: Organization[] = [
     EDRPOU: 12345678,
     date: '22.02.2023',
     doc: 'https://www.w3schools.com/w3images/lights.jpg',
+
+    email: 'qZjzA@example.com',
   },
   {
     id: '5',
@@ -42,6 +48,7 @@ export const data: Organization[] = [
     EDRPOU: 12345678,
     date: '22.02.2023',
     doc: 'https://www.w3schools.com/w3images/lights.jpg',
+    email: 'qZjzA@example.com',
   },
   {
     id: '6',
@@ -49,6 +56,7 @@ export const data: Organization[] = [
     EDRPOU: 12345678,
     date: '22.02.2023',
     doc: 'https://www.w3schools.com/w3images/lights.jpg',
+    email: 'qZjzA@example.com',
   },
   {
     id: '7',
@@ -56,6 +64,7 @@ export const data: Organization[] = [
     EDRPOU: 12345678,
     date: '22.02.2023',
     doc: 'https://www.w3schools.com/w3images/lights.jpg',
+    email: 'qZjzA@example.com',
   },
   {
     id: '8',
@@ -63,6 +72,7 @@ export const data: Organization[] = [
     EDRPOU: 12345678,
     date: '22.02.2023',
     doc: 'https://www.w3schools.com/w3images/lights.jpg',
+    email: 'qZjzA@example.com',
   },
   {
     id: '9',
@@ -70,6 +80,7 @@ export const data: Organization[] = [
     EDRPOU: 12345678,
     date: '22.02.2023',
     doc: 'https://www.w3schools.com/w3images/lights.jpg',
+    email: 'qZjzA@example.com',
   },
   {
     id: '10',
@@ -77,6 +88,7 @@ export const data: Organization[] = [
     EDRPOU: 12345678,
     date: '22.02.2023',
     doc: 'https://www.w3schools.com/w3images/lights.jpg',
+    email: 'qZjzA@example.com',
   },
   {
     id: '11',
@@ -84,6 +96,7 @@ export const data: Organization[] = [
     EDRPOU: 12345678,
     date: '22.02.2023',
     doc: 'https://www.w3schools.com/w3images/lights.jpg',
+    email: 'qZjzA@example.com',
   },
   {
     id: '12',
@@ -91,5 +104,6 @@ export const data: Organization[] = [
     EDRPOU: 12345678,
     date: '22.02.2023',
     doc: 'https://www.w3schools.com/w3images/lights.jpg',
+    email: 'qZjzA@example.com',
   },
 ];

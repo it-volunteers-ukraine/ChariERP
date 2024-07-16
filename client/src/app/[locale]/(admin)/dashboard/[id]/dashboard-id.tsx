@@ -31,6 +31,8 @@ const DashboardId = () => {
 
   const onSubmit = (values: FormikValues) => {
     console.log('data', values);
+    setIsOpenAccept(false);
+    router.back();
   };
 
   return (
@@ -41,7 +43,7 @@ const DashboardId = () => {
       initialValues={organizationInitialValues()}
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
-      {({ values }) => (
+      {({ values, errors }) => (
         <div className="w-full h-full bg-boardHeader overflow-y-auto scroll-blue">
           <ModalAdmin
             isOpen={isOpenSave}
@@ -56,11 +58,11 @@ const DashboardId = () => {
 
           <ModalAdmin
             isOpen={isOpenAccept}
-            onConfirm={() => {}}
             classNameBtn="w-[82px]"
             btnCancelText={btn('no')}
             btnConfirmText={btn('yes')}
             title={modal('register.title')}
+            onConfirm={() => onSubmit(values)}
             onClose={() => setIsOpenAccept(false)}
             content={
               <div className="flex flex-col text-center text-mobster lending-6">
@@ -101,6 +103,7 @@ const DashboardId = () => {
                   classNameTitle="text-[20px]"
                   title={text('title.basicInformation')}
                   classNameChildren="flex flex-col gap-6"
+                  changedLength={Object.keys(errors).length}
                 >
                   <div className="flex items-start gap-6">
                     <InputField
@@ -141,6 +144,7 @@ const DashboardId = () => {
                   classNameTitle="text-[20px]"
                   classNameChildren="flex flex-col gap-6"
                   title={text('title.contactInformation')}
+                  changedLength={Object.keys(errors).length}
                 >
                   <div className="flex items-start gap-16">
                     <InputField required name="positionOrganization" label={text('positionOrganization.label')} />
@@ -225,7 +229,7 @@ const DashboardId = () => {
 
                 <div className="flex justify-end w-full gap-6">
                   <Button
-                    type="submit"
+                    type="button"
                     styleType="green"
                     text={btn('accept')}
                     className="uppercase"
@@ -233,6 +237,7 @@ const DashboardId = () => {
                   />
 
                   <Button
+                    type="button"
                     styleType="red"
                     text={btn('decline')}
                     className="uppercase"

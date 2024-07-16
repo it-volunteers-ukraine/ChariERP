@@ -54,7 +54,7 @@ export const Overlay = ({ opened, onClose, children, duration = 300 }: ChildrenP
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [opened, onClose]);
+  }, [opened, onClose, modalRef.current]);
 
   const handleKeyPressOnClose = (event: React.KeyboardEvent<SVGSVGElement>) => {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -66,7 +66,7 @@ export const Overlay = ({ opened, onClose, children, duration = 300 }: ChildrenP
   if (!unmounted) return null;
 
   return (
-    <Portal opened={opened}>
+    <Portal opened={unmounted}>
       <div className="absolute inset-0 py-10 flex justify-center items-center w-screen h-screen z-10">
         <div onClick={onClose} className={styles.overlay} style={{ animationDuration: `${duration}ms` }} />
         <div ref={modalRef} className={styles.modal} style={{ animationDuration: `${duration - 20}ms` }}>
