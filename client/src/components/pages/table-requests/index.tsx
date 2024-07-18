@@ -59,7 +59,7 @@ const TableRequests = () => {
         current={page}
         pageSize={100}
         onChange={setPage}
-        className="py-16 max-w-[440px] my-auto"
+        className="py-16 max-w-[440px] my-auto desktop:ml-11"
       />
     </div>
   );
