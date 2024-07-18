@@ -17,6 +17,7 @@ import {
 
 interface RowItemProps {
   path: string;
+  responsive: boolean;
   item: {
     id: string;
     doc: string;
@@ -27,7 +28,7 @@ interface RowItemProps {
   };
 }
 
-const RowItem = ({ item, path }: RowItemProps) => {
+const RowItem = ({ item, path, responsive }: RowItemProps) => {
   const router = useRouter();
   const btn = useTranslations('button');
   const modal = useTranslations('modal');
@@ -73,7 +74,7 @@ const RowItem = ({ item, path }: RowItemProps) => {
     <>
       <div
         onClick={handleRowClick}
-        className="grid grid-cols-2 laptop:grid-cols-tableRequests laptop:items-center laptop:gap-5 p-3 laptop:py-[13px] laptop:pl-3 hover:bg-superBlue border laptop:border-t-0 laptop:border-x-0 laptop:border-b rounded-2xl laptop:rounded-none border-[#A3A3A359] cursor-pointer transition-all duration-300"
+        className="grid grid-cols-2 laptop:grid-cols-tableRequests laptop:items-center laptop:gap-5 p-3 laptop:py-[13px] laptop:pl-3 laptop:pr-0 hover:bg-superBlue border laptop:border-t-0 laptop:border-x-0 laptop:border-b rounded-2xl laptop:rounded-none border-[#A3A3A359] cursor-pointer transition-all duration-300"
       >
         <div className="col-span-2 laptop:col-auto text-lg leading-[22px] font-robotoCondensed truncate overflow-hidden whitespace-nowrap">
           {item.organizationName}
@@ -119,19 +120,12 @@ const RowItem = ({ item, path }: RowItemProps) => {
           className="col-span-2 laptop:col-auto flex flex-col laptop:flex-row mt-12 laptop:mt-0 gap-3 laptop:gap-4"
           onClick={(e) => e.stopPropagation()}
         >
+          <Button text="Accept" styleType="green" isNarrow={!responsive} onClick={() => setIsOpenRegister(true)} />
           <Button
-            isNarrow
-            text="Accept"
-            styleType="green"
-            onClick={() => setIsOpenRegister(true)}
-            className="h-[42px] px-[12px] text-sm leading-4 laptop:text-xs laptop:leading-[14px] laptop:h-[24px] font-scada"
-          />
-          <Button
-            isNarrow
             text="Decline"
             styleType="red"
+            isNarrow={!responsive}
             onClick={() => (requests ? setIsOpenReject(true) : setIsOpenRemove(true))}
-            className="h-[42px] px-[12px] text-sm leading-4 laptop:text-xs laptop:leading-[14px] laptop:h-[24px] font-scada"
           />
         </div>
       </div>

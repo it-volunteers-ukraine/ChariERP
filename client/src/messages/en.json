@@ -79,7 +79,7 @@
     "organizationName": "Name of the organization",
     "EDRPOU": "EDRPOU",
     "document": "Document",
-    "creationDate": "Submissions"
+    "creationDate": "Date"
   },
   "modal": {
     "register": {

@@ -10,10 +10,10 @@ interface IStylesLanguageSwitcher {
 
 export const getStyles = ({ isNarrow, className, activeLanguage }: IStylesLanguageSwitcher) => ({
   wrapper: clsx(
-    'flex text-roboto overflow-hidden cursor-pointer justify-between items-center leading-[100%] bg-white text-dark-blue rounded-50 overflow-hidden relative',
+    'relative flex font-roboto overflow-hidden cursor-pointer justify-between items-center leading-[100%] bg-white text-dark-blue rounded-50 overflow-hidden shadow-switcher',
     {
       [`${className}`]: className,
-      'text-[10px] h-[24px] px-[6px] w-[48px] ': isNarrow,
+      'text-[10px] h-[24px] px-[6px] w-[48px]': isNarrow,
       'text-[20px] h-[48px] px-[12px] w-[86px]': !isNarrow,
     },
   ),
