@@ -13,9 +13,9 @@ import {
   InputField,
   ButtonIcon,
   ModalAdmin,
+  ModalContent,
   organizationValidation,
   organizationInitialValues,
-  ModalContent,
 } from '@/components';
 
 const DashboardId = () => {

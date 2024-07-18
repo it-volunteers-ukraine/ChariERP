@@ -6,7 +6,7 @@ export const getStyles = (isOpen?: boolean) => ({
     'translate-x-0': isOpen,
   }),
   button: clsx(
-    'flex desktop:hidden items-center justify-center absolute bottom-28 rounded-full w-7 h-7 group shadow-buttonAside hover:scale-125 transition-all duration-300',
+    'flex desktop:hidden items-center justify-center absolute top-20 rounded-full w-7 h-7 group shadow-buttonAside hover:scale-125 transition-all duration-300',
     { '-right-4 bg-white': isOpen, '-right-8 bg-boardAside': !isOpen },
   ),
   icon: clsx('transition-all duration-300', {

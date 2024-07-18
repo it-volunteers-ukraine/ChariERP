@@ -41,7 +41,8 @@ export const getStyles = ({ isNarrow, styleType, className }: IStylesButton) => 
   iconWrapper: 'z-[3]',
   span: clsx('relative z-[1] select-none flex items-center justify-center text-scada', {
     'text-base leading-4 h-[42px] px-[20px]': !isNarrow,
-    'text-xs leading-[14px] h-[24px] px-[12px]': isNarrow,
+    'px-[12px] text-xs leading-[14px] h-[24px] ': !className && isNarrow,
+    [`${className}`]: className && isNarrow,
   }),
   overlay:
     'absolute top-0 enabled:shadow-btn-inset left-0 w-full h-full transition-all duration-300 opacity-0 z-[0] bg-btnActiveGradient group-active:opacity-100',
