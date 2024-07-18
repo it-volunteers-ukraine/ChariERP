@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+
 import { StyleType } from './types';
 
 interface IStylesButton {
@@ -27,9 +28,9 @@ export const getStyles = ({ isNarrow, styleType, className }: IStylesButton) => 
 
       'bg-transparent border disabled:border-btn-secondary-disabled-border disabled:text-btn-secondary-disabled-text enabled:text-btn-text enabled:border-btn-outline-border enabled:hover:border-transparent enabled:hover:bg-btn-secondary-hover enabled:active:bg-btn-secondary-active':
         styleType === 'secondary-outline',
-      'text-btn-text h-[44px] disabled:bg-btn-disabled enabled:bg-btn-green enabled:hover:bg-btn-green-hover enabled:active:bg-btn-green-active':
+      'text-btn-text disabled:bg-btn-disabled enabled:bg-btn-green enabled:hover:bg-btn-green-hover enabled:active:bg-btn-green-active':
         styleType === 'green',
-      'text-btn-text h-[44px] disabled:bg-btn-disabled enabled:bg-btn-red enabled:hover:bg-btn-red-hover enabled:active:bg-btn-red-active':
+      'text-btn-text disabled:bg-btn-disabled enabled:bg-btn-red enabled:hover:bg-btn-red-hover enabled:active:bg-btn-red-active':
         styleType === 'red',
       [`${primaryClasses} ${iconSize}`]: styleType === 'icon-primary',
       [`enabled:bg-whiteSecond disabled:bg-btn-disabled ${iconSize}`]: styleType === 'icon-secondary',
@@ -40,7 +41,8 @@ export const getStyles = ({ isNarrow, styleType, className }: IStylesButton) => 
   iconWrapper: 'z-[3]',
   span: clsx('relative z-[1] select-none flex items-center justify-center text-scada', {
     'text-base leading-4 h-[42px] px-[20px]': !isNarrow,
-    'text-xs leading-[14px] h-[24px] px-[12px]': isNarrow,
+    'px-[12px] text-xs leading-[14px] h-[24px] ': !className && isNarrow,
+    [`${className}`]: className && isNarrow,
   }),
   overlay:
     'absolute top-0 enabled:shadow-btn-inset left-0 w-full h-full transition-all duration-300 opacity-0 z-[0] bg-btnActiveGradient group-active:opacity-100',

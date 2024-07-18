@@ -22,17 +22,17 @@ export const getStyles = ({ isNarrow, className, activeLanguage }: IStylesLangua
     'w-[36px] h-[36px]': !isNarrow,
   }),
   en: clsx({
-    'opacity-100': activeLanguage === 'en',
-    'opacity-0': activeLanguage === 'ua',
+    'opacity-100': activeLanguage === ActiveLanguage.UA,
+    'opacity-0': activeLanguage === ActiveLanguage.EN,
   }),
   ua: clsx({
-    'opacity-100': activeLanguage === 'ua',
-    'opacity-0': activeLanguage === 'en',
+    'opacity-100': activeLanguage === ActiveLanguage.EN,
+    'opacity-0': activeLanguage === ActiveLanguage.UA,
   }),
   iconWrapper: clsx('absolute top-1/2 -translate-y-1/2 left-[3px] w-[18px] h-[18px] transition-all duration-300', {
     'left-[3px] w-[18px] h-[18px]': isNarrow,
     'left-[5px] w-[36px] h-[36px] ': !isNarrow,
-    'translate-x-[calc(100%+5px)]': activeLanguage === 'ua',
+    'translate-x-[calc(100%+5px)]': activeLanguage === ActiveLanguage.EN,
   }),
   span: clsx('select-none', {
     'text-[10px]': isNarrow,

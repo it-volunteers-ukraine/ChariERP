@@ -5,13 +5,13 @@ import { DashboardAside, DashboardHeader } from '@/components';
 export default async function Layout({ children }: ChildrenProps) {
   return (
     <RoleProvider>
-      <div className="flex h-dvh">
+      <div className="flex h-dvh bg-boardHeader overflow-hidden">
         <DashboardAside />
 
-        <div className="flex flex-col w-[calc(100vw-290px)]">
+        <div className="flex flex-col flex-1">
           <DashboardHeader />
 
-          <div className="w-full h-full overflow-y-auto">{children}</div>
+          {children}
         </div>
       </div>
     </RoleProvider>

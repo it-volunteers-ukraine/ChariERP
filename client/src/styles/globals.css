@@ -4,7 +4,7 @@
 
 @layer components {
   * {
-    @apply box-border text-base font-normal font-roboto;
+    @apply box-border text-base font-normal font-roboto text-inherit;
   }
   input {
     @apply outline-none;
@@ -84,4 +84,16 @@ body {
   transform: rotate(-45deg);
   -webkit-transform-origin: 15% 95%;
   transform-origin: 15% 95%;
+}
+
+.scroll-blue::-webkit-scrollbar {
+  @apply w-1;
+}
+
+.scroll-blue::-webkit-scrollbar-track {
+  @apply w-1;
+}
+
+.scroll-blue::-webkit-scrollbar-thumb {
+  @apply cursor-pointer bg-lightBlue w-1 rounded-sm;
 }

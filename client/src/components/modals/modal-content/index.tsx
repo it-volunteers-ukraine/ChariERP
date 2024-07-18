@@ -8,13 +8,12 @@ import { getStyles } from './styles';
 import { IModalContent } from './types';
 
 export const ModalContent = ({ name, organizationName }: IModalContent) => {
-  const [value, setValue] = useState<string>('');
-
   const radioRef: RefObject<HTMLInputElement> = useRef(null);
-  const dashboard = useTranslations('auth-page.dashboard');
+  const modal = useTranslations('modal.decline');
   const isChecked = radioRef.current?.checked;
-
   const styles = getStyles(isChecked);
+
+  const [value, setValue] = useState<string>('');
 
   useEffect(() => {
     if (!isChecked) setValue('');
@@ -25,7 +24,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
       <div className="flex flex-col gap-4 mb-1">
         <div className="flex flex-col text-center text-mobster lending-6">
           <span>{organizationName}</span>
-          <span>{dashboard('modal.title.reject.subTitle')}</span>
+          <span>{modal('subTitle')}</span>
         </div>
 
         <CheckboxRadioField
@@ -35,7 +34,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           type="radio"
           className="p-2"
           classNameText="text-mobster"
-          label={dashboard('modal.radioBtn.notValidUSREOU')}
+          label={modal('radioBtn.notValidUSREOU')}
         />
 
         <CheckboxRadioField
@@ -45,7 +44,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           type="radio"
           className="p-2"
           classNameText="text-mobster"
-          label={dashboard('modal.radioBtn.InsufficientDocuments')}
+          label={modal('radioBtn.insufficientDocuments')}
         />
 
         <CheckboxRadioField
@@ -55,7 +54,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           type="radio"
           className="p-2"
           classNameText="text-mobster"
-          label={dashboard('modal.radioBtn.nonCompliance')}
+          label={modal('radioBtn.noneCompliance')}
         />
 
         <CheckboxRadioField
@@ -66,11 +65,11 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           className="p-2"
           itemRef={radioRef}
           classNameText="text-mobster"
-          label={dashboard('modal.radioBtn.other')}
+          label={modal('radioBtn.other')}
         />
       </div>
 
-      <div className="mx-3">
+      <div>
         <textarea
           value={value}
           disabled={!isChecked}
