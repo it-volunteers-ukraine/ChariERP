@@ -1,5 +1,6 @@
 export interface IAccordionProps {
   title: string;
+  changedLength?: number;
   initialState?: boolean;
   classNameTitle?: string;
   classNameWrapper?: string;
@@ -9,6 +10,7 @@ export interface IAccordionProps {
 
 export interface IStylesAccordion {
   isOpen: boolean;
+  classNameTitle?: string;
   classNameWrapper?: string;
   classNameChildren?: string;
 }

@@ -3,7 +3,10 @@
     "links": {
       "admin": "Створити Адміна",
       "login": "Вхід",
-      "registration": "Реєстрація"
+      "registration": "Реєстрація",
+      "requests": "Заявки",
+      "rejected": "Відхилені",
+      "organizations": "Організації"
     },
     "login": {
       "email": "Електронна пошта",
@@ -71,6 +74,12 @@
       "privacyPolicy": "Політикою конфіденційності",
       "information": "Я погоджуюсь на обробку персональних даних згідно з"
     }
+  },
+  "table": {
+    "organizationName": "Назва організації",
+    "EDRPOU": "ЄДРПОУ",
+    "document": "Документ",
+    "creationDate": "Подачі"
   },
   "modal": {
     "register": {

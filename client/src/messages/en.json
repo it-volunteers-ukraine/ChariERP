@@ -3,7 +3,10 @@
     "links": {
       "admin": "Create Admin",
       "login": "Sign In",
-      "registration": "Sign Up"
+      "registration": "Sign Up",
+      "requests": "Requests",
+      "rejected": "Declined",
+      "organizations": "Organizations"
     },
     "login": {
       "email": "Email",
@@ -71,6 +74,12 @@
       "privacyPolicy": "Privacy Policy",
       "information": "I agree to the processing of personal data in accordance with the"
     }
+  },
+  "table": {
+    "organizationName": "Name of the organization",
+    "EDRPOU": "EDRPOU",
+    "document": "Document",
+    "creationDate": "Submissions"
   },
   "modal": {
     "register": {

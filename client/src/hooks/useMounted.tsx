@@ -3,21 +3,21 @@ import { useEffect, useState } from 'react';
 
 interface IUseMounted {
   opened: boolean;
-  duration: number;
+  duration?: number;
 }
 
-export const useMounted = ({ opened, duration }: IUseMounted) => {
-  const [mounted, setMounted] = useState(false);
+export const useMounted = ({ opened, duration = 300 }: IUseMounted) => {
+  const [unmounted, setUnmounted] = useState(false);
 
   useEffect(() => {
-    if (opened && !mounted) {
-      setMounted(true);
+    if (opened && !unmounted) {
+      setUnmounted(true);
     }
 
-    if (!opened && mounted) {
-      setTimeout(() => setMounted(false), duration);
+    if (!opened && unmounted) {
+      setTimeout(() => setUnmounted(false), duration);
     }
-  }, [opened, duration, mounted]);
+  }, [opened, duration, unmounted]);
 
-  return { mounted };
+  return { unmounted };
 };

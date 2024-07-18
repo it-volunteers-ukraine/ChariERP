@@ -2,7 +2,7 @@
 import { usePathname } from 'next/navigation';
 
 import { routes } from '@/constants';
-import { Header, AuthLinks } from '@/components';
+import { AuthLinks, Header } from '@/components';
 import { ChildrenProps, LocalizationProps } from '@/types';
 
 import { getStyles } from './styles';

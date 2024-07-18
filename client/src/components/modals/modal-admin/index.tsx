@@ -1,5 +1,5 @@
-import { Button } from '../button';
-import { Overlay } from '../overlay';
+import { Overlay, Button } from '@/components';
+
 import { IModalAdminProps } from './types';
 
 export const ModalAdmin = ({
@@ -33,7 +33,7 @@ export const ModalAdmin = ({
         {content && !isContentString && content}
 
         <div className="flex gap-6 items-center justify-center pt-2 w-full">
-          <Button styleType="green" className={classNameBtn} onClick={onConfirm} text={btnConfirmText} />
+          <Button styleType="green" className={classNameBtn} onClick={onConfirm} text={btnConfirmText} type="submit" />
 
           <Button styleType="red" className={classNameBtn} onClick={onClose} text={btnCancelText} />
         </div>

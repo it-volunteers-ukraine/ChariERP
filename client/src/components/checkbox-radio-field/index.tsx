@@ -39,6 +39,7 @@ export const CheckboxRadioField = ({ id, name, type, label, multiple, ...props }
             error={error}
             label={label}
             onChange={change}
+            multiple={multiple}
             checked={isTypeRadio ? value.id === id : value}
           />
         );
