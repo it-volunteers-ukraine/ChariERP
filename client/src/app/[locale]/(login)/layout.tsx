@@ -1,8 +1,8 @@
 'use client';
 import { usePathname } from 'next/navigation';
 
-import { AuthLinks, Header } from '@/components';
 import { routes } from '@/constants';
+import { AuthLinks, Header } from '@/components';
 import { ChildrenProps, LocalizationProps } from '@/types';
 
 import { getStyles } from './styles';
