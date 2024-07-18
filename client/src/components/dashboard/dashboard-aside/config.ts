@@ -1,6 +1,7 @@
 import React, { SVGProps } from 'react';
 
 import { Organizations, Rejected, Tablet } from '@/assets/icons';
+import { routes } from '@/constants';
 
 interface IGetLinksProps {
   request: string;
@@ -16,12 +17,12 @@ interface LinkProps {
 }
 export const getLinks = ({ request, rejected, organizations }: IGetLinksProps): LinkProps[] => {
   return [
-    { text: request, href: '/dashboard', icon: Tablet },
-    { text: rejected, href: '/dashboard/rejected', icon: Rejected },
+    { text: request, href: routes.dashboard, icon: Tablet },
+    { text: rejected, href: routes.declined, icon: Rejected },
     {
       text: organizations,
       icon: Organizations,
-      href: '/dashboard/organizations',
+      href: routes.organizations,
     },
   ];
 };

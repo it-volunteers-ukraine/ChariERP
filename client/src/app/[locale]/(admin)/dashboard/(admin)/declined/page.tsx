@@ -3,11 +3,11 @@ import { Metadata } from 'next';
 import { TableRequests } from '@/components';
 
 export const metadata: Metadata = {
-  title: 'Rejected',
-  description: 'Rejected page',
+  title: 'Declined',
+  description: 'Declined page',
 };
-const Rejected = () => {
+const Declined = () => {
   return <TableRequests />;
 };
 
-export default Rejected;
+export default Declined;

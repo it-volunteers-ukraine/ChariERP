@@ -7,4 +7,6 @@ export const routes = {
   dashboard: '/dashboard',
   registration: '/sign-up',
   aboutService: '/about_service',
+  declined: '/dashboard/declined',
+  organizations: '/dashboard/organizations',
 };

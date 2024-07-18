@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 
 import { Input, Pagination } from '@/components';
 import { Calendar, Triangle } from '@/assets/icons';
@@ -9,6 +10,7 @@ import { data } from './mock';
 import { RowItem } from './row-item';
 
 const TableRequests = () => {
+  const path = usePathname();
   const table = useTranslations('table');
 
   const [page, setPage] = useState(1);
@@ -47,7 +49,7 @@ const TableRequests = () => {
 
         <div className="text-midGray grid gap-4 grid-cols-1 tablet:grid-cols-2 tablet:gap-6 laptop:block laptop:gap-0">
           {data.map((item) => (
-            <RowItem key={item.id} item={item} />
+            <RowItem key={item.id} item={item} path={path} />
           ))}
         </div>
       </div>

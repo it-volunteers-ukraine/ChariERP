@@ -16,6 +16,7 @@ import {
 } from '@/components';
 
 interface RowItemProps {
+  path: string;
   item: {
     id: string;
     doc: string;
@@ -26,7 +27,7 @@ interface RowItemProps {
   };
 }
 
-const RowItem = ({ item }: RowItemProps) => {
+const RowItem = ({ item, path }: RowItemProps) => {
   const router = useRouter();
   const btn = useTranslations('button');
   const modal = useTranslations('modal');
@@ -35,6 +36,10 @@ const RowItem = ({ item }: RowItemProps) => {
 
   const [isOpenReject, setIsOpenReject] = useState(false);
   const [isOpenRegister, setIsOpenRegister] = useState(false);
+  const [isOpenRemove, setIsOpenRemove] = useState(false);
+
+  const requests = path === routes.dashboard;
+  const declined = path === routes.declined;
 
   const onSubmitRegister = () => {
     console.log('data', item.email);
@@ -43,6 +48,11 @@ const RowItem = ({ item }: RowItemProps) => {
 
   const onSubmitDecline = (values: FormikValues) => {
     console.log('data', values);
+  };
+
+  const onSubmitRemove = () => {
+    console.log('data');
+    setIsOpenRemove(false);
   };
 
   const handleRowClick = () => {
@@ -120,7 +130,7 @@ const RowItem = ({ item }: RowItemProps) => {
             isNarrow
             text="Decline"
             styleType="red"
-            onClick={() => setIsOpenReject(true)}
+            onClick={() => (requests ? setIsOpenReject(true) : setIsOpenRemove(true))}
             className="h-[42px] px-[12px] text-sm leading-4 laptop:text-xs laptop:leading-[14px] laptop:h-[24px] font-scada"
           />
         </div>
@@ -128,10 +138,10 @@ const RowItem = ({ item }: RowItemProps) => {
 
       <ModalAdmin
         isOpen={isOpenRegister}
-        onConfirm={onSubmitRegister}
         classNameBtn="w-[82px]"
         btnCancelText={btn('no')}
         btnConfirmText={btn('yes')}
+        onConfirm={onSubmitRegister}
         title={modal('register.title')}
         onClose={() => setIsOpenRegister(false)}
         content={
@@ -144,24 +154,45 @@ const RowItem = ({ item }: RowItemProps) => {
         }
       />
 
-      <Formik
-        onSubmit={onSubmitDecline}
-        initialValues={organizationInitialValues()}
-        validationSchema={organizationValidation((key, params) => error(key, params))}
-      >
-        {({ values }) => (
-          <ModalAdmin
-            isOpen={isOpenReject}
-            classNameBtn="w-[82px]"
-            btnCancelText={btn('no')}
-            btnConfirmText={btn('yes')}
-            title={modal('decline.title')}
-            onClose={() => setIsOpenReject(false)}
-            onConfirm={() => onSubmitDecline(values)}
-            content={<ModalContent name="declineReason" organizationName={item.organizationName} />}
-          />
-        )}
-      </Formik>
+      {requests && (
+        <Formik
+          onSubmit={onSubmitDecline}
+          initialValues={organizationInitialValues()}
+          validationSchema={organizationValidation((key, params) => error(key, params))}
+        >
+          {({ values }) => (
+            <ModalAdmin
+              isOpen={isOpenReject}
+              classNameBtn="w-[82px]"
+              btnCancelText={btn('no')}
+              btnConfirmText={btn('yes')}
+              title={modal('decline.title')}
+              onClose={() => setIsOpenReject(false)}
+              onConfirm={() => onSubmitDecline(values)}
+              content={<ModalContent name="declineReason" organizationName={item.organizationName} />}
+            />
+          )}
+        </Formik>
+      )}
+
+      {declined && (
+        <ModalAdmin
+          isOpen={isOpenRemove}
+          classNameBtn="w-[82px]"
+          btnCancelText={btn('no')}
+          onConfirm={onSubmitRemove}
+          btnConfirmText={btn('yes')}
+          title={modal('remove.title')}
+          onClose={() => setIsOpenRemove(false)}
+          content={
+            <div className="flex flex-col gap-1 text-center text-mobster lending-6">
+              <span>
+                {modal('remove.text')} {item.organizationName}
+              </span>
+            </div>
+          }
+        />
+      )}
     </>
   );
 };
