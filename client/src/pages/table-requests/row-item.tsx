@@ -16,7 +16,7 @@ import {
 } from '@/components';
 
 interface RowItemProps {
-  path: string;
+  path: string | null;
   responsive: boolean;
   item: {
     id: string;

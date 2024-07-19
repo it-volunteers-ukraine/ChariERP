@@ -14,7 +14,7 @@ const SignIn = () => {
     try {
       const { data } = await axios.post('/api/users', { email: values.email, password: values.password });
 
-      Cookies.set('id', data._id);
+      Cookies.set('id', data._id, { expires: 7 });
       router.push(routes.dashboard);
     } catch (error) {
       if (error instanceof AxiosError) {
