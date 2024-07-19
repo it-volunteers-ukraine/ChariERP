@@ -1,19 +1,19 @@
 'use client';
-import { MouseEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 import { Formik, FormikValues } from 'formik';
+import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { MouseEvent, useState } from 'react';
 
-import { routes } from '@/constants';
 import { Copy, Doc } from '@/assets/icons';
 import {
   Button,
   ModalAdmin,
-  showMessage,
   ModalContent,
-  organizationValidation,
   organizationInitialValues,
+  organizationValidation,
+  showMessage,
 } from '@/components';
+import { routes } from '@/constants';
 
 interface RowItemProps {
   path: string | null;
@@ -39,7 +39,7 @@ const RowItem = ({ item, path, responsive }: RowItemProps) => {
   const [isOpenRegister, setIsOpenRegister] = useState(false);
   const [isOpenRemove, setIsOpenRemove] = useState(false);
 
-  const requests = path === routes.dashboard;
+  const requests = path === routes.requests;
   const declined = path === routes.declined;
 
   const onSubmitRegister = () => {
@@ -60,7 +60,7 @@ const RowItem = ({ item, path, responsive }: RowItemProps) => {
     const selection = document.getSelection();
 
     if (!selection || !selection.toString()) {
-      router.push(`${routes.dashboard}/${item.id}`);
+      router.push(`${routes.requests}/${item.id}`);
     }
   };
 

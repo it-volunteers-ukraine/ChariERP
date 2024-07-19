@@ -18,7 +18,7 @@ import {
   organizationInitialValues,
 } from '@/components';
 
-const DashboardId = () => {
+const RequestsId = () => {
   const router = useRouter();
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
@@ -253,4 +253,4 @@ const DashboardId = () => {
   );
 };
 
-export { DashboardId };
+export { RequestsId };

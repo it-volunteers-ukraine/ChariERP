@@ -4,9 +4,9 @@ export const routes = {
   login: '/sign-in',
   aboutUs: '/about_us',
   contacts: '/contacts',
-  dashboard: '/dashboard',
+  requests: '/admin/requests',
   registration: '/sign-up',
   aboutService: '/about_service',
-  declined: '/dashboard/declined',
-  organizations: '/dashboard/organizations',
+  declined: '/admin/declined',
+  organizations: '/admin/organizations',
 };

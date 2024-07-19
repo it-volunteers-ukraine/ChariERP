@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
   const id = cookies.get('id')?.value || '';
   const isValidId = Types.ObjectId.isValid(id);
 
-  if (!isValidId && request.nextUrl.pathname.includes(routes.dashboard)) {
+  if (!isValidId && request.nextUrl.pathname.includes(routes.requests)) {
     const url = request.nextUrl.clone();
 
     url.pathname = routes.login;
@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
   if (isValidId && request.nextUrl.pathname === routes.login) {
     const url = request.nextUrl.clone();
 
-    url.pathname = routes.dashboard;
+    url.pathname = routes.requests;
 
     return NextResponse.redirect(url);
   }
