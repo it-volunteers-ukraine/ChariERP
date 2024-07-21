@@ -1,32 +1,21 @@
 'use client';
-import { Formik, FormikValues } from 'formik';
-import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
 import { MouseEvent, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { Formik, FormikValues } from 'formik';
 
+import { routes } from '@/constants';
 import { Copy, Doc } from '@/assets/icons';
 import {
   Button,
   ModalAdmin,
-  ModalContent,
-  organizationInitialValues,
-  organizationValidation,
   showMessage,
+  ModalContent,
+  organizationValidation,
+  organizationInitialValues,
 } from '@/components';
-import { routes } from '@/constants';
 
-interface RowItemProps {
-  path: string | null;
-  responsive: boolean;
-  item: {
-    id: string;
-    doc: string;
-    date: string;
-    email: string;
-    EDRPOU: number;
-    organizationName: string;
-  };
-}
+import { RowItemProps } from './types';
 
 const RowItem = ({ item, path, responsive }: RowItemProps) => {
   const router = useRouter();
