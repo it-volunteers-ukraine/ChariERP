@@ -15,7 +15,7 @@ import {
   organizationInitialValues,
 } from '@/components';
 
-import { RowItemProps } from './types';
+import RowItemProps from './types';
 
 const RowItem = ({ item, path, responsive }: RowItemProps) => {
   const router = useRouter();

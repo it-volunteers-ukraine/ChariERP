@@ -8,7 +8,7 @@ import { useWindowWidth } from '@/hooks';
 import { Input, Pagination } from '@/components';
 import { Calendar, Triangle } from '@/assets/icons';
 
-import { data } from './mock';
+import data from './mock';
 import RowItem from './row-item';
 
 const TableRequests = () => {

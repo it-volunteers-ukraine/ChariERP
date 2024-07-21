@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Input, Pagination } from '@/components';
 import { Calendar, Triangle, User } from '@/assets/icons';
 
-import { data } from './mock';
+import data from './mock';
 import RowItem from './row-item';
 
 const TableOrganization = () => {

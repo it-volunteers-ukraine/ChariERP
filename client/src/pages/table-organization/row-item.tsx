@@ -7,7 +7,7 @@ import { routes } from '@/constants';
 import { showMessage } from '@/components';
 import { Copy, User } from '@/assets/icons';
 
-import { RowItemProps } from './types';
+import RowItemProps from './types';
 
 const RowItem = ({ item }: RowItemProps) => {
   const router = useRouter();

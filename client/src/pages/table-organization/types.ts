@@ -1,4 +1,4 @@
-export interface RowItemProps {
+export default interface RowItemProps {
   item: {
     id: string;
     user: number;

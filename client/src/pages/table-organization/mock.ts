@@ -8,7 +8,7 @@ interface Organization {
   email: string;
 }
 
-export const data: Organization[] = [
+const data: Organization[] = [
   {
     id: '1',
     organizationName:
@@ -120,3 +120,5 @@ export const data: Organization[] = [
     email: 'qZjzA@example.com',
   },
 ];
+
+export default data;
