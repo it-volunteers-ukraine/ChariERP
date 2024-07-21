@@ -1,4 +1,5 @@
 'use client';
+import { Loader } from '@/assets/icons';
 import { getStyles } from './styles';
 import { IButtonProps } from './types';
 
@@ -13,14 +14,17 @@ export const Button = ({
   styleType = 'primary',
   ...props
 }: IButtonProps) => {
-  const { btn, span, overlay, iconWrapper } = getStyles({
+  const { btn, span, overlay, iconWrapper, loader, spinner } = getStyles({
     isNarrow,
     styleType,
     className,
+    isLoading,
   });
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if ((isLoading && disabled) || isLoading) {
+      e.preventDefault();
+
       return;
     }
 
@@ -29,6 +33,12 @@ export const Button = ({
 
   return (
     <button className={btn} disabled={disabled} onClick={handleClick} {...props}>
+      {isLoading && (
+        <div className={loader}>
+          <Loader className={spinner} />
+        </div>
+      )}
+
       {text && <span className={span}>{text}</span>}
 
       {Icon && <div className={iconWrapper}>{Icon}</div>}

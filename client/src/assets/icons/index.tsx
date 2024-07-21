@@ -14,6 +14,7 @@ export { default as Eye } from './eye.svg';
 export { default as EyeOff } from './eye-off.svg';
 export { default as Info } from './info.svg';
 export { default as InputClose } from './input-close.svg';
+export { default as Loader } from './loader.svg';
 export { default as LogoIcon } from './logo.svg';
 export { default as Menu } from './menu.svg';
 export { default as Next } from './next.svg';
