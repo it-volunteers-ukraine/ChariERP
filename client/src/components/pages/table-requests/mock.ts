@@ -7,7 +7,7 @@ interface Organization {
   email: string;
 }
 
-export const dataRequests: Organization[] = [
+export const data: Organization[] = [
   {
     id: '1',
     organizationName:

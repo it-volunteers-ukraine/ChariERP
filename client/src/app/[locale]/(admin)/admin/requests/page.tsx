@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { TableRequests } from '@/pages';
+import { TableRequests } from '@/components';
 
 export const metadata: Metadata = {
   title: 'Requests',
