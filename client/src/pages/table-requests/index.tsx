@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 
-import { media } from '@/constants';
 import { useWindowWidth } from '@/hooks';
 import { Input, Pagination } from '@/components';
 import { Calendar, Triangle } from '@/assets/icons';
@@ -14,9 +13,7 @@ import { RowItem } from './row-item';
 const TableRequests = () => {
   const path = usePathname();
   const table = useTranslations('table');
-  const { width } = useWindowWidth();
-
-  const mobile = width < media.laptop;
+  const { isLaptop } = useWindowWidth();
 
   const [page, setPage] = useState(1);
 
@@ -54,7 +51,7 @@ const TableRequests = () => {
 
         <div className="text-midGray grid laptop:block grid-cols-1 tablet:grid-cols-2 gap-4 tablet:gap-6  laptop:gap-0">
           {data.map((item) => (
-            <RowItem key={item.id} item={item} path={path} responsive={mobile} />
+            <RowItem key={item.id} item={item} path={path} isLaptop={isLaptop} />
           ))}
         </div>
       </div>

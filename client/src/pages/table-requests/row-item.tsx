@@ -17,7 +17,7 @@ import { routes } from '@/constants';
 
 interface RowItemProps {
   path: string | null;
-  responsive: boolean;
+  isLaptop: boolean;
   item: {
     id: string;
     doc: string;
@@ -28,7 +28,7 @@ interface RowItemProps {
   };
 }
 
-const RowItem = ({ item, path, responsive }: RowItemProps) => {
+const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
   const router = useRouter();
   const btn = useTranslations('button');
   const modal = useTranslations('modal');
@@ -120,11 +120,11 @@ const RowItem = ({ item, path, responsive }: RowItemProps) => {
           className="col-span-2 laptop:col-auto flex flex-col laptop:flex-row mt-12 laptop:mt-0 gap-3 laptop:gap-4"
           onClick={(e) => e.stopPropagation()}
         >
-          <Button text="Accept" styleType="green" isNarrow={!responsive} onClick={() => setIsOpenRegister(true)} />
+          <Button text="Accept" styleType="green" isNarrow={isLaptop} onClick={() => setIsOpenRegister(true)} />
           <Button
             text="Decline"
             styleType="red"
-            isNarrow={!responsive}
+            isNarrow={isLaptop}
             onClick={() => (requests ? setIsOpenReject(true) : setIsOpenRemove(true))}
           />
         </div>

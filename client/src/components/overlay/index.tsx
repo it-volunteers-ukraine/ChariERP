@@ -54,7 +54,7 @@ export const Overlay = ({ opened, onClose, children, duration = 300 }: ChildrenP
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [opened, onClose, modalRef.current]);
+  }, [opened, onClose, modalRef]);
 
   const handleKeyPressOnClose = (event: React.KeyboardEvent<SVGSVGElement>) => {
     if (event.key === 'Enter' || event.key === ' ') {

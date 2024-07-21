@@ -1,7 +1,7 @@
 'use client';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 import { routes } from '@/constants';
 import { ChildrenProps, Roles } from '@/types';
@@ -32,13 +32,13 @@ export const RoleProvider = ({ children }: ChildrenProps) => {
     } catch (error) {
       router.push(routes.login);
     }
-  }, [role]);
+  }, [role, router]);
 
   useEffect(() => {
     if (!role) {
       getRoles();
     }
-  }, [role]);
+  }, [role, getRoles]);
 
   return <RoleContext.Provider value={{ role, setRole }}>{children}</RoleContext.Provider>;
 };
