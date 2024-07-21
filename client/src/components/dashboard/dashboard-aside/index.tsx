@@ -1,5 +1,6 @@
 'use client';
 import { Fragment, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 import { Logo } from '@/components';
 import { useRole } from '@/context';
@@ -13,7 +14,7 @@ import { getLinksByRole } from './config';
 export const DashboardAside = () => {
   const ref = useRef(null);
   const { isDesktop } = useWindowWidth();
-  // const linkText = useTranslations('auth-page.links');
+  const linkText = useTranslations('sidebar');
 
   const { role } = useRole();
 
@@ -23,7 +24,7 @@ export const DashboardAside = () => {
     if (!isDesktop) setIsOpen(false);
   });
 
-  const links = getLinksByRole(role);
+  const links = getLinksByRole(role, (key, params) => linkText(key, params));
 
   const styles = getStyles(isOpen);
 
@@ -38,6 +39,7 @@ export const DashboardAside = () => {
           return (
             <Fragment key={`${href}_${i}`}>
               <NavItem href={children ? '#' : href} text={text} Icon={icon} disabled={disabled} />
+
               {children &&
                 children.map(({ text, href, icon, disabled }) => (
                   <NavItem key={href} href={href} text={text} Icon={icon} disabled={disabled} />
