@@ -9,7 +9,7 @@ const intlMiddleware = createMiddleware({
   localePrefix: 'never',
 });
 
-const isValidObjectId = (id: string) => {
+const isValidId = (id: string) => {
   const objectIdRegex = /^[0-9a-fA-F]{24}$/;
 
   return objectIdRegex.test(id);
@@ -20,9 +20,8 @@ export async function middleware(request: NextRequest) {
 
   const cookies = request.cookies;
   const id = cookies.get('id')?.value ?? '';
-  const isValidId = isValidObjectId(id);
 
-  if (!isValidId && request.nextUrl.pathname.includes(routes.requests)) {
+  if (!isValidId(id) && request.nextUrl.pathname.includes(routes.requests)) {
     const url = request.nextUrl.clone();
 
     url.pathname = routes.login;
@@ -30,7 +29,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (isValidId && request.nextUrl.pathname === routes.login) {
+  if (isValidId(id) && request.nextUrl.pathname === routes.login) {
     const url = request.nextUrl.clone();
 
     url.pathname = routes.requests;
