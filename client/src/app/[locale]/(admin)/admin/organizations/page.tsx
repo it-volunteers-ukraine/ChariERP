@@ -1,3 +1,4 @@
+import { TableOrganization } from '@/pages';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const Organizations = () => {
-  return <>Organizations</>;
+  return <TableOrganization />;
 };
 
 export default Organizations;

@@ -79,7 +79,8 @@
     "organizationName": "Name of the organization",
     "EDRPOU": "EDRPOU",
     "document": "Document",
-    "creationDate": "Date"
+    "creationDate": "Date",
+    "email": "Email"
   },
   "modal": {
     "register": {

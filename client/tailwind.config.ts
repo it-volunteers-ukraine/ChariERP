@@ -178,6 +178,7 @@ const config: Config = {
       },
       gridTemplateColumns: {
         tableRequests: 'minmax(170px, auto) 120px 74px 106px 154px',
+        tableOrganization: 'minmax(170px, auto) 120px 74px 106px 252px',
       },
       transitionProperty: {
         rounded: 'border-radius',
