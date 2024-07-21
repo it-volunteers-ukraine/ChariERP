@@ -48,7 +48,7 @@ const RowItem = ({ item, path, responsive }: RowItemProps) => {
   const handleRowClick = () => {
     const selection = document.getSelection();
 
-    if (!selection || !selection.toString()) {
+    if (!selection ?? !selection?.toString()) {
       router.push(`${routes.requests}/${item.id}`);
     }
   };
