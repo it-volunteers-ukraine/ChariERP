@@ -1,23 +1,11 @@
 'use client';
+import { MouseEvent } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { MouseEvent } from 'react';
 
-import { Copy, User } from '@/assets/icons';
-import { showMessage } from '@/components';
 import { routes } from '@/constants';
-
-interface RowItemProps {
-  item: {
-    id: string;
-    doc: string;
-    user: number;
-    date: string;
-    email: string;
-    EDRPOU: number;
-    organizationName: string;
-  };
-}
+import { showMessage } from '@/components';
+import { Copy, User } from '@/assets/icons';
 
 const RowItem = ({ item }: RowItemProps) => {
   const router = useRouter();
