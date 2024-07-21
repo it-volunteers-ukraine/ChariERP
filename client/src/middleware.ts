@@ -1,8 +1,8 @@
-import { Types } from 'mongoose';
 import createMiddleware from 'next-intl/middleware';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { locales, routes } from './constants';
+import { getValid } from './utils/helpers';
 
 const intlMiddleware = createMiddleware({
   locales,
@@ -14,8 +14,8 @@ export async function middleware(request: NextRequest) {
   const response = intlMiddleware(request);
 
   const cookies = request.cookies;
-  const id = cookies.get('id')?.value || '';
-  const isValidId = Types.ObjectId.isValid(id);
+  const id = cookies.get('id')?.value ?? '';
+  const isValidId = getValid(id);
 
   if (!isValidId && request.nextUrl.pathname.includes(routes.requests)) {
     const url = request.nextUrl.clone();
