@@ -180,4 +180,4 @@ const RowItem = ({ item, path, responsive }: RowItemProps) => {
   );
 };
 
-export { RowItem };
+export default RowItem;

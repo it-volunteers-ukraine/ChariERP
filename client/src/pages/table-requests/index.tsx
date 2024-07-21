@@ -9,7 +9,7 @@ import { Input, Pagination } from '@/components';
 import { Calendar, Triangle } from '@/assets/icons';
 
 import { data } from './mock';
-import { RowItem } from './row-item';
+import RowItem from './row-item';
 
 const TableRequests = () => {
   const path = usePathname();
@@ -70,4 +70,4 @@ const TableRequests = () => {
   );
 };
 
-export { TableRequests };
+export default TableRequests;

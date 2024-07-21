@@ -6,7 +6,7 @@ import { Input, Pagination } from '@/components';
 import { Calendar, Triangle, User } from '@/assets/icons';
 
 import { data } from './mock';
-import { RowItem } from './row-item';
+import RowItem from './row-item';
 
 const TableOrganization = () => {
   const table = useTranslations('table');
@@ -69,4 +69,4 @@ const TableOrganization = () => {
   );
 };
 
-export { TableOrganization };
+export default TableOrganization;

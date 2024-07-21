@@ -91,4 +91,4 @@ const RowItem = ({ item }: RowItemProps) => {
   );
 };
 
-export { RowItem };
+export default RowItem;

@@ -1,5 +1,5 @@
+import TableOrganization from '@/pages/table-organization';
 import { Metadata } from 'next';
-import { TableOrganization } from '@/pages';
 
 export const metadata: Metadata = {
   title: 'Organizations',

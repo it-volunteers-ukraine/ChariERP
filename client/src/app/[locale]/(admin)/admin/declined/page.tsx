@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
-
-import { TableRequests } from '@/pages';
+import TableRequests from '@/pages/table-requests';
 
 export const metadata: Metadata = {
   title: 'Declined',
