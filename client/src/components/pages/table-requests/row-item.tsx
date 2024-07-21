@@ -1,17 +1,17 @@
 'use client';
-import { Formik, FormikValues } from 'formik';
+import { MouseEvent, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { MouseEvent, useState } from 'react';
+import { Formik, FormikValues } from 'formik';
 
 import { Copy, Doc } from '@/assets/icons';
 import {
   Button,
   ModalAdmin,
-  ModalContent,
-  organizationInitialValues,
-  organizationValidation,
   showMessage,
+  ModalContent,
+  organizationValidation,
+  organizationInitialValues,
 } from '@/components';
 import { routes } from '@/constants';
 
@@ -36,8 +36,8 @@ const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
   const error = useTranslations('validation');
 
   const [isOpenReject, setIsOpenReject] = useState(false);
-  const [isOpenRegister, setIsOpenRegister] = useState(false);
   const [isOpenRemove, setIsOpenRemove] = useState(false);
+  const [isOpenRegister, setIsOpenRegister] = useState(false);
 
   const requests = path === routes.requests;
   const declined = path === routes.declined;

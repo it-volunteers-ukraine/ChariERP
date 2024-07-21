@@ -13,10 +13,9 @@ import { getLinksByRole } from './config';
 
 export const DashboardAside = () => {
   const ref = useRef(null);
+  const { role } = useRole();
   const { isDesktop } = useWindowWidth();
   const linkText = useTranslations('sidebar');
-
-  const { role } = useRole();
 
   const [isOpen, setIsOpen] = useState(false);
 
