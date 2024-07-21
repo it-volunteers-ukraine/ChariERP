@@ -79,6 +79,7 @@
     "organizationName": "Name of the organization",
     "EDRPOU": "EDRPOU",
     "document": "Document",
+    "registrationDate": "Registr.",
     "creationDate": "Date",
     "email": "Email"
   },

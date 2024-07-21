@@ -41,7 +41,7 @@ const TableOrganization = () => {
 
           <div className="flex items-center gap-2 justify-center w-full">
             <Calendar className="text-midGray" width={16} height={16} />
-            <span className="text-lg leading-[22px] font-robotoCondensed">{table('creationDate')}</span>
+            <span className="text-lg leading-[22px] font-robotoCondensed">{table('registrationDate')}</span>
             <Triangle className="text-midGray" />
           </div>
 

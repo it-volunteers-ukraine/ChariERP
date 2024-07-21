@@ -80,6 +80,7 @@
     "EDRPOU": "ЄДРПОУ",
     "document": "Документ",
     "creationDate": "Подачі",
+    "registrationDate": "Реєстр.",
     "email": "Email"
   },
   "modal": {
