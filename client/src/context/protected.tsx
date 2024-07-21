@@ -32,7 +32,7 @@ export const RoleProvider = ({ children }: ChildrenProps) => {
     } catch (error) {
       router.push(routes.login);
     }
-  }, [role, router]);
+  }, [router]);
 
   useEffect(() => {
     if (!role) {
