@@ -2,7 +2,7 @@ import createMiddleware from 'next-intl/middleware';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { locales, routes } from './constants';
-import { getValid } from './utils/helpers';
+import { getValidId } from './utils/helpers';
 
 const intlMiddleware = createMiddleware({
   locales,
@@ -15,9 +15,8 @@ export async function middleware(request: NextRequest) {
 
   const cookies = request.cookies;
   const id = cookies.get('id')?.value ?? '';
-  const isValidId = getValid(id);
 
-  if (!isValidId && request.nextUrl.pathname.includes(routes.requests)) {
+  if (!getValidId(id) && request.nextUrl.pathname.includes(routes.requests)) {
     const url = request.nextUrl.clone();
 
     url.pathname = routes.login;
@@ -25,7 +24,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (isValidId && request.nextUrl.pathname === routes.login) {
+  if (getValidId(id) && request.nextUrl.pathname === routes.login) {
     const url = request.nextUrl.clone();
 
     url.pathname = routes.requests;
