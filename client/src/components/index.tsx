@@ -12,6 +12,7 @@ export { Header } from './header';
 export { Input } from './input';
 export { InputField } from './input-field';
 export { LanguageSwitcher } from './language-switcher';
+export { LoaderComponent } from './loader-component';
 export { Logo } from './logo';
 export { ModalAdmin, ModalContent } from './modals';
 export { Navigation } from './navigation';

@@ -33,6 +33,7 @@ const steelBlue = '#3B91BE';
 const Magnolia = '#5D647CB2';
 const superBlue = '#DFF0F8';
 const midGray = '#656575';
+const darkGray = '#49454F';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -47,6 +48,7 @@ const config: Config = {
         white,
         whiteSecond,
         lightBlue,
+        darkGray,
         dimGray,
         mobster,
         midGray,

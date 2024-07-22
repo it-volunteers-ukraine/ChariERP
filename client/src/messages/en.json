@@ -144,5 +144,9 @@
       "extensions": "Invalid file format. Available formats:",
       "maxSize": "File size exceeds "
     }
+  },
+  "loader": {
+    "top": "Please wait!",
+    "bottom": "This may take a few seconds."
   }
 }
