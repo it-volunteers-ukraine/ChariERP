@@ -1,4 +1,5 @@
 'use client';
+import Cookies from 'js-cookie';
 import axios, { AxiosError } from 'axios';
 import { FormikHelpers, FormikValues } from 'formik';
 import Cookies from 'js-cookie';

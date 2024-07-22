@@ -1,4 +1,4 @@
-import TableOrganization from '@/pages/table-organization';
+import TableOrganization from '@/components/pages/table-organization';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

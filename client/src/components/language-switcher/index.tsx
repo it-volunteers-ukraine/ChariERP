@@ -26,7 +26,7 @@ export const LanguageSwitcher = ({ isNarrow, className }: ILanguageSwitcherProps
 
     setActiveLanguage(newLanguage);
 
-    Cookies.set('NEXT_LOCALE', newLanguage);
+    Cookies.set('NEXT_LOCALE', newLanguage, { expires: 365 });
 
     router.refresh();
   };

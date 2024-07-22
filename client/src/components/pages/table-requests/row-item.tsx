@@ -1,10 +1,9 @@
 'use client';
 import { MouseEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { Formik, FormikValues } from 'formik';
 
-import { routes } from '@/constants';
 import { Copy, Doc } from '@/assets/icons';
 import {
   Button,
@@ -14,10 +13,22 @@ import {
   organizationValidation,
   organizationInitialValues,
 } from '@/components';
+import { routes } from '@/constants';
 
-import RowItemProps from './types';
+interface RowItemProps {
+  path: string | null;
+  isLaptop: boolean;
+  item: {
+    id: string;
+    doc: string;
+    date: string;
+    email: string;
+    EDRPOU: number;
+    organizationName: string;
+  };
+}
 
-const RowItem = ({ item, path, responsive }: RowItemProps) => {
+const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
   const router = useRouter();
   const btn = useTranslations('button');
   const modal = useTranslations('modal');
@@ -25,8 +36,8 @@ const RowItem = ({ item, path, responsive }: RowItemProps) => {
   const error = useTranslations('validation');
 
   const [isOpenReject, setIsOpenReject] = useState(false);
-  const [isOpenRegister, setIsOpenRegister] = useState(false);
   const [isOpenRemove, setIsOpenRemove] = useState(false);
+  const [isOpenRegister, setIsOpenRegister] = useState(false);
 
   const requests = path === routes.requests;
   const declined = path === routes.declined;
@@ -48,7 +59,7 @@ const RowItem = ({ item, path, responsive }: RowItemProps) => {
   const handleRowClick = () => {
     const selection = document.getSelection();
 
-    if (!selection ?? !selection?.toString()) {
+    if (!selection || !selection.toString()) {
       router.push(`${routes.requests}/${item.id}`);
     }
   };
@@ -109,11 +120,11 @@ const RowItem = ({ item, path, responsive }: RowItemProps) => {
           className="col-span-2 laptop:col-auto flex flex-col laptop:flex-row mt-12 laptop:mt-0 gap-3 laptop:gap-4"
           onClick={(e) => e.stopPropagation()}
         >
-          <Button text="Accept" styleType="green" isNarrow={!responsive} onClick={() => setIsOpenRegister(true)} />
+          <Button text="Accept" styleType="green" isNarrow={isLaptop} onClick={() => setIsOpenRegister(true)} />
           <Button
             text="Decline"
             styleType="red"
-            isNarrow={!responsive}
+            isNarrow={isLaptop}
             onClick={() => (requests ? setIsOpenReject(true) : setIsOpenRemove(true))}
           />
         </div>
