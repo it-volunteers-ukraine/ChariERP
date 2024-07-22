@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useRef } from 'react';
 
-import { useMounted } from '@/hooks';
 import { Close } from '@/assets/icons';
+import { useMounted } from '@/hooks';
 import { ChildrenProps } from '@/types';
 
 import { Portal } from '../portal';
