@@ -1,9 +1,8 @@
 'use client';
 import Cookies from 'js-cookie';
 import axios, { AxiosError } from 'axios';
-import { FormikHelpers, FormikValues } from 'formik';
-import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import { FormikHelpers, FormikValues } from 'formik';
 
 import { routes } from '@/constants';
 
