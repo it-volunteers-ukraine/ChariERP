@@ -5,10 +5,10 @@ import { useTranslations } from 'next-intl';
 import { Input, Pagination } from '@/components';
 import { Calendar, Triangle, User } from '@/assets/icons';
 
-import data from './mock';
-import RowItem from './row-item';
+import { data } from './mock';
+import { RowItem } from './row-item';
 
-const TableOrganization = () => {
+export const TableOrganization = () => {
   const table = useTranslations('table');
 
   const [page, setPage] = useState(1);
@@ -68,5 +68,3 @@ const TableOrganization = () => {
     </div>
   );
 };
-
-export default TableOrganization;

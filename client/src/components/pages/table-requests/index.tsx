@@ -7,10 +7,10 @@ import { useWindowWidth } from '@/hooks';
 import { Input, Pagination } from '@/components';
 import { Calendar, Triangle } from '@/assets/icons';
 
-import data from './mock';
-import RowItem from './row-item';
+import { data } from './mock';
+import { RowItem } from './row-item';
 
-const TableRequests = () => {
+export const TableRequests = () => {
   const path = usePathname();
   const table = useTranslations('table');
   const { isLaptop } = useWindowWidth();
@@ -66,5 +66,3 @@ const TableRequests = () => {
     </div>
   );
 };
-
-export default TableRequests;

@@ -1,4 +1,4 @@
-export default interface RowItemProps {
+export interface RowItemProps {
   path: string | null;
   responsive: boolean;
   item: {
