@@ -11,6 +11,11 @@
       "button": "Увійти"
     }
   },
+  "sidebar": {
+    "requests": "Заявки",
+    "declined": "Відхилені",
+    "organizations": "Організації"
+  },
   "inputs": {
     "title": {
       "basicInformation": "основна інформація",
@@ -77,6 +82,14 @@
       "information": "Я погоджуюсь на обробку персональних даних згідно з"
     }
   },
+  "table": {
+    "organizationName": "Назва організації",
+    "EDRPOU": "ЄДРПОУ",
+    "document": "Документ",
+    "creationDate": "Подачі",
+    "registrationDate": "Реєстр.",
+    "email": "Email"
+  },
   "modal": {
     "register": {
       "title": "ЗАРЕЄСТРУВАТИ?",
@@ -137,5 +150,9 @@
       "extensions": "Невірний формат файлу. Доступні формати:",
       "maxSize": "Розмір файлу перевищує "
     }
+  },
+  "loader": {
+    "top": "Будь ласка, зачекайте!",
+    "bottom": "Це може зайняти декілька секунд."
   }
 }

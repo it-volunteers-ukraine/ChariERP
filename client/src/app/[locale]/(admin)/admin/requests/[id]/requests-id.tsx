@@ -13,13 +13,12 @@ import {
   InputField,
   ButtonIcon,
   ModalAdmin,
+  ModalContent,
   organizationValidation,
   organizationInitialValues,
 } from '@/components';
 
-import { ModalContent } from './components/modal-content';
-
-const Edit = () => {
+const RequestsId = () => {
   const router = useRouter();
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
@@ -32,6 +31,8 @@ const Edit = () => {
 
   const onSubmit = (values: FormikValues) => {
     console.log('data', values);
+    setIsOpenAccept(false);
+    router.back();
   };
 
   return (
@@ -42,8 +43,8 @@ const Edit = () => {
       initialValues={organizationInitialValues()}
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
-      {({ values }) => (
-        <div className="w-full h-full bg-boardHeader">
+      {({ values, errors }) => (
+        <div className="w-full h-full bg-boardHeader overflow-y-auto scroll-blue">
           <ModalAdmin
             isOpen={isOpenSave}
             onConfirm={() => {}}
@@ -57,11 +58,11 @@ const Edit = () => {
 
           <ModalAdmin
             isOpen={isOpenAccept}
-            onConfirm={() => {}}
             classNameBtn="w-[82px]"
             btnCancelText={btn('no')}
             btnConfirmText={btn('yes')}
             title={modal('register.title')}
+            onConfirm={() => onSubmit(values)}
             onClose={() => setIsOpenAccept(false)}
             content={
               <div className="flex flex-col text-center text-mobster lending-6">
@@ -84,8 +85,8 @@ const Edit = () => {
             content={<ModalContent name="declineReason" organizationName={'ГО Живи'} />}
           />
 
-          <div className="flex justify-start px-8 pb-12 bg-white rounded-lg shadow-bg">
-            <div className="w-[994px]">
+          <div className="flex justify-start mb-20 px-8 pb-12 bg-white rounded-lg shadow-dashboard">
+            <div className="w-full desktop:mr-32">
               <div className="flex items-center justify-between mb-4 py-6 pr-2 border-b-2 border-lightBlue">
                 <div className="flex items-center gap-4">
                   <ButtonIcon icon="back" iconType="primary" onClick={() => router.back()} />
@@ -102,6 +103,7 @@ const Edit = () => {
                   classNameTitle="text-[20px]"
                   title={text('title.basicInformation')}
                   classNameChildren="flex flex-col gap-6"
+                  changedLength={Object.keys(errors).length}
                 >
                   <div className="flex items-start gap-6">
                     <InputField
@@ -142,6 +144,7 @@ const Edit = () => {
                   classNameTitle="text-[20px]"
                   classNameChildren="flex flex-col gap-6"
                   title={text('title.contactInformation')}
+                  changedLength={Object.keys(errors).length}
                 >
                   <div className="flex items-start gap-16">
                     <InputField required name="positionOrganization" label={text('positionOrganization.label')} />
@@ -175,6 +178,7 @@ const Edit = () => {
                   title={text('title.media')}
                   classNameTitle="text-[20px]"
                   classNameChildren="flex flex-col gap-6"
+                  changedLength={values.socialNetworks.length}
                 >
                   <InputField cross name="site" wrapperClass="max-w-[465px]" label={text('site.label')} />
 
@@ -185,6 +189,7 @@ const Edit = () => {
                         {values.socialNetworks.map((_, index) => {
                           const isRightLength = values.socialNetworks.length < 5;
                           const isLastIndex = index === values.socialNetworks.length - 1;
+                          const isMoreThanOne = values.socialNetworks.length > 1;
 
                           return (
                             <div key={index}>
@@ -205,7 +210,7 @@ const Edit = () => {
                                   />
                                 )}
 
-                                {index !== 0 && (
+                                {isMoreThanOne && (
                                   <SmallBtn
                                     type="delete"
                                     text={btn('deleteField')}
@@ -224,7 +229,7 @@ const Edit = () => {
 
                 <div className="flex justify-end w-full gap-6">
                   <Button
-                    type="submit"
+                    type="button"
                     styleType="green"
                     text={btn('accept')}
                     className="uppercase"
@@ -232,6 +237,7 @@ const Edit = () => {
                   />
 
                   <Button
+                    type="button"
                     styleType="red"
                     text={btn('decline')}
                     className="uppercase"
@@ -247,4 +253,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export { RequestsId };

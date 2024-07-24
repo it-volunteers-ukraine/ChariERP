@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useRef } from 'react';
 
-import { useMounted } from '@/hooks';
 import { Close } from '@/assets/icons';
+import { useMounted } from '@/hooks';
 import { ChildrenProps } from '@/types';
 
 import { Portal } from '../portal';
@@ -16,11 +16,22 @@ interface IOverlayProps {
 
 export const Overlay = ({ opened, onClose, children, duration = 300 }: ChildrenProps<IOverlayProps>) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const { mounted } = useMounted({ opened, duration });
+  const { unmounted } = useMounted({ opened, duration });
 
   const styles = getStyles(opened);
 
+  const handleKeyPressOnClose = (event: React.KeyboardEvent<SVGSVGElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onClose();
+    }
+  };
+
   useEffect(() => {
+    if (modalRef.current) {
+      modalRef.current.focus();
+    }
+
     const handleKeyDown = (event: KeyboardEvent) => {
       function focusElement(compareElement: HTMLElement, focusElement: HTMLElement) {
         if (document.activeElement === compareElement) {
@@ -54,22 +65,15 @@ export const Overlay = ({ opened, onClose, children, duration = 300 }: ChildrenP
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [opened, onClose]);
+  }, [opened, onClose, modalRef, unmounted]);
 
-  const handleKeyPressOnClose = (event: React.KeyboardEvent<SVGSVGElement>) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      onClose();
-    }
-  };
-
-  if (!mounted) return null;
+  if (!unmounted) return null;
 
   return (
-    <Portal opened={opened}>
+    <Portal opened={unmounted}>
       <div className="absolute inset-0 py-10 flex justify-center items-center w-screen h-screen z-10">
         <div onClick={onClose} className={styles.overlay} style={{ animationDuration: `${duration}ms` }} />
-        <div ref={modalRef} className={styles.modal} style={{ animationDuration: `${duration - 20}ms` }}>
+        <div ref={modalRef} className={styles.modal} style={{ animationDuration: `${duration - 20}ms` }} tabIndex={0}>
           <Close
             width={24}
             height={24}

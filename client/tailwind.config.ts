@@ -31,6 +31,9 @@ const liteGray = '#A3A3A3';
 const dimGray = '#656575B2';
 const steelBlue = '#3B91BE';
 const Magnolia = '#5D647CB2';
+const superBlue = '#DFF0F8';
+const midGray = '#656575';
+const darkGray = '#49454F';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -45,8 +48,11 @@ const config: Config = {
         white,
         whiteSecond,
         lightBlue,
+        darkGray,
         dimGray,
         mobster,
+        midGray,
+        superBlue,
         'dark-blue': blue,
         error,
         green,
@@ -140,7 +146,9 @@ const config: Config = {
         btn: { inset: 'inset 0px 0px 5px 2px rgba(0,0,0,0.1)' },
         auth: '0px 0px 10px 4px rgba(0, 0, 0, 0.05)',
         circle: '0px 0px 3px 0px rgba(0, 0, 0, 0.13)',
-        bg: '0px 2px 12px 0px rgba(101, 101, 117, 0.15)',
+        dashboard: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+        buttonAside: '0px 0px 3px 2px rgba(97, 182, 219, 0.4)',
+        switcher: '0px 0px 4px 0px rgba(0, 0, 0, 0.16)',
         innerBg: '0px 0px 10px 4px rgba(0, 0, 0, 0.05)',
       },
       backgroundSize: {
@@ -152,6 +160,7 @@ const config: Config = {
       fontFamily: {
         roboto: ['var(--font-roboto)', 'sans-serif'],
         scada: ['var(--font-scada)', 'sans-serif'],
+        robotoCondensed: ['var(--font-robotoCondensed)', 'sans-serif'],
       },
       screens: {
         //  @media (min-width: 768px)
@@ -165,6 +174,10 @@ const config: Config = {
       },
       dropShadow: {
         logo: ['4px 2px 2px rgba(0, 0, 0, 0.25)', '-4px -2px 3px rgba(0, 0, 0, 0.15)'],
+      },
+      gridTemplateColumns: {
+        tableRequests: 'minmax(170px, auto) 120px 74px 106px 154px',
+        tableOrganization: 'minmax(170px, auto) 120px 74px 106px 252px',
       },
       transitionProperty: {
         rounded: 'border-radius',

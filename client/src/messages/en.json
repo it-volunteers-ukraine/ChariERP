@@ -11,6 +11,11 @@
       "button": "Sign In"
     }
   },
+  "sidebar": {
+    "requests": "Requests",
+    "declined": "Declined",
+    "organizations": "Organizations"
+  },
   "inputs": {
     "title": {
       "basicInformation": "Basic information",
@@ -77,6 +82,14 @@
       "information": "I agree to the processing of personal data in accordance with the"
     }
   },
+  "table": {
+    "organizationName": "Name of the organization",
+    "EDRPOU": "EDRPOU",
+    "document": "Document",
+    "registrationDate": "Registr.",
+    "creationDate": "Date",
+    "email": "Email"
+  },
   "modal": {
     "register": {
       "title": "REGISTER?",
@@ -141,5 +154,9 @@
       "extensions": "Invalid file format. Available formats:",
       "maxSize": "File size exceeds "
     }
+  },
+  "loader": {
+    "top": "Please wait!",
+    "bottom": "This may take a few seconds."
   }
 }
