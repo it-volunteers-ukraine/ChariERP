@@ -28,7 +28,7 @@ interface RowItemProps {
   };
 }
 
-const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
+export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
   const router = useRouter();
   const btn = useTranslations('button');
   const modal = useTranslations('modal');
@@ -190,5 +190,3 @@ const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
     </>
   );
 };
-
-export { RowItem };

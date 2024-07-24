@@ -81,7 +81,9 @@
     "organizationName": "Назва організації",
     "EDRPOU": "ЄДРПОУ",
     "document": "Документ",
-    "creationDate": "Подачі"
+    "creationDate": "Подачі",
+    "registrationDate": "Реєстр.",
+    "email": "Email"
   },
   "modal": {
     "register": {
