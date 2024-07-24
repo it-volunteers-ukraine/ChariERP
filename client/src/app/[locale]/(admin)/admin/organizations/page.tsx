@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+
 import { TableOrganization } from '@/components';
 
 export const metadata: Metadata = {
