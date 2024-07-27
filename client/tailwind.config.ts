@@ -34,6 +34,7 @@ const Magnolia = '#5D647CB2';
 const superBlue = '#DFF0F8';
 const midGray = '#656575';
 const darkGray = '#49454F';
+const arcticSky = '#D0DDEC';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -53,6 +54,7 @@ const config: Config = {
         mobster,
         midGray,
         superBlue,
+        arcticSky,
         'dark-blue': blue,
         error,
         green,
