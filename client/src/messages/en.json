@@ -150,5 +150,10 @@
   "loader": {
     "top": "Please wait!",
     "bottom": "This may take a few seconds."
+  },
+  "notFound": {
+    "sorry": "Sorry,",
+    "notFound": "Page not found",
+    "backToMain": "back to the main page"
   }
 }
