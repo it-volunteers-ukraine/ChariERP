@@ -150,6 +150,7 @@ const config: Config = {
         circle: '0px 0px 3px 0px rgba(0, 0, 0, 0.13)',
         dashboard: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
         buttonAside: '0px 0px 3px 2px rgba(97, 182, 219, 0.4)',
+        switcher: '0px 0px 4px 0px rgba(0, 0, 0, 0.16)',
       },
       backgroundSize: {
         200: '201%',
@@ -177,6 +178,7 @@ const config: Config = {
       },
       gridTemplateColumns: {
         tableRequests: 'minmax(170px, auto) 120px 74px 106px 154px',
+        tableOrganization: 'minmax(170px, auto) 120px 74px 106px 252px',
       },
       transitionProperty: {
         rounded: 'border-radius',

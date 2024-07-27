@@ -3,16 +3,18 @@
     "links": {
       "admin": "Create Admin",
       "login": "Sign In",
-      "registration": "Sign Up",
-      "requests": "Requests",
-      "rejected": "Declined",
-      "organizations": "Organizations"
+      "registration": "Sign Up"
     },
     "login": {
       "email": "Email",
       "password": "Password",
       "button": "Sign In"
     }
+  },
+  "sidebar": {
+    "requests": "Requests",
+    "declined": "Declined",
+    "organizations": "Organizations"
   },
   "inputs": {
     "title": {
@@ -79,7 +81,9 @@
     "organizationName": "Name of the organization",
     "EDRPOU": "EDRPOU",
     "document": "Document",
-    "creationDate": "Submissions"
+    "registrationDate": "Registr.",
+    "creationDate": "Date",
+    "email": "Email"
   },
   "modal": {
     "register": {

@@ -14,7 +14,7 @@ const AdminPage = () => {
     try {
       await axios.post(`/api/admin`, { email, password }).then(({ data }) => data);
 
-      router.push(routes.dashboard);
+      router.push(routes.requests);
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         handleFormik?.setFieldError('email', error.response?.data.message);

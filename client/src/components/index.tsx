@@ -21,6 +21,6 @@ export { Overlay } from './overlay';
 export { Pagination } from './pagination';
 export { ResponseWrapper } from './response';
 export { SmallBtn } from './small-button';
-export { TableRequests } from './pages';
+export { TableRequests, TableOrganization } from './pages';
 export { Title } from './title';
 export { Toast, showMessage } from './toastify';

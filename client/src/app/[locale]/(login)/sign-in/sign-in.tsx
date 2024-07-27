@@ -1,4 +1,5 @@
 'use client';
+import Cookies from 'js-cookie';
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { FormikHelpers, FormikValues } from 'formik';
@@ -11,9 +12,10 @@ const SignIn = () => {
   const router = useRouter();
   const onSubmit = async (values: FormikValues, handleFormik?: FormikHelpers<FormikValues>) => {
     try {
-      await axios.post('/api/users', { email: values.email, password: values.password });
+      const { data } = await axios.post('/api/users', { email: values.email, password: values.password });
 
-      router.push(routes.dashboard);
+      Cookies.set('id', data._id, { expires: 7 });
+      router.push(routes.requests);
     } catch (error) {
       if (error instanceof AxiosError) {
         handleFormik?.setFieldError('email', error.response?.data.message);

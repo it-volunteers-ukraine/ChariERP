@@ -3,16 +3,18 @@
     "links": {
       "admin": "Створити Адміна",
       "login": "Вхід",
-      "registration": "Реєстрація",
-      "requests": "Заявки",
-      "rejected": "Відхилені",
-      "organizations": "Організації"
+      "registration": "Реєстрація"
     },
     "login": {
       "email": "Електронна пошта",
       "password": "Пароль",
       "button": "Увійти"
     }
+  },
+  "sidebar": {
+    "requests": "Заявки",
+    "declined": "Відхилені",
+    "organizations": "Організації"
   },
   "inputs": {
     "title": {
@@ -79,7 +81,9 @@
     "organizationName": "Назва організації",
     "EDRPOU": "ЄДРПОУ",
     "document": "Документ",
-    "creationDate": "Подачі"
+    "creationDate": "Подачі",
+    "registrationDate": "Реєстр.",
+    "email": "Email"
   },
   "modal": {
     "register": {

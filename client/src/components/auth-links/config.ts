@@ -3,8 +3,8 @@ import { routes } from '@/constants';
 interface IGetLinksProps {
   admin: string;
   login: string;
-  pathname: string;
   registration: string;
+  pathname: string | null;
 }
 
 export const getLinks = ({ pathname, admin, registration, login }: IGetLinksProps) => {
