@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
 
-import { LoginForm } from '../login-form';
+import { LoginForm } from '../../login-form';
 
 const AdminPage = () => {
   const router = useRouter();
