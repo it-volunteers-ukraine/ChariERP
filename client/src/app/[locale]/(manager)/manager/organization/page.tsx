@@ -1,22 +1,22 @@
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikValues } from 'formik';
 
 import {
-  Accordion,
   Button,
-  ButtonIcon,
+  SmallBtn,
+  Accordion,
   DateField,
   FileField,
+  ButtonIcon,
   InputField,
   ModalAdmin,
-  organizationInitialValues,
   organizationValidation,
-  SmallBtn,
+  organizationInitialValues,
 } from '@/components';
 import { Info } from '@/assets/icons';
-import Link from 'next/link';
 
 const Organization = () => {
   const btn = useTranslations('button');
@@ -39,7 +39,7 @@ const Organization = () => {
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
       {({ values }) => (
-        <Form className="p-[0_32px_32px] w-full bg-white rounded-lg shadow-bg">
+        <Form className="p-[0_32px_32px] w-full bg-white rounded-lg shadow-bg overflow-y-auto scroll-blue">
           <ModalAdmin
             isOpen={isOpenSave}
             title={modal('title')}
@@ -65,6 +65,7 @@ const Organization = () => {
             </div>
 
             <Accordion
+              initialState
               classNameTitle="text-[20px] uppercase"
               title={text('title.basicInformation')}
               classNameChildren="flex flex-col gap-[42px]"
@@ -113,6 +114,7 @@ const Organization = () => {
             </Accordion>
 
             <Accordion
+              initialState
               classNameTitle="text-[20px] uppercase"
               title={text('title.contactInformation')}
               classNameChildren="flex flex-col gap-[42px]"
@@ -155,7 +157,7 @@ const Organization = () => {
               />
             </Accordion>
 
-            <Accordion classNameTitle="text-[20px] uppercase" title={text('title.loginInformation')}>
+            <Accordion initialState classNameTitle="text-[20px] uppercase" title={text('title.loginInformation')}>
               <div className="flex flex-col gap-8">
                 <InputField
                   required
@@ -183,7 +185,7 @@ const Organization = () => {
               classNameTitle="text-[20px] uppercase"
               classNameChildren="flex flex-col gap-6"
             >
-              <InputField cross name="site" wrapperClass="max-w-[465px]" label={text('site.label')} />
+              <InputField cross name="site" wrapperClass="laptop:max-w-[calc(50%-12px)]" label={text('site.label')} />
 
               <FieldArray
                 name="socialNetworks"
@@ -197,12 +199,12 @@ const Organization = () => {
                         <div key={index}>
                           <InputField
                             cross
-                            wrapperClass="max-w-[465px]"
+                            wrapperClass="laptop:max-w-[calc(50%-12px)]"
                             key={`media-signUp-${index}`}
                             name={`socialNetworks.${index}`}
                             label={text('socialNetworks.label')}
                           />
-                          <div className="flex items-center justify-between max-w-[465px]">
+                          <div className="flex items-center justify-between laptop:max-w-[calc(50%-12px)]">
                             {isRightLength && isLastIndex && (
                               <SmallBtn
                                 type="add"
