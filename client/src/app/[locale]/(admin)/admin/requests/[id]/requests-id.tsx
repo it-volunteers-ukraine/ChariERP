@@ -43,7 +43,7 @@ const RequestsId = () => {
       initialValues={organizationInitialValues()}
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
-      {({ values, errors }) => (
+      {({ values, errors, setFieldValue }) => (
         <div className="w-full h-full bg-boardHeader overflow-y-auto scroll-blue">
           <ModalAdmin
             isOpen={isOpenSave}
@@ -75,14 +75,14 @@ const RequestsId = () => {
           />
 
           <ModalAdmin
-            onConfirm={() => {}}
             isOpen={isOpenDecline}
             classNameBtn="w-[82px]"
             btnCancelText={btn('no')}
             btnConfirmText={btn('yes')}
             title={modal('decline.title')}
+            onConfirm={() => onSubmit(values)}
             onClose={() => setIsOpenDecline(false)}
-            content={<ModalContent name="declineReason" organizationName={'ГО Живи'} />}
+            content={<ModalContent setFieldValue={setFieldValue} name="declineReason" organizationName={'ГО Живи'} />}
           />
 
           <div className="flex justify-start mb-20 px-8 pb-12 bg-white rounded-lg shadow-dashboard">

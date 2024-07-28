@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { FieldArray, Form, Formik, FormikValues } from 'formik';
+import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
 
 import {
   Button,
@@ -15,6 +15,7 @@ import {
   ModalAdmin,
   organizationValidation,
   organizationInitialValues,
+  showMessage,
 } from '@/components';
 import { Info } from '@/assets/icons';
 
@@ -26,8 +27,19 @@ const Organization = () => {
 
   const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
 
-  const onSubmit = async (values: FormikValues) => {
-    console.log('data', values);
+  const onSubmit = async (values: FormikValues) => console.log('data', values);
+
+  const submitHandle = async (validateForm: () => Promise<FormikErrors<FormikValues>>, handleSubmit: () => void) => {
+    const errors = await validateForm();
+
+    if (Object.keys(errors).length > 0) {
+      showMessage.error('Error');
+      setIsOpenSave(false);
+    } else {
+      handleSubmit();
+      showMessage.success('Save');
+      setIsOpenSave(false);
+    }
   };
 
   return (
@@ -38,7 +50,7 @@ const Organization = () => {
       initialValues={organizationInitialValues()}
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
-      {({ values }) => (
+      {({ values, validateForm, handleSubmit }) => (
         <Form className="p-[0_32px_32px] w-full bg-white rounded-lg shadow-bg overflow-y-auto scroll-blue">
           <ModalAdmin
             isOpen={isOpenSave}
@@ -47,8 +59,8 @@ const Organization = () => {
             classNameBtn="w-[82px]"
             btnCancelText={btn('no')}
             btnConfirmText={btn('yes')}
-            onConfirm={() => onSubmit(values)}
             onClose={() => setIsOpenSave(false)}
+            onConfirm={() => submitHandle(validateForm, handleSubmit)}
           />
 
           <div className="flex justify-start items-center gap-6 py-6">
@@ -165,14 +177,6 @@ const Organization = () => {
                   label={text('email.label')}
                   wrapperClass="laptop:max-w-[calc(50%-12px)]"
                 />
-
-                <InputField
-                  required
-                  name="password"
-                  type="password"
-                  label={text('password.label')}
-                  wrapperClass="laptop:max-w-[calc(50%-12px)]"
-                />
               </div>
 
               <SmallBtn className="mt-2" text={btn('changePass')} type="changePass" onClick={() => {}} />
@@ -237,7 +241,7 @@ const Organization = () => {
                 styleType="green"
                 className="uppercase"
                 text={btn('saveChanges')}
-                onClick={() => onSubmit(values)}
+                onClick={() => submitHandle(validateForm, handleSubmit)}
               />
 
               <Button className="uppercase" onClick={() => {}} styleType="red" text={btn('cancelChanges')} />
