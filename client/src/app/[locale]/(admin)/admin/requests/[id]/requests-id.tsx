@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { FieldArray, Form, Formik, FormikValues } from 'formik';
+import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
 
 import {
   Button,
@@ -13,6 +13,7 @@ import {
   InputField,
   ButtonIcon,
   ModalAdmin,
+  showMessage,
   ModalContent,
   organizationValidation,
   organizationInitialValues,
@@ -35,6 +36,21 @@ const RequestsId = () => {
     router.back();
   };
 
+  const submitHandle = async (validateForm: () => Promise<FormikErrors<FormikValues>>, handleSubmit: () => void) => {
+    const errors = await validateForm();
+
+    if (Object.keys(errors).length > 0) {
+      showMessage.error('Error');
+      setIsOpenSave(false);
+      setIsOpenAccept(false);
+    } else {
+      handleSubmit();
+      showMessage.success('Save');
+      setIsOpenSave(false);
+      setIsOpenAccept(false);
+    }
+  };
+
   return (
     <Formik
       validateOnBlur
@@ -43,17 +59,17 @@ const RequestsId = () => {
       initialValues={organizationInitialValues()}
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
-      {({ values, errors, setFieldValue }) => (
+      {({ values, errors, setFieldValue, validateForm, handleSubmit }) => (
         <div className="w-full h-full bg-boardHeader overflow-y-auto scroll-blue">
           <ModalAdmin
             isOpen={isOpenSave}
-            onConfirm={() => {}}
             classNameBtn="w-[82px]"
             btnCancelText={btn('no')}
             title={modal('save.title')}
             btnConfirmText={btn('yes')}
             content={modal('save.text')}
             onClose={() => setIsOpenSave(false)}
+            onConfirm={() => submitHandle(validateForm, handleSubmit)}
           />
 
           <ModalAdmin
@@ -62,8 +78,8 @@ const RequestsId = () => {
             btnCancelText={btn('no')}
             btnConfirmText={btn('yes')}
             title={modal('register.title')}
-            onConfirm={() => onSubmit(values)}
             onClose={() => setIsOpenAccept(false)}
+            onConfirm={() => submitHandle(validateForm, handleSubmit)}
             content={
               <div className="flex flex-col text-center text-mobster lending-6">
                 <span>ГО Живи</span>

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
 
+import { Info } from '@/assets/icons';
 import {
   Button,
   SmallBtn,
@@ -13,11 +14,10 @@ import {
   ButtonIcon,
   InputField,
   ModalAdmin,
+  showMessage,
   organizationValidation,
   organizationInitialValues,
-  showMessage,
 } from '@/components';
-import { Info } from '@/assets/icons';
 
 const Organization = () => {
   const btn = useTranslations('button');
@@ -51,7 +51,7 @@ const Organization = () => {
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
       {({ values, validateForm, handleSubmit }) => (
-        <Form className="p-[0_32px_32px] w-full bg-white rounded-lg shadow-bg overflow-y-auto scroll-blue">
+        <div className="p-[0_32px_32px] w-full bg-white rounded-lg shadow-bg overflow-y-auto scroll-blue">
           <ModalAdmin
             isOpen={isOpenSave}
             title={modal('title')}
@@ -69,7 +69,7 @@ const Organization = () => {
             <InputField type="search" name="search" wrapperClass="max-w-[373px]" placeholder="search" label={''} />
           </div>
 
-          <div className="flex flex-col rounded-3xl gap-9 p-8 shadow-innerBg">
+          <Form className="flex flex-col rounded-3xl gap-9 p-8 shadow-innerBg">
             <div className="flex items-start gap-3">
               <Info width={24} height={24} className="text-lightBlue" />
 
@@ -241,13 +241,15 @@ const Organization = () => {
                 styleType="green"
                 className="uppercase"
                 text={btn('saveChanges')}
-                onClick={() => submitHandle(validateForm, handleSubmit)}
+                onClick={() => {
+                  setIsOpenSave(true);
+                }}
               />
 
               <Button className="uppercase" onClick={() => {}} styleType="red" text={btn('cancelChanges')} />
             </div>
-          </div>
-        </Form>
+          </Form>
+        </div>
       )}
     </Formik>
   );
