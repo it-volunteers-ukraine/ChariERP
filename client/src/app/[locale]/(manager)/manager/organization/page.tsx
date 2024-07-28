@@ -50,7 +50,7 @@ const Organization = () => {
       initialValues={organizationInitialValues()}
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
-      {({ values, validateForm, handleSubmit }) => (
+      {({ values, errors, validateForm, handleSubmit }) => (
         <div className="p-[0_32px_32px] w-full bg-white rounded-lg shadow-bg overflow-y-auto scroll-blue">
           <ModalAdmin
             isOpen={isOpenSave}
@@ -80,6 +80,7 @@ const Organization = () => {
               initialState
               classNameTitle="text-[20px] uppercase"
               title={text('title.basicInformation')}
+              changedLength={Object.keys(errors).length}
               classNameChildren="flex flex-col gap-[42px]"
             >
               <InputField
@@ -129,6 +130,7 @@ const Organization = () => {
               initialState
               classNameTitle="text-[20px] uppercase"
               title={text('title.contactInformation')}
+              changedLength={Object.keys(errors).length}
               classNameChildren="flex flex-col gap-[42px]"
             >
               <div className="flex gap-6">
@@ -188,6 +190,7 @@ const Organization = () => {
               title={text('title.media')}
               classNameTitle="text-[20px] uppercase"
               classNameChildren="flex flex-col gap-6"
+              changedLength={Object.keys(errors).length}
             >
               <InputField cross name="site" wrapperClass="laptop:max-w-[calc(50%-12px)]" label={text('site.label')} />
 
