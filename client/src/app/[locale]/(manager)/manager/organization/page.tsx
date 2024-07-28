@@ -51,7 +51,7 @@ const Organization = () => {
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
       {({ values, errors, validateForm, handleSubmit }) => (
-        <div className="p-[0_32px_32px] w-full bg-white rounded-lg shadow-bg overflow-y-auto scroll-blue">
+        <div className="p-[0_16px] w-full bg-white rounded-lg shadow-bg overflow-y-auto scroll-blue">
           <ModalAdmin
             isOpen={isOpenSave}
             title={modal('title')}
@@ -64,14 +64,16 @@ const Organization = () => {
           />
 
           <div className="flex justify-start items-center gap-6 py-6">
-            <ButtonIcon icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
+            <ButtonIcon className="min-w-[36px]" icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
 
             <InputField type="search" name="search" wrapperClass="max-w-[373px]" placeholder="search" label={''} />
           </div>
 
-          <Form className="flex flex-col rounded-3xl gap-9 p-8 shadow-innerBg">
-            <div className="flex items-start gap-3">
-              <Info width={24} height={24} className="text-lightBlue" />
+          <Form className="flex flex-col gap-9">
+            <div className="flex items-start gap-x-3 border-t-[2px] border-lightBlue">
+              <div>
+                <Info width="24px" height="24px" className="text-lightBlue" />
+              </div>
 
               <span className="text-input-info text-[14px]">{text('mainInformation')}</span>
             </div>
@@ -133,7 +135,7 @@ const Organization = () => {
               changedLength={Object.keys(errors).length}
               classNameChildren="flex flex-col gap-[42px]"
             >
-              <div className="flex gap-6">
+              <div className="flex flex-col laptop:flex-row gap-6">
                 <InputField required name="positionOrganization" label={text('positionOrganization.label')} />
 
                 <InputField
@@ -144,7 +146,7 @@ const Organization = () => {
                 />
               </div>
 
-              <div className="flex gap-6">
+              <div className="flex flex-col laptop:flex-row gap-6">
                 <InputField
                   required
                   name="name"
@@ -180,8 +182,6 @@ const Organization = () => {
                   wrapperClass="laptop:max-w-[calc(50%-12px)]"
                 />
               </div>
-
-              <SmallBtn className="mt-2" text={btn('changePass')} type="changePass" onClick={() => {}} />
             </Accordion>
 
             <Accordion

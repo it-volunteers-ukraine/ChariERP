@@ -7,11 +7,11 @@
 }
 
 .custom-pagination .rc-pagination-item:hover,
-.custom-pagination .rc-pagination-prev:hover svg,
-.custom-pagination .rc-pagination-next:hover svg,
+.custom-pagination .rc-pagination-prev:hover,
+.custom-pagination .rc-pagination-next:hover,
 .custom-pagination .rc-pagination-jump-prev:hover button,
 .custom-pagination .rc-pagination-jump-next:hover button {
-  @apply transform scale-110;
+  @apply bg-steelBlue border-steelBlue text-white transform scale-110;
 }
 
 .custom-pagination .rc-pagination-item:focus,

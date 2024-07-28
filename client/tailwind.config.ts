@@ -53,6 +53,7 @@ const config: Config = {
         mobster,
         midGray,
         superBlue,
+        steelBlue,
         'dark-blue': blue,
         error,
         green,
