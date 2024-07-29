@@ -50,6 +50,7 @@ export const Accordion = ({
           <ArrowUp />
         </div>
       </div>
+
       <div
         ref={contentRef}
         className={styles.children}

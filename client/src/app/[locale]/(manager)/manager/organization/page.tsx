@@ -51,207 +51,207 @@ const Organization = () => {
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
       {({ values, errors, validateForm, handleSubmit }) => (
-        <div className="p-[0_16px] w-full bg-white rounded-lg shadow-bg overflow-y-auto scroll-blue">
-          <ModalAdmin
-            isOpen={isOpenSave}
-            title={modal('title')}
-            content={modal('text')}
-            classNameBtn="w-[82px]"
-            btnCancelText={btn('no')}
-            btnConfirmText={btn('yes')}
-            onClose={() => setIsOpenSave(false)}
-            onConfirm={() => submitHandle(validateForm, handleSubmit)}
-          />
+        <div className="w-full bg-white overflow-y-auto scroll-blue">
+          <div className="p-[0_16px_48px] tablet:p-[0_32px_48px] m-auto w-full desktopXl:max-w-[1100px]">
+            <ModalAdmin
+              isOpen={isOpenSave}
+              title={modal('title')}
+              content={modal('text')}
+              classNameBtn="w-[82px]"
+              btnCancelText={btn('no')}
+              btnConfirmText={btn('yes')}
+              onClose={() => setIsOpenSave(false)}
+              onConfirm={() => submitHandle(validateForm, handleSubmit)}
+            />
 
-          <div className="flex justify-start items-center gap-6 py-6">
-            <ButtonIcon className="min-w-[36px]" icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
+            <div className="flex justify-start items-center gap-6 py-6">
+              <ButtonIcon className="min-w-[36px]" icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
 
-            <InputField type="search" name="search" wrapperClass="max-w-[373px]" placeholder="search" label={''} />
-          </div>
-
-          <Form className="flex flex-col gap-9">
-            <div className="flex items-start gap-x-3 border-t-[2px] border-lightBlue">
-              <div>
-                <Info width="24px" height="24px" className="text-lightBlue" />
-              </div>
-
-              <span className="text-input-info text-[14px]">{text('mainInformation')}</span>
+              <InputField
+                label={''}
+                type="search"
+                name="search"
+                placeholder="search"
+                wrapperClass="w-full laptop:max-w-[373px]"
+              />
             </div>
 
-            <Accordion
-              initialState
-              classNameTitle="text-[20px] uppercase"
-              title={text('title.basicInformation')}
-              changedLength={Object.keys(errors).length}
-              classNameChildren="flex flex-col gap-[42px]"
-            >
-              <InputField
-                required
-                name="organizationName"
-                label={text('organizationName.label')}
-                wrapperClass="laptop:max-w-[calc(50%-12px)]"
-              />
+            <Form className="flex flex-col gap-9 desktop:gap-12">
+              <div className="flex items-start gap-x-3 pt-[24px] border-t-[2px] border-lightBlue">
+                <div>
+                  <Info width="24px" height="24px" className="text-lightBlue" />
+                </div>
 
-              <InputField
-                required
-                type="number"
-                name="organizationTaxNumber"
-                wrapperClass="laptop:max-w-[calc(50%-12px)]"
-                label={text('organizationTaxNumber.labelErdpouOfOrganization')}
-              />
-
-              <FileField
-                required
-                maxSize={5}
-                placeholderItalic
-                name="certificateOfRegister"
-                accept={'pdf, jpg, jpeg, png'}
-                label={text('certificateOfRegister.label')}
-                placeholder={text('certificateOfRegister.downloadDoc')}
-                info={
-                  <div>
-                    {text('certificateOfRegister.information')}
-                    <Link href="#" className="italic font-medium text-input-link underline">
-                      {text('certificateOfRegister.howDownloadFile')}
-                    </Link>
-                  </div>
-                }
-              />
-
-              <DateField
-                required
-                placeholderItalic
-                name="dateOfRegisterOrganization"
-                wrapperClass="laptop:max-w-[calc(50%-12px)]"
-                label={text('dateOfRegisterOrganization.label')}
-                placeholder={text('dateOfRegisterOrganization.chooseDate')}
-              />
-            </Accordion>
-
-            <Accordion
-              initialState
-              classNameTitle="text-[20px] uppercase"
-              title={text('title.contactInformation')}
-              changedLength={Object.keys(errors).length}
-              classNameChildren="flex flex-col gap-[42px]"
-            >
-              <div className="flex flex-col laptop:flex-row gap-6">
-                <InputField required name="positionOrganization" label={text('positionOrganization.label')} />
-
-                <InputField
-                  required
-                  name="lastName"
-                  label={text('lastName.label')}
-                  wrapperClass="laptop:max-w-[calc(50%-12px)]"
-                />
+                <span className="text-input-info text-[14px]">{text('mainInformation')}</span>
               </div>
 
-              <div className="flex flex-col laptop:flex-row gap-6">
-                <InputField
+              <Accordion
+                initialState
+                classNameWrapper="!gap-3"
+                classNameTitle="text-[20px] uppercase"
+                title={text('title.basicInformation')}
+                classNameChildren="flex flex-col gap-4"
+                changedLength={Object.keys(errors).length}
+              >
+                <div className="flex flex-col laptop:flex-row gap-4 laptop:gap-12">
+                  <InputField required name="organizationName" label={text('organizationName.label')} />
+
+                  <InputField
+                    required
+                    type="number"
+                    name="organizationTaxNumber"
+                    label={text('organizationTaxNumber.labelErdpouOfOrganization')}
+                  />
+                </div>
+
+                <FileField
                   required
-                  name="name"
-                  label={text('name.label')}
-                  wrapperClass="laptop:max-w-[calc(50%-12px)]"
+                  maxSize={5}
+                  placeholderItalic
+                  name="certificateOfRegister"
+                  accept={'pdf, jpg, jpeg, png'}
+                  wrapperClass="laptop:gap-12"
+                  label={text('certificateOfRegister.label')}
+                  placeholder={text('certificateOfRegister.downloadDoc')}
+                  info={
+                    <div>
+                      {text('certificateOfRegister.information')}
+                      <Link href="#" className="italic font-medium text-input-link underline">
+                        {text('certificateOfRegister.howDownloadFile')}
+                      </Link>
+                    </div>
+                  }
                 />
 
+                <DateField
+                  required
+                  placeholderItalic
+                  name="dateOfRegisterOrganization"
+                  wrapperClass="laptop:max-w-[calc(50%-24px)]"
+                  label={text('dateOfRegisterOrganization.label')}
+                  placeholder={text('dateOfRegisterOrganization.chooseDate')}
+                />
+              </Accordion>
+
+              <Accordion
+                initialState
+                classNameWrapper="!gap-3"
+                classNameTitle="text-[20px] uppercase"
+                classNameChildren="flex flex-col gap-4"
+                title={text('title.contactInformation')}
+                changedLength={Object.keys(errors).length}
+              >
+                <div className="flex flex-col laptop:flex-row gap-4 laptop:gap-12">
+                  <InputField required name="positionOrganization" label={text('positionOrganization.label')} />
+
+                  <InputField required name="lastName" label={text('lastName.label')} />
+                </div>
+
+                <div className="flex flex-col laptop:flex-row gap-4 laptop:gap-12">
+                  <InputField required name="name" label={text('name.label')} />
+
+                  <InputField required name="middleName" label={text('middleName.label')} />
+                </div>
+
                 <InputField
                   required
-                  name="middleName"
-                  label={text('middleName.label')}
-                  wrapperClass="laptop:max-w-[calc(50%-12px)]"
+                  isMasked
+                  name="phone"
+                  placeholderItalic
+                  label={text('phone.label')}
+                  placeholder="+38(0__)___-__-__"
+                  wrapperClass="laptop:max-w-[calc(50%-24px)]"
                 />
-              </div>
+              </Accordion>
 
-              <InputField
-                required
-                isMasked
-                name="phone"
-                placeholderItalic
-                label={text('phone.label')}
-                placeholder="+38(0__)___-__-__"
-                wrapperClass="laptop:max-w-[calc(50%-12px)]"
-              />
-            </Accordion>
-
-            <Accordion initialState classNameTitle="text-[20px] uppercase" title={text('title.loginInformation')}>
-              <div className="flex flex-col gap-8">
+              <Accordion
+                initialState
+                classNameWrapper="!gap-3"
+                classNameTitle="text-[20px] uppercase"
+                title={text('title.loginInformation')}
+              >
                 <InputField
                   required
                   name="email"
                   label={text('email.label')}
-                  wrapperClass="laptop:max-w-[calc(50%-12px)]"
+                  wrapperClass="laptop:max-w-[calc(50%-24px)]"
+                />
+              </Accordion>
+
+              <Accordion
+                initialState
+                classNameWrapper="!gap-3"
+                title={text('title.media')}
+                classNameTitle="text-[20px] uppercase"
+                classNameChildren="flex flex-col gap-4 laptop:gap-4"
+                changedLength={Object.keys(errors).length}
+              >
+                <InputField cross name="site" wrapperClass="laptop:max-w-[calc(50%-24px)]" label={text('site.label')} />
+
+                <FieldArray
+                  name="socialNetworks"
+                  render={({ push, remove }) => (
+                    <>
+                      {values.socialNetworks.map((_, index) => {
+                        const isRightLength = values.socialNetworks.length < 5;
+                        const isLastIndex = index === values.socialNetworks.length - 1;
+
+                        return (
+                          <div key={index}>
+                            <InputField
+                              cross
+                              key={`media-signUp-${index}`}
+                              name={`socialNetworks.${index}`}
+                              label={text('socialNetworks.label')}
+                              wrapperClass="laptop:max-w-[calc(50%-24px)]"
+                            />
+                            <div className="flex items-center justify-between laptop:max-w-[calc(50%-24px)]">
+                              {isRightLength && isLastIndex && (
+                                <SmallBtn
+                                  type="add"
+                                  text={btn('addField')}
+                                  onClick={() => push('')}
+                                  className="flex justify-start mt-2 w-full"
+                                />
+                              )}
+
+                              {index !== 0 && (
+                                <SmallBtn
+                                  type="delete"
+                                  text={btn('deleteField')}
+                                  onClick={() => remove(index)}
+                                  className="flex justify-end mt-2 w-full"
+                                />
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </>
+                  )}
+                />
+              </Accordion>
+
+              <div className="flex flex-col tablet:flex-row items-center justify-center gap-3 tablet:gap-6">
+                <Button
+                  type="submit"
+                  styleType="green"
+                  className="uppercase w-full tablet:w-fit"
+                  text={btn('saveChanges')}
+                  onClick={() => {
+                    setIsOpenSave(true);
+                  }}
+                />
+
+                <Button
+                  className="uppercase w-full tablet:w-fit"
+                  onClick={() => {}}
+                  styleType="red"
+                  text={btn('cancelChanges')}
                 />
               </div>
-            </Accordion>
-
-            <Accordion
-              initialState
-              classNameWrapper="gap-0"
-              title={text('title.media')}
-              classNameTitle="text-[20px] uppercase"
-              classNameChildren="flex flex-col gap-6"
-              changedLength={Object.keys(errors).length}
-            >
-              <InputField cross name="site" wrapperClass="laptop:max-w-[calc(50%-12px)]" label={text('site.label')} />
-
-              <FieldArray
-                name="socialNetworks"
-                render={({ push, remove }) => (
-                  <>
-                    {values.socialNetworks.map((_, index) => {
-                      const isRightLength = values.socialNetworks.length < 5;
-                      const isLastIndex = index === values.socialNetworks.length - 1;
-
-                      return (
-                        <div key={index}>
-                          <InputField
-                            cross
-                            wrapperClass="laptop:max-w-[calc(50%-12px)]"
-                            key={`media-signUp-${index}`}
-                            name={`socialNetworks.${index}`}
-                            label={text('socialNetworks.label')}
-                          />
-                          <div className="flex items-center justify-between laptop:max-w-[calc(50%-12px)]">
-                            {isRightLength && isLastIndex && (
-                              <SmallBtn
-                                type="add"
-                                text={btn('addField')}
-                                onClick={() => push('')}
-                                className="flex justify-start mt-3 w-full !leading-4"
-                              />
-                            )}
-
-                            {index !== 0 && (
-                              <SmallBtn
-                                type="delete"
-                                text={btn('deleteField')}
-                                onClick={() => remove(index)}
-                                className="flex justify-end mt-3 w-full !leading-4"
-                              />
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </>
-                )}
-              />
-            </Accordion>
-
-            <div className="flex items-center justify-center gap-6">
-              <Button
-                type="submit"
-                styleType="green"
-                className="uppercase"
-                text={btn('saveChanges')}
-                onClick={() => {
-                  setIsOpenSave(true);
-                }}
-              />
-
-              <Button className="uppercase" onClick={() => {}} styleType="red" text={btn('cancelChanges')} />
-            </div>
-          </Form>
+            </Form>
+          </div>
         </div>
       )}
     </Formik>

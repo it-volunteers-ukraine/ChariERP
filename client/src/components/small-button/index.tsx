@@ -12,7 +12,7 @@ export const SmallBtn = ({ type, text, onClick, className }: ISmallBtn) => {
       {type === 'delete' && <span className={styles.plus}>-</span>}
       {type === 'changePass' && <Pencil />}
 
-      <span>{text}</span>
+      <span className={styles.text}>{text}</span>
     </button>
   );
 };
