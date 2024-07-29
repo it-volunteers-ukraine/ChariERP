@@ -26,8 +26,8 @@
     "mainInformation": "On this page, you can edit the data that was specified during registration. You can change the name of the organization, add or change media links, phone number of the organization, etc.",
     "organizationName": {
       "label": "Full name of the organization",
-      "c": "In Ukrainian (in accordance with the Charter)",
-      "forExample": "For example: Public organization 'LIVE'"
+      "forExample": "For example: Public organization 'LIVE'",
+      "information": "In Ukrainian (in accordance with the Charter)"
     },
     "organizationTaxNumber": {
       "labelErdpouOfOrganization": "USREOU of the organization (tax number)",
