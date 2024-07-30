@@ -1,3 +1,5 @@
+import { Pencil } from '@/assets/icons';
+
 import { ISmallBtn } from './types';
 import { getStyles } from './styles';
 
@@ -8,8 +10,9 @@ export const SmallBtn = ({ type, text, onClick, className }: ISmallBtn) => {
     <button type="button" onClick={onClick} className={styles.button}>
       {type === 'add' && <span className={styles.plus}>+</span>}
       {type === 'delete' && <span className={styles.plus}>-</span>}
+      {type === 'changePass' && <Pencil />}
 
-      <span>{text}</span>
+      <span className={styles.text}>{text}</span>
     </button>
   );
 };

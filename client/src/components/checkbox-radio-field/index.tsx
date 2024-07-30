@@ -7,7 +7,7 @@ import { Error } from '@/utils';
 import { CheckboxRadio } from '../checkbox-radio';
 import { ICheckboxProps } from '../checkbox-radio/types';
 
-export const CheckboxRadioField = ({ id, name, type, label, multiple, ...props }: ICheckboxProps) => {
+export const CheckboxRadioField = ({ id, name, type, label, onChange, multiple, ...props }: ICheckboxProps) => {
   return (
     <Field name={name}>
       {({ meta, form, field: { value, ...fieldProps } }: FieldProps) => {
@@ -38,8 +38,8 @@ export const CheckboxRadioField = ({ id, name, type, label, multiple, ...props }
             name={name}
             error={error}
             label={label}
-            onChange={change}
             multiple={multiple}
+            onChange={onChange ? onChange : change}
             checked={isTypeRadio ? value.id === id : value}
           />
         );
