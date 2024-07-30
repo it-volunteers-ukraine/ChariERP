@@ -57,7 +57,7 @@ const RequestsId = () => {
       validateOnChange
       onSubmit={onSubmit}
       initialValues={organizationInitialValues()}
-      validationSchema={organizationValidation((key, params) => error(key, params))}
+      validationSchema={organizationValidation((key, params) => error(key, params)).omit(['agree'])}
     >
       {({ values, errors, setFieldValue, validateForm, handleSubmit }) => (
         <div className="w-full h-full bg-boardHeader overflow-y-auto scroll-blue">

@@ -48,7 +48,7 @@ const Organization = () => {
       validateOnChange
       onSubmit={onSubmit}
       initialValues={organizationInitialValues()}
-      validationSchema={organizationValidation((key, params) => error(key, params))}
+      validationSchema={organizationValidation((key, params) => error(key, params)).omit(['agree'])}
     >
       {({ values, errors, validateForm, handleSubmit }) => (
         <div className="w-full bg-white overflow-y-auto scroll-blue">

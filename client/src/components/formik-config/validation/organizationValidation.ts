@@ -52,5 +52,5 @@ export const organizationValidation = (error: (key: string, params?: Translation
         .min(10, error('minPlural', { int: 10 }))
         .max(2000, error('maxPlural', { int: 2000 })),
     ),
-    // agree: Yup.boolean().oneOf([true]).required(),
+    agree: Yup.boolean().oneOf([true]).required(),
   });
