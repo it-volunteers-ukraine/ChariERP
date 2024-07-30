@@ -68,7 +68,7 @@ const Organization = () => {
               <ButtonIcon className="min-w-[36px]" icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
 
               <InputField
-                label={''}
+                label=""
                 type="search"
                 name="search"
                 placeholder="search"
