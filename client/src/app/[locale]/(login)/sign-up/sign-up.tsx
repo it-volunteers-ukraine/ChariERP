@@ -79,8 +79,6 @@ const SignUp = () => {
               />
 
               <FileField
-                required
-                maxSize={5}
                 placeholderItalic
                 name="certificate"
                 accept=".pdf, .jpg, .jpeg, .png"

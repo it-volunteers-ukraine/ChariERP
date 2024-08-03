@@ -64,6 +64,7 @@ export const DateField = ({ name, label, required, placeholder, wrapperClass, ..
 
         const onChange = async (value: Date | null) => {
           await form.setFieldValue(name, value);
+          await form.setFieldTouched(name);
         };
 
         const handelClose = async () => {
