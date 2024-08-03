@@ -35,10 +35,10 @@ export async function POST(request: Request) {
         return NextResponse.json(foundUser, { status: 201 });
       }
 
-      return NextResponse.json({ message: 'User incorrect' }, { status: 403 });
+      return NextResponse.json({ message: 'userIncorrect' }, { status: 403 });
     }
 
-    return NextResponse.json({ message: 'User not found' }, { status: 404 });
+    return NextResponse.json({ message: 'userNotFound' }, { status: 404 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }

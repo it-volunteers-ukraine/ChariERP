@@ -145,6 +145,10 @@
     "file": {
       "extensions": "Invalid file format. Available formats:",
       "maxSize": "File size exceeds "
+    },
+    "login": {
+      "userIncorrect": "Incorrect email or password",
+      "userNotFound": "User not found"
     }
   },
   "loader": {

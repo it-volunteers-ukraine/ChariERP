@@ -14,14 +14,7 @@ const LoginForm = ({ onSubmit }: ILoginFormProps) => {
   const login = useTranslations('auth-page.login');
   const message = useTranslations('validation');
 
-  const validationSchema = getValidationSchema({
-    required: message('required'),
-    matches: message('matches_english', { field: 'Password' }),
-    min6: message('minPlural', { int: 6 }),
-    min8: message('minPlural', { int: 8 }),
-    max20: message('minPlural', { int: 20 }),
-    max50: message('maxPlural', { int: 50 }),
-  });
+  const validationSchema = getValidationSchema((key, params) => message(key, params));
 
   return (
     <Formik onSubmit={onSubmit} initialValues={initialValues} validationSchema={validationSchema}>
