@@ -17,6 +17,7 @@ import {
   showMessage,
   organizationValidation,
   organizationInitialValues,
+  AvatarUploader,
 } from '@/components';
 
 const Organization = () => {
@@ -65,6 +66,8 @@ const Organization = () => {
             />
 
             <div className="flex justify-start items-center gap-6 py-6">
+              <AvatarUploader />
+
               <ButtonIcon className="min-w-[36px]" icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
 
               <InputField
