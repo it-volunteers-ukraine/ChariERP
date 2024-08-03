@@ -2,7 +2,8 @@ import * as Yup from 'yup';
 import { TranslationValues } from 'next-intl';
 import { isValidPhoneNumber } from 'libphonenumber-js';
 
-const linkRegExp = /^https:\/\/.*$/;
+const maxSize = 5;
+const linkRegExp = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6})(\/[\w.-]*)*\/?$/;
 
 export const organizationValidation = (error: (key: string, params?: TranslationValues) => string) =>
   Yup.object().shape({
@@ -10,12 +11,21 @@ export const organizationValidation = (error: (key: string, params?: Translation
       .trim()
       .max(300, error('maxPlural', { int: 300 }))
       .required(error('required')),
-    organizationTaxNumber: Yup.string()
+    edrpou: Yup.string()
       .matches(/^\d{8}$/, error('taxNumber'))
       .required(error('required')),
-    certificateOfRegister: Yup.string().required(error('required')),
-    dateOfRegisterOrganization: Yup.string().required(error('required')),
-    positionOrganization: Yup.string()
+    certificate: Yup.mixed<File>()
+      .test('required', error('required'), (value) => {
+        return value && !!value;
+      })
+      .test('fileSize', error('maxSizeFile', { maxSize: `${maxSize}` }), (value) => {
+        return value && value.size <= 1024 * 1024 * maxSize;
+      })
+      .test('fileType', error('extensionsFile', { extensions: '(jpg, jpeg, png, pdf)' }), (value) => {
+        return value && ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'].includes(value.type);
+      }),
+    dateOfRegistration: Yup.string().required(error('required')),
+    position: Yup.string()
       .trim()
       .max(100, error('maxPlural', { int: 100 }))
       .required(error('required')),
@@ -23,7 +33,7 @@ export const organizationValidation = (error: (key: string, params?: Translation
       .trim()
       .max(100, error('maxPlural', { int: 100 }))
       .required(error('required')),
-    name: Yup.string()
+    firstName: Yup.string()
       .trim()
       .max(100, error('maxPlural', { int: 100 }))
       .required(error('required')),
@@ -45,7 +55,7 @@ export const organizationValidation = (error: (key: string, params?: Translation
       .matches(linkRegExp, error('siteStart'))
       .min(10, error('minPlural', { int: 10 }))
       .max(2000, error('maxPlural', { int: 2000 })),
-    socialNetworks: Yup.array().of(
+    social: Yup.array().of(
       Yup.string()
         .trim()
         .matches(linkRegExp, error('siteStart'))

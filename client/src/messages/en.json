@@ -129,11 +129,11 @@
     "required": "Required field",
     "matches_english": "{field} must not contain Cyrillic characters",
     "taxNumber": "Tax number must contain exactly 8 Arabic numerals.",
-    "extensionsFile": "Invalid file format. Available formats: jpg, jpeg, png or pdf",
-    "maxSizeFile": "File size exceeds 5MB",
     "notValidPhone": "Wrong number dialed",
     "notValidEmail": "Invalid e-mail address",
-    "siteStart": "The input field must begin with https://..."
+    "siteStart": "The input field must begin with https://...",
+    "extensionsFile": "Invalid file format. Available formats: {extensions}",
+    "maxSizeFile": "File size exceeds {maxSize}МБ"
   },
   "header": {
     "about": "About Us",
@@ -142,10 +142,6 @@
     "faq": "FAQs"
   },
   "errors": {
-    "file": {
-      "extensions": "Invalid file format. Available formats:",
-      "maxSize": "File size exceeds "
-    },
     "login": {
       "userIncorrect": "Incorrect email or password",
       "userNotFound": "User not found"

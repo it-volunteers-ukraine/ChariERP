@@ -7,10 +7,11 @@ import { Button, InputField } from '@/components';
 import { getValidationSchema, initialValues } from './sign-in/config';
 
 interface ILoginFormProps {
+  isLoading: boolean;
   onSubmit: (values: FormikValues) => void;
 }
 
-const LoginForm = ({ onSubmit }: ILoginFormProps) => {
+const LoginForm = ({ onSubmit, isLoading }: ILoginFormProps) => {
   const login = useTranslations('auth-page.login');
   const message = useTranslations('validation');
 
@@ -23,7 +24,13 @@ const LoginForm = ({ onSubmit }: ILoginFormProps) => {
           <InputField name="email" label="Email" required />
           <InputField required name="password" type="password" label={login('password')} />
 
-          <Button type="submit" styleType="primary" className="w-[115px]" text={login('button')} />
+          <Button
+            type="submit"
+            styleType="primary"
+            className="w-[115px]"
+            text={login('button')}
+            isLoading={isLoading}
+          />
         </Form>
       )}
     </Formik>

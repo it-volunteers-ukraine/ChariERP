@@ -177,27 +177,27 @@ const RequestsId = () => {
                   classNameWrapper="gap-0"
                   title={text('title.media')}
                   classNameTitle="text-[20px]"
+                  changedLength={values.social.length}
                   classNameChildren="flex flex-col gap-6"
-                  changedLength={values.socialNetworks.length}
                 >
                   <InputField cross name="site" wrapperClass="max-w-[465px]" label={text('site.label')} />
 
                   <FieldArray
-                    name="socialNetworks"
+                    name="social"
                     render={({ push, remove }) => (
                       <>
-                        {values.socialNetworks.map((_, index) => {
-                          const isRightLength = values.socialNetworks.length < 5;
-                          const isLastIndex = index === values.socialNetworks.length - 1;
-                          const isMoreThanOne = values.socialNetworks.length > 1;
+                        {values.social.map((_, index) => {
+                          const isRightLength = values.social.length < 5;
+                          const isLastIndex = index === values.social.length - 1;
+                          const isMoreThanOne = values.social.length > 1;
 
                           return (
                             <div key={index}>
                               <InputField
                                 cross
+                                name={`social.${index}`}
                                 wrapperClass="max-w-[465px]"
                                 key={`media-signUp-${index}`}
-                                name={`socialNetworks.${index}`}
                                 label={text('socialNetworks.label')}
                               />
                               <div className="flex items-center justify-between max-w-[465px]">

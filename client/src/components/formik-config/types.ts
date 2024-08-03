@@ -1,17 +1,17 @@
 export interface OrganizationFormValues {
-  name: string;
+  firstName: string;
   site: string;
   email: string;
   phone: string;
   agree: boolean;
   lastName: string;
   middleName: string;
-  socialNetworks: string[];
+  social: string[];
   organizationName: string;
-  positionOrganization: string;
-  organizationTaxNumber: string;
-  certificateOfRegister: string;
-  dateOfRegisterOrganization: string;
+  position: string;
+  edrpou: string;
+  certificate: FileList | null;
+  dateOfRegistration: string;
   declineReason:
     | string
     | {

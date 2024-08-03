@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Cookies from 'js-cookie';
 import axios, { AxiosError } from 'axios';
 import { useTranslations } from 'next-intl';
@@ -14,9 +15,13 @@ const SignIn = () => {
   const router = useRouter();
   const errorText = useTranslations('errors.login');
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmit = async (values: FormikValues, handleFormik?: FormikHelpers<FormikValues>) => {
+    setIsLoading(true);
+
     try {
-      const { data } = await axios.post('/users', { email: values.email, password: values.password });
+      const { data } = await axios.post('/api/users', { email: values.email, password: values.password });
 
       Cookies.set('id', data._id, { expires: 7 });
       router.push(routes.requests);
@@ -24,10 +29,12 @@ const SignIn = () => {
       if (error instanceof AxiosError) {
         handleFormik?.setFieldError('email', error.response?.data.message && errorText(error.response.data.message));
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  return <LoginForm onSubmit={onSubmit} />;
+  return <LoginForm onSubmit={onSubmit} isLoading={isLoading} />;
 };
 
 export default SignIn;
