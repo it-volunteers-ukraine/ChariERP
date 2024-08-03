@@ -60,7 +60,16 @@ export const organizationValidation = (error: (key: string, params?: Translation
         .trim()
         .matches(linkRegExp, error('siteStart'))
         .min(10, error('minPlural', { int: 10 }))
-        .max(2000, error('maxPlural', { int: 2000 })),
+        .max(2000, error('maxPlural', { int: 2000 }))
+        .test('isRequired', error('required'), (value, context) => {
+          const { parent } = context;
+
+          if (parent && parent.length > 1) {
+            return value !== undefined && value !== null && value !== '';
+          }
+
+          return true;
+        }),
     ),
     agree: Yup.boolean().oneOf([true]).required(),
   });
