@@ -131,7 +131,6 @@ const config: Config = {
           hover: steelBlue,
           active: white,
         },
-        boardHeader: whiteSecond,
         overlay: '#687a95',
       },
       backgroundImage: {

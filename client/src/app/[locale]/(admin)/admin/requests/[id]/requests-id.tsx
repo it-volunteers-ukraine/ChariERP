@@ -44,7 +44,7 @@ const RequestsId = () => {
       validationSchema={organizationValidation((key, params) => error(key, params))}
     >
       {({ values, errors }) => (
-        <div className="w-full h-full bg-boardHeader overflow-y-auto scroll-blue">
+        <div className="w-full h-full bg-whiteSecond overflow-y-auto scroll-blue">
           <ModalAdmin
             isOpen={isOpenSave}
             onConfirm={() => {}}

@@ -69,7 +69,7 @@ const SignUp = () => {
                 maxSize={5}
                 placeholderItalic
                 name="certificateOfRegister"
-                accept={'pdf, jpg, jpeg, png'}
+                accept=".pdf, .jpg, .jpeg, .png"
                 label={text('certificateOfRegister.label')}
                 placeholder={text('certificateOfRegister.downloadDoc')}
                 info={
