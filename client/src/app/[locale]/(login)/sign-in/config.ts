@@ -1,5 +1,5 @@
-import { TranslationValues } from 'next-intl';
 import * as Yup from 'yup';
+import { TranslationValues } from 'next-intl';
 
 export const initialValues = {
   email: '',

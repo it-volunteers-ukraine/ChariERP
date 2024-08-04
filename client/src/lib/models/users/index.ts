@@ -3,20 +3,20 @@ import { Schema, model, models } from 'mongoose';
 import { Roles, UserStatus } from '@/types';
 
 interface IUsers {
-  lastName: string;
-  firstName: string;
-  middleName: string;
+  role: Roles;
   phone: number;
+  notes: string;
+  email: string;
+  address: string;
+  lastLogin: Date;
+  lastName: string;
   position: string;
+  password: string;
+  firstName: string;
   DateOfBirth: Date;
   dateOfEntry: Date;
-  address: string;
-  notes: string;
-  role: Roles;
-  email: string;
+  middleName: string;
   status: UserStatus;
-  lastLogin: Date;
-  password: string;
   _id?: Schema.Types.ObjectId;
   organizationId: Schema.Types.ObjectId;
 }

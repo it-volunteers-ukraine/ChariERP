@@ -36,9 +36,9 @@ export const FileField = ({ name, label, ...props }: FileInputProps) => {
             type="file"
             name={name}
             label={label}
+            error={error}
             onChange={onChange}
             value={value?.name}
-            error={error}
           />
         );
       }}

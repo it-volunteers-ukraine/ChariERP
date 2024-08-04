@@ -1,4 +1,5 @@
 'use client';
+
 import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikValues } from 'formik';
 
@@ -12,10 +13,10 @@ interface ILoginFormProps {
 }
 
 const LoginForm = ({ onSubmit, isLoading }: ILoginFormProps) => {
-  const login = useTranslations('auth-page.login');
   const message = useTranslations('validation');
+  const login = useTranslations('auth-page.login');
 
-  const validationSchema = getValidationSchema((key, params) => message(key, params));
+  const validationSchema = getValidationSchema(message);
 
   return (
     <Formik onSubmit={onSubmit} initialValues={initialValues} validationSchema={validationSchema}>
@@ -28,8 +29,8 @@ const LoginForm = ({ onSubmit, isLoading }: ILoginFormProps) => {
             type="submit"
             styleType="primary"
             className="w-[115px]"
-            text={login('button')}
             isLoading={isLoading}
+            text={login('button')}
           />
         </Form>
       )}

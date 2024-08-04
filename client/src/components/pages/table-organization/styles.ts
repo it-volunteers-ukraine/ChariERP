@@ -3,11 +3,11 @@ import clsx from 'clsx';
 import { TableSortDirection } from '@/types';
 
 interface IGetStyles {
-  organization: TableSortDirection | undefined;
-  edrpou: TableSortDirection | undefined;
   date: TableSortDirection | undefined;
   user: TableSortDirection | undefined;
   email: TableSortDirection | undefined;
+  edrpou: TableSortDirection | undefined;
+  organization: TableSortDirection | undefined;
 }
 
 const generalStyles = 'text-midGray transition-all duration-300';

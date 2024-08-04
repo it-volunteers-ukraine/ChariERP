@@ -2,19 +2,19 @@ import { RequestOrganizationStatus } from '@/types';
 import { Schema, model, models } from 'mongoose';
 
 interface IOrganizationData {
-  organizationName: string;
   edrpou: number;
   certificate: string;
+  organizationName: string;
   dateOfRegistration: number;
 }
 
 interface IContactData {
+  phone: string;
+  email: string;
   position: string;
   lastName: string;
   firstName: string;
   middleName: string;
-  phone: string;
-  email: string;
 }
 
 interface IMediaData {
@@ -23,12 +23,12 @@ interface IMediaData {
 }
 
 interface IOrganizations {
+  mediaData: IMediaData;
+  contactData: IContactData;
   _id?: Schema.Types.ObjectId;
+  users: Schema.Types.ObjectId[];
   request: RequestOrganizationStatus;
   organizationData: IOrganizationData;
-  contactData: IContactData;
-  mediaData: IMediaData;
-  users: Schema.Types.ObjectId[];
 }
 
 const organizationsSchema = new Schema<IOrganizations>({

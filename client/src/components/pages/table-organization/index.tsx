@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
@@ -17,11 +18,11 @@ export const TableOrganization = () => {
   const [page, setPage] = useState(1);
 
   const styles = getStyles({
-    organization: sortConfig?.key === 'organizationName' ? sortConfig?.direction : undefined,
-    edrpou: sortConfig?.key === 'EDRPOU' ? sortConfig?.direction : undefined,
     date: sortConfig?.key === 'date' ? sortConfig?.direction : undefined,
     user: sortConfig?.key === 'user' ? sortConfig?.direction : undefined,
     email: sortConfig?.key === 'email' ? sortConfig?.direction : undefined,
+    edrpou: sortConfig?.key === 'EDRPOU' ? sortConfig?.direction : undefined,
+    organization: sortConfig?.key === 'organizationName' ? sortConfig?.direction : undefined,
   });
 
   return (

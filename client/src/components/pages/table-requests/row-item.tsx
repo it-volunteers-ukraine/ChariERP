@@ -16,8 +16,8 @@ import {
 import { routes } from '@/constants';
 
 interface RowItemProps {
-  path: string | null;
   isLaptop: boolean;
+  path: string | null;
   item: {
     id: string;
     doc: string;
