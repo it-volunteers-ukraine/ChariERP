@@ -4,18 +4,19 @@ import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikValues } from 'formik';
 
 import {
-  Title,
-  SmallBtn,
   Button,
+  CheckboxRadioField,
   DateField,
   FileField,
   InputField,
-  CheckboxRadioField,
-  organizationValidation,
   organizationInitialValues,
+  organizationValidation,
+  SmallBtn,
+  Title,
 } from '@/components';
 
 import { getStyles } from './styles';
+import { BucketFolders, uploadFileToBucket } from '@/s3-bucket/s3-client';
 
 const SignUp = () => {
   const styles = getStyles();
@@ -23,8 +24,12 @@ const SignUp = () => {
   const text = useTranslations('inputs');
   const error = useTranslations('validation');
 
-  const onSubmit = (values: FormikValues) => {
+  const onSubmit = async (values: FormikValues) => {
     console.log('data', values);
+    const { certificateOfRegister } = values;
+
+    await uploadFileToBucket(BucketFolders.CertificateOfRegister, certificateOfRegister as File);
+    // TODO: save uploaded imager URL to DB
   };
 
   return (
