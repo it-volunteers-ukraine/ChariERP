@@ -5,7 +5,7 @@ import { Loader } from '@/assets/icons';
 
 import { getStyles } from './style';
 
-export const LoaderComponent = ({ isLoading }) => {
+export const LoaderComponent = ({ isLoading }: { isLoading: boolean }) => {
   const loader = useTranslations('loader');
 
   const { wrapper, spinner, textWrapper, text } = getStyles();

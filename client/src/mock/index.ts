@@ -1,0 +1,1 @@
+export { employeeCardArray } from './employee';

@@ -1,12 +1,14 @@
 export { Accordion } from './accordion';
 export { AuthLinks } from './auth-links';
 export { Avatar, DashboardHeader, DashboardAside } from './dashboard';
+export { AvatarEmployee } from './avatar-employee';
 export { Burger } from './burger';
 export { Button } from './button';
 export { ButtonIcon } from './button-icon';
 export { CheckboxRadio } from './checkbox-radio';
 export { CheckboxRadioField } from './checkbox-radio-field';
 export { DateField } from './date-field';
+export { EmployeeCard } from './employee-card';
 export { FileField } from './file-field';
 export { Header } from './header';
 export { Input } from './input';
