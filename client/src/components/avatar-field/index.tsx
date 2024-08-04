@@ -8,9 +8,10 @@ import { AvatarUploader } from '../avatar-uploader';
 
 export const AvatarField = ({
   name,
+  info,
   accept,
-  withAbb,
   maxSize,
+  isSubmit,
   lastName,
   firstName,
   initialAvatarUrl,
@@ -20,6 +21,8 @@ export const AvatarField = ({
   return (
     <Field name={name}>
       {({ meta, form, field: { value } }: FieldProps) => {
+        const error = (meta.touched && meta.error && meta.error) || '';
+
         if (initialAvatarUrl) {
           form.setFieldValue(name, initialAvatarUrl);
         }
@@ -27,30 +30,23 @@ export const AvatarField = ({
         const onChange = async (e: ChangeEvent<HTMLInputElement>) => {
           const file = e.target.files?.[0];
           const extension = file?.name.split('.').pop()?.toLowerCase();
+          const imageUrl = URL.createObjectURL(file as File);
 
-          if (file) {
-            const reader = new FileReader();
+          if (accept && extension && !accept.includes(extension)) {
+            form.setFieldError(name, `${errors('extensions')} ${accept}`);
+            form.setFieldTouched(name, true, false);
 
-            if (accept && extension && !accept.includes(extension)) {
-              form.setFieldError(name, `${errors('extensions')} ${accept}`);
-              form.setFieldTouched(name, true, false);
-
-              return;
-            }
-
-            if (maxSize && file.size / (1024 * 1024) > maxSize) {
-              form.setFieldError(name, `${errors('maxSize')} ${maxSize} MB`);
-              form.setFieldTouched(name, true, false);
-
-              return;
-            }
-
-            reader.onloadend = async () => {
-              await form.setFieldValue(name, reader.result as string);
-            };
-
-            reader.readAsDataURL(file);
+            return;
           }
+
+          if (maxSize && file && file.size / (1024 * 1024) > maxSize) {
+            form.setFieldError(name, `${errors('maxSize')} ${maxSize} MB`);
+            form.setFieldTouched(name, true, false);
+
+            return;
+          }
+
+          await form.setFieldValue(name, imageUrl);
         };
 
         const removeAvatar = async () => {
@@ -60,14 +56,15 @@ export const AvatarField = ({
         return (
           <AvatarUploader
             name={name}
+            info={info}
+            error={error}
             accept={accept}
-            withAbb={withAbb}
             avatarUrl={value}
             lastName={lastName}
+            isSubmit={isSubmit}
             onChange={onChange}
             firstName={firstName}
             removeAvatar={removeAvatar}
-            error={(meta.touched && meta.error && meta.error) || ''}
           />
         );
       }}

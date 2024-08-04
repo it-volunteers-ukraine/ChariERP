@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 
-import { Camera, Close } from '@/assets/icons';
+import { Camera, Close, Info, Warning } from '@/assets/icons';
 
 import { DefaultAvatar } from './default-avatar';
 import { ChangeEvent } from 'react';
@@ -10,21 +10,23 @@ interface AvatarUploaderProps {
   name: string;
   error?: string;
   accept?: string;
-  withAbb?: boolean;
   lastName?: string;
+  isSubmit?: boolean;
   firstName?: string;
   avatarUrl?: string | null;
   removeAvatar?: () => void;
+  info?: string | React.ReactNode;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const AvatarUploader = ({
   name,
+  info,
   error,
   accept,
-  withAbb,
   onChange,
   lastName,
+  isSubmit,
   firstName,
   avatarUrl,
   removeAvatar,
@@ -32,13 +34,15 @@ export const AvatarUploader = ({
   const iconSize = avatarUrl ? 28 : 42;
 
   return (
-    <>
-      <div className="relative w-[96px] h-[96px] bg-superBlue rounded-full overflow-hidden group/avatar cursor-pointer">
+    <div className="flex flex-col gap-2 tablet:flex-row tablet:gap-6">
+      <div
+        className={`relative min-w-[96px] max-w-[96px] h-[96px] ${isSubmit ? 'bg-purple' : 'bg-superBlue'} rounded-full overflow-hidden group/avatar cursor-pointer`}
+      >
         <div className="relative flex items-center justify-center h-full z-[3]">
           {avatarUrl ? (
             <Image layout="fill" src={avatarUrl} alt="Avatar" className="aspect-square object-cover" />
           ) : (
-            <DefaultAvatar withAbb={withAbb} firstName={firstName} lastName={lastName} />
+            <DefaultAvatar isSubmit={isSubmit} firstName={firstName} lastName={lastName} />
           )}
         </div>
 
@@ -57,7 +61,23 @@ export const AvatarUploader = ({
         </div>
       </div>
 
-      <p>{error}</p>
-    </>
+      <div className={`flex flex-col items-start ${!error && 'justify-center'}`}>
+        {error && (
+          <div className="flex gap-3">
+            <Warning width={24} height={24} />
+
+            <span className="text-input-error text-[14px]">{error}</span>
+          </div>
+        )}
+
+        {info && (
+          <div className="flex items-start gap-3 text-input-info tablet:items-center max-w-[600px]">
+            <Info width={24} height={24} className="min-w-[24px]" />
+
+            {typeof info === 'string' ? <span className="text-input-info text-[14px]">{info}</span> : <div>{info}</div>}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };

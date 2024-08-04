@@ -7,6 +7,7 @@ export interface OrganizationFormValues {
   lastName: string;
   password: string;
   middleName: string;
+  avatar: File | null;
   socialNetworks: string[];
   organizationName: string;
   positionOrganization: string;

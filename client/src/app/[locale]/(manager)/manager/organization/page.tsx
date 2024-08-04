@@ -27,6 +27,7 @@ const Organization = () => {
   const modal = useTranslations('modal.save');
 
   const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
   const onSubmit = async (values: FormikValues) => console.log('data', values);
 
@@ -40,6 +41,7 @@ const Organization = () => {
       handleSubmit();
       showMessage.success('Save');
       setIsOpenSave(false);
+      setIsSubmit(true);
     }
   };
 
@@ -64,10 +66,17 @@ const Organization = () => {
               onClose={() => setIsOpenSave(false)}
               onConfirm={() => submitHandle(validateForm, handleSubmit)}
             />
+            <AvatarField
+              maxSize={1}
+              name="avatar"
+              isSubmit={isSubmit}
+              firstName={values.name}
+              lastName={values.lastName}
+              accept="pdf, jpg, jpeg, png"
+              info="Додайте зображення або лишіть пустим і ми автоматично додамо перші літери Імені та прізвища. Макс розмір 5 Мб. Формат jpg, jpeg, png."
+            />
 
             <div className="flex justify-start items-center gap-6 py-6">
-              <AvatarField maxSize={5} accept="pdf, jpg, jpeg, png" name="avatar" />
-
               <ButtonIcon className="min-w-[36px]" icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
 
               <InputField

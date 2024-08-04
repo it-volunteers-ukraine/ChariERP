@@ -1,19 +1,20 @@
 import { Avatar } from '@/assets/icons';
 
 interface DefaultAvatarProps {
-  withAbb?: boolean;
+  isSubmit?: boolean;
   lastName?: string;
   firstName?: string;
 }
 
-export const DefaultAvatar = ({ withAbb, firstName, lastName }: DefaultAvatarProps) => {
-  if (!withAbb) {
+export const DefaultAvatar = ({ isSubmit, firstName, lastName }: DefaultAvatarProps) => {
+  if (!isSubmit) {
     return <Avatar />;
   }
 
   return (
-    <p>
-      {firstName?.[0]} {lastName?.[0]}
+    <p className="text-[40px] text-white uppercase">
+      {firstName?.[0]}
+      {lastName?.[0]}
     </p>
   );
 };

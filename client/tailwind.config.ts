@@ -35,6 +35,7 @@ const superBlue = '#DFF0F8';
 const midGray = '#656575';
 const darkGray = '#49454F';
 const arcticSky = '#D0DDEC';
+const amethyst = '#A86CCC';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -59,6 +60,7 @@ const config: Config = {
         'dark-blue': blue,
         error,
         green,
+        purple: amethyst,
         title: {
           title: caret,
           media: Magnolia,
