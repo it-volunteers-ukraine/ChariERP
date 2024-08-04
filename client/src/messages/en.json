@@ -20,12 +20,14 @@
     "title": {
       "basicInformation": "Basic information",
       "contactInformation": "Contact information",
+      "loginInformation": "Login information",
       "media": "Media"
     },
+    "mainInformation": "On this page, you can edit the data that was specified during registration. You can change the name of the organization, add or change media links, phone number of the organization, etc.",
     "organizationName": {
       "label": "Full name of the organization",
-      "information": "In Ukrainian (in accordance with the Charter)",
-      "forExample": "For example: Public organization 'LIVE'"
+      "forExample": "For example: Public organization 'LIVE'",
+      "information": "In Ukrainian (in accordance with the Charter)"
     },
     "organizationTaxNumber": {
       "labelErdpouOfOrganization": "USREOU of the organization (tax number)",
@@ -57,6 +59,9 @@
     "phone": {
       "label": "Representative's phone number (with area code)",
       "forExample": "For example: +38(050)123-45-36 or +38(044)222-22-33"
+    },
+    "password": {
+      "label": "Password"
     },
     "email": {
       "label": "Representative's e-mail address (e-mail)",
@@ -116,7 +121,10 @@
   "button": {
     "submit": "Submit Form",
     "addField": "Add more links",
+    "changePass": "Change password",
     "deleteField": "Delete field",
+    "cancelChanges": "Cancel changes",
+    "saveChanges": "Save changes",
     "delete": "delete",
     "accept": "accept",
     "decline": "decline",

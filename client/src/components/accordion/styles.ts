@@ -4,11 +4,11 @@ import { IStylesAccordion } from './types';
 
 export const getStyles = ({ isOpen, classNameTitle, classNameWrapper, classNameChildren }: IStylesAccordion) => ({
   wrapper: clsx('flex flex-col gap-6 box-border transition-all duration-300', {
-    [`${classNameWrapper}`]: !!classNameWrapper,
+    [`${classNameWrapper}`]: classNameWrapper,
     'gap-0': !isOpen,
   }),
   title: clsx('text-[20px] uppercase', {
-    [`${classNameTitle}`]: !!classNameTitle,
+    [`${classNameTitle}`]: classNameTitle,
   }),
   arrow: clsx('p-[6px] transition-all duration-300 rotate-[-180deg]', {
     'rotate-[0deg]': isOpen,

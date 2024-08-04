@@ -5,6 +5,7 @@ export interface OrganizationFormValues {
   phone: string;
   agree: boolean;
   lastName: string;
+  password: string;
   middleName: string;
   socialNetworks: string[];
   organizationName: string;

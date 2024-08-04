@@ -7,7 +7,7 @@ import { CheckboxRadioField } from '@/components';
 import { getStyles } from './styles';
 import { IModalContent } from './types';
 
-export const ModalContent = ({ name, organizationName }: IModalContent) => {
+export const ModalContent = ({ name, setFieldValue, organizationName }: IModalContent) => {
   const radioRef: RefObject<HTMLInputElement> = useRef(null);
   const modal = useTranslations('modal.decline');
   const isChecked = radioRef.current?.checked;
@@ -29,12 +29,12 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
 
         <CheckboxRadioField
           id="1"
-          multiple
           name={name}
           type="radio"
           className="p-2"
           classNameText="text-mobster"
           label={modal('radioBtn.notValidUSREOU')}
+          onChange={() => setFieldValue && setFieldValue(name, { id: '1', value: modal('radioBtn.notValidUSREOU') })}
         />
 
         <CheckboxRadioField
@@ -45,6 +45,9 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           className="p-2"
           classNameText="text-mobster"
           label={modal('radioBtn.insufficientDocuments')}
+          onChange={() =>
+            setFieldValue && setFieldValue(name, { id: '2', value: modal('radioBtn.insufficientDocuments') })
+          }
         />
 
         <CheckboxRadioField
@@ -55,6 +58,7 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           className="p-2"
           classNameText="text-mobster"
           label={modal('radioBtn.noneCompliance')}
+          onChange={() => setFieldValue && setFieldValue(name, { id: '3', value: modal('radioBtn.noneCompliance') })}
         />
 
         <CheckboxRadioField
@@ -74,7 +78,16 @@ export const ModalContent = ({ name, organizationName }: IModalContent) => {
           value={value}
           disabled={!isChecked}
           className={styles.textarea}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
+          onBlur={() =>
+            setFieldValue &&
+            setFieldValue(name, {
+              id: '4',
+              value: value,
+            })
+          }
         />
       </div>
     </>
