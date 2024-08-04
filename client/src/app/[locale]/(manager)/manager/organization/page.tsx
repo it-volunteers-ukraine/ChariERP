@@ -15,9 +15,9 @@ import {
   InputField,
   ModalAdmin,
   showMessage,
+  AvatarField,
   organizationValidation,
   organizationInitialValues,
-  AvatarUploader,
 } from '@/components';
 
 const Organization = () => {
@@ -66,7 +66,7 @@ const Organization = () => {
             />
 
             <div className="flex justify-start items-center gap-6 py-6">
-              <AvatarUploader firstName="afsrdgthf" lastName="sdghf" withAbb />
+              <AvatarField maxSize={5} accept="pdf, jpg, jpeg, png" name="avatar" />
 
               <ButtonIcon className="min-w-[36px]" icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
 
