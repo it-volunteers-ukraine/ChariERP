@@ -16,7 +16,7 @@ export { LoaderComponent } from './loader-component';
 export { Logo } from './logo';
 export { ModalAdmin, ModalContent } from './modals';
 export { Navigation } from './navigation';
-export { organizationValidation, organizationInitialValues } from './formik-config';
+export { organizationValidation, organizationInitialValues, type OrganizationFormValues } from './formik-config';
 export { Overlay } from './overlay';
 export { Pagination } from './pagination';
 export { ResponseWrapper } from './response';

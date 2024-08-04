@@ -2,20 +2,24 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import axios, { AxiosError } from 'axios';
 import { useTranslations } from 'next-intl';
-import { FieldArray, Form, Formik, FormikValues } from 'formik';
+import { FieldArray, Form, Formik, FormikHelpers, FormikValues } from 'formik';
 
 import {
   Title,
-  SmallBtn,
   Button,
+  SmallBtn,
   DateField,
   FileField,
   InputField,
+  showMessage,
   CheckboxRadioField,
   organizationValidation,
+  OrganizationFormValues,
   organizationInitialValues,
 } from '@/components';
+import { ErrorResponse } from '@/types';
 
 import { getStyles } from './styles';
 
@@ -24,18 +28,43 @@ const SignUp = () => {
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
   const error = useTranslations('validation');
+  const create = useTranslations('auth-page');
+  const errorText = useTranslations('errors.login');
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const validationSchema = organizationValidation((key, params) => error(key, params));
+  const validationSchema = organizationValidation(error);
 
-  const onSubmit = (values: FormikValues) => {
+  const onSubmit = async (values: FormikValues, handleFormik: FormikHelpers<OrganizationFormValues>) => {
     setIsLoading(true);
 
+    const formData = new FormData();
+
+    Object.entries(values).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((item) => {
+          formData.append(`${key}[]`, item);
+        });
+      } else if (value !== undefined && value !== null && key !== 'agree' && key !== 'declineReason') {
+        formData.append(key, value);
+      }
+    });
+
     try {
-      console.log('data', values);
+      await axios.post('/api/organizations', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      showMessage.success(create('createOrganization'));
+      handleFormik.resetForm();
     } catch (error) {
-      console.log(error);
+      const axiosError = error as AxiosError<ErrorResponse>;
+
+      if (axiosError.response?.status === 400) {
+        showMessage.error(axiosError.response.data.message && errorText(axiosError.response.data.message));
+      }
     } finally {
       setIsLoading(false);
     }

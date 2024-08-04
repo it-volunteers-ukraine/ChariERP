@@ -8,6 +8,10 @@ export interface LocalizationProps {
   params: { locale: Locale };
 }
 
+export interface ErrorResponse {
+  message: string;
+}
+
 export interface IUseWidowWidthProps {
   width: number;
   isMobile: boolean;
@@ -28,4 +32,15 @@ export enum Roles {
 export enum TableSortDirection {
   Ascending = 'ascending',
   Descending = 'descending',
+}
+
+export enum RequestOrganizationStatus {
+  APPROVED = 'approved',
+  DECLINED = 'declined',
+  PENDING = 'pending',
+}
+
+export enum UserStatus {
+  ACTIVE = 'active',
+  BLOCKED = 'blocked',
 }

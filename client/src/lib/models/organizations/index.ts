@@ -1,3 +1,4 @@
+import { RequestOrganizationStatus } from '@/types';
 import { Schema, model, models } from 'mongoose';
 
 interface IOrganizationData {
@@ -21,15 +22,17 @@ interface IMediaData {
   social: string[];
 }
 
-interface IOrganization {
+interface IOrganizations {
   _id?: Schema.Types.ObjectId;
+  request: RequestOrganizationStatus;
   organizationData: IOrganizationData;
   contactData: IContactData;
   mediaData: IMediaData;
+  users: Schema.Types.ObjectId[];
 }
 
-const organizationSchema = new Schema<IOrganization>({
-  _id: { type: Schema.Types.ObjectId },
+const organizationsSchema = new Schema<IOrganizations>({
+  request: { type: String, enum: Object.values(RequestOrganizationStatus), required: true },
   organizationData: {
     organizationName: { type: String, unique: true, required: true },
     edrpou: { type: Number, unique: true, required: true },
@@ -41,13 +44,19 @@ const organizationSchema = new Schema<IOrganization>({
     lastName: { type: String, required: true },
     firstName: { type: String, required: true },
     middleName: { type: String, required: true },
-    phone: { type: Number, unique: true, required: true },
+    phone: { type: String, unique: true, required: true },
     email: String,
   },
   mediaData: {
     site: { type: String },
     social: [String],
   },
+  users: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Users',
+    },
+  ],
 });
 
-export default models.Organization || model('Organization', organizationSchema);
+export default models.Organizations || model('Organizations', organizationsSchema);

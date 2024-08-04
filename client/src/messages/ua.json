@@ -9,7 +9,8 @@
       "email": "Електронна пошта",
       "password": "Пароль",
       "button": "Увійти"
-    }
+    },
+    "createOrganization": "Організація створена"
   },
   "sidebar": {
     "requests": "Заявки",
@@ -140,7 +141,8 @@
   "errors": {
     "login": {
       "userIncorrect": "Неправильний email або пароль",
-      "userNotFound": "Користувача не знайдено"
+      "userNotFound": "E-mail або пароль некоректний",
+      "companyAlreadyRegistered": "Компанія вже зареєстрована"
     }
   },
   "loader": {

@@ -9,7 +9,8 @@
       "email": "Email",
       "password": "Password",
       "button": "Sign In"
-    }
+    },
+    "createOrganization": "The organization was created"
   },
   "sidebar": {
     "requests": "Requests",
@@ -144,7 +145,8 @@
   "errors": {
     "login": {
       "userIncorrect": "Incorrect email or password",
-      "userNotFound": "User not found"
+      "userNotFound": "User not found",
+      "companyAlreadyRegistered": "The company is already registered"
     }
   },
   "loader": {

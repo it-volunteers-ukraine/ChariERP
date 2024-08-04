@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
-import { User, connectDB, Admin } from '@/lib';
+import { Users, connectDB, Admin } from '@/lib';
 
 export async function GET() {
   const cookieStore = cookies();
@@ -16,7 +16,7 @@ export async function GET() {
       return NextResponse.json(admin);
     }
 
-    const user = await User.findById(id?.value);
+    const user = await Users.findById(id?.value);
 
     if (user) {
       return NextResponse.json(user);

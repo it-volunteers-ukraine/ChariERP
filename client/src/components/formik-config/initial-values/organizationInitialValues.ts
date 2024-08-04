@@ -2,11 +2,11 @@ import { OrganizationFormValues } from '../types';
 
 export const organizationInitialValues = (data?: OrganizationFormValues) => ({
   site: data?.site ?? '',
-  agree: data?.agree ?? '',
+  agree: data?.agree ?? false,
   email: data?.email ?? '',
   phone: data?.phone ?? '',
   edrpou: data?.edrpou ?? '',
-  social: data?.social ?? [],
+  social: data?.social ?? [''],
   lastName: data?.lastName ?? '',
   position: data?.position ?? '',
   firstName: data?.firstName ?? '',

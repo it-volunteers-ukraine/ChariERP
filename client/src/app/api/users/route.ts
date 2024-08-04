@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt';
 import { NextResponse } from 'next/server';
 
-import { Admin, User, connectDB } from '@/lib';
+import { Admin, Users, connectDB } from '@/lib';
 
 export async function GET() {
   try {
     await connectDB();
-    const users = await User.find();
+    const users = await Users.find();
 
     return NextResponse.json(users, {
       status: 200,
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     await connectDB();
     const body = await request.json();
 
-    const user = await User.findOne({ email: body.email });
+    const user = await Users.findOne({ email: body.email });
     const admin = await Admin.findOne({ email: body.email });
 
     if (user || admin) {
