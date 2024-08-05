@@ -9,6 +9,7 @@ export async function GET(request: Request) {
     await connectDB();
 
     const { searchParams } = new URL(request.url);
+    const populate = searchParams.get('populate');
     const page = parseInt(searchParams.get('page') || '1', 10);
     const limit = parseInt(searchParams.get('limit') || '10', 10);
 
@@ -16,6 +17,8 @@ export async function GET(request: Request) {
       Organizations,
       page,
       limit,
+      {},
+      populate,
     );
 
     return NextResponse.json(

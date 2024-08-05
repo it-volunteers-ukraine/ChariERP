@@ -34,3 +34,22 @@ export const getDeclinedOrganizations = async (page: number, limit?: number) => 
 
   return { organizations: modifiedData, totalPages: data.totalPages };
 };
+
+export const getApprovedOrganizations = async (page: number, limit?: number) => {
+  const data = await instance
+    .get<PaginationResult<IOrganizations>>('/organizations', { params: { page, limit, populate: 'users' } })
+    .then(({ data }) => data);
+
+  const filteredData = data.results.filter((item) => item.request === RequestOrganizationStatus.APPROVED);
+
+  const modifiedData = filteredData.map((item) => ({
+    id: item._id!.toString(),
+    organizationName: item.organizationData.organizationName,
+    EDRPOU: item.organizationData.edrpou,
+    dateOfRegistration: item.organizationData.dateOfRegistration,
+    email: item.contactData.email,
+    users: item.users.length,
+  }));
+
+  return { organizations: modifiedData, totalPages: data.totalPages };
+};

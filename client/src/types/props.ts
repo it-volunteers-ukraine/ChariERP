@@ -11,8 +11,16 @@ export interface IOrganization {
   organizationName: string;
 }
 
+export interface IOrganizationPageProps extends Omit<IOrganization, 'certificate'> {
+  users: number;
+}
+
 export interface RowItemProps {
   isLaptop: boolean;
   path: string | null;
   item: IOrganization;
+}
+
+export interface RowItemOrgProps {
+  item: IOrganizationPageProps;
 }

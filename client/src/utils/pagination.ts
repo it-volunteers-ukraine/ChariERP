@@ -1,24 +1,24 @@
 import { Model, Document } from 'mongoose';
 
-interface PaginationResult<T> {
-  results: T[];
-  totalPages: number;
-  currentPage: number;
-  totalItems: number;
-}
+import { PaginationResult } from '@/types';
 
 export async function getPaginate<T extends Document>(
   model: Model<T>,
-  page = 1,
-  limit = 10,
+  page: number,
+  limit: number,
   filter = {},
+  populate: string | null,
 ): Promise<PaginationResult<T>> {
   const skip = (page - 1) * limit;
 
-  const results = await model.find(filter).limit(limit).skip(skip).exec();
+  let query = model.find(filter).limit(limit).skip(skip);
 
+  if (populate) {
+    query = query.populate(populate);
+  }
+
+  const results = await query.exec();
   const count = await model.countDocuments(filter);
-
   const totalPages = Math.ceil(count / limit);
 
   return {

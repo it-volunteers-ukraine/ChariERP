@@ -2,7 +2,7 @@
 
 import { Field, FieldProps } from 'formik';
 
-import { Error } from '@/utils';
+import { controlError } from '@/utils';
 
 import { Input } from '../input';
 import { FileInputProps, InputOnChangeEventType } from '../input/types';
@@ -11,7 +11,7 @@ export const FileField = ({ name, label, ...props }: FileInputProps) => {
   return (
     <Field name={name}>
       {({ meta, form, field: { value, ...fieldProps } }: FieldProps) => {
-        const error = Error.controlError(meta, name, label);
+        const error = controlError(meta, name, label);
 
         const onChange = async (files: InputOnChangeEventType) => {
           if (typeof files === 'string') {
