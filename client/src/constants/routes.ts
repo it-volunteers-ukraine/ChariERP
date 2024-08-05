@@ -8,5 +8,6 @@ export const routes = {
   requests: '/admin/requests',
   declined: '/admin/declined',
   aboutService: '/about_service',
+  employees: '/manager/employees',
   organizations: '/admin/organizations',
 };

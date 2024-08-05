@@ -87,13 +87,13 @@ body {
 }
 
 .scroll-blue::-webkit-scrollbar {
-  @apply w-1;
+  @apply w-[12px] bg-superBlue;
 }
 
 .scroll-blue::-webkit-scrollbar-track {
-  @apply w-1;
+  @apply w-[7px];
 }
 
 .scroll-blue::-webkit-scrollbar-thumb {
-  @apply cursor-pointer bg-lightBlue w-1 rounded-sm;
+  @apply cursor-pointer bg-lightBlue w-[7px] rounded-[100px];
 }

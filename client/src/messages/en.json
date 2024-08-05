@@ -81,6 +81,9 @@
     "checkbox": {
       "privacyPolicy": "Privacy Policy",
       "information": "I agree to the processing of personal data in accordance with the"
+    },
+    "placeholder": {
+      "search": "Search"
     }
   },
   "table": {
@@ -165,5 +168,14 @@
     "sorry": "Sorry,",
     "notFound": "Page not found",
     "backToMain": "back to the main page"
+  },
+  "employeesPage": {
+    "btnAdd": "+ add user"
+  },
+  "employeeCard": {
+    "statusText": "Status",
+    "lastSession": "Last session",
+    "active": "Active",
+    "blocked": "Blocked"
   }
 }
