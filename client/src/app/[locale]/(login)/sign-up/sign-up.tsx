@@ -12,10 +12,10 @@ import {
   DateField,
   FileField,
   InputField,
-  showMessage,
   OrganizationFormValues,
   organizationInitialValues,
   organizationValidation,
+  showMessage,
   SmallBtn,
   Title,
 } from '@/components';
@@ -47,7 +47,7 @@ const SignUp = () => {
       certificateOfRegister as File,
     );
 
-    formData.append(`certificateOfRegister`, uploadedFileUrl!);
+    formData.append(`certificate`, uploadedFileUrl!);
 
     Object.entries(values).forEach(([key, value]) => {
       if (Array.isArray(value)) {
