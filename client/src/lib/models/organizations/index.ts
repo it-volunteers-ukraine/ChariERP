@@ -1,35 +1,6 @@
-import { RequestOrganizationStatus } from '@/types';
 import { Schema, model, models } from 'mongoose';
 
-interface IOrganizationData {
-  edrpou: number;
-  certificate: string;
-  organizationName: string;
-  dateOfRegistration: number;
-}
-
-interface IContactData {
-  phone: string;
-  email: string;
-  position: string;
-  lastName: string;
-  firstName: string;
-  middleName: string;
-}
-
-interface IMediaData {
-  site: string;
-  social: string[];
-}
-
-interface IOrganizations {
-  mediaData: IMediaData;
-  contactData: IContactData;
-  _id?: Schema.Types.ObjectId;
-  users: Schema.Types.ObjectId[];
-  request: RequestOrganizationStatus;
-  organizationData: IOrganizationData;
-}
+import { IOrganizations, RequestOrganizationStatus } from '@/types';
 
 const organizationsSchema = new Schema<IOrganizations>({
   request: { type: String, enum: Object.values(RequestOrganizationStatus), required: true },
@@ -59,4 +30,4 @@ const organizationsSchema = new Schema<IOrganizations>({
   ],
 });
 
-export default models.Organizations || model('Organizations', organizationsSchema);
+export default models.Organizations || model<IOrganizations>('Organizations', organizationsSchema);

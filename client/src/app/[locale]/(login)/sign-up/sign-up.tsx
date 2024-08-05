@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikHelpers, FormikValues } from 'formik';
 
+import { ErrorResponse } from '@/types';
+import { createOrganization } from '@/api';
 import {
   Title,
   Button,
@@ -19,7 +21,6 @@ import {
   OrganizationFormValues,
   organizationInitialValues,
 } from '@/components';
-import { ErrorResponse } from '@/types';
 
 import { getStyles } from './styles';
 
@@ -51,11 +52,7 @@ const SignUp = () => {
     });
 
     try {
-      await axios.post('/api/organizations', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      await createOrganization(formData);
 
       showMessage.success(create('createOrganization'));
       handleFormik.resetForm();
@@ -63,7 +60,7 @@ const SignUp = () => {
       const axiosError = error as AxiosError<ErrorResponse>;
 
       if (axiosError.response?.status === 400) {
-        showMessage.error(axiosError.response.data.message && errorText(axiosError.response.data.message));
+        showMessage.error(errorText(axiosError.response.data.message));
       }
     } finally {
       setIsLoading(false);

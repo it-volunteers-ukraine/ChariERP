@@ -21,6 +21,10 @@ export const Pagination = ({
     [`${className}`]: !!className,
   });
 
+  if (total < 2) {
+    return null;
+  }
+
   return (
     <div className={wrapper}>
       <RcPagination
