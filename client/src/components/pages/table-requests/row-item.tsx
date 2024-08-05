@@ -1,9 +1,13 @@
 'use client';
-import { MouseEvent, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
-import { Formik, FormikValues } from 'formik';
 
+import { MouseEvent, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { format, parseISO } from 'date-fns';
+import { Formik, FormikValues } from 'formik';
+import { useLocale, useTranslations } from 'next-intl';
+
+import { routes } from '@/constants';
+import { RowItemProps } from '@/types';
 import { Copy, Doc } from '@/assets/icons';
 import {
   Button,
@@ -13,22 +17,9 @@ import {
   organizationValidation,
   organizationInitialValues,
 } from '@/components';
-import { routes } from '@/constants';
-
-interface RowItemProps {
-  isLaptop: boolean;
-  path: string | null;
-  item: {
-    id: string;
-    doc: string;
-    date: string;
-    email: string;
-    EDRPOU: number;
-    organizationName: string;
-  };
-}
 
 export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
+  const locale = useLocale();
   const router = useRouter();
   const btn = useTranslations('button');
   const modal = useTranslations('modal');
@@ -70,6 +61,11 @@ export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
     showMessage.success('Copied to clipboard', { autoClose: 500 });
   };
 
+  const dateFormat: Record<string, string> = {
+    ua: 'dd.MM.yyyy',
+    en: 'MM.dd.yyyy',
+  };
+
   return (
     <>
       <div
@@ -103,8 +99,8 @@ export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
         <div className="flex items-center justify-end laptop:justify-center mt-8 laptop:mt-0">
           <a
             download
-            href={item.doc}
             target="_blank"
+            href={item.certificate}
             onClick={(e) => e.stopPropagation()}
             className="flex items-center justify-center"
           >
@@ -113,7 +109,7 @@ export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
         </div>
 
         <div className="mt-6 laptop:mt-0 text-lg leading-[22px] font-robotoCondensed laptop:text-center">
-          {item.date}
+          {format(parseISO(item.dateOfRegistration.toString()), dateFormat[locale])}
         </div>
 
         <div

@@ -1,107 +1,34 @@
 import { NextResponse } from 'next/server';
 
+import { getPaginate } from '@/utils';
+import { IOrganizations } from '@/types';
 import { connectDB, Organizations } from '@/lib';
-import { RequestOrganizationStatus } from '@/types';
 
-interface OrganizationsFormValues {
-  site: string;
-  email: string;
-  phone: string;
-  edrpou: string;
-  lastName: string;
-  social: string[];
-  position: string;
-  firstName: string;
-  middleName: string;
-  certificate: string;
-  organizationName: string;
-  dateOfRegistration: Date;
-}
-
-export async function GET() {
+export async function GET(request: Request) {
   try {
     await connectDB();
-    const organizations = await Organizations.find();
 
-    return NextResponse.json(organizations, {
-      status: 200,
-    });
-  } catch (error) {
-    console.log(error);
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '10', 10);
 
-    return NextResponse.json(error, { status: 500 });
-  }
-}
+    const { results, totalPages, currentPage, totalItems } = await getPaginate<IOrganizations>(
+      Organizations,
+      page,
+      limit,
+    );
 
-export async function POST(request: Request) {
-  try {
-    await connectDB();
-    const formData = await request.formData();
-    const formBody: Partial<OrganizationsFormValues> = {};
-
-    formBody.site = formData.get('site') as string;
-    formBody.email = formData.get('email') as string;
-    formBody.phone = formData.get('phone') as string;
-    formBody.edrpou = formData.get('edrpou') as string;
-    formBody.lastName = formData.get('lastName') as string;
-    formBody.position = formData.get('position') as string;
-    formBody.firstName = formData.get('firstName') as string;
-    formBody.middleName = formData.get('middleName') as string;
-    formBody.organizationName = formData.get('organizationName') as string;
-    formBody.dateOfRegistration = new Date(formData.get('dateOfRegistration') as string);
-
-    const certificate = formData.get('certificate');
-
-    if (certificate && certificate instanceof File) {
-      formBody.certificate = certificate.name;
-    }
-
-    formData.forEach((value, key) => {
-      if (key.includes('social')) {
-        if (!formBody.social) {
-          formBody.social = [];
-        }
-        formBody.social.push(value as string);
-      }
-    });
-
-    const body = {
-      request: RequestOrganizationStatus.PENDING,
-      organizationData: {
-        edrpou: formBody.edrpou,
-        certificate: formBody.certificate,
-        organizationName: formBody.organizationName,
-        dateOfRegistration: formBody.dateOfRegistration,
+    return NextResponse.json(
+      {
+        results,
+        totalPages,
+        totalItems,
+        currentPage,
       },
-      contactData: {
-        phone: formBody.phone,
-        email: formBody.email,
-        position: formBody.position,
-        lastName: formBody.lastName,
-        firstName: formBody.firstName,
-        middleName: formBody.middleName,
+      {
+        status: 200,
       },
-      mediaData: {
-        site: formBody.site,
-        social: formBody.social,
-      },
-    };
-
-    const organizations = await Organizations.findOne({
-      $or: [
-        { 'organizationData.edrpou': formBody.edrpou },
-        { 'organizationData.organizationName': formBody.organizationName },
-      ],
-    });
-
-    if (organizations) {
-      return NextResponse.json({ message: 'companyAlreadyRegistered' }, { status: 400 });
-    }
-
-    const newOrganization = new Organizations(body);
-    const response = await newOrganization.save();
-
-    return NextResponse.json(response, { status: 201 });
+    );
   } catch (error) {
     console.log(error);
 
