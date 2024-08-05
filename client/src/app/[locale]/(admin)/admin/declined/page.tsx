@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'Declined',
   description: 'Declined page',
 };
+
 const Declined = () => {
   return <DeclinedPage />;
 };

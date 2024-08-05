@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'Requests',
   description: 'Requests page',
 };
+
 const Requests = () => {
   return <RequestsPage />;
 };
