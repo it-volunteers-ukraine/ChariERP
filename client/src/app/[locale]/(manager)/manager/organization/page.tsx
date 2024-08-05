@@ -121,8 +121,8 @@ const Organization = () => {
                   maxSize={5}
                   placeholderItalic
                   name="certificateOfRegister"
+                  wrapperClass="!laptop:gap-12"
                   accept={'pdf, jpg, jpeg, png'}
-                  wrapperClass="laptop:gap-12"
                   label={text('certificateOfRegister.label')}
                   placeholder={text('certificateOfRegister.downloadDoc')}
                   info={
