@@ -192,9 +192,9 @@ const Organization = () => {
                   name="socialNetworks"
                   render={({ push, remove }) => (
                     <>
-                      {values.socialNetworks.map((_, index) => {
-                        const isRightLength = values.socialNetworks.length < 5;
-                        const isLastIndex = index === values.socialNetworks.length - 1;
+                      {values.social.map((_, index) => {
+                        const isRightLength = values.social.length < 5;
+                        const isLastIndex = index === values.social.length - 1;
 
                         return (
                           <div key={index}>

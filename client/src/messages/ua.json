@@ -9,7 +9,8 @@
       "email": "Електронна пошта",
       "password": "Пароль",
       "button": "Увійти"
-    }
+    },
+    "createOrganization": "Організація створена"
   },
   "sidebar": {
     "requests": "Заявки",
@@ -80,6 +81,9 @@
     "checkbox": {
       "privacyPolicy": "Політикою конфіденційності",
       "information": "Я погоджуюсь на обробку персональних даних згідно з"
+    },
+    "placeholder": {
+      "search": "Пошук"
     }
   },
   "table": {
@@ -133,11 +137,11 @@
     "required": "Обов'язкове поле",
     "matches_english": "Поле не повинно містити кириличні символи",
     "taxNumber": "Податковий номер повинен містити рівно 8 арабських цифр.",
-    "extensionsFile": "Невірний формат файлу. Доступні формати: jpg, jpeg, png або pdf",
-    "maxSizeFile": "Розмір файлу перевищує 5МБ",
     "notValidPhone": "Неправильно набраний номер",
     "notValidEmail": "Неправильна адреса електронної пошти",
-    "siteStart": "Поле введення має починатися з https://..."
+    "siteStart": "Поле введення має починатися з https://...",
+    "extensionsFile": "Невірний формат файлу. Доступні формати: {extensions}",
+    "maxSizeFile": "Розмір файлу перевищує {maxSize}МБ"
   },
   "header": {
     "about": "Про нас",
@@ -146,9 +150,10 @@
     "faq": "Поширені питання"
   },
   "errors": {
-    "file": {
-      "extensions": "Невірний формат файлу. Доступні формати:",
-      "maxSize": "Розмір файлу перевищує "
+    "login": {
+      "userIncorrect": "Неправильний email або пароль",
+      "userNotFound": "E-mail або пароль некоректний",
+      "companyAlreadyRegistered": "Компанія вже зареєстрована"
     }
   },
   "loader": {
@@ -159,5 +164,14 @@
     "sorry": "Вибачте,",
     "notFound": "Сторінку не знайдено",
     "backToMain": "повернутися на головну"
+  },
+  "employeesPage": {
+    "btnAdd": "+ Додати користувача"
+  },
+  "employeeCard": {
+    "statusText": "Статус",
+    "lastSession": "Останній вхід",
+    "active": "Активований",
+    "blocked": "Заблокований"
   }
 }

@@ -56,6 +56,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
 
     const handleClearInput = (e: React.MouseEvent) => {
       e.preventDefault();
+
       onChange && onChange('');
     };
 
@@ -119,10 +120,9 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
               <>
                 <input
                   type="file"
-                  onChange={onChange}
-                  accept={props.accept}
                   className={styles.fileType}
                   ref={ref as React.Ref<HTMLInputElement>}
+                  onChange={(e) => onChange && onChange(e.target.files)}
                   {...props}
                 />
 
