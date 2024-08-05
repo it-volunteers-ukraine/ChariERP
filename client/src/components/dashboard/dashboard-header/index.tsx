@@ -18,7 +18,7 @@ export const DashboardHeader = () => {
   };
 
   return (
-    <header className="w-full bg-boardHeader px-[32px] desktopXl:px-0">
+    <header className="w-full bg-whiteSecond px-[32px] desktopXl:px-0">
       <div className="h-[96px] desktopXl:mx-8 flex items-center justify-between ">
         <span className="font-scada text-lightBlue text-[20px] font-normal">Main Page</span>
 
