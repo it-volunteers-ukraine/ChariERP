@@ -80,6 +80,9 @@
     "checkbox": {
       "privacyPolicy": "Політикою конфіденційності",
       "information": "Я погоджуюсь на обробку персональних даних згідно з"
+    },
+    "placeholder": {
+      "search": "Пошук"
     }
   },
   "table": {
@@ -159,5 +162,14 @@
     "sorry": "Вибачте,",
     "notFound": "Сторінку не знайдено",
     "backToMain": "повернутися на головну"
+  },
+  "employeesPage": {
+    "btnAdd": "+ Додати користувача"
+  },
+  "employeeCard": {
+    "statusText": "Статус",
+    "lastSession": "Останній вхід",
+    "statusActive": "Активований",
+    "statusBlocked": "Заблокований"
   }
 }

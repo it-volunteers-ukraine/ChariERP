@@ -1,12 +1,14 @@
 'use client';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
-import { AvatarEmployee } from '../avatar-employee';
+import { routes } from '@/constants';
 
 import { Info } from './info';
 import { getStyles } from './styles';
 import { JobTitle } from './job-title';
 import { IEmployeeCardProps } from './types';
+import { AvatarEmployee } from '../avatar-employee';
 
 export const EmployeeCard = ({
   id,
@@ -20,11 +22,12 @@ export const EmployeeCard = ({
   patronymic,
   lastSession,
 }: IEmployeeCardProps) => {
-  const styles = getStyles({ className });
   const router = useRouter();
+  const cardTranslate = useTranslations('employeeCard');
+  const styles = getStyles({ className });
 
   return (
-    <div className={styles.wrapper} onClick={() => router.push(`/employee/${id}`)}>
+    <div className={styles.wrapper} onClick={() => router.push(`${routes.employees}/${id}`)}>
       <div className="flex gap-4 items-start">
         <AvatarEmployee src={src} name={name} surname={surname} />
 
@@ -39,8 +42,8 @@ export const EmployeeCard = ({
 
       <div className="w-full flex flex-col">
         <Info label="Email" data={email} />
-        <Info label="Status" data={status} status={status} />
-        <Info label="Last session" data={lastSession} />
+        <Info label={cardTranslate('statusText')} data={status} status={status} />
+        <Info label={cardTranslate('lastSession')} data={lastSession} />
       </div>
     </div>
   );

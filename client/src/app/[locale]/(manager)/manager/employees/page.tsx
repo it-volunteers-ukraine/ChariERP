@@ -1,5 +1,7 @@
 import EmployeesFunctionalPage from './emloyeePage';
 
-export default function EmployeesPage() {
+function EmployeesPage() {
   return <EmployeesFunctionalPage />;
 }
+
+export default EmployeesPage;

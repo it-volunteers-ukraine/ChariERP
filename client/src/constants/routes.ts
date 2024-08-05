@@ -9,4 +9,5 @@ export const routes = {
   declined: '/admin/declined',
   aboutService: '/about_service',
   organizations: '/admin/organizations',
+  employees: '/manager/employees',
 };
