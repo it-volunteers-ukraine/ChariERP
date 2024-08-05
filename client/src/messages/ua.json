@@ -9,7 +9,8 @@
       "email": "Електронна пошта",
       "password": "Пароль",
       "button": "Увійти"
-    }
+    },
+    "createOrganization": "Організація створена"
   },
   "sidebar": {
     "requests": "Заявки",
@@ -136,11 +137,11 @@
     "required": "Обов'язкове поле",
     "matches_english": "Поле не повинно містити кириличні символи",
     "taxNumber": "Податковий номер повинен містити рівно 8 арабських цифр.",
-    "extensionsFile": "Невірний формат файлу. Доступні формати: jpg, jpeg, png або pdf",
-    "maxSizeFile": "Розмір файлу перевищує 5МБ",
     "notValidPhone": "Неправильно набраний номер",
     "notValidEmail": "Неправильна адреса електронної пошти",
-    "siteStart": "Поле введення має починатися з https://..."
+    "siteStart": "Поле введення має починатися з https://...",
+    "extensionsFile": "Невірний формат файлу. Доступні формати: {extensions}",
+    "maxSizeFile": "Розмір файлу перевищує {maxSize}МБ"
   },
   "header": {
     "about": "Про нас",
@@ -149,9 +150,10 @@
     "faq": "Поширені питання"
   },
   "errors": {
-    "file": {
-      "extensions": "Невірний формат файлу. Доступні формати:",
-      "maxSize": "Розмір файлу перевищує "
+    "login": {
+      "userIncorrect": "Неправильний email або пароль",
+      "userNotFound": "E-mail або пароль некоректний",
+      "companyAlreadyRegistered": "Компанія вже зареєстрована"
     }
   },
   "loader": {
@@ -169,7 +171,7 @@
   "employeeCard": {
     "statusText": "Статус",
     "lastSession": "Останній вхід",
-    "statusActive": "Активований",
-    "statusBlocked": "Заблокований"
+    "active": "Активований",
+    "blocked": "Заблокований"
   }
 }

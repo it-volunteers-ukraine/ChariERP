@@ -1,4 +1,3 @@
-'use client';
 export const JobTitle = ({ jobTitle }: { jobTitle?: string }) => {
   if (!jobTitle) return null;
 

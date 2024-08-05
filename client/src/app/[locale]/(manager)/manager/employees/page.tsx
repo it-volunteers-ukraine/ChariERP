@@ -1,7 +1,14 @@
-import EmployeesFunctionalPage from './emloyeePage';
+import { Metadata } from 'next';
 
-function EmployeesPage() {
-  return <EmployeesFunctionalPage />;
+import { EmployeesPage } from './employee-page';
+
+export const metadata: Metadata = {
+  title: 'Employees',
+  description: 'Employees page',
+};
+
+function Employees() {
+  return <EmployeesPage />;
 }
 
-export default EmployeesPage;
+export default Employees;

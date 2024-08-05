@@ -1,8 +1,7 @@
 import { useLayoutEffect, useState } from 'react';
 
 import { media } from '@/constants';
-
-import { IUseWidowWidthProps } from './types';
+import { IUseWidowWidthProps } from '@/types';
 
 export function useWindowWidth(): IUseWidowWidthProps {
   const [width, setWidth] = useState<number>(0);

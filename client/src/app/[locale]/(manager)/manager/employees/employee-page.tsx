@@ -8,11 +8,12 @@ import { useWindowWidth } from '@/hooks';
 import { employeeCardArray } from '@/mock';
 import { Button, EmployeeCard, Input, LoaderPage, Pagination } from '@/components';
 
-function EmployeesFunctionalPage() {
+function EmployeesPage() {
+  const t = useTranslations();
+
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const { width } = useWindowWidth();
-  const t = useTranslations();
 
   const loadData = () => {
     setIsLoading(true);
@@ -75,4 +76,4 @@ function EmployeesFunctionalPage() {
   );
 }
 
-export default EmployeesFunctionalPage;
+export { EmployeesPage };

@@ -1,16 +1,14 @@
-export enum Status {
-  Active = 'Active',
-  Blocked = 'Blocked',
-}
+import { UserStatus } from '@/types';
+
 export interface IEmployeeCardProps {
   id: string;
   src?: string;
   name: string;
   email: string;
-  status: Status;
   surname: string;
   jobTitle?: string;
   patronymic: string;
   className?: string;
+  status: UserStatus;
   lastSession: string;
 }

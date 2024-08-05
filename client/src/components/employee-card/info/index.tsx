@@ -9,7 +9,7 @@ export const Info = ({ label, data, status }: IInfoProps) => {
   const styles = getStyles({ status });
   const cardTranslate = useTranslations('employeeCard');
 
-  const statusText = status ? cardTranslate(`status${status}`) : undefined;
+  const statusText = status ? cardTranslate(status) : undefined;
 
   return (
     <div className="flex gap-2">
