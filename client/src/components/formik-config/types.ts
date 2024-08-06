@@ -4,6 +4,7 @@ export interface OrganizationFormValues {
   phone: string;
   agree: boolean;
   edrpou: string;
+  search: string;
   lastName: string;
   social: string[];
   position: string;

@@ -5,6 +5,7 @@ export const organizationInitialValues = (data?: OrganizationFormValues) => ({
   email: data?.email ?? '',
   phone: data?.phone ?? '',
   edrpou: data?.edrpou ?? '',
+  search: data?.search ?? '',
   agree: data?.agree ?? false,
   social: data?.social ?? [''],
   lastName: data?.lastName ?? '',

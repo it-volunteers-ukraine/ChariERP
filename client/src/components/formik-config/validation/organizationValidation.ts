@@ -24,6 +24,22 @@ export const organizationValidation = (error: (key: string, params?: Translation
       .test('fileType', error('extensionsFile', { extensions: '(jpg, jpeg, png, pdf)' }), (value) => {
         return value && ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'].includes(value.type);
       }),
+    avatar: Yup.mixed<File>()
+      .notRequired()
+      .test('fileSize', error('maxSizeFile', { maxSize: `${maxSize}` }), (value) => {
+        if (value) {
+          return value.size <= 1024 * 1024 * maxSize;
+        }
+
+        return true;
+      })
+      .test('fileType', error('extensionsFile', { extensions: '(jpg, jpeg, png, pdf)' }), (value) => {
+        if (value) {
+          return ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'].includes(value.type);
+        }
+
+        return true;
+      }),
     dateOfRegistration: Yup.string().required(error('required')),
     position: Yup.string()
       .trim()

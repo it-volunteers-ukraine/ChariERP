@@ -19,5 +19,5 @@ export const getStyles = (opened: boolean) => ({
       'animate-modalClose': !opened,
     },
   ),
-  svg: 'absolute top-[10px] right-[10px] transition-transform duration-300 hover:scale-110 cursor-pointer',
+  svg: 'absolute top-[10px] right-[10px] text-input-infoDefault transition-transform duration-300 hover:scale-110 cursor-pointer',
 });

@@ -34,7 +34,7 @@ const SignUp = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const validationSchema = organizationValidation(error);
+  const validationSchema = organizationValidation(error).omit(['avatar']);
 
   const onSubmit = async (values: FormikValues, handleFormik: FormikHelpers<OrganizationFormValues>) => {
     setIsLoading(true);
