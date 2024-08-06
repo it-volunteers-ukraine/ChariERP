@@ -9,7 +9,6 @@ import { ChangeEvent } from 'react';
 interface AvatarUploaderProps {
   name: string;
   error?: string;
-  accept?: string;
   lastName?: string;
   isSubmit?: boolean;
   firstName?: string;
@@ -23,7 +22,6 @@ export const AvatarUploader = ({
   name,
   info,
   error,
-  accept,
   onChange,
   lastName,
   isSubmit,
@@ -50,7 +48,7 @@ export const AvatarUploader = ({
           <label className="cursor-pointer">
             <Camera width={iconSize} height={iconSize} />
 
-            <input name={name} type="file" accept={accept} onChange={onChange} className="hidden" />
+            <input name={name} type="file" onChange={onChange} className="hidden" />
           </label>
 
           {avatarUrl && (

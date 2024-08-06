@@ -1,27 +1,16 @@
 'use client';
 import { ChangeEvent } from 'react';
 import { Field, FieldProps } from 'formik';
-import { useTranslations } from 'next-intl';
 
 import { AvatarFieldProps } from './types';
 import { AvatarUploader } from '../avatar-uploader';
 
-export const AvatarField = ({
-  name,
-  info,
-  accept,
-  maxSize,
-  isSubmit,
-  lastName,
-  firstName,
-  initialAvatarUrl,
-}: AvatarFieldProps) => {
-  const errors = useTranslations('errors.file');
-
+export const AvatarField = ({ name, info, isSubmit, lastName, firstName, initialAvatarUrl }: AvatarFieldProps) => {
   return (
     <Field name={name}>
       {({ meta, form, field: { value } }: FieldProps) => {
         const error = (meta.touched && meta.error && meta.error) || '';
+        const previewUrl = value && URL.createObjectURL(value);
 
         if (initialAvatarUrl) {
           form.setFieldValue(name, initialAvatarUrl);
@@ -29,24 +18,11 @@ export const AvatarField = ({
 
         const onChange = async (e: ChangeEvent<HTMLInputElement>) => {
           const file = e.target.files?.[0];
-          const extension = file?.name.split('.').pop()?.toLowerCase();
-          const imageUrl = URL.createObjectURL(file as File);
 
-          if (accept && extension && !accept.includes(extension)) {
-            form.setFieldError(name, `${errors('extensions')} ${accept}`);
-            form.setFieldTouched(name, true, false);
-
-            return;
+          if (file) {
+            await form.setFieldValue(name, file);
+            form.setFieldTouched(name);
           }
-
-          if (maxSize && file && file.size / (1024 * 1024) > maxSize) {
-            form.setFieldError(name, `${errors('maxSize')} ${maxSize} MB`);
-            form.setFieldTouched(name, true, false);
-
-            return;
-          }
-
-          await form.setFieldValue(name, imageUrl);
         };
 
         const removeAvatar = async () => {
@@ -58,8 +34,7 @@ export const AvatarField = ({
             name={name}
             info={info}
             error={error}
-            accept={accept}
-            avatarUrl={value}
+            avatarUrl={previewUrl}
             lastName={lastName}
             isSubmit={isSubmit}
             onChange={onChange}

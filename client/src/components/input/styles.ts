@@ -29,7 +29,7 @@ export const getStyles = ({
   placeholderItalic,
 }: IStylesInput) => ({
   wrapper: clsx('relative items-baseline flex flex-col laptop:flex-row gap-1 laptop:gap-6 items-start w-full', {
-    [`${wrapperClass}`]: wrapperClass,
+    [`${wrapperClass}`]: !!wrapperClass,
   }),
   fieldset: clsx(
     'relative flex align-center pb-3 w-full overflow-hidden transition-all duration-300 border rounded group/item',

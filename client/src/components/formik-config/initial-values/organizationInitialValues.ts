@@ -1,18 +1,19 @@
 import { OrganizationFormValues } from '../types';
 
 export const organizationInitialValues = (data?: OrganizationFormValues) => ({
-  name: data?.name ?? '',
   site: data?.site ?? '',
   email: data?.email ?? '',
   phone: data?.phone ?? '',
-  agree: data?.agree ?? '',
+  edrpou: data?.edrpou ?? '',
+  search: data?.search ?? '',
+  agree: data?.agree ?? false,
+  social: data?.social ?? [''],
   lastName: data?.lastName ?? '',
+  position: data?.position ?? '',
+  firstName: data?.firstName ?? '',
   middleName: data?.middleName ?? '',
+  certificate: data?.certificate ?? '',
   declineReason: data?.declineReason ?? '',
-  socialNetworks: data?.socialNetworks ?? [''],
   organizationName: data?.organizationName ?? '',
-  positionOrganization: data?.positionOrganization ?? '',
-  organizationTaxNumber: data?.organizationTaxNumber ?? '',
-  certificateOfRegister: data?.certificateOfRegister ?? '',
-  dateOfRegisterOrganization: data?.dateOfRegisterOrganization ?? '',
+  dateOfRegistration: data?.dateOfRegistration ?? '',
 });

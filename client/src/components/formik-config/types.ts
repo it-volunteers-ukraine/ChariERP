@@ -1,19 +1,18 @@
 export interface OrganizationFormValues {
-  name: string;
   site: string;
   email: string;
   phone: string;
   agree: boolean;
+  edrpou: string;
+  search: string;
   lastName: string;
-  password: string;
+  social: string[];
+  position: string;
+  firstName: string;
   middleName: string;
-  avatar: File | null;
-  socialNetworks: string[];
   organizationName: string;
-  positionOrganization: string;
-  organizationTaxNumber: string;
-  certificateOfRegister: string;
-  dateOfRegisterOrganization: string;
+  certificate: File | string;
+  dateOfRegistration: string;
   declineReason:
     | string
     | {

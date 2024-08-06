@@ -1,6 +1,10 @@
 import { DetailedHTMLProps, InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
 
-export type InputOnChangeEventType = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string;
+export type InputOnChangeEventType =
+  | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  | string
+  | FileList
+  | null;
 
 interface CustomInput extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {}
 

@@ -1,4 +1,5 @@
 'use client';
+
 import { MouseEvent } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';

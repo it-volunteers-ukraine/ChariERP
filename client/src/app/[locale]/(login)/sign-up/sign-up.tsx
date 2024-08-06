@@ -1,19 +1,25 @@
 'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
+import axios, { AxiosError } from 'axios';
 import { useTranslations } from 'next-intl';
-import { FieldArray, Form, Formik, FormikValues } from 'formik';
+import { FieldArray, Form, Formik, FormikHelpers, FormikValues } from 'formik';
 
 import {
   Title,
-  SmallBtn,
   Button,
+  SmallBtn,
   DateField,
   FileField,
   InputField,
+  showMessage,
   CheckboxRadioField,
   organizationValidation,
+  OrganizationFormValues,
   organizationInitialValues,
 } from '@/components';
+import { ErrorResponse } from '@/types';
 
 import { getStyles } from './styles';
 
@@ -22,9 +28,46 @@ const SignUp = () => {
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
   const error = useTranslations('validation');
+  const create = useTranslations('auth-page');
+  const errorText = useTranslations('errors.login');
 
-  const onSubmit = (values: FormikValues) => {
-    console.log('data', values);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const validationSchema = organizationValidation(error).omit(['avatar']);
+
+  const onSubmit = async (values: FormikValues, handleFormik: FormikHelpers<OrganizationFormValues>) => {
+    setIsLoading(true);
+
+    const formData = new FormData();
+
+    Object.entries(values).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((item) => {
+          formData.append(`${key}[]`, item);
+        });
+      } else if (value !== undefined && value !== null && key !== 'agree' && key !== 'declineReason') {
+        formData.append(key, value);
+      }
+    });
+
+    try {
+      await axios.post('/api/organizations', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      showMessage.success(create('createOrganization'));
+      handleFormik.resetForm();
+    } catch (error) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+
+      if (axiosError.response?.status === 400) {
+        showMessage.error(axiosError.response.data.message && errorText(axiosError.response.data.message));
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -32,8 +75,8 @@ const SignUp = () => {
       validateOnBlur
       validateOnChange
       onSubmit={onSubmit}
+      validationSchema={validationSchema}
       initialValues={organizationInitialValues()}
-      validationSchema={organizationValidation((key, params) => error(key, params))}
     >
       {({ values }) => (
         <Form className="flex flex-col gap-12 tablet:gap-16 desktop:gap-18 w-full">
@@ -59,17 +102,15 @@ const SignUp = () => {
               <InputField
                 required
                 type="number"
-                name="organizationTaxNumber"
+                name="edrpou"
                 wrapperClass="laptop:max-w-[calc(50%-12px)]"
                 label={text('organizationTaxNumber.labelErdpouOfOrganization')}
               />
 
               <FileField
-                required
-                maxSize={5}
                 placeholderItalic
-                name="certificateOfRegister"
-                accept={'pdf, jpg, jpeg, png'}
+                name="certificate"
+                accept=".pdf, .jpg, .jpeg, .png"
                 label={text('certificateOfRegister.label')}
                 placeholder={text('certificateOfRegister.downloadDoc')}
                 info={
@@ -85,7 +126,7 @@ const SignUp = () => {
               <DateField
                 required
                 placeholderItalic
-                name="dateOfRegisterOrganization"
+                name="dateOfRegistration"
                 wrapperClass="laptop:max-w-[calc(50%-12px)]"
                 label={text('dateOfRegisterOrganization.label')}
                 placeholder={text('dateOfRegisterOrganization.chooseDate')}
@@ -102,7 +143,7 @@ const SignUp = () => {
             <div className="flex flex-col gap-8 tablet:gap-[42px]">
               <InputField
                 required
-                name="positionOrganization"
+                name="position"
                 label={text('positionOrganization.label')}
                 info={<span className={`${styles.spanStyles}`}>{text('positionOrganization.forExample')}</span>}
               />
@@ -116,7 +157,7 @@ const SignUp = () => {
 
               <InputField
                 required
-                name="name"
+                name="firstName"
                 label={text('name.label')}
                 wrapperClass="laptop:max-w-[calc(50%-12px)]"
               />
@@ -161,20 +202,20 @@ const SignUp = () => {
                 />
 
                 <FieldArray
-                  name="socialNetworks"
+                  name="social"
                   render={({ push, remove }) => (
                     <>
-                      {values.socialNetworks.map((_, index) => {
-                        const isRightLength = values.socialNetworks.length < 5;
-                        const isLastIndex = index === values.socialNetworks.length - 1;
-                        const isMoreThanOne = values.socialNetworks.length > 1;
+                      {values.social.map((_, index) => {
+                        const isRightLength = values.social.length < 5;
+                        const isLastIndex = index === values.social.length - 1;
+                        const isMoreThanOne = values.social.length > 1;
 
                         return (
                           <div key={index}>
                             <InputField
                               cross
+                              name={`social.${index}`}
                               key={`media-signUp-${index}`}
-                              name={`socialNetworks.${index}`}
                               label={text('socialNetworks.label')}
                               info={
                                 <div>
@@ -190,8 +231,8 @@ const SignUp = () => {
                                 {isRightLength && isLastIndex && (
                                   <SmallBtn
                                     type="add"
-                                    onClick={() => push('')}
                                     text={btn('addField')}
+                                    onClick={() => push('')}
                                     className="flex justify-start mt-3 !leading-4"
                                   />
                                 )}
@@ -200,8 +241,8 @@ const SignUp = () => {
                               {isMoreThanOne && (
                                 <SmallBtn
                                   type="delete"
-                                  onClick={() => remove(index)}
                                   text={btn('deleteField')}
+                                  onClick={() => remove(index)}
                                   className="flex justify-end mt-3 !leading-4"
                                 />
                               )}
@@ -224,7 +265,13 @@ const SignUp = () => {
             className="laptop:mx-auto !items-start laptop:!items-center"
           />
 
-          <Button type="submit" styleType="primary" className="uppercase m-auto" text={btn('submit')} />
+          <Button
+            type="submit"
+            styleType="primary"
+            text={btn('submit')}
+            isLoading={isLoading}
+            className="uppercase m-auto"
+          />
         </Form>
       )}
     </Formik>

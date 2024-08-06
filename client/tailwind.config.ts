@@ -36,6 +36,7 @@ const midGray = '#656575';
 const darkGray = '#49454F';
 const arcticSky = '#D0DDEC';
 const amethyst = '#A86CCC';
+const emeraldGreen = '#40BC6A';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -54,6 +55,7 @@ const config: Config = {
         dimGray,
         mobster,
         midGray,
+        emeraldGreen,
         superBlue,
         steelBlue,
         arcticSky,
@@ -61,6 +63,7 @@ const config: Config = {
         error,
         green,
         purple: amethyst,
+        greenNormal,
         title: {
           title: caret,
           media: Magnolia,
@@ -134,7 +137,6 @@ const config: Config = {
           hover: steelBlue,
           active: white,
         },
-        boardHeader: whiteSecond,
         overlay: '#687a95',
       },
       backgroundImage: {
@@ -154,6 +156,7 @@ const config: Config = {
         dashboard: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
         buttonAside: '0px 0px 3px 2px rgba(97, 182, 219, 0.4)',
         switcher: '0px 0px 4px 0px rgba(0, 0, 0, 0.16)',
+        employeeCard: ` 0px 0px 3px 1px #65657540`,
         innerBg: '0px 0px 10px 4px rgba(0, 0, 0, 0.05)',
       },
       backgroundSize: {
