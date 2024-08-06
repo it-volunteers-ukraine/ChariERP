@@ -1,3 +1,4 @@
-import { Locale } from '@/types';
-
-export const getPathname = (local: Locale, pathname: string) => `/${local}${pathname}`;
+export const dateFormat: Record<string, string> = {
+  ua: 'dd.MM.yyyy',
+  en: 'MM.dd.yyyy',
+};

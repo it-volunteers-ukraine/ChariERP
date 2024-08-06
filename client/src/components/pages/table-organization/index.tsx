@@ -1,29 +1,55 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { useSortableData } from '@/hooks';
-import { Input, Pagination } from '@/components';
+import { IOrganizationPageProps } from '@/types';
+import { getApprovedOrganizations } from '@/api';
 import { Calendar, Triangle, User } from '@/assets/icons';
+import { Input, LoaderPage, Pagination } from '@/components';
 
-import { data } from './mock';
 import { RowItem } from './row-item';
 import { getStyles } from './styles';
 
+const pageSize = 10;
+
 export const TableOrganization = () => {
   const table = useTranslations('table');
-  const { items, requestSort, sortConfig } = useSortableData(data);
 
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [organizations, setOrganizations] = useState<IOrganizationPageProps[]>([]);
+
+  const { items, requestSort, sortConfig } = useSortableData(organizations);
 
   const styles = getStyles({
-    date: sortConfig?.key === 'date' ? sortConfig?.direction : undefined,
-    user: sortConfig?.key === 'user' ? sortConfig?.direction : undefined,
+    date: sortConfig?.key === 'dateOfRegistration' ? sortConfig?.direction : undefined,
+    user: sortConfig?.key === 'users' ? sortConfig?.direction : undefined,
     email: sortConfig?.key === 'email' ? sortConfig?.direction : undefined,
     edrpou: sortConfig?.key === 'EDRPOU' ? sortConfig?.direction : undefined,
     organization: sortConfig?.key === 'organizationName' ? sortConfig?.direction : undefined,
   });
+
+  const getData = async (currentPage: number) => {
+    setIsLoading(true);
+
+    try {
+      const data = await getApprovedOrganizations(currentPage);
+
+      setOrganizations(data.organizations);
+      setTotalPages(data.totalPages);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getData(page);
+  }, [page]);
 
   return (
     <>
@@ -54,7 +80,7 @@ export const TableOrganization = () => {
             </div>
 
             <div
-              onClick={() => requestSort('user')}
+              onClick={() => requestSort('users')}
               className="flex items-center place-self-center gap-2 w-fit cursor-pointer"
             >
               <User className="text-midGray" width={14.5} height={14.5} />
@@ -62,7 +88,7 @@ export const TableOrganization = () => {
             </div>
 
             <div
-              onClick={() => requestSort('date')}
+              onClick={() => requestSort('dateOfRegistration')}
               className="flex items-center place-self-center gap-2 w-fit cursor-pointer"
             >
               <Calendar className="text-midGray" width={16} height={16} />
@@ -80,18 +106,20 @@ export const TableOrganization = () => {
           </div>
 
           <div className="text-midGray grid laptop:block grid-cols-1 tablet:grid-cols-2 gap-4 tablet:gap-6  laptop:gap-0">
-            {items.map((item) => (
-              <RowItem key={item.id} item={item} />
-            ))}
+            <LoaderPage isLoading={isLoading}>
+              {items.map((item) => (
+                <RowItem key={item.id} item={item} />
+              ))}
+            </LoaderPage>
           </div>
         </div>
       </div>
 
       <Pagination
-        total={10000}
         current={page}
-        pageSize={100}
         onChange={setPage}
+        total={totalPages}
+        pageSize={pageSize}
         className="py-16 max-w-[440px] my-auto desktop:ml-11"
       />
     </>

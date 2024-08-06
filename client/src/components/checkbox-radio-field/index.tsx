@@ -2,7 +2,7 @@
 import { ChangeEvent } from 'react';
 import { Field, FieldProps } from 'formik';
 
-import { Error } from '@/utils';
+import { controlError } from '@/utils';
 
 import { CheckboxRadio } from '../checkbox-radio';
 import { ICheckboxProps } from '../checkbox-radio/types';
@@ -11,7 +11,7 @@ export const CheckboxRadioField = ({ id, name, type, label, onChange, multiple, 
   return (
     <Field name={name}>
       {({ meta, form, field: { value, ...fieldProps } }: FieldProps) => {
-        const error = Error.controlError(meta, name, label);
+        const error = controlError(meta, name, label);
         const isTypeRadio = type === 'radio';
 
         const change = async (e: ChangeEvent<HTMLInputElement>) => {

@@ -1,16 +1,18 @@
 'use client';
 
 import { MouseEvent } from 'react';
-import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { format, parseISO } from 'date-fns';
+import { useLocale, useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
+import { dateFormat } from '@/utils';
+import { RowItemOrgProps } from '@/types';
 import { showMessage } from '@/components';
 import { Copy, User } from '@/assets/icons';
 
-import { RowItemProps } from './types';
-
-export const RowItem = ({ item }: RowItemProps) => {
+export const RowItem = ({ item }: RowItemOrgProps) => {
+  const locale = useLocale();
   const router = useRouter();
   const table = useTranslations('table');
 
@@ -55,11 +57,11 @@ export const RowItem = ({ item }: RowItemProps) => {
       </div>
 
       <div className="mt-6 laptop:mt-0 laptop:hidden text-lg leading-[22px] laptop:text-center font-robotoCondensed">
-        {item.date}
+        {format(parseISO(item.dateOfRegistration.toString()), dateFormat[locale])}
       </div>
 
       <div className="flex items-center justify-end laptop:justify-center mt-6 laptop:mt-0">
-        <span className="text-midGray">{item.user}</span>
+        <span className="text-midGray">{item.users}</span>
 
         <div className="flex justify-center items-center laptop:hidden w-[24px] h-[24px]">
           <User className="text-midGray" width={14.5} height={14.5} />
@@ -67,7 +69,7 @@ export const RowItem = ({ item }: RowItemProps) => {
       </div>
 
       <div className="mt-6 laptop:mt-0 hidden laptop:block text-lg leading-[22px] font-robotoCondensed laptop:text-center">
-        {item.date}
+        {format(parseISO(item.dateOfRegistration.toString()), dateFormat[locale])}
       </div>
 
       <span className="laptop:hidden mt-6 text-lg leading-[22px] font-robotoCondensed">{table('email')}</span>

@@ -7,6 +7,7 @@ import { Formik, FormikValues } from 'formik';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
+import { dateFormat } from '@/utils';
 import { RowItemProps } from '@/types';
 import { Copy, Doc } from '@/assets/icons';
 import {
@@ -59,11 +60,6 @@ export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
     e.stopPropagation();
     navigator.clipboard.writeText(text.toString());
     showMessage.success('Copied to clipboard', { autoClose: 500 });
-  };
-
-  const dateFormat: Record<string, string> = {
-    ua: 'dd.MM.yyyy',
-    en: 'MM.dd.yyyy',
   };
 
   return (

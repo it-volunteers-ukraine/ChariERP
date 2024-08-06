@@ -9,7 +9,7 @@ import DatePicker, { registerLocale } from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { Error } from '@/utils';
+import { controlError } from '@/utils';
 
 import { Input } from '../input';
 import { DateFieldProps } from './types';
@@ -60,7 +60,7 @@ export const DateField = ({ name, label, required, placeholder, wrapperClass, ..
   return (
     <Field name={name}>
       {({ meta, form, field: { value, ...fieldProps } }: FieldProps) => {
-        const error = Error.controlError(meta, name, label);
+        const error = controlError(meta, name, label);
 
         const onChange = async (value: Date | null) => {
           await form.setFieldValue(name, value);
