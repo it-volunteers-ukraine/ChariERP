@@ -9,20 +9,21 @@ import { FieldArray, Form, Formik, FormikHelpers, FormikValues } from 'formik';
 import { ErrorResponse } from '@/types';
 import { createOrganization } from '@/api';
 import {
-  Title,
   Button,
-  SmallBtn,
+  CheckboxRadioField,
   DateField,
   FileField,
   InputField,
-  showMessage,
-  CheckboxRadioField,
-  organizationValidation,
   OrganizationFormValues,
   organizationInitialValues,
+  organizationValidation,
+  showMessage,
+  SmallBtn,
+  Title,
 } from '@/components';
 
 import { getStyles } from './styles';
+import { BucketFolders, uploadFileToBucket } from '@/s3-bucket/s3-client';
 
 const SignUp = () => {
   const styles = getStyles();
@@ -40,6 +41,14 @@ const SignUp = () => {
     setIsLoading(true);
 
     const formData = new FormData();
+
+    const { certificateOfRegister } = values;
+    const uploadedFileUrl = await uploadFileToBucket(
+      BucketFolders.CertificateOfRegister,
+      certificateOfRegister as File,
+    );
+
+    formData.append(`certificate`, uploadedFileUrl!);
 
     Object.entries(values).forEach(([key, value]) => {
       if (Array.isArray(value)) {
