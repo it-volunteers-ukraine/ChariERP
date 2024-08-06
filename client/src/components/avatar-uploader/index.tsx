@@ -1,10 +1,11 @@
 'use client';
+
+import { ChangeEvent } from 'react';
 import Image from 'next/image';
 
 import { Camera, Close, Info, Warning } from '@/assets/icons';
 
 import { DefaultAvatar } from './default-avatar';
-import { ChangeEvent } from 'react';
 
 interface AvatarUploaderProps {
   name: string;
