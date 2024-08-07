@@ -32,14 +32,9 @@ export async function POST(request: Request) {
     formBody.position = formData.get('position') as string;
     formBody.firstName = formData.get('firstName') as string;
     formBody.middleName = formData.get('middleName') as string;
+    formBody.certificate = formData.get('certificate') as string;
     formBody.organizationName = formData.get('organizationName') as string;
     formBody.dateOfRegistration = new Date(formData.get('dateOfRegistration') as string);
-
-    const certificate = formData.get('certificate');
-
-    if (certificate && certificate instanceof File) {
-      formBody.certificate = certificate.name;
-    }
 
     formData.forEach((value, key) => {
       if (key.includes('social')) {

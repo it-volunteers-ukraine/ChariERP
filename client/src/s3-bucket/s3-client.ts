@@ -13,8 +13,8 @@ const s3Client = new S3Client({
   endpoint: endpoint,
   region,
   credentials: {
-    accessKeyId: process.env.SPACES_KEY!,
-    secretAccessKey: process.env.SPACES_SECRET!,
+    accessKeyId: process.env.NEXT_PUBLIC_SPACES_KEY!,
+    secretAccessKey: process.env.NEXT_PUBLIC_SPACES_SECRET!,
   },
 });
 
@@ -26,7 +26,7 @@ const s3Client = new S3Client({
  */
 const uploadFileToBucket = async (folder: BucketFolders, file: File) => {
   const params = {
-    Bucket: process.env.S3_BUCKET_ID,
+    Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
     Key: `${folder}/${file.name}`,
     Body: file,
     ACL: 'private',

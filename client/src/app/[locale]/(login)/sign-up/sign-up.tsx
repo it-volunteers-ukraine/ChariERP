@@ -42,15 +42,12 @@ const SignUp = () => {
 
     const formData = new FormData();
 
-    const { certificateOfRegister } = values;
-    const uploadedFileUrl = await uploadFileToBucket(
-      BucketFolders.CertificateOfRegister,
-      certificateOfRegister as File,
-    );
+    const { certificate, ...rest } = values;
+    const uploadedFileUrl = await uploadFileToBucket(BucketFolders.CertificateOfRegister, certificate as File);
 
     formData.append(`certificate`, uploadedFileUrl!);
 
-    Object.entries(values).forEach(([key, value]) => {
+    Object.entries(rest).forEach(([key, value]) => {
       if (Array.isArray(value)) {
         value.forEach((item) => {
           formData.append(`${key}[]`, item);

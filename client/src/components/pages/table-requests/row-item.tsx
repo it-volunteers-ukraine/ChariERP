@@ -1,6 +1,6 @@
 'use client';
 
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { format, parseISO } from 'date-fns';
 import { Formik, FormikValues } from 'formik';
@@ -9,6 +9,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { routes } from '@/constants';
 import { dateFormat } from '@/utils';
 import { RowItemProps } from '@/types';
+import { getImageFromCloud } from '@/api';
 import { Copy, Doc } from '@/assets/icons';
 import {
   Button,
@@ -30,6 +31,7 @@ export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
   const [isOpenReject, setIsOpenReject] = useState(false);
   const [isOpenRemove, setIsOpenRemove] = useState(false);
   const [isOpenRegister, setIsOpenRegister] = useState(false);
+  const [urlCertificate, setUrlCertificate] = useState<string | null>(null);
 
   const requests = path === routes.requests;
   const declined = path === routes.declined;
@@ -52,7 +54,7 @@ export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
     const selection = document.getSelection();
 
     if (!selection || !selection.toString()) {
-      router.push(`${routes.requests}/${item.id}`);
+      router.push(`${path}/${item.id}`);
     }
   };
 
@@ -61,6 +63,16 @@ export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
     navigator.clipboard.writeText(text.toString());
     showMessage.success('Copied to clipboard', { autoClose: 500 });
   };
+
+  const getCertificate = async () => {
+    const url = await getImageFromCloud(item.certificate);
+
+    setUrlCertificate(url);
+  };
+
+  useEffect(() => {
+    getCertificate();
+  }, [item.certificate]);
 
   return (
     <>
@@ -96,8 +108,8 @@ export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
           <a
             download
             target="_blank"
-            href={item.certificate}
             onClick={(e) => e.stopPropagation()}
+            href={urlCertificate ? urlCertificate : ''}
             className="flex items-center justify-center"
           >
             <Doc width={24} height={24} />
