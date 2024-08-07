@@ -28,9 +28,9 @@ const LoginForm = ({ onSubmit, isLoading }: ILoginFormProps) => {
           <Button
             type="submit"
             styleType="primary"
-            className="w-[115px]"
             isLoading={isLoading}
             text={login('button')}
+            className="w-[115px] uppercase"
           />
         </Form>
       )}
