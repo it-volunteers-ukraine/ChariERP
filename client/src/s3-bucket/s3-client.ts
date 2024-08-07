@@ -1,9 +1,9 @@
 import {
-  GetObjectCommand,
-  GetObjectCommandInput,
-  PutObjectCommand,
-  PutObjectCommandInput,
   S3Client,
+  GetObjectCommand,
+  PutObjectCommand,
+  GetObjectCommandInput,
+  PutObjectCommandInput,
 } from '@aws-sdk/client-s3';
 
 const region = 'fra1';
@@ -15,9 +15,9 @@ enum BucketFolders {
 }
 
 const s3Client = new S3Client({
-  forcePathStyle: false, // Configures to use subdomain/virtual calling format.
-  endpoint: endpoint,
   region,
+  endpoint: endpoint,
+  forcePathStyle: false, // Configures to use subdomain/virtual calling format.
   credentials: {
     accessKeyId: process.env.NEXT_PUBLIC_SPACES_KEY!,
     secretAccessKey: process.env.NEXT_PUBLIC_SPACES_SECRET!,
@@ -32,10 +32,10 @@ const s3Client = new S3Client({
  */
 const uploadFileToBucket = async (folder: BucketFolders, file: File) => {
   const params = {
-    Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
-    Key: `${folder}/${file.name}`,
     Body: file,
     ACL: 'private',
+    Key: `${folder}/${file.name}`,
+    Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
   } as PutObjectCommandInput;
 
   try {
@@ -51,8 +51,8 @@ const uploadFileToBucket = async (folder: BucketFolders, file: File) => {
 
 const downloadFileFromBucket = async (fileName: string) => {
   const params = {
-    Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
     Key: fileName,
+    Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
   } as GetObjectCommandInput;
 
   try {

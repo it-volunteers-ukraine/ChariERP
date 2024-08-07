@@ -157,7 +157,12 @@
     "login": {
       "userIncorrect": "Incorrect email or password",
       "userNotFound": "User not found",
-      "companyAlreadyRegistered": "The company is already registered"
+      "somethingWrong": "Something went wrong",
+      "companyAlreadyRegistered": "The company {errors} is already registered",
+      "organizationName": "with the name of the organization",
+      "phone": "with the telephone",
+      "edrpou": "with the EDRPOU",
+      "or": "or"
     }
   },
   "loader": {

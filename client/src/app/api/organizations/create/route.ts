@@ -7,7 +7,7 @@ interface OrganizationsFormValues {
   site: string;
   email: string;
   phone: string;
-  edrpou: string;
+  edrpou: number;
   lastName: string;
   social: string[];
   position: string;
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     formBody.site = formData.get('site') as string;
     formBody.email = formData.get('email') as string;
     formBody.phone = formData.get('phone') as string;
-    formBody.edrpou = formData.get('edrpou') as string;
+    formBody.edrpou = Number(formData.get('edrpou'));
     formBody.lastName = formData.get('lastName') as string;
     formBody.position = formData.get('position') as string;
     formBody.firstName = formData.get('firstName') as string;
@@ -71,12 +71,25 @@ export async function POST(request: Request) {
       $or: [
         { 'organizationData.edrpou': formBody.edrpou },
         { 'organizationData.organizationName': formBody.organizationName },
-        { 'organizationData.certificate': formBody.certificate },
         { 'contactData.phone': formBody.phone },
       ],
     });
 
     if (organizations) {
+      const fieldsToCheck = [
+        { key: 'contactData.phone', value: formBody.phone, name: 'phone' },
+        { key: 'organizationData.edrpou', value: formBody.edrpou, name: 'edrpou' },
+        { key: 'organizationData.organizationName', value: formBody.organizationName, name: 'organizationName' },
+      ];
+
+      const matches = fieldsToCheck
+        .filter(({ key, value }) => key.split('.').reduce((o, i) => o[i], organizations) === value)
+        .map(({ name }) => name);
+
+      if (matches.length > 0) {
+        return NextResponse.json({ message: matches }, { status: 400 });
+      }
+
       return NextResponse.json({ message: 'companyAlreadyRegistered' }, { status: 400 });
     }
 
@@ -87,6 +100,6 @@ export async function POST(request: Request) {
   } catch (error) {
     console.log(error);
 
-    return NextResponse.json(error, { status: 500 });
+    return NextResponse.json({ message: 'somethingWrong' }, { status: 500 });
   }
 }

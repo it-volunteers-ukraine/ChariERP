@@ -1,4 +1,6 @@
 import { PropsWithChildren } from 'react';
+import internal from 'stream';
+import { SdkStreamMixin } from '@aws-sdk/types';
 
 export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
 
@@ -23,4 +25,9 @@ export interface RowItemProps {
 
 export interface RowItemOrgProps {
   item: IOrganizationPageProps;
+}
+
+export interface GetUrlProps {
+  url: string;
+  file: (internal.Readable & SdkStreamMixin) | (Blob & SdkStreamMixin) | (ReadableStream<Uint8Array> & SdkStreamMixin);
 }

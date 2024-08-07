@@ -1,28 +1,28 @@
 'use client';
 
-import { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { format, parseISO } from 'date-fns';
 import { Formik, FormikValues } from 'formik';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
-import { dateFormat } from '@/utils';
 import { RowItemProps } from '@/types';
 import { Copy, Doc } from '@/assets/icons';
+import { downloadFileFromBucket } from '@/s3-bucket';
+import { dateFormat, getUrlWithExtension } from '@/utils';
 import {
   Button,
   ModalAdmin,
-  ModalContent,
-  organizationInitialValues,
-  organizationValidation,
   showMessage,
+  ModalContent,
+  organizationValidation,
+  organizationInitialValues,
 } from '@/components';
-import { downloadFileFromBucket } from '@/s3-bucket/s3-client';
-
 export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
   const locale = useLocale();
   const router = useRouter();
+
   const btn = useTranslations('button');
   const modal = useTranslations('modal');
   const table = useTranslations('table');
@@ -31,7 +31,6 @@ export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
   const [isOpenReject, setIsOpenReject] = useState(false);
   const [isOpenRemove, setIsOpenRemove] = useState(false);
   const [isOpenRegister, setIsOpenRegister] = useState(false);
-  const [urlCertificate] = useState<string | null>(null);
 
   const requests = path === routes.requests;
   const declined = path === routes.declined;
@@ -64,16 +63,25 @@ export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
     showMessage.success('Copied to clipboard', { autoClose: 500 });
   };
 
-  const getCertificate = async () => {
-    const downloadedFile = await downloadFileFromBucket(item.certificate);
+  async function getCertificate(e: MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
 
-    // TODO: remove that once further implementation be ready
-    console.log(`Downloaded File: ${downloadedFile}`);
-  };
+    try {
+      const downloadedFile = await downloadFileFromBucket(item.certificate);
 
-  useEffect(() => {
-    getCertificate();
-  }, [item.certificate]);
+      if (!downloadedFile) {
+        console.error('Failed to upload file: no body');
+
+        return;
+      }
+
+      const fileUrl = await getUrlWithExtension({ url: item.certificate, file: downloadedFile });
+
+      window.open(fileUrl, '_blank');
+    } catch (error) {
+      console.error('Error when loading a certificate:', error);
+    }
+  }
 
   return (
     <>
@@ -106,15 +114,9 @@ export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
         </div>
 
         <div className="flex items-center justify-end laptop:justify-center mt-8 laptop:mt-0">
-          <a
-            download
-            target="_blank"
-            onClick={(e) => e.stopPropagation()}
-            href={urlCertificate ? urlCertificate : ''}
-            className="flex items-center justify-center"
-          >
+          <button onClick={getCertificate} className="flex items-center justify-center">
             <Doc width={24} height={24} />
-          </a>
+          </button>
         </div>
 
         <div className="mt-6 laptop:mt-0 text-lg leading-[22px] font-robotoCondensed laptop:text-center">

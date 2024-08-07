@@ -7,7 +7,7 @@ const organizationsSchema = new Schema<IOrganizations>({
   organizationData: {
     organizationName: { type: String, unique: true, required: true },
     edrpou: { type: Number, unique: true, required: true },
-    certificate: { type: String, unique: true, required: true },
+    certificate: { type: String, required: true },
     dateOfRegistration: Date,
   },
   contactData: {

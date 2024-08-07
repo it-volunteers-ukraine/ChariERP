@@ -8,22 +8,22 @@ import { FieldArray, Form, Formik, FormikHelpers, FormikValues } from 'formik';
 
 import { ErrorResponse } from '@/types';
 import { createOrganization } from '@/api';
+import { BucketFolders, uploadFileToBucket } from '@/s3-bucket';
 import {
+  Title,
   Button,
-  CheckboxRadioField,
+  SmallBtn,
   DateField,
   FileField,
   InputField,
-  OrganizationFormValues,
-  organizationInitialValues,
-  organizationValidation,
   showMessage,
-  SmallBtn,
-  Title,
+  CheckboxRadioField,
+  OrganizationFormValues,
+  organizationValidation,
+  organizationInitialValues,
 } from '@/components';
 
 import { getStyles } from './styles';
-import { BucketFolders, uploadFileToBucket } from '@/s3-bucket/s3-client';
 
 const SignUp = () => {
   const styles = getStyles();
@@ -67,7 +67,19 @@ const SignUp = () => {
       const axiosError = error as AxiosError<ErrorResponse>;
 
       if (axiosError.response?.status === 400) {
-        showMessage.error(errorText(axiosError.response.data.message));
+        if (Array.isArray(axiosError.response.data.message)) {
+          const fields = axiosError.response.data.message?.map((i) => errorText(i));
+
+          const text = fields.join(` ${errorText('or')} `);
+
+          return showMessage.error(errorText('companyAlreadyRegistered', { errors: text }), { autoClose: 5000 });
+        }
+
+        showMessage.error(errorText(axiosError.response.data.message), { autoClose: 3000 });
+      }
+
+      if (axiosError.response?.status === 500) {
+        showMessage.error(errorText(axiosError.response.data.message), { autoClose: 2000 });
       }
     } finally {
       setIsLoading(false);
