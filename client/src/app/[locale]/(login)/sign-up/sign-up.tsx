@@ -98,8 +98,8 @@ const SignUp = () => {
         <Form className="flex flex-col gap-12 tablet:gap-16 desktop:gap-18 w-full">
           <div>
             <Title
-              className="mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
               title={text('title.basicInformation')}
+              className="mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
             />
 
             <div className="flex flex-col gap-8 tablet:gap-[42px]">
@@ -152,8 +152,8 @@ const SignUp = () => {
 
           <div>
             <Title
-              className="mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
               title={text('title.contactInformation')}
+              className="mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
             />
 
             <div className="flex flex-col gap-8 tablet:gap-[42px]">
@@ -190,8 +190,8 @@ const SignUp = () => {
                 isMasked
                 name="phone"
                 placeholderItalic
-                placeholder="+38(0__)___-__-__"
                 label={text('phone.label')}
+                placeholder="+38(0__)___-__-__"
                 info={<span className={`${styles.spanStyles}`}>{text('phone.forExample')}</span>}
               />
 
@@ -223,8 +223,8 @@ const SignUp = () => {
                     <>
                       {values.social.map((_, index) => {
                         const isRightLength = values.social.length < 5;
-                        const isLastIndex = index === values.social.length - 1;
                         const isMoreThanOne = values.social.length > 1;
+                        const isLastIndex = index === values.social.length - 1;
 
                         return (
                           <div key={index}>
