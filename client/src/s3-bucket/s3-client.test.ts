@@ -12,6 +12,6 @@ describe('S3 bucket file upload test', () => {
 
     const fileInBucketUrl = await uploadFileToBucket(BucketFolders.CertificateOfRegister, fileToUpload);
 
-    expect(fileInBucketUrl).toContain(`/${BucketFolders.CertificateOfRegister}/${fileName}`);
+    expect(fileInBucketUrl).toBe(`${BucketFolders.CertificateOfRegister}/${fileName}`);
   });
 });

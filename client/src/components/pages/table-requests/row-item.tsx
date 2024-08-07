@@ -9,16 +9,16 @@ import { useLocale, useTranslations } from 'next-intl';
 import { routes } from '@/constants';
 import { dateFormat } from '@/utils';
 import { RowItemProps } from '@/types';
-import { getImageFromCloud } from '@/api';
 import { Copy, Doc } from '@/assets/icons';
 import {
   Button,
   ModalAdmin,
-  showMessage,
   ModalContent,
-  organizationValidation,
   organizationInitialValues,
+  organizationValidation,
+  showMessage,
 } from '@/components';
+import { downloadFileFromBucket } from '@/s3-bucket/s3-client';
 
 export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
   const locale = useLocale();
@@ -31,7 +31,7 @@ export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
   const [isOpenReject, setIsOpenReject] = useState(false);
   const [isOpenRemove, setIsOpenRemove] = useState(false);
   const [isOpenRegister, setIsOpenRegister] = useState(false);
-  const [urlCertificate, setUrlCertificate] = useState<string | null>(null);
+  const [urlCertificate] = useState<string | null>(null);
 
   const requests = path === routes.requests;
   const declined = path === routes.declined;
@@ -65,9 +65,10 @@ export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
   };
 
   const getCertificate = async () => {
-    const url = await getImageFromCloud(item.certificate);
+    const downloadedFile = await downloadFileFromBucket(item.certificate);
 
-    setUrlCertificate(url);
+    // TODO: remove that once further implementation be ready
+    console.log(`Downloaded File: ${downloadedFile}`);
   };
 
   useEffect(() => {

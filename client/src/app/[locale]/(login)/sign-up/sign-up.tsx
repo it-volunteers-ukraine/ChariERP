@@ -43,9 +43,6 @@ const SignUp = () => {
     const formData = new FormData();
 
     const { certificate, ...rest } = values;
-    const uploadedFileUrl = await uploadFileToBucket(BucketFolders.CertificateOfRegister, certificate as File);
-
-    formData.append(`certificate`, uploadedFileUrl!);
 
     Object.entries(rest).forEach(([key, value]) => {
       if (Array.isArray(value)) {
@@ -56,6 +53,10 @@ const SignUp = () => {
         formData.append(key, value);
       }
     });
+
+    const uploadedFileUrl = await uploadFileToBucket(BucketFolders.CertificateOfRegister, certificate as File);
+
+    formData.append(`certificate`, uploadedFileUrl!);
 
     try {
       await createOrganization(formData);

@@ -53,23 +53,3 @@ export const getApprovedOrganizations = async (page: number, limit?: number) => 
 
   return { organizations: modifiedData, totalPages: data.totalPages };
 };
-
-export const getImageFromCloud = async (url: string) => {
-  console.log({
-    AccessKey: process.env.NEXT_PUBLIC_SPACES_KEY,
-    SecretKey: process.env.NEXT_PUBLIC_SPACES_SECRET,
-  });
-
-  const response = await instance.get(url, {
-    headers: {
-      AccessKey: process.env.NEXT_PUBLIC_SPACES_KEY,
-      SecretKey: process.env.NEXT_PUBLIC_SPACES_SECRET,
-    },
-  });
-
-  console.log(response);
-
-  const blob = new Blob([response.data], { type: response.headers['content-type'] });
-
-  return URL.createObjectURL(blob);
-};

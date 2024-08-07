@@ -1,4 +1,10 @@
-import { PutObjectCommand, PutObjectCommandInput, S3Client } from '@aws-sdk/client-s3';
+import {
+  GetObjectCommand,
+  GetObjectCommandInput,
+  PutObjectCommand,
+  PutObjectCommandInput,
+  S3Client,
+} from '@aws-sdk/client-s3';
 
 const region = 'fra1';
 const endpoint = `https://${region}.digitaloceanspaces.com`;
@@ -37,10 +43,27 @@ const uploadFileToBucket = async (folder: BucketFolders, file: File) => {
 
     console.log(`Successfully uploaded object: ${params.Key}`);
 
-    return `${endpoint}/${params.Key}`;
+    return params.Key;
   } catch (err) {
     console.log('Error while transferring a file to S3 bucket:', err);
   }
 };
 
-export { BucketFolders, uploadFileToBucket };
+const downloadFileFromBucket = async (fileName: string) => {
+  const params = {
+    Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
+    Key: fileName,
+  } as GetObjectCommandInput;
+
+  try {
+    const downloadedFile = await s3Client.send(new GetObjectCommand(params));
+
+    console.log(`Successfully downloaded object: ${params.Key}`);
+
+    return downloadedFile.Body;
+  } catch (err) {
+    console.log('Error while downloading a file from S3 bucket:', err);
+  }
+};
+
+export { BucketFolders, downloadFileFromBucket, uploadFileToBucket };
