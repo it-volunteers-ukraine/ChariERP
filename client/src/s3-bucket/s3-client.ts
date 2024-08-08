@@ -33,8 +33,9 @@ const s3Client = new S3Client({
  * @returns URL of uploaded file
  */
 const uploadFileToBucket = async (folder: BucketFolders, file: File) => {
+  const body = await file.arrayBuffer();
   const params = {
-    Body: file,
+    Body: body,
     ACL: 'private',
     Key: `${folder}/${file.name}`,
     Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
