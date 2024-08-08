@@ -9,9 +9,14 @@ describe('S3 bucket file upload test', () => {
     );
     const fileName = 'certificate.jpeg';
     const fileToUpload = new File(buffer, fileName);
+    const organizationName = 'Chari';
 
-    const fileInBucketUrl = await uploadFileToBucket(BucketFolders.CertificateOfRegister, fileToUpload);
+    const fileInBucketUrl = await uploadFileToBucket(
+      organizationName,
+      BucketFolders.CertificateOfRegister,
+      fileToUpload,
+    );
 
-    expect(fileInBucketUrl).toBe(`${BucketFolders.CertificateOfRegister}/${fileName}`);
+    expect(fileInBucketUrl).toBe(`${organizationName}/${BucketFolders.CertificateOfRegister}/${fileName}`);
   });
 });

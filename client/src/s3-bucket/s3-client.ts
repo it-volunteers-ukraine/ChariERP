@@ -13,7 +13,7 @@ const endpoint = `https://${region}.digitaloceanspaces.com`;
 
 enum BucketFolders {
   UserProfileImages = 'user-profile-images',
-  CertificateOfRegister = 'organization-signup-certificates',
+  CertificateOfRegister = 'registration-certificate',
 }
 
 const s3Client = new S3Client({
@@ -28,16 +28,18 @@ const s3Client = new S3Client({
 
 /**
  * Uploads received file to AWS S3 bucket into a specified folder
+ * @param organizationName official name of the organization
  * @param folder name of the folder to upload the file
  * @param file the content file to be uploaded
  * @returns URL of uploaded file
  */
-const uploadFileToBucket = async (folder: BucketFolders, file: File) => {
-  const body = await file.arrayBuffer();
+const uploadFileToBucket = async (organizationName: string, folder: BucketFolders, file: File) => {
+  const fileContent = await file.arrayBuffer();
+  const bucketFileDestinationPath = encodeURI(`${organizationName}/${folder}/${file.name}`);
   const params = {
-    Body: body,
+    Body: fileContent,
     ACL: 'private',
-    Key: `${folder}/${file.name}`,
+    Key: bucketFileDestinationPath,
     Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
   } as PutObjectCommandInput;
 

@@ -76,7 +76,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: 'companyAlreadyRegistered' }, { status: 400 });
     }
 
-    const uploadedFileUrl = await uploadFileToBucket(BucketFolders.CertificateOfRegister, certificate);
+    const uploadedFileUrl = await uploadFileToBucket(
+      formBody.organizationName,
+      BucketFolders.CertificateOfRegister,
+      certificate,
+    );
 
     formBody.certificate = uploadedFileUrl!;
 
