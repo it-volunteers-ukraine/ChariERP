@@ -16,6 +16,7 @@ export interface IUsers extends Document {
   DateOfBirth: Date;
   dateOfEntry: Date;
   middleName: string;
+  avatarUrl?: string;
   status: UserStatus;
   _id?: Schema.Types.ObjectId;
   organizationId: Schema.Types.ObjectId;

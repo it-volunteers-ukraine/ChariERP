@@ -154,11 +154,7 @@
       "userIncorrect": "Неправильний email або пароль",
       "userNotFound": "E-mail або пароль некоректний",
       "somethingWrong": "Щось пішло не так",
-      "companyAlreadyRegistered": "Компанія {errors} вже зареєстрована",
-      "organizationName": "з назвою організації",
-      "phone": "з номером телефону",
-      "edrpou": "з ЄДРПОУ",
-      "or": "або"
+      "companyAlreadyRegistered": "Компанія з ЄДРПОУ вже зареєстрована"
     }
   },
   "loader": {

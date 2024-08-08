@@ -9,8 +9,8 @@ import { useLocale, useTranslations } from 'next-intl';
 import { routes } from '@/constants';
 import { RowItemProps } from '@/types';
 import { Copy, Doc } from '@/assets/icons';
-import { downloadFileFromBucket } from '@/s3-bucket';
 import { dateFormat, getUrlWithExtension } from '@/utils';
+import { deleteFileFromBucket, downloadFileFromBucket } from '@/s3-bucket';
 import {
   Button,
   ModalAdmin,
@@ -44,9 +44,10 @@ export const RowItem = ({ item, path, isLaptop }: RowItemProps) => {
     console.log('data', values);
   };
 
-  const onSubmitRemove = () => {
+  const onSubmitRemove = async () => {
     console.log('data');
     setIsOpenRemove(false);
+    await deleteFileFromBucket(item.certificate);
   };
 
   const handleRowClick = () => {

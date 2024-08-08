@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { connectDB, Organizations } from '@/lib';
 import { RequestOrganizationStatus } from '@/types';
+import { BucketFolders, uploadFileToBucket } from '@/s3-bucket';
 
 interface OrganizationsFormValues {
   site: string;
@@ -24,6 +25,8 @@ export async function POST(request: Request) {
     const formData = await request.formData();
     const formBody: Partial<OrganizationsFormValues> = {};
 
+    const certificate = formData.get('certificate') as File;
+
     formBody.site = formData.get('site') as string;
     formBody.email = formData.get('email') as string;
     formBody.phone = formData.get('phone') as string;
@@ -32,7 +35,7 @@ export async function POST(request: Request) {
     formBody.position = formData.get('position') as string;
     formBody.firstName = formData.get('firstName') as string;
     formBody.middleName = formData.get('middleName') as string;
-    formBody.certificate = formData.get('certificate') as string;
+    // formBody.certificate = formData.get('certificate') as string;
     formBody.organizationName = formData.get('organizationName') as string;
     formBody.dateOfRegistration = new Date(formData.get('dateOfRegistration') as string);
 
@@ -49,7 +52,7 @@ export async function POST(request: Request) {
       request: RequestOrganizationStatus.PENDING,
       organizationData: {
         edrpou: formBody.edrpou,
-        certificate: formBody.certificate,
+        // certificate: formBody.certificate,
         organizationName: formBody.organizationName,
         dateOfRegistration: formBody.dateOfRegistration,
       },
@@ -67,31 +70,15 @@ export async function POST(request: Request) {
       },
     };
 
-    const organizations = await Organizations.findOne({
-      $or: [
-        { 'organizationData.edrpou': formBody.edrpou },
-        { 'organizationData.organizationName': formBody.organizationName },
-        { 'contactData.phone': formBody.phone },
-      ],
-    });
+    const organizationExist = await Organizations.findOne({ 'organizationData.edrpou': formBody.edrpou });
 
-    if (organizations) {
-      const fieldsToCheck = [
-        { key: 'contactData.phone', value: formBody.phone, name: 'phone' },
-        { key: 'organizationData.edrpou', value: formBody.edrpou, name: 'edrpou' },
-        { key: 'organizationData.organizationName', value: formBody.organizationName, name: 'organizationName' },
-      ];
-
-      const matches = fieldsToCheck
-        .filter(({ key, value }) => key.split('.').reduce((o, i) => o[i], organizations) === value)
-        .map(({ name }) => name);
-
-      if (matches.length > 0) {
-        return NextResponse.json({ message: matches }, { status: 400 });
-      }
-
+    if (organizationExist) {
       return NextResponse.json({ message: 'companyAlreadyRegistered' }, { status: 400 });
     }
+
+    const uploadedFileUrl = await uploadFileToBucket(BucketFolders.CertificateOfRegister, certificate as File);
+
+    formBody.certificate = uploadedFileUrl!;
 
     const newOrganization = new Organizations(body);
     const response = await newOrganization.save();

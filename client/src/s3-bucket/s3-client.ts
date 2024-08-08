@@ -2,16 +2,18 @@ import {
   S3Client,
   GetObjectCommand,
   PutObjectCommand,
+  DeleteObjectCommand,
   GetObjectCommandInput,
   PutObjectCommandInput,
+  DeleteObjectCommandInput,
 } from '@aws-sdk/client-s3';
 
 const region = 'fra1';
 const endpoint = `https://${region}.digitaloceanspaces.com`;
 
 enum BucketFolders {
-  CertificateOfRegister = 'organization-signup-certificates',
   UserProfileImages = 'user-profile-images',
+  CertificateOfRegister = 'organization-signup-certificates',
 }
 
 const s3Client = new S3Client({
@@ -55,6 +57,8 @@ const downloadFileFromBucket = async (fileName: string) => {
     Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
   } as GetObjectCommandInput;
 
+  console.log('download params', params);
+
   try {
     const downloadedFile = await s3Client.send(new GetObjectCommand(params));
 
@@ -66,4 +70,25 @@ const downloadFileFromBucket = async (fileName: string) => {
   }
 };
 
-export { BucketFolders, downloadFileFromBucket, uploadFileToBucket };
+const deleteFileFromBucket = async (fileName: string) => {
+  const params = {
+    Key: fileName,
+    Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
+  } as DeleteObjectCommandInput;
+
+  console.log('delete params', params);
+
+  try {
+    await s3Client.send(new DeleteObjectCommand(params));
+
+    console.log(`Successfully deleted object: ${params.Key}`);
+
+    return true;
+  } catch (err) {
+    console.log('Error while deleting a file from S3 bucket:', err);
+
+    return false;
+  }
+};
+
+export { BucketFolders, downloadFileFromBucket, uploadFileToBucket, deleteFileFromBucket };

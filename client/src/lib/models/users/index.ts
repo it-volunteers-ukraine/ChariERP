@@ -3,6 +3,7 @@ import { Schema, model, models } from 'mongoose';
 import { IUsers, Roles, UserStatus } from '@/types';
 
 const usersSchema = new Schema<IUsers>({
+  avatarUrl: { type: String },
   lastName: { type: String, required: true },
   firstName: { type: String, required: true },
   middleName: { type: String, required: true },

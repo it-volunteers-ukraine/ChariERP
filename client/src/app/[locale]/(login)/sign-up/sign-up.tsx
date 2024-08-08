@@ -8,7 +8,6 @@ import { FieldArray, Form, Formik, FormikHelpers, FormikValues } from 'formik';
 
 import { ErrorResponse } from '@/types';
 import { createOrganization } from '@/api';
-import { BucketFolders, uploadFileToBucket } from '@/s3-bucket';
 import {
   Title,
   Button,
@@ -54,9 +53,10 @@ const SignUp = () => {
       }
     });
 
-    const uploadedFileUrl = await uploadFileToBucket(BucketFolders.CertificateOfRegister, certificate as File);
+    // const uploadedFileUrl = await uploadFileToBucket(BucketFolders.CertificateOfRegister, certificate as File);
 
-    formData.append(`certificate`, uploadedFileUrl!);
+    // formData.append(`certificate`, uploadedFileUrl!);
+    formData.append(`certificate`, certificate);
 
     try {
       await createOrganization(formData);
@@ -67,15 +67,7 @@ const SignUp = () => {
       const axiosError = error as AxiosError<ErrorResponse>;
 
       if (axiosError.response?.status === 400) {
-        if (Array.isArray(axiosError.response.data.message)) {
-          const fields = axiosError.response.data.message?.map((i) => errorText(i));
-
-          const text = fields.join(` ${errorText('or')} `);
-
-          return showMessage.error(errorText('companyAlreadyRegistered', { errors: text }), { autoClose: 5000 });
-        }
-
-        showMessage.error(errorText(axiosError.response.data.message), { autoClose: 3000 });
+        showMessage.error(axiosError.response.data.message, { autoClose: 5000 });
       }
 
       if (axiosError.response?.status === 500) {
