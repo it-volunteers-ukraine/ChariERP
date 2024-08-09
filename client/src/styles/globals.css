@@ -97,3 +97,11 @@ body {
 .scroll-blue::-webkit-scrollbar-thumb {
   @apply cursor-pointer bg-lightBlue w-[7px] rounded-[100px];
 }
+
+.scroll-textarea::-webkit-scrollbar {
+  @apply w-[6px];
+}
+
+.scroll-textarea::-webkit-scrollbar-thumb {
+  @apply cursor-pointer bg-arcticSky w-[6px] rounded-[100px];
+}

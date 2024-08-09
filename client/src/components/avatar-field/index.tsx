@@ -1,4 +1,5 @@
 'use client';
+
 import { ChangeEvent } from 'react';
 import { Field, FieldProps } from 'formik';
 
@@ -34,11 +35,11 @@ export const AvatarField = ({ name, info, isSubmit, lastName, firstName, initial
             name={name}
             info={info}
             error={error}
-            avatarUrl={previewUrl}
             lastName={lastName}
             isSubmit={isSubmit}
             onChange={onChange}
             firstName={firstName}
+            avatarUrl={previewUrl}
             removeAvatar={removeAvatar}
           />
         );
