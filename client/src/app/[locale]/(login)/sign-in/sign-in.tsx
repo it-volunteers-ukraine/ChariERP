@@ -2,11 +2,12 @@
 
 import { useState } from 'react';
 import Cookies from 'js-cookie';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { FormikHelpers, FormikValues } from 'formik';
 
+import { login } from '@/api';
 import { routes } from '@/constants';
 
 import { LoginForm } from '../login-form';
@@ -21,10 +22,12 @@ const SignIn = () => {
     setIsLoading(true);
 
     try {
-      const { data } = await axios.post('/api/users', { email: values.email, password: values.password });
+      const data = await login({ email: values.email, password: values.password });
 
-      Cookies.set('id', data._id, { expires: 7 });
-      router.push(routes.requests);
+      if (data._id) {
+        Cookies.set('id', data._id.toString(), { expires: 7 });
+        router.push(routes.requests);
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
         handleFormik?.setFieldError('email', error.response?.data.message && errorText(error.response.data.message));

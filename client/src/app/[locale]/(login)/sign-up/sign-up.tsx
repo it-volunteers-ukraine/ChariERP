@@ -53,9 +53,6 @@ const SignUp = () => {
       }
     });
 
-    // const uploadedFileUrl = await uploadFileToBucket(BucketFolders.CertificateOfRegister, certificate as File);
-
-    // formData.append(`certificate`, uploadedFileUrl!);
     formData.append(`certificate`, certificate);
 
     try {

@@ -1,5 +1,6 @@
 'use client';
-import React, { RefObject, useEffect, useRef, useState } from 'react';
+
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { CheckboxRadioField } from '@/components';
@@ -7,17 +8,14 @@ import { CheckboxRadioField } from '@/components';
 import { getStyles } from './styles';
 import { IModalContent } from './types';
 
-export const ModalContent = ({ name, setFieldValue, organizationName }: IModalContent) => {
-  const radioRef: RefObject<HTMLInputElement> = useRef(null);
+export const ModalContent = ({ name, setFieldValue, organizationName, values }: IModalContent) => {
   const modal = useTranslations('modal.decline');
-  const isChecked = radioRef.current?.checked;
-  const styles = getStyles(isChecked);
 
-  const [value, setValue] = useState<string>('');
+  const [textareaValue, setTextareaValue] = useState('');
 
-  useEffect(() => {
-    if (!isChecked) setValue('');
-  }, [isChecked]);
+  const isOtherSelected = values ? values[name] === modal('radioBtn.other') : false;
+
+  const styles = getStyles(isOtherSelected);
 
   return (
     <>
@@ -33,61 +31,51 @@ export const ModalContent = ({ name, setFieldValue, organizationName }: IModalCo
           type="radio"
           className="p-2"
           classNameText="text-mobster"
+          value={modal('radioBtn.notValidUSREOU')}
           label={modal('radioBtn.notValidUSREOU')}
-          onChange={() => setFieldValue && setFieldValue(name, { id: '1', value: modal('radioBtn.notValidUSREOU') })}
         />
 
         <CheckboxRadioField
           id="2"
-          multiple
           name={name}
           type="radio"
           className="p-2"
           classNameText="text-mobster"
+          value={modal('radioBtn.insufficientDocuments')}
           label={modal('radioBtn.insufficientDocuments')}
-          onChange={() =>
-            setFieldValue && setFieldValue(name, { id: '2', value: modal('radioBtn.insufficientDocuments') })
-          }
         />
 
         <CheckboxRadioField
           id="3"
-          multiple
           name={name}
           type="radio"
           className="p-2"
           classNameText="text-mobster"
+          value={modal('radioBtn.noneCompliance')}
           label={modal('radioBtn.noneCompliance')}
-          onChange={() => setFieldValue && setFieldValue(name, { id: '3', value: modal('radioBtn.noneCompliance') })}
         />
 
         <CheckboxRadioField
           id="4"
-          multiple
           name={name}
           type="radio"
           className="p-2"
-          itemRef={radioRef}
           classNameText="text-mobster"
+          value={modal('radioBtn.other')}
           label={modal('radioBtn.other')}
         />
       </div>
 
       <div>
         <textarea
-          value={value}
-          disabled={!isChecked}
+          name="otherReason"
+          value={textareaValue}
+          disabled={!isOtherSelected}
           className={styles.textarea}
           onChange={(e) => {
-            setValue(e.target.value);
+            setTextareaValue(e.target.value);
           }}
-          onBlur={() =>
-            setFieldValue &&
-            setFieldValue(name, {
-              id: '4',
-              value: value,
-            })
-          }
+          onBlur={() => setFieldValue && setFieldValue('otherReason', textareaValue)}
         />
       </div>
     </>

@@ -33,9 +33,11 @@ const s3Client = new S3Client({
  * @param file the content file to be uploaded
  * @returns URL of uploaded file
  */
+
 const uploadFileToBucket = async (organizationName: string, folder: BucketFolders, file: File) => {
   const fileContent = await file.arrayBuffer();
   const bucketFileDestinationPath = encodeURI(`${organizationName}/${folder}/${file.name}`);
+
   const params = {
     Body: fileContent,
     ACL: 'private',
@@ -59,8 +61,6 @@ const downloadFileFromBucket = async (fileName: string) => {
     Key: fileName,
     Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
   } as GetObjectCommandInput;
-
-  console.log('download params', params);
 
   try {
     const downloadedFile = await s3Client.send(new GetObjectCommand(params));

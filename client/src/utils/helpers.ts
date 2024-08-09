@@ -28,3 +28,17 @@ export const getUrlWithExtension = async ({ url, file }: GetUrlProps) => {
 
   return URL.createObjectURL(blob);
 };
+
+export function generatePassword(minLength: number = 8, maxLength: number = 20): string {
+  const alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const passwordLength = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
+  let password = '';
+
+  for (let i = 0; i < passwordLength; i++) {
+    const randomIndex = Math.floor(Math.random() * alphabet.length);
+
+    password += alphabet[randomIndex];
+  }
+
+  return password;
+}

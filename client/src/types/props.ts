@@ -21,6 +21,7 @@ export interface RowItemProps {
   isLaptop: boolean;
   path: string | null;
   item: IOrganization;
+  getData: () => void;
 }
 
 export interface RowItemOrgProps {
@@ -30,4 +31,10 @@ export interface RowItemOrgProps {
 export interface GetUrlProps {
   url: string;
   file: (internal.Readable & SdkStreamMixin) | (Blob & SdkStreamMixin) | (ReadableStream<Uint8Array> & SdkStreamMixin);
+}
+
+export interface IParamsPagination {
+  page: number;
+  limit?: number;
+  sort?: Record<string, number>;
 }

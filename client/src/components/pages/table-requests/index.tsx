@@ -10,7 +10,12 @@ import { useSortableData, useWindowWidth } from '@/hooks';
 import { RowItem } from './row-item';
 import { getStyles } from './styles';
 
-export const TableRequests = ({ data }: { data: IOrganization[] }) => {
+interface ITableRequestsProps {
+  getData: () => void;
+  data: IOrganization[];
+}
+
+export const TableRequests = ({ data, getData }: ITableRequestsProps) => {
   const path = usePathname();
   const table = useTranslations('table');
   const { isLaptop } = useWindowWidth();
@@ -58,7 +63,7 @@ export const TableRequests = ({ data }: { data: IOrganization[] }) => {
 
       <div className="text-midGray grid laptop:block grid-cols-1 tablet:grid-cols-2 gap-4 tablet:gap-6 laptop:gap-0">
         {items.map((item) => (
-          <RowItem key={item.id} item={item} path={path} isLaptop={isLaptop} />
+          <RowItem key={item.id} item={item} path={path} isLaptop={isLaptop} getData={getData} />
         ))}
       </div>
     </div>

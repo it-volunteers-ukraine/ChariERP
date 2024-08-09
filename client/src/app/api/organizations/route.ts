@@ -7,19 +7,25 @@ import { connectDB, Organizations } from '@/lib';
 export async function GET(request: Request) {
   try {
     await connectDB();
-
     const { searchParams } = new URL(request.url);
+
+    const sortParam = searchParams.get('sort');
     const populate = searchParams.get('populate');
+    const filterParam = searchParams.get('filter');
     const page = parseInt(searchParams.get('page') || '1', 10);
     const limit = parseInt(searchParams.get('limit') || '10', 10);
 
-    const { results, totalPages, currentPage, totalItems } = await getPaginate<IOrganizations>(
-      Organizations,
+    const sort = sortParam ? JSON.parse(sortParam) : {};
+    const filter = filterParam ? JSON.parse(filterParam) : {};
+
+    const { results, totalPages, currentPage, totalItems } = await getPaginate<IOrganizations>({
       page,
+      sort,
       limit,
-      {},
+      filter,
       populate,
-    );
+      model: Organizations,
+    });
 
     return NextResponse.json(
       {
@@ -35,23 +41,6 @@ export async function GET(request: Request) {
   } catch (error) {
     console.log(error);
 
-    return NextResponse.json(error, { status: 500 });
-  }
-}
-
-export async function DELETE(request: Request) {
-  try {
-    await connectDB();
-    const body = await request.json();
-    const { id } = body;
-    const response = await Organizations.deleteOne({ _id: id });
-
-    if (!response) {
-      return NextResponse.json({ message: 'Organization not found' }, { status: 404 });
-    }
-
-    return NextResponse.json(response, { status: 200 });
-  } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }
 }

@@ -1,17 +1,27 @@
-import { Model, Document } from 'mongoose';
+import { Model, Document, SortOrder } from 'mongoose';
 
 import { PaginationResult } from '@/types';
 
-export async function getPaginate<T extends Document>(
-  model: Model<T>,
-  page: number,
-  limit: number,
+interface GetPaginateParams<T extends Document> {
+  page: number;
+  limit: number;
+  model: Model<T>;
+  filter?: object;
+  populate?: string | null;
+  sort?: string | { [key: string]: SortOrder | { $meta: string } } | [string, SortOrder][];
+}
+
+export async function getPaginate<T extends Document>({
+  page,
+  model,
+  limit,
+  sort = {},
   filter = {},
-  populate: string | null,
-): Promise<PaginationResult<T>> {
+  populate = null,
+}: GetPaginateParams<T>): Promise<PaginationResult<T>> {
   const skip = (page - 1) * limit;
 
-  let query = model.find(filter).limit(limit).skip(skip);
+  let query = model.find(filter).sort(sort).limit(limit).skip(skip);
 
   if (populate) {
     query = query.populate(populate);

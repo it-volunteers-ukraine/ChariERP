@@ -4,7 +4,7 @@ import { Roles, UserStatus } from '../enums';
 
 export interface IUsers extends Document {
   role: Roles;
-  phone: number;
+  phone: string;
   notes: string;
   email: string;
   address: string;

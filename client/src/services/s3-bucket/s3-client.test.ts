@@ -1,4 +1,4 @@
-import { BucketFolders, uploadFileToBucket } from '@/s3-bucket/s3-client';
+import { BucketFolders, uploadFileToBucket } from '.';
 
 jest.mock('@aws-sdk/client-s3');
 

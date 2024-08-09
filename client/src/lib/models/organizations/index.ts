@@ -1,5 +1,6 @@
 import { Schema, model, models } from 'mongoose';
 
+import { Users } from '@/lib';
 import { IOrganizations, RequestOrganizationStatus } from '@/types';
 
 const organizationsSchema = new Schema<IOrganizations>({
@@ -16,7 +17,7 @@ const organizationsSchema = new Schema<IOrganizations>({
     firstName: { type: String, required: true },
     middleName: { type: String, required: true },
     phone: { type: String, required: true },
-    email: String,
+    email: { type: String, required: true },
   },
   mediaData: {
     site: { type: String },
@@ -28,6 +29,16 @@ const organizationsSchema = new Schema<IOrganizations>({
       ref: 'Users',
     },
   ],
+});
+
+organizationsSchema.pre('findOneAndDelete', async function (next) {
+  const organization = await this.model.findOne(this.getFilter()).populate('users');
+
+  if (organization) {
+    await Users.deleteMany({ _id: { $in: organization.users } });
+  }
+
+  next();
 });
 
 export default models.Organizations || model<IOrganizations>('Organizations', organizationsSchema);

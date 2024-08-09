@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { connectDB, Organizations } from '@/lib';
 import { RequestOrganizationStatus } from '@/types';
-import { BucketFolders, uploadFileToBucket } from '@/s3-bucket';
+import { BucketFolders, uploadFileToBucket } from '@/services';
 
 interface OrganizationsFormValues {
   site: string;
@@ -13,8 +13,8 @@ interface OrganizationsFormValues {
   social: string[];
   position: string;
   firstName: string;
+  certificate: File;
   middleName: string;
-  certificate: string;
   organizationName: string;
   dateOfRegistration: Date;
 }
@@ -35,7 +35,6 @@ export async function POST(request: Request) {
     formBody.position = formData.get('position') as string;
     formBody.firstName = formData.get('firstName') as string;
     formBody.middleName = formData.get('middleName') as string;
-    // formBody.certificate = formData.get('certificate') as string;
     formBody.organizationName = formData.get('organizationName') as string;
     formBody.dateOfRegistration = new Date(formData.get('dateOfRegistration') as string);
 
@@ -52,7 +51,7 @@ export async function POST(request: Request) {
       request: RequestOrganizationStatus.PENDING,
       organizationData: {
         edrpou: formBody.edrpou,
-        // certificate: formBody.certificate,
+        certificate: '',
         organizationName: formBody.organizationName,
         dateOfRegistration: formBody.dateOfRegistration,
       },
@@ -82,7 +81,7 @@ export async function POST(request: Request) {
       certificate,
     );
 
-    formBody.certificate = uploadedFileUrl!;
+    body.organizationData.certificate = uploadedFileUrl!;
 
     const newOrganization = new Organizations(body);
     const response = await newOrganization.save();
