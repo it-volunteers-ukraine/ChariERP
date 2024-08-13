@@ -10,6 +10,7 @@ interface IStylesInput {
   isTextarea?: boolean;
   placeholder?: string;
   wrapperClass?: string;
+  textAreaClass?: string;
   isTypePassword: boolean;
   visiblePassword: boolean;
   placeholderItalic?: boolean;
@@ -24,6 +25,7 @@ export const getStyles = ({
   isTextarea,
   placeholder,
   wrapperClass,
+  textAreaClass,
   isTypePassword,
   visiblePassword,
   placeholderItalic,
@@ -58,7 +60,8 @@ export const getStyles = ({
     'text-input-text': value,
     'text-input-info': placeholder && !value,
     'placeholder:text-input-disabled bg-transparent': disabled,
-    'outline-none mr-2 min-h-[216px] text-input scroll-textarea resize-none': isTextarea,
+    'outline-none': isTextarea,
+    [`${textAreaClass}`]: textAreaClass,
     'cursor-pointer': type === 'date',
     'cancel-search-btn px-0 h-[23px]': type === 'search',
     'pr-12': isTypePassword || type === 'file' || cross || type === 'date',

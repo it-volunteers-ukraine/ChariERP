@@ -25,6 +25,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
       isMasked,
       isTextarea,
       wrapperClass,
+      textAreaClass,
       type = 'text',
       placeholderItalic,
       ...props
@@ -40,6 +41,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
       disabled,
       isTextarea,
       wrapperClass,
+      textAreaClass,
       error: !!error,
       placeholderItalic,
       value: value as string,
