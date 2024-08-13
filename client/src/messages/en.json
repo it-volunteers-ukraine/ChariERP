@@ -75,7 +75,7 @@
     },
     "socialNetworks": {
       "label": "Link to the social network",
-      "information": "Add links to social media (Facebook, Instagram, LinkedIn, TikTok, Youtube, etc.). ",
+      "information": "Add links to social media - no more than 5. (Facebook, Instagram, LinkedIn, TikTok, Youtube, etc.). ",
       "forExample": "For example: {link}"
     },
     "checkbox": {
