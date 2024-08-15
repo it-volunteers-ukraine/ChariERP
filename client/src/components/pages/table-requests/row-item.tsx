@@ -104,7 +104,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
 
       const fileUrl = await getUrlWithExtension({ url: item.certificate, file: downloadedFile });
 
-      window.open(fileUrl, '_blank');
+      window.open(fileUrl as string, '_blank');
     } catch (error) {
       console.error('Error when loading a certificate:', error);
     }

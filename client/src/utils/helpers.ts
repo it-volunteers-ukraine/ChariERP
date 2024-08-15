@@ -1,15 +1,16 @@
-import { GetUrlProps } from '@/types';
+import { DownloadType, GetUrlProps } from '@/types';
 
 export const dateFormat: Record<string, string> = {
   ua: 'dd.MM.yyyy',
   en: 'MM.dd.yyyy',
 };
 
-export const getUrlWithExtension = async ({ url, file }: GetUrlProps) => {
+export const getUrlWithExtension = async ({ url, file, downloadType = DownloadType.URL }: GetUrlProps) => {
   const byteArray = await file.transformToByteArray();
   const extension = url.split('.')?.pop()?.toLowerCase();
 
   let mimeType = 'application/octet-stream';
+  const fileName = url.split('/')[2];
 
   switch (extension) {
     case 'pdf':
@@ -25,6 +26,10 @@ export const getUrlWithExtension = async ({ url, file }: GetUrlProps) => {
   }
 
   const blob = new Blob([byteArray], { type: mimeType });
+
+  if (downloadType === DownloadType.FILE) {
+    return new File([blob], fileName, { type: mimeType });
+  }
 
   return URL.createObjectURL(blob);
 };
@@ -42,3 +47,11 @@ export function generatePassword(minLength: number = 8, maxLength: number = 20):
 
   return password;
 }
+
+export const createFile = (filename: string, extension: string) => {
+  const fileContent = new Blob(['\x00'], { type: 'application/octet-stream' });
+
+  const file = new File([fileContent], `${filename}.${extension}`, { type: fileContent.type });
+
+  return file;
+};

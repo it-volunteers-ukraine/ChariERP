@@ -138,7 +138,6 @@ const RequestsId = () => {
                   <div className="flex items-start gap-16">
                     <FileField
                       required
-                      maxSize={5}
                       placeholderItalic
                       name="certificateOfRegister"
                       accept="pdf, jpg, jpeg, png"

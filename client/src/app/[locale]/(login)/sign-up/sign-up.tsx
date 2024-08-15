@@ -6,8 +6,8 @@ import { AxiosError } from 'axios';
 import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikHelpers, FormikValues } from 'formik';
 
-import { ErrorResponse } from '@/types';
 import { createOrganization } from '@/api';
+import { ErrorResponse, OrganizationFormValues } from '@/types';
 import {
   Title,
   Button,
@@ -17,7 +17,6 @@ import {
   InputField,
   showMessage,
   CheckboxRadioField,
-  OrganizationFormValues,
   organizationValidation,
   organizationInitialValues,
 } from '@/components';

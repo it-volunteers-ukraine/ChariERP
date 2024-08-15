@@ -22,14 +22,19 @@ interface OrganizationsFormValues {
 export async function POST(request: Request) {
   try {
     await connectDB();
+
     const formData = await request.formData();
     const formBody: Partial<OrganizationsFormValues> = {};
 
+    const organizationExist = await Organizations.findOne({ 'organizationData.edrpou': formBody.edrpou });
+
+    if (!organizationExist) {
+      return NextResponse.json({ message: 'Organization not found' }, { status: 404 });
+    }
+
     const certificate = formData.get('certificate') as File;
 
-    formData.forEach((value, key) => {
-      console.log({ value, key });
-    });
+    let uploadedFileUrl;
 
     formBody.site = formData.get('site') as string;
     formBody.email = formData.get('email') as string;
@@ -73,22 +78,18 @@ export async function POST(request: Request) {
       },
     };
 
-    const organizationExist = await Organizations.findOne({ 'organizationData.edrpou': formBody.edrpou });
-
-    if (organizationExist) {
-      return NextResponse.json({ message: 'companyAlreadyRegistered' }, { status: 400 });
+    if (certificate) {
+      uploadedFileUrl = await uploadFileToBucket(
+        formBody.organizationName,
+        BucketFolders.CertificateOfRegister,
+        certificate,
+      );
+      body.organizationData.certificate = uploadedFileUrl as string;
     }
 
-    const uploadedFileUrl = await uploadFileToBucket(
-      formBody.organizationName,
-      BucketFolders.CertificateOfRegister,
-      certificate,
-    );
-
-    body.organizationData.certificate = uploadedFileUrl!;
-
-    const newOrganization = new Organizations(body);
-    const response = await newOrganization.save();
+    const response = await Organizations.findOneAndUpdate({ 'organizationData.edrpou': formBody.edrpou }, body, {
+      new: true,
+    });
 
     return NextResponse.json(response, { status: 201 });
   } catch (error) {

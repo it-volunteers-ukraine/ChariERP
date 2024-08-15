@@ -7,7 +7,7 @@ const usersSchema = new Schema<IUsers>({
   lastName: { type: String, required: true },
   firstName: { type: String, required: true },
   middleName: { type: String, required: true },
-  phone: { type: String, unique: true, required: true },
+  phone: { type: String, required: true },
   position: { type: String, required: true },
   email: { type: String, unique: true, required: true },
   status: { type: String, enum: Object.values(UserStatus), default: UserStatus.ACTIVE },
