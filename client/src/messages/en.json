@@ -22,6 +22,7 @@
       "basicInformation": "Basic information",
       "contactInformation": "Contact information",
       "loginInformation": "Login information",
+      "AdditionalInformation": "Additional information",
       "media": "Media"
     },
     "mainInformation": "On this page, you can edit the data that was specified during registration. You can change the name of the organization, add or change media links, phone number of the organization, etc.",
@@ -48,6 +49,10 @@
       "label": "Position of the organization's representative",
       "forExample": "For example: Manager, IA, Accountant, etc."
     },
+    "positionOfMember": {
+      "label": "Position",
+      "information": "Enter the role of the employee (accountant, driver, etc.) or leave the field blank"
+    },
     "lastName": {
       "label": "Last name"
     },
@@ -56,6 +61,18 @@
     },
     "middleName": {
       "label": "Middle name"
+    },
+    "dateOfBirth": {
+      "label": "Date of birth"
+    },
+    "dateOfEntry": {
+      "label": "Date of entry"
+    },
+    "homeAddress": {
+      "label": "Home address"
+    },
+    "notes": {
+      "label": "Notes"
     },
     "phone": {
       "label": "Representative's phone number (with area code)",

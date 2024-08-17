@@ -70,7 +70,7 @@ export const AvatarUploader = ({
         )}
 
         {info && (
-          <div className="flex items-start gap-3 text-input-info tablet:items-center max-w-[600px]">
+          <div className="flex items-start gap-3 text-input-info tablet:items-center">
             <Info width={24} height={24} className="min-w-[24px]" />
 
             {typeof info === 'string' ? <span className="text-input-info text-[14px]">{info}</span> : <div>{info}</div>}
