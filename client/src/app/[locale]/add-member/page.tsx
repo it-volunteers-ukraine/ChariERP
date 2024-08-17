@@ -71,7 +71,7 @@ const AddMember = () => {
                 />
               </div>
 
-              <div className="flex flex-col gap-9 desktop:gap-12">
+              <div className="flex flex-col gap-9 laptop:gap-12">
                 <Accordion
                   initialState
                   classNameWrapper="!gap-3"
@@ -101,9 +101,9 @@ const AddMember = () => {
                   </div>
 
                   <InputField
+                    wrapperClass="gap-1 laptop:!gap-12"
                     name="positionOfMember"
                     label={text('positionOfMember.label')}
-                    wrapperClass="!gap-12"
                     info={text('positionOfMember.information')}
                   />
                 </Accordion>
@@ -113,7 +113,7 @@ const AddMember = () => {
                   classNameWrapper="!gap-3"
                   classNameTitle="text-[20px] uppercase"
                   title={text('title.loginInformation')}
-                  classNameChildren="flex flex-col laptop:flex-row laptop:gap-12"
+                  classNameChildren="flex flex-col gap-4 laptop:flex-row laptop:gap-12"
                 >
                   <InputField required name="email" label={text('email.label')} />
 
@@ -152,7 +152,7 @@ const AddMember = () => {
                     name="textarea"
                     label={text('notes.label')}
                     wrapperClass="laptop:max-w-[calc(50%-24px)]"
-                    textAreaClass="mr-2 min-h-[183px] scroll-textarea resize-none"
+                    textAreaClass="!p-[0_4px_0_16px] mr-[6px] min-h-[183px] scroll-textarea !text-input-text resize-none"
                   />
                 </Accordion>
 
