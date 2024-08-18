@@ -4,13 +4,10 @@ import { createFile } from '@/utils';
 
 export const oneOrganizationNormalizer = async (data: IOrganizations) => {
   const certificate = data.organizationData.certificate;
-  // const stream = await downloadFileFromBucket(certificate);
 
-  const fileName = certificate.split('/').pop()?.split('.');
+  const fileName = certificate?.split('/').pop()?.split('.');
 
   const file = createFile(fileName![0], fileName![1]);
-
-  // const downLoadFile = await getUrlWithExtension({ url: certificate, file: stream!, downloadType: DownloadType.FILE });
 
   return {
     site: data.mediaData.site || '',

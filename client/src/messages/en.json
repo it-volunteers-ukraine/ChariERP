@@ -10,7 +10,7 @@
       "password": "Password",
       "button": "Sign In"
     },
-    "createOrganization": "The organization was created"
+    "createOrganization": "Application has been sent successfully"
   },
   "sidebar": {
     "requests": "Requests",

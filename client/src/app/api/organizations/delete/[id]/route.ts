@@ -14,7 +14,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
 
     const organization = await Organizations.findOne({ _id: id });
 
-    const name = organization.organizationData.certificate.split('/').shift();
+    const name = organization.organizationData.certificate?.split('/').shift();
 
     await deleteFileFromBucket(name);
 

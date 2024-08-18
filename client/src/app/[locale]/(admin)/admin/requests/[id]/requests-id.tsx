@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { useRouter, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useRouter, useParams } from 'next/navigation';
 import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
 
-import { getOrganizationById } from '@/api';
-import { OrganizationEditValues } from '@/types';
+import { serializeOrganizationsUpdate } from '@/utils';
+import { getOrganizationById, onUpdateOrganization } from '@/api';
+import { OrganizationEditValues, RequestOrganizationStatus } from '@/types';
 import {
   Button,
   SmallBtn,
@@ -33,10 +34,12 @@ const RequestsId = () => {
   const modal = useTranslations('modal');
   const error = useTranslations('validation');
 
-  const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
-  const [isOpenAccept, setIsOpenAccept] = useState<boolean>(false);
-  const [isOpenDecline, setIsOpenDecline] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isOpenSave, setIsOpenSave] = useState(false);
+  const [isOpenAccept, setIsOpenAccept] = useState(false);
+  const [isOpenDecline, setIsOpenDecline] = useState(false);
+  const [isLoadingRequest, setIsLoadingRequest] = useState(false);
+
   const [data, setData] = useState<OrganizationEditValues | null>(null);
 
   const loadData = async () => {
@@ -46,16 +49,55 @@ const RequestsId = () => {
 
       setData(data);
     } catch (error) {
+      // TODO Connect error message
       console.log(error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const onSubmit = (values: FormikValues) => {
-    console.log('data', values);
-    setIsOpenAccept(false);
-    router.back();
+  const onSave = async (values: OrganizationEditValues, request?: RequestOrganizationStatus) => {
+    const formData = new FormData();
+
+    const { file, data } = serializeOrganizationsUpdate(values);
+
+    if (request) data.request = request;
+
+    formData.append(`certificate`, file);
+    formData.append(`data`, JSON.stringify(data));
+
+    const response = await onUpdateOrganization(id as string, formData);
+
+    setData(response);
+  };
+
+  const handleSave = async (values: OrganizationEditValues, request?: RequestOrganizationStatus) => {
+    try {
+      setIsLoadingRequest(true);
+      await onSave(values, request);
+      showMessage.success('Save');
+    } catch (error) {
+      // TODO Connect error message
+      console.log(error);
+      showMessage.error('Some error in form');
+    } finally {
+      setIsLoadingRequest(false);
+      setIsOpenSave(false);
+    }
+  };
+
+  const onSubmit = async (values: FormikValues) => {
+    try {
+      setIsLoadingRequest(true);
+
+      await onSave(values as OrganizationEditValues, RequestOrganizationStatus.APPROVED);
+    } catch (error) {
+      // TODO Connect error message
+      console.log(error);
+    } finally {
+      setIsOpenAccept(false);
+      setIsLoadingRequest(false);
+    }
   };
 
   const submitHandle = async (validateForm: () => Promise<FormikErrors<FormikValues>>, handleSubmit: () => void) => {
@@ -63,13 +105,8 @@ const RequestsId = () => {
 
     if (Object.keys(errors).length > 0) {
       showMessage.error('Error');
-      setIsOpenSave(false);
-      setIsOpenAccept(false);
     } else {
       handleSubmit();
-      showMessage.success('Save');
-      setIsOpenSave(false);
-      setIsOpenAccept(false);
     }
   };
 
@@ -98,9 +135,10 @@ const RequestsId = () => {
             btnCancelText={btn('no')}
             title={modal('save.title')}
             btnConfirmText={btn('yes')}
+            isLoading={isLoadingRequest}
             content={modal('save.text')}
             onClose={() => setIsOpenSave(false)}
-            onConfirm={() => submitHandle(validateForm, handleSubmit)}
+            onConfirm={async () => await handleSave(values as OrganizationEditValues)}
           />
 
           <ModalAdmin
@@ -108,12 +146,13 @@ const RequestsId = () => {
             classNameBtn="w-[82px]"
             btnCancelText={btn('no')}
             btnConfirmText={btn('yes')}
+            isLoading={isLoadingRequest}
             title={modal('register.title')}
             onClose={() => setIsOpenAccept(false)}
-            onConfirm={() => submitHandle(validateForm, handleSubmit)}
+            onConfirm={async () => await submitHandle(validateForm, handleSubmit)}
             content={
               <div className="flex flex-col text-center text-mobster lending-6">
-                <span>ГО Живи</span>
+                <span>{data?.organizationName}</span>
                 <span>
                   {modal('register.text')} {'adshfg@mail.com'}
                 </span>
@@ -138,7 +177,12 @@ const RequestsId = () => {
                 <div className="flex items-center gap-4">
                   <ButtonIcon icon="back" iconType="primary" onClick={() => router.back()} />
 
-                  <ButtonIcon icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
+                  <ButtonIcon
+                    icon="save"
+                    iconType="primary"
+                    onClick={() => setIsOpenSave(true)}
+                    disabled={Object.keys(errors).length > 0}
+                  />
                 </div>
 
                 <div className="text-[18px] text-lightBlue leading-6 capitalize">№2223</div>
@@ -159,8 +203,8 @@ const RequestsId = () => {
                       isCopy
                       required
                       type="number"
-                      wrapperClass="max-w-[140px]"
                       name="edrpou"
+                      wrapperClass="max-w-[140px]"
                       label={text('organizationTaxNumber.labelErdpou')}
                     />
 
@@ -203,7 +247,7 @@ const RequestsId = () => {
                   <div className="flex items-start gap-16">
                     <InputField required name="firstName" label={text('name.label')} />
 
-                    <InputField required name="middleName" label={text('middleName.label')} />
+                    <InputField name="middleName" label={text('middleName.label')} />
                   </div>
 
                   <div className="flex items-start gap-16">

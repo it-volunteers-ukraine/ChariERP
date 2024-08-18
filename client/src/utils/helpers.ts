@@ -5,25 +5,22 @@ export const dateFormat: Record<string, string> = {
   en: 'MM.dd.yyyy',
 };
 
+const switchExtension = (extension: string) => {
+  switch (extension) {
+    case 'pdf':
+      return 'application/pdf';
+    default:
+      return `image/${extension}`;
+  }
+};
+
 export const getUrlWithExtension = async ({ url, file, downloadType = DownloadType.URL }: GetUrlProps) => {
   const byteArray = await file.transformToByteArray();
   const extension = url.split('.')?.pop()?.toLowerCase();
 
-  let mimeType = 'application/octet-stream';
   const fileName = url.split('/')[2];
 
-  switch (extension) {
-    case 'pdf':
-      mimeType = 'application/pdf';
-      break;
-    case 'jpg':
-    case 'gif':
-    case 'jpeg':
-      mimeType = `image/${extension}`;
-      break;
-    default:
-      console.warn('Unknown file extension:', extension);
-  }
+  const mimeType = switchExtension(extension!);
 
   const blob = new Blob([byteArray], { type: mimeType });
 
@@ -49,7 +46,9 @@ export function generatePassword(minLength: number = 8, maxLength: number = 20):
 }
 
 export const createFile = (filename: string, extension: string) => {
-  const fileContent = new Blob(['\x00'], { type: 'application/octet-stream' });
+  const mimeType = switchExtension(extension!);
+
+  const fileContent = new Blob(['\x00'], { type: mimeType });
 
   const file = new File([fileContent], `${filename}.${extension}`, { type: fileContent.type });
 

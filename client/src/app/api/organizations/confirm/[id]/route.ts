@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt';
 import { NextResponse } from 'next/server';
 
+import { sendEmail } from '@/services';
 import { generatePassword } from '@/utils';
-import { RequestOrganizationStatus, Roles, UserStatus } from '@/types';
 import { connectDB, Organizations, Users } from '@/lib';
-import { deleteFileFromBucket, sendEmail } from '@/services';
+import { RequestOrganizationStatus, Roles, UserStatus } from '@/types';
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
@@ -72,34 +72,6 @@ export async function GET(request: Request, { params }: { params: { id: string }
     });
 
     return NextResponse.json({ message: 'User created' }, { status: 200 });
-  } catch (error) {
-    return NextResponse.json(error, { status: 500 });
-  }
-}
-
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
-  try {
-    await connectDB();
-    const { id } = params;
-
-    if (!id) {
-      return NextResponse.json({ message: 'ID is required' }, { status: 400 });
-    }
-
-    const organization = await Organizations.findOne({ _id: id });
-
-    const name = organization.organizationData.certificate.split('/').shift();
-
-    await deleteFileFromBucket(name);
-
-    // const response = await Organizations.deleteOne({ _id: id });
-
-    // if (response.deletedCount === 0) {
-    //   return NextResponse.json({ message: 'Organization not found' }, { status: 404 });
-
-    // }
-
-    return NextResponse.json({}, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }

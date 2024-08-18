@@ -4,9 +4,10 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { AxiosError } from 'axios';
 import { useTranslations } from 'next-intl';
-import { FieldArray, Form, Formik, FormikHelpers, FormikValues } from 'formik';
+import { FieldArray, Form, Formik, FormikHelpers } from 'formik';
 
 import { createOrganization } from '@/api';
+import { serializeOrganizationsCreate } from '@/utils';
 import { ErrorResponse, OrganizationFormValues } from '@/types';
 import {
   Title,
@@ -35,24 +36,15 @@ const SignUp = () => {
 
   const validationSchema = organizationValidation(error).omit(['avatar']);
 
-  const onSubmit = async (values: FormikValues, handleFormik: FormikHelpers<OrganizationFormValues>) => {
+  const onSubmit = async (values: OrganizationFormValues, handleFormik: FormikHelpers<OrganizationFormValues>) => {
     setIsLoading(true);
 
     const formData = new FormData();
 
-    const { certificate, ...rest } = values;
+    const { file, data } = serializeOrganizationsCreate(values);
 
-    Object.entries(rest).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        value.forEach((item) => {
-          formData.append(`${key}[]`, item);
-        });
-      } else if (value !== undefined && value !== null && key !== 'agree' && key !== 'declineReason') {
-        formData.append(key, value);
-      }
-    });
-
-    formData.append(`certificate`, certificate);
+    formData.append(`certificate`, file);
+    formData.append(`data`, JSON.stringify(data));
 
     try {
       await createOrganization(formData);
@@ -112,6 +104,7 @@ const SignUp = () => {
               />
 
               <FileField
+                required
                 placeholderItalic
                 name="certificate"
                 accept=".pdf, .jpg, .jpeg, .png"
@@ -167,7 +160,6 @@ const SignUp = () => {
               />
 
               <InputField
-                required
                 name="middleName"
                 label={text('middleName.label')}
                 wrapperClass="laptop:max-w-[calc(50%-12px)]"

@@ -1,7 +1,8 @@
 import { PropsWithChildren } from 'react';
 import internal from 'stream';
 import { SdkStreamMixin } from '@aws-sdk/types';
-import { DownloadType } from './enums';
+
+import { DownloadType, RequestOrganizationStatus } from './enums';
 
 export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
 
@@ -40,6 +41,7 @@ export interface IParamsPagination {
   limit?: number;
   sort?: Record<string, number>;
 }
+
 export interface OrganizationFormValues {
   site: string;
   email: string;
@@ -55,6 +57,7 @@ export interface OrganizationFormValues {
   organizationName: string;
   certificate: File | string;
   dateOfRegistration: string;
+  //TODO delete declineReason when Andrey will merged into main
   declineReason:
     | string
     | {
@@ -63,7 +66,17 @@ export interface OrganizationFormValues {
       };
 }
 
+//TODO delete declineReason when Andrey will merged into main
 export interface OrganizationEditValues
   extends Omit<OrganizationFormValues, 'declineReason' | 'agree' | 'search' | 'dateOfRegistration'> {
   dateOfRegistration: Date;
+}
+
+//TODO delete declineReason when Andrey will merged into main
+export interface OrganizationCreateValues extends Omit<OrganizationFormValues, 'declineReason' | 'agree'> {}
+
+//TODO delete declineReason when Andrey will merged into main
+export interface OrganizationUpdateValues
+  extends Omit<OrganizationFormValues, 'declineReason' | 'agree' | 'certificate' | 'search'> {
+  request?: RequestOrganizationStatus;
 }

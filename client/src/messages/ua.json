@@ -10,7 +10,7 @@
       "password": "Пароль",
       "button": "Увійти"
     },
-    "createOrganization": "Організація створена"
+    "createOrganization": "Заявка успішно відправленна"
   },
   "sidebar": {
     "requests": "Заявки",

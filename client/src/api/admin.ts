@@ -59,3 +59,9 @@ export const onDeclineOrganization = async (id: string, reason: string) => {
 export const getOrganizationById = async (id: string) => {
   return await instance.get(`/organizations/${id}`).then(({ data }) => oneOrganizationNormalizer(data));
 };
+
+export const onUpdateOrganization = async (id: string, formData: FormData) => {
+  return await instance
+    .post(`/organizations/update/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+    .then(({ data }) => oneOrganizationNormalizer(data));
+};
