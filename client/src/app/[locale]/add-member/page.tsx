@@ -48,8 +48,8 @@ const AddMember = () => {
       validationSchema={organizationValidation(error).omit(['agree'])}
     >
       {({ errors, validateForm, handleSubmit }) => (
-        <div className="w-full bg-white overflow-y-auto scroll-blue">
-          <div className="p-[0_16px_48px] tablet:p-[0_32px_48px] m-auto w-full desktopXl:max-w-[1100px]">
+        <div className="p-[24px_16px_48px] tablet:p-[24px_32px_48px] desktop:p-[32px_36px_48px] w-full bg-white overflow-y-auto scroll-blue">
+          <div className="m-auto w-full desktopXl:max-w-[1066px]">
             <ModalAdmin
               isOpen={isOpenSave}
               title={modal('title')}
