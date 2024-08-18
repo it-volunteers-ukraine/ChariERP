@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikErrors, FormikValues } from 'formik';
 
@@ -9,20 +8,16 @@ import {
   Accordion,
   DateField,
   InputField,
-  ModalAdmin,
   showMessage,
+  AvatarField,
   organizationValidation,
   organizationInitialValues,
-  AvatarUploader,
 } from '@/components';
 
 const AddMember = () => {
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
   const error = useTranslations('validation');
-  const modal = useTranslations('modal.save');
-
-  const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
 
   const onSubmit = async (values: FormikValues) => console.log('data', values);
 
@@ -31,11 +26,9 @@ const AddMember = () => {
 
     if (Object.keys(errors).length > 0) {
       showMessage.error('Error');
-      setIsOpenSave(false);
     } else {
       handleSubmit();
       showMessage.success('Save');
-      setIsOpenSave(false);
     }
   };
 
@@ -50,25 +43,9 @@ const AddMember = () => {
       {({ errors, validateForm, handleSubmit }) => (
         <div className="p-[24px_16px_48px] tablet:p-[24px_32px_48px] desktop:p-[32px_36px_48px] w-full bg-white overflow-y-auto scroll-blue">
           <div className="m-auto w-full desktopXl:max-w-[1066px]">
-            <ModalAdmin
-              isOpen={isOpenSave}
-              title={modal('title')}
-              content={modal('text')}
-              classNameBtn="w-[82px]"
-              btnCancelText={btn('no')}
-              btnConfirmText={btn('yes')}
-              onClose={() => setIsOpenSave(false)}
-              onConfirm={() => submitHandle(validateForm, handleSubmit)}
-            />
-
             <Form>
               <div className="mb-6">
-                <AvatarUploader
-                  name="avatar"
-                  info={
-                    'Додайте зображення або лишіть пустим і ми автоматично додамо перші літери Імені та прізвища. Макс розмір 5 Мб. Формат jpg, jpeg, png.'
-                  }
-                />
+                <AvatarField name="avatar" info={text('avatar.information')} />
               </div>
 
               <div className="flex flex-col gap-9 laptop:gap-12">
@@ -87,7 +64,7 @@ const AddMember = () => {
                   </div>
 
                   <div className="flex flex-col laptop:flex-row gap-4 laptop:gap-12">
-                    <InputField required name="middleName" label={text('middleName.label')} />
+                    <InputField name="middleName" label={text('middleName.label')} />
 
                     <InputField
                       required
@@ -156,22 +133,20 @@ const AddMember = () => {
                   />
                 </Accordion>
 
-                <div className="flex flex-col tablet:flex-row items-center justify-center gap-3 tablet:gap-6">
+                <div className="flex flex-col tablet:flex-row items-center justify-end gap-3 tablet:gap-6">
                   <Button
                     type="submit"
                     styleType="green"
+                    text={btn('add')}
                     className="uppercase w-full tablet:w-fit"
-                    text={btn('saveChanges')}
-                    onClick={() => {
-                      setIsOpenSave(true);
-                    }}
+                    onClick={() => submitHandle(validateForm, handleSubmit)}
                   />
 
                   <Button
                     className="uppercase w-full tablet:w-fit"
                     onClick={() => {}}
                     styleType="red"
-                    text={btn('cancelChanges')}
+                    text={btn('cancel')}
                   />
                 </div>
               </div>

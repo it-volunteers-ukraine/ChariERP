@@ -101,6 +101,9 @@
     },
     "placeholder": {
       "search": "Search"
+    },
+    "avatar": {
+      "information": " Add an image or leave it blank and we will automatically add the first letters of your first and last name. Max size 5 MB. Format jpg, jpeg, png."
     }
   },
   "table": {
@@ -149,6 +152,8 @@
     "delete": "delete",
     "accept": "accept",
     "decline": "decline",
+    "add": "add",
+    "cancel": "cancel",
     "yes": "YES",
     "no": "NO"
   },
