@@ -1,23 +1,23 @@
 'use client';
 
-import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
 
 import {
-  Accordion,
   Button,
-  ButtonIcon,
+  SmallBtn,
+  Accordion,
   DateField,
   FileField,
+  ButtonIcon,
   InputField,
   ModalAdmin,
-  ModalContent,
-  organizationInitialValues,
-  organizationValidation,
   showMessage,
-  SmallBtn,
+  ModalContent,
+  organizationValidation,
+  organizationInitialValues,
 } from '@/components';
 
 const DeclinedId = () => {

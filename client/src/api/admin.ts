@@ -1,7 +1,7 @@
 import { IOrganizations, IParamsPagination, PaginationResult, RequestOrganizationStatus } from '@/types';
+import { approveOrganizationsNormalizer, oneOrganizationNormalizer, pendingDeclineNormalizer } from '@/utils';
 
 import { instance } from './default';
-import { approveOrganizationsNormalizer, oneOrganizationNormalizer, pendingDeclineNormalizer } from '@/utils';
 
 const commonSort = { 'organizationData.dateOfRegistration': 1 };
 
