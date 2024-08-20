@@ -2,8 +2,8 @@ import bcrypt from 'bcrypt';
 import { NextResponse } from 'next/server';
 
 import { sendEmail } from '@/services';
-import { generatePassword } from '@/utils';
 import { connectDB, Organizations, Users } from '@/lib';
+import { generatePassword, getHtmlCodeForPassword } from '@/utils';
 import { RequestOrganizationStatus, Roles, UserStatus } from '@/types';
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
@@ -31,12 +31,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
     const hash = await bcrypt.hash(password, 10);
 
     const newUser = new Users({
-      lastName: organization.contactData.lastName,
-      position: organization.contactData.position,
-      firstName: organization.contactData.firstName,
-      middleName: organization.contactData.middleName,
-      phone: organization.contactData.phone,
-      email: organization.contactData.email,
+      ...organization.contactData,
       password: hash,
       status: UserStatus.ACTIVE,
       role: Roles.MANAGER,
@@ -52,23 +47,11 @@ export async function GET(request: Request, { params }: { params: { id: string }
 
     await Organizations.findByIdAndUpdate(id, { $set: updateOrganization });
 
-    const htmlCode = `<div style="font-family: Arial, sans-serif; padding: 20px;">
-    <h2 style="color: #333;">Ваші дані для входу</h2>
-    <p style="margin-bottom: 20px;">
-    <strong>Email</strong>:
-    <span style="font-weight: bold; color: #1a73e8; background-color: #f1f1f1; padding: 10px; border-radius: 5px;">${organization.contactData.email}</span>
-    </p>
-    <p>
-    <strong>Пароль</strong>:
-    <span style="font-weight: bold; color: #333; background-color: #f1f1f1; padding: 10px; border-radius: 5px;">${password}</span>
-    </p>
-    </div>`;
-
     await sendEmail({
-      html: htmlCode,
       text: 'Ваші дані для входу',
       subject: 'Ваші дані для входу',
       to: organization.contactData.email,
+      html: getHtmlCodeForPassword({ password, email: organization.contactData.email }),
     });
 
     return NextResponse.json({ message: 'User created' }, { status: 200 });

@@ -153,12 +153,21 @@
     "service": "About service",
     "faq": "FAQs"
   },
+  "success": {
+    "admin-pages": {
+      "sentEmail": "The letter was sent to {email}",
+      "deleteOrganization": "The organization was deleted"
+    }
+  },
   "errors": {
     "login": {
       "userIncorrect": "Incorrect email or password",
       "userNotFound": "User not found",
       "somethingWrong": "Something went wrong",
       "companyAlreadyRegistered": "The company is already registered with the USREOU"
+    },
+    "admin": {
+      "emptyValue": "Please, pick one reason"
     }
   },
   "loader": {

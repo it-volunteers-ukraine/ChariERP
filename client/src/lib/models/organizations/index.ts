@@ -6,7 +6,7 @@ import { IOrganizations, RequestOrganizationStatus } from '@/types';
 const organizationsSchema = new Schema<IOrganizations>({
   request: { type: String, enum: Object.values(RequestOrganizationStatus), required: true },
   organizationData: {
-    organizationName: { type: String, required: true },
+    organizationName: { type: String, unique: true, required: true },
     edrpou: { type: Number, unique: true, required: true },
     certificate: { type: String, required: true },
     dateOfRegistration: { type: Date, required: true },

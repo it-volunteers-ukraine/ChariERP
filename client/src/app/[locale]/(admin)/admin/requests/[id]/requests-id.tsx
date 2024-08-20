@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { useRouter, useParams } from 'next/navigation';
@@ -39,10 +39,13 @@ const RequestsId = () => {
   const [isOpenAccept, setIsOpenAccept] = useState(false);
   const [isOpenDecline, setIsOpenDecline] = useState(false);
   const [isLoadingRequest, setIsLoadingRequest] = useState(false);
-
   const [data, setData] = useState<OrganizationEditValues | null>(null);
 
-  const loadData = async () => {
+  const wrapperClass = clsx('relative w-full h-full bg-boardHeader scroll-blue', {
+    'overflow-y-auto': !isLoading,
+  });
+
+  const loadData = useCallback(async () => {
     setIsLoading(true);
     try {
       const data = await getOrganizationById(id as string);
@@ -54,7 +57,7 @@ const RequestsId = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [id]);
 
   const onSave = async (values: OrganizationEditValues, request?: RequestOrganizationStatus) => {
     const formData = new FormData();
@@ -112,11 +115,7 @@ const RequestsId = () => {
 
   useEffect(() => {
     loadData();
-  }, []);
-
-  const wrapperClass = clsx('relative w-full h-full bg-boardHeader scroll-blue', {
-    'overflow-y-auto': !isLoading,
-  });
+  }, [loadData]);
 
   return (
     <Formik

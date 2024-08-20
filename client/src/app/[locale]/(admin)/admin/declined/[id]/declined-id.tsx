@@ -1,26 +1,26 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
+import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import {
-  Button,
-  SmallBtn,
-  DateField,
   Accordion,
+  Button,
+  ButtonIcon,
+  DateField,
   FileField,
   InputField,
-  ButtonIcon,
   ModalAdmin,
-  showMessage,
   ModalContent,
-  organizationValidation,
   organizationInitialValues,
+  organizationValidation,
+  showMessage,
+  SmallBtn,
 } from '@/components';
 
-const RequestsId = () => {
+const DeclinedId = () => {
   const router = useRouter();
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
@@ -269,4 +269,4 @@ const RequestsId = () => {
   );
 };
 
-export { RequestsId };
+export { DeclinedId };
