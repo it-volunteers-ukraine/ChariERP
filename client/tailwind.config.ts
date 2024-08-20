@@ -158,6 +158,7 @@ const config: Config = {
         switcher: '0px 0px 4px 0px rgba(0, 0, 0, 0.16)',
         employeeCard: ` 0px 0px 3px 1px #65657540`,
         innerBg: '0px 0px 10px 4px rgba(0, 0, 0, 0.05)',
+        passwordChange: '0px 0px 8px 0px rgba(0, 0, 0, 0.17)',
       },
       backgroundSize: {
         200: '201%',
