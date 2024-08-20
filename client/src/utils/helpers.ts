@@ -1,3 +1,5 @@
+import { randomInt } from 'crypto';
+
 import { DownloadType, GetUrlProps } from '@/types';
 
 export const dateFormat: Record<string, string> = {
@@ -33,11 +35,11 @@ export const getUrlWithExtension = async ({ url, file, downloadType = DownloadTy
 
 export function generatePassword(minLength: number = 8, maxLength: number = 20): string {
   const alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const passwordLength = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
+  const passwordLength = randomInt(minLength, maxLength + 1);
   let password = '';
 
   for (let i = 0; i < passwordLength; i++) {
-    const randomIndex = Math.floor(Math.random() * alphabet.length);
+    const randomIndex = randomInt(0, alphabet.length);
 
     password += alphabet[randomIndex];
   }
