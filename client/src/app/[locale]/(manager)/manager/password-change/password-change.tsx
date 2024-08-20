@@ -61,7 +61,7 @@ const PasswordChange = () => {
           <Form className="shadow-auth h-min rounded-lg max-w-[611px] w-full pt-[44px] pr-[56px] pl-[56px] pb-[48px]">
             <Title
               title={passwordChangeText('title')}
-              className="font-scada uppercase text-[20px] !text-midGray text-center leading-6"
+              className="font-scada uppercase text-[20px] mb-8 !text-midGray text-center leading-6"
             />
 
             <div className="flex flex-col gap-6">
