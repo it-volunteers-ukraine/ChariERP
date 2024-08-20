@@ -51,6 +51,7 @@ const config: Config = {
         white,
         whiteSecond,
         lightBlue,
+        disabled,
         darkGray,
         dimGray,
         mobster,

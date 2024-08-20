@@ -54,6 +54,11 @@ export const getStyles = ({ isNarrow, styleType, className, isLoading }: IStyles
         styleType === 'white',
       'enabled:active:bg-lightBlue enabled:hover:bg-btn-steelBlue enabled:active:text-white enabled:hover:text-white':
         styleType === 'white' && !isLoading,
+
+      'enabled:bg-transparent border enabled:border-lightBlue enabled:text-lightBlue items-center disabled:border-disabled disabled:text-disabled':
+        styleType === 'without-bg',
+      'enabled:active:bg-transparent enabled:hover:bg-transparent enabled:active:text-lightBlue enabled:hover:text-lightBlue':
+        styleType === 'without-bg' && !isLoading,
     },
   ),
   iconWrapper: 'z-[3]',

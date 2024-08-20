@@ -20,6 +20,7 @@ export type StyleType =
   | 'primary'
   | 'outline'
   | 'secondary'
+  | 'without-bg'
   | 'icon-primary'
   | 'icon-secondary'
   | 'secondary-outline';
