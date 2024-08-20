@@ -1,23 +1,37 @@
 'use client';
 
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useParams, useRouter } from 'next/navigation';
 import { Form, Formik, FormikErrors, FormikValues } from 'formik';
 
+import { UserStatus } from '@/types';
 import {
   Button,
   Accordion,
   DateField,
   InputField,
+  ModalAdmin,
+  ButtonIcon,
   showMessage,
   AvatarField,
+  EmployeeCard,
   organizationValidation,
   organizationInitialValues,
 } from '@/components';
 
-const AddMember = () => {
+const EmployeePage = () => {
+  const { id } = useParams();
+  const router = useRouter();
+  const isCreate = id === 'create';
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
+  const modal = useTranslations('modal');
   const error = useTranslations('validation');
+
+  const [isOpenSave, setIsOpenSave] = useState(false);
+  const [isOpenCancel, setIsOpenCancel] = useState(false);
+  const [status, setStatus] = useState(UserStatus.ACTIVE);
 
   const onSubmit = async (values: FormikValues) => console.log('data', values);
 
@@ -43,10 +57,58 @@ const AddMember = () => {
       {({ errors, validateForm, handleSubmit }) => (
         <div className="p-[24px_16px_48px] tablet:p-[24px_32px_48px] desktop:p-[32px_36px_48px] w-full bg-white overflow-y-auto scroll-blue">
           <div className="m-auto w-full desktopXl:max-w-[1066px]">
+            <ModalAdmin
+              isOpen={isOpenSave}
+              classNameBtn="w-[82px]"
+              btnCancelText={btn('no')}
+              title={modal('save.title')}
+              btnConfirmText={btn('yes')}
+              content={modal('save.text')}
+              onClose={() => setIsOpenSave(false)}
+              onConfirm={() => submitHandle(validateForm, handleSubmit)}
+            />
+
+            <ModalAdmin
+              isOpen={isOpenCancel}
+              classNameBtn="w-[82px]"
+              btnCancelText={btn('no')}
+              btnConfirmText={btn('yes')}
+              title={modal('remove.title')}
+              onClose={() => setIsOpenCancel(false)}
+              onConfirm={() => submitHandle(validateForm, handleSubmit)}
+            />
+
             <Form>
-              <div className="mb-6">
-                <AvatarField name="avatar" info={text('avatar.information')} />
-              </div>
+              {isCreate ? (
+                <div className="mb-6">
+                  <AvatarField name="avatar" info={text('avatar.information')} />
+                </div>
+              ) : (
+                <>
+                  <div className="flex items-center justify-start pb-6 border-b-2 border-lightBlue">
+                    <div className="flex items-center gap-4 w-fit">
+                      <ButtonIcon icon="back" iconType="primary" onClick={() => router.back()} />
+
+                      <ButtonIcon icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
+                    </div>
+                  </div>
+
+                  <EmployeeCard
+                    id="sfr"
+                    imgWidth="92px"
+                    name="fdgfghij"
+                    email="wret"
+                    isStatusSelect
+                    surname="r4eryduy54r"
+                    patronymic="wretrghj"
+                    lastSession="wret"
+                    jobTitle="fdghjdxfcgvhb"
+                    status={status}
+                    setStatus={setStatus}
+                    className="tablet:!flex-row !items-center gap-[20px] tablet:gap-0 laptop:!gap-12 !p-[24px_0_32px] desktop:!py-8 !h-fit !bg-white !shadow-none"
+                  />
+                </>
+              )}
 
               <div className="flex flex-col gap-9 laptop:gap-12">
                 <Accordion
@@ -78,10 +140,10 @@ const AddMember = () => {
                   </div>
 
                   <InputField
-                    wrapperClass="gap-1 laptop:!gap-12"
                     name="positionOfMember"
                     label={text('positionOfMember.label')}
-                    info={text('positionOfMember.information')}
+                    info={isCreate && text('positionOfMember.information')}
+                    wrapperClass={`${!isCreate && 'laptop:max-w-[calc(50%-24px)]'} gap-1 laptop:!gap-12`}
                   />
                 </Accordion>
 
@@ -92,15 +154,20 @@ const AddMember = () => {
                   title={text('title.loginInformation')}
                   classNameChildren="flex flex-col gap-4 laptop:flex-row laptop:gap-12"
                 >
-                  <InputField required name="email" label={text('email.label')} />
+                  <InputField
+                    required
+                    name="email"
+                    label={text('email.label')}
+                    wrapperClass={`${!isCreate && 'laptop:max-w-[calc(50%-24px)]'}`}
+                  />
 
-                  <InputField required name="password" type="password" label={text('password.label')} />
+                  {isCreate && <InputField required name="password" type="password" label={text('password.label')} />}
                 </Accordion>
 
                 <Accordion
                   initialState
                   classNameWrapper="!gap-3"
-                  title={text('title.AdditionalInformation')}
+                  title={text('title.additionalInformation')}
                   classNameTitle="text-[20px] uppercase"
                   changedLength={Object.keys(errors).length}
                   classNameChildren="flex flex-col gap-4 laptop:gap-12 laptop:flex-row"
@@ -137,16 +204,16 @@ const AddMember = () => {
                   <Button
                     type="submit"
                     styleType="green"
-                    text={btn('add')}
                     className="uppercase w-full tablet:w-fit"
-                    onClick={() => submitHandle(validateForm, handleSubmit)}
+                    text={isCreate ? btn('add') : btn('saveChanges')}
+                    onClick={() => (isCreate ? submitHandle(validateForm, handleSubmit) : setIsOpenSave(!isOpenSave))}
                   />
 
                   <Button
-                    className="uppercase w-full tablet:w-fit"
-                    onClick={() => {}}
                     styleType="red"
-                    text={btn('cancel')}
+                    className="uppercase w-full tablet:w-fit"
+                    text={isCreate ? btn('cancel') : btn('cancelChanges')}
+                    onClick={() => !isCreate && setIsOpenCancel(!isOpenCancel)}
                   />
                 </div>
               </div>
@@ -158,4 +225,4 @@ const AddMember = () => {
   );
 };
 
-export default AddMember;
+export default EmployeePage;

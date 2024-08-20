@@ -3,12 +3,15 @@
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 import { useWindowWidth } from '@/hooks';
 import { employeeCardArray } from '@/mock';
 import { Button, EmployeeCard, Input, LoaderPage, Pagination } from '@/components';
+import { routes } from '@/constants';
 
 function EmployeesPage() {
+  const router = useRouter();
   const t = useTranslations();
 
   const [page, setPage] = useState(1);
@@ -47,6 +50,7 @@ function EmployeesPage() {
             styleType="primary"
             text={t('employeesPage.btnAdd')}
             className="w-full tablet:max-w-[216px] uppercase"
+            onClick={() => router.push(`${routes.employees}/create`)}
           />
         </div>
 

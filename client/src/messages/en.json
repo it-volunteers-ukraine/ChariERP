@@ -22,7 +22,7 @@
       "basicInformation": "Basic information",
       "contactInformation": "Contact information",
       "loginInformation": "Login information",
-      "AdditionalInformation": "Additional information",
+      "additionalInformation": "Additional information",
       "media": "Media"
     },
     "mainInformation": "On this page, you can edit the data that was specified during registration. You can change the name of the organization, add or change media links, phone number of the organization, etc.",
