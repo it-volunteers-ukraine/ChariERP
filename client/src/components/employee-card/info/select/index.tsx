@@ -15,7 +15,7 @@ export const Select = ({ status, setStatus }: ISelect) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const isActive = selected === cardTranslate(UserStatus.ACTIVE);
-  const styles = getStyles({ isOpen, status, isActive });
+  const styles = getStyles({ isOpen, isActive });
 
   const handleSelect = (value: UserStatus) => {
     const translatedValue = cardTranslate(value);
@@ -32,7 +32,7 @@ export const Select = ({ status, setStatus }: ISelect) => {
     <div className="relative w-[140px] h-[36px]">
       <div className={styles.wrapper}>
         <div onClick={() => setIsOpen(!isOpen)} className={styles.selected}>
-          <p>{selected}</p>
+          {selected}
 
           <div className={styles.arrow}>
             <ArrowUp width={18} height={18} />

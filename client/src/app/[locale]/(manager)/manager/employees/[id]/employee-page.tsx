@@ -95,10 +95,10 @@ const EmployeePage = () => {
 
                   <EmployeeCard
                     id="sfr"
-                    imgWidth="92px"
                     name="fdgfghij"
                     email="wret"
                     isStatusSelect
+                    classNameImg="!w-[92px]"
                     surname="r4eryduy54r"
                     patronymic="wretrghj"
                     lastSession="wret"

@@ -8,5 +8,4 @@ export interface ISelect {
 export interface IStyles {
   isOpen?: boolean;
   isActive?: boolean;
-  status?: UserStatus;
 }
