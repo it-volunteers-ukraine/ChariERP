@@ -12,6 +12,11 @@
     },
     "createOrganization": "The organization was created"
   },
+  "password-change": {
+    "title": "Change your password",
+    "newPassword": "New password",
+    "passwordConfirmation": "Password confirmation"
+  },
   "sidebar": {
     "requests": "Requests",
     "declined": "Declined",
@@ -145,7 +150,8 @@
     "notValidEmail": "Invalid e-mail address",
     "siteStart": "The input field must begin with https://...",
     "extensionsFile": "Invalid file format. Available formats: {extensions}",
-    "maxSizeFile": "File size exceeds {maxSize}МБ"
+    "maxSizeFile": "File size exceeds {maxSize}МБ",
+    "passwordMismatch": "The entered passwords do not match"
   },
   "header": {
     "about": "About Us",
