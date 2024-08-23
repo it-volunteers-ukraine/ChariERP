@@ -89,7 +89,7 @@ const SignUp = () => {
           <div>
             <Title
               title={text('title.basicInformation')}
-              className="mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
+              className="font-scada mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
             />
 
             <div className="flex flex-col gap-8 tablet:gap-[42px]">
@@ -145,7 +145,7 @@ const SignUp = () => {
           <div>
             <Title
               title={text('title.contactInformation')}
-              className="mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
+              className="font-scada mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
             />
 
             <div className="flex flex-col gap-8 tablet:gap-[42px]">
