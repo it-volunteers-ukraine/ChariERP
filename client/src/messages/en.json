@@ -151,7 +151,9 @@
     "siteStart": "The input field must begin with https://...",
     "extensionsFile": "Invalid file format. Available formats: {extensions}",
     "maxSizeFile": "File size exceeds {maxSize}МБ",
-    "passwordMismatch": "The entered passwords do not match"
+    "passwordMismatch": "The entered passwords do not match",
+    "validEmail": "Email must be a valid",
+    "spacesNotAllowed": "Leading and trailing spaces are not allowed"
   },
   "header": {
     "about": "About Us",
