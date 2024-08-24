@@ -96,17 +96,17 @@ const EmployeePage = () => {
                   </div>
 
                   <EmployeeCard
-                    id="sfr"
-                    email="wret"
+                    id="123546789"
                     isStatusSelect
-                    name="fdgfghij"
+                    name="adfhgyt"
                     status={status}
-                    lastSession="wret"
                     patronymic="wretrghj"
                     setStatus={setStatus}
                     surname="r4eryduy54r"
+                    lastSession="20.08.2024"
                     classNameImg="!w-[92px]"
-                    jobTitle="fdghjdxfcgvhb"
+                    jobTitle="szdfgdghgjghkhjk"
+                    email="wretdgood@gmail.com"
                     className="tablet:!flex-row !items-center gap-[20px] tablet:gap-0 laptop:!gap-12 !p-[24px_0_32px] desktop:!py-8 !h-fit !bg-white !shadow-none"
                   />
                 </>
