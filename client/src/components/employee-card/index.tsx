@@ -42,7 +42,7 @@ export const EmployeeCard = ({
       </div>
 
       <div className="w-full flex flex-col">
-        <Info label="Email" data={email} />
+        <Info label="E-mail" data={email} />
         <Info label={cardTranslate('statusText')} data={status} status={status} />
         <Info label={cardTranslate('lastSession')} data={lastSession} />
       </div>
