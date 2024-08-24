@@ -20,7 +20,7 @@ export const Links = ({ text, href }: ILinks) => {
 
   return (
     <Link href={href} className={`${styles.link}`}>
-      <span className="z-20 text-inherit">{text}</span>
+      <span className="z-20 text-inherit text-[20px] font-scada">{text}</span>
       <div className={styles.overlay} />
     </Link>
   );

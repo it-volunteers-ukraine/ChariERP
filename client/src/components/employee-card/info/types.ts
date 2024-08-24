@@ -7,3 +7,8 @@ export interface IInfoProps {
   isStatusSelect?: boolean;
   setStatus?: (status: UserStatus) => void;
 }
+
+export interface IStyles {
+  status?: UserStatus;
+  isStatusSelect?: boolean;
+}

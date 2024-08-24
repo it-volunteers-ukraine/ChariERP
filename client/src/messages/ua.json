@@ -12,6 +12,11 @@
     },
     "createOrganization": "Організація створена"
   },
+  "password-change": {
+    "title": "Зміна паролю",
+    "newPassword": "Новий пароль",
+    "passwordConfirmation": "Підтвердження паролю"
+  },
   "sidebar": {
     "requests": "Заявки",
     "declined": "Відхилені",
@@ -164,7 +169,10 @@
     "notValidEmail": "Неправильна адреса електронної пошти",
     "siteStart": "Поле введення має починатися з https://...",
     "extensionsFile": "Невірний формат файлу. Доступні формати: {extensions}",
-    "maxSizeFile": "Розмір файлу перевищує {maxSize}МБ"
+    "maxSizeFile": "Розмір файлу перевищує {maxSize}МБ",
+    "passwordMismatch": "Введені паролі не співпадають",
+    "validEmail": "Email повинен бути дійсним",
+    "spacesNotAllowed": "Пробіли на початку та в кінці не допускаються"
   },
   "header": {
     "about": "Про нас",

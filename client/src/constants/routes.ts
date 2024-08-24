@@ -10,4 +10,5 @@ export const routes = {
   aboutService: '/about_service',
   employees: '/manager/employees',
   organizations: '/admin/organizations',
+  passwordChange: '/manager/password-change',
 };
