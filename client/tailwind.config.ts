@@ -49,6 +49,7 @@ const config: Config = {
 
       colors: {
         white,
+        comet,
         whiteSecond,
         lightBlue,
         darkGray,
