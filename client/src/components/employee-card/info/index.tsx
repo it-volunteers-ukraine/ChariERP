@@ -16,7 +16,7 @@ export const Info = ({ label, data, status, setStatus, isStatusSelect }: IInfoPr
     <div className={styles.wrapper}>
       <p className={styles.label}>{label}</p>
       {isStatusSelect ? (
-        <Select status={status} setStatus={setStatus && setStatus} />
+        <Select status={status} setStatus={setStatus} />
       ) : (
         <p className={styles.data}>{statusText || data}</p>
       )}

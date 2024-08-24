@@ -54,12 +54,19 @@ export const getStyles = ({ isNarrow, styleType, className, isLoading }: IStyles
         styleType === 'white',
       'enabled:active:bg-lightBlue enabled:hover:bg-btn-steelBlue enabled:active:text-white enabled:hover:text-white':
         styleType === 'white' && !isLoading,
+
+      'enabled:bg-transparent border enabled:border-lightBlue enabled:text-lightBlue items-center disabled:border-disabled disabled:text-disabled':
+        styleType === 'outline-blue',
+      'enabled:hover:bg-transparent enabled:hover:border-dark-blue enabled:active:bg-transparent enabled:active-border-dark-blue enabled:active:text-dark-blue':
+        styleType === 'outline-blue' && !isLoading,
     },
   ),
   iconWrapper: 'z-[3]',
   span: clsx('relative z-[1] select-none flex items-center justify-center font-scada', {
     'text-base leading-4 h-[42px] px-[20px]': !isNarrow,
     'px-[12px] text-xs leading-[14px] h-[24px]': isNarrow,
+    'bg-clip-text text-transparent bg-outlineBlueBtnText bg-[bottom_right] group-hover:bg-[top_left] group-active:text-dark-blue bg-200  transition-all duration-300':
+      styleType === 'outline-blue',
   }),
   overlay: clsx(
     'absolute top-0 enabled:shadow-btn-inset left-0 w-full h-full transition-all duration-300 opacity-0 z-[0] bg-btnActiveGradient',

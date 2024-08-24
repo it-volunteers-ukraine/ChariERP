@@ -19,11 +19,13 @@ import {
   organizationValidation,
   organizationInitialValues,
 } from '@/components';
+import { getStyles } from './styles';
 
 const EmployeePage = () => {
-  const { id } = useParams();
   const router = useRouter();
+  const { id } = useParams();
   const isCreate = id === 'create';
+  const styles = getStyles(isCreate);
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
   const modal = useTranslations('modal');
@@ -200,21 +202,25 @@ const EmployeePage = () => {
                   />
                 </Accordion>
 
-                <div className="flex flex-col tablet:flex-row items-center justify-end gap-3 tablet:gap-6">
-                  <Button
-                    type="submit"
-                    styleType="green"
-                    className="uppercase w-full tablet:w-fit"
-                    text={isCreate ? btn('add') : btn('saveChanges')}
-                    onClick={() => (isCreate ? submitHandle(validateForm, handleSubmit) : setIsOpenSave(!isOpenSave))}
-                  />
+                <div className={`${styles.btnWrapper}`}>
+                  {!isCreate && <Button styleType="outline-blue" text={btn('deleteEmployee')} className={styles.btn} />}
 
-                  <Button
-                    styleType="red"
-                    className="uppercase w-full tablet:w-fit"
-                    text={isCreate ? btn('cancel') : btn('cancelChanges')}
-                    onClick={() => !isCreate && setIsOpenCancel(!isOpenCancel)}
-                  />
+                  <div className={`${styles.btnWrapper} w-full tablet:w-fit`}>
+                    <Button
+                      type="submit"
+                      styleType="green"
+                      className={styles.btn}
+                      text={isCreate ? btn('add') : btn('saveChanges')}
+                      onClick={() => (isCreate ? submitHandle(validateForm, handleSubmit) : setIsOpenSave(!isOpenSave))}
+                    />
+
+                    <Button
+                      styleType="red"
+                      className={styles.btn}
+                      text={isCreate ? btn('cancel') : btn('cancelChanges')}
+                      onClick={() => !isCreate && setIsOpenCancel(!isOpenCancel)}
+                    />
+                  </div>
                 </div>
               </div>
             </Form>
