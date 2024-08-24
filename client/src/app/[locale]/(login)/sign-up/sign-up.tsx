@@ -86,8 +86,6 @@ const SignUp = () => {
     >
       {({ values }) => (
         <Form className="flex flex-col gap-12 tablet:gap-16 desktop:gap-18 w-full">
-          <Button styleType="without-bg" text="button" />
-
           <div>
             <Title
               title={text('title.basicInformation')}
