@@ -1,8 +1,9 @@
 'use client';
+
 import { useEffect, useRef } from 'react';
 
-import { Close } from '@/assets/icons';
 import { useMounted } from '@/hooks';
+import { Close } from '@/assets/icons';
 import { ChildrenProps } from '@/types';
 
 import { Portal } from '../portal';
@@ -46,7 +47,7 @@ export const Overlay = ({ opened, onClose, children, duration = 300 }: ChildrenP
 
       if (event.key === 'Tab' && modalRef.current) {
         const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
-          'a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])',
+          'a[href], label, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])',
         );
 
         if (focusableElements.length === 0) return;

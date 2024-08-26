@@ -4,7 +4,7 @@ import { Roles, UserStatus } from '../enums';
 
 export interface IUsers extends Document {
   role: Roles;
-  phone: number;
+  phone: string;
   notes: string;
   email: string;
   address: string;
@@ -16,6 +16,7 @@ export interface IUsers extends Document {
   DateOfBirth: Date;
   dateOfEntry: Date;
   middleName: string;
+  avatarUrl?: string;
   status: UserStatus;
   _id?: Schema.Types.ObjectId;
   organizationId: Schema.Types.ObjectId;

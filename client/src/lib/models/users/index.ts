@@ -3,10 +3,11 @@ import { Schema, model, models } from 'mongoose';
 import { IUsers, Roles, UserStatus } from '@/types';
 
 const usersSchema = new Schema<IUsers>({
+  avatarUrl: { type: String },
   lastName: { type: String, required: true },
   firstName: { type: String, required: true },
   middleName: { type: String, required: true },
-  phone: { type: Number, unique: true, required: true },
+  phone: { type: String, required: true },
   position: { type: String, required: true },
   email: { type: String, unique: true, required: true },
   status: { type: String, enum: Object.values(UserStatus), default: UserStatus.ACTIVE },

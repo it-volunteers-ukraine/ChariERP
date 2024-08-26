@@ -4,11 +4,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { AxiosError } from 'axios';
 import { useTranslations } from 'next-intl';
-import { FieldArray, Form, Formik, FormikHelpers, FormikValues } from 'formik';
+import { FieldArray, Form, Formik, FormikHelpers } from 'formik';
 
-import { ErrorResponse } from '@/types';
 import { createOrganization } from '@/api';
-import { BucketFolders, uploadFileToBucket } from '@/s3-bucket/s3-client';
+import { serializeOrganizationsCreate } from '@/utils';
+import { ErrorResponse, OrganizationFormValues } from '@/types';
 import {
   Title,
   Button,
@@ -18,7 +18,6 @@ import {
   InputField,
   showMessage,
   CheckboxRadioField,
-  OrganizationFormValues,
   organizationValidation,
   organizationInitialValues,
 } from '@/components';
@@ -37,28 +36,15 @@ const SignUp = () => {
 
   const validationSchema = organizationValidation(error).omit(['avatar']);
 
-  const onSubmit = async (values: FormikValues, handleFormik: FormikHelpers<OrganizationFormValues>) => {
+  const onSubmit = async (values: OrganizationFormValues, handleFormik: FormikHelpers<OrganizationFormValues>) => {
     setIsLoading(true);
 
     const formData = new FormData();
 
-    const { certificateOfRegister } = values;
-    const uploadedFileUrl = await uploadFileToBucket(
-      BucketFolders.CertificateOfRegister,
-      certificateOfRegister as File,
-    );
+    const { file, data } = serializeOrganizationsCreate(values);
 
-    formData.append(`certificate`, uploadedFileUrl!);
-
-    Object.entries(values).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        value.forEach((item) => {
-          formData.append(`${key}[]`, item);
-        });
-      } else if (value !== undefined && value !== null && key !== 'agree' && key !== 'declineReason') {
-        formData.append(key, value);
-      }
-    });
+    formData.append(`certificate`, file);
+    formData.append(`data`, JSON.stringify(data));
 
     try {
       await createOrganization(formData);
@@ -69,7 +55,11 @@ const SignUp = () => {
       const axiosError = error as AxiosError<ErrorResponse>;
 
       if (axiosError.response?.status === 400) {
-        showMessage.error(errorText(axiosError.response.data.message));
+        showMessage.error(axiosError.response.data.message, { autoClose: 5000 });
+      }
+
+      if (axiosError.response?.status === 500) {
+        showMessage.error(errorText(axiosError.response.data.message), { autoClose: 2000 });
       }
     } finally {
       setIsLoading(false);
@@ -116,6 +106,7 @@ const SignUp = () => {
               />
 
               <FileField
+                required
                 placeholderItalic
                 name="certificate"
                 accept=".pdf, .jpg, .jpeg, .png"
@@ -173,7 +164,6 @@ const SignUp = () => {
               />
 
               <InputField
-                required
                 name="middleName"
                 label={text('middleName.label')}
                 wrapperClass="laptop:max-w-[calc(50%-12px)]"

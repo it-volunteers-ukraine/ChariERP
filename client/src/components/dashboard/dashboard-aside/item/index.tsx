@@ -8,7 +8,7 @@ export const NavItem = ({ Icon, text, href, className, ...props }: INavItemProps
   const router = useRouter();
   const path = usePathname();
 
-  const isActive = path === href;
+  const isActive = path.includes(href);
 
   const { wrapper, icon, span } = getStyles({
     isActive,

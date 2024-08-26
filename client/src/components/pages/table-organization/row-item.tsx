@@ -20,7 +20,7 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
     const selection = document.getSelection();
 
     if (!selection || !selection.toString()) {
-      router.push(`${routes.requests}/${item.id}`);
+      router.push(`${routes.organizations}/${item.id}`);
     }
   };
 

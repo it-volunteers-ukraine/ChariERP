@@ -10,7 +10,7 @@
       "password": "Пароль",
       "button": "Увійти"
     },
-    "createOrganization": "Організація створена"
+    "createOrganization": "Заявка успішно відправленна"
   },
   "password-change": {
     "title": "Зміна паролю",
@@ -157,11 +157,21 @@
     "service": "Про cервіс",
     "faq": "Поширені питання"
   },
+  "success": {
+    "admin-pages": {
+      "sentEmail": "Лист було надіслано на {email}",
+      "deleteOrganization": "Заявку видалено"
+    }
+  },
   "errors": {
     "login": {
       "userIncorrect": "Неправильний email або пароль",
       "userNotFound": "E-mail або пароль некоректний",
-      "companyAlreadyRegistered": "Компанія вже зареєстрована"
+      "somethingWrong": "Щось пішло не так",
+      "companyAlreadyRegistered": "Компанія з ЄДРПОУ вже зареєстрована"
+    },
+    "admin": {
+      "emptyValue": "Будь ласка, оберіть одну причину"
     }
   },
   "loader": {

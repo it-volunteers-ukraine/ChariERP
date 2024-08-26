@@ -1,4 +1,4 @@
-import { OrganizationFormValues } from '../types';
+import { OrganizationFormValues } from '@/types';
 
 export const organizationInitialValues = (data?: OrganizationFormValues) => ({
   site: data?.site ?? '',

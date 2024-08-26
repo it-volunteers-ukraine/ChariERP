@@ -55,8 +55,7 @@ export const organizationValidation = (error: (key: string, params?: Translation
       .required(error('required')),
     middleName: Yup.string()
       .trim()
-      .max(100, error('maxPlural', { int: 100 }))
-      .required(error('required')),
+      .max(100, error('maxPlural', { int: 100 })),
     phone: Yup.string()
       .test('is-valid-phone', error('notValidPhone'), (value) => !!isValidPhoneNumber(value as string))
       .required(error('required')),

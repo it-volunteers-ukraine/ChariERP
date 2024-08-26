@@ -113,7 +113,6 @@ const Organization = () => {
 
                   <FileField
                     required
-                    maxSize={5}
                     placeholderItalic
                     name="certificate"
                     wrapperClass="laptop:!gap-12"

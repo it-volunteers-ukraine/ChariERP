@@ -31,6 +31,4 @@ export interface InputProps extends Omit<CustomInput & CustomTextarea, 'ref'> {
   onChange?: (e: InputOnChangeEventType) => void;
 }
 
-export interface FileInputProps extends Omit<InputProps, 'onChange'> {
-  maxSize?: number;
-}
+export interface FileInputProps extends Omit<InputProps, 'onChange'> {}

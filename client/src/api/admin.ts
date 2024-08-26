@@ -1,55 +1,67 @@
-import { IOrganizations, PaginationResult, RequestOrganizationStatus } from '@/types';
+import { IOrganizations, IParamsPagination, PaginationResult, RequestOrganizationStatus } from '@/types';
+import { approveOrganizationsNormalizer, oneOrganizationNormalizer, pendingDeclineNormalizer } from '@/utils';
 
 import { instance } from './default';
 
-const getModifiedData = (data: IOrganizations[], status: RequestOrganizationStatus) => {
-  const filteredData = data.filter((item) => item.request === status);
+const commonSort = { 'organizationData.dateOfRegistration': 1 };
 
-  return filteredData.map((item) => ({
-    id: item._id!.toString(),
-    organizationName: item.organizationData.organizationName,
-    EDRPOU: item.organizationData.edrpou,
-    dateOfRegistration: item.organizationData.dateOfRegistration,
-    email: item.contactData.email,
-    certificate: item.organizationData.certificate,
-  }));
-};
+export const getPendingOrganizations = async ({ page, limit }: IParamsPagination) => {
+  const sortToString = JSON.stringify(commonSort);
+  const filterToString = JSON.stringify({ request: RequestOrganizationStatus.PENDING });
 
-export const getPendingOrganizations = async (page: number, limit?: number) => {
   const data = await instance
-    .get<PaginationResult<IOrganizations>>('/organizations', { params: { page, limit } })
+    .get<
+      PaginationResult<IOrganizations>
+    >('/organizations', { params: { page, limit, sort: sortToString, filter: filterToString } })
     .then(({ data }) => data);
 
-  const modifiedData = getModifiedData(data.results, RequestOrganizationStatus.PENDING);
-
-  return { organizations: modifiedData, totalPages: data.totalPages };
+  return { organizations: pendingDeclineNormalizer(data.results), totalPages: data.totalPages };
 };
 
-export const getDeclinedOrganizations = async (page: number, limit?: number) => {
+export const getDeclinedOrganizations = async ({ page, limit }: IParamsPagination) => {
+  const sortToString = JSON.stringify(commonSort);
+  const filterToString = JSON.stringify({ request: RequestOrganizationStatus.DECLINED });
+
   const data = await instance
-    .get<PaginationResult<IOrganizations>>('/organizations', { params: { page, limit } })
+    .get<
+      PaginationResult<IOrganizations>
+    >('/organizations', { params: { page, limit, sort: sortToString, filter: filterToString } })
     .then(({ data }) => data);
 
-  const modifiedData = getModifiedData(data.results, RequestOrganizationStatus.DECLINED);
-
-  return { organizations: modifiedData, totalPages: data.totalPages };
+  return { organizations: pendingDeclineNormalizer(data.results), totalPages: data.totalPages };
 };
 
-export const getApprovedOrganizations = async (page: number, limit?: number) => {
+export const getApprovedOrganizations = async ({ page, limit }: IParamsPagination) => {
+  const sortToString = JSON.stringify(commonSort);
+  const filterToString = JSON.stringify({ request: RequestOrganizationStatus.APPROVED });
+
   const data = await instance
-    .get<PaginationResult<IOrganizations>>('/organizations', { params: { page, limit, populate: 'users' } })
+    .get<
+      PaginationResult<IOrganizations>
+    >('/organizations', { params: { page, limit, populate: 'users', sort: sortToString, filter: filterToString } })
     .then(({ data }) => data);
 
-  const filteredData = data.results.filter((item) => item.request === RequestOrganizationStatus.APPROVED);
+  return { organizations: approveOrganizationsNormalizer(data.results), totalPages: data.totalPages };
+};
 
-  const modifiedData = filteredData.map((item) => ({
-    id: item._id!.toString(),
-    organizationName: item.organizationData.organizationName,
-    EDRPOU: item.organizationData.edrpou,
-    dateOfRegistration: item.organizationData.dateOfRegistration,
-    email: item.contactData.email,
-    users: item.users.length,
-  }));
+export const deleteOrganization = async (id: string) => {
+  return await instance.delete(`/organizations/delete/${id}`).then(({ data }) => data);
+};
 
-  return { organizations: modifiedData, totalPages: data.totalPages };
+export const onRegisterOrganization = async (id: string) => {
+  return await instance.get(`/organizations/confirm/${id}`).then(({ data }) => data);
+};
+
+export const onDeclineOrganization = async (id: string, reason: string) => {
+  return await instance.post('/organizations/decline', { id, reason }).then(({ data }) => data);
+};
+
+export const getOrganizationById = async (id: string) => {
+  return await instance.get(`/organizations/${id}`).then(({ data }) => oneOrganizationNormalizer(data));
+};
+
+export const onUpdateOrganization = async (id: string, formData: FormData) => {
+  return await instance
+    .post(`/organizations/update/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+    .then(({ data }) => oneOrganizationNormalizer(data));
 };
