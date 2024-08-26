@@ -27,6 +27,7 @@
       "basicInformation": "Basic information",
       "contactInformation": "Contact information",
       "loginInformation": "Login information",
+      "additionalInformation": "Additional information",
       "media": "Media"
     },
     "mainInformation": "On this page, you can edit the data that was specified during registration. You can change the name of the organization, add or change media links, phone number of the organization, etc.",
@@ -53,6 +54,10 @@
       "label": "Position of the organization's representative",
       "forExample": "For example: Manager, IA, Accountant, etc."
     },
+    "positionOfMember": {
+      "label": "Position",
+      "information": "Enter the role of the employee (accountant, driver, etc.) or leave the field blank"
+    },
     "lastName": {
       "label": "Last name"
     },
@@ -61,6 +66,18 @@
     },
     "middleName": {
       "label": "Middle name"
+    },
+    "dateOfBirth": {
+      "label": "Date of birth"
+    },
+    "dateOfEntry": {
+      "label": "Date of entry"
+    },
+    "homeAddress": {
+      "label": "Home address"
+    },
+    "notes": {
+      "label": "Notes"
     },
     "phone": {
       "label": "Representative's phone number (with area code)",
@@ -89,6 +106,9 @@
     },
     "placeholder": {
       "search": "Search"
+    },
+    "avatar": {
+      "information": " Add an image or leave it blank and we will automatically add the first letters of your first and last name. Max size 5 MB. Format jpg, jpeg, png."
     }
   },
   "table": {
@@ -132,11 +152,14 @@
     "addField": "Add more links",
     "changePass": "Change password",
     "deleteField": "Delete field",
+    "deleteEmployee": "Delete employee",
     "cancelChanges": "Cancel changes",
     "saveChanges": "Save changes",
     "delete": "delete",
     "accept": "accept",
     "decline": "decline",
+    "add": "add",
+    "cancel": "cancel",
     "yes": "YES",
     "no": "NO"
   },

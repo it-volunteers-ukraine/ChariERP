@@ -49,11 +49,11 @@ const config: Config = {
 
       colors: {
         white,
-        comet,
         whiteSecond,
         lightBlue,
         disabled,
         darkGray,
+        comet,
         dimGray,
         mobster,
         midGray,
@@ -162,6 +162,7 @@ const config: Config = {
         employeeCard: ` 0px 0px 3px 1px #65657540`,
         innerBg: '0px 0px 10px 4px rgba(0, 0, 0, 0.05)',
         passwordChange: '0px 0px 8px 0px rgba(0, 0, 0, 0.17)',
+        status: '0px 0px 2px 0px rgba(101, 101, 117, 0.37)',
       },
       backgroundSize: {
         200: '201%',
