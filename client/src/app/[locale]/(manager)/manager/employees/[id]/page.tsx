@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import EmployeePage from './employee-page';
+import EmployeePage from './employee-id';
 
 export const metadata: Metadata = {
   title: 'Add Member',
