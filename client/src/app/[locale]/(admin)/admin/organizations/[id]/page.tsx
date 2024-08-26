@@ -3,8 +3,8 @@ import { Metadata } from 'next';
 import { OrganizationId } from './organization-id';
 
 export const metadata: Metadata = {
-  title: 'Requests ID',
-  description: 'Requests ID',
+  title: 'Organization ID',
+  description: 'Organization ID',
 };
 
 const Edit = () => {
