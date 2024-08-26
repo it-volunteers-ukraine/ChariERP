@@ -55,7 +55,7 @@ describe('Database connection test', () => {
     expect(mockAdminCommand).toHaveBeenCalled();
   });
 
-  it('should catch an Error and return the error object when connection cannot be established', async () => {
+  it('should log and rethrow error when connection cannot be established', async () => {
     process.env.MONGO_URI = 'wrong-connection-string';
 
     Object.defineProperty(mongoose, 'connection', {

@@ -42,14 +42,13 @@ const DeclinedId = () => {
 
     if (Object.keys(errors).length > 0) {
       showMessage.error('Error');
-      setIsOpenSave(false);
-      setIsOpenAccept(false);
     } else {
       handleSubmit();
       showMessage.success('Save');
-      setIsOpenSave(false);
-      setIsOpenAccept(false);
     }
+
+    setIsOpenSave(false);
+    setIsOpenAccept(false);
   };
 
   return (
