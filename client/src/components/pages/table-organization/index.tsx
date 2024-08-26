@@ -36,7 +36,7 @@ export const TableOrganization = () => {
     setIsLoading(true);
 
     try {
-      const data = await getApprovedOrganizations(currentPage);
+      const data = await getApprovedOrganizations({ page: currentPage });
 
       setOrganizations(data.organizations);
       setTotalPages(data.totalPages);

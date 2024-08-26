@@ -32,7 +32,7 @@ export async function POST(request: Request) {
       const compare = await bcrypt.compare(body.password, foundUser.password);
 
       if (compare) {
-        return NextResponse.json(foundUser, { status: 201 });
+        return NextResponse.json(foundUser, { status: 200 });
       }
 
       return NextResponse.json({ message: 'userIncorrect' }, { status: 403 });

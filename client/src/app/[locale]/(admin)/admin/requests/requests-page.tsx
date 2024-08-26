@@ -18,7 +18,7 @@ export const RequestsPage = () => {
     setIsLoading(true);
 
     try {
-      const data = await getPendingOrganizations(currentPage);
+      const data = await getPendingOrganizations({ page: currentPage });
 
       setOrganizations(data.organizations);
       setTotalPages(data.totalPages);
@@ -44,7 +44,7 @@ export const RequestsPage = () => {
         />
 
         <LoaderPage isLoading={isLoading}>
-          <TableRequests data={organizations} />
+          <TableRequests data={organizations} getData={() => getData(page)} />
         </LoaderPage>
       </div>
 

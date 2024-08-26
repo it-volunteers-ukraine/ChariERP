@@ -19,3 +19,8 @@ export enum UserStatus {
   ACTIVE = 'active',
   BLOCKED = 'blocked',
 }
+
+export enum DownloadType {
+  FILE = 'file',
+  URL = 'url',
+}

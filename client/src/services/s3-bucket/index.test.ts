@@ -1,4 +1,4 @@
-import { BucketFolders, uploadFileToBucket } from '@/s3-bucket/s3-client';
+import { BucketFolders, uploadFileToBucket } from '.';
 
 jest.mock('@aws-sdk/client-s3');
 
@@ -9,9 +9,14 @@ describe('S3 bucket file upload test', () => {
     );
     const fileName = 'certificate.jpeg';
     const fileToUpload = new File(buffer, fileName);
+    const organizationName = 'Chari';
 
-    const fileInBucketUrl = await uploadFileToBucket(BucketFolders.CertificateOfRegister, fileToUpload);
+    const fileInBucketUrl = await uploadFileToBucket(
+      organizationName,
+      BucketFolders.CertificateOfRegister,
+      fileToUpload,
+    );
 
-    expect(fileInBucketUrl).toContain(`/${BucketFolders.CertificateOfRegister}/${fileName}`);
+    expect(fileInBucketUrl).toBe(`${organizationName}/${BucketFolders.CertificateOfRegister}/${fileName}`);
   });
 });

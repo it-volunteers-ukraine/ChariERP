@@ -2,14 +2,14 @@ import { Schema, Document } from 'mongoose';
 
 import { RequestOrganizationStatus } from '../enums';
 
-interface IOrganizationData {
+export interface IOrganizationData {
   edrpou: number;
   certificate: string;
   organizationName: string;
   dateOfRegistration: Date;
 }
 
-interface IContactData {
+export interface IContactData {
   phone: string;
   email: string;
   position: string;
@@ -18,7 +18,7 @@ interface IContactData {
   middleName: string;
 }
 
-interface IMediaData {
+export interface IMediaData {
   site: string;
   social: string[];
 }
@@ -30,4 +30,12 @@ export interface IOrganizations extends Document {
   users: Schema.Types.ObjectId[];
   request: RequestOrganizationStatus;
   organizationData: IOrganizationData;
+}
+
+export interface IOrganizationsUpdate {
+  mediaData: IMediaData;
+  contactData: IContactData;
+  organizationData: IOrganizationData;
+  request: RequestOrganizationStatus;
+  users?: Schema.Types.ObjectId[];
 }
