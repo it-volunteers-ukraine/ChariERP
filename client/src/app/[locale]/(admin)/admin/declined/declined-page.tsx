@@ -15,7 +15,7 @@ export const DeclinedPage = () => {
 
   const getData = async (currentPage: number) => {
     try {
-      const data = await getDeclinedOrganizations(currentPage);
+      const data = await getDeclinedOrganizations({ page: currentPage });
 
       setOrganizations(data.organizations);
       setTotalPages(data.totalPages);
@@ -38,7 +38,7 @@ export const DeclinedPage = () => {
           wrapperClass="mb-6 px-6 tablet:pl-8 tablet:max-w-[373px]"
         />
 
-        <TableRequests data={organizations} />
+        <TableRequests data={organizations} getData={() => getData(page)} />
       </div>
 
       <Pagination

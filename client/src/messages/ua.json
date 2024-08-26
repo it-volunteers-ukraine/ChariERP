@@ -10,7 +10,12 @@
       "password": "Пароль",
       "button": "Увійти"
     },
-    "createOrganization": "Організація створена"
+    "createOrganization": "Заявка успішно відправленна"
+  },
+  "password-change": {
+    "title": "Зміна паролю",
+    "newPassword": "Новий пароль",
+    "passwordConfirmation": "Підтвердження паролю"
   },
   "sidebar": {
     "requests": "Заявки",
@@ -141,7 +146,10 @@
     "notValidEmail": "Неправильна адреса електронної пошти",
     "siteStart": "Поле введення має починатися з https://...",
     "extensionsFile": "Невірний формат файлу. Доступні формати: {extensions}",
-    "maxSizeFile": "Розмір файлу перевищує {maxSize}МБ"
+    "maxSizeFile": "Розмір файлу перевищує {maxSize}МБ",
+    "passwordMismatch": "Введені паролі не співпадають",
+    "validEmail": "Email повинен бути дійсним",
+    "spacesNotAllowed": "Пробіли на початку та в кінці не допускаються"
   },
   "header": {
     "about": "Про нас",
@@ -149,11 +157,21 @@
     "service": "Про cервіс",
     "faq": "Поширені питання"
   },
+  "success": {
+    "admin-pages": {
+      "sentEmail": "Лист було надіслано на {email}",
+      "deleteOrganization": "Заявку видалено"
+    }
+  },
   "errors": {
     "login": {
       "userIncorrect": "Неправильний email або пароль",
       "userNotFound": "E-mail або пароль некоректний",
-      "companyAlreadyRegistered": "Компанія вже зареєстрована"
+      "somethingWrong": "Щось пішло не так",
+      "companyAlreadyRegistered": "Компанія з ЄДРПОУ вже зареєстрована"
+    },
+    "admin": {
+      "emptyValue": "Будь ласка, оберіть одну причину"
     }
   },
   "loader": {

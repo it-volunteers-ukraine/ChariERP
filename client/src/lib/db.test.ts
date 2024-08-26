@@ -55,17 +55,24 @@ describe('Database connection test', () => {
     expect(mockAdminCommand).toHaveBeenCalled();
   });
 
-  it('should catch an Error and return undefined when connection cannot be established', async () => {
+  it('should log and rethrow error when connection cannot be established', async () => {
     process.env.MONGO_URI = 'wrong-connection-string';
+
     Object.defineProperty(mongoose, 'connection', {
       get: () => ({
         readyState: ConnectionStates.disconnected,
       }),
     });
 
+    const mockError = new Error('Connection failed');
+
+    (mongoose.connect as jest.Mock).mockImplementationOnce(() => {
+      throw mockError;
+    });
+
     const actual = await connectDB();
 
-    expect(actual).toBeUndefined();
+    expect(actual).toBe(mockError);
     expect(mockAdminCommand).not.toHaveBeenCalled();
   });
 });

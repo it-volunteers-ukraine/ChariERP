@@ -69,7 +69,7 @@ export const getStyles = ({
     'focus:text-input-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none':
       type === 'number',
   }),
-  div: 'flex cursor-pointer peer-focus:[&>svg]:text-input-focus peer-focus:[&>svg]:hover:text-error',
+  div: 'flex cursor-pointer peer-focus:[&>svg]:text-input-focus',
   iconEye: clsx('absolute mb-3 right-3 transition-all duration-300 text-input-text'),
   error: 'text-input-error text-[12px]/[14px]',
   infoSpan: 'text-input-info text-[14px]/[20px]',

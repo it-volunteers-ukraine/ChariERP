@@ -33,8 +33,8 @@ export const EmployeeCard = ({
         <AvatarEmployee src={src} name={name} surname={surname} />
 
         <div className="w-[calc(100%-102px)] flex flex-col gap-1">
-          <p className={styles.abbName}>{name}</p>
           <p className={styles.abbName}>{surname}</p>
+          <p className={styles.abbName}>{name}</p>
           <p className={`${styles.abbName} ${styles.abbNameLast}`}>{patronymic}</p>
 
           <JobTitle jobTitle={jobTitle} />
@@ -42,7 +42,7 @@ export const EmployeeCard = ({
       </div>
 
       <div className="w-full flex flex-col">
-        <Info label="Email" data={email} />
+        <Info label="E-mail" data={email} />
         <Info label={cardTranslate('statusText')} data={status} status={status} />
         <Info label={cardTranslate('lastSession')} data={lastSession} />
       </div>
