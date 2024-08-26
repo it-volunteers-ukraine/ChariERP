@@ -5,10 +5,10 @@ import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
+import { routes } from '@/constants';
 import { useWindowWidth } from '@/hooks';
 import { employeeCardArray } from '@/mock';
 import { Button, EmployeeCard, Input, LoaderPage, Pagination } from '@/components';
-import { routes } from '@/constants';
 
 function EmployeesPage() {
   const router = useRouter();
