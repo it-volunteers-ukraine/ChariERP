@@ -3,6 +3,7 @@ export interface INavItemProps extends React.ButtonHTMLAttributes<HTMLButtonElem
   text: string;
   className?: string;
   Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  onCloseSideBar: () => void;
 }
 
 export interface INavItemStylesProps {

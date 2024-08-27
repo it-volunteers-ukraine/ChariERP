@@ -14,7 +14,7 @@ export const getStyles = ({ isNarrow, className, activeLanguage }: IStylesLangua
     {
       [`${className}`]: className,
       'text-[10px] h-[24px] px-[6px] w-[48px]': isNarrow,
-      'text-[20px] h-[48px] px-[12px] w-[86px]': !isNarrow,
+      'text-[20px] h-[44px] px-[12px] w-[86px]': !isNarrow,
     },
   ),
   icon: clsx('absolute top-0 left-0 transition-all duration-300 rounded-full', {

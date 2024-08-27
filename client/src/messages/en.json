@@ -20,7 +20,8 @@
   "sidebar": {
     "requests": "Requests",
     "declined": "Declined",
-    "organizations": "Organizations"
+    "organizations": "Organizations",
+    "exit": "Log out"
   },
   "inputs": {
     "title": {
