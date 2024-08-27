@@ -6,7 +6,7 @@ const usersSchema = new Schema<IUsers>({
   avatarUrl: { type: String },
   lastName: { type: String, required: true },
   firstName: { type: String, required: true },
-  middleName: { type: String, required: true },
+  middleName: { type: String },
   phone: { type: String, required: true },
   position: { type: String, required: true },
   email: { type: String, unique: true, required: true },
