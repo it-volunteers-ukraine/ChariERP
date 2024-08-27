@@ -12,6 +12,11 @@
     },
     "createOrganization": "Application has been sent successfully"
   },
+  "password-change": {
+    "title": "Change your password",
+    "newPassword": "New password",
+    "passwordConfirmation": "Password confirmation"
+  },
   "sidebar": {
     "requests": "Requests",
     "declined": "Declined",
@@ -22,6 +27,7 @@
       "basicInformation": "Basic information",
       "contactInformation": "Contact information",
       "loginInformation": "Login information",
+      "additionalInformation": "Additional information",
       "media": "Media"
     },
     "mainInformation": "On this page, you can edit the data that was specified during registration. You can change the name of the organization, add or change media links, phone number of the organization, etc.",
@@ -48,6 +54,10 @@
       "label": "Position of the organization's representative",
       "forExample": "For example: Manager, IA, Accountant, etc."
     },
+    "positionOfMember": {
+      "label": "Position",
+      "information": "Enter the role of the employee (accountant, driver, etc.) or leave the field blank"
+    },
     "lastName": {
       "label": "Last name"
     },
@@ -56,6 +66,18 @@
     },
     "middleName": {
       "label": "Middle name"
+    },
+    "dateOfBirth": {
+      "label": "Date of birth"
+    },
+    "dateOfEntry": {
+      "label": "Date of entry"
+    },
+    "homeAddress": {
+      "label": "Home address"
+    },
+    "notes": {
+      "label": "Notes"
     },
     "phone": {
       "label": "Representative's phone number (with area code)",
@@ -75,7 +97,7 @@
     },
     "socialNetworks": {
       "label": "Link to the social network",
-      "information": "Add links to social media (Facebook, Instagram, LinkedIn, TikTok, Youtube, etc.). ",
+      "information": "Add links to social media - no more than 5. (Facebook, Instagram, LinkedIn, TikTok, Youtube, etc.). ",
       "forExample": "For example: {link}"
     },
     "checkbox": {
@@ -84,6 +106,9 @@
     },
     "placeholder": {
       "search": "Search"
+    },
+    "avatar": {
+      "information": " Add an image or leave it blank and we will automatically add the first letters of your first and last name. Max size 5 MB. Format jpg, jpeg, png."
     }
   },
   "table": {
@@ -127,11 +152,14 @@
     "addField": "Add more links",
     "changePass": "Change password",
     "deleteField": "Delete field",
+    "deleteEmployee": "Delete employee",
     "cancelChanges": "Cancel changes",
     "saveChanges": "Save changes",
     "delete": "delete",
     "accept": "accept",
     "decline": "decline",
+    "add": "add",
+    "cancel": "cancel",
     "yes": "YES",
     "no": "NO"
   },
@@ -145,7 +173,10 @@
     "notValidEmail": "Invalid e-mail address",
     "siteStart": "The input field must begin with https://...",
     "extensionsFile": "Invalid file format. Available formats: {extensions}",
-    "maxSizeFile": "File size exceeds {maxSize}МБ"
+    "maxSizeFile": "File size exceeds {maxSize}МБ",
+    "passwordMismatch": "The entered passwords do not match",
+    "validEmail": "Email must be a valid",
+    "spacesNotAllowed": "Leading and trailing spaces are not allowed"
   },
   "header": {
     "about": "About Us",
@@ -153,12 +184,21 @@
     "service": "About service",
     "faq": "FAQs"
   },
+  "success": {
+    "admin-pages": {
+      "sentEmail": "The letter was sent to {email}",
+      "deleteOrganization": "The organization was deleted"
+    }
+  },
   "errors": {
     "login": {
       "userIncorrect": "Incorrect email or password",
       "userNotFound": "User not found",
       "somethingWrong": "Something went wrong",
       "companyAlreadyRegistered": "The company is already registered with the USREOU"
+    },
+    "admin": {
+      "emptyValue": "Please, pick one reason"
     }
   },
   "loader": {

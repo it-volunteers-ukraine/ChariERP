@@ -1,8 +1,8 @@
 'use client';
 
 import { MouseEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { format, parseISO } from 'date-fns';
+import { useRouter } from 'next/navigation';
 import { Formik, FormikValues } from 'formik';
 import { useLocale, useTranslations } from 'next-intl';
 
@@ -11,10 +11,15 @@ import { RowItemProps } from '@/types';
 import { Copy, Doc } from '@/assets/icons';
 import { downloadFileFromBucket } from '@/services';
 import { dateFormat, getUrlWithExtension } from '@/utils';
-import { Button, ModalAdmin, showMessage, ModalContent } from '@/components';
 import { deleteOrganization, onDeclineOrganization, onRegisterOrganization } from '@/api';
-
-import { initialValues, validationSchema } from './config';
+import {
+  Button,
+  ModalAdmin,
+  showMessage,
+  ModalContent,
+  declineInitialValues,
+  declineValidationSchema,
+} from '@/components';
 
 export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const locale = useLocale();
@@ -23,57 +28,67 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const btn = useTranslations('button');
   const modal = useTranslations('modal');
   const table = useTranslations('table');
-  const error = useTranslations('validation');
+  const errors = useTranslations('errors.admin');
+  const errorValidation = useTranslations('validation');
+  const success = useTranslations('success.admin-pages');
 
+  const [isLoading, setIsLoading] = useState(false);
   const [isOpenReject, setIsOpenReject] = useState(false);
   const [isOpenRemove, setIsOpenRemove] = useState(false);
   const [isOpenRegister, setIsOpenRegister] = useState(false);
-  const [isLoadingDecline, setIsLoadingDecline] = useState(false);
-  const [isLoadingRegister, setIsLoadingRegister] = useState(false);
 
   const remove = path === routes.declined;
   const declined = path === routes.requests;
 
-  const updateData = () => {
-    getData();
-  };
-
   const onSubmitRegister = async () => {
     try {
-      setIsLoadingRegister(true);
+      setIsLoading(true);
       await onRegisterOrganization(item.id);
-
-      setIsOpenRegister(false);
+      showMessage.success(success('sentEmail', { email: item.email }));
     } catch (error) {
       console.log(error);
     } finally {
-      setIsLoadingRegister(false);
-      updateData();
+      setIsOpenRegister(false);
+      setIsLoading(false);
+      getData();
     }
   };
 
   const onSubmitDecline = async (values: FormikValues) => {
-    try {
-      setIsLoadingDecline(true);
-      const value =
-        modal('decline.radioBtn.other') === values.declineReason ? values.otherReason : values.declineReason;
+    const value = modal('decline.radioBtn.other') === values.declineReason ? values.otherReason : values.declineReason;
 
-      if (value !== '') {
-        await onDeclineOrganization(item.id, value);
-      }
+    if (value === '') {
+      showMessage.error(errors('emptyValue'));
+
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+
+      await onDeclineOrganization(item.id, value);
+      showMessage.success(success('sentEmail', { email: item.email }));
     } catch (error) {
       console.log(error);
     } finally {
-      setIsLoadingDecline(false);
-      updateData();
+      setIsLoading(false);
+      setIsOpenReject(false);
+      getData();
     }
   };
 
   const onSubmitRemove = async () => {
-    const data = await deleteOrganization(item.id);
-
-    console.log(data);
-    setIsOpenRemove(false);
+    try {
+      setIsLoading(true);
+      await deleteOrganization(item.id);
+      showMessage.success(success('deleteOrganization'));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsOpenRemove(false);
+      setIsLoading(false);
+      getData();
+    }
   };
 
   const handleRowClick = () => {
@@ -165,12 +180,12 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
       </div>
 
       <ModalAdmin
+        isLoading={isLoading}
         isOpen={isOpenRegister}
         classNameBtn="w-[82px]"
         btnCancelText={btn('no')}
         btnConfirmText={btn('yes')}
         onConfirm={onSubmitRegister}
-        isLoading={isLoadingRegister}
         title={modal('register.title')}
         onClose={() => setIsOpenRegister(false)}
         content={
@@ -184,15 +199,19 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
       />
 
       {declined && (
-        <Formik onSubmit={onSubmitDecline} initialValues={initialValues} validationSchema={validationSchema(error)}>
+        <Formik
+          onSubmit={onSubmitDecline}
+          initialValues={declineInitialValues}
+          validationSchema={declineValidationSchema(errorValidation)}
+        >
           {({ values, setFieldValue }) => {
             return (
               <ModalAdmin
+                isLoading={isLoading}
                 isOpen={isOpenReject}
                 classNameBtn="w-[82px]"
                 btnCancelText={btn('no')}
                 btnConfirmText={btn('yes')}
-                isLoading={isLoadingDecline}
                 title={modal('decline.title')}
                 onClose={() => setIsOpenReject(false)}
                 onConfirm={() => onSubmitDecline(values)}
@@ -212,6 +231,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
 
       {remove && (
         <ModalAdmin
+          isLoading={isLoading}
           isOpen={isOpenRemove}
           classNameBtn="w-[82px]"
           btnCancelText={btn('no')}

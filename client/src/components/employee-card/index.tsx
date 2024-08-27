@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
@@ -20,21 +20,26 @@ export const EmployeeCard = ({
   surname,
   jobTitle,
   className,
+  setStatus,
   patronymic,
   lastSession,
+  classNameImg,
+  isStatusSelect,
 }: IEmployeeCardProps) => {
   const router = useRouter();
-  const cardTranslate = useTranslations('employeeCard');
+  const params = useParams();
+  const isParamsId = params?.id;
   const styles = getStyles({ className });
+  const cardTranslate = useTranslations('employeeCard');
 
   return (
-    <div className={styles.wrapper} onClick={() => router.push(`${routes.employees}/${id}`)}>
-      <div className="flex gap-4 items-start">
-        <AvatarEmployee src={src} name={name} surname={surname} />
+    <div className={styles.wrapper} onClick={() => (isParamsId ? '' : router.push(`${routes.employees}/${id}`))}>
+      <div className="flex gap-4 items-start w-full">
+        <AvatarEmployee className={classNameImg} src={src} name={name} surname={surname} />
 
         <div className="w-[calc(100%-102px)] flex flex-col gap-1">
-          <p className={styles.abbName}>{name}</p>
           <p className={styles.abbName}>{surname}</p>
+          <p className={styles.abbName}>{name}</p>
           <p className={`${styles.abbName} ${styles.abbNameLast}`}>{patronymic}</p>
 
           <JobTitle jobTitle={jobTitle} />
@@ -42,8 +47,14 @@ export const EmployeeCard = ({
       </div>
 
       <div className="w-full flex flex-col">
-        <Info label="Email" data={email} />
-        <Info label={cardTranslate('statusText')} data={status} status={status} />
+        <Info label="E-mail" data={email} />
+        <Info
+          data={status}
+          status={status}
+          setStatus={setStatus}
+          isStatusSelect={isStatusSelect}
+          label={cardTranslate('statusText')}
+        />
         <Info label={cardTranslate('lastSession')} data={lastSession} />
       </div>
     </div>

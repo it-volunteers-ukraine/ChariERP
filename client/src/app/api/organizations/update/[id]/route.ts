@@ -1,12 +1,10 @@
 import bcrypt from 'bcrypt';
 import { NextResponse } from 'next/server';
 
-import { generatePassword } from '@/utils';
 import { connectDB, Organizations, Users } from '@/lib';
+import { generatePassword, getHtmlCodeForPassword } from '@/utils';
 import { BucketFolders, sendEmail, uploadFileToBucket } from '@/services';
 import { IOrganizationsUpdate, RequestOrganizationStatus, Roles, UserStatus } from '@/types';
-
-import { getHtmlCode } from './helpers';
 
 export async function POST(request: Request, { params }: { params: { id: string } }) {
   try {
@@ -82,7 +80,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
       body.users = [response._id];
 
       await sendEmail({
-        html: getHtmlCode({ email: organization.contactData.email, password }),
+        html: getHtmlCodeForPassword({ email: organization.contactData.email, password }),
         text: 'Ваші дані для входу',
         subject: 'Ваші дані для входу',
         to: organization.contactData.email,

@@ -2,10 +2,12 @@ import {
   S3Client,
   GetObjectCommand,
   PutObjectCommand,
+  ListObjectsCommand,
   DeleteObjectCommand,
   GetObjectCommandInput,
   PutObjectCommandInput,
   DeleteObjectCommandInput,
+  DeleteObjectCommandOutput,
 } from '@aws-sdk/client-s3';
 
 const region = 'fra1';
@@ -79,8 +81,6 @@ const deleteFileFromBucket = async (fileName: string) => {
     Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
   } as DeleteObjectCommandInput;
 
-  console.log('delete params', params);
-
   try {
     await s3Client.send(new DeleteObjectCommand(params));
 
@@ -94,4 +94,40 @@ const deleteFileFromBucket = async (fileName: string) => {
   }
 };
 
-export { BucketFolders, downloadFileFromBucket, uploadFileToBucket, deleteFileFromBucket };
+const deleteFolderFromBucket = async (folderName: string) => {
+  console.log({ folderName });
+
+  try {
+    const DeletePromises: Promise<DeleteObjectCommandOutput>[] = [];
+    const { Contents } = await s3Client.send(
+      new ListObjectsCommand({
+        Prefix: encodeURI(folderName),
+        Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
+      }),
+    );
+
+    if (!Contents) return;
+
+    Contents.forEach(({ Key }) => {
+      DeletePromises.push(
+        s3Client.send(
+          new DeleteObjectCommand({
+            Key,
+            Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
+          }),
+        ),
+      );
+    });
+
+    await Promise.all(DeletePromises);
+    console.log(`Successfully deleted object: ${folderName}`);
+
+    return true;
+  } catch (error) {
+    console.log('Error while deleting a folder from S3 bucket:', error);
+
+    return false;
+  }
+};
+
+export { BucketFolders, downloadFileFromBucket, uploadFileToBucket, deleteFileFromBucket, deleteFolderFromBucket };

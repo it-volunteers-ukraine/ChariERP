@@ -25,6 +25,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
       isMasked,
       isTextarea,
       wrapperClass,
+      textAreaClass,
       type = 'text',
       placeholderItalic,
       ...props
@@ -40,6 +41,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
       disabled,
       isTextarea,
       wrapperClass,
+      textAreaClass,
       error: !!error,
       placeholderItalic,
       value: value as string,
@@ -185,7 +187,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
 
         {info && (
           <div className="flex items-center text-input-info w-full relative top-1">
-            <Info width={24} height={24} className="hidden tablet:flex self-center text-input-info mr-3 shrink-0" />
+            <Info width={24} height={24} className="tablet:flex self-center text-input-info mr-3 shrink-0" />
 
             <span className={styles.infoSpan}>{info}</span>
           </div>

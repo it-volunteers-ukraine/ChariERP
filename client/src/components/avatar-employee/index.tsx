@@ -1,11 +1,16 @@
+import Image from 'next/image';
+
+import { getStyles } from './styles';
 import { AvatarProps } from './types';
 
-export const AvatarEmployee = ({ src, name, surname }: AvatarProps) => {
-  return (
-    <div className="w-[86px] flex rounded-full items-center justify-center aspect-square overflow-hidden bg-superBlue">
-      {src && <img loading="lazy" src={src} alt={`${surname} ${name}`} className="w-full h-full" />}
+export const AvatarEmployee = ({ src, name, className, surname }: AvatarProps) => {
+  const styles = getStyles(className);
 
-      {!src && <p className="uppercase text-dark-blue text-[36px] font-scada">{name[0] + surname[0]}</p>}
+  return (
+    <div className={styles.wrapper}>
+      {src && <Image loading="lazy" src={src} alt={`${surname} ${name}`} className="w-full h-full" />}
+
+      {!src && <p className={styles.defaultAvatar}>{name[0] + surname[0]}</p>}
     </div>
   );
 };

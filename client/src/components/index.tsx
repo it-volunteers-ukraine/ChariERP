@@ -1,9 +1,9 @@
 export { Accordion } from './accordion';
 export { AuthLinks } from './auth-links';
 export { Avatar, DashboardHeader, DashboardAside } from './dashboard';
+export { AvatarEmployee } from './avatar-employee';
 export { AvatarField } from './avatar-field';
 export { AvatarUploader } from './avatar-uploader';
-export { AvatarEmployee } from './avatar-employee';
 export { Burger } from './burger';
 export { Button } from './button';
 export { ButtonIcon } from './button-icon';
@@ -20,7 +20,12 @@ export { LoaderPage } from './loader-page';
 export { Logo } from './logo';
 export { ModalAdmin, ModalContent } from './modals';
 export { Navigation } from './navigation';
-export { organizationValidation, organizationInitialValues } from './formik-config';
+export {
+  declineInitialValues,
+  organizationValidation,
+  declineValidationSchema,
+  organizationInitialValues,
+} from './formik-config';
 export { Overlay } from './overlay';
 export { Pagination } from './pagination';
 export { ResponseWrapper } from './response';

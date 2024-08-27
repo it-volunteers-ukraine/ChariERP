@@ -7,8 +7,12 @@ export interface IEmployeeCardProps {
   email: string;
   surname: string;
   jobTitle?: string;
+  imgWidth?: string;
   patronymic: string;
   className?: string;
   status: UserStatus;
   lastSession: string;
+  classNameImg?: string;
+  isStatusSelect?: boolean;
+  setStatus?: (status: UserStatus) => void;
 }

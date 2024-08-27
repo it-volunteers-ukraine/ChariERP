@@ -10,6 +10,7 @@ interface IStylesInput {
   isTextarea?: boolean;
   placeholder?: string;
   wrapperClass?: string;
+  textAreaClass?: string;
   isTypePassword: boolean;
   visiblePassword: boolean;
   placeholderItalic?: boolean;
@@ -24,6 +25,7 @@ export const getStyles = ({
   isTextarea,
   placeholder,
   wrapperClass,
+  textAreaClass,
   isTypePassword,
   visiblePassword,
   placeholderItalic,
@@ -53,12 +55,13 @@ export const getStyles = ({
     'text-input-text': !disabled,
     'text-input-disabled': disabled,
   }),
-  input: clsx('peer items-center w-full  px-[14px] caret-input-focus placeholder:text-input-info bg-transparent', {
+  input: clsx('peer items-center w-full px-[14px] caret-input-focus placeholder:text-input-info bg-transparent', {
     italic: placeholderItalic && !value,
     'text-input-text': value,
     'text-input-info': placeholder && !value,
     'placeholder:text-input-disabled bg-transparent': disabled,
     'outline-none': isTextarea,
+    [`${textAreaClass}`]: textAreaClass,
     'cursor-pointer': type === 'date',
     'cancel-search-btn px-0 h-[23px]': type === 'search',
     'pr-12': isTypePassword || type === 'file' || cross || type === 'date',
@@ -66,7 +69,7 @@ export const getStyles = ({
     'focus:text-input-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none':
       type === 'number',
   }),
-  div: 'flex cursor-pointer peer-focus:[&>svg]:text-input-focus peer-focus:[&>svg]:hover:text-error',
+  div: 'flex cursor-pointer peer-focus:[&>svg]:text-input-focus',
   iconEye: clsx('absolute mb-3 right-3 transition-all duration-300 text-input-text'),
   error: 'text-input-error text-[12px]/[14px]',
   infoSpan: 'text-input-info text-[14px]/[20px]',

@@ -12,6 +12,11 @@
     },
     "createOrganization": "Заявка успішно відправленна"
   },
+  "password-change": {
+    "title": "Зміна паролю",
+    "newPassword": "Новий пароль",
+    "passwordConfirmation": "Підтвердження паролю"
+  },
   "sidebar": {
     "requests": "Заявки",
     "declined": "Відхилені",
@@ -22,6 +27,7 @@
       "basicInformation": "основна інформація",
       "contactInformation": "контактна інформація",
       "loginInformation": "Данні для входу",
+      "additionalInformation": "Додаткова інформація",
       "media": "Медіа"
     },
     "mainInformation": "На даній сторінці Ви можете відредагувати данні, що були вказані при реєстрації. Назву організації, додати або змінити данні медіа лінки, телефон організації і т.д.",
@@ -38,7 +44,7 @@
       "howDownloadFile": " Як завантажити файл.",
       "downloadDoc": "Завантажити документ",
       "label": "Довідка про внесення в реєстр",
-      "information": "Для завантаження документу натисніть на іконку скрепки або наполе “Завантажити файл”. Формат jpg, jpeg, png або pdf. Максимальний розмір 5 МБ."
+      "information": "Для завантаження документу натисніть на іконку скрепки або на поле “Завантажити файл”. Формат jpg, jpeg, png або pdf. Максимальний розмір 5 МБ."
     },
     "dateOfRegisterOrganization": {
       "chooseDate": "Оберіть дату",
@@ -48,6 +54,10 @@
       "label": "Посада представника організації",
       "forExample": "Наприклад: Керівник, ВО, Бухгалтер і т.д."
     },
+    "positionOfMember": {
+      "label": "Посада",
+      "information": "Введіть роль співробітника (бухгалтер, водій і т.д.) або лишіть поле пустим"
+    },
     "lastName": {
       "label": "Прізвище"
     },
@@ -56,6 +66,18 @@
     },
     "middleName": {
       "label": "По батькові"
+    },
+    "dateOfBirth": {
+      "label": "Дата народження"
+    },
+    "dateOfEntry": {
+      "label": "Дата вступу"
+    },
+    "homeAddress": {
+      "label": "Домашня адреса"
+    },
+    "notes": {
+      "label": "Примітки"
     },
     "phone": {
       "label": "Телефон представника (з кодом міста)",
@@ -75,7 +97,7 @@
     },
     "socialNetworks": {
       "label": "Посилання на соц.мережу",
-      "information": "Додайте посилання на соціальні мережі (Facebook, Instagram, LinkedIn, TikTok, Youtube тощо). ",
+      "information": "Додайте посилання на соціальні мережі - не більше 5. (Facebook, Instagram, LinkedIn, TikTok, Youtube тощо). ",
       "forExample": "Наприклад: {link}"
     },
     "checkbox": {
@@ -84,6 +106,9 @@
     },
     "placeholder": {
       "search": "Пошук"
+    },
+    "avatar": {
+      "information": "Додайте зображення або лишіть пустим і ми автоматично додамо перші літери Імені та прізвища. Макс розмір 5 Мб. Формат jpg, jpeg, png."
     }
   },
   "table": {
@@ -123,11 +148,14 @@
     "addField": "Додати ще посилання",
     "changePass": "Змінити Пароль",
     "deleteField": "Видалити поле",
+    "deleteEmployee": "Видалити співробітника",
     "cancelChanges": "Відмінити зміни",
     "saveChanges": "Зберегти зміни",
     "delete": "видалити",
     "accept": "прийняти",
     "decline": "вiдхилити",
+    "add": "додати",
+    "cancel": "відмінити",
     "yes": "ТАК",
     "no": "НІ"
   },
@@ -141,7 +169,10 @@
     "notValidEmail": "Неправильна адреса електронної пошти",
     "siteStart": "Поле введення має починатися з https://...",
     "extensionsFile": "Невірний формат файлу. Доступні формати: {extensions}",
-    "maxSizeFile": "Розмір файлу перевищує {maxSize}МБ"
+    "maxSizeFile": "Розмір файлу перевищує {maxSize}МБ",
+    "passwordMismatch": "Введені паролі не співпадають",
+    "validEmail": "Email повинен бути дійсним",
+    "spacesNotAllowed": "Пробіли на початку та в кінці не допускаються"
   },
   "header": {
     "about": "Про нас",
@@ -149,12 +180,21 @@
     "service": "Про cервіс",
     "faq": "Поширені питання"
   },
+  "success": {
+    "admin-pages": {
+      "sentEmail": "Лист було надіслано на {email}",
+      "deleteOrganization": "Заявку видалено"
+    }
+  },
   "errors": {
     "login": {
       "userIncorrect": "Неправильний email або пароль",
       "userNotFound": "E-mail або пароль некоректний",
       "somethingWrong": "Щось пішло не так",
       "companyAlreadyRegistered": "Компанія з ЄДРПОУ вже зареєстрована"
+    },
+    "admin": {
+      "emptyValue": "Будь ласка, оберіть одну причину"
     }
   },
   "loader": {

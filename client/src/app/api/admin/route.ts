@@ -12,6 +12,7 @@ export async function POST(request: Request) {
     if (admins.length > 0) {
       return NextResponse.json({ message: 'Admin already exists' }, { status: 403 });
     }
+
     const hash = await bcrypt.hash(body.password, 10);
 
     const newAdmin = new Admin({ email: body.email, password: hash });

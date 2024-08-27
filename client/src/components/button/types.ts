@@ -4,13 +4,13 @@ interface CustomButton extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButton
 
 export interface IButtonProps extends CustomButton {
   text?: string;
+  Icon?: ReactNode;
   isNarrow?: boolean;
   disabled?: boolean;
   className?: string;
   isLoading?: boolean;
   onClick?: () => void;
   styleType?: StyleType;
-  Icon?: ReactNode;
 }
 
 export type StyleType =
@@ -20,6 +20,7 @@ export type StyleType =
   | 'primary'
   | 'outline'
   | 'secondary'
+  | 'outline-blue'
   | 'icon-primary'
   | 'icon-secondary'
   | 'secondary-outline';

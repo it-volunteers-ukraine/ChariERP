@@ -79,7 +79,7 @@ const SignUp = () => {
           <div>
             <Title
               title={text('title.basicInformation')}
-              className="mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
+              className="font-scada mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
             />
 
             <div className="flex flex-col gap-8 tablet:gap-[42px]">
@@ -88,10 +88,12 @@ const SignUp = () => {
                 name="organizationName"
                 label={text('organizationName.label')}
                 info={
-                  <div>
+                  <span className={`${styles.spanStyles}`}>
                     {text('organizationName.information')}
-                    <span className={styles.spanStyles}>{text('organizationName.forExample')}</span>
-                  </div>
+                    <span
+                      className={`${styles.spanStylesForExample}`}
+                    >{` ${text('organizationName.forExample')}`}</span>
+                  </span>
                 }
               />
 
@@ -111,12 +113,12 @@ const SignUp = () => {
                 label={text('certificateOfRegister.label')}
                 placeholder={text('certificateOfRegister.downloadDoc')}
                 info={
-                  <div>
+                  <span className={`${styles.spanStyles}`}>
                     {text('certificateOfRegister.information')}
-                    <Link href="#" className={`${styles.spanStyles} text-input-link underline`}>
+                    <Link href="#" className={`${styles.spanStylesForExample} text-input-link underline`}>
                       {text('certificateOfRegister.howDownloadFile')}
                     </Link>
-                  </div>
+                  </span>
                 }
               />
 
@@ -134,7 +136,7 @@ const SignUp = () => {
           <div>
             <Title
               title={text('title.contactInformation')}
-              className="mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
+              className="font-scada mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
             />
 
             <div className="flex flex-col gap-8 tablet:gap-[42px]">
@@ -142,7 +144,9 @@ const SignUp = () => {
                 required
                 name="position"
                 label={text('positionOrganization.label')}
-                info={<span className={`${styles.spanStyles}`}>{text('positionOrganization.forExample')}</span>}
+                info={
+                  <span className={`${styles.spanStylesForExample}`}>{text('positionOrganization.forExample')}</span>
+                }
               />
 
               <InputField
@@ -172,10 +176,15 @@ const SignUp = () => {
                 placeholderItalic
                 label={text('phone.label')}
                 placeholder="+38(0__)___-__-__"
-                info={<span className={`${styles.spanStyles}`}>{text('phone.forExample')}</span>}
+                info={<span className={`${styles.spanStylesForExample}`}>{text('phone.forExample')}</span>}
               />
 
-              <InputField required name="email" info={text('email.information')} label={text('email.label')} />
+              <InputField
+                required
+                name="email"
+                label={text('email.label')}
+                info={<span className={`${styles.spanStyles}`}>{text('email.information')}</span>}
+              />
 
               <div className="flex flex-col gap-8 tablet:gap-6">
                 <Title
@@ -188,12 +197,13 @@ const SignUp = () => {
                   name="site"
                   label={text('site.label')}
                   info={
-                    <div>
+                    <span className={`${styles.spanStyles}`}>
                       {text('site.information')}
-                      <span className={`${styles.spanStyles}`}>
+                      <br />
+                      <span className={`${styles.spanStylesForExample}`}>
                         {text('site.forExample', { link: 'https://gozhivi.com.ua/' })}
                       </span>
-                    </div>
+                    </span>
                   }
                 />
 
@@ -214,12 +224,13 @@ const SignUp = () => {
                               key={`media-signUp-${index}`}
                               label={text('socialNetworks.label')}
                               info={
-                                <div>
+                                <span className={`${styles.spanStyles}`}>
                                   {text('socialNetworks.information')}
-                                  <span className={`${styles.spanStyles}`}>
+                                  <br />
+                                  <span className={`${styles.spanStylesForExample}`}>
                                     {text('socialNetworks.forExample', { link: 'https://www.facebook.com/gozhivi' })}
                                   </span>
-                                </div>
+                                </span>
                               }
                             />
                             <div className="flex items-center justify-between max-w-[calc(50%-12px)]">

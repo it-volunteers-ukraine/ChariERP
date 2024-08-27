@@ -65,6 +65,11 @@ export const organizationValidation = (error: (key: string, params?: Translation
       .max(50, error('maxPlural', { int: 50 }))
       .email(error('notValidEmail'))
       .required(error('required')),
+    password: Yup.string()
+      .trim()
+      .min(8, error('minPlural', { int: 8 }))
+      .max(20, error('maxPlural', { int: 20 }))
+      .required(error('required')),
     site: Yup.string()
       .trim()
       .matches(linkRegExp, error('siteStart'))
