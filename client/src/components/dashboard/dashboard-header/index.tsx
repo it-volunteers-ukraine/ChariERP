@@ -1,4 +1,5 @@
 'use client';
+
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 
@@ -23,7 +24,7 @@ export const DashboardHeader = () => {
         <span className="font-scada text-lightBlue text-[20px] font-normal">Main Page</span>
 
         <div className="flex gap-6">
-          <Avatar img={null} name="Super_admin1" isTablet={isTablet} />
+          <Avatar img={null} name="Super_admin1" />
 
           {isTablet && (
             <>
@@ -32,7 +33,7 @@ export const DashboardHeader = () => {
                 className="w-6 h-6 transition-all duration-300 cursor-pointer text-lightBlue hover:scale-110 hover:drop-shadow-md"
               />
 
-              <LanguageSwitcher isNarrow className="flex" />
+              <LanguageSwitcher isNarrow />
             </>
           )}
         </div>

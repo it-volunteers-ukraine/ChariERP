@@ -1,14 +1,17 @@
+'use client';
+
 import Image from 'next/image';
 
 import { AvatarIcon } from '@/assets/icons';
+import { useWindowWidth } from '@/hooks';
 
 import { IAvatarProps } from './types';
 
-export const Avatar = ({ img, name, isTablet }: IAvatarProps) => {
+export const Avatar = ({ img, name }: IAvatarProps) => {
+  const { isTablet } = useWindowWidth();
+
   return (
-    <div
-      className={`${isTablet ? 'flex gap-2' : ''} transition-all duration-200 cursor-pointer text-lightBlue hover:drop-shadow-xl`}
-    >
+    <div className="transition-all duration-200 cursor-pointer text-lightBlue hover:drop-shadow-xl tablet:flex tablet:gap-2">
       {img !== null ? (
         <Image src={img} alt={name} className="w-24 h-24 rounded-full" />
       ) : (

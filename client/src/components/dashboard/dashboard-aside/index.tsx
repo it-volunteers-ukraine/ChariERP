@@ -17,9 +17,8 @@ export const DashboardAside = () => {
   const ref = useRef(null);
   const { role } = useRole();
   const router = useRouter();
-  const { isTablet } = useWindowWidth();
-  const { isDesktop } = useWindowWidth();
   const linkText = useTranslations('sidebar');
+  const { isDesktop, isTablet } = useWindowWidth();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -52,7 +51,7 @@ export const DashboardAside = () => {
                   text={text}
                   Icon={icon}
                   disabled={disabled}
-                  onCloseSideBar={() => setIsOpen(!isOpen)}
+                  onCloseSideBar={() => setIsOpen(false)}
                 />
 
                 {children &&
@@ -63,7 +62,7 @@ export const DashboardAside = () => {
                       text={text}
                       Icon={icon}
                       disabled={disabled}
-                      onCloseSideBar={() => setIsOpen(!isOpen)}
+                      onCloseSideBar={() => setIsOpen(false)}
                     />
                   ))}
               </Fragment>
@@ -73,7 +72,7 @@ export const DashboardAside = () => {
       </div>
       {!isTablet && (
         <div className="flex items-center justify-between w-full h-[88px] border-t border-t-white pl-4 pr-4 tablet:px-[32px]">
-          <LanguageSwitcher className="flex" />
+          <LanguageSwitcher />
           <button
             className="flex gap-3 items-center text-base text-white transition-all duration-300 cursor-pointer hover:scale-110 hover:drop-shadow-md"
             onClick={onExit}

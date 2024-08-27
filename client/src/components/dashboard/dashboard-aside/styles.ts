@@ -9,8 +9,11 @@ export const getStyles = (isOpen?: boolean) => ({
     },
   ),
   button: clsx(
-    'flex desktop:hidden items-center justify-center absolute top-3 right-0 translate-x-full rounded-r-full w-12 h-10 group shadow-buttonAside transition-all duration-300',
-    { '!translate-x-0 bg-white rounded-l-full rounded-r-none': isOpen, 'bg-boardAside': !isOpen },
+    'flex desktop:hidden items-center justify-center absolute top-3 right-0 rounded-r-full w-12 h-10 group shadow-buttonAside transition-all duration-300',
+    {
+      'translate-x-0 bg-white rounded-l-full rounded-r-none': isOpen,
+      'translate-x-full bg-boardAside': !isOpen,
+    },
   ),
   icon: clsx('transition-all duration-300 w-8 h-8 ', {
     'text-lightBlue': isOpen,
