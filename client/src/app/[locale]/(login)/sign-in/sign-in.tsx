@@ -2,13 +2,12 @@
 
 import { useState } from 'react';
 import Cookies from 'js-cookie';
-import { AxiosError } from 'axios';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { FormikHelpers, FormikValues } from 'formik';
 
-import { login } from '@/api';
 import { routes } from '@/constants';
+import { loginAction } from '@/actions';
 
 import { LoginForm } from '../login-form';
 
@@ -22,16 +21,18 @@ const SignIn = () => {
     setIsLoading(true);
 
     try {
-      const data = await login({ email: values.email, password: values.password });
+      const result = await loginAction(values.email, values.password);
 
-      if (data._id) {
-        Cookies.set('id', data._id.toString(), { expires: 7 });
+      if (result.success && result.userId) {
+        Cookies.set('id', result.userId.toString(), { expires: 7 });
         router.push(routes.requests);
       }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        handleFormik?.setFieldError('email', error.response?.data.message && errorText(error.response.data.message));
+
+      if (!result.success && result.message) {
+        handleFormik?.setFieldError('email', errorText(result.message));
       }
+    } catch (error) {
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
