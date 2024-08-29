@@ -5,7 +5,6 @@ export const organizationInitialValues = (data?: OrganizationFormValues) => ({
   email: data?.email ?? '',
   phone: data?.phone ?? '',
   edrpou: data?.edrpou ?? '',
-  search: data?.search ?? '',
   agree: data?.agree ?? false,
   social: data?.social ?? [''],
   lastName: data?.lastName ?? '',
@@ -13,7 +12,6 @@ export const organizationInitialValues = (data?: OrganizationFormValues) => ({
   firstName: data?.firstName ?? '',
   middleName: data?.middleName ?? '',
   certificate: data?.certificate ?? '',
-  declineReason: data?.declineReason ?? '',
   organizationName: data?.organizationName ?? '',
   dateOfRegistration: data?.dateOfRegistration ?? '',
 });
