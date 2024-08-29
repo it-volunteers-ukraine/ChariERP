@@ -1,4 +1,5 @@
 'use client';
+
 import { Fragment, useRef, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useTranslations } from 'next-intl';
