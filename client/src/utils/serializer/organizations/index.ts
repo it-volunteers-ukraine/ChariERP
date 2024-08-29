@@ -1,8 +1,9 @@
+import { renameFile } from '@/utils';
 import { OrganizationEditValues, OrganizationFormValues, OrganizationUpdateValues } from '@/types';
 
 export const serializeOrganizationsCreate = (data: OrganizationFormValues) => {
   return {
-    file: data.certificate,
+    file: renameFile(data.certificate as File),
     data: {
       site: data.site,
       email: data.email,
@@ -13,7 +14,6 @@ export const serializeOrganizationsCreate = (data: OrganizationFormValues) => {
       position: data.position,
       firstName: data.firstName,
       middleName: data.middleName,
-      certificate: data.certificate,
       organizationName: data.organizationName,
       dateOfRegistration: data.dateOfRegistration,
     },

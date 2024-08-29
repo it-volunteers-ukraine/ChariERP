@@ -11,7 +11,7 @@ import { RowItemProps } from '@/types';
 import { Copy, Doc } from '@/assets/icons';
 import { downloadFileFromBucket } from '@/services';
 import { dateFormat, getUrlWithExtension } from '@/utils';
-import { deleteOrganization, onDeclineOrganization, onRegisterOrganization } from '@/api';
+import { confirmOrganizationAction, declineOrganizationAction, deleteOrganizationAction } from '@/actions';
 import {
   Button,
   ModalAdmin,
@@ -43,7 +43,12 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const onSubmitRegister = async () => {
     try {
       setIsLoading(true);
-      await onRegisterOrganization(item.id);
+      const response = await confirmOrganizationAction(item.id);
+
+      if (!response.success && response.message) {
+        return showMessage.error(response.message);
+      }
+
       showMessage.success(success('sentEmail', { email: item.email }));
     } catch (error) {
       console.log(error);
@@ -66,7 +71,12 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
     try {
       setIsLoading(true);
 
-      await onDeclineOrganization(item.id, value);
+      const response = await declineOrganizationAction(item.id, value);
+
+      if (!response.success && response.message) {
+        return showMessage.error(response.message);
+      }
+
       showMessage.success(success('sentEmail', { email: item.email }));
     } catch (error) {
       console.log(error);
@@ -80,7 +90,12 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const onSubmitRemove = async () => {
     try {
       setIsLoading(true);
-      await deleteOrganization(item.id);
+      const response = await deleteOrganizationAction(item.id);
+
+      if (!response.success && response.message) {
+        return showMessage.error(response.message);
+      }
+
       showMessage.success(success('deleteOrganization'));
     } catch (error) {
       console.log(error);

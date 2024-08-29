@@ -16,6 +16,13 @@ const switchExtension = (extension: string) => {
   }
 };
 
+export const renameFile = (file: File) => {
+  return new File([file], encodeURIComponent(file.name), {
+    type: file.type,
+    lastModified: file.lastModified,
+  });
+};
+
 export const getUrlWithExtension = async ({ url, file, downloadType = DownloadType.URL }: GetUrlProps) => {
   const byteArray = await file.transformToByteArray();
   const extension = url.split('.')?.pop()?.toLowerCase();
@@ -52,7 +59,7 @@ export const createFile = (filename: string, extension: string) => {
 
   const fileContent = new Blob(['\x00'], { type: mimeType });
 
-  const file = new File([fileContent], decodeURI(`${filename}.${extension}`), { type: fileContent.type });
+  const file = new File([fileContent], `${filename}.${extension}`, { type: fileContent.type });
 
   return file;
 };

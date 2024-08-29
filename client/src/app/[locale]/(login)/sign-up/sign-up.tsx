@@ -52,7 +52,7 @@ const SignUp = () => {
       }
 
       if (!data.success) {
-        showMessage.error(errorText(data.message), { autoClose: 5000 });
+        return showMessage.error(errorText(data.message), { autoClose: 5000 });
       }
 
       handleFormik.resetForm();

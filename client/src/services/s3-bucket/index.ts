@@ -38,7 +38,7 @@ const s3Client = new S3Client({
 
 const uploadFileToBucket = async (organizationName: string, folder: BucketFolders, file: File) => {
   const fileContent = await file.arrayBuffer();
-  const bucketFileDestinationPath = encodeURI(`${organizationName}/${folder}/${file.name}`);
+  const bucketFileDestinationPath = `${encodeURIComponent(organizationName)}/${folder}/${file.name}`;
 
   const params = {
     Body: fileContent,
@@ -95,13 +95,11 @@ const deleteFileFromBucket = async (fileName: string) => {
 };
 
 const deleteFolderFromBucket = async (folderName: string) => {
-  console.log({ folderName });
-
   try {
     const DeletePromises: Promise<DeleteObjectCommandOutput>[] = [];
     const { Contents } = await s3Client.send(
       new ListObjectsCommand({
-        Prefix: encodeURI(folderName),
+        Prefix: folderName,
         Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
       }),
     );

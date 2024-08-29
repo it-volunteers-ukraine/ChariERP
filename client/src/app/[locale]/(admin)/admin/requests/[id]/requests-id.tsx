@@ -6,9 +6,10 @@ import { useTranslations } from 'next-intl';
 import { useRouter, useParams } from 'next/navigation';
 import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
 
-import { serializeOrganizationsUpdate } from '@/utils';
-import { getOrganizationById, onUpdateOrganization } from '@/api';
+import { onUpdateOrganization } from '@/api';
+import { getOrganizationByIdAction } from '@/actions';
 import { OrganizationEditValues, RequestOrganizationStatus } from '@/types';
+import { oneOrganizationNormalizer, serializeOrganizationsUpdate } from '@/utils';
 import {
   Button,
   SmallBtn,
@@ -48,9 +49,10 @@ const RequestsId = () => {
   const loadData = useCallback(async () => {
     setIsLoading(true);
     try {
-      const data = await getOrganizationById(id as string);
+      const organizationData = await getOrganizationByIdAction(id as string);
+      const parsedOrganization = JSON.parse(organizationData);
 
-      setData(data);
+      setData(oneOrganizationNormalizer(parsedOrganization));
     } catch (error) {
       // TODO Connect error message
       console.log(error);

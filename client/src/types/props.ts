@@ -8,11 +8,11 @@ export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
 
 export interface IOrganization {
   id: string;
-  certificate: string;
-  dateOfRegistration: Date;
   email: string;
   EDRPOU: number;
+  certificate: string;
   organizationName: string;
+  dateOfRegistration: string;
 }
 
 export interface IOrganizationPageProps extends Omit<IOrganization, 'certificate'> {
@@ -66,4 +66,11 @@ export interface OrganizationCreateValues extends Omit<OrganizationFormValues, '
 
 export interface OrganizationUpdateValues extends Omit<OrganizationFormValues, 'agree' | 'certificate'> {
   request?: RequestOrganizationStatus;
+}
+
+export interface AdminOrganizationProps {
+  page: number;
+  limit?: number;
+  populate?: string;
+  filterStatus: RequestOrganizationStatus;
 }
