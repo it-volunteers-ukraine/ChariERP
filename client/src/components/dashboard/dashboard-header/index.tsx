@@ -20,7 +20,7 @@ export const DashboardHeader = () => {
 
   return (
     <header className="w-full bg-whiteSecond px-[16px] pl-[60px] desktopXl:px-0">
-      <div className="h-[64px] desktop:h-[96px] desktopXl:mx-8 flex items-center justify-between ">
+      <div className="h-[64px] desktop:h-24 desktopXl:mx-8 flex items-center justify-between ">
         <span className="font-scada text-lightBlue text-[20px] font-normal">Main Page</span>
 
         <div className="flex gap-6">

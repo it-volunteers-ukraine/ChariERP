@@ -47,10 +47,10 @@ export const DashboardAside = () => {
             return (
               <Fragment key={`${href}_${i}`}>
                 <NavItem
-                  href={children ? '#' : href}
                   text={text}
                   Icon={icon}
                   disabled={disabled}
+                  href={children ? '#' : href}
                   onCloseSideBar={() => setIsOpen(false)}
                 />
 
@@ -71,7 +71,7 @@ export const DashboardAside = () => {
         </nav>
       </div>
       {!isTablet && (
-        <div className="flex items-center justify-between w-full h-[88px] border-t border-t-white pl-4 pr-4 tablet:px-[32px]">
+        <div className="flex items-center justify-between w-full h-[88px] border-t border-t-white px-4 tablet:px-8">
           <LanguageSwitcher />
           <button
             className="flex gap-3 items-center text-base text-white transition-all duration-300 cursor-pointer hover:scale-110 hover:drop-shadow-md"
