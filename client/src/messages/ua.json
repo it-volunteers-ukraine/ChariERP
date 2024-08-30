@@ -20,7 +20,8 @@
   "sidebar": {
     "requests": "Заявки",
     "declined": "Відхилені",
-    "organizations": "Організації"
+    "organizations": "Організації",
+    "exit": "Вийти"
   },
   "inputs": {
     "title": {
