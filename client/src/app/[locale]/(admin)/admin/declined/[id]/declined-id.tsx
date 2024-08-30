@@ -55,8 +55,8 @@ const DeclinedId = () => {
     <>
       <ModalDecline
         isOpen={isOpenDecline}
-        onClose={setIsOpenDecline}
         onSubmitDecline={onSubmit}
+        onClose={setIsOpenDecline}
         organizationName={'ГО Живи'}
       />
 
