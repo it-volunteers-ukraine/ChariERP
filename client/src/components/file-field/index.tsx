@@ -13,18 +13,24 @@ export const FileField = ({ name, label, ...props }: FileInputProps) => {
       {({ meta, form, field: { value, ...fieldProps } }: FieldProps) => {
         const error = controlError(meta, name, label);
 
-        const onChange = async (files: InputOnChangeEventType) => {
-          if (typeof files === 'string') {
+        const onChange = async (e: InputOnChangeEventType) => {
+          if (typeof e === 'string') {
             await form.setFieldValue(name, '');
 
             return;
           }
 
+          const files = (e as React.ChangeEvent<HTMLInputElement>).target.files;
+
           if (files instanceof FileList) {
             const file = files?.[0];
 
-            await form.setFieldValue(name, file);
-            form.setFieldTouched(name);
+            if (file) {
+              await form.setFieldValue(name, file);
+              form.setFieldTouched(name);
+
+              (e as React.ChangeEvent<HTMLInputElement>).target.value = '';
+            }
           }
         };
 

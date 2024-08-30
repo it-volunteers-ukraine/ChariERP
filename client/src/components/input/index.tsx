@@ -124,7 +124,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
                   type="file"
                   className={styles.fileType}
                   ref={ref as React.Ref<HTMLInputElement>}
-                  onChange={(e) => onChange && onChange(e.target.files)}
+                  onChange={(e) => onChange && onChange(e)}
                   {...props}
                 />
 

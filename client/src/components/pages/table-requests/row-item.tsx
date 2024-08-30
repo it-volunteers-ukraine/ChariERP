@@ -1,7 +1,6 @@
 'use client';
 
 import { MouseEvent, useState } from 'react';
-import { FormikValues } from 'formik';
 import { format, parseISO } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
@@ -21,7 +20,6 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const btn = useTranslations('button');
   const modal = useTranslations('modal');
   const table = useTranslations('table');
-  const errors = useTranslations('errors.admin');
   const success = useTranslations('success.admin-pages');
 
   const [isLoading, setIsLoading] = useState(false);
@@ -51,19 +49,11 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
     }
   };
 
-  const onSubmitDecline = async (values: FormikValues) => {
-    const value = modal('decline.radioBtn.other') === values.declineReason ? values.otherReason : values.declineReason;
-
-    if (value === '') {
-      showMessage.error(errors('emptyValue'));
-
-      return;
-    }
-
+  const onSubmitDecline = async (reason: string) => {
     try {
       setIsLoading(true);
 
-      const response = await declineOrganizationAction(item.id, value);
+      const response = await declineOrganizationAction(item.id, reason);
 
       if (!response.success && response.message) {
         return showMessage.error(response.message);
@@ -178,9 +168,9 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
         >
           <Button text="Accept" styleType="green" isNarrow={isLaptop} onClick={() => setIsOpenRegister(true)} />
           <Button
-            text="Decline"
             styleType="red"
             isNarrow={isLaptop}
+            text={declined ? 'Decline' : 'Delete'}
             onClick={() => (declined ? setIsOpenReject(true) : setIsOpenRemove(true))}
           />
         </div>

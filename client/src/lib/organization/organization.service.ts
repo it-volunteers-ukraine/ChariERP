@@ -13,7 +13,9 @@ import {
   Roles,
   UserStatus,
   IOrganizations,
+  IOrganizationsUpdate,
   AdminOrganizationProps,
+  OrganizationUpdateValues,
   OrganizationCreateValues,
   RequestOrganizationStatus,
 } from '@/types';
@@ -175,6 +177,94 @@ class OrganizationService extends BaseService {
     });
 
     return { success: true };
+  }
+
+  async updateOrganization(id: string, formData: FormData) {
+    await this.connect();
+
+    if (!id) {
+      return { message: 'Id is required', success: false };
+    }
+
+    const organization = await Organizations.findOne({ _id: id });
+
+    if (!organization) {
+      return { message: 'Organization not found', success: false };
+    }
+
+    const data = JSON.parse(formData.get('data') as string) as OrganizationUpdateValues;
+
+    const certificate = formData.get('certificate') as File;
+    const isNewCertificate = certificate.size !== 1;
+    const isApproved = data.request === RequestOrganizationStatus.APPROVED && organization.users.length === 0;
+
+    let uploadedFileUrl;
+
+    if (isNewCertificate) {
+      uploadedFileUrl = await uploadFileToBucket(
+        data.organizationName,
+        BucketFolders.CertificateOfRegister,
+        certificate,
+      );
+    }
+
+    const body: IOrganizationsUpdate = {
+      request: data.request || organization.request,
+      organizationData: {
+        edrpou: data.edrpou || organization.organizationData.edrpou,
+        organizationName: data.organizationName || organization.organizationData.organizationName,
+        dateOfRegistration: data.dateOfRegistration || organization.organizationData.dateOfRegistration,
+        certificate: isNewCertificate ? (uploadedFileUrl as string) : organization.organizationData.certificate,
+      },
+      contactData: {
+        phone: data.phone || organization.contactData.phone,
+        email: data.email || organization.contactData.email,
+        position: data.position || organization.contactData.position,
+        lastName: data.lastName || organization.contactData.lastName,
+        firstName: data.firstName || organization.contactData.firstName,
+        middleName: data.middleName || organization.contactData.middleName,
+      },
+      mediaData: {
+        site: data.site || organization.mediaData.site,
+        social: data.social || organization.mediaData.social,
+      },
+    };
+
+    if (isApproved) {
+      const password = generatePassword(8, 10);
+      const hash = await bcrypt.hash(password, 10);
+
+      const newUser = new Users({
+        ...body.contactData,
+        status: UserStatus.ACTIVE,
+        role: Roles.MANAGER,
+        password: hash,
+        organizationId: organization._id,
+      });
+
+      const response = await newUser.save();
+
+      if (!response) {
+        return { success: false, message: 'User not created' };
+      }
+
+      body.users = [response._id];
+
+      await sendEmail({
+        html: getHtmlCodeForPassword({ email: body.contactData.email, password }),
+        text: 'Ваші дані для входу',
+        subject: 'Ваші дані для входу',
+        to: body.contactData.email,
+      });
+    }
+
+    const response = await Organizations.findByIdAndUpdate(id, { $set: body });
+
+    if (!response) {
+      return { success: false, message: 'Organization not updated' };
+    }
+
+    return { success: true, message: 'Organization updated', organization: JSON.stringify(response) };
   }
 
   async deleteOrganization(id: string) {

@@ -8,20 +8,10 @@ import { FieldArray, Form, Formik, FormikHelpers } from 'formik';
 import { OrganizationFormValues } from '@/types';
 import { createOrganizationAction } from '@/actions';
 import { serializeOrganizationsCreate } from '@/utils';
-import {
-  Title,
-  Button,
-  SmallBtn,
-  DateField,
-  FileField,
-  InputField,
-  showMessage,
-  CheckboxField,
-  organizationValidation,
-  organizationInitialValues,
-} from '@/components';
+import { Title, Button, SmallBtn, DateField, FileField, InputField, showMessage, CheckboxField } from '@/components';
 
 import { getStyles } from './styles';
+import { organizationInitialValues, organizationValidation } from './config';
 
 const SignUp = () => {
   const styles = getStyles();
@@ -72,7 +62,7 @@ const SignUp = () => {
       validateOnChange
       onSubmit={onSubmit}
       validationSchema={validationSchema}
-      initialValues={organizationInitialValues()}
+      initialValues={organizationInitialValues}
     >
       {({ values }) => {
         return (

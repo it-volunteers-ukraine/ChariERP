@@ -62,7 +62,7 @@ export interface OrganizationEditValues extends Omit<OrganizationFormValues, 'ag
   dateOfRegistration: Date;
 }
 
-export interface OrganizationCreateValues extends Omit<OrganizationFormValues, 'agree'> {}
+export interface OrganizationCreateValues extends Omit<OrganizationFormValues, 'agree '> {}
 
 export interface OrganizationUpdateValues extends Omit<OrganizationFormValues, 'agree' | 'certificate'> {
   request?: RequestOrganizationStatus;

@@ -7,3 +7,4 @@ export { getAdminOrganizationsAction } from './admin/get-admin-organization';
 export { getOrganizationByIdAction } from './admin/get-organization-by-id';
 export { getRoleAction } from './role/get-role';
 export { loginAction } from './login';
+export { updateOrganizationAction } from './admin/update-organization';

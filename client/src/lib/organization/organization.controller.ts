@@ -25,6 +25,10 @@ class OrganizationController {
     return await await this.organizationService.declineOrganization(id, reason);
   }
 
+  async updateOrganization(id: string, formData: FormData) {
+    return await await this.organizationService.updateOrganization(id, formData);
+  }
+
   async deleteOrganization(id: string) {
     return await await this.organizationService.deleteOrganization(id);
   }

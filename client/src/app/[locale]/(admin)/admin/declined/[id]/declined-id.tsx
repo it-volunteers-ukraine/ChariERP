@@ -15,7 +15,6 @@ import {
   InputField,
   ModalAdmin,
   showMessage,
-  ModalDecline,
   organizationValidation,
   organizationInitialValues,
 } from '@/components';
@@ -29,7 +28,6 @@ const DeclinedId = () => {
 
   const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
   const [isOpenAccept, setIsOpenAccept] = useState<boolean>(false);
-  const [isOpenDecline, setIsOpenDecline] = useState<boolean>(false);
 
   const onSubmit = (values: FormikValues) => {
     console.log('data', values);
@@ -53,13 +51,6 @@ const DeclinedId = () => {
 
   return (
     <>
-      <ModalDecline
-        isOpen={isOpenDecline}
-        onSubmitDecline={onSubmit}
-        onClose={setIsOpenDecline}
-        organizationName={'ГО Живи'}
-      />
-
       <Formik
         validateOnBlur
         validateOnChange
@@ -249,9 +240,9 @@ const DeclinedId = () => {
                     <Button
                       type="button"
                       styleType="red"
+                      onClick={() => null}
                       text={btn('decline')}
                       className="uppercase"
-                      onClick={() => setIsOpenDecline(true)}
                     />
                   </div>
                 </Form>
