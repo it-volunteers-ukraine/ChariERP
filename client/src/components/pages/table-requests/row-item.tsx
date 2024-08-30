@@ -1,9 +1,9 @@
 'use client';
 
 import { MouseEvent, useState } from 'react';
+import { FormikValues } from 'formik';
 import { format, parseISO } from 'date-fns';
 import { useRouter } from 'next/navigation';
-import { Formik, FormikValues } from 'formik';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
@@ -11,15 +11,8 @@ import { RowItemProps } from '@/types';
 import { Copy, Doc } from '@/assets/icons';
 import { downloadFileFromBucket } from '@/services';
 import { dateFormat, getUrlWithExtension } from '@/utils';
+import { Button, ModalAdmin, showMessage, ModalDecline } from '@/components';
 import { confirmOrganizationAction, declineOrganizationAction, deleteOrganizationAction } from '@/actions';
-import {
-  Button,
-  ModalAdmin,
-  showMessage,
-  ModalContent,
-  declineInitialValues,
-  declineValidationSchema,
-} from '@/components';
 
 export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const locale = useLocale();
@@ -29,7 +22,6 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const modal = useTranslations('modal');
   const table = useTranslations('table');
   const errors = useTranslations('errors.admin');
-  const errorValidation = useTranslations('validation');
   const success = useTranslations('success.admin-pages');
 
   const [isLoading, setIsLoading] = useState(false);
@@ -214,34 +206,13 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
       />
 
       {declined && (
-        <Formik
-          onSubmit={onSubmitDecline}
-          initialValues={declineInitialValues}
-          validationSchema={declineValidationSchema(errorValidation)}
-        >
-          {({ values, setFieldValue }) => {
-            return (
-              <ModalAdmin
-                isLoading={isLoading}
-                isOpen={isOpenReject}
-                classNameBtn="w-[82px]"
-                btnCancelText={btn('no')}
-                btnConfirmText={btn('yes')}
-                title={modal('decline.title')}
-                onClose={() => setIsOpenReject(false)}
-                onConfirm={() => onSubmitDecline(values)}
-                content={
-                  <ModalContent
-                    values={values}
-                    name="declineReason"
-                    setFieldValue={setFieldValue}
-                    organizationName={item.organizationName}
-                  />
-                }
-              />
-            );
-          }}
-        </Formik>
+        <ModalDecline
+          isOpen={isOpenReject}
+          isLoading={isLoading}
+          onClose={setIsOpenReject}
+          onSubmitDecline={onSubmitDecline}
+          organizationName={item.organizationName}
+        />
       )}
 
       {remove && (

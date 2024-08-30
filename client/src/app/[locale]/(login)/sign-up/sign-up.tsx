@@ -16,11 +16,12 @@ import {
   FileField,
   InputField,
   showMessage,
-  CheckboxRadioField,
+  CheckboxField,
+  organizationValidation,
+  organizationInitialValues,
 } from '@/components';
 
 import { getStyles } from './styles';
-import { organizationInitialValues, organizationValidation } from './config';
 
 const SignUp = () => {
   const styles = getStyles();
@@ -71,7 +72,7 @@ const SignUp = () => {
       validateOnChange
       onSubmit={onSubmit}
       validationSchema={validationSchema}
-      initialValues={organizationInitialValues}
+      initialValues={organizationInitialValues()}
     >
       {({ values }) => {
         return (
@@ -264,7 +265,7 @@ const SignUp = () => {
               </div>
             </div>
 
-            <CheckboxRadioField
+            <CheckboxField
               href="#"
               name="agree"
               label={text('checkbox.information')}

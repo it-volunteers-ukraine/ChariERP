@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
-import { CheckboxRadioField } from '@/components';
+import { RadioField } from '@/components';
 
 import { getStyles } from './styles';
 import { IModalContent } from './types';
@@ -25,40 +25,32 @@ export const ModalContent = ({ name, setFieldValue, organizationName, values }: 
           <span>{modal('subTitle')}</span>
         </div>
 
-        <CheckboxRadioField
-          id="1"
+        <RadioField
           name={name}
-          type="radio"
           className="p-2"
           classNameText="text-mobster"
           value={modal('radioBtn.notValidUSREOU')}
           label={modal('radioBtn.notValidUSREOU')}
         />
 
-        <CheckboxRadioField
-          id="2"
+        <RadioField
           name={name}
-          type="radio"
           className="p-2"
           classNameText="text-mobster"
           value={modal('radioBtn.insufficientDocuments')}
           label={modal('radioBtn.insufficientDocuments')}
         />
 
-        <CheckboxRadioField
-          id="3"
+        <RadioField
           name={name}
-          type="radio"
           className="p-2"
           classNameText="text-mobster"
           value={modal('radioBtn.noneCompliance')}
           label={modal('radioBtn.noneCompliance')}
         />
 
-        <CheckboxRadioField
-          id="4"
+        <RadioField
           name={name}
-          type="radio"
           className="p-2"
           classNameText="text-mobster"
           value={modal('radioBtn.other')}
