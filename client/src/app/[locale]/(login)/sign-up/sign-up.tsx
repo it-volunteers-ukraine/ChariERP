@@ -17,7 +17,7 @@ import {
   FileField,
   InputField,
   showMessage,
-  CheckboxRadioField,
+  CheckboxField,
   organizationValidation,
   organizationInitialValues,
 } from '@/components';
@@ -264,7 +264,7 @@ const SignUp = () => {
             </div>
           </div>
 
-          <CheckboxRadioField
+          <CheckboxField
             href="#"
             name="agree"
             label={text('checkbox.information')}
