@@ -7,8 +7,8 @@ export const getStyles = ({ className, isActive, disabled }: INavItemStylesProps
     'group/navItem items-center bg-transparent rounded-[5px]  flex w-full p-[10px_12px] gap-3.5 outline-none focus-visible:outline-none focus:outline-none transition-all duration-300',
     className,
     {
-      'enabled:hover:bg-navItem-hover': !isActive,
-      'enabled:bg-navItem-active': isActive,
+      'enabled:hover:bg-navItem-bg-hover': !isActive,
+      'enabled:bg-navItem-bg-active': isActive,
     },
   ),
   icon: clsx('w-[24px] h-[24px] transition-all duration-300', {
