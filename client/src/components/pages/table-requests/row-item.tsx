@@ -6,12 +6,12 @@ import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
-import { RowItemProps } from '@/types';
+import { RequestOrganizationStatus, RowItemProps } from '@/types';
 import { Copy, Doc } from '@/assets/icons';
 import { downloadFileFromBucket } from '@/services';
 import { dateFormat, getUrlWithExtension } from '@/utils';
 import { Button, ModalAdmin, showMessage, ModalDecline } from '@/components';
-import { confirmOrganizationAction, declineOrganizationAction, deleteOrganizationAction } from '@/actions';
+import { declineOrganizationAction, deleteOrganizationAction, updateOrganizationAction } from '@/actions';
 
 export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const locale = useLocale();
@@ -33,7 +33,11 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const onSubmitRegister = async () => {
     try {
       setIsLoading(true);
-      const response = await confirmOrganizationAction(item.id);
+      const formData = new FormData();
+
+      formData.append('data', JSON.stringify({ request: RequestOrganizationStatus.APPROVED }));
+
+      const response = await updateOrganizationAction(item.id, formData);
 
       if (!response.success && response.message) {
         return showMessage.error(response.message);

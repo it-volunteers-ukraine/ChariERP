@@ -1,4 +1,3 @@
-export { confirmOrganizationAction } from './admin/confirm-organization';
 export { createAdminAction } from './admin/create-admin';
 export { createOrganizationAction } from './admin/create-organization';
 export { declineOrganizationAction } from './admin/decline-organization';

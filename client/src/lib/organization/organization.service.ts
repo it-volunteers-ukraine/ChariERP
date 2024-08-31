@@ -195,7 +195,7 @@ class OrganizationService extends BaseService {
     const data = JSON.parse(formData.get('data') as string) as OrganizationUpdateValues;
 
     const certificate = formData.get('certificate') as File;
-    const isNewCertificate = certificate.size !== 1;
+    const isNewCertificate = certificate && certificate?.size !== 1;
     const isApproved = data.request === RequestOrganizationStatus.APPROVED && organization.users.length === 0;
 
     let uploadedFileUrl;
