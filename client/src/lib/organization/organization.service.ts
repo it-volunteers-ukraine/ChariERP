@@ -102,50 +102,6 @@ class OrganizationService extends BaseService {
     return JSON.stringify(organization);
   }
 
-  async confirmOrganization(id: string) {
-    await this.connect();
-    const organization = await Organizations.findOne({ _id: id });
-
-    if (!organization) {
-      return { message: 'Organization not found', success: false };
-    }
-
-    const user = await Users.findOne({ email: organization.contactData.email });
-
-    if (user) {
-      return { message: 'User already exists', success: false };
-    }
-
-    const password = generatePassword(8, 10);
-    const hash = await bcrypt.hash(password, 10);
-
-    const newUser = new Users({
-      ...organization.contactData,
-      password: hash,
-      status: UserStatus.ACTIVE,
-      role: Roles.MANAGER,
-      organizationId: organization._id,
-    });
-
-    const response = await newUser.save();
-
-    const updateOrganization = {
-      request: RequestOrganizationStatus.APPROVED,
-      users: [response._id],
-    };
-
-    await Organizations.findByIdAndUpdate(id, { $set: updateOrganization });
-
-    await sendEmail({
-      text: 'Ваші дані для входу',
-      subject: 'Ваші дані для входу',
-      to: organization.contactData.email,
-      html: getHtmlCodeForPassword({ password, email: organization.contactData.email }),
-    });
-
-    return { success: true };
-  }
-
   async declineOrganization(id: string, reason: string) {
     await this.connect();
     const organization = await Organizations.findOne({ _id: id });

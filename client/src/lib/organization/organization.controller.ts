@@ -17,10 +17,6 @@ class OrganizationController {
     return await this.organizationService.getOrganizationById(id);
   }
 
-  async confirmOrganization(id: string) {
-    return await await this.organizationService.confirmOrganization(id);
-  }
-
   async declineOrganization(id: string, reason: string) {
     return await await this.organizationService.declineOrganization(id, reason);
   }
