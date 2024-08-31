@@ -17,7 +17,7 @@ const organizationsSchema = new Schema<IOrganizations>({
     firstName: { type: String, required: true },
     middleName: { type: String },
     phone: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, unique: true, required: true },
   },
   mediaData: {
     site: { type: String },

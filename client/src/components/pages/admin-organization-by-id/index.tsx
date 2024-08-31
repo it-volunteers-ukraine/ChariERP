@@ -3,13 +3,18 @@
 import { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter, useParams, usePathname } from 'next/navigation';
 import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
 
 import { routes } from '@/constants';
 import { OrganizationEditValues, RequestOrganizationStatus } from '@/types';
 import { oneOrganizationNormalizer, serializeOrganizationsUpdate } from '@/utils';
-import { declineOrganizationAction, getOrganizationByIdAction, updateOrganizationAction } from '@/actions';
+import {
+  deleteOrganizationAction,
+  updateOrganizationAction,
+  declineOrganizationAction,
+  getOrganizationByIdAction,
+} from '@/actions';
 import {
   Button,
   SmallBtn,
@@ -24,21 +29,29 @@ import {
   ModalDecline,
   organizationValidation,
 } from '@/components';
-
 import { getInitialData } from './config';
 
-const RequestsId = () => {
+const AdminOrganizationById = () => {
   const router = useRouter();
   const { id } = useParams();
+  const path = usePathname();
+
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
   const modal = useTranslations('modal');
   const error = useTranslations('validation');
   const success = useTranslations('success.admin-pages');
 
+  const isRequests = path?.includes(routes.requests);
+  const isDeclined = path?.includes(routes.declined);
+  const isOrganization = path?.includes(routes.organizations);
+
+  const backPath = path.split('/').slice(0, -1).join('/');
+
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenSave, setIsOpenSave] = useState(false);
   const [isOpenAccept, setIsOpenAccept] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isOpenDecline, setIsOpenDecline] = useState(false);
   const [isLoadingRequest, setIsLoadingRequest] = useState(false);
   const [data, setData] = useState<OrganizationEditValues | null>(null);
@@ -101,12 +114,31 @@ const RequestsId = () => {
     }
   };
 
+  const onSubmitRemove = async () => {
+    try {
+      setIsLoadingRequest(true);
+      const response = await deleteOrganizationAction(id as string);
+
+      if (!response.success && response.message) {
+        return showMessage.error(response.message);
+      }
+
+      showMessage.success(success('deleteOrganization'));
+      router.push(backPath);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsOpenDelete(false);
+      setIsLoadingRequest(false);
+    }
+  };
+
   const onSubmit = async (values: FormikValues) => {
     try {
       setIsLoadingRequest(true);
 
       await onSave(values as OrganizationEditValues, RequestOrganizationStatus.APPROVED);
-      router.push(routes.requests);
+      router.push(backPath);
     } catch (error) {
       // TODO Connect error message
       console.log(error);
@@ -138,7 +170,7 @@ const RequestsId = () => {
       }
 
       showMessage.success(success('sentEmail', { email: data?.email }));
-      router.push(routes.requests);
+      router.push(backPath);
     } catch (error) {
       // TODO Connect error message
       console.log(error);
@@ -342,21 +374,35 @@ const RequestsId = () => {
                   </Accordion>
 
                   <div className="flex justify-end w-full gap-6">
-                    <Button
-                      type="button"
-                      styleType="green"
-                      text={btn('accept')}
-                      className="uppercase"
-                      onClick={() => setIsOpenAccept(true)}
-                    />
+                    {(isRequests || isDeclined) && (
+                      <Button
+                        type="button"
+                        styleType="green"
+                        text={btn('accept')}
+                        className="uppercase"
+                        onClick={() => setIsOpenAccept(true)}
+                      />
+                    )}
 
-                    <Button
-                      type="button"
-                      styleType="red"
-                      text={btn('decline')}
-                      className="uppercase"
-                      onClick={() => setIsOpenDecline(true)}
-                    />
+                    {isRequests && (
+                      <Button
+                        type="button"
+                        styleType="red"
+                        className="uppercase"
+                        text={btn('decline')}
+                        onClick={() => setIsOpenDecline(true)}
+                      />
+                    )}
+
+                    {(isDeclined || isOrganization) && (
+                      <Button
+                        type="button"
+                        styleType="red"
+                        className="uppercase"
+                        text={btn('delete')}
+                        onClick={() => setIsOpenDelete(true)}
+                      />
+                    )}
                   </div>
                 </Form>
               </div>
@@ -374,8 +420,28 @@ const RequestsId = () => {
           organizationName={data?.organizationName}
         />
       )}
+
+      {isOpenDelete && data && (
+        <ModalAdmin
+          isLoading={isLoading}
+          isOpen={isOpenDelete}
+          classNameBtn="w-[82px]"
+          btnCancelText={btn('no')}
+          onConfirm={onSubmitRemove}
+          btnConfirmText={btn('yes')}
+          title={modal('remove.title')}
+          onClose={() => setIsOpenDelete(false)}
+          content={
+            <div className="flex flex-col gap-1 text-center text-mobster lending-6">
+              <span>
+                {modal('remove.text')} {data?.organizationName}
+              </span>
+            </div>
+          }
+        />
+      )}
     </>
   );
 };
 
-export { RequestsId };
+export { AdminOrganizationById };
