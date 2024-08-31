@@ -196,7 +196,8 @@
       "userIncorrect": "Incorrect email or password",
       "userNotFound": "User not found",
       "somethingWrong": "Something went wrong",
-      "companyAlreadyRegistered": "The company is already registered with the USREOU"
+      "companyAlreadyRegistered": "The company with {errors} is already registered",
+      "or": "or"
     },
     "admin": {
       "emptyValue": "Please, pick one reason"

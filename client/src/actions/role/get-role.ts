@@ -13,7 +13,7 @@ export async function getRoleAction() {
       return await roleController.getRole(id.value);
     }
 
-    return { success: false };
+    return { success: false, message: 'User not found' };
   } catch (error) {
     return Promise.reject(error);
   }

@@ -37,7 +37,9 @@ export const RoleProvider = ({ children }: ChildrenProps) => {
       const response: IRoleResponse = await getRoleAction();
 
       if (!response.success && response && response.message) {
-        return showMessage.error(response.message);
+        showMessage.error(response.message);
+
+        return router.push(routes.login);
       }
 
       if (response.role) {

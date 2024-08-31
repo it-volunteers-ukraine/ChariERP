@@ -74,3 +74,8 @@ export interface AdminOrganizationProps {
   populate?: string;
   filterStatus: RequestOrganizationStatus;
 }
+
+export type Fields = {
+  email: string;
+  edrpou: number;
+};

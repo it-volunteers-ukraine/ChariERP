@@ -8,6 +8,7 @@ import {
   getHtmlCodeForPassword,
   pendingDeclineNormalizer,
   approveOrganizationsNormalizer,
+  checkFieldsToUniqueOfOrganization,
 } from '@/utils';
 import {
   Roles,
@@ -31,10 +32,19 @@ class OrganizationService extends BaseService {
     const certificate = formData.get('certificate') as File;
     const data = JSON.parse(formData.get('data') as string) as OrganizationCreateValues;
 
-    const organizationExist = await Organizations.findOne({ 'organizationData.edrpou': data.edrpou });
+    const organizationExist = await Organizations.findOne({
+      $or: [{ 'organizationData.edrpou': data.edrpou }, { 'contactData.email': data.email }],
+    });
 
     if (organizationExist) {
-      return { success: false, message: 'companyAlreadyRegistered' };
+      const matches = checkFieldsToUniqueOfOrganization(
+        { email: data.email, edrpou: Number(data.edrpou) },
+        { email: organizationExist.contactData.email, edrpou: organizationExist.organizationData.edrpou },
+      );
+
+      if (matches.length > 0) {
+        return { message: matches, success: false };
+      }
     }
 
     const uploadedFileUrl = await uploadFileToBucket(
@@ -95,14 +105,14 @@ class OrganizationService extends BaseService {
     };
   }
 
-  async getOrganizationById(id: string) {
+  async getAdminOrganizationById(id: string) {
     await this.connect();
     const organization = await Organizations.findOne({ _id: id });
 
     return JSON.stringify(organization);
   }
 
-  async declineOrganization(id: string, reason: string) {
+  async declineAdminOrganization(id: string, reason: string) {
     await this.connect();
     const organization = await Organizations.findOne({ _id: id });
 
@@ -135,7 +145,7 @@ class OrganizationService extends BaseService {
     return { success: true };
   }
 
-  async updateOrganization(id: string, formData: FormData) {
+  async updateAdminOrganization(id: string, formData: FormData) {
     await this.connect();
 
     if (!id) {
@@ -187,6 +197,21 @@ class OrganizationService extends BaseService {
     };
 
     if (isApproved) {
+      const organizationExist = await Organizations.findOne({
+        $or: [{ 'organizationData.edrpou': data.edrpou }, { 'contactData.email': data.email }],
+      });
+
+      if (organizationExist) {
+        const matches = checkFieldsToUniqueOfOrganization(
+          { email: data.email, edrpou: Number(data.edrpou) },
+          { email: organizationExist.contactData.email, edrpou: organizationExist.organizationData.edrpou },
+        );
+
+        if (matches.length > 0) {
+          return { message: matches, success: false };
+        }
+      }
+
       const password = generatePassword(8, 10);
       const hash = await bcrypt.hash(password, 10);
 
@@ -223,7 +248,7 @@ class OrganizationService extends BaseService {
     return { success: true, message: 'Organization updated', organization: JSON.stringify(response) };
   }
 
-  async deleteOrganization(id: string) {
+  async deleteAdminOrganization(id: string) {
     await this.connect();
     const organization = await Organizations.findOne({ _id: id });
 

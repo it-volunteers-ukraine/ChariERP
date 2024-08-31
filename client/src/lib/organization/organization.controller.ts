@@ -13,20 +13,20 @@ class OrganizationController {
     return await this.organizationService.getAdminOrganizations({ page, limit, filterStatus, populate });
   }
 
-  async getOrganizationById(id: string) {
-    return await this.organizationService.getOrganizationById(id);
+  async getAdminOrganizationById(id: string) {
+    return await this.organizationService.getAdminOrganizationById(id);
   }
 
-  async declineOrganization(id: string, reason: string) {
-    return await await this.organizationService.declineOrganization(id, reason);
+  async declineAdminOrganization(id: string, reason: string) {
+    return await await this.organizationService.declineAdminOrganization(id, reason);
   }
 
-  async updateOrganization(id: string, formData: FormData) {
-    return await await this.organizationService.updateOrganization(id, formData);
+  async updateAdminOrganization(id: string, formData: FormData) {
+    return await await this.organizationService.updateAdminOrganization(id, formData);
   }
 
-  async deleteOrganization(id: string) {
-    return await await this.organizationService.deleteOrganization(id);
+  async deleteAdminOrganization(id: string) {
+    return await await this.organizationService.deleteAdminOrganization(id);
   }
 }
 

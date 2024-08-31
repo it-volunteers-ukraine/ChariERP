@@ -8,7 +8,7 @@ import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
 
 import { routes } from '@/constants';
 import { OrganizationEditValues, RequestOrganizationStatus } from '@/types';
-import { oneOrganizationNormalizer, serializeOrganizationsUpdate } from '@/utils';
+import { oneOrganizationNormalizer, serializeOrganizationsUpdate, showErrorMessageOfOrganizationExist } from '@/utils';
 import {
   deleteOrganizationAction,
   updateOrganizationAction,
@@ -40,6 +40,7 @@ const AdminOrganizationById = () => {
   const text = useTranslations('inputs');
   const modal = useTranslations('modal');
   const error = useTranslations('validation');
+  const errorText = useTranslations('errors.login');
   const success = useTranslations('success.admin-pages');
 
   const isRequests = path?.includes(routes.requests);
@@ -87,8 +88,9 @@ const AdminOrganizationById = () => {
 
     const response = await updateOrganizationAction(id as string, formData);
 
-    if (!response.success) {
-      showMessage.error(response.message);
+    if (!response.success && Array.isArray(response.message)) {
+      showErrorMessageOfOrganizationExist(errorText, response.message);
+      throw new Error('Organization already exist');
     }
 
     if (response.success && response.organization) {
@@ -100,10 +102,10 @@ const AdminOrganizationById = () => {
     }
   };
 
-  const handleSave = async (values: OrganizationEditValues, request?: RequestOrganizationStatus) => {
+  const handleSave = async (values: OrganizationEditValues) => {
     try {
       setIsLoadingRequest(true);
-      await onSave(values, request);
+      await onSave(values);
     } catch (error) {
       // TODO Connect error message
       console.log(error);

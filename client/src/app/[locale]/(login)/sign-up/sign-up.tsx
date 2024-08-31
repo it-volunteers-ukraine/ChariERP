@@ -7,7 +7,7 @@ import { FieldArray, Form, Formik, FormikHelpers } from 'formik';
 
 import { OrganizationFormValues } from '@/types';
 import { createOrganizationAction } from '@/actions';
-import { serializeOrganizationsCreate } from '@/utils';
+import { serializeOrganizationsCreate, showErrorMessageOfOrganizationExist } from '@/utils';
 import { Title, Button, SmallBtn, DateField, FileField, InputField, showMessage, CheckboxField } from '@/components';
 
 import { getStyles } from './styles';
@@ -42,8 +42,8 @@ const SignUp = () => {
         showMessage.success(create('createOrganization'));
       }
 
-      if (!data.success) {
-        return showMessage.error(errorText(data.message), { autoClose: 5000 });
+      if (!data.success && Array.isArray(data.message)) {
+        return showErrorMessageOfOrganizationExist(errorText, data.message);
       }
 
       handleFormik.resetForm();

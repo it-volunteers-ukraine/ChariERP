@@ -39,7 +39,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
 
       const response = await updateOrganizationAction(item.id, formData);
 
-      if (!response.success && response.message) {
+      if (!response.success && !Array.isArray(response.message)) {
         return showMessage.error(response.message);
       }
 

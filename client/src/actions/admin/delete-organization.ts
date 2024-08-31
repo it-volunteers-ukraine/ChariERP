@@ -4,7 +4,7 @@ import { organizationController } from '@/lib';
 
 export async function deleteOrganizationAction(id: string) {
   try {
-    return await organizationController.deleteOrganization(id);
+    return await organizationController.deleteAdminOrganization(id);
   } catch (error) {
     return Promise.reject(error);
   }
