@@ -1,13 +1,13 @@
 'use server';
 
-import { userController } from '@/lib';
+import { userService } from '@/lib';
 
 export async function loginAction(
   email: string,
   password: string,
 ): Promise<{ success: boolean; message?: string; userId?: string }> {
   try {
-    const user = await userController.login(email, password);
+    const user = await userService.login(email, password);
 
     if (user._id) {
       return { success: true, userId: user._id };

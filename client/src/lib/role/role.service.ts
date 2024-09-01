@@ -2,7 +2,7 @@ import { Roles } from '@/types';
 import { Admin, Users } from '..';
 import { BaseService } from '../database/base.service';
 
-export class RoleService extends BaseService {
+class RoleService extends BaseService {
   async getRole(id: string) {
     await this.connect();
 
@@ -21,3 +21,5 @@ export class RoleService extends BaseService {
     return { success: false, message: 'User not found' };
   }
 }
+
+export const roleService = new RoleService();

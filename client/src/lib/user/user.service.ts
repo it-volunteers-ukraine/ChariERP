@@ -41,4 +41,4 @@ class UserService extends BaseService {
   }
 }
 
-export { UserService };
+export const userService = new UserService();

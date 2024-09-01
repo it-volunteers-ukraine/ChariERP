@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers';
 
-import { roleController } from '@/lib';
+import { roleService } from '@/lib';
 
 export async function getRoleAction() {
   const cookieStore = cookies();
@@ -10,7 +10,7 @@ export async function getRoleAction() {
 
   try {
     if (id?.value) {
-      return await roleController.getRole(id.value);
+      return await roleService.getRole(id.value);
     }
 
     return { success: false, message: 'User not found' };

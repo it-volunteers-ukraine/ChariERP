@@ -1,10 +1,10 @@
 'use server';
 
-import { organizationController } from '@/lib';
+import { organizationService } from '@/lib';
 
 export async function declineOrganizationAction(id: string, reason: string) {
   try {
-    return await organizationController.declineAdminOrganization(id, reason);
+    return await organizationService.declineAdminOrganization(id, reason);
   } catch (error) {
     return Promise.reject(error);
   }

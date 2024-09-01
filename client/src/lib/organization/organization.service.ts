@@ -266,4 +266,4 @@ class OrganizationService extends BaseService {
   }
 }
 
-export { OrganizationService };
+export const organizationService = new OrganizationService();
