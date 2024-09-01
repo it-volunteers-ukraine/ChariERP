@@ -8,7 +8,6 @@ export const getInitialData = (data: OrganizationEditValues | null) => {
     email: data?.email || '',
     phone: data?.phone || '',
     edrpou: data?.edrpou || '',
-    social: data?.social || [''],
     lastName: data?.lastName || '',
     position: data?.position || '',
     firstName: data?.firstName || '',
@@ -16,6 +15,7 @@ export const getInitialData = (data: OrganizationEditValues | null) => {
     certificate: data?.certificate || '',
     organizationName: data?.organizationName || '',
     dateOfRegistration: data?.dateOfRegistration || '',
+    social: (data?.social?.length && data.social) || [''],
   };
 };
 

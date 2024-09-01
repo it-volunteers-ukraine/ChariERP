@@ -1,6 +1,8 @@
 import { randomInt } from 'crypto';
+import { TranslationValues } from 'next-intl';
 
-import { DownloadType, GetUrlProps } from '@/types';
+import { showMessage } from '@/components';
+import { DownloadType, Fields, GetUrlProps } from '@/types';
 
 export const dateFormat: Record<string, string> = {
   ua: 'dd.MM.yyyy',
@@ -14,6 +16,13 @@ const switchExtension = (extension: string) => {
     default:
       return `image/${extension}`;
   }
+};
+
+export const renameFile = (file: File) => {
+  return new File([file], encodeURIComponent(file.name), {
+    type: file.type,
+    lastModified: file.lastModified,
+  });
 };
 
 export const getUrlWithExtension = async ({ url, file, downloadType = DownloadType.URL }: GetUrlProps) => {
@@ -52,7 +61,7 @@ export const createFile = (filename: string, extension: string) => {
 
   const fileContent = new Blob(['\x00'], { type: mimeType });
 
-  const file = new File([fileContent], decodeURI(`${filename}.${extension}`), { type: fileContent.type });
+  const file = new File([fileContent], `${filename}.${extension}`, { type: fileContent.type });
 
   return file;
 };
@@ -74,3 +83,18 @@ export const getHtmlCodeForPassword = ({
     <span style="font-weight: bold; color: #333; background-color: #f1f1f1; padding: 10px; border-radius: 5px;">${password}</span>
     </p>
     </div>`;
+
+export function checkFieldsToUniqueOfOrganization<T extends Fields>(fields: T, organization: T): (string | number)[] {
+  const keys = Object.keys(fields) as Array<keyof T>;
+
+  return keys.filter((key) => fields[key] === organization[key]).map((key) => fields[key] as string | number);
+}
+
+export function showErrorMessageOfOrganizationExist(
+  error: (key: string, params?: TranslationValues) => string,
+  data: unknown[],
+) {
+  const text = data.join(` ${error('or')} `);
+
+  return showMessage.error(error('companyAlreadyRegistered', { errors: text }), { autoClose: 5000 });
+}

@@ -1,18 +1,17 @@
 'use client';
 
 import { MouseEvent, useState } from 'react';
-import { FormikValues } from 'formik';
 import { format, parseISO } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
-import { RowItemProps } from '@/types';
+import { RequestOrganizationStatus, RowItemProps } from '@/types';
 import { Copy, Doc } from '@/assets/icons';
 import { downloadFileFromBucket } from '@/services';
 import { dateFormat, getUrlWithExtension } from '@/utils';
 import { Button, ModalAdmin, showMessage, ModalDecline } from '@/components';
-import { deleteOrganization, onDeclineOrganization, onRegisterOrganization } from '@/api';
+import { declineOrganizationAction, deleteOrganizationAction, updateOrganizationAction } from '@/actions';
 
 export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const locale = useLocale();
@@ -21,7 +20,6 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const btn = useTranslations('button');
   const modal = useTranslations('modal');
   const table = useTranslations('table');
-  const errors = useTranslations('errors.admin');
   const success = useTranslations('success.admin-pages');
 
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +33,16 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const onSubmitRegister = async () => {
     try {
       setIsLoading(true);
-      await onRegisterOrganization(item.id);
+      const formData = new FormData();
+
+      formData.append('data', JSON.stringify({ request: RequestOrganizationStatus.APPROVED }));
+
+      const response = await updateOrganizationAction(item.id, formData);
+
+      if (!response.success && !Array.isArray(response.message)) {
+        return showMessage.error(response.message);
+      }
+
       showMessage.success(success('sentEmail', { email: item.email }));
     } catch (error) {
       console.log(error);
@@ -46,19 +53,16 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
     }
   };
 
-  const onSubmitDecline = async (values: FormikValues) => {
-    const value = modal('decline.radioBtn.other') === values.declineReason ? values.otherReason : values.declineReason;
-
-    if (value === '') {
-      showMessage.error(errors('emptyValue'));
-
-      return;
-    }
-
+  const onSubmitDecline = async (reason: string) => {
     try {
       setIsLoading(true);
 
-      await onDeclineOrganization(item.id, value);
+      const response = await declineOrganizationAction(item.id, reason);
+
+      if (!response.success && response.message) {
+        return showMessage.error(response.message);
+      }
+
       showMessage.success(success('sentEmail', { email: item.email }));
     } catch (error) {
       console.log(error);
@@ -72,7 +76,12 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const onSubmitRemove = async () => {
     try {
       setIsLoading(true);
-      await deleteOrganization(item.id);
+      const response = await deleteOrganizationAction(item.id);
+
+      if (!response.success && response.message) {
+        return showMessage.error(response.message);
+      }
+
       showMessage.success(success('deleteOrganization'));
     } catch (error) {
       console.log(error);
@@ -163,9 +172,9 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
         >
           <Button text="Accept" styleType="green" isNarrow={isLaptop} onClick={() => setIsOpenRegister(true)} />
           <Button
-            text="Decline"
             styleType="red"
             isNarrow={isLaptop}
+            text={declined ? 'Decline' : 'Delete'}
             onClick={() => (declined ? setIsOpenReject(true) : setIsOpenRemove(true))}
           />
         </div>

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
-import { IOrganization } from '@/types';
-import { getPendingOrganizations } from '@/api';
+import { getAdminOrganizationsAction } from '@/actions';
+import { IOrganization, RequestOrganizationStatus } from '@/types';
 import { Input, LoaderPage, Pagination, TableRequests } from '@/components';
 
 const pageSize = 10;
@@ -18,9 +18,12 @@ export const RequestsPage = () => {
     setIsLoading(true);
 
     try {
-      const data = await getPendingOrganizations({ page: currentPage });
+      const data = await getAdminOrganizationsAction({
+        page: currentPage,
+        filterStatus: RequestOrganizationStatus.PENDING,
+      });
 
-      setOrganizations(data.organizations);
+      setOrganizations(data.results as IOrganization[]);
       setTotalPages(data.totalPages);
     } catch (error) {
       console.log(error);

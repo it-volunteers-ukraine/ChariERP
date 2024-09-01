@@ -1,9 +1,8 @@
-// import { downloadFileFromBucket } from '@/services';
-import { IOrganizations } from '@/types';
 import { createFile } from '@/utils';
+import { IOrganizations } from '@/types';
 
-export const oneOrganizationNormalizer = async (data: IOrganizations) => {
-  const certificate = data.organizationData.certificate;
+export const oneOrganizationNormalizer = (data: IOrganizations) => {
+  const certificate = decodeURI(data.organizationData.certificate);
 
   const fileName = certificate?.split('/').pop()?.split('.');
 
@@ -30,7 +29,7 @@ export const approveOrganizationsNormalizer = (data: IOrganizations[]) => {
     id: item._id!.toString(),
     organizationName: item.organizationData.organizationName,
     EDRPOU: item.organizationData.edrpou,
-    dateOfRegistration: item.organizationData.dateOfRegistration,
+    dateOfRegistration: item.organizationData.dateOfRegistration.toISOString(),
     email: item.contactData.email,
     users: item.users.length,
   }));
@@ -41,7 +40,7 @@ export const pendingDeclineNormalizer = (data: IOrganizations[]) => {
     id: item._id!.toString(),
     organizationName: item.organizationData.organizationName,
     EDRPOU: item.organizationData.edrpou,
-    dateOfRegistration: item.organizationData.dateOfRegistration,
+    dateOfRegistration: item.organizationData.dateOfRegistration.toISOString(),
     email: item.contactData.email,
     certificate: item.organizationData.certificate,
   }));

@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { notFound } from 'next/navigation';
 import { Roboto, Scada, Roboto_Condensed } from 'next/font/google';
 import { useMessages, NextIntlClientProvider, useLocale as UseLocale } from 'next-intl';
@@ -41,6 +42,9 @@ export default function RootLayout({ params, children }: ChildrenProps<Localizat
 
   return (
     <html lang={locale} className="scroll-smooth">
+      <Head>
+        <meta charSet="UTF-8" />
+      </Head>
       <body className={`${roboto.variable} ${robotoCondensed.variable} ${scada.variable}`}>
         <NextIntlClientProvider messages={messages}>
           <WidthToast>{children}</WidthToast>

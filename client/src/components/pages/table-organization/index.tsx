@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { useSortableData } from '@/hooks';
-import { IOrganizationPageProps } from '@/types';
-import { getApprovedOrganizations } from '@/api';
+import { getAdminOrganizationsAction } from '@/actions';
 import { Calendar, Triangle, User } from '@/assets/icons';
 import { Input, LoaderPage, Pagination } from '@/components';
+import { IOrganizationPageProps, RequestOrganizationStatus } from '@/types';
 
 import { RowItem } from './row-item';
 import { getStyles } from './styles';
@@ -36,9 +36,13 @@ export const TableOrganization = () => {
     setIsLoading(true);
 
     try {
-      const data = await getApprovedOrganizations({ page: currentPage });
+      const data = await getAdminOrganizationsAction({
+        page: currentPage,
+        populate: 'users',
+        filterStatus: RequestOrganizationStatus.APPROVED,
+      });
 
-      setOrganizations(data.organizations);
+      setOrganizations(data.results as IOrganizationPageProps[]);
       setTotalPages(data.totalPages);
     } catch (error) {
       console.log(error);

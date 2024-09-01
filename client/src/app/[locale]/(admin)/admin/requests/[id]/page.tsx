@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { RequestsId } from './requests-id';
+import { AdminOrganizationById } from '@/components';
 
 export const metadata: Metadata = {
   title: 'Requests ID',
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const Edit = () => {
-  return <RequestsId />;
+  return <AdminOrganizationById />;
 };
 
 export default Edit;

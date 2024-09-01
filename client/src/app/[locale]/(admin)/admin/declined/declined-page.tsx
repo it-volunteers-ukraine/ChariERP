@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 
-import { IOrganization } from '@/types';
-import { getDeclinedOrganizations } from '@/api';
+import { getAdminOrganizationsAction } from '@/actions';
 import { Input, Pagination, TableRequests } from '@/components';
+import { IOrganization, RequestOrganizationStatus } from '@/types';
 
 const pageSize = 10;
 
@@ -15,9 +15,12 @@ export const DeclinedPage = () => {
 
   const getData = async (currentPage: number) => {
     try {
-      const data = await getDeclinedOrganizations({ page: currentPage });
+      const data = await getAdminOrganizationsAction({
+        page: currentPage,
+        filterStatus: RequestOrganizationStatus.DECLINED,
+      });
 
-      setOrganizations(data.organizations);
+      setOrganizations(data.results as IOrganization[]);
       setTotalPages(data.totalPages);
     } catch (error) {
       console.log(error);

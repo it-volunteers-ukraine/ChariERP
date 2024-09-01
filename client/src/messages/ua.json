@@ -192,7 +192,8 @@
       "userIncorrect": "Неправильний email або пароль",
       "userNotFound": "E-mail або пароль некоректний",
       "somethingWrong": "Щось пішло не так",
-      "companyAlreadyRegistered": "Компанія з ЄДРПОУ вже зареєстрована"
+      "companyAlreadyRegistered": "Компанія с {errors} вже зареєстрована",
+      "or": "або"
     },
     "admin": {
       "emptyValue": "Будь ласка, оберіть одну причину"
