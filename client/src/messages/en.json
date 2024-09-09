@@ -129,6 +129,10 @@
       "title": "SAVE CHANGES?",
       "text": "This page contains data that was not saved."
     },
+    "enterPass": {
+      "title": "ENTER YOUR EMAIL ADDRESS",
+      "text": "A message with a link to change your password will be sent to this email address"
+    },
     "remove": {
       "title": "REMOVE FROM THE SYSTEM?",
       "text": "Application from "
@@ -161,6 +165,7 @@
     "decline": "decline",
     "add": "add",
     "cancel": "cancel",
+    "confirm": "confirm",
     "yes": "YES",
     "no": "NO"
   },
