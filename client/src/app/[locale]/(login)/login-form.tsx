@@ -1,12 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikValues } from 'formik';
 
 import { Button, InputField, ModalEnterEmail, SmallBtn } from '@/components';
 
 import { getValidationSchema, initialValues } from './sign-in/config';
-import { useState } from 'react';
 
 interface ILoginFormProps {
   isLoading: boolean;
