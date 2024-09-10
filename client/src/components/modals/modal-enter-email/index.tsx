@@ -6,9 +6,9 @@ import { Formik, FormikValues } from 'formik';
 
 import { InputField, ModalAdmin, enterEmailInitialValues, enterEmailValidation } from '@/components';
 
-import { IModalDecline } from './types';
+import { IModalEnterEmail } from './types';
 
-export const ModalEnterEmail = ({ isOpen, onClose, isLoading, onSubmit }: IModalDecline) => {
+export const ModalEnterEmail = ({ isOpen, onClose, isLoading, onSubmit }: IModalEnterEmail) => {
   const btn = useTranslations('button');
   const modal = useTranslations('modal');
   const input = useTranslations('auth-page.login');

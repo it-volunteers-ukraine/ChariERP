@@ -1,4 +1,4 @@
-export interface IModalDecline {
+export interface IModalEnterEmail {
   isOpen: boolean;
   isLoading?: boolean;
   onClose: (bool: boolean) => void;
