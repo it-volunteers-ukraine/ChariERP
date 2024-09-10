@@ -14,8 +14,8 @@ interface ILoginFormProps {
 }
 
 const LoginForm = ({ onSubmit, isLoading }: ILoginFormProps) => {
-  const message = useTranslations('validation');
   const btn = useTranslations('button');
+  const message = useTranslations('validation');
   const login = useTranslations('auth-page.login');
 
   const validationSchema = getValidationSchema(message);
