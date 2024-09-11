@@ -3,6 +3,7 @@ import internal from 'stream';
 import { SdkStreamMixin } from '@aws-sdk/types';
 
 import { DownloadType, RequestOrganizationStatus } from './enums';
+import { IAdmin, IUsers } from './models';
 
 export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
 
@@ -79,3 +80,5 @@ export type Fields = {
   email: string;
   edrpou: number;
 };
+
+export interface ICustomer extends IAdmin, IUsers {}

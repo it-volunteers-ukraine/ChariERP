@@ -4,37 +4,37 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import { useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
-import { getRoleAction } from '@/actions';
+import { getMeAction } from '@/actions';
 import { showMessage } from '@/components';
-import { ChildrenProps, Roles } from '@/types';
+import { ChildrenProps, ICustomer } from '@/types';
 
-interface IProtectedContext {
-  role: Roles | null;
-  setRole: (role: Roles | null) => void;
+type IUser = ICustomer | null;
+
+interface IProtectedContext extends Partial<ICustomer> {
+  setUser: (user: IUser) => void;
 }
 
-interface IRoleResponse {
-  role?: Roles;
+interface IGetMeResponse {
+  user?: ICustomer;
   success: boolean;
   message?: string;
 }
 
-const RoleContext = createContext<IProtectedContext>({
-  role: null,
-  setRole: () => {},
+const UserContext = createContext<IProtectedContext>({
+  setUser: () => {},
 });
 
-export const useRole = () => {
-  return useContext(RoleContext);
+export const useUserInfo = () => {
+  return useContext(UserContext);
 };
 
-export const RoleProvider = ({ children }: ChildrenProps) => {
+export const UserProvider = ({ children }: ChildrenProps) => {
   const router = useRouter();
-  const [role, setRole] = useState<Roles | null>(null);
+  const [user, setUser] = useState<IUser>(null);
 
-  const getRoles = useCallback(async () => {
+  const getUser = useCallback(async () => {
     try {
-      const response: IRoleResponse = await getRoleAction();
+      const response: IGetMeResponse = await getMeAction();
 
       if (!response.success && response && response.message) {
         showMessage.error(response.message);
@@ -42,8 +42,10 @@ export const RoleProvider = ({ children }: ChildrenProps) => {
         return router.push(routes.login);
       }
 
-      if (response.role) {
-        setRole(response.role);
+      if (response && response.user) {
+        setUser(response.user);
+
+        return;
       }
     } catch (error) {
       router.push(routes.login);
@@ -51,10 +53,10 @@ export const RoleProvider = ({ children }: ChildrenProps) => {
   }, [router]);
 
   useEffect(() => {
-    if (!role) {
-      getRoles();
+    if (!user) {
+      getUser();
     }
-  }, [role, getRoles]);
+  }, [user, getUser]);
 
-  return <RoleContext.Provider value={{ role, setRole }}>{children}</RoleContext.Provider>;
+  return <UserContext.Provider value={{ ...user, setUser }}>{children}</UserContext.Provider>;
 };

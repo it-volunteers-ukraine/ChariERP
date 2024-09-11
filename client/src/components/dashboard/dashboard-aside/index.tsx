@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
-import { useRole } from '@/context';
+import { useUserInfo } from '@/context';
 import { Exit, JamMenu } from '@/assets/icons';
 import { LanguageSwitcher, Logo } from '@/components';
 import { useOutsideClick, useWindowWidth } from '@/hooks';
@@ -16,8 +16,8 @@ import { getLinksByRole } from './config';
 
 export const DashboardAside = () => {
   const ref = useRef(null);
-  const { role } = useRole();
   const router = useRouter();
+  const { role } = useUserInfo();
   const linkText = useTranslations('sidebar');
   const { isDesktop, isTablet } = useWindowWidth();
 
@@ -27,7 +27,7 @@ export const DashboardAside = () => {
     if (!isDesktop) setIsOpen(false);
   });
 
-  const links = getLinksByRole(role, (key, params) => linkText(key, params));
+  const links = getLinksByRole((key, params) => linkText(key, params), role);
 
   const styles = getStyles(isOpen);
 

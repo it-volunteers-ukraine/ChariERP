@@ -1,1 +1,1 @@
-export { RoleProvider, useRole } from './protected';
+export { UserProvider, useUserInfo } from './protected';

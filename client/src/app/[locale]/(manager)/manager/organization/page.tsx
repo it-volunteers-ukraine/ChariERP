@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
 
 import { Info } from '@/assets/icons';
+// import { useUserInfo } from '@/context';
 import {
   Button,
   SmallBtn,
@@ -16,16 +17,20 @@ import {
   InputField,
   ModalAdmin,
   showMessage,
+  LoaderPage,
   organizationValidation,
   organizationInitialValues,
 } from '@/components';
 
 const Organization = () => {
+  // const { organizationId } = useUserInfo();
+
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
   const error = useTranslations('validation');
   const modal = useTranslations('modal.save');
 
+  const [isLoading, setIsLoading] = useState(true);
   const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
 
   const onSubmit = async (values: FormikValues) => console.log('data', values);
@@ -43,6 +48,15 @@ const Organization = () => {
     }
   };
 
+  const handleLoading = () => {
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 10000);
+  };
+
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 10000);
+  }, [isLoading]);
+
   return (
     <Formik
       validateOnBlur
@@ -52,7 +66,7 @@ const Organization = () => {
       validationSchema={organizationValidation(error).omit(['agree'])}
     >
       {({ values, errors, validateForm, handleSubmit }) => (
-        <div className="w-full bg-white overflow-y-auto scroll-blue">
+        <LoaderPage isLoading={isLoading} className=" w-full bg-white ">
           <div className="p-[0_16px_48px] tablet:p-[0_32px_48px] m-auto w-full desktopXl:max-w-[1100px]">
             <ModalAdmin
               isOpen={isOpenSave}
@@ -68,9 +82,10 @@ const Organization = () => {
             <Form>
               <div className="flex justify-start items-center gap-6 py-6">
                 <ButtonIcon
-                  className="min-w-[36px]"
                   icon="save"
+                  type="button"
                   iconType="primary"
+                  className="min-w-[36px]"
                   onClick={() => setIsOpenSave(true)}
                 />
 
@@ -249,9 +264,11 @@ const Organization = () => {
                     styleType="green"
                     className="uppercase w-full tablet:w-fit"
                     text={btn('saveChanges')}
-                    onClick={() => {
-                      setIsOpenSave(true);
-                    }}
+                    // onClick={() => {
+                    //   setIsOpenSave(true);
+
+                    // }}
+                    onClick={() => handleLoading()}
                   />
 
                   <Button
@@ -264,7 +281,7 @@ const Organization = () => {
               </div>
             </Form>
           </div>
-        </div>
+        </LoaderPage>
       )}
     </Formik>
   );

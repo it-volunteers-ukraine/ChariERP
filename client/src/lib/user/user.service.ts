@@ -39,6 +39,24 @@ class UserService extends BaseService {
 
     return { message: 'userNotFound' };
   }
+
+  async getUserById(id: string) {
+    await this.connect();
+
+    const admin = await Admin.findById(id);
+
+    if (admin) {
+      return { success: true, user: admin };
+    }
+
+    const user = await Users.findById(id);
+
+    if (user) {
+      return { success: true, user: user };
+    }
+
+    return { success: false, message: 'User not found' };
+  }
 }
 
 export const userService = new UserService();
