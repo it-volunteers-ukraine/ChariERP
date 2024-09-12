@@ -1,5 +1,7 @@
+import { MouseEvent } from 'react';
 import { randomInt } from 'crypto';
 
+import { showMessage } from '@/components';
 import { DownloadType, GetUrlProps } from '@/types';
 
 export const dateFormat: Record<string, string> = {
@@ -74,3 +76,9 @@ export const getHtmlCodeForPassword = ({
     <span style="font-weight: bold; color: #333; background-color: #f1f1f1; padding: 10px; border-radius: 5px;">${password}</span>
     </p>
     </div>`;
+
+export const onCopy = (e: MouseEvent<SVGElement | HTMLButtonElement>, text: number | string, messages: string) => {
+  e.stopPropagation();
+  navigator.clipboard.writeText(text.toString());
+  showMessage.success(messages, { autoClose: 500 });
+};

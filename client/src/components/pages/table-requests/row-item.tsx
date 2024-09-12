@@ -10,7 +10,7 @@ import { routes } from '@/constants';
 import { RowItemProps } from '@/types';
 import { Copy, Doc } from '@/assets/icons';
 import { downloadFileFromBucket } from '@/services';
-import { dateFormat, getUrlWithExtension } from '@/utils';
+import { dateFormat, getUrlWithExtension, onCopy } from '@/utils';
 import { Button, ModalAdmin, showMessage, ModalDecline } from '@/components';
 import { deleteOrganization, onDeclineOrganization, onRegisterOrganization } from '@/api';
 
@@ -22,6 +22,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const modal = useTranslations('modal');
   const table = useTranslations('table');
   const errors = useTranslations('errors.admin');
+  const messagesCopy = useTranslations('copy');
   const success = useTranslations('success.admin-pages');
 
   const [isLoading, setIsLoading] = useState(false);
@@ -91,12 +92,6 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
     }
   };
 
-  const handleCopyClick = (e: MouseEvent<SVGElement>, text: number) => {
-    e.stopPropagation();
-    navigator.clipboard.writeText(text.toString());
-    showMessage.success('Copied to clipboard', { autoClose: 500 });
-  };
-
   async function getCertificate(e: MouseEvent<HTMLButtonElement>) {
     e.stopPropagation();
 
@@ -139,7 +134,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
             width={24}
             height={24}
             className="cursor-pointer flex-shrink-0 text-lightBlue"
-            onClick={(e: MouseEvent<SVGSVGElement>) => handleCopyClick(e, item.EDRPOU)}
+            onClick={(e: MouseEvent<SVGSVGElement>) => onCopy(e, item.EDRPOU, messagesCopy('messages'))}
           />
         </div>
 

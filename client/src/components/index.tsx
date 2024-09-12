@@ -4,6 +4,7 @@ export { Avatar, DashboardHeader, DashboardAside } from './dashboard';
 export { AvatarEmployee } from './avatar-employee';
 export { AvatarField } from './avatar-field';
 export { AvatarUploader } from './avatar-uploader';
+export { BoardCard } from './board-card';
 export { Burger } from './burger';
 export { Button } from './button';
 export { ButtonIcon } from './button-icon';
