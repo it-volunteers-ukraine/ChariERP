@@ -6,7 +6,10 @@ import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
 
 import { Info } from '@/assets/icons';
-// import { useUserInfo } from '@/context';
+import { OrganizationEditValues } from '@/types';
+import { useLoaderAdminPage, useUserInfo } from '@/context';
+import { getOrganizationByIdAction, updateOrganizationAction } from '@/actions';
+import { oneOrganizationNormalizer, serializeOrganizationsUpdate, showErrorMessageOfOrganizationExist } from '@/utils';
 import {
   Button,
   SmallBtn,
@@ -18,53 +21,104 @@ import {
   ModalAdmin,
   showMessage,
   organizationValidation,
-  organizationInitialValues,
+  getInitialDataOrganization,
 } from '@/components';
 
 const Organization = () => {
-  // const { organizationId } = useUserInfo();
+  const { organizationId } = useUserInfo();
 
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
   const error = useTranslations('validation');
   const modal = useTranslations('modal.save');
+  const errorText = useTranslations('errors.login');
 
-  const [isLoading, setIsLoading] = useState(true);
+  const { setIsLoading } = useLoaderAdminPage();
+
+  const [isLoadingModal, setIsLoadingModal] = useState(false);
+
+  const [data, setData] = useState<OrganizationEditValues | null>(null);
+
   const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
 
-  const onSubmit = async (values: FormikValues) => console.log('data', values);
+  const onSubmit = async (values: FormikValues) => {
+    try {
+      setIsLoadingModal(true);
 
+      const formData = new FormData();
+
+      const { file, data } = serializeOrganizationsUpdate(values as OrganizationEditValues);
+
+      formData.append(`certificate`, file);
+      formData.append(`data`, JSON.stringify(data));
+
+      const response = await updateOrganizationAction(organizationId as unknown as string, formData);
+
+      if (!response.success && Array.isArray(response.message)) {
+        showErrorMessageOfOrganizationExist(errorText, response.message);
+        throw new Error('Organization already exist');
+      }
+
+      if (response.success && response.organization) {
+        showMessage.success(response.message);
+
+        const parsedOrganization = JSON.parse(response.organization);
+
+        setData(oneOrganizationNormalizer(parsedOrganization));
+      }
+    } catch (error) {
+      // TODO Connect error message
+      console.log(error);
+    } finally {
+      setIsLoadingModal(false);
+      setIsOpenSave(false);
+    }
+  };
   const submitHandle = async (validateForm: () => Promise<FormikErrors<FormikValues>>, handleSubmit: () => void) => {
     const errors = await validateForm();
 
     if (Object.keys(errors).length > 0) {
-      showMessage.error('Error');
-      setIsOpenSave(false);
+      Object.values(errors).forEach((error) => {
+        showMessage.error(error as string);
+        setIsOpenSave(false);
+      });
     } else {
       handleSubmit();
-      showMessage.success('Save');
-      setIsOpenSave(false);
     }
   };
 
-  const handleLoading = () => {
+  const loadData = async () => {
     setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 10000);
+    try {
+      if (!organizationId) {
+        return new Error('Organization not found');
+      }
+
+      const organizationData = await getOrganizationByIdAction(organizationId as unknown as string);
+      const parsedOrganization = JSON.parse(organizationData);
+
+      setData(oneOrganizationNormalizer(parsedOrganization));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 10000);
-  }, [isLoading]);
+    loadData();
+  }, [organizationId]);
 
   return (
     <Formik
       validateOnBlur
       validateOnChange
+      enableReinitialize
       onSubmit={onSubmit}
-      initialValues={organizationInitialValues()}
-      validationSchema={organizationValidation(error).omit(['agree'])}
+      initialValues={getInitialDataOrganization(data)}
+      validationSchema={organizationValidation((key, params) => error(key, params)).omit(['agree', 'password'])}
     >
-      {({ values, errors, validateForm, handleSubmit }) => (
+      {({ values, errors, validateForm, handleSubmit, setValues }) => (
         <div className="p-[0_16px_48px] tablet:p-[0_32px_48px] m-auto w-full desktopXl:max-w-[1100px]">
           <ModalAdmin
             isOpen={isOpenSave}
@@ -72,6 +126,7 @@ const Organization = () => {
             content={modal('text')}
             classNameBtn="w-[82px]"
             btnCancelText={btn('no')}
+            isLoading={isLoadingModal}
             btnConfirmText={btn('yes')}
             onClose={() => setIsOpenSave(false)}
             onConfirm={() => submitHandle(validateForm, handleSubmit)}
@@ -202,8 +257,8 @@ const Organization = () => {
                 classNameWrapper="!gap-3"
                 title={text('title.media')}
                 classNameTitle="text-[20px] uppercase"
-                classNameChildren="flex flex-col gap-4 laptop:gap-4"
                 changedLength={Object.keys(errors).length}
+                classNameChildren="flex flex-col gap-4 laptop:gap-4"
               >
                 <InputField cross name="site" wrapperClass="laptop:max-w-[calc(50%-24px)]" label={text('site.label')} />
 
@@ -219,8 +274,8 @@ const Organization = () => {
                           <div key={index}>
                             <InputField
                               cross
-                              key={`media-signUp-${index}`}
                               name={`social.${index}`}
+                              key={`media-signUp-${index}`}
                               label={text('socialNetworks.label')}
                               wrapperClass="laptop:max-w-[calc(50%-24px)]"
                             />
@@ -253,22 +308,19 @@ const Organization = () => {
 
               <div className="flex flex-col tablet:flex-row items-center justify-center gap-3 tablet:gap-6">
                 <Button
-                  type="submit"
+                  type="button"
                   styleType="green"
-                  className="uppercase w-full tablet:w-fit"
                   text={btn('saveChanges')}
-                  // onClick={() => {
-                  //   setIsOpenSave(true);
-
-                  // }}
-                  onClick={() => handleLoading()}
+                  onClick={() => setIsOpenSave(true)}
+                  className="uppercase w-full tablet:w-fit"
                 />
 
                 <Button
-                  className="uppercase w-full tablet:w-fit"
-                  onClick={() => {}}
+                  type="button"
                   styleType="red"
                   text={btn('cancelChanges')}
+                  className="uppercase w-full tablet:w-fit"
+                  onClick={() => setValues(getInitialDataOrganization(data))}
                 />
               </div>
             </div>

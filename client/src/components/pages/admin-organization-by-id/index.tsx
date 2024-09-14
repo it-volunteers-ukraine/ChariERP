@@ -6,6 +6,7 @@ import { useRouter, useParams, usePathname } from 'next/navigation';
 import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
 
 import { routes } from '@/constants';
+import { useLoaderAdminPage } from '@/context';
 import { OrganizationEditValues, RequestOrganizationStatus } from '@/types';
 import { oneOrganizationNormalizer, serializeOrganizationsUpdate, showErrorMessageOfOrganizationExist } from '@/utils';
 import {
@@ -26,10 +27,8 @@ import {
   showMessage,
   ModalDecline,
   organizationValidation,
+  getInitialDataOrganization,
 } from '@/components';
-import { useLoaderAdminPage } from '@/context';
-
-import { getInitialData } from './config';
 
 const AdminOrganizationById = () => {
   const router = useRouter();
@@ -150,7 +149,9 @@ const AdminOrganizationById = () => {
     const errors = await validateForm();
 
     if (Object.keys(errors).length > 0) {
-      showMessage.error('Error');
+      Object.values(errors).forEach((error) => {
+        showMessage.error(error as string);
+      });
     } else {
       handleSubmit();
     }
@@ -189,7 +190,7 @@ const AdminOrganizationById = () => {
         validateOnChange
         enableReinitialize
         onSubmit={onSubmit}
-        initialValues={getInitialData(data)}
+        initialValues={getInitialDataOrganization(data)}
         validationSchema={organizationValidation((key, params) => error(key, params)).omit(['agree', 'password'])}
       >
         {({ values, errors, validateForm, handleSubmit, touched }) => (

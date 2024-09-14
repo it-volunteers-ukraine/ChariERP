@@ -75,11 +75,7 @@ class OrganizationService extends BaseService {
       },
     };
 
-    console.log({ body });
-
     const newOrganization = new Organizations(body);
-
-    console.log({ newOrganization });
 
     await newOrganization.save();
 
