@@ -4,22 +4,24 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { useSortableData } from '@/hooks';
+import { useLoaderAdminPage } from '@/context';
+import { Input, Pagination } from '@/components';
 import { getAdminOrganizationsAction } from '@/actions';
 import { Calendar, Triangle, User } from '@/assets/icons';
-import { Input, LoaderPage, Pagination } from '@/components';
 import { IOrganizationPageProps, RequestOrganizationStatus } from '@/types';
 
 import { RowItem } from './row-item';
 import { getStyles } from './styles';
+import { getStylesTableWrapper } from '../styles';
 
-const pageSize = 10;
+const pageSize = 2;
 
 export const TableOrganization = () => {
   const table = useTranslations('table');
 
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const { setIsLoading } = useLoaderAdminPage();
+  const [totalRecords, setTotalRecords] = useState(1);
   const [organizations, setOrganizations] = useState<IOrganizationPageProps[]>([]);
 
   const { items, requestSort, sortConfig } = useSortableData(organizations);
@@ -32,6 +34,8 @@ export const TableOrganization = () => {
     organization: sortConfig?.key === 'organizationName' ? sortConfig?.direction : undefined,
   });
 
+  const { wrapper } = getStylesTableWrapper({ isPagination: totalRecords > pageSize });
+
   const getData = async (currentPage: number) => {
     setIsLoading(true);
 
@@ -43,7 +47,7 @@ export const TableOrganization = () => {
       });
 
       setOrganizations(data.results as IOrganizationPageProps[]);
-      setTotalPages(data.totalPages);
+      setTotalRecords(data.totalItems);
     } catch (error) {
       console.log(error);
     } finally {
@@ -65,7 +69,7 @@ export const TableOrganization = () => {
           wrapperClass="mb-6 px-6 tablet:pl-8 tablet:max-w-[373px]"
         />
 
-        <div className="relative px-4 tablet:px-8 h-lvh overflow-x-auto scroll-blue">
+        <div className={wrapper}>
           <div className="hidden laptop:grid laptop:grid-cols-tableOrganization gap-5 py-[14px] pl-3 text-dimGray bg-whiteSecond select-none sticky top-0 z-[9] border-b border-[#A3A3A359]">
             <div
               onClick={() => requestSort('organizationName')}
@@ -110,11 +114,9 @@ export const TableOrganization = () => {
           </div>
 
           <div className="text-midGray grid laptop:block grid-cols-1 tablet:grid-cols-2 gap-4 tablet:gap-6  laptop:gap-0">
-            <LoaderPage isLoading={isLoading}>
-              {items.map((item) => (
-                <RowItem key={item.id} item={item} />
-              ))}
-            </LoaderPage>
+            {items.map((item) => (
+              <RowItem key={item.id} item={item} />
+            ))}
           </div>
         </div>
       </div>
@@ -122,9 +124,9 @@ export const TableOrganization = () => {
       <Pagination
         current={page}
         onChange={setPage}
-        total={totalPages}
         pageSize={pageSize}
-        className="py-16 max-w-[440px] my-auto desktop:ml-11"
+        total={totalRecords}
+        className=" max-w-[440px] desktop:ml-11"
       />
     </>
   );

@@ -1,5 +1,7 @@
+import { StaticImageData } from 'next/image';
 export interface AvatarProps {
-  src?: string;
+  // TODO: change types when connect load data from server
+  src?: StaticImageData | string;
   name: string;
   surname: string;
   className?: string;

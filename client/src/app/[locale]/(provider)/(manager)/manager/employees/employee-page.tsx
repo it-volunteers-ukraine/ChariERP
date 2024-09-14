@@ -6,17 +6,16 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
-import { useWindowWidth } from '@/hooks';
 import { employeeCardArray } from '@/mock';
-import { Button, EmployeeCard, Input, LoaderPage, Pagination } from '@/components';
+import { useLoaderAdminPage } from '@/context';
+import { Button, EmployeeCard, Input, Pagination } from '@/components';
 
 function EmployeesPage() {
   const router = useRouter();
   const t = useTranslations();
 
   const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const { width } = useWindowWidth();
+  const { setIsLoading } = useLoaderAdminPage();
 
   const loadData = () => {
     setIsLoading(true);
@@ -29,10 +28,7 @@ function EmployeesPage() {
     loadData();
   }, [page]);
 
-  const wrapperClass = clsx('relative bg-white h-full flex flex-col justify-between', {
-    'overflow-y-auto': !isLoading,
-    'scroll-blue': width > 768,
-  });
+  const wrapperClass = clsx('relative bg-white h-full flex flex-col justify-between');
 
   return (
     <div className={wrapperClass}>
@@ -55,15 +51,13 @@ function EmployeesPage() {
         </div>
 
         <div className="w-full flex flex-wrap gap-6">
-          <LoaderPage isLoading={isLoading}>
-            {employeeCardArray.map((card, index) => (
-              <EmployeeCard
-                {...card}
-                key={card.name + index}
-                className="tablet:max-w-[calc(50%-12px)] desktop:max-w-[calc(33%-15px)]"
-              />
-            ))}
-          </LoaderPage>
+          {employeeCardArray.map((card, index) => (
+            <EmployeeCard
+              {...card}
+              key={card.name + index}
+              className="tablet:max-w-[calc(50%-12px)] desktop:max-w-[calc(33%-15px)]"
+            />
+          ))}
         </div>
       </div>
 

@@ -9,13 +9,15 @@ import { useSortableData, useWindowWidth } from '@/hooks';
 
 import { RowItem } from './row-item';
 import { getStyles } from './styles';
+import { getStylesTableWrapper } from '../styles';
 
 interface ITableRequestsProps {
   getData: () => void;
   data: IOrganization[];
+  isPagination?: boolean;
 }
 
-export const TableRequests = ({ data, getData }: ITableRequestsProps) => {
+export const TableRequests = ({ data, getData, isPagination }: ITableRequestsProps) => {
   const path = usePathname();
   const table = useTranslations('table');
   const { isLaptop } = useWindowWidth();
@@ -23,14 +25,16 @@ export const TableRequests = ({ data, getData }: ITableRequestsProps) => {
   const { items, requestSort, sortConfig } = useSortableData(data);
 
   const styles = getStyles({
-    date: sortConfig?.key === 'dateOfRegistration' ? sortConfig?.direction : undefined,
     edrpou: sortConfig?.key === 'EDRPOU' ? sortConfig?.direction : undefined,
+    date: sortConfig?.key === 'dateOfRegistration' ? sortConfig?.direction : undefined,
     organization: sortConfig?.key === 'organizationName' ? sortConfig?.direction : undefined,
   });
 
+  const { wrapper } = getStylesTableWrapper({ isPagination });
+
   return (
-    <div className="relative px-4 tablet:px-8 h-lvh overflow-x-auto scroll-blue">
-      <div className="hidden laptop:grid laptop:grid-cols-tableRequests gap-5 py-[14px] pl-3 text-dimGray bg-whiteSecond select-none sticky top-0 z-[9] border-b border-[#A3A3A359]">
+    <div className={wrapper}>
+      <div className={styles.header}>
         <div
           onClick={() => requestSort('organizationName')}
           className="flex items-center truncate w-fit gap-2 cursor-pointer"

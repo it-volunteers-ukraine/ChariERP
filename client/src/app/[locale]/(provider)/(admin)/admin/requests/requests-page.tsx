@@ -2,16 +2,17 @@
 
 import { useEffect, useState } from 'react';
 
+import { useLoaderAdminPage } from '@/context';
 import { getAdminOrganizationsAction } from '@/actions';
+import { Input, Pagination, TableRequests } from '@/components';
 import { IOrganization, RequestOrganizationStatus } from '@/types';
-import { Input, LoaderPage, Pagination, TableRequests } from '@/components';
 
 const pageSize = 10;
 
 export const RequestsPage = () => {
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const { setIsLoading } = useLoaderAdminPage();
+  const [totalRecords, setTotalRecords] = useState(1);
   const [organizations, setOrganizations] = useState<IOrganization[]>([]);
 
   const getData = async (currentPage: number) => {
@@ -21,10 +22,11 @@ export const RequestsPage = () => {
       const data = await getAdminOrganizationsAction({
         page: currentPage,
         filterStatus: RequestOrganizationStatus.PENDING,
+        limit: pageSize,
       });
 
       setOrganizations(data.results as IOrganization[]);
-      setTotalPages(data.totalPages);
+      setTotalRecords(data.totalItems);
     } catch (error) {
       console.log(error);
     } finally {
@@ -38,24 +40,21 @@ export const RequestsPage = () => {
 
   return (
     <>
-      <div className="relative pt-6 flex flex-col flex-1 bg-white rounded-b-lg shadow-dashboard overflow-y-auto">
+      <div className="relative pt-6 flex flex-col flex-1 bg-white rounded-b-lg shadow-dashboard">
         <Input
           type="search"
           name="requisitionSearch"
           label="requisitionSearch"
           wrapperClass="mb-6 px-6 tablet:pl-8 tablet:max-w-[373px]"
         />
-
-        <LoaderPage isLoading={isLoading}>
-          <TableRequests data={organizations} getData={() => getData(page)} />
-        </LoaderPage>
+        <TableRequests data={organizations} getData={() => getData(page)} isPagination={totalRecords > pageSize} />
       </div>
 
       <Pagination
         current={page}
-        total={totalPages}
         onChange={setPage}
         pageSize={pageSize}
+        total={totalRecords}
         className="py-16 max-w-[440px] my-auto desktop:ml-11"
       />
     </>
