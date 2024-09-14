@@ -1,12 +1,12 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { useRouter, useParams, usePathname } from 'next/navigation';
 import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
 
 import { routes } from '@/constants';
+import { useLoaderAdminPage } from '@/context';
 import { OrganizationEditValues, RequestOrganizationStatus } from '@/types';
 import { oneOrganizationNormalizer, serializeOrganizationsUpdate, showErrorMessageOfOrganizationExist } from '@/utils';
 import {
@@ -24,12 +24,11 @@ import {
   InputField,
   ButtonIcon,
   ModalAdmin,
-  LoaderPage,
   showMessage,
   ModalDecline,
   organizationValidation,
+  getInitialDataOrganization,
 } from '@/components';
-import { getInitialData } from './config';
 
 const AdminOrganizationById = () => {
   const router = useRouter();
@@ -49,17 +48,13 @@ const AdminOrganizationById = () => {
 
   const backPath = path.split('/').slice(0, -1).join('/');
 
-  const [isLoading, setIsLoading] = useState(false);
+  const { setIsLoading } = useLoaderAdminPage();
   const [isOpenSave, setIsOpenSave] = useState(false);
   const [isOpenAccept, setIsOpenAccept] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isOpenDecline, setIsOpenDecline] = useState(false);
   const [isLoadingRequest, setIsLoadingRequest] = useState(false);
   const [data, setData] = useState<OrganizationEditValues | null>(null);
-
-  const wrapperClass = clsx('relative w-full h-full bg-boardHeader scroll-blue', {
-    'overflow-y-auto': !isLoading,
-  });
 
   const loadData = useCallback(async () => {
     setIsLoading(true);
@@ -154,7 +149,9 @@ const AdminOrganizationById = () => {
     const errors = await validateForm();
 
     if (Object.keys(errors).length > 0) {
-      showMessage.error('Error');
+      Object.values(errors).forEach((error) => {
+        showMessage.error(error as string);
+      });
     } else {
       handleSubmit();
     }
@@ -193,11 +190,11 @@ const AdminOrganizationById = () => {
         validateOnChange
         enableReinitialize
         onSubmit={onSubmit}
-        initialValues={getInitialData(data)}
+        initialValues={getInitialDataOrganization(data)}
         validationSchema={organizationValidation((key, params) => error(key, params)).omit(['agree', 'password'])}
       >
         {({ values, errors, validateForm, handleSubmit, touched }) => (
-          <div className={wrapperClass}>
+          <div className="relative w-full h-full bg-boardHeader">
             <ModalAdmin
               isOpen={isOpenSave}
               classNameBtn="w-[82px]"
@@ -243,8 +240,6 @@ const AdminOrganizationById = () => {
                     />
                   </div>
                 </div>
-
-                <LoaderPage isLoading={isLoading} />
 
                 <Form className="flex flex-col gap-12">
                   <Accordion
@@ -425,7 +420,7 @@ const AdminOrganizationById = () => {
 
       {isOpenDelete && data && (
         <ModalAdmin
-          isLoading={isLoading}
+          isLoading={isLoadingRequest}
           isOpen={isOpenDelete}
           classNameBtn="w-[82px]"
           btnCancelText={btn('no')}

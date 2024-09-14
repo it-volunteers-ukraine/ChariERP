@@ -1,19 +1,19 @@
 import { ChildrenProps } from '@/types';
-import { RoleProvider } from '@/context';
+import { LoaderAdminProvider, UserProvider } from '@/context';
 import { DashboardAside, DashboardHeader } from '@/components';
 
 export default async function Layout({ children }: ChildrenProps) {
   return (
-    <RoleProvider>
+    <UserProvider>
       <div className="flex h-dvh overflow-hidden">
         <DashboardAside />
 
         <div className="flex flex-col flex-1 bg-whiteSecond">
           <DashboardHeader />
 
-          {children}
+          <LoaderAdminProvider>{children}</LoaderAdminProvider>
         </div>
       </div>
-    </RoleProvider>
+    </UserProvider>
   );
 }

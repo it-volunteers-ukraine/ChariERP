@@ -17,11 +17,11 @@ export const Pagination = ({
   showTitle = false,
   showLessItems = true,
 }: IPagination) => {
-  const wrapper = clsx('mx-auto w-full', {
+  const wrapper = clsx('mx-auto w-full py-8', {
     [`${className}`]: !!className,
   });
 
-  if (total < 2) {
+  if (total < pageSize) {
     return null;
   }
 
