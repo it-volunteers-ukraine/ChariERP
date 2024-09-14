@@ -219,7 +219,9 @@ const SignUp = () => {
                                     {text('socialNetworks.information')}
                                     <br />
                                     <span className={`${styles.spanStylesForExample}`}>
-                                      {text('socialNetworks.forExample', { link: 'https://www.facebook.com/gozhivi' })}
+                                      {text('socialNetworks.forExample', {
+                                        link: 'https://www.facebook.com/gozhivi',
+                                      })}
                                     </span>
                                   </span>
                                 }
