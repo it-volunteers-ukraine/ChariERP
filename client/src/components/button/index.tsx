@@ -22,6 +22,8 @@ export const Button = ({
   });
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+
     if ((isLoading && disabled) || isLoading) {
       e.preventDefault();
 
