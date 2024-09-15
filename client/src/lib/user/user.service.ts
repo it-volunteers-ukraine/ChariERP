@@ -1,5 +1,8 @@
 import bcrypt from 'bcrypt';
 
+import { getPaginate } from '@/utils';
+import { IUsers, IUsersByOrganizationProps } from '@/types';
+
 import { Admin, Users } from '..';
 import { BaseService } from '../database/base.service';
 
@@ -38,6 +41,25 @@ class UserService extends BaseService {
     }
 
     return { message: 'userNotFound' };
+  }
+
+  async getAllByOrganizationId({ id, page, limit = 10 }: IUsersByOrganizationProps) {
+    await this.connect();
+
+    const { results, totalPages, currentPage, totalItems } = await getPaginate<IUsers>({
+      page,
+      limit,
+      model: Users,
+      filter: { organizationId: id },
+    });
+
+    return {
+      totalPages,
+      totalItems,
+      currentPage,
+      success: true,
+      results: results,
+    };
   }
 
   async getUserById(id: string) {

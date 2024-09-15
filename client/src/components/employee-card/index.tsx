@@ -1,7 +1,7 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useParams, useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
 
@@ -13,18 +13,18 @@ import { AvatarEmployee } from '../avatar-employee';
 
 export const EmployeeCard = ({
   id,
-  src,
-  name,
   email,
   status,
-  surname,
-  jobTitle,
+  lastName,
+  position,
+  avatarUrl,
+  firstName,
   className,
   setStatus,
-  patronymic,
-  lastSession,
+  middleName,
   classNameImg,
   isStatusSelect,
+  lastLogin = 'error',
 }: IEmployeeCardProps) => {
   const router = useRouter();
   const params = useParams();
@@ -35,14 +35,14 @@ export const EmployeeCard = ({
   return (
     <div className={styles.wrapper} onClick={() => (isParamsId ? '' : router.push(`${routes.employees}/${id}`))}>
       <div className="flex gap-4 items-start w-full">
-        <AvatarEmployee className={classNameImg} src={src} name={name} surname={surname} />
+        <AvatarEmployee className={classNameImg} src={avatarUrl} name={firstName} surname={lastName} />
 
         <div className="w-[calc(100%-102px)] flex flex-col gap-1">
-          <p className={styles.abbName}>{surname}</p>
-          <p className={styles.abbName}>{name}</p>
-          <p className={`${styles.abbName} ${styles.abbNameLast}`}>{patronymic}</p>
+          <p className={styles.abbName}>{lastName}</p>
+          <p className={styles.abbName}>{firstName}</p>
+          <p className={`${styles.abbName} ${styles.abbNameLast}`}>{middleName}</p>
 
-          <JobTitle jobTitle={jobTitle} />
+          <JobTitle jobTitle={position} />
         </div>
       </div>
 
@@ -55,7 +55,7 @@ export const EmployeeCard = ({
           isStatusSelect={isStatusSelect}
           label={cardTranslate('statusText')}
         />
-        <Info label={cardTranslate('lastSession')} data={lastSession} />
+        <Info label={cardTranslate('lastSession')} data={lastLogin} />
       </div>
     </div>
   );
