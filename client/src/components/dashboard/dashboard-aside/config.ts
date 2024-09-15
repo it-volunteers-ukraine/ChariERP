@@ -2,7 +2,7 @@ import React, { SVGProps } from 'react';
 import { TranslationValues } from 'next-intl';
 
 import { Roles } from '@/types';
-import { Organizations, Rejected, Tablet } from '@/assets/icons';
+import { Organizations, Rejected, Tablet, Users } from '@/assets/icons';
 
 interface getLinksProps {
   text: string;
@@ -23,25 +23,29 @@ export const getLinksByRole = (
       { text: text('organizations'), href: '/admin/organizations', icon: Organizations },
     ],
     [Roles.MANAGER]: [
-      { text: 'Головна', href: '/manager/requests', icon: Tablet },
+      { text: 'Головна', href: '#', icon: Tablet },
       {
         text: 'Моя організація',
-        href: '#',
-        icon: Rejected,
-        children: [
-          { text: 'Організація 1', href: '/manager/organizations-1', icon: Tablet },
-          { text: 'Організація 2', href: '/manager/organizations-2', icon: Tablet, disabled: true },
-        ],
+        href: '/manager/organization',
+        icon: Organizations,
       },
       {
         text: 'Співробітники',
         href: '/manager/employees',
-        icon: Organizations,
+        icon: Users,
       },
-      { text: 'Дошка', href: '/manager/dashboard', icon: Tablet },
-      { text: 'Налаштування', href: '/manager/settings', icon: Tablet },
+      {
+        text: 'Дошка',
+        href: '#',
+        icon: Tablet,
+        children: [
+          { text: 'Організація 1', href: '#', icon: Tablet },
+          { text: 'Організація 2', href: '#', icon: Tablet, disabled: true },
+        ],
+      },
+      { text: 'Налаштування', href: '#', icon: Tablet },
     ],
-    [Roles.USER]: [{ text: 'Заявки', href: '/user/requests', icon: Tablet }],
+    [Roles.USER]: [{ text: 'Заявки', href: '#', icon: Tablet }],
   };
 
   if (role) {

@@ -6,12 +6,15 @@ import { useRouter } from 'next/navigation';
 import { routes } from '@/constants';
 import { getMeAction } from '@/actions';
 import { showMessage } from '@/components';
-import { ChildrenProps, ICustomer } from '@/types';
+import { ChildrenProps, ICustomer, Roles } from '@/types';
 
 type IUser = ICustomer | null;
 
 interface IProtectedContext extends Partial<ICustomer> {
   setUser: (user: IUser) => void;
+  isAdmin: boolean;
+  isManager: boolean;
+  isUser: boolean;
 }
 
 interface IGetMeResponse {
@@ -21,6 +24,9 @@ interface IGetMeResponse {
 }
 
 const UserContext = createContext<IProtectedContext>({
+  isUser: false,
+  isAdmin: false,
+  isManager: false,
   setUser: () => {},
 });
 
@@ -44,8 +50,6 @@ export const UserProvider = ({ children }: ChildrenProps) => {
 
       if (response && response.user) {
         setUser(JSON.parse(response.user));
-
-        return;
       }
     } catch (error) {
       router.push(routes.login);
@@ -58,5 +62,17 @@ export const UserProvider = ({ children }: ChildrenProps) => {
     }
   }, [user, getUser]);
 
-  return <UserContext.Provider value={{ ...user, setUser }}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider
+      value={{
+        ...user,
+        setUser,
+        isUser: user?.role === Roles.USER,
+        isAdmin: user?.role === Roles.ADMIN,
+        isManager: user?.role === Roles.MANAGER,
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
 };

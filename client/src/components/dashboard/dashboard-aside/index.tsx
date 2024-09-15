@@ -44,9 +44,9 @@ export const DashboardAside = () => {
         </div>
 
         <nav className="p-[16px] pb-0 tablet:px-[32px] desktop:px-[36px] desktop:pt-[42px] flex flex-col">
-          {links.map(({ text, href, icon, disabled, children }, i) => {
+          {links.map(({ text, href, icon, disabled, children }, idx) => {
             return (
-              <Fragment key={`${href}_${i}`}>
+              <Fragment key={`${href}_${idx}`}>
                 <NavItem
                   text={text}
                   Icon={icon}
@@ -56,13 +56,13 @@ export const DashboardAside = () => {
                 />
 
                 {children &&
-                  children.map(({ text, href, icon, disabled }) => (
+                  children.map(({ text, href, icon, disabled }, index) => (
                     <NavItem
-                      key={href}
                       href={href}
                       text={text}
                       Icon={icon}
                       disabled={disabled}
+                      key={`${href}_${index}_${idx}`}
                       onCloseSideBar={() => setIsOpen(false)}
                     />
                   ))}
@@ -71,6 +71,7 @@ export const DashboardAside = () => {
           })}
         </nav>
       </div>
+
       {!isTablet && (
         <div className="flex items-center justify-between w-full h-[88px] border-t border-t-white px-4 tablet:px-8">
           <LanguageSwitcher />

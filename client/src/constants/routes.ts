@@ -11,4 +11,5 @@ export const routes = {
   employees: '/manager/employees',
   organizations: '/admin/organizations',
   passwordChange: '/manager/password-change',
+  managerOrganization: '/manager/organization',
 };

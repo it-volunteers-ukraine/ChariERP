@@ -31,4 +31,5 @@ export { default as Tablet } from './tablet.svg';
 export { default as Triangle } from './triangle.svg';
 export { default as UA } from './ua.svg';
 export { default as User } from './user.svg';
+export { default as Users } from './users.svg';
 export { default as Warning } from './warning.svg';
