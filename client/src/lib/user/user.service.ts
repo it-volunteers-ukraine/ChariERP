@@ -31,13 +31,13 @@ class UserService extends BaseService {
       const compare = await bcrypt.compare(password, foundUser.password);
 
       if (compare) {
-        return foundUser;
+        return { success: true, user: JSON.stringify(foundUser) };
       }
 
-      return { message: 'userIncorrect' };
+      return { success: false, message: 'userIncorrect' };
     }
 
-    return { message: 'userNotFound' };
+    return { success: false, message: 'userNotFound' };
   }
 
   async getUserById(id: string) {
