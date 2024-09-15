@@ -15,7 +15,7 @@ interface IProtectedContext extends Partial<ICustomer> {
 }
 
 interface IGetMeResponse {
-  user?: ICustomer;
+  user?: string;
   success: boolean;
   message?: string;
 }
@@ -43,7 +43,7 @@ export const UserProvider = ({ children }: ChildrenProps) => {
       }
 
       if (response && response.user) {
-        setUser(response.user);
+        setUser(JSON.parse(response.user));
 
         return;
       }

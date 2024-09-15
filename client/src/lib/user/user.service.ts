@@ -46,13 +46,13 @@ class UserService extends BaseService {
     const admin = await Admin.findById(id);
 
     if (admin) {
-      return { success: true, user: admin };
+      return { success: true, user: JSON.stringify(admin) };
     }
 
     const user = await Users.findById(id);
 
     if (user) {
-      return { success: true, user: user };
+      return { success: true, user: JSON.stringify(user) };
     }
 
     return { success: false, message: 'User not found' };
