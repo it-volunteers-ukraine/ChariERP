@@ -72,7 +72,7 @@ export const DashboardAside = () => {
         </nav>
       </div>
 
-      {!isTablet && (
+      {!isTablet && role && (
         <div className="flex items-center justify-between w-full h-[88px] border-t border-t-white px-4 tablet:px-8">
           <LanguageSwitcher />
           <button
