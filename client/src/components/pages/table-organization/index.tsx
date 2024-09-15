@@ -14,7 +14,7 @@ import { RowItem } from './row-item';
 import { getStyles } from './styles';
 import { getStylesTableWrapper } from '../styles';
 
-const pageSize = 2;
+const pageSize = 10;
 
 export const TableOrganization = () => {
   const table = useTranslations('table');
@@ -44,6 +44,7 @@ export const TableOrganization = () => {
         page: currentPage,
         populate: 'users',
         filterStatus: RequestOrganizationStatus.APPROVED,
+        limit: pageSize,
       });
 
       setOrganizations(data.results as IOrganizationPageProps[]);

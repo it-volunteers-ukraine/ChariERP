@@ -15,13 +15,13 @@ export const LoaderPage = ({ children }: ChildrenProps) => {
 
   const { wrapper, spinner, textWrapper, text } = getStyles();
 
-  const wrapperClassName = clsx('relative scroll-blue min-h-[calc(100dvh-64px)]  desktop:min-h-[calc(100dvh-96px)]', {
+  const wrapperClassName = clsx('scroll-blue h-full', {
     'overflow-y-auto': !isLoading,
-    'overflow-hidden': isLoading,
+    'overflow-y-[hidden]': isLoading,
   });
 
   return (
-    <div className={wrapperClassName}>
+    <div className="relative min-h-[calc(100dvh-64px)] desktop:min-h-[calc(100dvh-96px)]">
       {isLoading && (
         <div className={wrapper}>
           <Loader className={spinner} />
@@ -33,7 +33,7 @@ export const LoaderPage = ({ children }: ChildrenProps) => {
         </div>
       )}
 
-      {children}
+      <div className={wrapperClassName}>{children}</div>
     </div>
   );
 };
