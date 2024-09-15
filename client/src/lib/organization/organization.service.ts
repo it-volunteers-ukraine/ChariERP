@@ -74,7 +74,6 @@ class OrganizationService extends BaseService {
         social: data.social,
       },
     };
-
     const newOrganization = new Organizations(body);
 
     await newOrganization.save();

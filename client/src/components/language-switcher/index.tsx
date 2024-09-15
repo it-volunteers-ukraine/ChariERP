@@ -5,9 +5,11 @@ import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 import { UA, EN } from '@/assets/icons';
+import { ActiveLanguage } from '@/types';
+import { cookiesLocale } from '@/constants';
 
 import { getStyles } from './styles';
-import { ActiveLanguage, ILanguageSwitcherProps } from './types';
+import { ILanguageSwitcherProps } from './types';
 
 export const LanguageSwitcher = ({ isNarrow, className }: ILanguageSwitcherProps): JSX.Element => {
   const local = useLocale();
@@ -26,7 +28,7 @@ export const LanguageSwitcher = ({ isNarrow, className }: ILanguageSwitcherProps
 
     setActiveLanguage(newLanguage);
 
-    Cookies.set('NEXT_LOCALE', newLanguage, { expires: 365 });
+    Cookies.set(cookiesLocale, newLanguage, { expires: 365 });
 
     router.refresh();
   };
