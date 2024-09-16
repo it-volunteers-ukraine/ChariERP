@@ -1,4 +1,3 @@
-import React from 'react';
 import { clsx } from 'clsx';
 import { default as RcPagination } from 'rc-pagination';
 
@@ -21,7 +20,7 @@ export const Pagination = ({
     [`${className}`]: !!className,
   });
 
-  if (total < pageSize) {
+  if (total <= pageSize) {
     return null;
   }
 

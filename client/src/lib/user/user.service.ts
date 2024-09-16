@@ -54,11 +54,14 @@ class UserService extends BaseService {
     });
 
     return {
-      totalPages,
-      totalItems,
-      currentPage,
       success: true,
-      results: results,
+      users: JSON.stringify({
+        totalPages,
+        totalItems,
+        currentPage,
+        success: true,
+        results: results,
+      }),
     };
   }
 

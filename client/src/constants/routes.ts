@@ -10,7 +10,7 @@ export const routes = {
   declined: '/admin/declined',
   aboutService: '/about_service',
   employees: '/manager/employees',
+  passwordChange: '/password-change',
   organizations: '/admin/organizations',
-  passwordChange: '/manager/password-change',
   managerOrganization: '/manager/organization',
 };
