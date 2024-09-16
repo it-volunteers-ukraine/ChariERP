@@ -82,4 +82,10 @@ export type Fields = {
   edrpou: number;
 };
 
+export interface IUsersByOrganizationProps {
+  id: string;
+  page: number;
+  limit?: number;
+}
+
 export interface ICustomer extends IAdmin, IUsers {}

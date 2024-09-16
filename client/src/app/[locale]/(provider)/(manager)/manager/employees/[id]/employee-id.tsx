@@ -99,14 +99,14 @@ const EmployeePage = () => {
                   <EmployeeCard
                     id="123546789"
                     isStatusSelect
-                    name="adfhgyt"
+                    firstName="adfhgyt"
                     status={status}
-                    patronymic="wretrghj"
+                    middleName="wretrghj"
                     setStatus={setStatus}
-                    surname="r4eryduy54r"
-                    lastSession="20.08.2024"
+                    lastName="r4eryduy54r"
+                    lastLogin="20.08.2024"
                     classNameImg="!w-[92px]"
-                    jobTitle="szdfgdghgjghkhjk"
+                    position="szdfgdghgjghkhjk"
                     email="wretdgood@gmail.com"
                     className="tablet:!flex-row !items-center gap-[20px] tablet:gap-0 laptop:!gap-12 !p-[24px_0_32px] desktop:!py-8 !h-fit !bg-white !shadow-none"
                   />
