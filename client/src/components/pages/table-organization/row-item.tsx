@@ -6,9 +6,9 @@ import { format, parseISO } from 'date-fns';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
-import { dateFormat, onCopy } from '@/utils';
 import { RowItemOrgProps } from '@/types';
 import { Copy, User } from '@/assets/icons';
+import { dateFormat, onCopy } from '@/utils';
 
 export const RowItem = ({ item }: RowItemOrgProps) => {
   const locale = useLocale();
