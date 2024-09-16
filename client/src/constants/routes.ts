@@ -5,6 +5,7 @@ export const routes = {
   contacts: '/contacts',
   admin: '/admin/create',
   registration: '/sign-up',
+  boards: '/manager/boards',
   requests: '/admin/requests',
   declined: '/admin/declined',
   aboutService: '/about_service',
