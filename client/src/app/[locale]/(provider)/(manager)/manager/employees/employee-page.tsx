@@ -6,33 +6,60 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
-import { employeeCardArray } from '@/mock';
-import { useLoaderAdminPage } from '@/context';
+import { normalizeUsers } from '@/utils';
+import { useLoaderAdminPage, useUserInfo } from '@/context';
+import { getAllUsersByOrganizationIdActions } from '@/actions';
+import { IEmployeeCardProps } from '@/components/employee-card/types';
 import { Button, EmployeeCard, Input, Pagination } from '@/components';
+
+const recordsPerPage = 1;
 
 function EmployeesPage() {
   const router = useRouter();
   const t = useTranslations();
 
-  const [page, setPage] = useState(1);
+  const { organizationId } = useUserInfo();
   const { setIsLoading } = useLoaderAdminPage();
 
-  const loadData = () => {
+  const [page, setPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(1);
+  const [data, setData] = useState<IEmployeeCardProps[] | []>([]);
+
+  const loadData = async () => {
     setIsLoading(true);
-    setTimeout(() => {
+    try {
+      const users = await getAllUsersByOrganizationIdActions({
+        page,
+        limit: recordsPerPage,
+        id: String(organizationId),
+      });
+
+      setData(normalizeUsers(users.results));
+      setTotalItems(users.totalItems);
+    } catch (error) {
+      console.log(error);
+    } finally {
       setIsLoading(false);
-    }, 2000);
+    }
   };
 
   useEffect(() => {
-    loadData();
-  }, [page]);
+    if (organizationId) {
+      loadData();
+    }
+  }, [page, organizationId]);
 
-  const wrapperClass = clsx('relative bg-white h-full flex flex-col justify-between');
+  const wrapper = clsx(
+    'w-full bg-white p-[20px_16px] tablet:p-[24px_32px_32px] desktop:p-[24px_32px_24px_36px] desktopXl:desktop:p-[24px_36px]',
+    {
+      'min-h-[calc(100vh-160px)] desktop:min-h-[calc(100vh-192px)]': totalItems > recordsPerPage,
+      'min-h-[calc(100vh-64px)] desktop:min-h-[calc(100vh-96px)]': totalItems <= recordsPerPage,
+    },
+  );
 
   return (
-    <div className={wrapperClass}>
-      <div className="w-full p-[20px_16px] tablet:p-[24px_32px_32px] desktop:p-[24px_32px_24px_36px] desktopXl:desktop:p-[24px_36px]">
+    <>
+      <div className={wrapper}>
         <div className="w-full flex flex-col gap-4 pb-5 tablet:flex-row tablet:gap-8 tablet:pb-6 laptop:justify-between">
           <Input
             type="search"
@@ -51,26 +78,24 @@ function EmployeesPage() {
         </div>
 
         <div className="w-full flex flex-wrap gap-6">
-          {employeeCardArray.map((card, index) => (
+          {data.map((card, index) => (
             <EmployeeCard
               {...card}
-              key={card.name + index}
+              key={card.firstName + index}
               className="tablet:max-w-[calc(50%-12px)] desktop:max-w-[calc(33%-15px)]"
             />
           ))}
         </div>
       </div>
 
-      <div className="bg-whiteSecond py-[22px] px-[20px] desktop:px-[32px]">
-        <Pagination
-          total={10000}
-          current={page}
-          pageSize={100}
-          onChange={setPage}
-          className="max-w-[320px] desktop:mx-0"
-        />
-      </div>
-    </div>
+      <Pagination
+        current={page}
+        onChange={setPage}
+        total={totalItems}
+        pageSize={recordsPerPage}
+        className="max-w-[320px] desktop:mx-0"
+      />
+    </>
   );
 }
 

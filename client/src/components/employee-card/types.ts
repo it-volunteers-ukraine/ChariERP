@@ -4,16 +4,16 @@ import { UserStatus } from '@/types';
 export interface IEmployeeCardProps {
   id: string;
   // TODO: change types when connect load data from server
-  src?: StaticImageData | string;
-  name: string;
+  avatarUrl?: StaticImageData | string;
+  firstName: string;
   email: string;
-  surname: string;
-  jobTitle?: string;
+  lastName: string;
+  position?: string;
   imgWidth?: string;
-  patronymic: string;
+  middleName: string;
   className?: string;
   status: UserStatus;
-  lastSession: string;
+  lastLogin: string;
   classNameImg?: string;
   isStatusSelect?: boolean;
   setStatus?: (status: UserStatus) => void;
