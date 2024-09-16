@@ -2,26 +2,25 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 import { Roles } from '@/types';
-import { useRole } from '@/context';
+import { routes } from '@/constants';
 import { Info } from '@/assets/icons';
+import { useUserInfo } from '@/context';
 
 import { getStyles } from './styles';
-import { IBoardCardProps } from './types';
 import { BoardInfo } from './board-info';
-import { useRouter } from 'next/navigation';
-import { routes } from '@/constants';
+import { IBoardCardProps } from './types';
 import { CreateCard } from './create-card';
 
-export const BoardCard = ({ boardData, sumBoards, limitOfCard = 5 }: IBoardCardProps) => {
-  const { role } = useRole();
+export const BoardCard = ({ className, boardData, sumBoards, limitOfCard = 5 }: IBoardCardProps) => {
+  const { role } = useUserInfo();
   const router = useRouter();
+  const messages = useTranslations('board');
 
   const [isEdit, setIsEdit] = useState(false);
   const [isGoRoute, setIsGoRoute] = useState(true);
-
-  const messages = useTranslations('board');
 
   const isBoardData = !!boardData;
   const isRoleAccess = role !== Roles.USER;
@@ -32,6 +31,7 @@ export const BoardCard = ({ boardData, sumBoards, limitOfCard = 5 }: IBoardCardP
 
   const styles = getStyles({
     isEdit,
+    className,
     isBoard: !!cardIndex,
     isLimitExceeded: isLastCard && isCardLimit,
     isCreateNew: sumBoards === 0 || isCreateCard,
@@ -41,19 +41,18 @@ export const BoardCard = ({ boardData, sumBoards, limitOfCard = 5 }: IBoardCardP
     return <CreateCard setIsEdit={setIsEdit} isEdit={isEdit} sumBoards={sumBoards} styles={styles} />;
   }
 
+  const clickBoard = () => {
+    if (isGoRoute && boardData) {
+      router.push(`${routes.boards}/${boardData.id}`);
+    } else {
+      setIsGoRoute(true);
+    }
+  };
+
   return (
     <>
       {!!boardData && (
-        <div
-          className={styles.wrapper}
-          onClick={() => {
-            if (isGoRoute) {
-              router.push(`${routes.boards}/${boardData.id}`);
-            } else {
-              setIsGoRoute(true);
-            }
-          }}
-        >
+        <div className={styles.wrapper} onClick={() => clickBoard}>
           <BoardInfo isRoleAccess={isRoleAccess} setIsGoRoute={setIsGoRoute} boardData={boardData} />
         </div>
       )}

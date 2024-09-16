@@ -4,22 +4,22 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { onCopy } from '@/utils';
+import { CopyBoard, Delete, PencilJust } from '@/assets/icons';
 
 import { getStyles } from './style';
 import { IBoardInfoProps } from './types';
-import { CopyBoard, Delete, PencilJust } from '@/assets/icons';
 
 export const BoardInfo = ({ isRoleAccess, setIsGoRoute, boardData, setIsEdit, number }: IBoardInfoProps) => {
-  const isBoardData = !!boardData;
-
-  const [title, setTitle] = useState(boardData?.title || '');
-  const [isEdited, setIsEdited] = useState(!isBoardData);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  const styles = getStyles(isEdited);
-
   const messages = useTranslations('board');
   const messagesCopy = useTranslations('copy');
+
+  const isBoardData = !!boardData;
+
+  const [isEdited, setIsEdited] = useState(!isBoardData);
+  const [title, setTitle] = useState(boardData?.title || '');
+
+  const styles = getStyles(isEdited);
 
   useEffect(() => {
     if (isEdited && textareaRef.current) {
@@ -38,7 +38,9 @@ export const BoardInfo = ({ isRoleAccess, setIsGoRoute, boardData, setIsEdit, nu
     setTitle(e.target.value);
   };
 
-  const handleBlur = () => {
+  const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+    e.target.scrollTop = 0;
+
     if (title === '') {
       setIsEdit?.(false);
       setIsEdited(false);
@@ -48,7 +50,6 @@ export const BoardInfo = ({ isRoleAccess, setIsGoRoute, boardData, setIsEdit, nu
 
     if (!isBoardData) {
       //TODO create board
-      console.log('Create new board title:', title);
       setIsEdited(false);
 
       return;
@@ -56,7 +57,6 @@ export const BoardInfo = ({ isRoleAccess, setIsGoRoute, boardData, setIsEdit, nu
 
     if (boardData?.title !== title) {
       //TODO edit board
-      console.log('Edit board id:', boardData?.id, ' New title:', title);
     }
     setIsEdited(false);
   };
@@ -68,7 +68,6 @@ export const BoardInfo = ({ isRoleAccess, setIsGoRoute, boardData, setIsEdit, nu
 
   const handleDeleteClick = () => {
     //TODO delete board boardData.id
-    console.log('Delete board id:', boardData?.id);
   };
 
   return (
@@ -90,8 +89,8 @@ export const BoardInfo = ({ isRoleAccess, setIsGoRoute, boardData, setIsEdit, nu
           )}
 
           <button
-            className={styles.button}
             disabled={isEdited}
+            className={styles.button}
             onClick={(e) => onCopy(e, `${window.location.href}/${boardData?.id}`, messagesCopy('messages'))}
           >
             <CopyBoard className={styles.icon} />
@@ -99,8 +98,8 @@ export const BoardInfo = ({ isRoleAccess, setIsGoRoute, boardData, setIsEdit, nu
 
           {isRoleAccess && (
             <button
-              className={styles.button}
               disabled={isEdited}
+              className={styles.button}
               onClick={(e) => stopPropagation(e, handleDeleteClick)}
             >
               <Delete className={styles.icon} />
@@ -110,13 +109,14 @@ export const BoardInfo = ({ isRoleAccess, setIsGoRoute, boardData, setIsEdit, nu
       </div>
 
       <textarea
-        ref={textareaRef}
-        className={styles.textarea}
         value={title}
-        onChange={handleTitleChange}
+        ref={textareaRef}
         onBlur={handleBlur}
-        placeholder={messages('newBoard')}
         disabled={!isEdited}
+        className={styles.textarea}
+        onChange={handleTitleChange}
+        placeholder={messages('newBoard')}
+        onClick={(e) => e.stopPropagation()}
       />
     </>
   );

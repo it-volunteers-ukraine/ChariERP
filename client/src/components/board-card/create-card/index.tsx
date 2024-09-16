@@ -1,6 +1,8 @@
-import { Plus } from '@/assets/icons';
-import { BoardInfo } from '../board-info';
 import { useTranslations } from 'next-intl';
+
+import { Plus } from '@/assets/icons';
+
+import { BoardInfo } from '../board-info';
 import { ICreateCardProps } from './types';
 
 export const CreateCard = ({ setIsEdit, isEdit, sumBoards, styles }: ICreateCardProps) => {
