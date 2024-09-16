@@ -23,4 +23,6 @@ export const getStyles = ({ organization, edrpou, date }: IGetStyles) => ({
     'rotate-[180deg]': date === 'ascending',
     'rotate-[0deg]': date === 'descending',
   }),
+  header:
+    'hidden laptop:grid laptop:grid-cols-tableRequests gap-5 py-[14px] pl-3 text-dimGray bg-whiteSecond select-none sticky top-0 z-[9] border-b border-[#A3A3A359]',
 });

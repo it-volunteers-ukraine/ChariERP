@@ -13,8 +13,8 @@ interface getLinksProps {
 }
 
 export const getLinksByRole = (
-  role: Roles | null,
   text: (key: string, params?: TranslationValues) => string,
+  role?: Roles,
 ): getLinksProps[] => {
   const links = {
     [Roles.ADMIN]: [

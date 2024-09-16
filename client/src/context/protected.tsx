@@ -1,45 +1,62 @@
 'use client';
 
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
-import { ChildrenProps, Roles } from '@/types';
+import { getMeAction } from '@/actions';
+import { showMessage } from '@/components';
+import { ChildrenProps, ICustomer } from '@/types';
 
-interface IProtectedContext {
-  role: Roles | null;
-  setRole: (role: Roles | null) => void;
+type IUser = ICustomer | null;
+
+interface IProtectedContext extends Partial<ICustomer> {
+  setUser: (user: IUser) => void;
 }
 
-const RoleContext = createContext<IProtectedContext>({
-  role: null,
-  setRole: () => {},
+interface IGetMeResponse {
+  user?: ICustomer;
+  success: boolean;
+  message?: string;
+}
+
+const UserContext = createContext<IProtectedContext>({
+  setUser: () => {},
 });
 
-export const useRole = () => {
-  return useContext(RoleContext);
+export const useUserInfo = () => {
+  return useContext(UserContext);
 };
 
-export const RoleProvider = ({ children }: ChildrenProps) => {
+export const UserProvider = ({ children }: ChildrenProps) => {
   const router = useRouter();
-  const [role, setRole] = useState<Roles | null>(null);
+  const [user, setUser] = useState<IUser>(null);
 
-  const getRoles = useCallback(async () => {
+  const getUser = useCallback(async () => {
     try {
-      const { data } = await axios.get('/api/roles');
+      const response: IGetMeResponse = await getMeAction();
 
-      setRole(data.role);
+      if (!response.success && response && response.message) {
+        showMessage.error(response.message);
+
+        return router.push(routes.login);
+      }
+
+      if (response && response.user) {
+        setUser(response.user);
+
+        return;
+      }
     } catch (error) {
       router.push(routes.login);
     }
   }, [router]);
 
   useEffect(() => {
-    if (!role) {
-      getRoles();
+    if (!user) {
+      getUser();
     }
-  }, [role, getRoles]);
+  }, [user, getUser]);
 
-  return <RoleContext.Provider value={{ role, setRole }}>{children}</RoleContext.Provider>;
+  return <UserContext.Provider value={{ ...user, setUser }}>{children}</UserContext.Provider>;
 };

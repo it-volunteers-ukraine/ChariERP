@@ -120,15 +120,6 @@ const config: Config = {
           'outline-border': white,
           'outline-hover-text': blue,
           'outline-disabled': 'rgba(104, 122, 149, 0.50)',
-        },
-        navItem: {
-          disabled: '#A3AED0',
-          hover: white,
-          active: lightBlue,
-        },
-      },
-      backgroundColor: {
-        btn: {
           disabled,
           outline: white,
           secondary: white,
@@ -141,8 +132,11 @@ const config: Config = {
           'red-active': redActive,
         },
         navItem: {
-          hover: steelBlue,
-          active: white,
+          disabled: '#A3AED0',
+          hover: white,
+          active: lightBlue,
+          'bg-hover': steelBlue,
+          'bg-active': white,
         },
         overlay: '#687a95',
       },

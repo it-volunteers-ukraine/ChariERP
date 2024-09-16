@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { FormikHelpers, FormikValues } from 'formik';
 
 import { routes } from '@/constants';
+import { createAdminAction } from '@/actions';
 
 import { LoginForm } from '../../login-form';
 
@@ -17,13 +17,15 @@ const AdminPage = () => {
     setIsLoading(true);
 
     try {
-      await axios.post('/api/admin', { email, password }).then(({ data }) => data);
+      const response = await createAdminAction(email, password);
+
+      if (!response.success && response.message) {
+        return handleFormik?.setFieldError('email', response.message);
+      }
 
       router.push(routes.login);
-    } catch (error: unknown) {
-      if (error instanceof AxiosError) {
-        handleFormik?.setFieldError('email', error.response?.data.message);
-      }
+    } catch (error) {
+      console.log(error);
     } finally {
       setIsLoading(false);
     }

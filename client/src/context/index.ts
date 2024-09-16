@@ -1,1 +1,2 @@
-export { RoleProvider, useRole } from './protected';
+export { UserProvider, useUserInfo } from './protected';
+export { LoaderAdminProvider, useLoaderAdminPage } from './loader-admin-context';

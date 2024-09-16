@@ -1,5 +1,7 @@
 import { UserStatus } from '@/types';
 
+import Employee from './Employees.jpg';
+
 export const forLoad = [
   {
     id: '1',
@@ -15,7 +17,7 @@ export const forLoad = [
 export const employeeCardArray = [
   {
     id: '2',
-    src: 'https://cdns-images.dzcdn.net/images/cover/f6c82c7d673bdf0373a457e52dfcdb36/1900x1900-000000-80-0-0.jpg',
+    src: Employee,
     name: 'Andrey',
     surname: 'Teslenko',
     patronymic: 'Batkovich',

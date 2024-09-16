@@ -4,18 +4,32 @@ import React from 'react';
 import { Formik } from 'formik';
 import { useTranslations } from 'next-intl';
 
-import { declineInitialValues, declineValidationSchema, ModalAdmin, ModalContent } from '@/components';
+import { declineInitialValues, declineValidationSchema, ModalAdmin, ModalContent, showMessage } from '@/components';
 
 import { IModalDecline } from './types';
 
 export const ModalDecline = ({ isOpen, onClose, isLoading, onSubmitDecline, organizationName }: IModalDecline) => {
   const btn = useTranslations('button');
   const modal = useTranslations('modal');
+  const errors = useTranslations('errors.admin');
+
   const errorValidation = useTranslations('validation');
+
+  const handleSubmit = (values: { declineReason: string; otherReason: string }) => {
+    const value = modal('decline.radioBtn.other') === values.declineReason ? values.otherReason : values.declineReason;
+
+    if (value === '') {
+      showMessage.error(errors('emptyValue'));
+
+      return;
+    }
+
+    onSubmitDecline(value);
+  };
 
   return (
     <Formik
-      onSubmit={onSubmitDecline}
+      onSubmit={handleSubmit}
       initialValues={declineInitialValues}
       validationSchema={declineValidationSchema(errorValidation)}
     >
@@ -29,7 +43,7 @@ export const ModalDecline = ({ isOpen, onClose, isLoading, onSubmitDecline, orga
             btnConfirmText={btn('yes')}
             title={modal('decline.title')}
             onClose={() => onClose(false)}
-            onConfirm={() => onSubmitDecline(values)}
+            onConfirm={() => handleSubmit(values)}
             content={
               <ModalContent
                 values={values}

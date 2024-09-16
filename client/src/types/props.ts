@@ -3,16 +3,17 @@ import internal from 'stream';
 import { SdkStreamMixin } from '@aws-sdk/types';
 
 import { DownloadType, RequestOrganizationStatus } from './enums';
+import { IAdmin, IUsers } from './models';
 
 export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
 
 export interface IOrganization {
   id: string;
-  certificate: string;
-  dateOfRegistration: Date;
   email: string;
   EDRPOU: number;
+  certificate: string;
   organizationName: string;
+  dateOfRegistration: string;
 }
 
 export interface IOrganizationPageProps extends Omit<IOrganization, 'certificate'> {
@@ -48,7 +49,6 @@ export interface OrganizationFormValues {
   phone: string;
   agree: boolean;
   edrpou: string;
-  search: string;
   lastName: string;
   social: string[];
   position: string;
@@ -57,26 +57,28 @@ export interface OrganizationFormValues {
   organizationName: string;
   certificate: File | string;
   dateOfRegistration: string;
-  //TODO delete declineReason when Andrey will merged into main
-  declineReason:
-    | string
-    | {
-        id: string;
-        value: string;
-      };
 }
 
-//TODO delete declineReason when Andrey will merged into main
-export interface OrganizationEditValues
-  extends Omit<OrganizationFormValues, 'declineReason' | 'agree' | 'search' | 'dateOfRegistration'> {
+export interface OrganizationEditValues extends Omit<OrganizationFormValues, 'agree' | 'dateOfRegistration'> {
   dateOfRegistration: Date;
 }
 
-//TODO delete declineReason when Andrey will merged into main
-export interface OrganizationCreateValues extends Omit<OrganizationFormValues, 'declineReason' | 'agree'> {}
+export interface OrganizationCreateValues extends Omit<OrganizationFormValues, 'agree '> {}
 
-//TODO delete declineReason when Andrey will merged into main
-export interface OrganizationUpdateValues
-  extends Omit<OrganizationFormValues, 'declineReason' | 'agree' | 'certificate' | 'search'> {
+export interface OrganizationUpdateValues extends Omit<OrganizationFormValues, 'agree' | 'certificate'> {
   request?: RequestOrganizationStatus;
 }
+
+export interface AdminOrganizationProps {
+  page: number;
+  limit?: number;
+  populate?: string;
+  filterStatus: RequestOrganizationStatus;
+}
+
+export type Fields = {
+  email: string;
+  edrpou: number;
+};
+
+export interface ICustomer extends IAdmin, IUsers {}
