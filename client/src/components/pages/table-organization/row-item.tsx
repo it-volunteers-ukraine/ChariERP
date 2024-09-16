@@ -6,15 +6,15 @@ import { format, parseISO } from 'date-fns';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
-import { dateFormat } from '@/utils';
 import { RowItemOrgProps } from '@/types';
-import { showMessage } from '@/components';
 import { Copy, User } from '@/assets/icons';
+import { dateFormat, onCopy } from '@/utils';
 
 export const RowItem = ({ item }: RowItemOrgProps) => {
   const locale = useLocale();
   const router = useRouter();
   const table = useTranslations('table');
+  const messagesCopy = useTranslations('copy');
 
   const handleRowClick = () => {
     const selection = document.getSelection();
@@ -22,12 +22,6 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
     if (!selection || !selection.toString()) {
       router.push(`${routes.organizations}/${item.id}`);
     }
-  };
-
-  const handleCopyClick = (e: MouseEvent<SVGElement>, text: number | string) => {
-    e.stopPropagation();
-    navigator.clipboard.writeText(text.toString());
-    showMessage.success('Copied to clipboard', { autoClose: 500 });
   };
 
   return (
@@ -52,7 +46,7 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
           width={24}
           height={24}
           className="cursor-pointer flex-shrink-0 text-lightBlue"
-          onClick={(e: MouseEvent<SVGSVGElement>) => handleCopyClick(e, item.EDRPOU)}
+          onClick={(e: MouseEvent<SVGSVGElement>) => onCopy(e, item.EDRPOU, messagesCopy('messages'))}
         />
       </div>
 
@@ -83,7 +77,7 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
               width={24}
               height={24}
               className="cursor-pointer flex-shrink-0 text-lightBlue"
-              onClick={(e: MouseEvent<SVGSVGElement>) => handleCopyClick(e, item.email)}
+              onClick={(e: MouseEvent<SVGSVGElement>) => onCopy(e, item.email, messagesCopy('messages'))}
             />
           </div>
         </div>

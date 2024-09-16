@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { randomInt } from 'crypto';
 import { TranslationValues } from 'next-intl';
 
@@ -98,3 +99,9 @@ export function showErrorMessageOfOrganizationExist(
 
   return showMessage.error(error('companyAlreadyRegistered', { errors: text }), { autoClose: 5000 });
 }
+
+export const onCopy = (e: MouseEvent<SVGElement | HTMLButtonElement>, text: number | string, messages: string) => {
+  e.stopPropagation();
+  navigator.clipboard.writeText(text.toString());
+  showMessage.success(messages, { autoClose: 500 });
+};
