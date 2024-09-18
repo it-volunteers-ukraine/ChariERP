@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import EmployeePage from './employee-id';
+import EmployeeId from './employee-id';
 
 export const metadata: Metadata = {
   title: 'Add Member',
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const Employee = () => {
-  return <EmployeePage />;
+  return <EmployeeId />;
 };
 
 export default Employee;

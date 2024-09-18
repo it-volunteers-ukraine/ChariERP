@@ -19,7 +19,7 @@ export const AvatarEmployee = ({ src, name, className, surname }: AvatarProps) =
         />
       )}
 
-      {!src && <p className={styles.defaultAvatar}>{name[0] + surname[0]}</p>}
+      {!src && <p className={styles.defaultAvatar}>{name?.[0] + surname?.[0]}</p>}
     </div>
   );
 };

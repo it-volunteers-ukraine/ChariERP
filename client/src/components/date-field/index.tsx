@@ -28,7 +28,15 @@ const DatePickerInput = forwardRef((props: InputProps & { isrequired?: string },
 
 DatePickerInput.displayName = 'DatePickerInput';
 
-export const DateField = ({ name, label, required, placeholder, wrapperClass, ...props }: DateFieldProps) => {
+export const DateField = ({
+  name,
+  label,
+  required,
+  placeholder,
+  initialValue,
+  wrapperClass,
+  ...props
+}: DateFieldProps) => {
   const locale = useLocale();
   const pickerRef = useRef<DatePicker>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -61,6 +69,7 @@ export const DateField = ({ name, label, required, placeholder, wrapperClass, ..
     <Field name={name}>
       {({ meta, form, field: { value, ...fieldProps } }: FieldProps) => {
         const error = controlError(meta, name, label);
+        const initial = initialValue ? initialValue : value;
 
         const onChange = async (value: Date | null) => {
           await form.setFieldValue(name, value);
@@ -78,7 +87,7 @@ export const DateField = ({ name, label, required, placeholder, wrapperClass, ..
               ref={pickerRef}
               locale={locale}
               showYearDropdown
-              selected={value}
+              selected={initial}
               className="hidden"
               maxDate={new Date()}
               portalId="DatePicker"
@@ -97,8 +106,8 @@ export const DateField = ({ name, label, required, placeholder, wrapperClass, ..
                   type="date"
                   name={name}
                   label={label}
-                  value={value}
                   error={error}
+                  value={initial}
                   isrequired={`${required}`}
                 />
               }

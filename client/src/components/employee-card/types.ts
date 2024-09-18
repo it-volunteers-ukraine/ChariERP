@@ -12,7 +12,7 @@ export interface IEmployeeCardProps {
   imgWidth?: string;
   patronymic: string;
   className?: string;
-  status: UserStatus;
+  status?: UserStatus;
   lastSession: string;
   classNameImg?: string;
   isStatusSelect?: boolean;

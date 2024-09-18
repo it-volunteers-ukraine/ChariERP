@@ -49,9 +49,9 @@ export const EmployeeCard = ({
       <div className="w-full flex flex-col">
         <Info label="E-mail" data={email} />
         <Info
-          data={status}
           status={status}
           setStatus={setStatus}
+          data={status as string}
           isStatusSelect={isStatusSelect}
           label={cardTranslate('statusText')}
         />
