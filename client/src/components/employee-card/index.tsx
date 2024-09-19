@@ -21,6 +21,7 @@ export const EmployeeCard = ({
   jobTitle,
   className,
   setStatus,
+  fieldName,
   patronymic,
   lastSession,
   classNameImg,
@@ -51,6 +52,7 @@ export const EmployeeCard = ({
         <Info label="E-mail" data={email} />
         <Info
           status={status}
+          fieldName={fieldName}
           setStatus={setStatus}
           data={status as string}
           setFieldValue={setFieldValue}

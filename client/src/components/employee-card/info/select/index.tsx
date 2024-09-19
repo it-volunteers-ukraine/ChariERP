@@ -7,7 +7,7 @@ import { ArrowUp } from '@/assets/icons';
 import { ISelect } from './types';
 import { getStyles } from './styles';
 
-export const Select = ({ status, setStatus, setFieldValue }: ISelect) => {
+export const Select = ({ status, setStatus, fieldName, setFieldValue }: ISelect) => {
   const cardTranslate = useTranslations('employeeCard');
   const statusDefault = status ? cardTranslate(status) : undefined;
 
@@ -29,8 +29,8 @@ export const Select = ({ status, setStatus, setFieldValue }: ISelect) => {
       return;
     }
 
-    if (setFieldValue) {
-      setFieldValue('status', value);
+    if (setFieldValue && fieldName) {
+      setFieldValue(fieldName, value);
 
       return;
     }

@@ -12,6 +12,7 @@ export interface IEmployeeCardProps {
   imgWidth?: string;
   patronymic: string;
   className?: string;
+  fieldName?: string;
   status?: UserStatus;
   classNameImg?: string;
   isStatusSelect?: boolean;

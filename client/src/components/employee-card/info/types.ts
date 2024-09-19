@@ -2,6 +2,7 @@ import { UserStatus } from '@/types';
 
 export interface IInfoProps {
   label: string;
+  fieldName?: string;
   status?: UserStatus;
   data: Date | string;
   isStatusSelect?: boolean;

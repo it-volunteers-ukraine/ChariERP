@@ -94,6 +94,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues }: IEmployeeFor
                   <EmployeeCard
                     id="123546789"
                     isStatusSelect
+                    fieldName="status"
                     email={values.email}
                     name={values.firstName}
                     classNameImg="!w-[92px]"
