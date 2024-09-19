@@ -17,14 +17,13 @@ export interface ICreateInitialValues {
   dateOfEntry: string | Date;
 }
 
-export interface IEmployeeData extends ICreateInitialValues {
+export interface IEditData extends Omit<ICreateInitialValues, 'password'> {
   status: UserStatus;
   lastLogin: Date | string;
 }
 
 export interface IEmployeeForm {
   isCreate?: boolean;
-  data?: IEmployeeData;
-  initialValues: ICreateInitialValues;
   onSubmit: (values: FormikValues) => void;
+  initialValues: ICreateInitialValues | IEditData;
 }

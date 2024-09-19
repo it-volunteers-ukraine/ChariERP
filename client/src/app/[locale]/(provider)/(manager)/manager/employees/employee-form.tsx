@@ -22,7 +22,7 @@ import {
 import { getStyles } from './styles';
 import { IEmployeeForm } from './types';
 
-export const EmployeeForm = ({ data, isCreate, onSubmit, initialValues }: IEmployeeForm) => {
+export const EmployeeForm = ({ isCreate, onSubmit, initialValues }: IEmployeeForm) => {
   const router = useRouter();
   const styles = getStyles(isCreate);
   const btn = useTranslations('button');
@@ -32,7 +32,7 @@ export const EmployeeForm = ({ data, isCreate, onSubmit, initialValues }: IEmplo
 
   const [isOpenSave, setIsOpenSave] = useState(false);
   const [isOpenCancel, setIsOpenCancel] = useState(false);
-  const [status, setStatus] = useState(data?.status ?? UserStatus.ACTIVE);
+  const [status, setStatus] = useState(UserStatus.ACTIVE);
 
   const submitHandle = async (validateForm: () => Promise<FormikErrors<FormikValues>>, handleSubmit: () => void) => {
     const errors = await validateForm();
@@ -49,11 +49,12 @@ export const EmployeeForm = ({ data, isCreate, onSubmit, initialValues }: IEmplo
     <Formik
       validateOnBlur
       validateOnChange
+      enableReinitialize
       onSubmit={onSubmit}
       initialValues={initialValues}
-      validationSchema={employeeValidation(error)}
+      validationSchema={employeeValidation(error).omit(['password'])}
     >
-      {({ errors, validateForm, handleSubmit }) => (
+      {({ values, errors, validateForm, handleSubmit }) => (
         <div className="p-[24px_16px_48px] tablet:p-[24px_32px_48px] desktop:p-[32px_36px_48px] w-full bg-white overflow-y-auto scroll-blue">
           <div className="m-auto w-full desktopXl:max-w-[1066px]">
             <ModalAdmin
@@ -98,12 +99,12 @@ export const EmployeeForm = ({ data, isCreate, onSubmit, initialValues }: IEmplo
                     status={status}
                     setStatus={setStatus}
                     classNameImg="!w-[92px]"
-                    email={data?.email as string}
-                    name={data?.firstName as string}
-                    surname={data?.lastName as string}
-                    jobTitle={data?.position as string}
-                    lastSession={data?.lastLogin as string}
-                    patronymic={data?.middleName as string}
+                    email={values.email}
+                    name={values.firstName}
+                    surname={values.lastName}
+                    jobTitle={values.position}
+                    lastSession={values.address}
+                    patronymic={values.middleName}
                     className="tablet:!flex-row !items-center gap-[20px] tablet:gap-0 laptop:!gap-12 !p-[24px_0_32px] desktop:!py-8 !h-fit !bg-white !shadow-none"
                   />
                 </>
@@ -119,20 +120,19 @@ export const EmployeeForm = ({ data, isCreate, onSubmit, initialValues }: IEmplo
                   changedLength={Object.keys(errors).length}
                 >
                   <div className="flex flex-col laptop:flex-row gap-4 laptop:gap-12">
-                    <InputField required value={data?.lastName} name="lastName" label={text('lastName.label')} />
+                    <InputField required name="lastName" label={text('lastName.label')} />
 
-                    <InputField required value={data?.firstName} name="firstName" label={text('name.label')} />
+                    <InputField required name="firstName" label={text('name.label')} />
                   </div>
 
                   <div className="flex flex-col laptop:flex-row gap-4 laptop:gap-12">
-                    <InputField value={data?.middleName} name="middleName" label={text('middleName.label')} />
+                    <InputField name="middleName" label={text('middleName.label')} />
 
                     <InputField
                       required
                       isMasked
                       name="phone"
                       placeholderItalic
-                      value={data?.phone}
                       label={text('phone.label')}
                       placeholder="+38(0__)___-__-__"
                       wrapperClass="laptop:max-w-[calc(50%-24px)]"
@@ -141,7 +141,6 @@ export const EmployeeForm = ({ data, isCreate, onSubmit, initialValues }: IEmplo
 
                   <InputField
                     name="position"
-                    value={data?.position}
                     label={text('positionOfMember.label')}
                     info={isCreate && text('positionOfMember.information')}
                     wrapperClass={`${!isCreate && 'laptop:max-w-[calc(50%-24px)]'} gap-1 laptop:!gap-12`}
@@ -158,7 +157,6 @@ export const EmployeeForm = ({ data, isCreate, onSubmit, initialValues }: IEmplo
                   <InputField
                     required
                     name="email"
-                    value={data?.email}
                     label={text('email.label')}
                     wrapperClass={`${!isCreate && 'laptop:max-w-[calc(50%-24px)]'}`}
                   />
@@ -178,7 +176,6 @@ export const EmployeeForm = ({ data, isCreate, onSubmit, initialValues }: IEmplo
                     <DateField
                       placeholderItalic
                       name="dateOfBirth"
-                      initialValue={data?.dateOfBirth}
                       label={text('dateOfBirth.label')}
                       placeholder={text('dateOfRegisterOrganization.chooseDate')}
                     />
@@ -186,19 +183,17 @@ export const EmployeeForm = ({ data, isCreate, onSubmit, initialValues }: IEmplo
                     <DateField
                       placeholderItalic
                       name="dateOfEntry"
-                      initialValue={data?.dateOfEntry}
                       label={text('dateOfEntry.label')}
                       placeholder={text('dateOfRegisterOrganization.chooseDate')}
                     />
 
-                    <InputField cross value={data?.address} name="address" label={text('homeAddress.label')} />
+                    <InputField cross name="address" label={text('homeAddress.label')} />
                   </div>
 
                   <InputField
                     isTextarea
                     name="notes"
                     type="textarea"
-                    value={data?.notes}
                     label={text('notes.label')}
                     wrapperClass="laptop:max-w-[calc(50%-24px)]"
                     textAreaClass="!p-[0_4px_0_16px] mr-[6px] min-h-[183px] scroll-textarea !text-input-text resize-none"

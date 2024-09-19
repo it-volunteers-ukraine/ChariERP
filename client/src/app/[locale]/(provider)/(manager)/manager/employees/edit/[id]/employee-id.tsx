@@ -4,18 +4,17 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 
-import { useLoaderAdminPage } from '@/context';
-import { employeeCreateInitialValues } from '@/components';
-
-import { IEmployeeData } from '../types';
-import { EmployeeForm } from '../employee-form';
 import { UserStatus } from '@/types';
+import { useLoaderAdminPage } from '@/context';
+
+import { IEditData } from '../../types';
+import { EmployeeForm } from '../../employee-form';
+import { FormikValues } from 'formik';
 
 const object = {
   avatarUrl: '',
   address: 'UK',
   firstName: 'Павлик',
-  password: 'Asdf1234',
   position: 'менеджер',
   lastName: 'Павлюченко',
   middleName: 'Павлович',
@@ -28,12 +27,30 @@ const object = {
   dateOfEntry: '2024-09-19T13:07:47.271Z',
 };
 
+const employeeEditInitialValues = (data?: IEditData) => ({
+  email: data?.email ?? '',
+  notes: data?.notes ?? '',
+  phone: data?.phone ?? '',
+  address: data?.address ?? '',
+  lastName: data?.lastName ?? '',
+  position: data?.position ?? '',
+  avatarUrl: data?.avatarUrl ?? '',
+  lastLogin: data?.lastLogin ?? '',
+  firstName: data?.firstName ?? '',
+  middleName: data?.middleName ?? '',
+  dateOfBirth: data?.dateOfBirth ?? '',
+  dateOfEntry: data?.dateOfEntry ?? '',
+  status: data?.status ?? UserStatus.ACTIVE,
+});
+
 const EmployeeId = () => {
   const { id } = useParams();
   const { setIsLoading } = useLoaderAdminPage();
-  const [data, setData] = useState<IEmployeeData>();
+  const [data, setData] = useState<IEditData>();
 
-  const onSubmit = () => {};
+  const onSubmit = (values: FormikValues) => {
+    console.log(values);
+  };
 
   const loadData = async () => {
     setIsLoading(true);
@@ -48,10 +65,12 @@ const EmployeeId = () => {
   };
 
   useEffect(() => {
-    loadData();
+    setTimeout(() => {
+      loadData();
+    }, 1000);
   }, [id]);
 
-  return <EmployeeForm onSubmit={onSubmit} initialValues={employeeCreateInitialValues} data={data} />;
+  return <EmployeeForm onSubmit={onSubmit} initialValues={employeeEditInitialValues(data)} />;
 };
 
 export default EmployeeId;
