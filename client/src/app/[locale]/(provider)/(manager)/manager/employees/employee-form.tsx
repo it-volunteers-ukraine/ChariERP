@@ -5,7 +5,6 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { Form, Formik, FormikErrors, FormikValues } from 'formik';
 
-import { UserStatus } from '@/types';
 import {
   Button,
   Accordion,
@@ -20,7 +19,7 @@ import {
 } from '@/components';
 
 import { getStyles } from './styles';
-import { IEmployeeForm } from './types';
+import { IEditData, IEmployeeForm } from './types';
 
 export const EmployeeForm = ({ isCreate, onSubmit, initialValues }: IEmployeeForm) => {
   const router = useRouter();
@@ -32,7 +31,6 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues }: IEmployeeFor
 
   const [isOpenSave, setIsOpenSave] = useState(false);
   const [isOpenCancel, setIsOpenCancel] = useState(false);
-  const [status, setStatus] = useState(UserStatus.ACTIVE);
 
   const submitHandle = async (validateForm: () => Promise<FormikErrors<FormikValues>>, handleSubmit: () => void) => {
     const errors = await validateForm();
@@ -54,7 +52,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues }: IEmployeeFor
       initialValues={initialValues}
       validationSchema={employeeValidation(error).omit(['password'])}
     >
-      {({ values, errors, validateForm, handleSubmit }) => (
+      {({ values, errors, validateForm, handleSubmit, setFieldValue }) => (
         <div className="p-[24px_16px_48px] tablet:p-[24px_32px_48px] desktop:p-[32px_36px_48px] w-full bg-white overflow-y-auto scroll-blue">
           <div className="m-auto w-full desktopXl:max-w-[1066px]">
             <ModalAdmin
@@ -96,15 +94,15 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues }: IEmployeeFor
                   <EmployeeCard
                     id="123546789"
                     isStatusSelect
-                    status={status}
-                    setStatus={setStatus}
-                    classNameImg="!w-[92px]"
                     email={values.email}
                     name={values.firstName}
+                    classNameImg="!w-[92px]"
                     surname={values.lastName}
                     jobTitle={values.position}
-                    lastSession={values.address}
+                    setFieldValue={setFieldValue}
                     patronymic={values.middleName}
+                    status={(initialValues as IEditData).status}
+                    lastSession={(initialValues as IEditData).lastLogin}
                     className="tablet:!flex-row !items-center gap-[20px] tablet:gap-0 laptop:!gap-12 !p-[24px_0_32px] desktop:!py-8 !h-fit !bg-white !shadow-none"
                   />
                 </>

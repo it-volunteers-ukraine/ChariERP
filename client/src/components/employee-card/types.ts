@@ -13,8 +13,9 @@ export interface IEmployeeCardProps {
   patronymic: string;
   className?: string;
   status?: UserStatus;
-  lastSession: string;
   classNameImg?: string;
   isStatusSelect?: boolean;
+  lastSession: Date | string;
   setStatus?: (status: UserStatus) => void;
+  setFieldValue?: (field: string, value: string) => void;
 }

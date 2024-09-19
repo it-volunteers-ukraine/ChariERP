@@ -24,6 +24,7 @@ export const EmployeeCard = ({
   patronymic,
   lastSession,
   classNameImg,
+  setFieldValue,
   isStatusSelect,
 }: IEmployeeCardProps) => {
   const router = useRouter();
@@ -52,6 +53,7 @@ export const EmployeeCard = ({
           status={status}
           setStatus={setStatus}
           data={status as string}
+          setFieldValue={setFieldValue}
           isStatusSelect={isStatusSelect}
           label={cardTranslate('statusText')}
         />

@@ -1,7 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import { useEffect, useState } from 'react';
+import { FormikValues } from 'formik';
 import { useParams } from 'next/navigation';
 
 import { UserStatus } from '@/types';
@@ -9,7 +9,6 @@ import { useLoaderAdminPage } from '@/context';
 
 import { IEditData } from '../../types';
 import { EmployeeForm } from '../../employee-form';
-import { FormikValues } from 'formik';
 
 const object = {
   avatarUrl: '',
