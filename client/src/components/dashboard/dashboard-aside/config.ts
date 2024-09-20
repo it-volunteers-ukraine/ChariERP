@@ -9,8 +9,8 @@ interface getLinksProps {
   text: string;
   href: string;
   disabled?: boolean;
-  icon?: React.ComponentType<SVGProps<SVGSVGElement>>;
   children?: getLinksProps[];
+  icon?: React.ComponentType<SVGProps<SVGSVGElement>>;
 }
 
 export const getLinksByRole = (
