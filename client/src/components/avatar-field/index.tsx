@@ -6,7 +6,15 @@ import { Field, FieldProps } from 'formik';
 import { AvatarFieldProps } from './types';
 import { AvatarUploader } from '../avatar-uploader';
 
-export const AvatarField = ({ name, info, isSubmit, lastName, firstName, initialAvatarUrl }: AvatarFieldProps) => {
+export const AvatarField = ({
+  name,
+  info,
+  isSubmit,
+  lastName,
+  firstName,
+  className,
+  initialAvatarUrl,
+}: AvatarFieldProps) => {
   return (
     <Field name={name}>
       {({ meta, form, field: { value } }: FieldProps) => {
@@ -38,6 +46,7 @@ export const AvatarField = ({ name, info, isSubmit, lastName, firstName, initial
             lastName={lastName}
             isSubmit={isSubmit}
             onChange={onChange}
+            className={className}
             firstName={firstName}
             avatarUrl={previewUrl}
             removeAvatar={removeAvatar}

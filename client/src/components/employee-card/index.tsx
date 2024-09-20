@@ -9,11 +9,12 @@ import { Info } from './info';
 import { getStyles } from './styles';
 import { JobTitle } from './job-title';
 import { IEmployeeCardProps } from './types';
-import { AvatarEmployee } from '../avatar-employee';
+import { AvatarField } from '../avatar-field';
+// import { AvatarEmployee } from '../avatar-employee';
 
 export const EmployeeCard = ({
   id,
-  src,
+  // src,
   name,
   email,
   status,
@@ -24,7 +25,7 @@ export const EmployeeCard = ({
   fieldName,
   patronymic,
   lastSession,
-  classNameImg,
+  // classNameImg,
   setFieldValue,
   isStatusSelect,
 }: IEmployeeCardProps) => {
@@ -37,7 +38,13 @@ export const EmployeeCard = ({
   return (
     <div className={styles.wrapper} onClick={() => (isParamsId ? '' : router.push(`${routes.employees}/${id}`))}>
       <div className="flex gap-4 items-start w-full">
-        <AvatarEmployee className={classNameImg} src={src} name={name} surname={surname} />
+        {/* <AvatarEmployee className={classNameImg} src={src} name={name} surname={surname} /> */}
+        <AvatarField
+          name="avatarUrl"
+          firstName={name}
+          lastName={surname}
+          className="!min-w-[86px] !max-w-[86px] !h-[86px]"
+        />
 
         <div className="w-[calc(100%-102px)] flex flex-col gap-1">
           <p className={styles.abbName}>{surname}</p>

@@ -5,6 +5,7 @@ import Image from 'next/image';
 
 import { Camera, Close, Info, Warning } from '@/assets/icons';
 
+import { getStyles } from './styles';
 import { DefaultAvatar } from './default-avatar';
 
 interface AvatarUploaderProps {
@@ -13,6 +14,7 @@ interface AvatarUploaderProps {
   lastName?: string;
   isSubmit?: boolean;
   firstName?: string;
+  className?: string;
   avatarUrl?: string | null;
   removeAvatar?: () => void;
   info?: string | React.ReactNode;
@@ -25,23 +27,23 @@ export const AvatarUploader = ({
   error,
   onChange,
   lastName,
-  isSubmit,
   firstName,
   avatarUrl,
+  className,
   removeAvatar,
 }: AvatarUploaderProps) => {
   const iconSize = avatarUrl ? 28 : 42;
+  const isFullName = firstName && lastName ? true : false;
+  const styles = getStyles({ info, className, isFullName });
 
   return (
-    <div className="flex flex-col gap-2 tablet:flex-row tablet:gap-6">
-      <div
-        className={`relative min-w-[96px] max-w-[96px] h-[96px] ${isSubmit ? 'bg-purple' : 'bg-superBlue'} rounded-full overflow-hidden group/avatar cursor-pointer`}
-      >
+    <div className={styles.wrapper}>
+      <div className={styles.circle}>
         <div className="relative flex items-center justify-center h-full z-[3]">
           {avatarUrl ? (
             <Image layout="fill" src={avatarUrl} alt="Avatar" className="aspect-square object-cover" />
           ) : (
-            <DefaultAvatar isSubmit={isSubmit} firstName={firstName} lastName={lastName} />
+            <DefaultAvatar firstName={firstName} lastName={lastName} />
           )}
         </div>
 
