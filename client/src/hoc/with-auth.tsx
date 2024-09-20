@@ -21,14 +21,10 @@ const withAuth = <T extends object>(WrappedComponent: React.ComponentType<T>, op
     useEffect(() => {
       if (!role && !id) {
         router.push(routes.login);
-
-        return;
       }
 
       if (role && !options.allowedRoles.includes(role)) {
         router.push(options.fallbackRoute);
-
-        return;
       }
     }, [role, router, id]);
 

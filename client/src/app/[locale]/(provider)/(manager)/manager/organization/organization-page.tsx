@@ -183,7 +183,7 @@ const OrganizationPage = () => {
                     placeholderItalic
                     name="certificate"
                     wrapperClass="laptop:!gap-12"
-                    accept={'pdf, jpg, jpeg, png'}
+                    accept={'.pdf, .jpg, .jpeg, .png'}
                     label={text('certificateOfRegister.label')}
                     placeholder={text('certificateOfRegister.downloadDoc')}
                     info={
@@ -223,7 +223,7 @@ const OrganizationPage = () => {
                   <div className="flex flex-col laptop:flex-row gap-4 laptop:gap-12">
                     <InputField required name="firstName" label={text('name.label')} />
 
-                    <InputField required name="middleName" label={text('middleName.label')} />
+                    <InputField name="middleName" label={text('middleName.label')} />
                   </div>
 
                   <InputField
@@ -262,8 +262,8 @@ const OrganizationPage = () => {
                   <InputField
                     cross
                     name="site"
-                    wrapperClass="laptop:max-w-[calc(50%-24px)]"
                     label={text('site.label')}
+                    wrapperClass="laptop:max-w-[calc(50%-24px)]"
                   />
 
                   <FieldArray

@@ -2,13 +2,14 @@ import React, { SVGProps } from 'react';
 import { TranslationValues } from 'next-intl';
 
 import { Roles } from '@/types';
-import { Organizations, Rejected, Tablet, Users } from '@/assets/icons';
+import { Organizations, Rejected, Settings, Tablet, Users } from '@/assets/icons';
+import { routes } from '@/constants';
 
 interface getLinksProps {
   text: string;
   href: string;
   disabled?: boolean;
-  icon: React.ComponentType<SVGProps<SVGSVGElement>>;
+  icon?: React.ComponentType<SVGProps<SVGSVGElement>>;
   children?: getLinksProps[];
 }
 
@@ -18,32 +19,38 @@ export const getLinksByRole = (
 ): getLinksProps[] => {
   const links = {
     [Roles.ADMIN]: [
-      { text: text('requests'), href: '/admin/requests', icon: Tablet },
-      { text: text('declined'), href: '/admin/declined', icon: Rejected },
-      { text: text('organizations'), href: '/admin/organizations', icon: Organizations },
+      { text: text('requests'), href: routes.requests, icon: Tablet },
+      { text: text('declined'), href: routes.declined, icon: Rejected },
+      { text: text('organizations'), href: routes.organizations, icon: Organizations },
     ],
     [Roles.MANAGER]: [
-      { text: 'Головна', href: '#', icon: Tablet },
+      { text: 'Головна', href: routes.managerHome, icon: Tablet },
       {
         text: 'Моя організація',
-        href: '/manager/organization',
+        href: routes.managerOrganization,
         icon: Organizations,
       },
       {
-        text: 'Співробітники',
-        href: '/manager/employees',
+        text: 'Співробітники Співробітники',
+        href: routes.employees,
         icon: Users,
       },
       {
-        text: 'Дошка',
-        href: '#',
+        text: 'Дошки',
+        href: routes.managerDashboards,
         icon: Tablet,
         children: [
-          { text: 'Організація 1', href: '#', icon: Tablet },
-          { text: 'Організація 2', href: '#', icon: Tablet, disabled: true },
+          {
+            text: '#1 якщо я писака і пишу багато, як би багато я не писав, навіть якщо вона буде аж прям така довга, то користувач все одно зможе її скопіювати',
+            href: `${routes.managerDashboard}/${encodeURIComponent('#1 якщо я писака і пишу багато, як би багато я не писав, навіть якщо вона буде аж прям така довга, то користувач все одно зможе її скопіювати')}`,
+          },
+          { text: '#2 Дошка', href: `${routes.managerDashboard}/${encodeURIComponent('#2 Дошка')}`, disabled: true },
+          { text: '#3 Дошка', href: `${routes.managerDashboard}/${encodeURIComponent('#3 Дошка')}` },
+          { text: '#4 Дошка', href: `${routes.managerDashboard}/${encodeURIComponent('#4 Дошка')}` },
+          { text: '#5 Дошка', href: `${routes.managerDashboard}/${encodeURIComponent('#5 Дошка')}` },
         ],
       },
-      { text: 'Налаштування', href: '#', icon: Tablet },
+      { text: 'Налаштування', href: routes.managerSettings, icon: Settings },
     ],
     [Roles.USER]: [{ text: 'Заявки', href: '#', icon: Tablet }],
   };

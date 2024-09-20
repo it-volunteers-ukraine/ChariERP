@@ -1,16 +1,25 @@
 export const routes = {
-  faq: '/faq',
-  login: '/sign-in',
+  // admin
+  admin: '/admin/create',
+  declined: '/admin/declined',
+  organizations: '/admin/organizations',
+  requests: '/admin/requests',
+
+  // manager
+  boards: '/manager/boards',
+  employees: '/manager/employees',
+  managerDashboard: '/manager/dashboards/board',
+  managerDashboards: '/manager/dashboards',
+  managerHome: '/manager/home',
+  managerOrganization: '/manager/organization',
+  managerSettings: '/manager/settings',
+
+  // general
+  aboutService: '/about_service',
   aboutUs: '/about_us',
   contacts: '/contacts',
-  admin: '/admin/create',
-  registration: '/sign-up',
-  boards: '/manager/boards',
-  requests: '/admin/requests',
-  declined: '/admin/declined',
-  aboutService: '/about_service',
-  employees: '/manager/employees',
+  faq: '/faq',
+  login: '/sign-in',
   passwordChange: '/password-change',
-  organizations: '/admin/organizations',
-  managerOrganization: '/manager/organization',
+  registration: '/sign-up',
 };

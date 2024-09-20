@@ -31,6 +31,7 @@ export { default as Prev } from './prev.svg';
 export { default as Rejected } from './rejected.svg';
 export { default as Save } from './save.svg';
 export { default as Search } from './search.svg';
+export { default as Settings } from './settings.svg';
 export { default as Tablet } from './tablet.svg';
 export { default as Triangle } from './triangle.svg';
 export { default as UA } from './ua.svg';

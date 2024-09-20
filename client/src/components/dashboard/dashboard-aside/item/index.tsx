@@ -1,34 +1,58 @@
-'use client';
-import { useRouter, usePathname } from 'next/navigation';
+import { MouseEvent } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+import { ArrowUp } from '@/assets/icons';
 
 import { getStyles } from './styles';
 import { INavItemProps } from './types';
 
-export const NavItem = ({ Icon, text, href, className, onCloseSideBar, ...props }: INavItemProps) => {
-  const router = useRouter();
+export const NavItem = ({
+  Icon,
+  text,
+  href,
+  isOpen,
+  disabled,
+  isParent,
+  setIsOpen,
+  isChildren,
+  onCloseSideBar,
+}: INavItemProps) => {
   const path = usePathname();
 
   const isActive = path.includes(href);
 
-  const { wrapper, icon, span } = getStyles({
+  const { wrapper, icon, span, svg } = getStyles({
+    isOpen,
     isActive,
-    className,
-    disabled: props.disabled,
+    disabled,
+    isChildren,
   });
 
-  const goTo = () => {
-    if (isActive) {
-      return;
-    }
-    router.push(href);
-    onCloseSideBar();
+  const onRotateArrow = (e: MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setIsOpen && setIsOpen();
+  };
+
+  const onClose = () => {
+    setTimeout(() => {
+      onCloseSideBar();
+    }, 400);
   };
 
   return (
-    <button onClick={goTo} className={wrapper} {...props}>
-      <Icon className={icon} />
+    <Link href={href} className={wrapper} onClick={onClose}>
+      {Icon && <Icon width={24} height={24} className={icon} />}
 
       <span className={span}>{text}</span>
-    </button>
+
+      {isParent && (
+        <div className={svg} onClick={(e) => onRotateArrow(e)}>
+          <ArrowUp className={icon} width={24} height={24} />
+        </div>
+      )}
+    </Link>
   );
 };
