@@ -8,8 +8,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = params;
 
   return {
-    title: `Dashboard - ${decodeURIComponent(slug)}`, // Устанавливаем заголовок страницы
-    description: `This is the dashboard page for ${decodeURIComponent(slug)}`, // Динамическое описание
+    title: `Dashboard - ${decodeURIComponent(slug)}`,
+    description: `This is the dashboard page for ${decodeURIComponent(slug)}`,
   };
 }
 

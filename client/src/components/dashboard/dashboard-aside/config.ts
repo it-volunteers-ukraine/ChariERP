@@ -2,8 +2,8 @@ import React, { SVGProps } from 'react';
 import { TranslationValues } from 'next-intl';
 
 import { Roles } from '@/types';
-import { Organizations, Rejected, Settings, Tablet, Users } from '@/assets/icons';
 import { routes } from '@/constants';
+import { Organizations, Rejected, Settings, Tablet, Users } from '@/assets/icons';
 
 interface getLinksProps {
   text: string;
