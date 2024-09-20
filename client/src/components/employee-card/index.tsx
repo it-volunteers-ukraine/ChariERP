@@ -28,8 +28,10 @@ export const EmployeeCard = ({
 }: IEmployeeCardProps) => {
   const router = useRouter();
   const params = useParams();
+
   const isParamsId = params?.id;
   const styles = getStyles({ className });
+
   const cardTranslate = useTranslations('employeeCard');
 
   return (

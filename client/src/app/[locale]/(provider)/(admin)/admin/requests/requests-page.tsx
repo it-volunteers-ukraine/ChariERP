@@ -20,9 +20,9 @@ export const RequestsPage = () => {
 
     try {
       const data = await getAdminOrganizationsAction({
+        limit: pageSize,
         page: currentPage,
         filterStatus: RequestOrganizationStatus.PENDING,
-        limit: pageSize,
       });
 
       setOrganizations(data.results as IOrganization[]);

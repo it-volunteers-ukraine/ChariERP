@@ -24,3 +24,8 @@ export enum DownloadType {
   FILE = 'file',
   URL = 'url',
 }
+
+export enum ActiveLanguage {
+  EN = 'en',
+  UA = 'ua',
+}

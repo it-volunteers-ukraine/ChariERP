@@ -27,7 +27,7 @@ export const TableOrganization = () => {
   const { items, requestSort, sortConfig } = useSortableData(organizations);
 
   const styles = getStyles({
-    date: sortConfig?.key === 'dateOfRegistration' ? sortConfig?.direction : undefined,
+    date: sortConfig?.key === 'approvalDate' ? sortConfig?.direction : undefined,
     user: sortConfig?.key === 'users' ? sortConfig?.direction : undefined,
     email: sortConfig?.key === 'email' ? sortConfig?.direction : undefined,
     edrpou: sortConfig?.key === 'EDRPOU' ? sortConfig?.direction : undefined,
@@ -41,6 +41,7 @@ export const TableOrganization = () => {
 
     try {
       const data = await getAdminOrganizationsAction({
+        limit: pageSize,
         page: currentPage,
         populate: 'users',
         filterStatus: RequestOrganizationStatus.APPROVED,
@@ -96,7 +97,7 @@ export const TableOrganization = () => {
             </div>
 
             <div
-              onClick={() => requestSort('dateOfRegistration')}
+              onClick={() => requestSort('approvalDate')}
               className="flex items-center place-self-center gap-2 w-fit cursor-pointer"
             >
               <Calendar className="text-midGray" width={16} height={16} />

@@ -17,7 +17,7 @@ const usersSchema = new Schema<IUsers>({
     enum: Object.values(Roles),
     default: Roles.USER,
   },
-  DateOfBirth: Date,
+  dateOfBirth: Date,
   dateOfEntry: Date,
   address: String,
   notes: String,

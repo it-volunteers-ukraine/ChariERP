@@ -21,7 +21,12 @@
     "requests": "Заявки",
     "declined": "Відхилені",
     "organizations": "Організації",
-    "exit": "Вийти"
+    "exit": "Вийти",
+    "home": "Головна",
+    "myOrganization": "Моя організація",
+    "employees": "Співробітники",
+    "boards": "Дошки",
+    "settings": "Налаштування"
   },
   "inputs": {
     "title": {

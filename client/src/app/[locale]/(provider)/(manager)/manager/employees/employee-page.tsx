@@ -12,7 +12,7 @@ import { getAllUsersByOrganizationIdActions } from '@/actions';
 import { IEmployeeCardProps } from '@/components/employee-card/types';
 import { Button, EmployeeCard, Input, Pagination } from '@/components';
 
-const recordsPerPage = 1;
+const recordsPerPage = 10;
 
 function EmployeesPage() {
   const router = useRouter();
@@ -28,11 +28,13 @@ function EmployeesPage() {
   const loadData = async () => {
     setIsLoading(true);
     try {
-      const users = await getAllUsersByOrganizationIdActions({
+      const response = await getAllUsersByOrganizationIdActions({
         page,
         limit: recordsPerPage,
         id: String(organizationId),
       });
+
+      const users = JSON.parse(response.users);
 
       setData(normalizeUsers(users.results));
       setTotalItems(users.totalItems);

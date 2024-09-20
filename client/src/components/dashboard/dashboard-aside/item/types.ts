@@ -1,13 +1,18 @@
-export interface INavItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface INavItemProps {
   href: string;
   text: string;
-  className?: string;
-  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  isOpen?: boolean;
+  isParent?: boolean;
+  disabled?: boolean;
+  isChildren?: boolean;
+  setIsOpen?: () => void;
   onCloseSideBar: () => void;
+  Icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
 export interface INavItemStylesProps {
+  isOpen?: boolean;
   isActive: boolean;
   disabled?: boolean;
-  className?: string;
+  isChildren?: boolean;
 }

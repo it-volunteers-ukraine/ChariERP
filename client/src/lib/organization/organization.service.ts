@@ -74,7 +74,6 @@ class OrganizationService extends BaseService {
         social: data.social,
       },
     };
-
     const newOrganization = new Organizations(body);
 
     await newOrganization.save();
@@ -210,6 +209,8 @@ class OrganizationService extends BaseService {
         if (matches.length > 0) {
           return { message: matches, success: false };
         }
+
+        body.approvalDate = new Date();
       }
 
       const password = generatePassword(8, 10);

@@ -21,7 +21,12 @@
     "requests": "Requests",
     "declined": "Declined",
     "organizations": "Organizations",
-    "exit": "Log out"
+    "exit": "Log out",
+    "home": "Home",
+    "myOrganization": "My organization",
+    "employees": "Employees",
+    "boards": "Boards",
+    "settings": "Settings"
   },
   "inputs": {
     "title": {

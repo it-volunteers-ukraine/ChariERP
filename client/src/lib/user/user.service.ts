@@ -34,13 +34,13 @@ class UserService extends BaseService {
       const compare = await bcrypt.compare(password, foundUser.password);
 
       if (compare) {
-        return foundUser;
+        return { success: true, user: JSON.stringify(foundUser) };
       }
 
-      return { message: 'userIncorrect' };
+      return { success: false, message: 'userIncorrect' };
     }
 
-    return { message: 'userNotFound' };
+    return { success: false, message: 'userNotFound' };
   }
 
   async getAllByOrganizationId({ id, page, limit = 10 }: IUsersByOrganizationProps) {
@@ -54,11 +54,14 @@ class UserService extends BaseService {
     });
 
     return {
-      totalPages,
-      totalItems,
-      currentPage,
       success: true,
-      results: results,
+      users: JSON.stringify({
+        totalPages,
+        totalItems,
+        currentPage,
+        success: true,
+        results: results,
+      }),
     };
   }
 
@@ -68,13 +71,13 @@ class UserService extends BaseService {
     const admin = await Admin.findById(id);
 
     if (admin) {
-      return { success: true, user: admin };
+      return { success: true, user: JSON.stringify(admin) };
     }
 
     const user = await Users.findById(id);
 
     if (user) {
-      return { success: true, user: user };
+      return { success: true, user: JSON.stringify(user) };
     }
 
     return { success: false, message: 'User not found' };

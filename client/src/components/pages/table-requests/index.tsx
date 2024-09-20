@@ -26,7 +26,7 @@ export const TableRequests = ({ data, getData, isPagination }: ITableRequestsPro
 
   const styles = getStyles({
     edrpou: sortConfig?.key === 'EDRPOU' ? sortConfig?.direction : undefined,
-    date: sortConfig?.key === 'dateOfRegistration' ? sortConfig?.direction : undefined,
+    date: sortConfig?.key === 'requestDate' ? sortConfig?.direction : undefined,
     organization: sortConfig?.key === 'organizationName' ? sortConfig?.direction : undefined,
   });
 
@@ -54,7 +54,7 @@ export const TableRequests = ({ data, getData, isPagination }: ITableRequestsPro
         <div className="text-lg leading-[22px] text-center font-robotoCondensed">{table('document')}</div>
 
         <div
-          onClick={() => requestSort('dateOfRegistration')}
+          onClick={() => requestSort('requestDate')}
           className="flex items-center place-self-center gap-2 w-fit cursor-pointer"
         >
           <Calendar className="text-midGray" width={16} height={16} />
