@@ -24,19 +24,19 @@ export const getLinksByRole = (
       { text: text('organizations'), href: routes.organizations, icon: Organizations },
     ],
     [Roles.MANAGER]: [
-      { text: 'Головна', href: routes.managerHome, icon: Tablet },
+      { text: text('home'), href: routes.managerHome, icon: Tablet },
       {
-        text: 'Моя організація',
+        text: text('myOrganization'),
         href: routes.managerOrganization,
         icon: Organizations,
       },
       {
-        text: 'Співробітники Співробітники',
+        text: text('employees'),
         href: routes.employees,
         icon: Users,
       },
       {
-        text: 'Дошки',
+        text: text('boards'),
         href: routes.managerDashboards,
         icon: Tablet,
         children: [
@@ -44,13 +44,13 @@ export const getLinksByRole = (
             text: '#1 якщо я писака і пишу багато, як би багато я не писав, навіть якщо вона буде аж прям така довга, то користувач все одно зможе її скопіювати',
             href: `${routes.managerDashboard}/${encodeURIComponent('#1 якщо я писака і пишу багато, як би багато я не писав, навіть якщо вона буде аж прям така довга, то користувач все одно зможе її скопіювати')}`,
           },
-          { text: '#2 Дошка', href: `${routes.managerDashboard}/${encodeURIComponent('#2 Дошка')}`, disabled: true },
+          { text: '#2 Дошка', href: `${routes.managerDashboard}/${encodeURIComponent('#2 Дошка')}` },
           { text: '#3 Дошка', href: `${routes.managerDashboard}/${encodeURIComponent('#3 Дошка')}` },
           { text: '#4 Дошка', href: `${routes.managerDashboard}/${encodeURIComponent('#4 Дошка')}` },
-          { text: '#5 Дошка', href: `${routes.managerDashboard}/${encodeURIComponent('#5 Дошка')}` },
+          { text: '#5 Дошка', href: `${routes.managerDashboard}/${encodeURIComponent('#5 Дошка')}`, disabled: true },
         ],
       },
-      { text: 'Налаштування', href: routes.managerSettings, icon: Settings },
+      { text: text('settings'), href: routes.managerSettings, icon: Settings },
     ],
     [Roles.USER]: [{ text: 'Заявки', href: '#', icon: Tablet }],
   };

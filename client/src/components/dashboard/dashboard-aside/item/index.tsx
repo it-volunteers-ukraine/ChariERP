@@ -43,7 +43,7 @@ export const NavItem = ({
   };
 
   return (
-    <Link href={href} className={wrapper} onClick={onClose}>
+    <Link href={disabled ? '#' : href} className={wrapper} onClick={onClose}>
       {Icon && <Icon width={24} height={24} className={icon} />}
 
       <span className={span}>{text}</span>
