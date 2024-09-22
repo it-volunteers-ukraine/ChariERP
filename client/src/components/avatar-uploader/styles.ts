@@ -11,7 +11,7 @@ export const getStyles = ({ className, isFullName, info }: IStyles) => ({
     '!gap-0 tablet:!gap-0': !info,
   }),
   circle: clsx(
-    'relative min-w-[96px] max-w-[96px] h-[96px] bg-superBlue rounded-full overflow-hidden group/avatar cursor-pointer',
+    'relative h-[96px] w-[96px] shrink-0  bg-superBlue rounded-full overflow-hidden group/avatar cursor-pointer',
     {
       [`${className}`]: className,
       '!bg-purple': isFullName,
