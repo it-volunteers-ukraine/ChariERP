@@ -29,7 +29,7 @@ export const approveOrganizationsNormalizer = (data: IOrganizations[]) => {
     id: item._id!.toString(),
     organizationName: item.organizationData.organizationName,
     EDRPOU: item.organizationData.edrpou,
-    dateOfRegistration: item.organizationData.dateOfRegistration.toISOString(),
+    approvalDate: item.approvalDate?.toISOString(),
     email: item.contactData.email,
     users: item.users.length,
   }));
@@ -40,7 +40,7 @@ export const pendingDeclineNormalizer = (data: IOrganizations[]) => {
     id: item._id!.toString(),
     organizationName: item.organizationData.organizationName,
     EDRPOU: item.organizationData.edrpou,
-    dateOfRegistration: item.organizationData.dateOfRegistration.toISOString(),
+    requestDate: item.requestDate.toISOString(),
     email: item.contactData.email,
     certificate: item.organizationData.certificate,
   }));

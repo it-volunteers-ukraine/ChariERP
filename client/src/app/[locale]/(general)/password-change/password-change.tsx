@@ -58,7 +58,7 @@ const PasswordChange = () => {
     <section className="bg-bgAuthGradient h-screen pt-16 shadow-passwordChange flex justify-center px-4 tablet:px-0">
       <Formik onSubmit={onSubmit} initialValues={initialValues} validationSchema={validationSchema}>
         {() => (
-          <Form className="shadow-auth h-min rounded-lg max-w-[611px] w-full pt-[44px] pr-[56px] pl-[56px] pb-[48px]">
+          <Form className="shadow-auth h-min rounded-lg max-w-[611px] w-full pt-[44px] px-[20px] tablet:px-[56px] pb-[32px] tablet:pb-[48px]">
             <Title
               title={passwordChangeText('title')}
               className="font-scada uppercase text-[20px] mb-8 !text-midGray text-center leading-6"

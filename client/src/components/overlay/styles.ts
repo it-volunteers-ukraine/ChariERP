@@ -10,6 +10,7 @@ export const getStyles = (opened: boolean) => ({
       'animate-portalClose': !opened,
     },
   ),
+
   modal: clsx(
     'relative flex bg-white mx-2 pt-11 px-5 pb-8 rounded-lg max-w-[546px] w-full min-h-[208px] z-30',
     {

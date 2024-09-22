@@ -6,10 +6,10 @@ import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
-import { RequestOrganizationStatus, RowItemProps } from '@/types';
 import { Copy, Doc } from '@/assets/icons';
 import { downloadFileFromBucket } from '@/services';
-import { dateFormat, getUrlWithExtension } from '@/utils';
+import { RequestOrganizationStatus, RowItemProps } from '@/types';
+import { dateFormat, getUrlWithExtension, onCopy } from '@/utils';
 import { Button, ModalAdmin, showMessage, ModalDecline } from '@/components';
 import { declineOrganizationAction, deleteOrganizationAction, updateOrganizationAction } from '@/actions';
 
@@ -20,6 +20,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const btn = useTranslations('button');
   const modal = useTranslations('modal');
   const table = useTranslations('table');
+  const messagesCopy = useTranslations('copy');
   const success = useTranslations('success.admin-pages');
 
   const [isLoading, setIsLoading] = useState(false);
@@ -100,12 +101,6 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
     }
   };
 
-  const handleCopyClick = (e: MouseEvent<SVGElement>, text: number) => {
-    e.stopPropagation();
-    navigator.clipboard.writeText(text.toString());
-    showMessage.success('Copied to clipboard', { autoClose: 500 });
-  };
-
   async function getCertificate(e: MouseEvent<HTMLButtonElement>) {
     e.stopPropagation();
 
@@ -148,7 +143,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
             width={24}
             height={24}
             className="cursor-pointer flex-shrink-0 text-lightBlue"
-            onClick={(e: MouseEvent<SVGSVGElement>) => handleCopyClick(e, item.EDRPOU)}
+            onClick={(e: MouseEvent<SVGSVGElement>) => onCopy(e, item.EDRPOU, messagesCopy('messages'))}
           />
         </div>
 
@@ -163,7 +158,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
         </div>
 
         <div className="mt-6 laptop:mt-0 text-lg leading-[22px] font-robotoCondensed laptop:text-center">
-          {format(parseISO(item.dateOfRegistration.toString()), dateFormat[locale])}
+          {item.requestDate && format(parseISO(item.requestDate?.toString()), dateFormat[locale])}
         </div>
 
         <div

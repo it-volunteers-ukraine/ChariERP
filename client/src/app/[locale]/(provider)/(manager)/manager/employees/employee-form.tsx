@@ -77,11 +77,13 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues }: IEmployeeFor
             />
 
             <Form>
-              {isCreate ? (
+              {isCreate && (
                 <div className="mb-6">
                   <AvatarField name="avatarUrl" info={text('avatar.information')} />
                 </div>
-              ) : (
+              )}
+
+              {!isCreate && (
                 <>
                   <div className="flex items-center justify-start pb-6 border-b-2 border-lightBlue">
                     <div className="flex items-center gap-4 w-fit">
@@ -92,18 +94,19 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues }: IEmployeeFor
                   </div>
 
                   <EmployeeCard
+                    inById
                     id="123546789"
                     isStatusSelect
                     fieldName="status"
                     email={values.email}
-                    name={values.firstName}
                     classNameImg="!w-[92px]"
-                    surname={values.lastName}
-                    jobTitle={values.position}
+                    lastName={values.lastName}
+                    position={values.position}
+                    firstName={values.firstName}
                     setFieldValue={setFieldValue}
-                    patronymic={values.middleName}
+                    middleName={values.middleName}
                     status={(initialValues as IEditData).status}
-                    lastSession={(initialValues as IEditData).lastLogin}
+                    lastLogin={(initialValues as IEditData).lastLogin}
                     className="tablet:!flex-row !items-center gap-[20px] tablet:gap-0 laptop:!gap-12 !p-[24px_0_32px] desktop:!py-8 !h-fit !bg-white !shadow-none"
                   />
                 </>

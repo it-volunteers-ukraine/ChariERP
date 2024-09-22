@@ -21,7 +21,12 @@
     "requests": "Requests",
     "declined": "Declined",
     "organizations": "Organizations",
-    "exit": "Log out"
+    "exit": "Log out",
+    "home": "Home",
+    "myOrganization": "My organization",
+    "employees": "Employees",
+    "boards": "Boards",
+    "settings": "Settings"
   },
   "inputs": {
     "title": {
@@ -226,5 +231,13 @@
     "lastSession": "Last session",
     "active": "Active",
     "blocked": "Blocked"
+  },
+  "board": {
+    "newBoard": "Name the board",
+    "createNew": "Create a new board",
+    "limitExceeded": "You can have no more than {int} boards"
+  },
+  "copy": {
+    "messages": "Copied to clipboard"
   }
 }

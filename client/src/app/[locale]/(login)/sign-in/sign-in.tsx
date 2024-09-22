@@ -23,9 +23,11 @@ const SignIn = () => {
     try {
       const result = await loginAction(values.email, values.password);
 
-      if (result.success && result.userId) {
-        Cookies.set('id', result.userId.toString(), { expires: 7 });
-        router.push(routes.requests);
+      if (result.success && result.user) {
+        const user = JSON.parse(result.user);
+
+        Cookies.set('id', user._id.toString(), { expires: 7 });
+        router.push(routes.managerHome);
       }
 
       if (!result.success && result.message) {

@@ -20,9 +20,9 @@ export const RequestsPage = () => {
 
     try {
       const data = await getAdminOrganizationsAction({
+        limit: pageSize,
         page: currentPage,
         filterStatus: RequestOrganizationStatus.PENDING,
-        limit: pageSize,
       });
 
       setOrganizations(data.results as IOrganization[]);
@@ -55,7 +55,7 @@ export const RequestsPage = () => {
         onChange={setPage}
         pageSize={pageSize}
         total={totalRecords}
-        className="py-16 max-w-[440px] my-auto desktop:ml-11"
+        className="max-w-[440px] my-auto desktop:ml-11"
       />
     </>
   );

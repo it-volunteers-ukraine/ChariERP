@@ -12,8 +12,9 @@ export interface IOrganization {
   email: string;
   EDRPOU: number;
   certificate: string;
+  requestDate: string;
+  approvalDate: string;
   organizationName: string;
-  dateOfRegistration: string;
 }
 
 export interface IOrganizationPageProps extends Omit<IOrganization, 'certificate'> {
@@ -80,5 +81,11 @@ export type Fields = {
   email: string;
   edrpou: number;
 };
+
+export interface IUsersByOrganizationProps {
+  id: string;
+  page: number;
+  limit?: number;
+}
 
 export interface ICustomer extends IAdmin, IUsers {}

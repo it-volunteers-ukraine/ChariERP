@@ -24,6 +24,8 @@ export interface IMediaData {
 }
 
 export interface IOrganizations extends Document {
+  requestDate: Date;
+  approvalDate: Date;
   mediaData: IMediaData;
   contactData: IContactData;
   _id?: Schema.Types.ObjectId;
@@ -33,6 +35,7 @@ export interface IOrganizations extends Document {
 }
 
 export interface IOrganizationsUpdate {
+  approvalDate?: Date;
   mediaData: IMediaData;
   contactData: IContactData;
   organizationData: IOrganizationData;

@@ -9,6 +9,7 @@ const error = '#B3261E';
 const white = '#FFFFFF';
 const whiteSecond = '#F4F7FE';
 const lightBlue = '#61B6DB';
+const lightBlueHover = '#E8EEFB';
 const blueCrayola = '#78D6EF';
 const deepBlue = '#3879B6';
 const disabled = '#C2C3C5';
@@ -51,6 +52,8 @@ const config: Config = {
         white,
         whiteSecond,
         lightBlue,
+        lightBlueHover,
+        lynch,
         disabled,
         darkGray,
         comet,
@@ -64,8 +67,10 @@ const config: Config = {
         'dark-blue': blue,
         error,
         green,
+        greenActive,
         purple: amethyst,
         greenNormal,
+        red,
         title: {
           title: caret,
           media: Magnolia,
@@ -128,10 +133,6 @@ const config: Config = {
         },
         navItem: {
           disabled: '#A3AED0',
-          hover: white,
-          active: lightBlue,
-          'bg-hover': steelBlue,
-          'bg-active': white,
         },
         overlay: '#687a95',
       },
@@ -156,6 +157,7 @@ const config: Config = {
         employeeCard: ` 0px 0px 3px 1px #65657540`,
         innerBg: '0px 0px 10px 4px rgba(0, 0, 0, 0.05)',
         passwordChange: '0px 0px 8px 0px rgba(0, 0, 0, 0.17)',
+        boardCard: '0px 0px 3px 0px rgba(0, 0, 0, 0.13), 0px 2px 2px 0px rgba(101, 101, 117, 0.15)',
         status: '0px 0px 2px 0px rgba(101, 101, 117, 0.37)',
       },
       backgroundSize: {
@@ -223,7 +225,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/line-clamp')],
 };
 
 export default config;

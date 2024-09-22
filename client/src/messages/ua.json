@@ -21,7 +21,12 @@
     "requests": "Заявки",
     "declined": "Відхилені",
     "organizations": "Організації",
-    "exit": "Вийти"
+    "exit": "Вийти",
+    "home": "Головна",
+    "myOrganization": "Моя організація",
+    "employees": "Співробітники",
+    "boards": "Дошки",
+    "settings": "Налаштування"
   },
   "inputs": {
     "title": {
@@ -222,5 +227,13 @@
     "lastSession": "Останній вхід",
     "active": "Активований",
     "blocked": "Заблокований"
+  },
+  "board": {
+    "newBoard": "Назвати дошку",
+    "createNew": "Створити нову дошку",
+    "limitExceeded": "Ви можете мати не більше {int} дошок"
+  },
+  "copy": {
+    "messages": "Скопійовано в буфер обміну"
   }
 }

@@ -5,6 +5,5 @@ export interface AvatarFieldProps extends Omit<FileInputProps, 'onChange' | 'lab
   isSubmit?: boolean;
   firstName?: string;
   className?: string;
-  initialAvatarUrl?: string;
   info?: string | React.ReactNode;
 }
