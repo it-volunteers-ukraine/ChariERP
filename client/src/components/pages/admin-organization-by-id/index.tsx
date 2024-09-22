@@ -227,7 +227,7 @@ const AdminOrganizationById = () => {
             />
 
             <div className="flex justify-start mb-20 px-8 pb-12 bg-white rounded-lg shadow-dashboard">
-              <div className="w-full desktop:mr-32">
+              <div className="w-full max-w-[1066px] mx-auto">
                 <div className="flex items-center justify-between mb-4 py-6 pr-2 border-b-2 border-lightBlue">
                   <div className="flex items-center gap-4">
                     <ButtonIcon icon="back" iconType="primary" onClick={() => router.back()} />
