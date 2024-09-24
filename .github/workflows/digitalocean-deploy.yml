@@ -7,6 +7,20 @@ on:
     paths:
       - 'client/**'
       - '.github/workflows/**'
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'info'
+        type: choice
+        options:
+          - info
+          - debug
+      branch:
+        description: 'Branch to deploy'
+        required: true
+        default: 'main'
 
 env:
   DO_REGISTRY: it-volunteers-ukraine
@@ -25,6 +39,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
