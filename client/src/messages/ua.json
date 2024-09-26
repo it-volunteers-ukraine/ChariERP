@@ -10,7 +10,7 @@
       "password": "Пароль",
       "button": "Увійти"
     },
-    "createOrganization": "Заявка успішно відправленна"
+    "createOrganization": "Заявка успішно відправлена"
   },
   "password-change": {
     "title": "Зміна паролю",
