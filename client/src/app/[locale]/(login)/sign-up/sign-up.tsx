@@ -226,24 +226,23 @@ const SignUp = () => {
                                   </span>
                                 }
                               />
-                              <div className="flex items-center justify-between max-w-[calc(50%-12px)]">
-                                <div>
-                                  {isRightLength && isLastIndex && (
-                                    <SmallBtn
-                                      type="add"
-                                      text={btn('addField')}
-                                      onClick={() => push('')}
-                                      className="flex justify-start mt-3 !leading-4"
-                                    />
-                                  )}
-                                </div>
+
+                              <div className="flex items-center justify-between mt-6 laptop:max-w-[calc(50%-12px)]">
+                                {isRightLength && isLastIndex && (
+                                  <SmallBtn
+                                    type="add"
+                                    text={btn('addField')}
+                                    onClick={() => push('')}
+                                    className="flex justify-start !leading-4"
+                                  />
+                                )}
 
                                 {isMoreThanOne && (
                                   <SmallBtn
                                     type="delete"
                                     text={btn('deleteField')}
                                     onClick={() => remove(index)}
-                                    className="flex justify-end mt-3 !leading-4"
+                                    className={`flex ${isRightLength && isLastIndex ? 'justify-end' : 'ml-auto'} !leading-4`}
                                   />
                                 )}
                               </div>
