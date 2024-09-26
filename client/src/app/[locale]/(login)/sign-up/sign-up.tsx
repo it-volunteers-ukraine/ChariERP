@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikHelpers } from 'formik';
 
@@ -103,14 +102,7 @@ const SignUp = () => {
                   accept=".pdf, .jpg, .jpeg, .png"
                   label={text('certificateOfRegister.label')}
                   placeholder={text('certificateOfRegister.downloadDoc')}
-                  info={
-                    <span className={`${styles.spanStyles}`}>
-                      {text('certificateOfRegister.information')}
-                      <Link href="#" className={`${styles.spanStylesForExample} text-input-link underline`}>
-                        {text('certificateOfRegister.howDownloadFile')}
-                      </Link>
-                    </span>
-                  }
+                  info={<span className={`${styles.spanStyles}`}>{text('certificateOfRegister.information')}</span>}
                 />
 
                 <DateField
