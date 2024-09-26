@@ -4,7 +4,7 @@ import { isValidPhoneNumber } from 'libphonenumber-js';
 import { OrganizationFormValues } from '@/types';
 
 const maxSize = 5;
-const linkRegExp = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6})(\/[\w.-]*)*\/?$/;
+const linkRegExp = /^https:\/\/([\w.-]+)\.([a-z]{2,6})(\/[\w.-]*)*\/?$/;
 
 export const organizationInitialValues: OrganizationFormValues = {
   site: '',
