@@ -1,0 +1,86 @@
+@startuml
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+entity organization {
+   _id: objectid
+   contactData: object
+   mediaData: object
+   organizationData: object
+   request: string
+   users: list
+   boards: list
+   __v: int32
+
+}
+
+class contactData {
+    email: string
+    firstName: string
+    lastName: string
+    middleName: string
+    phone: string
+    position: string
+}
+
+class organizationData {
+   certificate: string
+   dateOfRegistration: isodate
+   edrpou: int32
+   organizationName: string
+}
+
+class mediaData {
+   site: string
+   social: array
+}
+
+entity superadmin {
+   _id: objectid
+   email: string
+   password: string
+   role: string
+   __v: int32
+}
+
+entity user {
+   _id: objectid
+   email: string
+   middleName: string
+   organizationId: objectid
+   password: string
+   role: string
+   firstName: string
+   phone: string
+   status: string
+   lastName: string
+   position: string
+   __v: int32
+}
+
+entity board {
+    _id: objectid
+    name: string
+    organizationId: objectid
+    tasks: list
+    __v: int32
+}
+
+entity task {
+    _id: objectid
+    title: string
+    boardId: objectid
+    userId: objectid
+    __v: int32
+}
+
+organization o-- contactData: contains
+organization o-- organizationData: contains
+organization o-- mediaData: contains
+organization "1" *-- "many" user : "organisationId"
+organization "1" *-- "many" board : "organisationId"
+board "1" *-- "many" task : "boardId"
+user "1" *-- "many" task: ""
+
+@enduml
