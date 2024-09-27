@@ -31,7 +31,7 @@ const SignIn = () => {
       }
 
       if (!result.success && result.message) {
-        handleFormik?.setFieldError('email', errorText(result.message));
+        handleFormik?.setFieldError('password', errorText(result.message));
       }
     } catch (error) {
       console.log(error);

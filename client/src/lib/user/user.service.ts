@@ -33,6 +33,10 @@ class UserService extends BaseService {
       const foundUser = user || admin;
       const compare = await bcrypt.compare(password, foundUser.password);
 
+      if (foundUser.status === 'blocked') {
+        return { success: false, message: 'blockedAccount' };
+      }
+
       if (compare) {
         return { success: true, user: JSON.stringify(foundUser) };
       }
