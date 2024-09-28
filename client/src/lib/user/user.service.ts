@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 
 import { getPaginate } from '@/utils';
-import { IUsers, IUsersByOrganizationProps } from '@/types';
+import { IUsers, IUsersByOrganizationProps, UserStatus } from '@/types';
 
 import { Admin, Users } from '..';
 import { BaseService } from '../database/base.service';
@@ -31,11 +31,12 @@ class UserService extends BaseService {
 
     if (user || admin) {
       const foundUser = user || admin;
-      const compare = await bcrypt.compare(password, foundUser.password);
 
-      if (foundUser.status === 'blocked') {
+      if (foundUser.status === UserStatus.BLOCKED) {
         return { success: false, message: 'blockedAccount' };
       }
+
+      const compare = await bcrypt.compare(password, foundUser.password);
 
       if (compare) {
         return { success: true, user: JSON.stringify(foundUser) };
