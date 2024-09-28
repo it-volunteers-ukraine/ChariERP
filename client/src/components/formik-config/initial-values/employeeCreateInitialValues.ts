@@ -9,6 +9,6 @@ export const employeeCreateInitialValues = {
   avatarUrl: '',
   firstName: '',
   middleName: '',
-  dateOfBirth: new Date(),
-  dateOfEntry: new Date(),
+  dateOfBirth: '',
+  dateOfEntry: '',
 };

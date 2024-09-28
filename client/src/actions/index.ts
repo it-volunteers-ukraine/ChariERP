@@ -1,5 +1,6 @@
 export { createAdminAction } from './admin/create-admin';
 export { createOrganizationAction } from './admin/create-organization';
+export { createUserByCompanyIdAction } from './user/create-user-by-company-id';
 export { declineOrganizationAction } from './admin/decline-organization';
 export { deleteOrganizationAction } from './admin/delete-organization';
 export { getAdminOrganizationsAction } from './admin/get-admin-organization';

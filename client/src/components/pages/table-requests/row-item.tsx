@@ -1,7 +1,7 @@
 'use client';
 
 import { MouseEvent, useState } from 'react';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 
@@ -158,7 +158,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
         </div>
 
         <div className="mt-6 laptop:mt-0 text-lg leading-[22px] font-robotoCondensed laptop:text-center">
-          {item.requestDate && format(parseISO(item.requestDate?.toString()), dateFormat[locale])}
+          {item.requestDate && format(new Date(item.requestDate), dateFormat[locale])}
         </div>
 
         <div

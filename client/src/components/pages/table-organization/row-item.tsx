@@ -1,8 +1,8 @@
 'use client';
 
 import { MouseEvent } from 'react';
+import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
-import { format, parseISO } from 'date-fns';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
@@ -51,7 +51,7 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
       </div>
 
       <div className="mt-6 laptop:mt-0 laptop:hidden text-lg leading-[22px] laptop:text-center font-robotoCondensed">
-        {item.approvalDate && format(parseISO(item.approvalDate?.toString()), dateFormat[locale])}
+        {item.approvalDate && format(new Date(item.approvalDate), dateFormat[locale])}
       </div>
 
       <div className="flex items-center justify-end laptop:justify-center mt-6 laptop:mt-0">
@@ -63,7 +63,7 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
       </div>
 
       <div className="mt-6 laptop:mt-0 hidden laptop:block text-lg leading-[22px] font-robotoCondensed laptop:text-center">
-        {item.approvalDate && format(parseISO(item.approvalDate?.toString()), dateFormat[locale])}
+        {item.approvalDate && format(new Date(item.approvalDate), dateFormat[locale])}
       </div>
 
       <span className="laptop:hidden mt-6 text-lg leading-[22px] font-robotoCondensed">{table('email')}</span>

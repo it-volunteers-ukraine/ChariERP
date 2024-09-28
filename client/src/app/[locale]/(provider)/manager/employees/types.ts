@@ -24,6 +24,7 @@ export interface IEditData extends Omit<ICreateInitialValues, 'password'> {
 
 export interface IEmployeeForm {
   isCreate?: boolean;
+  isLoading?: boolean;
   onSubmit: (values: FormikValues) => void;
   initialValues: IEditData | ICreateInitialValues;
 }

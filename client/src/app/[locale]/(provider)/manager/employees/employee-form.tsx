@@ -21,7 +21,7 @@ import {
 import { getStyles } from './styles';
 import { IEditData, IEmployeeForm } from './types';
 
-export const EmployeeForm = ({ isCreate, onSubmit, initialValues }: IEmployeeForm) => {
+export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: IEmployeeForm) => {
   const router = useRouter();
   const styles = getStyles(isCreate);
   const btn = useTranslations('button');
@@ -209,13 +209,15 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues }: IEmployeeFor
                     <Button
                       type="submit"
                       styleType="green"
+                      isLoading={isLoading}
                       className={styles.btn}
                       text={isCreate ? btn('add') : btn('saveChanges')}
-                      onClick={() => (isCreate ? submitHandle(validateForm, handleSubmit) : setIsOpenSave(!isOpenSave))}
                     />
 
                     <Button
+                      type="button"
                       styleType="red"
+                      isLoading={isLoading}
                       className={styles.btn}
                       text={isCreate ? btn('cancel') : btn('cancelChanges')}
                       onClick={() => !isCreate && setIsOpenCancel(!isOpenCancel)}

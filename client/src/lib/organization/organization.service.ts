@@ -195,24 +195,24 @@ class OrganizationService extends BaseService {
       },
     };
 
-    if (isApproved) {
-      const organizationExist = await Organizations.findOne({
-        $or: [{ 'organizationData.edrpou': data.edrpou }, { 'contactData.email': data.email }],
-      });
+    const organizationExist = await Organizations.findOne({
+      $or: [{ 'organizationData.edrpou': data.edrpou }, { 'contactData.email': data.email }],
+    });
 
-      if (organizationExist) {
-        const matches = checkFieldsToUniqueOfOrganization(
-          { email: data.email, edrpou: Number(data.edrpou) },
-          { email: organizationExist.contactData.email, edrpou: organizationExist.organizationData.edrpou },
-        );
+    if (organizationExist && organizationExist._id.toString() !== id) {
+      const matches = checkFieldsToUniqueOfOrganization(
+        { email: data.email, edrpou: Number(data.edrpou) },
+        { email: organizationExist.contactData.email, edrpou: organizationExist.organizationData.edrpou },
+      );
 
-        if (matches.length > 0) {
-          return { message: matches, success: false };
-        }
-
-        body.approvalDate = new Date();
+      if (matches.length > 0) {
+        return { message: matches, success: false };
       }
 
+      body.approvalDate = new Date();
+    }
+
+    if (isApproved) {
       const password = generatePassword(8, 10);
       const hash = await bcrypt.hash(password, 10);
 
