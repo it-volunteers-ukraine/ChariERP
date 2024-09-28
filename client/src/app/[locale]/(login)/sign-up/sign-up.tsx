@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikHelpers } from 'formik';
 
@@ -103,14 +102,7 @@ const SignUp = () => {
                   accept=".pdf, .jpg, .jpeg, .png"
                   label={text('certificateOfRegister.label')}
                   placeholder={text('certificateOfRegister.downloadDoc')}
-                  info={
-                    <span className={`${styles.spanStyles}`}>
-                      {text('certificateOfRegister.information')}
-                      <Link href="#" className={`${styles.spanStylesForExample} text-input-link underline`}>
-                        {text('certificateOfRegister.howDownloadFile')}
-                      </Link>
-                    </span>
-                  }
+                  info={<span className={`${styles.spanStyles}`}>{text('certificateOfRegister.information')}</span>}
                 />
 
                 <DateField
@@ -226,24 +218,23 @@ const SignUp = () => {
                                   </span>
                                 }
                               />
-                              <div className="flex items-center justify-between max-w-[calc(50%-12px)]">
-                                <div>
-                                  {isRightLength && isLastIndex && (
-                                    <SmallBtn
-                                      type="add"
-                                      text={btn('addField')}
-                                      onClick={() => push('')}
-                                      className="flex justify-start mt-3 !leading-4"
-                                    />
-                                  )}
-                                </div>
+
+                              <div className="flex items-center justify-between mt-6 laptop:max-w-[calc(50%-12px)]">
+                                {isRightLength && isLastIndex && (
+                                  <SmallBtn
+                                    type="add"
+                                    text={btn('addField')}
+                                    onClick={() => push('')}
+                                    className="flex justify-start !leading-4"
+                                  />
+                                )}
 
                                 {isMoreThanOne && (
                                   <SmallBtn
                                     type="delete"
                                     text={btn('deleteField')}
                                     onClick={() => remove(index)}
-                                    className="flex justify-end mt-3 !leading-4"
+                                    className={`flex ${isRightLength && isLastIndex ? 'justify-end' : 'ml-auto'} !leading-4`}
                                   />
                                 )}
                               </div>

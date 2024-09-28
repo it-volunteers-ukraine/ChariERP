@@ -208,8 +208,6 @@ class OrganizationService extends BaseService {
       if (matches.length > 0) {
         return { message: matches, success: false };
       }
-
-      body.approvalDate = new Date();
     }
 
     if (isApproved) {
@@ -231,6 +229,7 @@ class OrganizationService extends BaseService {
       }
 
       body.users = [response._id];
+      body.approvalDate = new Date();
 
       await sendEmail({
         html: getHtmlCodeForPassword({ email: body.contactData.email, password }),

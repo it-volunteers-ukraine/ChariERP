@@ -8,6 +8,7 @@ on:
       - '!client/.next'
       - '!client/coverage'
       - '!client/node_modules'
+      - '!documentation'
   pull_request:
     branches: [ main ]
     paths:
@@ -15,6 +16,7 @@ on:
       - '!client/.next'
       - '!client/coverage'
       - '!client/node_modules'
+      - '!documentation'
 
 jobs:
   analyze:
