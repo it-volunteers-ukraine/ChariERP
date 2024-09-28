@@ -52,6 +52,7 @@ export const UserProvider = ({ children }: ChildrenProps) => {
         setUser(JSON.parse(response.user));
       }
     } catch (error) {
+      console.error(error);
       router.push(routes.login);
     }
   }, [router]);

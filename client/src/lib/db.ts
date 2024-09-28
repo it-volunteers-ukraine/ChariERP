@@ -9,7 +9,7 @@ const connectDB = async () => {
 
   try {
     if (mongoose.connection.readyState === mongoose.ConnectionStates.connected) {
-      return true;
+      return { success: true };
     }
 
     await mongoose.connect(MONGO_URI, {
@@ -22,13 +22,17 @@ const connectDB = async () => {
       serverSelectionTimeoutMS: 5000,
     });
 
+    if (!mongoose.connection.db) {
+      return { error: 'Database connection failed' };
+    }
+
     const document = await mongoose.connection.db.admin().command({ ping: 1 });
 
     console.log('Connected to MongoDB');
 
-    return document;
+    return { success: true, document };
   } catch (error) {
-    return error;
+    return { error };
   }
 };
 

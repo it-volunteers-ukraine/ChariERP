@@ -28,7 +28,7 @@ export const Button = ({
       return;
     }
 
-    onClick && onClick();
+    onClick?.();
   };
 
   return (

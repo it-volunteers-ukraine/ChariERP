@@ -59,7 +59,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
     const handleClearInput = (e: React.MouseEvent) => {
       e.preventDefault();
 
-      onChange && onChange('');
+      onChange?.('');
     };
 
     const onCopyToClipboard = async () => {
