@@ -205,7 +205,8 @@
       "userNotFound": "E-mail або пароль некоректний",
       "somethingWrong": "Щось пішло не так",
       "companyAlreadyRegistered": "Компанія с {errors} вже зареєстрована",
-      "or": "або"
+      "or": "або",
+      "blockedAccount": "Ваш акаунт заблоковано"
     },
     "admin": {
       "emptyValue": "Будь ласка, оберіть одну причину"

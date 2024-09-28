@@ -209,7 +209,8 @@
       "userNotFound": "User not found",
       "somethingWrong": "Something went wrong",
       "companyAlreadyRegistered": "The company with {errors} is already registered",
-      "or": "or"
+      "or": "or",
+      "blockedAccount": "Your account is blocked"
     },
     "admin": {
       "emptyValue": "Please, pick one reason"
