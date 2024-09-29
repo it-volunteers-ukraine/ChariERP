@@ -11,6 +11,7 @@ export { ButtonIcon } from './button-icon';
 export { CheckboxField } from './checkbox-field';
 export { CheckboxRadio } from './checkbox-radio';
 export { DateField } from './date-field';
+export { DragAndDrop } from './drag-and-drop';
 export { EmployeeCard } from './employee-card';
 export { FileField } from './file-field';
 export { Header } from './header';

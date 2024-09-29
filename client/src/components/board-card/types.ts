@@ -1,12 +1,13 @@
 export interface IBoardData {
   id: string;
   title: string;
-  number: number;
+  order: number;
 }
 
 export interface IBoardCardProps {
-  sumBoards: number;
+  sumBoards?: number;
   className?: string;
   limitOfCard?: number;
-  boardData?: IBoardData;
+  cardInfo?: IBoardData;
+  placeholder?: boolean;
 }

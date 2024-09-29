@@ -74,7 +74,7 @@ export const BoardInfo = ({ isRoleAccess, setIsGoRoute, boardData, setIsEdit, nu
     <>
       <div className="flex justify-between items-center w-full mb-8">
         <p className="text-[18px] font-medium leading-5 !text-comet">
-          #{boardData?.number !== undefined ? boardData.number + 1 : number}
+          #{boardData?.order !== undefined ? boardData.order : number}
         </p>
 
         <div className="flex">
