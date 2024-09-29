@@ -35,27 +35,27 @@ describe('Database connection test', () => {
     expect(mockAdminCommand).not.toHaveBeenCalled();
   });
 
-  it('should return Promise<true> when Mongoose is already connected', async () => {
+  it('should return Promise.resolve({success: true}) when Mongoose is already connected', async () => {
     process.env.MONGO_URI = 'mongodb://test-connection-string/';
     mockMongooseConnection(ConnectionStates.connected);
 
     const actual = connectDB();
 
-    await expect(actual).resolves.toBe(true);
+    await expect(actual).resolves.toStrictEqual({ success: true });
     expect(mockAdminCommand).not.toHaveBeenCalled();
   });
 
-  it('should provide new connection when it was disconnected', async () => {
+  it('should provide "success" status and new connection when it was disconnected', async () => {
     process.env.MONGO_URI = 'mongodb://test-connection-string/';
     mockMongooseConnection(ConnectionStates.disconnected);
 
     const actual = await connectDB();
 
-    expect(actual).toBe(okState);
+    expect(actual).toStrictEqual({ success: true, document: okState });
     expect(mockAdminCommand).toHaveBeenCalled();
   });
 
-  it('should log and rethrow error when connection cannot be established', async () => {
+  it('should log and wrap error when connection cannot be established', async () => {
     process.env.MONGO_URI = 'wrong-connection-string';
 
     Object.defineProperty(mongoose, 'connection', {
@@ -72,7 +72,7 @@ describe('Database connection test', () => {
 
     const actual = await connectDB();
 
-    expect(actual).toBe(mockError);
+    expect(actual).toStrictEqual({ error: mockError });
     expect(mockAdminCommand).not.toHaveBeenCalled();
   });
 });

@@ -33,7 +33,7 @@ export const NavItem = ({
     e.preventDefault();
     e.stopPropagation();
 
-    setIsOpen && setIsOpen();
+    setIsOpen?.();
   };
 
   const onClose = () => {

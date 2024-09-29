@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import { TranslationValues } from 'next-intl';
 import { isValidPhoneNumber } from 'libphonenumber-js';
+
 import { OrganizationFormValues } from '@/types';
 
 const maxSize = 5;
@@ -58,6 +59,9 @@ export const organizationValidation = (error: (key: string, params?: Translation
       .trim()
       .max(100, error('maxPlural', { int: 100 })),
     phone: Yup.string()
+      .test('is-valid-length', error('enter9Digits'), (value) => {
+        return value ? value.replace(/\D/g, '').length >= 12 : false;
+      })
       .test('is-valid-phone', error('notValidPhone'), (value) => !!isValidPhoneNumber(value as string))
       .required(error('required')),
     email: Yup.string()
