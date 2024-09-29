@@ -28,7 +28,6 @@ const SignUp = () => {
   const text = useTranslations('inputs');
   const modal = useTranslations('modal');
   const error = useTranslations('validation');
-  // const create = useTranslations('auth-page');
   const errorText = useTranslations('errors.login');
 
   const [isLoading, setIsLoading] = useState(false);
@@ -50,8 +49,6 @@ const SignUp = () => {
       const data = await createOrganizationAction(formData);
 
       if (data.success) {
-        // showMessage.success(create('createOrganization'));
-
         setIsOpenModal(true);
       }
 
@@ -82,6 +79,7 @@ const SignUp = () => {
           <Form className="flex flex-col gap-12 tablet:gap-16 desktop:gap-18 w-full">
             <ModalSuccessfulRegistration
               isOpen={isOpenModal}
+              isLoading={isLoading}
               rightBtnText={btn('contact')}
               leftBtnText={btn('understood')}
               classNameBtn="w-[120px] uppercase"
