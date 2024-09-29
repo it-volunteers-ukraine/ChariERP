@@ -4,9 +4,9 @@ import { getPaginate } from '@/utils';
 import { BucketFolders, uploadFileToBucket } from '@/services';
 import { IUsers, IUsersByOrganizationProps, UserStatus } from '@/types';
 
-import { requiredUsers } from './helpers';
 import { Admin, Organizations, Users } from '..';
 import { BaseService } from '../database/base.service';
+import { getErrors, requiredUsers, requiredUsersUpdate } from './helpers';
 
 class UserService extends BaseService {
   async createAdmin(email: string, password: string) {
@@ -90,6 +90,18 @@ class UserService extends BaseService {
     return { success: false, message: 'User not found' };
   }
 
+  async getOrganizationMemberById(id: string, organizationId: string) {
+    await this.connect();
+
+    const user = await Users.findById(id);
+
+    if (organizationId !== String(user?.organizationId) || !user) {
+      return { success: false, message: 'User not found' };
+    }
+
+    return { success: true, user: JSON.stringify(user) };
+  }
+
   async createUserByCompanyId(formData: FormData) {
     await this.connect();
 
@@ -97,17 +109,7 @@ class UserService extends BaseService {
     const organizationId = formData.get('organizationId') as string;
     const data = JSON.parse(formData.get('data') as string);
 
-    const errors = Object.entries(requiredUsers).reduce((acc, [key, value], idx) => {
-      if (idx !== 0 && !data[key] && acc) {
-        acc += ',';
-      }
-
-      if (!data[key]) {
-        acc += value;
-      }
-
-      return acc;
-    }, '');
+    const errors = getErrors(data, requiredUsers);
 
     if (errors) {
       return { success: false, message: errors };
@@ -116,8 +118,6 @@ class UserService extends BaseService {
     const isEmailExist = await Users.findOne({
       email: data.email,
     });
-
-    console.log({ email: isEmailExist });
 
     if (isEmailExist) {
       return { success: false, message: 'Email already exists' };
@@ -151,6 +151,49 @@ class UserService extends BaseService {
     });
 
     return { success: true, message: 'User created' };
+  }
+
+  async updateMemberById(formData: FormData) {
+    await this.connect();
+
+    const avatarUrl = formData.get('avatarUrl') as File;
+    const id = formData.get('id') as string;
+    const data = JSON.parse(formData.get('data') as string);
+
+    const user = await Users.findById(id);
+
+    if (!user) {
+      return { success: false, message: 'User not found' };
+    }
+
+    const errors = getErrors(data, requiredUsersUpdate);
+
+    if (errors) {
+      return { success: false, message: errors };
+    }
+
+    const emails = await Users.find({
+      email: data.email,
+    });
+
+    if (emails.length > 1 || (emails.length > 0 && emails[0]?._id.toString() !== id)) {
+      return { success: false, message: 'Email already exists' };
+    }
+
+    const body = {
+      ...data,
+      avatarUrl: '',
+    };
+
+    if (avatarUrl) {
+      const uploadedFileUrl = await uploadFileToBucket(data.firstName, BucketFolders.CertificateOfRegister, avatarUrl);
+
+      body.avatarUrl = uploadedFileUrl;
+    }
+
+    const response = await Users.findByIdAndUpdate(id, { $set: body }, { new: true });
+
+    return { success: true, message: 'User updated', user: JSON.stringify(response) };
   }
 }
 

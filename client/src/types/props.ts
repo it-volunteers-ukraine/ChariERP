@@ -1,9 +1,10 @@
 import { PropsWithChildren } from 'react';
 import internal from 'stream';
+import { Schema } from 'mongoose';
 import { SdkStreamMixin } from '@aws-sdk/types';
 
-import { DownloadType, RequestOrganizationStatus } from './enums';
 import { IAdmin, IUsers } from './models';
+import { DownloadType, RequestOrganizationStatus, UserStatus } from './enums';
 
 export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
 
@@ -89,3 +90,26 @@ export interface IUsersByOrganizationProps {
 }
 
 export interface ICustomer extends IAdmin, IUsers {}
+
+export interface ICreateUser {
+  email: string;
+  notes: string;
+  phone: string;
+  address: string;
+  lastName: string;
+  password: string;
+  position: string;
+  firstName: string;
+  middleName: string;
+  dateOfBirth: number;
+  dateOfEntry: number;
+  avatarUrl: File | string;
+  organizationId: Schema.Types.ObjectId | undefined;
+}
+
+export interface IEditUser extends Omit<ICreateUser, 'password' | 'organizationId' | 'dateOfEntry' | 'dateOfBirth'> {
+  status: UserStatus;
+  lastLogin: string | number;
+  dateOfEntry: string | number;
+  dateOfBirth: string | number;
+}

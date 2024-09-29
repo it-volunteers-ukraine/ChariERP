@@ -3,12 +3,12 @@ import Image from 'next/image';
 import { getStyles } from './styles';
 import { AvatarProps } from './types';
 
-export const AvatarEmployee = ({ src, name, className, surname }: AvatarProps) => {
+export const AvatarEmployee = ({ src, name, className, surname, isLoading }: AvatarProps) => {
   const styles = getStyles(className);
 
   return (
     <div className={styles.wrapper}>
-      {src && (
+      {src && !isLoading && (
         <Image
           src={src}
           layout="fill"
@@ -20,6 +20,8 @@ export const AvatarEmployee = ({ src, name, className, surname }: AvatarProps) =
       )}
 
       {!src && <p className={styles.defaultAvatar}>{name?.[0] + surname?.[0]}</p>}
+
+      {isLoading && <p className={styles.defaultAvatar}>{name?.[0] + surname?.[0]}</p>}
     </div>
   );
 };

@@ -1,10 +1,13 @@
 'use client';
 
+import { useEffect, useState, useTransition } from 'react';
 import { useTranslations } from 'next-intl';
 import clsx from 'clsx';
 import { useParams, useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
+import { getUrlWithExtension } from '@/utils';
+import { downloadFileFromBucket } from '@/services';
 
 import { Info } from './info';
 import { getStyles } from './styles';
@@ -32,6 +35,9 @@ export const EmployeeCard = ({
   const router = useRouter();
   const params = useParams();
 
+  const [imgUrl, setImgUrl] = useState('');
+  const [isPending, startTransition] = useTransition();
+
   const isParamsId = params?.id;
   const styles = getStyles({ className });
 
@@ -41,10 +47,31 @@ export const EmployeeCard = ({
     'tablet:!max-w-[calc(50%-48px)]': inById,
   });
 
+  const loadImg = async () => {
+    if (avatarUrl) {
+      const downloadedFile = await downloadFileFromBucket(avatarUrl);
+
+      if (!downloadedFile) {
+        console.error('Failed to upload file: no body');
+
+        return;
+      }
+      const fileUrl = await getUrlWithExtension({ url: avatarUrl, file: downloadedFile });
+
+      setImgUrl(fileUrl as string);
+    }
+  };
+
+  useEffect(() => {
+    startTransition(async () => {
+      loadImg();
+    });
+  }, [avatarUrl]);
+
   return (
     <div className={styles.wrapper} onClick={() => (isParamsId ? '' : router.push(`${routes.employeesEdit}/${id}`))}>
       <div className={`flex gap-4 items-start w-full ${itemClass}`}>
-        {!inById && <AvatarEmployee src={avatarUrl} name={firstName} surname={lastName} />}
+        {!inById && <AvatarEmployee src={imgUrl} name={firstName} surname={lastName} isLoading={isPending} />}
 
         {inById && <AvatarField name="avatarUrl" lastName={lastName} firstName={firstName} />}
 

@@ -1,6 +1,6 @@
 import { FormikValues } from 'formik';
 
-import { UserStatus } from '@/types';
+import { IEditUser, UserStatus } from '@/types';
 
 export interface ICreateInitialValues {
   email: string;
@@ -26,5 +26,5 @@ export interface IEmployeeForm {
   isCreate?: boolean;
   isLoading?: boolean;
   onSubmit: (values: FormikValues) => void;
-  initialValues: IEditData | ICreateInitialValues;
+  initialValues: IEditUser | ICreateInitialValues;
 }

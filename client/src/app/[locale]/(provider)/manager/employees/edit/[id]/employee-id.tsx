@@ -2,52 +2,45 @@
 
 import { useEffect, useState } from 'react';
 import { FormikValues } from 'formik';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
-import { UserStatus } from '@/types';
-import { useLoaderAdminPage } from '@/context';
+import { IEditUser } from '@/types';
+import { routes } from '@/constants';
+import { showMessage } from '@/components';
+import { updateUserSerializer } from '@/utils';
+import { useLoaderAdminPage, useUserInfo } from '@/context';
+import { getMemberByIdAction, updateMemberByIdAction } from '@/actions';
 
-import { IEditData } from '../../types';
 import { EmployeeForm } from '../../employee-form';
-
-const object = {
-  avatarUrl: '',
-  address: 'UK',
-  firstName: 'Павлик',
-  position: 'менеджер',
-  lastName: 'Павлюченко',
-  middleName: 'Павлович',
-  lastLogin: '2024-09-16',
-  email: 'denys@gmail.com',
-  notes: 'srdtfyguhjiokpl',
-  status: UserStatus.ACTIVE,
-  phone: '+38 (095) 377 77 77',
-  dateOfBirth: '2024-09-19T13:07:47.271Z',
-  dateOfEntry: '2024-09-19T13:07:47.271Z',
-};
-
-const employeeEditInitialValues = (data?: IEditData) => ({
-  email: data?.email ?? '',
-  notes: data?.notes ?? '',
-  phone: data?.phone ?? '',
-  address: data?.address ?? '',
-  lastName: data?.lastName ?? '',
-  position: data?.position ?? '',
-  avatarUrl: data?.avatarUrl ?? '',
-  lastLogin: data?.lastLogin ?? '',
-  firstName: data?.firstName ?? '',
-  middleName: data?.middleName ?? '',
-  dateOfBirth: data?.dateOfBirth ?? '',
-  dateOfEntry: data?.dateOfEntry ?? '',
-  status: data?.status ?? UserStatus.ACTIVE,
-});
+import { employeeEditInitialValues } from './config';
 
 const EmployeeId = () => {
+  const router = useRouter();
   const { id } = useParams();
+  const { organizationId } = useUserInfo();
   const { setIsLoading } = useLoaderAdminPage();
-  const [data, setData] = useState<IEditData>();
+  const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
+  const [data, setData] = useState<IEditUser>();
 
-  const onSubmit = (values: FormikValues) => {
+  const onSubmit = async (values: FormikValues) => {
+    const formData = new FormData();
+    const { avatarUrl, data } = updateUserSerializer(values as IEditUser);
+
+    formData.append('avatarUrl', avatarUrl);
+    formData.append('data', JSON.stringify(data));
+    formData.append('id', String(id));
+
+    try {
+      setIsLoadingUpdate(true);
+
+      const response = await updateMemberByIdAction(formData);
+
+      console.log({ response });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoadingUpdate(false);
+    }
     console.log(values);
   };
 
@@ -55,7 +48,16 @@ const EmployeeId = () => {
     setIsLoading(true);
 
     try {
-      setData(object);
+      const response = await getMemberByIdAction(String(id), String(organizationId));
+
+      if (!response.success && response.message) {
+        showMessage.error(response.message);
+        router.push(routes.employees);
+
+        return;
+      }
+
+      setData(JSON.parse(response.user as string));
     } catch (error) {
       console.log(error);
     } finally {
@@ -64,12 +66,12 @@ const EmployeeId = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      loadData();
-    }, 1000);
+    loadData();
   }, [id]);
 
-  return <EmployeeForm onSubmit={onSubmit} initialValues={employeeEditInitialValues(data)} />;
+  return (
+    <EmployeeForm onSubmit={onSubmit} initialValues={employeeEditInitialValues(data)} isLoading={isLoadingUpdate} />
+  );
 };
 
 export default EmployeeId;

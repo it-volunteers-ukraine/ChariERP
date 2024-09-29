@@ -87,9 +87,9 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                 <>
                   <div className="flex items-center justify-start pb-6 border-b-2 border-lightBlue">
                     <div className="flex items-center gap-4 w-fit">
-                      <ButtonIcon icon="back" iconType="primary" onClick={() => router.back()} />
+                      <ButtonIcon type="button" icon="back" iconType="primary" onClick={() => router.back()} />
 
-                      <ButtonIcon icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
+                      <ButtonIcon type="button" icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
                     </div>
                   </div>
 
@@ -105,8 +105,8 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                     firstName={values.firstName}
                     setFieldValue={setFieldValue}
                     middleName={values.middleName}
-                    status={(initialValues as IEditData).status}
-                    lastLogin={(initialValues as IEditData).lastLogin}
+                    status={(values as IEditData).status}
+                    lastLogin={(values as IEditData).lastLogin}
                     className="tablet:!flex-row !items-center gap-[20px] tablet:gap-0 laptop:!gap-12 !p-[24px_0_32px] desktop:!py-8 !h-fit !bg-white !shadow-none"
                   />
                 </>

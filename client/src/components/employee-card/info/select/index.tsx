@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { UserStatus } from '@/types';
@@ -30,6 +30,10 @@ export const Select = ({ status, fieldName, setFieldValue }: ISelect) => {
       return;
     }
   };
+
+  useEffect(() => {
+    setSelected(cardTranslate(status));
+  }, [status]);
 
   return (
     <div className="relative w-[140px] h-[36px]">

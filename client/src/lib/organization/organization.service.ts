@@ -239,7 +239,7 @@ class OrganizationService extends BaseService {
       });
     }
 
-    const response = await Organizations.findByIdAndUpdate(id, { $set: body });
+    const response = await Organizations.findByIdAndUpdate(id, { $set: body }, { new: true });
 
     if (!response) {
       return { success: false, message: 'Organization not updated' };
