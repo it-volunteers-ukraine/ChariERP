@@ -51,7 +51,7 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
       </div>
 
       <div className="mt-6 laptop:mt-0 laptop:hidden text-lg leading-[22px] laptop:text-center font-robotoCondensed">
-        {format(parseISO(item.dateOfRegistration.toString()), dateFormat[locale])}
+        {item.approvalDate && format(parseISO(item.approvalDate?.toString()), dateFormat[locale])}
       </div>
 
       <div className="flex items-center justify-end laptop:justify-center mt-6 laptop:mt-0">
@@ -63,7 +63,7 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
       </div>
 
       <div className="mt-6 laptop:mt-0 hidden laptop:block text-lg leading-[22px] font-robotoCondensed laptop:text-center">
-        {format(parseISO(item.dateOfRegistration.toString()), dateFormat[locale])}
+        {item.approvalDate && format(parseISO(item.approvalDate?.toString()), dateFormat[locale])}
       </div>
 
       <span className="laptop:hidden mt-6 text-lg leading-[22px] font-robotoCondensed">{table('email')}</span>

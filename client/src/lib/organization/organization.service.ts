@@ -74,7 +74,6 @@ class OrganizationService extends BaseService {
         social: data.social,
       },
     };
-
     const newOrganization = new Organizations(body);
 
     await newOrganization.save();
@@ -230,6 +229,7 @@ class OrganizationService extends BaseService {
       }
 
       body.users = [response._id];
+      body.approvalDate = new Date();
 
       await sendEmail({
         html: getHtmlCodeForPassword({ email: body.contactData.email, password }),

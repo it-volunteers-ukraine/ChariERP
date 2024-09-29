@@ -158,7 +158,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
         </div>
 
         <div className="mt-6 laptop:mt-0 text-lg leading-[22px] font-robotoCondensed laptop:text-center">
-          {format(parseISO(item.dateOfRegistration.toString()), dateFormat[locale])}
+          {item.requestDate && format(parseISO(item.requestDate?.toString()), dateFormat[locale])}
         </div>
 
         <div

@@ -2,14 +2,15 @@ import React, { SVGProps } from 'react';
 import { TranslationValues } from 'next-intl';
 
 import { Roles } from '@/types';
-import { Organizations, Rejected, Tablet } from '@/assets/icons';
+import { routes } from '@/constants';
+import { Organizations, Rejected, Settings, Tablet, Users } from '@/assets/icons';
 
 interface getLinksProps {
   text: string;
   href: string;
   disabled?: boolean;
-  icon: React.ComponentType<SVGProps<SVGSVGElement>>;
   children?: getLinksProps[];
+  icon?: React.ComponentType<SVGProps<SVGSVGElement>>;
 }
 
 export const getLinksByRole = (
@@ -18,30 +19,40 @@ export const getLinksByRole = (
 ): getLinksProps[] => {
   const links = {
     [Roles.ADMIN]: [
-      { text: text('requests'), href: '/admin/requests', icon: Tablet },
-      { text: text('declined'), href: '/admin/declined', icon: Rejected },
-      { text: text('organizations'), href: '/admin/organizations', icon: Organizations },
+      { text: text('requests'), href: routes.requests, icon: Tablet },
+      { text: text('declined'), href: routes.declined, icon: Rejected },
+      { text: text('organizations'), href: routes.organizations, icon: Organizations },
     ],
     [Roles.MANAGER]: [
-      { text: 'Головна', href: '/manager/requests', icon: Tablet },
+      { text: text('home'), href: routes.managerHome, icon: Tablet },
       {
-        text: 'Моя організація',
-        href: '#',
-        icon: Rejected,
-        children: [
-          { text: 'Організація 1', href: '/manager/organizations-1', icon: Tablet },
-          { text: 'Організація 2', href: '/manager/organizations-2', icon: Tablet, disabled: true },
-        ],
-      },
-      {
-        text: 'Співробітники',
-        href: '/manager/employees',
+        text: text('myOrganization'),
+        href: routes.managerOrganization,
         icon: Organizations,
       },
-      { text: 'Дошка', href: '/manager/dashboard', icon: Tablet },
-      { text: 'Налаштування', href: '/manager/settings', icon: Tablet },
+      {
+        text: text('employees'),
+        href: routes.employees,
+        icon: Users,
+      },
+      {
+        text: text('boards'),
+        href: routes.managerDashboards,
+        icon: Tablet,
+        children: [
+          {
+            text: '#1 якщо я писака і пишу багато, як би багато я не писав, навіть якщо вона буде аж прям така довга, то користувач все одно зможе її скопіювати',
+            href: `${routes.managerDashboard}/${encodeURIComponent('#1 якщо я писака і пишу багато, як би багато я не писав, навіть якщо вона буде аж прям така довга, то користувач все одно зможе її скопіювати')}`,
+          },
+          { text: '#2 Дошка', href: `${routes.managerDashboard}/${encodeURIComponent('#2 Дошка')}` },
+          { text: '#3 Дошка', href: `${routes.managerDashboard}/${encodeURIComponent('#3 Дошка')}` },
+          { text: '#4 Дошка', href: `${routes.managerDashboard}/${encodeURIComponent('#4 Дошка')}` },
+          { text: '#5 Дошка', href: `${routes.managerDashboard}/${encodeURIComponent('#5 Дошка')}`, disabled: true },
+        ],
+      },
+      { text: text('settings'), href: routes.managerSettings, icon: Settings },
     ],
-    [Roles.USER]: [{ text: 'Заявки', href: '/user/requests', icon: Tablet }],
+    [Roles.USER]: [{ text: 'Заявки', href: '#', icon: Tablet }],
   };
 
   if (role) {

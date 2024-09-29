@@ -23,6 +23,8 @@ const organizationsSchema = new Schema<IOrganizations>({
     site: { type: String },
     social: [String],
   },
+  requestDate: { type: Date, default: Date.now },
+  approvalDate: { type: Date },
   users: [
     {
       type: Schema.Types.ObjectId,

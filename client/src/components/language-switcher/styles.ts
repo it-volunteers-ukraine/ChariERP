@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import { ActiveLanguage } from './types';
+import { ActiveLanguage } from '@/types';
 
 interface IStylesLanguageSwitcher {
   className?: string;

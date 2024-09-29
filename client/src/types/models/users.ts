@@ -13,7 +13,7 @@ export interface IUsers extends Document {
   position: string;
   password: string;
   firstName: string;
-  DateOfBirth: Date;
+  dateOfBirth: Date;
   dateOfEntry: Date;
   middleName: string;
   avatarUrl?: string;

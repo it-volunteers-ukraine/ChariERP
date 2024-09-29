@@ -21,7 +21,12 @@
     "requests": "Requests",
     "declined": "Declined",
     "organizations": "Organizations",
-    "exit": "Log out"
+    "exit": "Log out",
+    "home": "Home",
+    "myOrganization": "My organization",
+    "employees": "Employees",
+    "boards": "Boards",
+    "settings": "Settings"
   },
   "inputs": {
     "title": {
@@ -34,18 +39,18 @@
     "mainInformation": "On this page, you can edit the data that was specified during registration. You can change the name of the organization, add or change media links, phone number of the organization, etc.",
     "organizationName": {
       "label": "Full name of the organization",
-      "forExample": "For example: Public organization 'LIVE'",
+      "forExample": "For example: Public organization «LIVE».",
       "information": "In Ukrainian (in accordance with the Charter)"
     },
     "organizationTaxNumber": {
-      "labelErdpouOfOrganization": "USREOU of the organization (tax number)",
-      "labelErdpou": "USREOU"
+      "labelErdpouOfOrganization": "EDRPOU of the organization (tax number)",
+      "labelErdpou": "EDRPOU"
     },
     "certificateOfRegister": {
       "howDownloadFile": " How to download the file.",
       "downloadDoc": "Download the document",
       "label": "Certificate of entry into the register",
-      "information": "To download the document, click on the paperclip icon or the 'Download file' button. jpg, jpeg, png or pdf format. The maximum size is 5 MB."
+      "information": "To download a document, click on the paperclip icon or the “Download document” field. Format jpg, jpeg, png or pdf. Maximum size 5 MB."
     },
     "dateOfRegisterOrganization": {
       "chooseDate": "Choose a date",
@@ -89,7 +94,7 @@
     },
     "email": {
       "label": "Representative's e-mail address (e-mail)",
-      "information": "This email address will be your login. You will receive a letter to the specified email address regarding the results of processing your registration request."
+      "information": "This email address will be your login. You will receive an email to the specified email address regarding the results of processing your registration request."
     },
     "site": {
       "label": "Internet page of the organization (website)",
@@ -177,6 +182,7 @@
     "matches_english": "{field} must not contain Cyrillic characters",
     "taxNumber": "Tax number must contain exactly 8 Arabic numerals.",
     "notValidPhone": "Wrong number dialed",
+    "enter9Digits": "Please enter 9 digits",
     "notValidEmail": "Invalid e-mail address",
     "siteStart": "The input field must begin with https://...",
     "extensionsFile": "Invalid file format. Available formats: {extensions}",
@@ -203,7 +209,8 @@
       "userNotFound": "User not found",
       "somethingWrong": "Something went wrong",
       "companyAlreadyRegistered": "The company with {errors} is already registered",
-      "or": "or"
+      "or": "or",
+      "blockedAccount": "Your account is blocked"
     },
     "admin": {
       "emptyValue": "Please, pick one reason"

@@ -19,6 +19,7 @@ export const DeclinedPage = () => {
     setIsLoading(true);
     try {
       const data = await getAdminOrganizationsAction({
+        limit: pageSize,
         page: currentPage,
         filterStatus: RequestOrganizationStatus.DECLINED,
       });

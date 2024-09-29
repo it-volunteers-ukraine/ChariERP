@@ -1,7 +1,8 @@
 import createMiddleware from 'next-intl/middleware';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { locales, routes } from './constants';
+import { ActiveLanguage } from './types';
+import { cookiesLocale, locales, routes } from './constants';
 
 const intlMiddleware = createMiddleware({
   locales,
@@ -16,10 +17,16 @@ const getValidId = (id: string) => {
 };
 
 export async function middleware(request: NextRequest) {
-  const response = intlMiddleware(request);
-
   const cookies = request.cookies;
+
   const id = cookies.get('id')?.value || '';
+  const language = cookies.get(cookiesLocale)?.value;
+
+  if (!language) {
+    cookies.set(cookiesLocale, ActiveLanguage.UA);
+  }
+
+  const response = intlMiddleware(request);
 
   if (!getValidId(id) && request.nextUrl.pathname.includes(routes.requests)) {
     const url = request.nextUrl.clone();

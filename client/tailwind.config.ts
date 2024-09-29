@@ -133,10 +133,6 @@ const config: Config = {
         },
         navItem: {
           disabled: '#A3AED0',
-          hover: white,
-          active: lightBlue,
-          'bg-hover': steelBlue,
-          'bg-active': white,
         },
         overlay: '#687a95',
       },
@@ -229,7 +225,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/line-clamp')],
 };
 
 export default config;
