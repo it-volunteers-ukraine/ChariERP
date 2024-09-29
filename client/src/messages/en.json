@@ -189,6 +189,7 @@
     "matches_english": "{field} must not contain Cyrillic characters",
     "taxNumber": "Tax number must contain exactly 8 Arabic numerals.",
     "notValidPhone": "Wrong number dialed",
+    "enter9Digits": "Please enter 9 digits",
     "notValidEmail": "Invalid e-mail address",
     "siteStart": "The input field must begin with https://...",
     "extensionsFile": "Invalid file format. Available formats: {extensions}",

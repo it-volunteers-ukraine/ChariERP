@@ -95,9 +95,11 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
 
             {isMasked && (
               <PatternFormat
+                mask="_"
                 disabled={disabled}
+                allowEmptyFormatting
                 className={styles.input}
-                format="+38 (###) ### ## ##"
+                format="+38(0##)###-##-##"
                 placeholder={props.placeholder}
                 value={(value as string) || undefined}
                 onChange={(e) => onChange && onChange(e.target.value)}
