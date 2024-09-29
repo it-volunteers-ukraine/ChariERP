@@ -130,6 +130,11 @@
       "title": "REGISTER?",
       "text": "and send an email with the password to "
     },
+    "successfulRegistration": {
+      "title": "Thank you for registering!",
+      "firstPartText": "After verification of your data (within 48 business hours), you will receive an email to the specified email address ",
+      "secondPartText": " with a login and password. If you have any questions, don't hesitate to contact us!"
+    },
     "save": {
       "title": "SAVE CHANGES?",
       "text": "This page contains data that was not saved."
@@ -172,6 +177,8 @@
     "add": "add",
     "cancel": "cancel",
     "confirm": "confirm",
+    "understood": "understood",
+    "contact": "contact",
     "yes": "YES",
     "no": "NO"
   },
