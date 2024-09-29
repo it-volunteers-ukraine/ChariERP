@@ -14,7 +14,7 @@ interface ISendEmailProps {
   subject: string;
 }
 
-export const sendEmail = ({ to, subject, text, html }: ISendEmailProps) => {
+export const sendEmail = async ({ to, subject, text, html }: ISendEmailProps) => {
   const message = {
     to: to,
     text: text,

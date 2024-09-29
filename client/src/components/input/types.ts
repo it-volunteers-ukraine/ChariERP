@@ -6,9 +6,9 @@ export type InputOnChangeEventType =
   | FileList
   | null;
 
-interface CustomInput extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {}
+type CustomInput = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
-interface CustomTextarea extends DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> {}
+type CustomTextarea = DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>;
 
 type SearchValue = string | number | readonly string[] | undefined;
 
@@ -31,4 +31,4 @@ export interface InputProps extends Omit<CustomInput & CustomTextarea, 'ref'> {
   onChange?: (e: InputOnChangeEventType) => void;
 }
 
-export interface FileInputProps extends Omit<InputProps, 'onChange'> {}
+export type FileInputProps = Omit<InputProps, 'onChange'>;

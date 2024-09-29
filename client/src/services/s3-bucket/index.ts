@@ -23,8 +23,8 @@ const s3Client = new S3Client({
   endpoint: endpoint,
   forcePathStyle: false, // Configures to use subdomain/virtual calling format.
   credentials: {
-    accessKeyId: process.env.NEXT_PUBLIC_SPACES_KEY!,
-    secretAccessKey: process.env.NEXT_PUBLIC_SPACES_SECRET!,
+    accessKeyId: process.env.SPACES_KEY!,
+    secretAccessKey: process.env.SPACES_SECRET!,
   },
 });
 
@@ -44,7 +44,7 @@ const uploadFileToBucket = async (organizationName: string, folder: BucketFolder
     Body: fileContent,
     ACL: 'private',
     Key: bucketFileDestinationPath,
-    Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
+    Bucket: process.env.S3_BUCKET_ID,
   } as PutObjectCommandInput;
 
   try {
@@ -61,7 +61,7 @@ const uploadFileToBucket = async (organizationName: string, folder: BucketFolder
 const downloadFileFromBucket = async (fileName: string) => {
   const params = {
     Key: fileName,
-    Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
+    Bucket: process.env.S3_BUCKET_ID,
   } as GetObjectCommandInput;
 
   try {
@@ -78,7 +78,7 @@ const downloadFileFromBucket = async (fileName: string) => {
 const deleteFileFromBucket = async (fileName: string) => {
   const params = {
     Key: fileName,
-    Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
+    Bucket: process.env.S3_BUCKET_ID,
   } as DeleteObjectCommandInput;
 
   try {
@@ -100,7 +100,7 @@ const deleteFolderFromBucket = async (folderName: string) => {
     const { Contents } = await s3Client.send(
       new ListObjectsCommand({
         Prefix: folderName,
-        Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
+        Bucket: process.env.S3_BUCKET_ID,
       }),
     );
 
@@ -111,7 +111,7 @@ const deleteFolderFromBucket = async (folderName: string) => {
         s3Client.send(
           new DeleteObjectCommand({
             Key,
-            Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_ID,
+            Bucket: process.env.S3_BUCKET_ID,
           }),
         ),
       );

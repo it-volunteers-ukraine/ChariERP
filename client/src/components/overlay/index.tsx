@@ -55,7 +55,11 @@ export const Overlay = ({ opened, onClose, children, duration = 300 }: ChildrenP
         const firstElement = focusableElements[0];
         const lastElement = focusableElements[focusableElements.length - 1];
 
-        event.shiftKey ? focusElement(firstElement, lastElement) : focusElement(lastElement, firstElement);
+        if (event.shiftKey) {
+          focusElement(firstElement, lastElement);
+        } else {
+          focusElement(lastElement, firstElement);
+        }
       }
     };
 

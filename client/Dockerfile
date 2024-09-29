@@ -25,8 +25,8 @@ RUN mkdir .next
 RUN chown nextjs:nodejs .next
 
 COPY --from=builder --chown=nextjs:nodejs /client/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /client/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /client/public ./public
+COPY --from=builder --chown=nextjs:nodejs /client/.next/static ./public/static
 
 USER nextjs
 EXPOSE 3000

@@ -18,6 +18,6 @@ export interface IUsers extends Document {
   middleName: string;
   avatarUrl?: string;
   status: UserStatus;
-  _id?: Schema.Types.ObjectId;
+  _id: Schema.Types.ObjectId;
   organizationId: Schema.Types.ObjectId;
 }

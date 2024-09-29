@@ -6,5 +6,5 @@ export interface IAdmin extends Document {
   role: Roles;
   email: string;
   password: string;
-  _id?: Schema.Types.ObjectId;
+  _id: Schema.Types.ObjectId;
 }
