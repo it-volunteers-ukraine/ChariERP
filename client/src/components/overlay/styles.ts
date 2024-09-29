@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 export const getStyles = (opened: boolean) => ({
   overlay: clsx(
-    `absolute inset-0 bg-slate-900/60 backdrop-blur bg-opacity-50 z-20 cursor-pointer`,
+    `fixed inset-0 bg-slate-900/60 backdrop-blur bg-opacity-50 z-20 cursor-pointer`,
     {
       'animate-portalOpen': opened,
     },

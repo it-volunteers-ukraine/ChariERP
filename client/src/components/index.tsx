@@ -19,7 +19,7 @@ export { InputField } from './input-field';
 export { LanguageSwitcher } from './language-switcher';
 export { LoaderPage } from './loader-page';
 export { Logo } from './logo';
-export { ModalAdmin, ModalContent, ModalDecline, ModalEnterEmail } from './modals';
+export { ModalAdmin, ModalContent, ModalDecline, ModalEnterEmail, ModalSuccessfulRegistration } from './modals';
 export { Navigation } from './navigation';
 export { Overlay } from './overlay';
 export { Pagination } from './pagination';

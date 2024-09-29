@@ -64,10 +64,12 @@ export const Overlay = ({ opened, onClose, children, duration = 300 }: ChildrenP
     };
 
     if (opened) {
+      document.body.classList.add('overflow-hidden');
       window.addEventListener('keydown', handleKeyDown);
     }
 
     return () => {
+      document.body.classList.remove('overflow-hidden');
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [opened, onClose, modalRef, unmounted]);
@@ -76,7 +78,7 @@ export const Overlay = ({ opened, onClose, children, duration = 300 }: ChildrenP
 
   return (
     <Portal opened={unmounted}>
-      <div className="absolute inset-0 py-10 flex justify-center items-center w-screen h-screen z-10">
+      <div className="fixed inset-0 py-10 flex justify-center items-center w-screen h-screen z-10">
         <div onClick={onClose} className={styles.overlay} style={{ animationDuration: `${duration}ms` }} />
         <div ref={modalRef} className={styles.modal} style={{ animationDuration: `${duration - 20}ms` }} tabIndex={0}>
           <Close
