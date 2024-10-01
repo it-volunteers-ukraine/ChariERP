@@ -3,7 +3,7 @@ import { randomInt } from 'crypto';
 import { TranslationValues } from 'next-intl';
 
 import { showMessage } from '@/components';
-import { DownloadType, Fields, GetUrlProps } from '@/types';
+import { DownloadType, Fields, GetUrlProps, IOrganizations } from '@/types';
 
 export const dateFormat: Record<string, string> = {
   ua: 'dd.MM.yyyy',
@@ -85,10 +85,28 @@ export const getHtmlCodeForPassword = ({
     </p>
     </div>`;
 
-export function checkFieldsToUniqueOfOrganization<T extends Fields>(fields: T, organization: T): (string | number)[] {
-  const keys = Object.keys(fields) as Array<keyof T>;
+export function checkFieldsToUniqueOfOrganization<T extends Fields>(
+  fields: T,
+  organizations: IOrganizations[],
+): (string | number)[] {
+  const arr = organizations.map(({ organizationData, contactData }) => ({
+    edrpou: organizationData.edrpou,
+    email: contactData.email,
+  }));
 
-  return keys.filter((key) => fields[key] === organization[key]).map((key) => fields[key] as string | number);
+  const matches: (string | number)[] = [];
+
+  arr.forEach(({ edrpou, email }) => {
+    if (edrpou === Number(fields.edrpou)) {
+      matches.push(edrpou);
+    }
+
+    if (email === fields.email) {
+      matches.push(email);
+    }
+  });
+
+  return matches;
 }
 
 export function showErrorMessageOfOrganizationExist(

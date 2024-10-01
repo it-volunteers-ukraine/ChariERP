@@ -84,8 +84,7 @@ const AdminOrganizationById = () => {
     const response = await updateOrganizationAction(id as string, formData);
 
     if (!response.success && Array.isArray(response.message)) {
-      showErrorMessageOfOrganizationExist(errorText, response.message);
-      throw new Error('Organization already exist');
+      return showErrorMessageOfOrganizationExist(errorText, response.message);
     }
 
     if (response.success && response.organization) {
