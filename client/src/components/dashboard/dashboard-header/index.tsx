@@ -5,12 +5,12 @@ import { useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 
 import { Exit } from '@/assets/icons';
+import { useUserInfo } from '@/context';
 import { useWindowWidth } from '@/hooks';
 import { LanguageSwitcher } from '@/components';
 
 import { Avatar } from '../avatar';
 import { getLinksByRole } from '../dashboard-aside/config';
-import { useUserInfo } from '@/context';
 
 export const DashboardHeader = () => {
   const router = useRouter();
@@ -25,7 +25,8 @@ export const DashboardHeader = () => {
     Cookies.remove('id');
     router.push('/');
   };
-  const titleNav = links.find(({ href }) => href === path);
+
+  const titleNav = links.find(({ href }) => path.includes(href));
 
   return (
     <header className="w-full bg-whiteSecond px-[16px] pl-[60px] desktopXl:px-0">
