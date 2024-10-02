@@ -10,7 +10,6 @@ export const metadata: Metadata = {
 const Dashboards = () => {
   return (
     <>
-      <h2>Dashboards</h2>
       <EmptyBoard />
     </>
   );

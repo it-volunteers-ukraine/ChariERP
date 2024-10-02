@@ -1,20 +1,24 @@
-import React from 'react';
+'use client';
 
-import { Info } from '@/assets/icons';
+import React from 'react';
 import { useTranslations } from 'use-intl';
 
+import { Info } from '@/assets/icons';
+
 export const EmptyBoard = () => {
-  const memberText = useTranslations('errors.login');
+  const memberText = useTranslations('board');
 
   return (
-    <div className="max-w-[706px] m-auto">
-      <div className="text-lightBlue max-w-[140px] mb-8 mx-auto p-[18px]">
-        <Info />
-      </div>
+    <div className="w-full h-[calc(100dvh-64px)] desktop:h-[calc(100dvh-96px)] pb-16 flex justify-center items-center">
+      <div className="max-w-[343px] tablet:max-w-[598px] laptop:max-w-[706px]">
+        <div className="text-lightBlue max-w-[140px] mb-8 mx-auto p-[18px]">
+          <Info />
+        </div>
 
-      <h3 className="font-roboto text-[40px] text-center leading-[47px] text-lynch opacity-50 p-8">
-        На даній сторінці ще не створено дошку з вашою участю {memberText('userIncorrect')}
-      </h3>
+        <h3 className="font-roboto text-2xl leading-7 tablet:text-[32px] tablet:leading-9 laptop:text-[40px] laptop:leading-[47px] text-center text-lynch opacity-50 p-8 select-none">
+          {memberText('emptyBoard')}
+        </h3>
+      </div>
     </div>
   );
 };
