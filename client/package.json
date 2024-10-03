@@ -64,9 +64,10 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx,css,md,json}": [
+      "npm run lint",
       "npm run compile",
       "npm run format",
-      "npm run lint"
+      "git add --renormalize ."
     ]
   }
 }
