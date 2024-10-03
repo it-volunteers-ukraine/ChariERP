@@ -70,12 +70,12 @@ export const EmployeeCard = ({
 
   return (
     <div className={styles.wrapper} onClick={() => (isParamsId ? '' : router.push(`${routes.employeesEdit}/${id}`))}>
-      <div className={`flex gap-4 items-start w-full ${itemClass}`}>
+      <div className={`flex w-full items-start gap-4 ${itemClass}`}>
         {!inById && <AvatarEmployee src={imgUrl} name={firstName} surname={lastName} isLoading={isPending} />}
 
         {inById && <AvatarField name="avatarUrl" lastName={lastName} firstName={firstName} />}
 
-        <div className="w-[calc(100%-102px)] flex flex-col gap-1">
+        <div className="flex w-[calc(100%-102px)] flex-col gap-1">
           <p className={styles.abbName}>{lastName}</p>
           <p className={styles.abbName}>{firstName}</p>
           <p className={`${styles.abbName} ${styles.abbNameLast}`}>{middleName}</p>
@@ -84,7 +84,7 @@ export const EmployeeCard = ({
         </div>
       </div>
 
-      <div className={`w-full flex flex-col ${itemClass}`}>
+      <div className={`flex w-full flex-col ${itemClass}`}>
         <Info label="E-mail" data={email} />
         <Info
           status={status}

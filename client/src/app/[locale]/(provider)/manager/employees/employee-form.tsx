@@ -53,7 +53,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
       validationSchema={employeeValidation(error).omit(['password'])}
     >
       {({ values, errors, validateForm, handleSubmit, setFieldValue }) => (
-        <div className="p-[24px_16px_48px] tablet:p-[24px_32px_48px] desktop:p-[32px_36px_48px] w-full bg-white overflow-y-auto scroll-blue">
+        <div className="scroll-blue w-full overflow-y-auto bg-white p-[24px_16px_48px] tablet:p-[24px_32px_48px] desktop:p-[32px_36px_48px]">
           <div className="m-auto w-full desktopXl:max-w-[1066px]">
             <ModalAdmin
               isOpen={isOpenSave}
@@ -85,8 +85,8 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
 
               {!isCreate && (
                 <>
-                  <div className="flex items-center justify-start pb-6 border-b-2 border-lightBlue">
-                    <div className="flex items-center gap-4 w-fit">
+                  <div className="flex items-center justify-start border-b-2 border-lightBlue pb-6">
+                    <div className="flex w-fit items-center gap-4">
                       <ButtonIcon type="button" icon="back" iconType="primary" onClick={() => router.back()} />
 
                       <ButtonIcon type="button" icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
@@ -107,7 +107,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                     middleName={values.middleName}
                     status={(values as IEditData).status}
                     lastLogin={(values as IEditData).lastLogin}
-                    className="tablet:!flex-row !items-center gap-[20px] tablet:gap-0 laptop:!gap-12 !p-[24px_0_32px] desktop:!py-8 !h-fit !bg-white !shadow-none"
+                    className="!h-fit !items-center gap-[20px] !bg-white !p-[24px_0_32px] !shadow-none tablet:!flex-row tablet:gap-0 laptop:!gap-12 desktop:!py-8"
                   />
                 </>
               )}
@@ -121,13 +121,13 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                   classNameChildren="flex flex-col gap-4"
                   changedLength={Object.keys(errors).length}
                 >
-                  <div className="flex flex-col laptop:flex-row gap-4 laptop:gap-12">
+                  <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
                     <InputField required name="lastName" label={text('lastName.label')} />
 
                     <InputField required name="firstName" label={text('name.label')} />
                   </div>
 
-                  <div className="flex flex-col laptop:flex-row gap-4 laptop:gap-12">
+                  <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
                     <InputField name="middleName" label={text('middleName.label')} />
 
                     <InputField

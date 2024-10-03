@@ -20,8 +20,8 @@ export const DashboardHeader = () => {
 
   return (
     <header className="w-full bg-whiteSecond px-[16px] pl-[60px] desktopXl:px-0">
-      <div className="h-[64px] desktop:h-24 desktopXl:mx-8 flex items-center justify-between ">
-        <span className="font-scada text-lightBlue text-[20px] font-normal">Main Page</span>
+      <div className="flex h-[64px] items-center justify-between desktop:h-24 desktopXl:mx-8">
+        <span className="font-scada text-[20px] font-normal text-lightBlue">Main Page</span>
 
         <div className="flex gap-6">
           <Avatar img={null} name="Super_admin1" />
@@ -30,7 +30,7 @@ export const DashboardHeader = () => {
             <>
               <Exit
                 onClick={onExit}
-                className="w-6 h-6 transition-all duration-300 cursor-pointer text-lightBlue hover:scale-110 hover:drop-shadow-md"
+                className="h-6 w-6 cursor-pointer text-lightBlue transition-all duration-300 hover:scale-110 hover:drop-shadow-md"
               />
 
               <LanguageSwitcher isNarrow />

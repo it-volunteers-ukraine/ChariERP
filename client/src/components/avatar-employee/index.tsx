@@ -14,7 +14,7 @@ export const AvatarEmployee = ({ src, name, className, surname, isLoading }: Ava
           layout="fill"
           loading="lazy"
           objectFit="contain"
-          className="w-full h-full"
+          className="h-full w-full"
           alt={`${surname} ${name}`}
         />
       )}

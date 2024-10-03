@@ -36,7 +36,7 @@ export const Burger = () => {
         <div className="flex flex-col gap-[45px]">
           <Navigation onBurgerClose={() => setIsActive(false)} />
 
-          <div className="flex justify-between gap-[13px_35px] flex-wrap">
+          <div className="flex flex-wrap justify-between gap-[13px_35px]">
             <Button
               styleType="secondary"
               className="uppercase"
@@ -48,7 +48,7 @@ export const Burger = () => {
               styleType="outline"
               text={auth('login')}
               onClick={() => onHandleClick(routes.login)}
-              className="min-w-[138px] tablet:min-w-[89px] uppercase"
+              className="min-w-[138px] uppercase tablet:min-w-[89px]"
             />
             <LanguageSwitcher className="tablet:ml-auto" />
           </div>

@@ -193,7 +193,7 @@ const AdminOrganizationById = () => {
         validationSchema={organizationValidation((key, params) => error(key, params)).omit(['agree', 'password'])}
       >
         {({ values, errors, validateForm, handleSubmit, touched }) => (
-          <div className="relative w-full h-full bg-boardHeader">
+          <div className="bg-boardHeader relative h-full w-full">
             <ModalAdmin
               isOpen={isOpenSave}
               classNameBtn="w-[82px]"
@@ -216,7 +216,7 @@ const AdminOrganizationById = () => {
               onClose={() => setIsOpenAccept(false)}
               onConfirm={async () => await submitHandle(validateForm, handleSubmit)}
               content={
-                <div className="flex flex-col text-center text-mobster lending-6">
+                <div className="lending-6 flex flex-col text-center text-mobster">
                   <span>{data?.organizationName}</span>
                   <span>
                     {modal('register.text')} {data?.email}
@@ -225,9 +225,9 @@ const AdminOrganizationById = () => {
               }
             />
 
-            <div className="flex justify-start mb-20 px-8 pb-12 bg-white rounded-lg shadow-dashboard">
-              <div className="w-full max-w-[1066px] mx-auto">
-                <div className="flex items-center justify-between mb-4 py-6 pr-2 border-b-2 border-lightBlue">
+            <div className="mb-20 flex justify-start rounded-lg bg-white px-8 pb-12 shadow-dashboard">
+              <div className="mx-auto w-full max-w-[1066px]">
+                <div className="mb-4 flex items-center justify-between border-b-2 border-lightBlue py-6 pr-2">
                   <div className="flex items-center gap-4">
                     <ButtonIcon icon="back" iconType="primary" onClick={() => router.back()} />
 
@@ -342,13 +342,13 @@ const AdminOrganizationById = () => {
                                   key={`media-signUp-${index}`}
                                   label={text('socialNetworks.label')}
                                 />
-                                <div className="flex items-center justify-between max-w-[465px]">
+                                <div className="flex max-w-[465px] items-center justify-between">
                                   {isRightLength && isLastIndex && (
                                     <SmallBtn
                                       type="add"
                                       text={btn('addField')}
                                       onClick={() => push('')}
-                                      className="flex justify-start mt-3 w-full !leading-4"
+                                      className="mt-3 flex w-full justify-start !leading-4"
                                     />
                                   )}
 
@@ -357,7 +357,7 @@ const AdminOrganizationById = () => {
                                       type="delete"
                                       text={btn('deleteField')}
                                       onClick={() => remove(index)}
-                                      className="flex justify-end mt-3 w-full !leading-4"
+                                      className="mt-3 flex w-full justify-end !leading-4"
                                     />
                                   )}
                                 </div>
@@ -369,7 +369,7 @@ const AdminOrganizationById = () => {
                     />
                   </Accordion>
 
-                  <div className="flex justify-end w-full gap-6">
+                  <div className="flex w-full justify-end gap-6">
                     {(isRequests || isDeclined) && (
                       <Button
                         type="button"
@@ -428,7 +428,7 @@ const AdminOrganizationById = () => {
           title={modal('remove.title')}
           onClose={() => setIsOpenDelete(false)}
           content={
-            <div className="flex flex-col gap-1 text-center text-mobster lending-6">
+            <div className="lending-6 flex flex-col gap-1 text-center text-mobster">
               <span>
                 {modal('remove.text')} {data?.organizationName}
               </span>

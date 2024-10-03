@@ -116,8 +116,8 @@ const OrganizationPage = () => {
       validationSchema={organizationValidation((key, params) => error(key, params)).omit(['agree', 'password'])}
     >
       {({ values, errors, validateForm, handleSubmit, setValues }) => (
-        <div className="bg-white flex justify-center grow w-full">
-          <div className="p-[0_16px_48px] tablet:p-[0_32px_48px]  w-full desktopXl:max-w-[1100px]">
+        <div className="flex w-full grow justify-center bg-white">
+          <div className="w-full p-[0_16px_48px] tablet:p-[0_32px_48px] desktopXl:max-w-[1100px]">
             <ModalAdmin
               isOpen={isOpenSave}
               title={modal('title')}
@@ -131,7 +131,7 @@ const OrganizationPage = () => {
             />
 
             <Form className="w-full">
-              <div className="flex justify-start items-center gap-6 py-6">
+              <div className="flex items-center justify-start gap-6 py-6">
                 <ButtonIcon
                   icon="save"
                   type="button"
@@ -150,11 +150,11 @@ const OrganizationPage = () => {
               </div>
 
               <div className="flex flex-col gap-9 desktop:gap-12">
-                <div className="flex items-start gap-x-3 pt-[24px] border-t-[2px] border-lightBlue">
+                <div className="flex items-start gap-x-3 border-t-[2px] border-lightBlue pt-[24px]">
                   {isManager && (
                     <>
                       <Info width="24px" height="24px" className="text-lightBlue" />
-                      <span className="text-input-info text-[14px]">{text('mainInformation')}</span>
+                      <span className="text-[14px] text-input-info">{text('mainInformation')}</span>
                     </>
                   )}
                 </div>
@@ -167,7 +167,7 @@ const OrganizationPage = () => {
                   classNameChildren="flex flex-col gap-4"
                   changedLength={Object.keys(errors).length}
                 >
-                  <div className="flex flex-col laptop:flex-row gap-4 laptop:gap-12">
+                  <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
                     <InputField required name="organizationName" label={text('organizationName.label')} />
 
                     <InputField
@@ -189,7 +189,7 @@ const OrganizationPage = () => {
                     info={
                       <div>
                         {text('certificateOfRegister.information')}
-                        <Link href="#" className="italic font-medium text-input-link underline">
+                        <Link href="#" className="font-medium italic text-input-link underline">
                           {text('certificateOfRegister.howDownloadFile')}
                         </Link>
                       </div>
@@ -214,13 +214,13 @@ const OrganizationPage = () => {
                   title={text('title.contactInformation')}
                   changedLength={Object.keys(errors).length}
                 >
-                  <div className="flex flex-col laptop:flex-row gap-4 laptop:gap-12">
+                  <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
                     <InputField required name="position" label={text('positionOrganization.label')} />
 
                     <InputField required name="lastName" label={text('lastName.label')} />
                   </div>
 
-                  <div className="flex flex-col laptop:flex-row gap-4 laptop:gap-12">
+                  <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
                     <InputField required name="firstName" label={text('name.label')} />
 
                     <InputField name="middleName" label={text('middleName.label')} />
@@ -290,7 +290,7 @@ const OrganizationPage = () => {
                                       type="add"
                                       text={btn('addField')}
                                       onClick={() => push('')}
-                                      className="flex justify-start mt-2 w-full"
+                                      className="mt-2 flex w-full justify-start"
                                     />
                                   )}
 
@@ -299,7 +299,7 @@ const OrganizationPage = () => {
                                       type="delete"
                                       text={btn('deleteField')}
                                       onClick={() => remove(index)}
-                                      className="flex justify-end mt-2 w-full"
+                                      className="mt-2 flex w-full justify-end"
                                     />
                                   )}
                                 </div>
@@ -313,20 +313,20 @@ const OrganizationPage = () => {
                 </Accordion>
 
                 {isManager && (
-                  <div className="flex flex-col tablet:flex-row items-center justify-center gap-3 tablet:gap-6">
+                  <div className="flex flex-col items-center justify-center gap-3 tablet:flex-row tablet:gap-6">
                     <Button
                       type="button"
                       styleType="green"
                       text={btn('saveChanges')}
                       onClick={() => setIsOpenSave(true)}
-                      className="uppercase w-full tablet:w-fit"
+                      className="w-full uppercase tablet:w-fit"
                     />
 
                     <Button
                       type="button"
                       styleType="red"
                       text={btn('cancelChanges')}
-                      className="uppercase w-full tablet:w-fit"
+                      className="w-full uppercase tablet:w-fit"
                       onClick={() => setValues(getInitialDataOrganization(data))}
                     />
                   </div>

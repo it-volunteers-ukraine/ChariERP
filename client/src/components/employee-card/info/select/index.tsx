@@ -36,7 +36,7 @@ export const Select = ({ status, fieldName, setFieldValue }: ISelect) => {
   }, [status]);
 
   return (
-    <div className="relative w-[140px] h-[36px]">
+    <div className="relative h-[36px] w-[140px]">
       <div className={styles.wrapper}>
         <div onClick={() => setIsOpen(!isOpen)} className={styles.selected}>
           {selected}

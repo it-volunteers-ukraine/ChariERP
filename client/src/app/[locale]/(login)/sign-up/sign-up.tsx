@@ -76,7 +76,7 @@ const SignUp = () => {
     >
       {({ values }) => {
         return (
-          <Form className="flex flex-col gap-12 tablet:gap-16 desktop:gap-18 w-full">
+          <Form className="desktop:gap-18 flex w-full flex-col gap-12 tablet:gap-16">
             <ModalSuccessfulRegistration
               isOpen={isOpenModal}
               isLoading={isLoading}
@@ -88,9 +88,9 @@ const SignUp = () => {
               onConfirm={() => setIsOpenModal(false)}
               title={modal('successfulRegistration.title')}
               content={
-                <p className="text-roboto font-normal text-comet text-center">
+                <p className="text-roboto text-center font-normal text-comet">
                   {modal('successfulRegistration.firstPartText')}
-                  <span className="italic font-medium">{values.email}</span>
+                  <span className="font-medium italic">{values.email}</span>
                   {modal('successfulRegistration.secondPartText')}
                 </p>
               }
@@ -99,7 +99,7 @@ const SignUp = () => {
             <div>
               <Title
                 title={text('title.basicInformation')}
-                className="font-scada mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
+                className="mx-auto mb-8 w-fit font-scada text-[26px] uppercase tablet:mb-9"
               />
 
               <div className="flex flex-col gap-8 tablet:gap-[42px]">
@@ -149,7 +149,7 @@ const SignUp = () => {
             <div>
               <Title
                 title={text('title.contactInformation')}
-                className="font-scada mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
+                className="mx-auto mb-8 w-fit font-scada text-[26px] uppercase tablet:mb-9"
               />
 
               <div className="flex flex-col gap-8 tablet:gap-[42px]">
@@ -202,7 +202,7 @@ const SignUp = () => {
                 <div className="flex flex-col gap-8 tablet:gap-6">
                   <Title
                     title={text('title.media')}
-                    className="w-fit font-medium text-[18px] !leading-4 !text-title-media"
+                    className="w-fit text-[18px] font-medium !leading-4 !text-title-media"
                   />
 
                   <InputField
@@ -249,7 +249,7 @@ const SignUp = () => {
                                 }
                               />
 
-                              <div className="flex items-center justify-between mt-6 laptop:max-w-[calc(50%-12px)]">
+                              <div className="mt-6 flex items-center justify-between laptop:max-w-[calc(50%-12px)]">
                                 {isRightLength && isLastIndex && (
                                   <SmallBtn
                                     type="add"
@@ -283,7 +283,7 @@ const SignUp = () => {
               name="agree"
               label={text('checkbox.information')}
               hrefText={text('checkbox.privacyPolicy')}
-              className="laptop:mx-auto !items-start laptop:!items-center"
+              className="!items-start laptop:mx-auto laptop:!items-center"
             />
 
             <Button
@@ -291,7 +291,7 @@ const SignUp = () => {
               styleType="primary"
               text={btn('submit')}
               isLoading={isLoading}
-              className="uppercase m-auto"
+              className="m-auto uppercase"
             />
           </Form>
         );

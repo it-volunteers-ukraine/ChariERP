@@ -14,7 +14,7 @@ export const CreateCard = ({ setIsEdit, isEdit, sumBoards, styles }: ICreateCard
         <BoardInfo isRoleAccess setIsEdit={setIsEdit} number={sumBoards + 1} />
       ) : (
         <>
-          <Plus className="h-10 w-10 text-greenNormal mb-2" />
+          <Plus className="mb-2 h-10 w-10 text-greenNormal" />
           <p className={styles.text}>{messages('createNew')}</p>
         </>
       )}

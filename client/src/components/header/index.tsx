@@ -11,8 +11,8 @@ export const Header = () => {
   const auth = useTranslations('auth-page.links');
 
   return (
-    <header className="w-full top-0 bg-header-gradient py-[19px] desktop:py-[21px] z-[2]">
-      <div className="flex items-center justify-between gap-8 container-chari">
+    <header className="top-0 z-[2] w-full bg-header-gradient py-[19px] desktop:py-[21px]">
+      <div className="container-chari flex items-center justify-between gap-8">
         <Logo />
 
         <ResponseWrapper endpoint="isDesktop">
@@ -38,7 +38,7 @@ export const Header = () => {
             />
           </ResponseWrapper>
 
-          <Search className="w-[18px] aspect-[1/1] text-white cursor-pointer hover:drop-shadow-sm ml-auto desktop:ml-3 desktop:mr-3" />
+          <Search className="ml-auto aspect-[1/1] w-[18px] cursor-pointer text-white hover:drop-shadow-sm desktop:ml-3 desktop:mr-3" />
 
           <ResponseWrapper endpoint="isNotDesktop">
             <Burger />
