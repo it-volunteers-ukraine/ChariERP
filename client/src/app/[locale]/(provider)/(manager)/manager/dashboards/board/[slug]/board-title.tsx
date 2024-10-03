@@ -19,7 +19,7 @@ export const BoardTitle = ({ titleText }: IBoardTitleProps) => {
       </h2>
 
       <button
-        className="cursor-pointer w-32 flex bg-transparent text-lightBlue hover:text-dark-blue  active:text-greenActive disabled:text-disabled transition-all duration-300"
+        className="cursor-pointer min-w-10 flex bg-transparent text-lightBlue hover:text-dark-blue  active:text-greenActive disabled:text-disabled transition-all duration-300"
         onClick={(e) => onCopy(e, `${window.location.href}`, massageCopyTranslations('massageCopyTitle'))}
       >
         <Copy />
