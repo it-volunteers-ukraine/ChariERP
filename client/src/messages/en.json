@@ -244,7 +244,8 @@
   "board": {
     "newBoard": "Name the board",
     "createNew": "Create a new board",
-    "limitExceeded": "You can have no more than {int} boards"
+    "limitExceeded": "You can have no more than {int} boards",
+    "emptyBoard": "There is no board with your participation on this page yet"
   },
   "copy": {
     "messages": "Copied to clipboard"
