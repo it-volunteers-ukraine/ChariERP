@@ -37,6 +37,7 @@ body {
     @apply max-w-[1736px];
   }
 }
+
 .nav-toggle {
   position: relative;
   background: transparent;
@@ -60,6 +61,7 @@ body {
   width: 24px;
   margin-bottom: 4px;
 }
+
 .nav-toggle:hover [class*='bar-'] {
   filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
 }
@@ -74,11 +76,13 @@ body {
   -webkit-transform-origin: 15% 15%;
   transform-origin: 15% 15%;
 }
+
 .opened .bar-mid {
   opacity: 0;
   -webkit-transition: 0.12s ease all;
   transition: 0.12s ease all;
 }
+
 .opened .bar-bot {
   -webkit-transform: rotate(45deg);
   transform: rotate(-45deg);
