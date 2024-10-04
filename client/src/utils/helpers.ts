@@ -88,16 +88,16 @@ export const getHtmlCodeForPassword = ({
 export function checkFieldsToUniqueOfOrganization<T extends Fields>(
   fields: T,
   organizations: IOrganizations[],
-): (string | number)[] {
+): string[] {
   const arr = organizations.map(({ organizationData, contactData }) => ({
     edrpou: organizationData.edrpou,
     email: contactData.email,
   }));
 
-  const matches: (string | number)[] = [];
+  const matches: string[] = [];
 
   arr.forEach(({ edrpou, email }) => {
-    if (edrpou === Number(fields.edrpou)) {
+    if (edrpou === fields.edrpou) {
       matches.push(edrpou);
     }
 

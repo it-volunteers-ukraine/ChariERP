@@ -30,6 +30,7 @@ const SignUp = () => {
   const error = useTranslations('validation');
   const errorText = useTranslations('errors.login');
 
+  const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -49,6 +50,7 @@ const SignUp = () => {
       const data = await createOrganizationAction(formData);
 
       if (data.success) {
+        setEmail(values.email);
         setIsOpenModal(true);
       }
 
@@ -66,6 +68,11 @@ const SignUp = () => {
     }
   };
 
+  const onCloseModal = () => {
+    setEmail('');
+    setIsOpenModal(false);
+  };
+
   return (
     <Formik
       validateOnBlur
@@ -80,17 +87,17 @@ const SignUp = () => {
             <ModalSuccessfulRegistration
               isOpen={isOpenModal}
               isLoading={isLoading}
+              onClose={onCloseModal}
+              onConfirm={onCloseModal}
+              onNavigate={onCloseModal}
               rightBtnText={btn('contact')}
               leftBtnText={btn('understood')}
               classNameBtn="w-[120px] uppercase"
-              onClose={() => setIsOpenModal(false)}
-              navigate={() => setIsOpenModal(false)}
-              onConfirm={() => setIsOpenModal(false)}
               title={modal('successfulRegistration.title')}
               content={
                 <p className="text-roboto text-center font-normal text-comet">
                   {modal('successfulRegistration.firstPartText')}
-                  <span className="font-medium italic">{values.email}</span>
+                  <span className="font-medium italic">{email}</span>
                   {modal('successfulRegistration.secondPartText')}
                 </p>
               }

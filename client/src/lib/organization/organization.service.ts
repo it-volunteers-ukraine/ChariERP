@@ -40,7 +40,7 @@ class OrganizationService extends BaseService {
       const matches = checkFieldsToUniqueOfOrganization(
         {
           email: data.email,
-          edrpou: Number(data.edrpou),
+          edrpou: data.edrpou,
         },
         organizationExist,
       );
@@ -172,7 +172,7 @@ class OrganizationService extends BaseService {
       const matches = checkFieldsToUniqueOfOrganization(
         {
           email: data.email,
-          edrpou: Number(data.edrpou),
+          edrpou: data.edrpou,
         },
         organizationExist,
       );

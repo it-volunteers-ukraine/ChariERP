@@ -7,9 +7,9 @@ export const ModalSuccessfulRegistration = ({
   isOpen,
   content,
   onClose,
-  navigate,
   onConfirm,
   isLoading,
+  onNavigate,
   leftBtnText,
   classNameBtn,
   rightBtnText,
@@ -37,7 +37,7 @@ export const ModalSuccessfulRegistration = ({
             className={classNameBtn}
           />
 
-          <Button styleType="outline-blue" className={classNameBtn} onClick={navigate} text={rightBtnText} />
+          <Button styleType="outline-blue" className={classNameBtn} onClick={onNavigate} text={rightBtnText} />
         </div>
       </div>
     </Overlay>

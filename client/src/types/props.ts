@@ -11,7 +11,7 @@ export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
 export interface IOrganization {
   id: string;
   email: string;
-  EDRPOU: number;
+  EDRPOU: string;
   certificate: string;
   requestDate: string;
   approvalDate: string;
@@ -80,7 +80,7 @@ export interface AdminOrganizationProps {
 
 export type Fields = {
   email: string;
-  edrpou: number;
+  edrpou: string;
 };
 
 export interface IUsersByOrganizationProps {
