@@ -10,7 +10,8 @@
     "prepare": "cd .. && husky client/.husky",
     "compile": "tsc -p ./tsconfig.json",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,md,json}\"",
-    "test": "jest"
+    "test": "jest",
+    "normalize": "git add --renormalize ."
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.658.1",
@@ -67,7 +68,7 @@
       "npm run lint",
       "npm run compile",
       "npm run format",
-      "git add --renormalize ."
+      "npm run normalize"
     ]
   }
 }
