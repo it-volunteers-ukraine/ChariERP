@@ -12,14 +12,21 @@ import { getStyles } from './styles';
 interface IOverlayProps {
   opened: boolean;
   duration?: number;
+  classNameModal?: string;
   onClose: () => void;
 }
 
-export const Overlay = ({ opened, onClose, children, duration = 300 }: ChildrenProps<IOverlayProps>) => {
+export const Overlay = ({
+  opened,
+  onClose,
+  children,
+  classNameModal,
+  duration = 300,
+}: ChildrenProps<IOverlayProps>) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const { unmounted } = useMounted({ opened, duration });
 
-  const styles = getStyles(opened);
+  const styles = getStyles({ opened, classNameModal });
 
   const handleKeyPressOnClose = (event: React.KeyboardEvent<SVGSVGElement>) => {
     if (event.key === 'Enter' || event.key === ' ') {
