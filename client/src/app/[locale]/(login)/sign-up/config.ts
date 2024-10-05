@@ -6,6 +6,7 @@ import { OrganizationFormValues } from '@/types';
 
 const maxSize = 5;
 const linkRegExp = /^https:\/\/([\w.-]+)\.([a-z]{2,6})(\/[\w.-]*)*\/?$/;
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export const organizationInitialValues: OrganizationFormValues = {
   site: '',
@@ -68,7 +69,7 @@ export const organizationValidation = (error: (key: string, params?: Translation
       .trim()
       .min(6, error('minPlural', { int: 6 }))
       .max(50, error('maxPlural', { int: 50 }))
-      .email(error('notValidEmail'))
+      .matches(emailRegex, error('notValidEmail'))
       .required(error('required')),
     site: Yup.string()
       .trim()
