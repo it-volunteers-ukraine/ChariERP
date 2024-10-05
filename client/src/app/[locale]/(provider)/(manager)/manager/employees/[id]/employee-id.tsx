@@ -204,14 +204,7 @@ const EmployeePage = () => {
                 </Accordion>
 
                 <div className={`${styles.btnWrapper}`}>
-                  {!isCreate && (
-                    <Button
-                      disabled={true}
-                      className={styles.btn}
-                      styleType="outline-blue"
-                      text={btn('deleteEmployee')}
-                    />
-                  )}
+                  {!isCreate && <Button className={styles.btn} styleType="outline-blue" text={btn('deleteEmployee')} />}
 
                   <div className={`${styles.btnWrapper} w-full tablet:w-fit`}>
                     <Button
