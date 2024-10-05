@@ -130,6 +130,9 @@
       "title": "REGISTER?",
       "text": "and send an email with the password to "
     },
+    "modalUserWithoutAccess": {
+      "text": "Sorry, You don't have access to this board."
+    },
     "successfulRegistration": {
       "title": "Thank you for registering!",
       "firstPartText": "After verification of your data (within 48 business hours), you will receive an email to the specified email address ",
@@ -179,6 +182,7 @@
     "confirm": "confirm",
     "understood": "understood",
     "contact": "contact",
+    "goToAllBoards": "go to all boards",
     "yes": "YES",
     "no": "NO"
   },

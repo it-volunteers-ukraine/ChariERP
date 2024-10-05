@@ -21,6 +21,7 @@ export { default as InfoForBoard } from './infoForBoard.svg';
 export { default as InputClose } from './input-close.svg';
 export { default as JamMenu } from './jam_menu.svg';
 export { default as Loader } from './loader.svg';
+export { default as Lock } from './lock.svg';
 export { default as LogoIcon } from './logo.svg';
 export { default as Menu } from './menu.svg';
 export { default as Next } from './next.svg';
