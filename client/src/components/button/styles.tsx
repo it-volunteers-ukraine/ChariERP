@@ -66,7 +66,7 @@ export const getStyles = ({ disabled, isNarrow, styleType, className, isLoading 
   span: clsx('relative z-[1] select-none flex items-center justify-center font-scada', {
     'text-base leading-4 h-[42px] px-[20px]': !isNarrow,
     'px-[12px] text-xs leading-[14px] h-[24px]': isNarrow,
-    'disabled:text-green bg-clip-text text-transparent bg-outlineBlueBtnText bg-[bottom_right] group-hover:bg-[top_left] group-active:text-dark-blue bg-200  transition-all duration-300':
+    'bg-clip-text text-transparent bg-outlineBlueBtnText bg-[bottom_right] group-hover:bg-[top_left] group-active:text-dark-blue bg-200  transition-all duration-300':
       styleType === 'outline-blue' && !disabled,
   }),
   overlay: clsx(
