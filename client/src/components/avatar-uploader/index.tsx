@@ -34,7 +34,7 @@ export const AvatarUploader = ({
 }: AvatarUploaderProps) => {
   const iconSize = avatarUrl ? 28 : 42;
   const isFullName = firstName && lastName ? true : false;
-  const styles = getStyles({ info, className, isFullName });
+  const styles = getStyles({ info, className, isFullName, avatarUrl });
 
   return (
     <div className={styles.wrapper}>
@@ -48,7 +48,7 @@ export const AvatarUploader = ({
         </div>
 
         <div className="absolute inset-0 z-[2] flex flex-col items-center justify-center space-y-2 bg-dark-blue opacity-0 transition-opacity duration-100 group-hover/avatar:z-[4] group-hover/avatar:opacity-100">
-          <label className="cursor-pointer">
+          <label className={styles.cameraWrapper}>
             <Camera width={iconSize} height={iconSize} />
 
             <input name={name} type="file" onChange={onChange} className="hidden" />

@@ -3,10 +3,11 @@ import clsx from 'clsx';
 interface IStyles {
   className?: string;
   isFullName?: boolean;
+  avatarUrl?: string | null;
   info?: string | React.ReactNode;
 }
 
-export const getStyles = ({ className, isFullName, info }: IStyles) => ({
+export const getStyles = ({ className, isFullName, info, avatarUrl }: IStyles) => ({
   wrapper: clsx('flex flex-col gap-2 tablet:flex-row tablet:gap-6', {
     '!gap-0 tablet:!gap-0': !info,
   }),
@@ -17,4 +18,7 @@ export const getStyles = ({ className, isFullName, info }: IStyles) => ({
       '!bg-purple': isFullName,
     },
   ),
+  cameraWrapper: clsx('flex justify-center items-center cursor-pointer', {
+    'w-full h-full': !avatarUrl,
+  }),
 });
