@@ -33,15 +33,12 @@ const EmployeeId = () => {
     try {
       setIsLoadingUpdate(true);
 
-      const response = await updateMemberByIdAction(formData);
-
-      console.log({ response });
+      await updateMemberByIdAction(formData);
     } catch (error) {
       console.log(error);
     } finally {
       setIsLoadingUpdate(false);
     }
-    console.log(values);
   };
 
   const loadData = async () => {
@@ -56,6 +53,10 @@ const EmployeeId = () => {
 
         return;
       }
+
+      const data = JSON.parse(response.user as string);
+
+      console.log({ data, imgName: response.imageName });
 
       setData(JSON.parse(response.user as string));
     } catch (error) {

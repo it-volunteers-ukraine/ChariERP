@@ -5,10 +5,18 @@ import { BucketFolders, uploadFileToBucket } from '@/services';
 import { IUsers, IUsersByOrganizationProps, UserStatus } from '@/types';
 
 import { Admin, Organizations, Users } from '..';
+import { ImageService } from '../image/image.service';
 import { BaseService } from '../database/base.service';
 import { getErrors, requiredUsers, requiredUsersUpdate } from './helpers';
 
 class UserService extends BaseService {
+  imageService: ImageService;
+
+  constructor() {
+    super();
+    this.imageService = new ImageService();
+  }
+
   async createAdmin(email: string, password: string) {
     await this.connect();
     const admins = await Admin.find();
@@ -98,8 +106,16 @@ class UserService extends BaseService {
     if (organizationId !== String(user?.organizationId) || !user) {
       return { success: false, message: 'User not found' };
     }
+    let imageName;
 
-    return { success: true, user: JSON.stringify(user) };
+    if (user.avatarUrl) {
+      const response = await this.imageService.getImage(user.avatarUrl);
+
+      user.avatarUrl = response.success ? response.image : '';
+      imageName = response.imageName;
+    }
+
+    return { success: true, user: JSON.stringify(user), imageName };
   }
 
   async createUserByCompanyId(formData: FormData) {
@@ -143,11 +159,12 @@ class UserService extends BaseService {
 
       body.avatarUrl = uploadedFileUrl;
     }
+    const user = new Users(body);
 
-    const user = await Users.create(body);
+    const newUser = await user.save();
 
     await Organizations.findByIdAndUpdate(organizationId, {
-      $push: { users: user._id },
+      $push: { users: newUser._id },
     });
 
     return { success: true, message: 'User created' };
@@ -174,9 +191,10 @@ class UserService extends BaseService {
 
     const emails = await Users.find({
       email: data.email,
+      _id: { $ne: id },
     });
 
-    if (emails.length > 1 || (emails.length > 0 && emails[0]?._id.toString() !== id)) {
+    if (emails.length > 0) {
       return { success: false, message: 'Email already exists' };
     }
 

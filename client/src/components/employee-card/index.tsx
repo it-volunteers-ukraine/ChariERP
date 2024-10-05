@@ -1,17 +1,17 @@
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
-import { useTranslations } from 'next-intl';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { useParams, useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
-import { getUrlWithExtension } from '@/utils';
-import { downloadFileFromBucket } from '@/services';
+import { getImageAction } from '@/actions';
 
 import { Info } from './info';
 import { getStyles } from './styles';
 import { JobTitle } from './job-title';
+import { showMessage } from '../toastify';
 import { IEmployeeCardProps } from './types';
 import { AvatarField } from '../avatar-field';
 import { AvatarEmployee } from '../avatar-employee';
@@ -35,7 +35,7 @@ export const EmployeeCard = ({
   const router = useRouter();
   const params = useParams();
 
-  const [imgUrl, setImgUrl] = useState('');
+  const [img, setImg] = useState('');
   const [isPending, startTransition] = useTransition();
 
   const isParamsId = params?.id;
@@ -43,22 +43,26 @@ export const EmployeeCard = ({
 
   const cardTranslate = useTranslations('employeeCard');
 
-  const itemClass = clsx('', {
+  const itemClass = clsx({
     'tablet:!max-w-[calc(50%-48px)]': inById,
   });
 
   const loadImg = async () => {
     if (avatarUrl) {
-      const downloadedFile = await downloadFileFromBucket(avatarUrl);
+      try {
+        const response = await getImageAction(avatarUrl);
 
-      if (!downloadedFile) {
-        console.error('Failed to upload file: no body');
+        if (response?.success && response?.image) {
+          setImg(response.image);
 
-        return;
+          return;
+        }
+
+        setImg('');
+        showMessage.error('Error loading image');
+      } catch (error) {
+        console.log(error);
       }
-      const fileUrl = await getUrlWithExtension({ url: avatarUrl, file: downloadedFile });
-
-      setImgUrl(fileUrl as string);
     }
   };
 
@@ -71,7 +75,7 @@ export const EmployeeCard = ({
   return (
     <div className={styles.wrapper} onClick={() => (isParamsId ? '' : router.push(`${routes.employeesEdit}/${id}`))}>
       <div className={`flex w-full items-start gap-4 ${itemClass}`}>
-        {!inById && <AvatarEmployee src={imgUrl} name={firstName} surname={lastName} isLoading={isPending} />}
+        {!inById && <AvatarEmployee src={img} name={firstName} surname={lastName} isLoading={isPending} />}
 
         {inById && <AvatarField name="avatarUrl" lastName={lastName} firstName={firstName} />}
 
