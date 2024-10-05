@@ -84,7 +84,9 @@ const AdminOrganizationById = () => {
     const response = await updateOrganizationAction(id as string, formData);
 
     if (!response.success && Array.isArray(response.message)) {
-      return showErrorMessageOfOrganizationExist(errorText, response.message);
+      showErrorMessageOfOrganizationExist(errorText, response.message);
+
+      return { error: true };
     }
 
     if (response.success && response.organization) {
@@ -133,7 +135,12 @@ const AdminOrganizationById = () => {
     try {
       setIsLoadingRequest(true);
 
-      await onSave(values as OrganizationEditValues, RequestOrganizationStatus.APPROVED);
+      const response = await onSave(values as OrganizationEditValues, RequestOrganizationStatus.APPROVED);
+
+      if (response?.error) {
+        return;
+      }
+
       router.push(backPath);
     } catch (error) {
       // TODO Connect error message
