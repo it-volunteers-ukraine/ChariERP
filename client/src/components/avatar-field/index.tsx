@@ -11,19 +11,25 @@ export const AvatarField = ({ name, info, isSubmit, lastName, firstName, classNa
     <Field name={name}>
       {({ meta, form, field: { value } }: FieldProps) => {
         const error = (meta.touched && meta.error && meta.error) || '';
-        const previewUrl = value && URL.createObjectURL(value);
+
+        const { avatarInitial } = form.values;
+
+        const previewUrl = value ? URL.createObjectURL(value) : meta.touched && !value ? value : avatarInitial;
 
         const onChange = async (e: ChangeEvent<HTMLInputElement>) => {
           const file = e.target.files?.[0];
 
           if (file) {
             await form.setFieldValue(name, file);
+            await form.setFieldValue(`isImgChange`, true);
             form.setFieldTouched(name);
           }
         };
 
         const removeAvatar = async () => {
           await form.setFieldValue(name, '');
+          await form.setFieldValue(`isImgChange`, true);
+          form.setFieldTouched(name);
         };
 
         return (

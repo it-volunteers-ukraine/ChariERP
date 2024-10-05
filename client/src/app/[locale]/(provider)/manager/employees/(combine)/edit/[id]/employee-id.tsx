@@ -19,25 +19,42 @@ const EmployeeId = () => {
   const { id } = useParams();
   const { organizationId } = useUserInfo();
   const { setIsLoading } = useLoaderAdminPage();
-  const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
+
   const [data, setData] = useState<IEditUser>();
+  const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
 
   const onSubmit = async (values: FormikValues) => {
     const formData = new FormData();
+
     const { avatarUrl, data } = updateUserSerializer(values as IEditUser);
 
-    formData.append('avatarUrl', avatarUrl);
+    const { isImgChange } = values;
+
+    if (isImgChange) {
+      formData.append('avatarUrl', avatarUrl);
+    }
+
     formData.append('data', JSON.stringify(data));
     formData.append('id', String(id));
 
     try {
       setIsLoadingUpdate(true);
+      setIsLoading(true);
 
-      await updateMemberByIdAction(formData);
+      const res = await updateMemberByIdAction(formData);
+
+      if (res.success) {
+        showMessage.success('User updated successfully');
+      }
+
+      if (!res.success) {
+        showMessage.error(res.message);
+      }
     } catch (error) {
       console.log(error);
     } finally {
       setIsLoadingUpdate(false);
+      setIsLoading(false);
     }
   };
 
@@ -53,10 +70,6 @@ const EmployeeId = () => {
 
         return;
       }
-
-      const data = JSON.parse(response.user as string);
-
-      console.log({ data, imgName: response.imageName });
 
       setData(JSON.parse(response.user as string));
     } catch (error) {

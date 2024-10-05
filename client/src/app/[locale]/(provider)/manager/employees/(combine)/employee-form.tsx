@@ -30,7 +30,6 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
   const error = useTranslations('validation');
 
   const [isOpenSave, setIsOpenSave] = useState(false);
-  const [isOpenCancel, setIsOpenCancel] = useState(false);
 
   const submitHandle = async (validateForm: () => Promise<FormikErrors<FormikValues>>, handleSubmit: () => void) => {
     const errors = await validateForm();
@@ -52,7 +51,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
       initialValues={initialValues}
       validationSchema={employeeValidation(error).omit(['password'])}
     >
-      {({ values, errors, validateForm, handleSubmit, setFieldValue }) => (
+      {({ values, errors, validateForm, handleSubmit, setFieldValue, setValues }) => (
         <div className="scroll-blue w-full overflow-y-auto bg-white p-[24px_16px_48px] tablet:p-[24px_32px_48px] desktop:p-[32px_36px_48px]">
           <div className="m-auto w-full desktopXl:max-w-[1066px]">
             <ModalAdmin
@@ -63,16 +62,6 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
               btnConfirmText={btn('yes')}
               content={modal('save.text')}
               onClose={() => setIsOpenSave(false)}
-              onConfirm={() => submitHandle(validateForm, handleSubmit)}
-            />
-
-            <ModalAdmin
-              isOpen={isOpenCancel}
-              classNameBtn="w-[82px]"
-              btnCancelText={btn('no')}
-              btnConfirmText={btn('yes')}
-              title={modal('remove.title')}
-              onClose={() => setIsOpenCancel(false)}
               onConfirm={() => submitHandle(validateForm, handleSubmit)}
             />
 
@@ -169,9 +158,9 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                 <Accordion
                   initialState
                   classNameWrapper="!gap-3"
-                  title={text('title.additionalInformation')}
                   classNameTitle="text-[20px] uppercase"
                   changedLength={Object.keys(errors).length}
+                  title={text('title.additionalInformation')}
                   classNameChildren="flex flex-col gap-4 laptop:gap-12 laptop:flex-row"
                 >
                   <div className="flex flex-col gap-4 laptop:w-[calc(50%-24px)]">
@@ -203,7 +192,15 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                 </Accordion>
 
                 <div className={`${styles.btnWrapper}`}>
-                  {!isCreate && <Button styleType="outline-blue" text={btn('deleteEmployee')} className={styles.btn} />}
+                  {!isCreate && (
+                    <Button
+                      disabled
+                      type="button"
+                      className={styles.btn}
+                      styleType="outline-blue"
+                      text={btn('deleteEmployee')}
+                    />
+                  )}
 
                   <div className={`${styles.btnWrapper} w-full tablet:w-fit`}>
                     <Button
@@ -217,10 +214,9 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                     <Button
                       type="button"
                       styleType="red"
-                      isLoading={isLoading}
                       className={styles.btn}
+                      onClick={() => setValues(initialValues)}
                       text={isCreate ? btn('cancel') : btn('cancelChanges')}
-                      onClick={() => !isCreate && setIsOpenCancel(!isOpenCancel)}
                     />
                   </div>
                 </div>

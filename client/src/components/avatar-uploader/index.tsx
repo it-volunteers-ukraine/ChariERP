@@ -41,7 +41,7 @@ export const AvatarUploader = ({
       <div className={styles.circle}>
         <div className="relative z-[3] flex h-full items-center justify-center">
           {avatarUrl ? (
-            <Image layout="fill" src={avatarUrl} alt="Avatar" className="aspect-square object-cover" />
+            <Image fill src={avatarUrl} alt="Avatar" className="aspect-square object-cover" />
           ) : (
             <DefaultAvatar firstName={firstName} lastName={lastName} />
           )}

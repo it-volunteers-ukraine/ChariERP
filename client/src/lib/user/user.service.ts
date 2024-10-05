@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
 
 import { getPaginate } from '@/utils';
-import { BucketFolders, uploadFileToBucket } from '@/services';
 import { IUsers, IUsersByOrganizationProps, UserStatus } from '@/types';
+import { BucketFolders, deleteFileFromBucket, uploadFileToBucket } from '@/services';
 
 import { Admin, Organizations, Users } from '..';
 import { ImageService } from '../image/image.service';
@@ -155,7 +155,11 @@ class UserService extends BaseService {
     };
 
     if (avatarUrl) {
-      const uploadedFileUrl = await uploadFileToBucket(data.firstName, BucketFolders.CertificateOfRegister, avatarUrl);
+      const uploadedFileUrl = await uploadFileToBucket(organizationId, BucketFolders.Avatar, avatarUrl);
+
+      if (!uploadedFileUrl) {
+        return { success: false, message: 'Image error update' };
+      }
 
       body.avatarUrl = uploadedFileUrl;
     }
@@ -200,11 +204,33 @@ class UserService extends BaseService {
 
     const body = {
       ...data,
-      avatarUrl: '',
+      avatarUrl: user.avatarUrl,
     };
 
+    if (typeof avatarUrl === 'string' && !avatarUrl) {
+      const res = await deleteFileFromBucket(user.avatarUrl);
+
+      if (res) {
+        body.avatarUrl = '';
+      } else {
+        return { success: false, message: 'Image error update' };
+      }
+    }
+
     if (avatarUrl) {
-      const uploadedFileUrl = await uploadFileToBucket(data.firstName, BucketFolders.CertificateOfRegister, avatarUrl);
+      if (user.avatarUrl) {
+        const res = await deleteFileFromBucket(user.avatarUrl);
+
+        if (!res) {
+          return { success: false, message: 'Image error update' };
+        }
+      }
+
+      const uploadedFileUrl = await uploadFileToBucket(user.organizationId, BucketFolders.Avatar, avatarUrl);
+
+      if (!uploadedFileUrl) {
+        return { success: false, message: 'Image error update' };
+      }
 
       body.avatarUrl = uploadedFileUrl;
     }

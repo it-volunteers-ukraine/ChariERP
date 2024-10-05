@@ -16,6 +16,7 @@ const endpoint = `https://${region}.digitaloceanspaces.com`;
 enum BucketFolders {
   UserProfileImages = 'user-profile-images',
   CertificateOfRegister = 'registration-certificate',
+  Avatar = 'avatars',
 }
 
 const s3Client = new S3Client({
@@ -55,6 +56,8 @@ const uploadFileToBucket = async (organizationName: string, folder: BucketFolder
     return params.Key;
   } catch (err) {
     console.log('Error while transferring a file to S3 bucket:', err);
+
+    return false;
   }
 };
 
