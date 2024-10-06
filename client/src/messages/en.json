@@ -190,6 +190,7 @@
     "minPlural": "Minimum {int} characters",
     "maxPlural": "Maximum {int} characters",
     "required": "Required field",
+    "notEmpty": "The field must be filled in",
     "matches_english": "{field} must not contain Cyrillic characters",
     "taxNumber": "Tax number must contain exactly 8 Arabic numerals.",
     "notValidPhone": "Wrong number dialed",
