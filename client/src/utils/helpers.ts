@@ -1,9 +1,10 @@
 import { MouseEvent } from 'react';
+import { Readable } from 'stream';
 import { randomInt } from 'crypto';
 import { TranslationValues } from 'next-intl';
 
 import { showMessage } from '@/components';
-import { DownloadType, Fields, GetUrlProps } from '@/types';
+import { DownloadType, Fields, GetUrlProps, IOrganizations } from '@/types';
 
 export const dateFormat: Record<string, string> = {
   ua: 'dd.MM.yyyy',
@@ -26,6 +27,12 @@ export const renameFile = (file: File) => {
   });
 };
 
+export const getExtensionForBase64 = (url: string) => {
+  const extension = url.split('.')?.pop()?.toLowerCase();
+
+  return switchExtension(extension!);
+};
+
 export const getUrlWithExtension = async ({ url, file, downloadType = DownloadType.URL }: GetUrlProps) => {
   const byteArray = await file.transformToByteArray();
   const extension = url.split('.')?.pop()?.toLowerCase();
@@ -41,6 +48,24 @@ export const getUrlWithExtension = async ({ url, file, downloadType = DownloadTy
   }
 
   return URL.createObjectURL(blob);
+};
+
+export const streamToBase64 = async (stream: Readable) => {
+  const chunks: Buffer[] = [];
+
+  return new Promise<string>((resolve, reject) => {
+    stream.on('data', (chunk) => {
+      chunks.push(chunk);
+    });
+
+    stream.on('end', () => {
+      const buffer = Buffer.concat(chunks);
+
+      resolve(buffer.toString('base64'));
+    });
+
+    stream.on('error', reject);
+  });
 };
 
 export function generatePassword(minLength: number = 8, maxLength: number = 20): string {
@@ -85,10 +110,28 @@ export const getHtmlCodeForPassword = ({
     </p>
     </div>`;
 
-export function checkFieldsToUniqueOfOrganization<T extends Fields>(fields: T, organization: T): (string | number)[] {
-  const keys = Object.keys(fields) as Array<keyof T>;
+export function checkFieldsToUniqueOfOrganization<T extends Fields>(
+  fields: T,
+  organizations: IOrganizations[],
+): string[] {
+  const arr = organizations.map(({ organizationData, contactData }) => ({
+    edrpou: organizationData.edrpou,
+    email: contactData.email,
+  }));
 
-  return keys.filter((key) => fields[key] === organization[key]).map((key) => fields[key] as string | number);
+  const matches: string[] = [];
+
+  arr.forEach(({ edrpou, email }) => {
+    if (edrpou === fields.edrpou) {
+      matches.push(edrpou);
+    }
+
+    if (email === fields.email) {
+      matches.push(email);
+    }
+  });
+
+  return matches;
 }
 
 export function showErrorMessageOfOrganizationExist(
@@ -105,3 +148,5 @@ export const onCopy = (e: MouseEvent<SVGElement | HTMLButtonElement>, text: numb
   navigator.clipboard.writeText(text.toString());
   showMessage.success(messages, { autoClose: 500 });
 };
+
+export const cleanSpaces = (str: string) => str.trim().replace(/\s+/g, ' ');

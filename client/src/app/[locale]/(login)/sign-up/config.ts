@@ -81,7 +81,7 @@ export const organizationValidation = (error: (key: string, params?: Translation
         .matches(linkRegExp, error('siteStart'))
         .min(10, error('minPlural', { int: 10 }))
         .max(2000, error('maxPlural', { int: 2000 }))
-        .test('isRequired', error('required'), (value, context) => {
+        .test('isRequired', error('notEmpty'), (value, context) => {
           const { parent } = context;
 
           if (parent && parent.length > 1) {

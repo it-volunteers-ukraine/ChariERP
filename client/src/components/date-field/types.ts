@@ -7,4 +7,5 @@ export interface DateFieldProps {
   placeholder: string;
   wrapperClass?: string;
   placeholderItalic?: boolean;
+  initialValue?: Date | string;
 }

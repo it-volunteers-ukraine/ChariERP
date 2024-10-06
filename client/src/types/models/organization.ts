@@ -3,7 +3,7 @@ import { Schema, Document } from 'mongoose';
 import { RequestOrganizationStatus } from '../enums';
 
 export interface IOrganizationData {
-  edrpou: number;
+  edrpou: string;
   certificate: string;
   organizationName: string;
   dateOfRegistration: Date;

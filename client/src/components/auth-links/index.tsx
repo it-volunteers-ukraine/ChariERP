@@ -17,7 +17,7 @@ export const AuthLinks = () => {
   });
 
   return (
-    <div className="flex tablet:gap-6 mx-4 tablet:mx-0">
+    <div className="mx-4 flex tablet:mx-0 tablet:gap-6">
       {links.map(({ text, href }) => (
         <Links key={text} text={text} href={href} />
       ))}

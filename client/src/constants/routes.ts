@@ -8,6 +8,8 @@ export const routes = {
   // manager
   boards: '/manager/boards',
   employees: '/manager/employees',
+  employeesEdit: '/manager/employees/edit',
+  employeesCreate: '/manager/employees/create',
   managerDashboard: '/manager/dashboards/board',
   managerDashboards: '/manager/dashboards',
   managerHome: '/manager/home',

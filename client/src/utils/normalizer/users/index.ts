@@ -2,14 +2,34 @@ import { IUsers } from '@/types';
 
 export const normalizeUsers = (users: IUsers[]) => {
   return users.map((user) => ({
-    id: user._id?.toString() || '',
     email: user.email,
     status: user.status,
     lastName: user.lastName,
     position: user.position,
-    avatarUrl: user.avatarUrl || '',
     firstName: user.firstName,
+    id: user._id?.toString() || '',
+    avatarUrl: user.avatarUrl || '',
     middleName: user.middleName || '',
     lastLogin: user?.lastLogin?.toISOString() || 'error',
   }));
+};
+
+export const editUserNormalizer = (user: IUsers) => {
+  const avatar = user.avatarUrl ? user.avatarUrl : '';
+
+  return {
+    email: user.email,
+    avatarUrl: avatar,
+    status: user.status,
+    lastName: user.lastName,
+    position: user.position,
+    notes: user.notes || '',
+    firstName: user.firstName,
+    address: user.address || '',
+    id: user._id?.toString() || '',
+    middleName: user.middleName || '',
+    dateOfBirth: user.dateOfBirth || '',
+    dateOfEntry: user.dateOfEntry || '',
+    lastLogin: user?.lastLogin?.toISOString() || 'error',
+  };
 };

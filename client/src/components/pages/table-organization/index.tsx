@@ -62,7 +62,7 @@ export const TableOrganization = () => {
 
   return (
     <>
-      <div className="relative pt-6 flex flex-col flex-1 bg-white overflow-y-auto rounded-b-lg shadow-dashboard">
+      <div className="relative flex flex-1 flex-col overflow-y-auto rounded-b-lg bg-white pt-6 shadow-dashboard">
         <Input
           type="search"
           name="requisitionSearch"
@@ -71,26 +71,26 @@ export const TableOrganization = () => {
         />
 
         <div className={wrapper}>
-          <div className="hidden laptop:grid laptop:grid-cols-tableOrganization gap-5 py-[14px] pl-3 text-dimGray bg-whiteSecond select-none sticky top-0 z-[9] border-b border-[#A3A3A359]">
+          <div className="sticky top-0 z-[9] hidden select-none gap-5 border-b border-[#A3A3A359] bg-whiteSecond py-[14px] pl-3 text-dimGray laptop:grid laptop:grid-cols-tableOrganization">
             <div
               onClick={() => requestSort('organizationName')}
-              className="flex items-center truncate gap-2 w-fit cursor-pointer"
+              className="flex w-fit cursor-pointer items-center gap-2 truncate"
             >
-              <span className="text-lg leading-[22px] font-robotoCondensed">{table('organizationName')}</span>
+              <span className="font-robotoCondensed text-lg leading-[22px]">{table('organizationName')}</span>
               <Triangle className={styles.organization} />
             </div>
 
             <div
               onClick={() => requestSort('EDRPOU')}
-              className="flex items-center place-self-center gap-2 w-fit cursor-pointer"
+              className="flex w-fit cursor-pointer items-center gap-2 place-self-center"
             >
-              <span className="text-lg leading-[22px] font-robotoCondensed">{table('EDRPOU')}</span>
+              <span className="font-robotoCondensed text-lg leading-[22px]">{table('EDRPOU')}</span>
               <Triangle className={styles.edrpou} />
             </div>
 
             <div
               onClick={() => requestSort('users')}
-              className="flex items-center place-self-center gap-2 w-fit cursor-pointer"
+              className="flex w-fit cursor-pointer items-center gap-2 place-self-center"
             >
               <User className="text-midGray" width={14.5} height={14.5} />
               <Triangle className={styles.user} />
@@ -98,23 +98,23 @@ export const TableOrganization = () => {
 
             <div
               onClick={() => requestSort('approvalDate')}
-              className="flex items-center place-self-center gap-2 w-fit cursor-pointer"
+              className="flex w-fit cursor-pointer items-center gap-2 place-self-center"
             >
               <Calendar className="text-midGray" width={16} height={16} />
-              <span className="text-lg leading-[22px] font-robotoCondensed">{table('registrationDate')}</span>
+              <span className="font-robotoCondensed text-lg leading-[22px]">{table('registrationDate')}</span>
               <Triangle className={styles.date} />
             </div>
 
             <div
               onClick={() => requestSort('email')}
-              className="flex items-center justify-start gap-2 pl-2 w-fit cursor-pointer"
+              className="flex w-fit cursor-pointer items-center justify-start gap-2 pl-2"
             >
-              <span className="text-lg leading-[22px] font-robotoCondensed">{table('email')}</span>
+              <span className="font-robotoCondensed text-lg leading-[22px]">{table('email')}</span>
               <Triangle className={styles.email} />
             </div>
           </div>
 
-          <div className="text-midGray grid laptop:block grid-cols-1 tablet:grid-cols-2 gap-4 tablet:gap-6  laptop:gap-0">
+          <div className="grid grid-cols-1 gap-4 text-midGray tablet:grid-cols-2 tablet:gap-6 laptop:block laptop:gap-0">
             {items.map((item) => (
               <RowItem key={item.id} item={item} />
             ))}
@@ -127,7 +127,7 @@ export const TableOrganization = () => {
         onChange={setPage}
         pageSize={pageSize}
         total={totalRecords}
-        className=" max-w-[440px] desktop:ml-11"
+        className="max-w-[440px] desktop:ml-11"
       />
     </>
   );

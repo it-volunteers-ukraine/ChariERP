@@ -9,7 +9,7 @@ import { IOrganization, RequestOrganizationStatus } from '@/types';
 
 const pageSize = 12;
 
-export const DeclinedPage = () => {
+export const RequestsPage = () => {
   const [page, setPage] = useState(1);
   const { setIsLoading } = useLoaderAdminPage();
   const [totalRecords, setTotalRecords] = useState(1);
@@ -17,11 +17,12 @@ export const DeclinedPage = () => {
 
   const getData = async (currentPage: number) => {
     setIsLoading(true);
+
     try {
       const data = await getAdminOrganizationsAction({
         limit: pageSize,
         page: currentPage,
-        filterStatus: RequestOrganizationStatus.DECLINED,
+        filterStatus: RequestOrganizationStatus.PENDING,
       });
 
       setOrganizations(data.results as IOrganization[]);
@@ -39,14 +40,13 @@ export const DeclinedPage = () => {
 
   return (
     <>
-      <div className="relative pt-6 flex flex-col flex-1 bg-white rounded-b-lg shadow-dashboard">
+      <div className="relative flex flex-1 flex-col rounded-b-lg bg-white pt-6 shadow-dashboard">
         <Input
           type="search"
           name="requisitionSearch"
           label="requisitionSearch"
           wrapperClass="mb-6 px-6 tablet:pl-8 tablet:max-w-[373px]"
         />
-
         <TableRequests data={organizations} getData={() => getData(page)} isPagination={totalRecords > pageSize} />
       </div>
 
@@ -55,7 +55,7 @@ export const DeclinedPage = () => {
         onChange={setPage}
         pageSize={pageSize}
         total={totalRecords}
-        className="py-16 max-w-[440px] my-auto desktop:ml-11"
+        className="my-auto max-w-[440px] desktop:ml-11"
       />
     </>
   );

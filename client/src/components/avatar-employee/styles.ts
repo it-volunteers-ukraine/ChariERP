@@ -8,4 +8,5 @@ export const getStyles = (className?: string) => ({
     },
   ),
   defaultAvatar: 'uppercase text-dark-blue text-[36px] font-scada',
+  spinner: 'w-8 h-8 text-dark-blue',
 });

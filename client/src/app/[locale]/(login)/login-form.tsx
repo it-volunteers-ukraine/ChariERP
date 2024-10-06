@@ -33,8 +33,8 @@ const LoginForm = ({ onSubmit, isLoading }: ILoginFormProps) => {
 
       <Formik onSubmit={onSubmit} initialValues={initialValues} validationSchema={validationSchema}>
         {() => (
-          <Form className="flex flex-col items-center pt-7 pb-2 desktop:pt-[30px] desktop:pb-[22px] gap-[42px] max-w-[400px] w-full">
-            <div className="flex flex-col w-full">
+          <Form className="flex w-full max-w-[400px] flex-col items-center gap-[42px] pb-2 pt-7 desktop:pb-[22px] desktop:pt-[30px]">
+            <div className="flex w-full flex-col">
               <InputField name="email" label="Email" required wrapperClass="mb-[32px]" />
 
               <InputField required name="password" type="password" label={login('password')} />
@@ -42,7 +42,7 @@ const LoginForm = ({ onSubmit, isLoading }: ILoginFormProps) => {
               <SmallBtn
                 type="changePass"
                 text={btn('forgotPass')}
-                className="py-[14.5px] mt-1"
+                className="mt-1 py-[14.5px]"
                 onClick={() => setIsOpenModal(true)}
               />
             </div>

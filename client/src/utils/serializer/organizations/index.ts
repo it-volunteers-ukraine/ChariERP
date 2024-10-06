@@ -1,21 +1,21 @@
-import { renameFile } from '@/utils';
+import { cleanSpaces, renameFile } from '@/utils';
 import { OrganizationEditValues, OrganizationFormValues, OrganizationUpdateValues } from '@/types';
 
 export const serializeOrganizationsCreate = (data: OrganizationFormValues) => {
   return {
     file: renameFile(data.certificate as File),
     data: {
-      site: data.site,
-      email: data.email,
       phone: data.phone,
       edrpou: data.edrpou,
-      social: data.social,
-      lastName: data.lastName,
-      position: data.position,
-      firstName: data.firstName,
-      middleName: data.middleName,
-      organizationName: data.organizationName,
+      site: cleanSpaces(data.site),
+      email: cleanSpaces(data.email),
+      lastName: cleanSpaces(data.lastName),
+      position: cleanSpaces(data.position),
+      firstName: cleanSpaces(data.firstName),
+      middleName: cleanSpaces(data.middleName),
       dateOfRegistration: data.dateOfRegistration,
+      social: data.social.map((item) => cleanSpaces(item)),
+      organizationName: cleanSpaces(data.organizationName),
     },
   };
 };
@@ -26,16 +26,16 @@ export const serializeOrganizationsUpdate = (
   return {
     file: data.certificate,
     data: {
-      site: data.site,
-      email: data.email,
       phone: data.phone,
       edrpou: data.edrpou,
-      social: data.social,
-      lastName: data.lastName,
-      position: data.position,
-      firstName: data.firstName,
-      middleName: data.middleName,
-      organizationName: data.organizationName,
+      site: cleanSpaces(data.site),
+      email: cleanSpaces(data.email),
+      lastName: cleanSpaces(data.lastName),
+      position: cleanSpaces(data.position),
+      firstName: cleanSpaces(data.firstName),
+      middleName: cleanSpaces(data.middleName),
+      social: data.social.map((item) => cleanSpaces(item)),
+      organizationName: cleanSpaces(data.organizationName),
       dateOfRegistration: new Date(data.dateOfRegistration).toISOString(),
     },
   };

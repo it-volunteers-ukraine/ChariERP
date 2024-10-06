@@ -58,7 +58,7 @@ export const BoardCard = ({ className, boardData, sumBoards, limitOfCard = 5 }: 
       )}
       {isLastCard && isCardLimit && (
         <div className={styles.wrapperLimit}>
-          <Info className="w-10 h-10 text-red mb-2" />
+          <Info className="mb-2 h-10 w-10 text-red" />
           <p className={styles.text}>{messages('limitExceeded', { int: limitOfCard })}</p>
         </div>
       )}
