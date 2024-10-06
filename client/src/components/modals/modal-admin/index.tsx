@@ -18,22 +18,22 @@ export const ModalAdmin = ({
 
   return (
     <Overlay opened={isOpen} onClose={onClose}>
-      <div className="flex flex-col justify-between w-full gap-4">
-        <div className="flex flex-col gap-2 w-full">
-          <h1 className=" text-center uppercase text-scada font-bold text-xl desktop:text-2xl leading-6 text-mobster">
+      <div className="flex w-full flex-col justify-between gap-4">
+        <div className="flex w-full flex-col gap-2">
+          <h1 className="text-scada text-center text-xl font-bold uppercase leading-6 text-mobster desktop:text-2xl">
             {title}
           </h1>
 
-          {subtitle && <h2 className="text-roboto font-normal text-dimGray text-center">{subtitle}</h2>}
+          {subtitle && <h2 className="text-roboto text-center font-normal text-dimGray">{subtitle}</h2>}
         </div>
 
         {content && isContentString && (
-          <span className="text-roboto font-normal text-dimGray text-center">{content}</span>
+          <span className="text-roboto text-center font-normal text-dimGray">{content}</span>
         )}
 
         {content && !isContentString && content}
 
-        <div className="flex gap-6 items-center justify-center pt-2 w-full">
+        <div className="flex w-full items-center justify-center gap-6 pt-2">
           <Button
             type="submit"
             styleType="green"

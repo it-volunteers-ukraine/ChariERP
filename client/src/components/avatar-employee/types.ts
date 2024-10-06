@@ -5,4 +5,5 @@ export interface AvatarProps {
   name: string;
   surname: string;
   className?: string;
+  isLoading?: boolean;
 }

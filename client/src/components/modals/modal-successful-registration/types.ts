@@ -4,9 +4,9 @@ export interface IModalAdminProps {
   isLoading?: boolean;
   onClose: () => void;
   leftBtnText: string;
-  navigate: () => void;
   rightBtnText: string;
   onConfirm: () => void;
   classNameBtn?: string;
+  onNavigate: () => void;
   content?: string | React.ReactNode;
 }

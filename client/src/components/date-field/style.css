@@ -7,7 +7,7 @@
 }
 
 #DatePicker .react-datepicker__navigation.react-datepicker__navigation--next {
-  @apply right-[30px] top-[20px] left-[inherit];
+  @apply left-[inherit] right-[30px] top-[20px];
 }
 
 #DatePicker .react-datepicker__header {

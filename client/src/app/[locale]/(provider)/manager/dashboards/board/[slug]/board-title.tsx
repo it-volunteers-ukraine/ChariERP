@@ -13,13 +13,13 @@ export const BoardTitle = ({ titleText }: IBoardTitleProps) => {
   const massageCopyTranslations = useTranslations('board');
 
   return (
-    <div className="flex justify-between container-chari gap-5 py-3 desktop:gap-[160px]">
-      <h2 className="text-[20px] leading-[24px] tablet:text-[26px] tablet:leading-[30px] font-scada font-bold line-clamp-3 text-lightBlue">
+    <div className="container-chari flex justify-between gap-5 py-3 desktop:gap-[160px]">
+      <h2 className="line-clamp-3 font-scada text-[20px] font-bold leading-[24px] text-lightBlue tablet:text-[26px] tablet:leading-[30px]">
         {titleText}
       </h2>
 
       <button
-        className="cursor-pointer min-w-10 flex bg-transparent text-lightBlue hover:text-dark-blue  active:text-greenActive disabled:text-disabled transition-all duration-300"
+        className="flex min-w-10 cursor-pointer bg-transparent text-lightBlue transition-all duration-300 hover:text-dark-blue active:text-greenActive disabled:text-disabled"
         onClick={(e) => onCopy(e, `${window.location.href}`, massageCopyTranslations('massageCopyTitle'))}
       >
         <Copy />

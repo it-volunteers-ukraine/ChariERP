@@ -40,7 +40,7 @@ export const RequestsPage = () => {
 
   return (
     <>
-      <div className="relative pt-6 flex flex-col flex-1 bg-white rounded-b-lg shadow-dashboard">
+      <div className="relative flex flex-1 flex-col rounded-b-lg bg-white pt-6 shadow-dashboard">
         <Input
           type="search"
           name="requisitionSearch"
@@ -55,7 +55,7 @@ export const RequestsPage = () => {
         onChange={setPage}
         pageSize={pageSize}
         total={totalRecords}
-        className="max-w-[440px] my-auto desktop:ml-11"
+        className="my-auto max-w-[440px] desktop:ml-11"
       />
     </>
   );

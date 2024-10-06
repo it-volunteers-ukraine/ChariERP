@@ -27,7 +27,7 @@ class contactData {
 class organizationData {
    certificate: string
    dateOfRegistration: isodate
-   edrpou: int32
+   edrpou: string
    organizationName: string
 }
 
