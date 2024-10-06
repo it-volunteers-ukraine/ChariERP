@@ -16,20 +16,20 @@ export const NoAccess = () => {
 
   return (
     <>
-      <div className="relative h-full w-full bg-white overflow-hidden">
+      <div className="relative h-full w-full overflow-hidden bg-white">
         <div className="fixed blur-[7px]">
           <Image src={NoAccessBG} priority={true} alt="bg" className="min-w-[1630px]" />
         </div>
 
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="flex flex-col gap-8 p-[32px_20px] mx-[16px] w-full max-w-[416px] bg-white drop-shadow-modal rounded-[8px]">
+          <div className="mx-[16px] flex w-full max-w-[416px] flex-col gap-8 rounded-[8px] bg-white p-[32px_20px] drop-shadow-modal">
             <Lock width={48} height={48} className="m-auto" />
 
             <span className="text-center">{text('modalUserWithoutAccess.text')}</span>
 
             <Button
               text={btn('goToAllBoards')}
-              className="w-[221px] uppercase m-auto"
+              className="m-auto w-[221px] uppercase"
               onClick={() => router.push(routes.managerDashboards)}
             />
           </div>
