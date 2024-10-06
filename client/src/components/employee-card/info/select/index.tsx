@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { UserStatus } from '@/types';
@@ -7,7 +7,7 @@ import { ArrowUp } from '@/assets/icons';
 import { ISelect } from './types';
 import { getStyles } from './styles';
 
-export const Select = ({ status, setStatus }: ISelect) => {
+export const Select = ({ status, fieldName, setFieldValue }: ISelect) => {
   const cardTranslate = useTranslations('employeeCard');
   const statusDefault = status ? cardTranslate(status) : undefined;
 
@@ -23,13 +23,20 @@ export const Select = ({ status, setStatus }: ISelect) => {
     setSelected(translatedValue);
 
     setIsOpen(false);
-    if (setStatus) {
-      setStatus(value);
+
+    if (setFieldValue && fieldName) {
+      setFieldValue(fieldName, value);
+
+      return;
     }
   };
 
+  useEffect(() => {
+    setSelected(cardTranslate(status));
+  }, [status]);
+
   return (
-    <div className="relative w-[140px] h-[36px]">
+    <div className="relative h-[36px] w-[140px]">
       <div className={styles.wrapper}>
         <div onClick={() => setIsOpen(!isOpen)} className={styles.selected}>
           {selected}

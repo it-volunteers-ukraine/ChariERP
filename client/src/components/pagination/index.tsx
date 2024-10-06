@@ -35,7 +35,7 @@ export const Pagination = ({
         nextIcon={<Icon.Next />}
         prevIcon={<Icon.Prev />}
         showLessItems={showLessItems}
-        className="flex justify-between items-center custom-pagination w-fit"
+        className="custom-pagination flex w-fit items-center justify-between"
       />
     </div>
   );

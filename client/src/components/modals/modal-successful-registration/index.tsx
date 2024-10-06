@@ -7,9 +7,9 @@ export const ModalSuccessfulRegistration = ({
   isOpen,
   content,
   onClose,
-  navigate,
   onConfirm,
   isLoading,
+  onNavigate,
   leftBtnText,
   classNameBtn,
   rightBtnText,
@@ -17,17 +17,17 @@ export const ModalSuccessfulRegistration = ({
   const isContentString = typeof content === 'string';
 
   return (
-    <Overlay opened={isOpen} onClose={onClose}>
-      <div className="flex flex-col justify-between w-full gap-4">
-        <h1 className=" text-center uppercase text-scada font-bold text-[20px] leading-6 text-comet">{title}</h1>
+    <Overlay opened={isOpen} onClose={onClose} classNameModal="max-w-[708px]">
+      <div className="flex w-full flex-col justify-between gap-4">
+        <h1 className="text-scada text-center text-[20px] font-bold uppercase leading-6 text-comet">{title}</h1>
 
         {content && isContentString && (
-          <span className="text-roboto font-normal text-comet text-center">{content}</span>
+          <span className="text-roboto text-center font-normal text-comet">{content}</span>
         )}
 
         {content && !isContentString && content}
 
-        <div className="flex gap-6 items-center justify-center pt-2 w-full">
+        <div className="flex w-full items-center justify-center gap-6 pt-2">
           <Button
             type="submit"
             text={leftBtnText}
@@ -37,7 +37,7 @@ export const ModalSuccessfulRegistration = ({
             className={classNameBtn}
           />
 
-          <Button styleType="outline-blue" className={classNameBtn} onClick={navigate} text={rightBtnText} />
+          <Button styleType="outline-blue" className={classNameBtn} onClick={onNavigate} text={rightBtnText} />
         </div>
       </div>
     </Overlay>

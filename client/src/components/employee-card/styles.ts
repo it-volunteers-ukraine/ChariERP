@@ -6,6 +6,6 @@ export const getStyles = ({ className }: { className?: string }) => ({
     className,
   ),
   abbName:
-    'font-robotoCondensed text-[18px] text-comet leading-[18px] font-normal overflow-hidden text-ellipsis text-nowrap',
+    'font-robotoCondensed text-[18px] text-comet leading-[18px] font-normal overflow-hidden text-ellipsis text-nowrap h-[18px]',
   abbNameLast: 'mb-[6px]',
 });

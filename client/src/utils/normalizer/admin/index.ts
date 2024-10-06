@@ -12,7 +12,7 @@ export const oneOrganizationNormalizer = (data: IOrganizations) => {
     site: data.mediaData.site || '',
     email: data.contactData.email || '',
     phone: data.contactData.phone || '',
-    edrpou: data.organizationData.edrpou.toString() || '',
+    edrpou: data.organizationData.edrpou || '',
     social: data.mediaData.social || [''],
     lastName: data.contactData.lastName || '',
     position: data.contactData.position || '',

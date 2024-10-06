@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Form, Formik, FormikErrors, FormikValues } from 'formik';
 
-import { UserStatus } from '@/types';
 import {
   Button,
   Accordion,
@@ -16,16 +15,14 @@ import {
   showMessage,
   AvatarField,
   EmployeeCard,
-  organizationValidation,
-  organizationInitialValues,
+  employeeValidation,
 } from '@/components';
 
 import { getStyles } from './styles';
+import { IEditData, IEmployeeForm } from './types';
 
-const EmployeePage = () => {
+export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: IEmployeeForm) => {
   const router = useRouter();
-  const { id } = useParams();
-  const isCreate = id === 'create';
   const styles = getStyles(isCreate);
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
@@ -33,10 +30,6 @@ const EmployeePage = () => {
   const error = useTranslations('validation');
 
   const [isOpenSave, setIsOpenSave] = useState(false);
-  const [isOpenCancel, setIsOpenCancel] = useState(false);
-  const [status, setStatus] = useState(UserStatus.ACTIVE);
-
-  const onSubmit = async (values: FormikValues) => console.log('data', values);
 
   const submitHandle = async (validateForm: () => Promise<FormikErrors<FormikValues>>, handleSubmit: () => void) => {
     const errors = await validateForm();
@@ -53,12 +46,13 @@ const EmployeePage = () => {
     <Formik
       validateOnBlur
       validateOnChange
+      enableReinitialize
       onSubmit={onSubmit}
-      initialValues={organizationInitialValues()}
-      validationSchema={organizationValidation(error).omit(['agree'])}
+      initialValues={initialValues}
+      validationSchema={employeeValidation(error).omit(['password'])}
     >
-      {({ errors, validateForm, handleSubmit }) => (
-        <div className="p-[24px_16px_48px] tablet:p-[24px_32px_48px] desktop:p-[32px_36px_48px] w-full bg-white overflow-y-auto scroll-blue">
+      {({ values, errors, validateForm, handleSubmit, setFieldValue, setValues }) => (
+        <div className="scroll-blue w-full overflow-y-auto bg-white p-[24px_16px_48px] tablet:p-[24px_32px_48px] desktop:p-[32px_36px_48px]">
           <div className="m-auto w-full desktopXl:max-w-[1066px]">
             <ModalAdmin
               isOpen={isOpenSave}
@@ -71,44 +65,38 @@ const EmployeePage = () => {
               onConfirm={() => submitHandle(validateForm, handleSubmit)}
             />
 
-            <ModalAdmin
-              isOpen={isOpenCancel}
-              classNameBtn="w-[82px]"
-              btnCancelText={btn('no')}
-              btnConfirmText={btn('yes')}
-              title={modal('remove.title')}
-              onClose={() => setIsOpenCancel(false)}
-              onConfirm={() => submitHandle(validateForm, handleSubmit)}
-            />
-
             <Form>
-              {isCreate ? (
+              {isCreate && (
                 <div className="mb-6">
-                  <AvatarField name="avatar" info={text('avatar.information')} />
+                  <AvatarField name="avatarUrl" info={text('avatar.information')} />
                 </div>
-              ) : (
-                <>
-                  <div className="flex items-center justify-start pb-6 border-b-2 border-lightBlue">
-                    <div className="flex items-center gap-4 w-fit">
-                      <ButtonIcon icon="back" iconType="primary" onClick={() => router.back()} />
+              )}
 
-                      <ButtonIcon icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
+              {!isCreate && (
+                <>
+                  <div className="flex items-center justify-start border-b-2 border-lightBlue pb-6">
+                    <div className="flex w-fit items-center gap-4">
+                      <ButtonIcon type="button" icon="back" iconType="primary" onClick={() => router.back()} />
+
+                      <ButtonIcon type="button" icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
                     </div>
                   </div>
 
                   <EmployeeCard
+                    inById
                     id="123546789"
                     isStatusSelect
-                    firstName="adfhgyt"
-                    status={status}
-                    middleName="wretrghj"
-                    setStatus={setStatus}
-                    lastName="r4eryduy54r"
-                    lastLogin="20.08.2024"
+                    fieldName="status"
+                    email={values.email}
                     classNameImg="!w-[92px]"
-                    position="szdfgdghgjghkhjk"
-                    email="wretdgood@gmail.com"
-                    className="tablet:!flex-row !items-center gap-[20px] tablet:gap-0 laptop:!gap-12 !p-[24px_0_32px] desktop:!py-8 !h-fit !bg-white !shadow-none"
+                    lastName={values.lastName}
+                    position={values.position}
+                    firstName={values.firstName}
+                    setFieldValue={setFieldValue}
+                    middleName={values.middleName}
+                    status={(values as IEditData).status}
+                    lastLogin={(values as IEditData).lastLogin}
+                    className="!h-fit !items-center gap-[20px] !bg-white !p-[24px_0_32px] !shadow-none tablet:!flex-row tablet:gap-0 laptop:!gap-12 desktop:!py-8"
                   />
                 </>
               )}
@@ -122,13 +110,13 @@ const EmployeePage = () => {
                   classNameChildren="flex flex-col gap-4"
                   changedLength={Object.keys(errors).length}
                 >
-                  <div className="flex flex-col laptop:flex-row gap-4 laptop:gap-12">
+                  <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
                     <InputField required name="lastName" label={text('lastName.label')} />
 
                     <InputField required name="firstName" label={text('name.label')} />
                   </div>
 
-                  <div className="flex flex-col laptop:flex-row gap-4 laptop:gap-12">
+                  <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
                     <InputField name="middleName" label={text('middleName.label')} />
 
                     <InputField
@@ -143,7 +131,7 @@ const EmployeePage = () => {
                   </div>
 
                   <InputField
-                    name="positionOfMember"
+                    name="position"
                     label={text('positionOfMember.label')}
                     info={isCreate && text('positionOfMember.information')}
                     wrapperClass={`${!isCreate && 'laptop:max-w-[calc(50%-24px)]'} gap-1 laptop:!gap-12`}
@@ -170,9 +158,9 @@ const EmployeePage = () => {
                 <Accordion
                   initialState
                   classNameWrapper="!gap-3"
-                  title={text('title.additionalInformation')}
                   classNameTitle="text-[20px] uppercase"
                   changedLength={Object.keys(errors).length}
+                  title={text('title.additionalInformation')}
                   classNameChildren="flex flex-col gap-4 laptop:gap-12 laptop:flex-row"
                 >
                   <div className="flex flex-col gap-4 laptop:w-[calc(50%-24px)]">
@@ -190,13 +178,13 @@ const EmployeePage = () => {
                       placeholder={text('dateOfRegisterOrganization.chooseDate')}
                     />
 
-                    <InputField cross name="homeAddress" label={text('homeAddress.label')} />
+                    <InputField cross name="address" label={text('homeAddress.label')} />
                   </div>
 
                   <InputField
                     isTextarea
+                    name="notes"
                     type="textarea"
-                    name="textarea"
                     label={text('notes.label')}
                     wrapperClass="laptop:max-w-[calc(50%-24px)]"
                     textAreaClass="!p-[0_4px_0_16px] mr-[6px] min-h-[183px] scroll-textarea !text-input-text resize-none"
@@ -204,22 +192,31 @@ const EmployeePage = () => {
                 </Accordion>
 
                 <div className={`${styles.btnWrapper}`}>
-                  {!isCreate && <Button styleType="outline-blue" text={btn('deleteEmployee')} className={styles.btn} />}
+                  {!isCreate && (
+                    <Button
+                      disabled
+                      type="button"
+                      className={styles.btn}
+                      styleType="outline-blue"
+                      text={btn('deleteEmployee')}
+                    />
+                  )}
 
                   <div className={`${styles.btnWrapper} w-full tablet:w-fit`}>
                     <Button
                       type="submit"
                       styleType="green"
+                      isLoading={isLoading}
                       className={styles.btn}
                       text={isCreate ? btn('add') : btn('saveChanges')}
-                      onClick={() => (isCreate ? submitHandle(validateForm, handleSubmit) : setIsOpenSave(!isOpenSave))}
                     />
 
                     <Button
+                      type="button"
                       styleType="red"
                       className={styles.btn}
+                      onClick={() => setValues(initialValues)}
                       text={isCreate ? btn('cancel') : btn('cancelChanges')}
-                      onClick={() => !isCreate && setIsOpenCancel(!isOpenCancel)}
                     />
                   </div>
                 </div>
@@ -231,5 +228,3 @@ const EmployeePage = () => {
     </Formik>
   );
 };
-
-export default EmployeePage;

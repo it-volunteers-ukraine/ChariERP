@@ -1,14 +1,14 @@
 import { Metadata } from 'next';
 
-import EmployeePage from './employee-id';
+import { EmployeeId } from './employee-id';
 
 export const metadata: Metadata = {
-  title: 'Add Member',
-  description: 'Add Member',
+  title: 'Edit member',
+  description: 'Edit member',
 };
 
 const Employee = () => {
-  return <EmployeePage />;
+  return <EmployeeId />;
 };
 
 export default Employee;
