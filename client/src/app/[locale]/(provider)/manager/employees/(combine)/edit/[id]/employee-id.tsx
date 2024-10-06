@@ -88,4 +88,4 @@ const EmployeeId = () => {
   );
 };
 
-export default EmployeeId;
+export { EmployeeId };
