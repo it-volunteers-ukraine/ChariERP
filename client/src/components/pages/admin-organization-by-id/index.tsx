@@ -247,28 +247,28 @@ const AdminOrganizationById = () => {
                   </div>
                 </div>
 
-                <Form className="flex flex-col gap-12">
+                <Form className="flex flex-col gap-9 desktop:gap-12">
                   <Accordion
                     initialState
                     classNameTitle="text-[20px]"
                     title={text('title.basicInformation')}
-                    classNameChildren="flex flex-col gap-6"
+                    classNameChildren="flex flex-col gap-4"
                     changedLength={Object.keys(errors).length}
                   >
-                    <div className="flex items-start gap-6">
+                    <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-8">
                       <InputField
                         isCopy
                         required
                         type="number"
                         name="edrpou"
-                        wrapperClass="max-w-[140px]"
+                        wrapperClass="laptop:max-w-[140px]"
                         label={text('organizationTaxNumber.labelErdpou')}
                       />
 
                       <InputField isCopy required name="organizationName" label={text('organizationName.label')} />
                     </div>
 
-                    <div className="flex items-start gap-16">
+                    <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
                       <FileField
                         required
                         placeholderItalic
@@ -291,23 +291,23 @@ const AdminOrganizationById = () => {
                   <Accordion
                     initialState
                     classNameTitle="text-[20px]"
-                    classNameChildren="flex flex-col gap-6"
+                    classNameChildren="flex flex-col gap-4"
                     title={text('title.contactInformation')}
                     changedLength={Object.keys(errors).length}
                   >
-                    <div className="flex items-start gap-16">
+                    <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
                       <InputField required name="position" label={text('positionOrganization.label')} />
 
                       <InputField required name="lastName" label={text('lastName.label')} />
                     </div>
 
-                    <div className="flex items-start gap-16">
+                    <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
                       <InputField required name="firstName" label={text('name.label')} />
 
                       <InputField name="middleName" label={text('middleName.label')} />
                     </div>
 
-                    <div className="flex items-start gap-16">
+                    <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
                       <InputField
                         required
                         isMasked
@@ -327,9 +327,14 @@ const AdminOrganizationById = () => {
                     title={text('title.media')}
                     classNameTitle="text-[20px]"
                     changedLength={values?.social?.length}
-                    classNameChildren="flex flex-col gap-6"
+                    classNameChildren="flex flex-col gap-4"
                   >
-                    <InputField cross name="site" wrapperClass="max-w-[465px]" label={text('site.label')} />
+                    <InputField
+                      cross
+                      name="site"
+                      label={text('site.label')}
+                      wrapperClass="laptop:max-w-[calc(50%-24px)]"
+                    />
 
                     <FieldArray
                       name="social"
@@ -345,9 +350,9 @@ const AdminOrganizationById = () => {
                                 <InputField
                                   cross
                                   name={`social.${index}`}
-                                  wrapperClass="max-w-[465px]"
                                   key={`media-signUp-${index}`}
                                   label={text('socialNetworks.label')}
+                                  wrapperClass="laptop:max-w-[calc(50%-24px)]"
                                 />
                                 <div className="flex max-w-[465px] items-center justify-between">
                                   {isRightLength && isLastIndex && (
