@@ -239,7 +239,8 @@
   "board": {
     "newBoard": "Назвати дошку",
     "createNew": "Створити нову дошку",
-    "limitExceeded": "Ви можете мати не більше {int} дошок"
+    "limitExceeded": "Ви можете мати не більше {int} дошок",
+    "allParticipants": "всі учасники"
   },
   "copy": {
     "messages": "Скопійовано в буфер обміну"
