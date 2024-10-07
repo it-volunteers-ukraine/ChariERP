@@ -261,7 +261,7 @@ const AdminOrganizationById = () => {
                         required
                         type="number"
                         name="edrpou"
-                        wrapperClass="w-full laptop:max-w-[140px]"
+                        wrapperClass="laptop:max-w-[140px]"
                         label={text('organizationTaxNumber.labelErdpou')}
                       />
 
@@ -329,12 +329,7 @@ const AdminOrganizationById = () => {
                     changedLength={values?.social?.length}
                     classNameChildren="flex flex-col gap-6"
                   >
-                    <InputField
-                      cross
-                      name="site"
-                      wrapperClass="w-full laptop:max-w-[465px]"
-                      label={text('site.label')}
-                    />
+                    <InputField cross name="site" wrapperClass=" laptop:max-w-[465px]" label={text('site.label')} />
 
                     <FieldArray
                       name="social"
@@ -350,11 +345,11 @@ const AdminOrganizationById = () => {
                                 <InputField
                                   cross
                                   name={`social.${index}`}
-                                  wrapperClass="w-full laptop:max-w-[465px]"
+                                  wrapperClass="laptop:max-w-[465px]"
                                   key={`media-signUp-${index}`}
                                   label={text('socialNetworks.label')}
                                 />
-                                <div className="flex w-full items-center justify-between laptop:max-w-[465px]">
+                                <div className="flex items-center justify-between laptop:max-w-[465px]">
                                   {isRightLength && isLastIndex && (
                                     <SmallBtn
                                       type="add"
