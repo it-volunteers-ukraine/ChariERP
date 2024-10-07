@@ -291,9 +291,9 @@ const AdminOrganizationById = () => {
                   <Accordion
                     initialState
                     classNameTitle="text-[20px]"
-                    classNameChildren="flex flex-col gap-6 items-start laptop:gap-6"
                     title={text('title.contactInformation')}
                     changedLength={Object.keys(errors).length}
+                    classNameChildren="flex flex-col gap-6 items-start laptop:gap-6"
                   >
                     <div className="flex w-full flex-col items-start gap-6 laptop:flex-row laptop:gap-16">
                       <InputField required name="position" label={text('positionOrganization.label')} />
@@ -329,7 +329,7 @@ const AdminOrganizationById = () => {
                     changedLength={values?.social?.length}
                     classNameChildren="flex flex-col gap-6"
                   >
-                    <InputField cross name="site" wrapperClass=" laptop:max-w-[465px]" label={text('site.label')} />
+                    <InputField cross name="site" wrapperClass="laptop:max-w-[465px]" label={text('site.label')} />
 
                     <FieldArray
                       name="social"
@@ -337,16 +337,16 @@ const AdminOrganizationById = () => {
                         <>
                           {values.social.map((_, index: number) => {
                             const isRightLength = values.social.length < 5;
-                            const isLastIndex = index === values.social.length - 1;
                             const isMoreThanOne = values.social.length > 1;
+                            const isLastIndex = index === values.social.length - 1;
 
                             return (
                               <div key={index}>
                                 <InputField
                                   cross
                                   name={`social.${index}`}
-                                  wrapperClass="laptop:max-w-[465px]"
                                   key={`media-signUp-${index}`}
+                                  wrapperClass="laptop:max-w-[465px]"
                                   label={text('socialNetworks.label')}
                                 />
                                 <div className="flex items-center justify-between laptop:max-w-[465px]">
