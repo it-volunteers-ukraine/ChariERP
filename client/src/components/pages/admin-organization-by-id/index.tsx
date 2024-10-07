@@ -232,7 +232,7 @@ const AdminOrganizationById = () => {
               }
             />
 
-            <div className="mb-20 flex justify-start rounded-lg bg-white px-8 pb-12 shadow-dashboard">
+            <div className="mb-20 flex justify-start rounded-lg bg-white px-4 pb-12 shadow-dashboard tablet:px-8">
               <div className="mx-auto w-full max-w-[1066px]">
                 <div className="mb-4 flex items-center justify-between border-b-2 border-lightBlue py-6 pr-2">
                   <div className="flex items-center gap-4">
@@ -381,14 +381,14 @@ const AdminOrganizationById = () => {
                     />
                   </Accordion>
 
-                  <div className="flex w-full justify-end gap-6">
+                  <div className="flex w-full flex-col justify-end gap-3 tablet:flex-row tablet:gap-6">
                     {(isRequests || isDeclined) && (
                       <Button
                         type="button"
                         styleType="green"
                         text={btn('accept')}
-                        className="uppercase"
                         onClick={() => setIsOpenAccept(true)}
+                        className="w-full uppercase tablet:w-fit"
                       />
                     )}
 
@@ -396,9 +396,9 @@ const AdminOrganizationById = () => {
                       <Button
                         type="button"
                         styleType="red"
-                        className="uppercase"
                         text={btn('decline')}
                         onClick={() => setIsOpenDecline(true)}
+                        className="w-full uppercase tablet:w-fit"
                       />
                     )}
 
@@ -406,9 +406,9 @@ const AdminOrganizationById = () => {
                       <Button
                         type="button"
                         styleType="red"
-                        className="uppercase"
                         text={btn('delete')}
                         onClick={() => setIsOpenDelete(true)}
+                        className="w-full uppercase tablet:w-fit"
                       />
                     )}
                   </div>
