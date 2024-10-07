@@ -12,8 +12,8 @@ export const DropdownList = ({ users, setIsDropdownOpen }: IDropdownListProps) =
   const translate = useTranslations('');
 
   return (
-    <div className="absolute w-[280px] pb-3 bg-arcticSky top-0 left-0 border rounded-lg shadow-dashboard">
-      <div className="text-black font-scada text-lg p-3 flex items-center justify-between">
+    <div className="absolute left-0 top-0 w-[280px] rounded-lg border bg-arcticSky pb-3 shadow-dashboard">
+      <div className="flex items-center justify-between p-3 font-scada text-lg text-black">
         <p className="font-semibold uppercase">{translate('board.allParticipants')}</p>
 
         <button className="w-6" onClick={setIsDropdownOpen}>
@@ -21,8 +21,8 @@ export const DropdownList = ({ users, setIsDropdownOpen }: IDropdownListProps) =
         </button>
       </div>
 
-      <div className="bg-white pl-4 pr-2 pt-2 pb-[1px]  max-h-[486px] overflow-y-scroll scroll-textarea">
-        <label className="p-2 mb-4 border-[1px] rounded flex gap-2">
+      <div className="scroll-textarea max-h-[486px] overflow-y-scroll bg-white pb-[1px] pl-4 pr-2 pt-2">
+        <label className="mb-4 flex gap-2 rounded border-[1px] p-2">
           <Search className="w-6" />
 
           <input type="text" className="w-full" placeholder={translate('inputs.placeholder.search')} />
@@ -32,12 +32,12 @@ export const DropdownList = ({ users, setIsDropdownOpen }: IDropdownListProps) =
           const fullName = `${firstName} ${lastName}`;
 
           return (
-            <div key={id} className="p-[6px_8px] flex gap-2 border-b-[1px] border-arcticSky hover:bg-superBlue">
-              <span className="w-6 h-6 text-[12px] text-white text-center bg-skyBlue rounded-full">
+            <div key={id} className="flex gap-2 border-b-[1px] border-arcticSky p-[6px_8px] hover:bg-superBlue">
+              <span className="h-6 w-6 rounded-full bg-skyBlue text-center text-[12px] text-white">
                 {`${firstName[0]}${lastName[0]}`}
               </span>
 
-              <p className="text-base text-comet font-robotoCondensed text-nowrap text-ellipsis whitespace-nowrap overflow-hidden">
+              <p className="overflow-hidden text-ellipsis whitespace-nowrap text-nowrap font-robotoCondensed text-base text-comet">
                 {fullName}
               </p>
             </div>

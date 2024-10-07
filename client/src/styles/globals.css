@@ -4,7 +4,7 @@
 
 @layer components {
   * {
-    @apply box-border text-base font-normal font-roboto text-inherit;
+    @apply box-border font-roboto text-base font-normal text-inherit;
   }
   input {
     @apply outline-none;
@@ -28,7 +28,7 @@ body {
 
 @media screen and (min-width: 1440px) {
   .container-chari {
-    @apply px-0 max-w-[1168px] mx-auto;
+    @apply mx-auto max-w-[1168px] px-0;
   }
 }
 
@@ -37,6 +37,7 @@ body {
     @apply max-w-[1736px];
   }
 }
+
 .nav-toggle {
   position: relative;
   background: transparent;
@@ -60,6 +61,7 @@ body {
   width: 24px;
   margin-bottom: 4px;
 }
+
 .nav-toggle:hover [class*='bar-'] {
   filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
 }
@@ -74,11 +76,13 @@ body {
   -webkit-transform-origin: 15% 15%;
   transform-origin: 15% 15%;
 }
+
 .opened .bar-mid {
   opacity: 0;
   -webkit-transition: 0.12s ease all;
   transition: 0.12s ease all;
 }
+
 .opened .bar-bot {
   -webkit-transform: rotate(45deg);
   transform: rotate(-45deg);
@@ -95,7 +99,7 @@ body {
 }
 
 .scroll-blue::-webkit-scrollbar-thumb {
-  @apply cursor-pointer bg-lightBlue w-[7px] rounded-[100px];
+  @apply w-[7px] cursor-pointer rounded-[100px] bg-lightBlue;
 }
 
 .scroll-textarea::-webkit-scrollbar {
@@ -103,5 +107,5 @@ body {
 }
 
 .scroll-textarea::-webkit-scrollbar-thumb {
-  @apply cursor-pointer bg-arcticSky w-[6px] rounded-[100px];
+  @apply w-[6px] cursor-pointer rounded-[100px] bg-arcticSky;
 }

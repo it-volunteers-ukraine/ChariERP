@@ -63,7 +63,7 @@ export const DateField = ({ name, label, required, placeholder, wrapperClass, ..
         const error = controlError(meta, name, label);
 
         const onChange = async (value: Date | null) => {
-          await form.setFieldValue(name, value);
+          await form.setFieldValue(name, value?.getTime() || '');
           await form.setFieldTouched(name);
         };
 
@@ -78,7 +78,6 @@ export const DateField = ({ name, label, required, placeholder, wrapperClass, ..
               ref={pickerRef}
               locale={locale}
               showYearDropdown
-              selected={value}
               className="hidden"
               maxDate={new Date()}
               portalId="DatePicker"
@@ -89,6 +88,7 @@ export const DateField = ({ name, label, required, placeholder, wrapperClass, ..
               onCalendarClose={handelClose}
               minDate={new Date('1991-01-01')}
               onChange={(date) => onChange(date)}
+              selected={value ? new Date(value) : null}
               customInput={
                 <DatePickerInput
                   {...fieldProps}
@@ -97,7 +97,6 @@ export const DateField = ({ name, label, required, placeholder, wrapperClass, ..
                   type="date"
                   name={name}
                   label={label}
-                  value={value}
                   error={error}
                   isrequired={`${required}`}
                 />

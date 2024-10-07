@@ -11,7 +11,7 @@ interface IMokUserIconProps {
 export const UserIcon = ({ firstName, lastName, avatarUrl }: IMokUserIconProps) => {
   return (
     <div
-      className="h-10 w-10 rounded-full ring-2 ring-white overflow-hidden cursor-pointer flex text-[16px] text-white items-center justify-center"
+      className="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full text-[16px] text-white ring-2 ring-white"
       style={{
         backgroundColor: `${lettersToColor(firstName, lastName)}`,
       }}

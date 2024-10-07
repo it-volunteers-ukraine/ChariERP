@@ -5,6 +5,7 @@ import { StyleType } from './types';
 interface IStylesButton {
   isNarrow?: boolean;
   className?: string;
+  disabled?: boolean;
   isLoading?: boolean;
   styleType: StyleType;
 }
@@ -16,7 +17,7 @@ const iconSize = 'w-9 h-9';
 
 const blueSpinner = ['white', 'outline', 'secondary-outline', 'icon-secondary'];
 
-export const getStyles = ({ isNarrow, styleType, className, isLoading }: IStylesButton) => ({
+export const getStyles = ({ disabled, isNarrow, styleType, className, isLoading }: IStylesButton) => ({
   btn: clsx(
     'group flex items-center justify-center overflow-hidden relative text-btn-text rounded-[50px] transition-all duration-300',
     {
@@ -65,8 +66,8 @@ export const getStyles = ({ isNarrow, styleType, className, isLoading }: IStyles
   span: clsx('relative z-[1] select-none flex items-center justify-center font-scada', {
     'text-base leading-4 h-[42px] px-[20px]': !isNarrow,
     'px-[12px] text-xs leading-[14px] h-[24px]': isNarrow,
-    'bg-clip-text text-transparent bg-outlineBlueBtnText bg-[bottom_right] group-hover:bg-[top_left] group-active:text-dark-blue bg-200  transition-all duration-300':
-      styleType === 'outline-blue',
+    'bg-clip-text text-transparent bg-outlineBlueBtnText bg-[bottom_right] group-hover:bg-[top_left] group-active:text-dark-blue bg-200 transition-all duration-300':
+      styleType === 'outline-blue' && !disabled,
   }),
   overlay: clsx(
     'absolute top-0 enabled:shadow-btn-inset left-0 w-full h-full transition-all duration-300 opacity-0 z-[0] bg-btnActiveGradient',

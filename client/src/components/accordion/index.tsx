@@ -44,7 +44,7 @@ export const Accordion = ({
 
   return (
     <div className={styles.wrapper}>
-      <div onClick={toggleAccordion} className="flex items-center justify-start cursor-pointer w-fit">
+      <div onClick={toggleAccordion} className="flex w-fit cursor-pointer items-center justify-start">
         <Title className={styles.title} title={title} />
 
         <div className={styles.arrow}>

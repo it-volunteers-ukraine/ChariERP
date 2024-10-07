@@ -62,7 +62,7 @@ function EmployeesPage() {
   return (
     <>
       <div className={wrapper}>
-        <div className="w-full flex flex-col gap-4 pb-5 tablet:flex-row tablet:gap-8 tablet:pb-6 laptop:justify-between">
+        <div className="flex w-full flex-col gap-4 pb-5 tablet:flex-row tablet:gap-8 tablet:pb-6 laptop:justify-between">
           <Input
             type="search"
             label="Search"
@@ -74,12 +74,12 @@ function EmployeesPage() {
           <Button
             styleType="primary"
             text={t('employeesPage.btnAdd')}
-            className="w-full tablet:max-w-[216px] uppercase"
+            className="w-full uppercase tablet:max-w-[216px]"
             onClick={() => router.push(`${routes.employees}/create`)}
           />
         </div>
 
-        <div className="w-full flex flex-wrap gap-6">
+        <div className="flex w-full flex-wrap gap-6">
           {data.map((card, index) => (
             <EmployeeCard
               {...card}

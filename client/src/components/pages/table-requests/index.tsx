@@ -37,35 +37,35 @@ export const TableRequests = ({ data, getData, isPagination }: ITableRequestsPro
       <div className={styles.header}>
         <div
           onClick={() => requestSort('organizationName')}
-          className="flex items-center truncate w-fit gap-2 cursor-pointer"
+          className="flex w-fit cursor-pointer items-center gap-2 truncate"
         >
-          <span className="text-lg leading-[22px] font-robotoCondensed">{table('organizationName')}</span>
+          <span className="font-robotoCondensed text-lg leading-[22px]">{table('organizationName')}</span>
           <Triangle className={styles.organization} />
         </div>
 
         <div
           onClick={() => requestSort('EDRPOU')}
-          className="flex items-center place-self-center gap-2 w-fit cursor-pointer"
+          className="flex w-fit cursor-pointer items-center gap-2 place-self-center"
         >
-          <span className="text-lg leading-[22px] font-robotoCondensed">{table('EDRPOU')}</span>
+          <span className="font-robotoCondensed text-lg leading-[22px]">{table('EDRPOU')}</span>
           <Triangle className={styles.edrpou} />
         </div>
 
-        <div className="text-lg leading-[22px] text-center font-robotoCondensed">{table('document')}</div>
+        <div className="text-center font-robotoCondensed text-lg leading-[22px]">{table('document')}</div>
 
         <div
           onClick={() => requestSort('requestDate')}
-          className="flex items-center place-self-center gap-2 w-fit cursor-pointer"
+          className="flex w-fit cursor-pointer items-center gap-2 place-self-center"
         >
           <Calendar className="text-midGray" width={16} height={16} />
-          <span className="text-lg leading-[22px] font-robotoCondensed">{table('creationDate')}</span>
+          <span className="font-robotoCondensed text-lg leading-[22px]">{table('creationDate')}</span>
           <Triangle className={styles.date} />
         </div>
 
         <div />
       </div>
 
-      <div className="text-midGray grid laptop:block grid-cols-1 tablet:grid-cols-2 gap-4 tablet:gap-6 laptop:gap-0">
+      <div className="grid grid-cols-1 gap-4 text-midGray tablet:grid-cols-2 tablet:gap-6 laptop:block laptop:gap-0">
         {items.map((item) => (
           <RowItem key={item.id} item={item} path={path} isLaptop={isLaptop} getData={getData} />
         ))}

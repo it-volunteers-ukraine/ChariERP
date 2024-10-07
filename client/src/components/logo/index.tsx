@@ -10,13 +10,13 @@ export const Logo = ({ to, onClick, className, logoClass }: ILogoProps) => {
     <Link
       onClick={onClick}
       href={to ? to : '/'}
-      className={clsx('group/logo block w-[66px] h-[20px] desktop:w-[113px] desktop:h-[34px] text-white', {
+      className={clsx('group/logo block h-[20px] w-[66px] text-white desktop:h-[34px] desktop:w-[113px]', {
         [`${className}`]: className,
       })}
     >
       <LogoIcon
         className={clsx(
-          'transition-all duration-200 group-hover/logo:drop-shadow-logo w-[66px] h-[20px] desktop:w-[113px] desktop:h-[34px]',
+          'h-[20px] w-[66px] transition-all duration-200 group-hover/logo:drop-shadow-logo desktop:h-[34px] desktop:w-[113px]',
           {
             [`${logoClass}`]: logoClass,
           },

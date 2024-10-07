@@ -186,6 +186,7 @@ const config: Config = {
       },
       dropShadow: {
         logo: ['4px 2px 2px rgba(0, 0, 0, 0.25)', '-4px -2px 3px rgba(0, 0, 0, 0.15)'],
+        modal: ['0 0 15px rgba(0,0,0,0.5)'],
       },
       gridTemplateColumns: {
         tableRequests: 'minmax(170px, auto) 120px 74px 106px 154px',

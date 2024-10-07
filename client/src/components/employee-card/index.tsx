@@ -1,45 +1,85 @@
 'use client';
 
+import { useEffect, useState, useTransition } from 'react';
+import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { useParams, useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
+import { getImageAction } from '@/actions';
 
 import { Info } from './info';
 import { getStyles } from './styles';
 import { JobTitle } from './job-title';
+import { showMessage } from '../toastify';
 import { IEmployeeCardProps } from './types';
+import { AvatarField } from '../avatar-field';
 import { AvatarEmployee } from '../avatar-employee';
 
 export const EmployeeCard = ({
   id,
   email,
+  inById,
   status,
   lastName,
   position,
-  avatarUrl,
   firstName,
   className,
-  setStatus,
+  fieldName,
+  avatarUrl,
   middleName,
-  classNameImg,
+  setFieldValue,
   isStatusSelect,
   lastLogin = 'error',
 }: IEmployeeCardProps) => {
   const router = useRouter();
   const params = useParams();
 
+  const [img, setImg] = useState('');
+  const [isPending, startTransition] = useTransition();
+
   const isParamsId = params?.id;
   const styles = getStyles({ className });
 
   const cardTranslate = useTranslations('employeeCard');
 
-  return (
-    <div className={styles.wrapper} onClick={() => (isParamsId ? '' : router.push(`${routes.employees}/${id}`))}>
-      <div className="flex gap-4 items-start w-full">
-        <AvatarEmployee className={classNameImg} src={avatarUrl} name={firstName} surname={lastName} />
+  const itemClass = clsx({
+    'tablet:!max-w-[calc(50%-48px)]': inById,
+  });
 
-        <div className="w-[calc(100%-102px)] flex flex-col gap-1">
+  const loadImg = async () => {
+    if (avatarUrl) {
+      try {
+        const response = await getImageAction(avatarUrl);
+
+        if (response?.success && response?.image) {
+          setImg(response.image);
+
+          return;
+        }
+
+        setImg('');
+        showMessage.error('Error loading image');
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    startTransition(async () => {
+      loadImg();
+    });
+  }, [avatarUrl]);
+
+  return (
+    <div className={styles.wrapper} onClick={() => (isParamsId ? '' : router.push(`${routes.employeesEdit}/${id}`))}>
+      <div className={`flex w-full items-start gap-4 ${itemClass}`}>
+        {!inById && <AvatarEmployee src={img} name={firstName} surname={lastName} isLoading={isPending} />}
+
+        {inById && <AvatarField name="avatarUrl" lastName={lastName} firstName={firstName} />}
+
+        <div className="flex w-[calc(100%-102px)] flex-col gap-1">
           <p className={styles.abbName}>{lastName}</p>
           <p className={styles.abbName}>{firstName}</p>
           <p className={`${styles.abbName} ${styles.abbNameLast}`}>{middleName}</p>
@@ -48,12 +88,13 @@ export const EmployeeCard = ({
         </div>
       </div>
 
-      <div className="w-full flex flex-col">
+      <div className={`flex w-full flex-col ${itemClass}`}>
         <Info label="E-mail" data={email} />
         <Info
-          data={status}
           status={status}
-          setStatus={setStatus}
+          fieldName={fieldName}
+          data={status as string}
+          setFieldValue={setFieldValue}
           isStatusSelect={isStatusSelect}
           label={cardTranslate('statusText')}
         />
