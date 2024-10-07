@@ -232,7 +232,7 @@ const AdminOrganizationById = () => {
               }
             />
 
-            <div className="mb-20 flex justify-start rounded-lg bg-white px-8 pb-12 shadow-dashboard">
+            <div className="mb-20 flex justify-start rounded-lg bg-white px-6 pb-12 shadow-dashboard laptop:px-8">
               <div className="mx-auto w-full max-w-[1066px]">
                 <div className="mb-4 flex items-center justify-between border-b-2 border-lightBlue py-6 pr-2">
                   <div className="flex items-center gap-4">
@@ -247,7 +247,7 @@ const AdminOrganizationById = () => {
                   </div>
                 </div>
 
-                <Form className="flex flex-col gap-12">
+                <Form className="flex flex-col gap-9 desktop:gap-12">
                   <Accordion
                     initialState
                     classNameTitle="text-[20px]"
@@ -255,20 +255,20 @@ const AdminOrganizationById = () => {
                     classNameChildren="flex flex-col gap-6"
                     changedLength={Object.keys(errors).length}
                   >
-                    <div className="flex items-start gap-6">
+                    <div className="flex flex-col items-start gap-6 laptop:flex-row laptop:gap-6">
                       <InputField
                         isCopy
                         required
                         type="number"
                         name="edrpou"
-                        wrapperClass="max-w-[140px]"
+                        wrapperClass="w-full laptop:max-w-[140px]"
                         label={text('organizationTaxNumber.labelErdpou')}
                       />
 
                       <InputField isCopy required name="organizationName" label={text('organizationName.label')} />
                     </div>
 
-                    <div className="flex items-start gap-16">
+                    <div className="flex flex-col items-start gap-6 laptop:flex-row laptop:gap-16">
                       <FileField
                         required
                         placeholderItalic
@@ -291,23 +291,23 @@ const AdminOrganizationById = () => {
                   <Accordion
                     initialState
                     classNameTitle="text-[20px]"
-                    classNameChildren="flex flex-col gap-6"
+                    classNameChildren="flex flex-col gap-6 items-start laptop:gap-6"
                     title={text('title.contactInformation')}
                     changedLength={Object.keys(errors).length}
                   >
-                    <div className="flex items-start gap-16">
+                    <div className="flex w-full flex-col items-start gap-6 laptop:flex-row laptop:gap-16">
                       <InputField required name="position" label={text('positionOrganization.label')} />
 
                       <InputField required name="lastName" label={text('lastName.label')} />
                     </div>
 
-                    <div className="flex items-start gap-16">
+                    <div className="flex w-full flex-col items-start gap-6 laptop:flex-row laptop:gap-16">
                       <InputField required name="firstName" label={text('name.label')} />
 
                       <InputField name="middleName" label={text('middleName.label')} />
                     </div>
 
-                    <div className="flex items-start gap-16">
+                    <div className="flex w-full flex-col gap-6 first:items-start laptop:flex-row laptop:gap-16">
                       <InputField
                         required
                         isMasked
@@ -329,7 +329,12 @@ const AdminOrganizationById = () => {
                     changedLength={values?.social?.length}
                     classNameChildren="flex flex-col gap-6"
                   >
-                    <InputField cross name="site" wrapperClass="max-w-[465px]" label={text('site.label')} />
+                    <InputField
+                      cross
+                      name="site"
+                      wrapperClass="w-full laptop:max-w-[465px]"
+                      label={text('site.label')}
+                    />
 
                     <FieldArray
                       name="social"
@@ -345,11 +350,11 @@ const AdminOrganizationById = () => {
                                 <InputField
                                   cross
                                   name={`social.${index}`}
-                                  wrapperClass="max-w-[465px]"
+                                  wrapperClass="w-full laptop:max-w-[465px]"
                                   key={`media-signUp-${index}`}
                                   label={text('socialNetworks.label')}
                                 />
-                                <div className="flex max-w-[465px] items-center justify-between">
+                                <div className="flex w-full items-center justify-between laptop:max-w-[465px]">
                                   {isRightLength && isLastIndex && (
                                     <SmallBtn
                                       type="add"
@@ -376,7 +381,7 @@ const AdminOrganizationById = () => {
                     />
                   </Accordion>
 
-                  <div className="flex w-full justify-end gap-6">
+                  <div className="flex w-full flex-col justify-center gap-4 tablet:flex-row tablet:gap-6">
                     {(isRequests || isDeclined) && (
                       <Button
                         type="button"
