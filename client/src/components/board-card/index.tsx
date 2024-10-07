@@ -15,10 +15,10 @@ import { IBoardCardProps } from './types';
 import { CreateCard } from './create-card';
 
 export const BoardCard = ({
-  placeholder,
-  className,
   cardInfo,
+  className,
   sumBoards,
+  placeholder,
   limitOfCard = 5,
   ...props
 }: IBoardCardProps) => {
@@ -55,21 +55,25 @@ export const BoardCard = ({
           <BoardInfo isRoleAccess={isRoleAccess} setIsGoRoute={setIsGoRoute} boardData={cardInfo} />
         </div>
       )}
+
       {isCreateCard && (
         <>
           <CreateCard setIsEdit={setIsEdit} isEdit={isEdit} sumBoards={sumBoards} styles={styles} />
           <div className={styles.wrapperClass}></div>
         </>
       )}
+
       {isLimitCard && (
         <>
           <div className={styles.wrapperLimit} {...props}>
-            <Info className="w-10 h-10 text-red mb-2" />
+            <Info className="mb-2 h-10 w-10 text-red" />
             <p className={styles.text}>{messages('limitExceeded', { int: limitOfCard })}</p>
           </div>
+
           <div className={styles.wrapperClass}></div>
         </>
       )}
+
       {placeholder && <div className={styles.placeholder} {...props}></div>}
     </>
   );

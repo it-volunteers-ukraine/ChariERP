@@ -59,7 +59,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
     const handleClearInput = (e: React.MouseEvent) => {
       e.preventDefault();
 
-      onChange && onChange('');
+      onChange?.('');
     };
 
     const onCopyToClipboard = async () => {
@@ -68,7 +68,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
 
     return (
       <div className={styles.wrapper}>
-        <label className="flex flex-col gap-1 w-full">
+        <label className="flex w-full flex-col gap-1">
           <fieldset className={styles.fieldset}>
             {type !== 'search' && (
               <legend className="ml-[10px] px-1 pb-1">
@@ -97,11 +97,12 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
               <PatternFormat
                 mask="_"
                 disabled={disabled}
+                autoComplete="none"
                 allowEmptyFormatting
                 className={styles.input}
                 format="+38(0##)###-##-##"
                 placeholder={props.placeholder}
-                value={(value as string) || undefined}
+                value={(value as string) || ''}
                 onChange={(e) => onChange && onChange(e.target.value)}
                 defaultValue={Array.isArray(value) && value.length > 0 ? value[0] : undefined}
                 {...props}
@@ -188,8 +189,8 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
         </label>
 
         {info && (
-          <div className="flex items-center text-input-info w-full relative top-1">
-            <Info width={24} height={24} className="tablet:flex self-center text-input-info mr-3 shrink-0" />
+          <div className="relative top-1 flex w-full items-center text-input-info">
+            <Info width={24} height={24} className="mr-3 shrink-0 self-center text-input-info tablet:flex" />
 
             <span className={styles.infoSpan}>{info}</span>
           </div>

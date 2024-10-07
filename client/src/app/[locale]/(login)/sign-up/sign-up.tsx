@@ -7,7 +7,17 @@ import { FieldArray, Form, Formik, FormikHelpers } from 'formik';
 import { OrganizationFormValues } from '@/types';
 import { createOrganizationAction } from '@/actions';
 import { serializeOrganizationsCreate, showErrorMessageOfOrganizationExist } from '@/utils';
-import { Title, Button, SmallBtn, DateField, FileField, InputField, showMessage, CheckboxField } from '@/components';
+import {
+  Title,
+  Button,
+  SmallBtn,
+  DateField,
+  FileField,
+  InputField,
+  showMessage,
+  CheckboxField,
+  ModalSuccessfulRegistration,
+} from '@/components';
 
 import { getStyles } from './styles';
 import { organizationInitialValues, organizationValidation } from './config';
@@ -16,11 +26,13 @@ const SignUp = () => {
   const styles = getStyles();
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
+  const modal = useTranslations('modal');
   const error = useTranslations('validation');
-  const create = useTranslations('auth-page');
   const errorText = useTranslations('errors.login');
 
+  const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   const validationSchema = organizationValidation(error);
 
@@ -38,7 +50,8 @@ const SignUp = () => {
       const data = await createOrganizationAction(formData);
 
       if (data.success) {
-        showMessage.success(create('createOrganization'));
+        setEmail(values.email);
+        setIsOpenModal(true);
       }
 
       if (!data.success && Array.isArray(data.message)) {
@@ -55,6 +68,11 @@ const SignUp = () => {
     }
   };
 
+  const onCloseModal = () => {
+    setEmail('');
+    setIsOpenModal(false);
+  };
+
   return (
     <Formik
       validateOnBlur
@@ -65,11 +83,30 @@ const SignUp = () => {
     >
       {({ values }) => {
         return (
-          <Form className="flex flex-col gap-12 tablet:gap-16 desktop:gap-18 w-full">
+          <Form className="desktop:gap-18 flex w-full flex-col gap-12 tablet:gap-16">
+            <ModalSuccessfulRegistration
+              isOpen={isOpenModal}
+              isLoading={isLoading}
+              onClose={onCloseModal}
+              onConfirm={onCloseModal}
+              onNavigate={onCloseModal}
+              rightBtnText={btn('contact')}
+              leftBtnText={btn('understood')}
+              classNameBtn="w-[120px] uppercase"
+              title={modal('successfulRegistration.title')}
+              content={
+                <p className="text-roboto text-center font-normal text-comet">
+                  {modal('successfulRegistration.firstPartText')}
+                  <span className="font-medium italic">{email}</span>
+                  {modal('successfulRegistration.secondPartText')}
+                </p>
+              }
+            />
+
             <div>
               <Title
                 title={text('title.basicInformation')}
-                className="font-scada mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
+                className="mx-auto mb-8 w-fit font-scada text-[26px] uppercase tablet:mb-9"
               />
 
               <div className="flex flex-col gap-8 tablet:gap-[42px]">
@@ -119,7 +156,7 @@ const SignUp = () => {
             <div>
               <Title
                 title={text('title.contactInformation')}
-                className="font-scada mb-8 tablet:mb-9 mx-auto w-fit text-[26px] uppercase"
+                className="mx-auto mb-8 w-fit font-scada text-[26px] uppercase tablet:mb-9"
               />
 
               <div className="flex flex-col gap-8 tablet:gap-[42px]">
@@ -172,7 +209,7 @@ const SignUp = () => {
                 <div className="flex flex-col gap-8 tablet:gap-6">
                   <Title
                     title={text('title.media')}
-                    className="w-fit font-medium text-[18px] !leading-4 !text-title-media"
+                    className="w-fit text-[18px] font-medium !leading-4 !text-title-media"
                   />
 
                   <InputField
@@ -219,7 +256,7 @@ const SignUp = () => {
                                 }
                               />
 
-                              <div className="flex items-center justify-between mt-6 laptop:max-w-[calc(50%-12px)]">
+                              <div className="mt-6 flex items-center justify-between laptop:max-w-[calc(50%-12px)]">
                                 {isRightLength && isLastIndex && (
                                   <SmallBtn
                                     type="add"
@@ -253,7 +290,7 @@ const SignUp = () => {
               name="agree"
               label={text('checkbox.information')}
               hrefText={text('checkbox.privacyPolicy')}
-              className="laptop:mx-auto !items-start laptop:!items-center"
+              className="!items-start laptop:mx-auto laptop:!items-center"
             />
 
             <Button
@@ -261,7 +298,7 @@ const SignUp = () => {
               styleType="primary"
               text={btn('submit')}
               isLoading={isLoading}
-              className="uppercase m-auto"
+              className="m-auto uppercase"
             />
           </Form>
         );

@@ -32,19 +32,20 @@ class OrganizationService extends BaseService {
     const certificate = formData.get('certificate') as File;
     const data = JSON.parse(formData.get('data') as string) as OrganizationCreateValues;
 
-    const organizationExist = await Organizations.findOne({
+    const organizationExist = await Organizations.find({
       $or: [{ 'organizationData.edrpou': data.edrpou }, { 'contactData.email': data.email }],
     });
 
-    if (organizationExist) {
+    if (organizationExist.length > 0) {
       const matches = checkFieldsToUniqueOfOrganization(
-        { email: data.email, edrpou: Number(data.edrpou) },
-        { email: organizationExist.contactData.email, edrpou: organizationExist.organizationData.edrpou },
+        {
+          email: data.email,
+          edrpou: data.edrpou,
+        },
+        organizationExist,
       );
 
-      if (matches.length > 0) {
-        return { message: matches, success: false };
-      }
+      return { message: matches, success: false };
     }
 
     const uploadedFileUrl = await uploadFileToBucket(
@@ -158,10 +159,26 @@ class OrganizationService extends BaseService {
     }
 
     const data = JSON.parse(formData.get('data') as string) as OrganizationUpdateValues;
-
     const certificate = formData.get('certificate') as File;
     const isNewCertificate = certificate && certificate?.size !== 1;
     const isApproved = data.request === RequestOrganizationStatus.APPROVED && organization.users.length === 0;
+
+    const organizationExist = await Organizations.find({
+      $or: [{ 'organizationData.edrpou': data.edrpou }, { 'contactData.email': data.email }],
+      _id: { $ne: id },
+    });
+
+    if (organizationExist.length > 0) {
+      const matches = checkFieldsToUniqueOfOrganization(
+        {
+          email: data.email,
+          edrpou: data.edrpou,
+        },
+        organizationExist,
+      );
+
+      return { message: matches, success: false };
+    }
 
     let uploadedFileUrl;
 
@@ -196,21 +213,6 @@ class OrganizationService extends BaseService {
     };
 
     if (isApproved) {
-      const organizationExist = await Organizations.findOne({
-        $or: [{ 'organizationData.edrpou': data.edrpou }, { 'contactData.email': data.email }],
-      });
-
-      if (organizationExist) {
-        const matches = checkFieldsToUniqueOfOrganization(
-          { email: data.email, edrpou: Number(data.edrpou) },
-          { email: organizationExist.contactData.email, edrpou: organizationExist.organizationData.edrpou },
-        );
-
-        if (matches.length > 0) {
-          return { message: matches, success: false };
-        }
-      }
-
       const password = generatePassword(8, 10);
       const hash = await bcrypt.hash(password, 10);
 
@@ -239,7 +241,7 @@ class OrganizationService extends BaseService {
       });
     }
 
-    const response = await Organizations.findByIdAndUpdate(id, { $set: body });
+    const response = await Organizations.findByIdAndUpdate(id, { $set: body }, { new: true });
 
     if (!response) {
       return { success: false, message: 'Organization not updated' };

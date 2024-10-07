@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 
-export const getStyles = (opened: boolean) => ({
+export const getStyles = ({ opened, classNameModal }: { opened: boolean; classNameModal?: string }) => ({
   overlay: clsx(
-    `absolute inset-0 bg-slate-900/60 backdrop-blur bg-opacity-50 z-20 cursor-pointer`,
+    `fixed inset-0 bg-slate-900/60 backdrop-blur bg-opacity-50 z-20 cursor-pointer`,
     {
       'animate-portalOpen': opened,
     },
@@ -13,6 +13,7 @@ export const getStyles = (opened: boolean) => ({
 
   modal: clsx(
     'relative flex bg-white mx-2 pt-11 px-5 pb-8 rounded-lg max-w-[546px] w-full min-h-[208px] z-30',
+    { [`${classNameModal}`]: !!classNameModal },
     {
       'animate-modalOpen': opened,
     },

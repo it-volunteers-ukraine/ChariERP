@@ -1,7 +1,7 @@
 'use client';
 
 import { MouseEvent, useState } from 'react';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 
@@ -125,44 +125,44 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
     <>
       <div
         onClick={handleRowClick}
-        className="grid grid-cols-2 laptop:grid-cols-tableRequests laptop:items-center laptop:gap-5 p-3 laptop:py-[13px] laptop:pl-3 laptop:pr-0 hover:bg-superBlue border laptop:border-t-0 laptop:border-x-0 laptop:border-b rounded-2xl laptop:rounded-none border-[#A3A3A359] cursor-pointer transition-all duration-300"
+        className="grid cursor-pointer grid-cols-2 rounded-2xl border border-[#A3A3A359] p-3 transition-all duration-300 hover:bg-superBlue laptop:grid-cols-tableRequests laptop:items-center laptop:gap-5 laptop:rounded-none laptop:border-x-0 laptop:border-b laptop:border-t-0 laptop:py-[13px] laptop:pl-3 laptop:pr-0"
       >
-        <div className="col-span-2 laptop:col-auto text-lg leading-[22px] font-robotoCondensed truncate overflow-hidden whitespace-nowrap">
+        <div className="col-span-2 overflow-hidden truncate whitespace-nowrap font-robotoCondensed text-lg leading-[22px] laptop:col-auto">
           {item.organizationName}
         </div>
 
-        <span className="mt-6 laptop:mt-0 laptop:hidden text-lg leading-[22px] font-robotoCondensed">
+        <span className="mt-6 font-robotoCondensed text-lg leading-[22px] laptop:mt-0 laptop:hidden">
           {table('EDRPOU')}
         </span>
 
-        <div className="mt-6 laptop:mt-0 flex items-center justify-end laptop:justify-center gap-1 text-sm">
-          <span className="text-lg leading-[22px] font-robotoCondensed truncate overflow-hidden whitespace-nowrap">
+        <div className="mt-6 flex items-center justify-end gap-1 text-sm laptop:mt-0 laptop:justify-center">
+          <span className="overflow-hidden truncate whitespace-nowrap font-robotoCondensed text-lg leading-[22px]">
             {item.EDRPOU}
           </span>
           <Copy
             width={24}
             height={24}
-            className="cursor-pointer flex-shrink-0 text-lightBlue"
+            className="flex-shrink-0 cursor-pointer text-lightBlue"
             onClick={(e: MouseEvent<SVGSVGElement>) => onCopy(e, item.EDRPOU, messagesCopy('messages'))}
           />
         </div>
 
-        <div className="mt-8 laptop:mt-0 laptop:hidden text-lg leading-[22px] laptop:text-center font-robotoCondensed">
+        <div className="mt-8 font-robotoCondensed text-lg leading-[22px] laptop:mt-0 laptop:hidden laptop:text-center">
           {table('document')}
         </div>
 
-        <div className="flex items-center justify-end laptop:justify-center mt-8 laptop:mt-0">
+        <div className="mt-8 flex items-center justify-end laptop:mt-0 laptop:justify-center">
           <button onClick={getCertificate} className="flex items-center justify-center">
             <Doc width={24} height={24} />
           </button>
         </div>
 
-        <div className="mt-6 laptop:mt-0 text-lg leading-[22px] font-robotoCondensed laptop:text-center">
-          {item.requestDate && format(parseISO(item.requestDate?.toString()), dateFormat[locale])}
+        <div className="mt-6 font-robotoCondensed text-lg leading-[22px] laptop:mt-0 laptop:text-center">
+          {item.requestDate && format(new Date(item.requestDate), dateFormat[locale])}
         </div>
 
         <div
-          className="col-span-2 laptop:col-auto flex flex-col laptop:flex-row mt-12 laptop:mt-0 gap-3 laptop:gap-4"
+          className="col-span-2 mt-12 flex flex-col gap-3 laptop:col-auto laptop:mt-0 laptop:flex-row laptop:gap-4"
           onClick={(e) => e.stopPropagation()}
         >
           <Button text="Accept" styleType="green" isNarrow={isLaptop} onClick={() => setIsOpenRegister(true)} />
@@ -185,7 +185,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
         title={modal('register.title')}
         onClose={() => setIsOpenRegister(false)}
         content={
-          <div className="flex flex-col gap-1 text-center text-mobster lending-6">
+          <div className="lending-6 flex flex-col gap-1 text-center text-mobster">
             <span>{item.organizationName}</span>
             <span>
               {modal('register.text')} {item.email}
@@ -215,7 +215,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
           title={modal('remove.title')}
           onClose={() => setIsOpenRemove(false)}
           content={
-            <div className="flex flex-col gap-1 text-center text-mobster lending-6">
+            <div className="lending-6 flex flex-col gap-1 text-center text-mobster">
               <span>
                 {modal('remove.text')} {item.organizationName}
               </span>

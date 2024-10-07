@@ -12,14 +12,21 @@ import { getStyles } from './styles';
 interface IOverlayProps {
   opened: boolean;
   duration?: number;
+  classNameModal?: string;
   onClose: () => void;
 }
 
-export const Overlay = ({ opened, onClose, children, duration = 300 }: ChildrenProps<IOverlayProps>) => {
+export const Overlay = ({
+  opened,
+  onClose,
+  children,
+  classNameModal,
+  duration = 300,
+}: ChildrenProps<IOverlayProps>) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const { unmounted } = useMounted({ opened, duration });
 
-  const styles = getStyles(opened);
+  const styles = getStyles({ opened, classNameModal });
 
   const handleKeyPressOnClose = (event: React.KeyboardEvent<SVGSVGElement>) => {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -55,15 +62,21 @@ export const Overlay = ({ opened, onClose, children, duration = 300 }: ChildrenP
         const firstElement = focusableElements[0];
         const lastElement = focusableElements[focusableElements.length - 1];
 
-        event.shiftKey ? focusElement(firstElement, lastElement) : focusElement(lastElement, firstElement);
+        if (event.shiftKey) {
+          focusElement(firstElement, lastElement);
+        } else {
+          focusElement(lastElement, firstElement);
+        }
       }
     };
 
     if (opened) {
+      document.body.classList.add('overflow-hidden');
       window.addEventListener('keydown', handleKeyDown);
     }
 
     return () => {
+      document.body.classList.remove('overflow-hidden');
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [opened, onClose, modalRef, unmounted]);
@@ -72,7 +85,7 @@ export const Overlay = ({ opened, onClose, children, duration = 300 }: ChildrenP
 
   return (
     <Portal opened={unmounted}>
-      <div className="absolute inset-0 py-10 flex justify-center items-center w-screen h-screen z-10">
+      <div className="fixed inset-0 z-10 flex h-screen w-screen items-center justify-center py-10">
         <div onClick={onClose} className={styles.overlay} style={{ animationDuration: `${duration}ms` }} />
         <div ref={modalRef} className={styles.modal} style={{ animationDuration: `${duration - 20}ms` }} tabIndex={0}>
           <Close

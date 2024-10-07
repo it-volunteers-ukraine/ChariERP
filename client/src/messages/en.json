@@ -130,6 +130,14 @@
       "title": "REGISTER?",
       "text": "and send an email with the password to "
     },
+    "modalUserWithoutAccess": {
+      "text": "Sorry, You don't have access to this board."
+    },
+    "successfulRegistration": {
+      "title": "Thank you for registering!",
+      "firstPartText": "After verification of your data (within 48 business hours), you will receive an email to the specified email address ",
+      "secondPartText": " with a login and password. If you have any questions, don't hesitate to contact us!"
+    },
     "save": {
       "title": "SAVE CHANGES?",
       "text": "This page contains data that was not saved."
@@ -172,6 +180,9 @@
     "add": "add",
     "cancel": "cancel",
     "confirm": "confirm",
+    "understood": "understood",
+    "contact": "contact",
+    "goToAllBoards": "go to all boards",
     "yes": "YES",
     "no": "NO"
   },
@@ -179,6 +190,7 @@
     "minPlural": "Minimum {int} characters",
     "maxPlural": "Maximum {int} characters",
     "required": "Required field",
+    "notEmpty": "The field must be filled in",
     "matches_english": "{field} must not contain Cyrillic characters",
     "taxNumber": "Tax number must contain exactly 8 Arabic numerals.",
     "notValidPhone": "Wrong number dialed",
@@ -237,7 +249,9 @@
   "board": {
     "newBoard": "Name the board",
     "createNew": "Create a new board",
-    "limitExceeded": "You can have no more than {int} boards"
+    "limitExceeded": "You can have no more than {int} boards",
+    "massageCopyTitle": "Link copied",
+    "emptyBoard": "There is no board with your participation on this page yet"
   },
   "copy": {
     "messages": "Copied to clipboard"

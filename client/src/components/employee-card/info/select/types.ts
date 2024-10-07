@@ -2,7 +2,8 @@ import { UserStatus } from '@/types';
 
 export interface ISelect {
   status?: UserStatus;
-  setStatus?: (status: UserStatus) => void;
+  fieldName?: string;
+  setFieldValue?: (field: string, value: string) => void;
 }
 
 export interface IStyles {

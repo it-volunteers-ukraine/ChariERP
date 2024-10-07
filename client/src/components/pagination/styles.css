@@ -3,7 +3,7 @@
 .custom-pagination .rc-pagination-next,
 .custom-pagination .rc-pagination-jump-prev,
 .custom-pagination .rc-pagination-jump-next {
-  @apply flex justify-center items-center mx-2 w-[32px] h-[32px] text-sm text-pagination-color list-none shadow-circle rounded-full outline-0 cursor-pointer select-none;
+  @apply mx-2 flex h-[32px] w-[32px] cursor-pointer select-none list-none items-center justify-center rounded-full text-sm text-pagination-color shadow-circle outline-0;
 }
 
 .custom-pagination .rc-pagination-item:hover,
@@ -11,21 +11,21 @@
 .custom-pagination .rc-pagination-next:hover,
 .custom-pagination .rc-pagination-jump-prev:hover button,
 .custom-pagination .rc-pagination-jump-next:hover button {
-  @apply bg-steelBlue border-steelBlue text-white transform scale-110 transition-all duration-300 ease-in-out;
+  @apply scale-110 transform border-steelBlue bg-steelBlue text-white transition-all duration-300 ease-in-out;
 }
 
 .custom-pagination .rc-pagination-item:focus,
 .custom-pagination .rc-pagination-item-active {
-  @apply text-white bg-lightBlue border-lightBlue select-none;
+  @apply select-none border-lightBlue bg-lightBlue text-white;
 }
 
 .custom-pagination .rc-pagination-jump-prev button,
 .custom-pagination .rc-pagination-jump-next button {
-  @apply w-[32px] h-[32px] rounded-full outline-0 cursor-pointer text-pagination-color;
+  @apply h-[32px] w-[32px] cursor-pointer rounded-full text-pagination-color outline-0;
 }
 
 .custom-pagination .rc-pagination-disabled {
-  @apply opacity-50 pointer-events-none;
+  @apply pointer-events-none opacity-50;
 }
 
 .custom-pagination .rc-pagination-jump-prev button::after,

@@ -3,7 +3,7 @@ import { Schema, Document } from 'mongoose';
 import { RequestOrganizationStatus } from '../enums';
 
 export interface IOrganizationData {
-  edrpou: number;
+  edrpou: string;
   certificate: string;
   organizationName: string;
   dateOfRegistration: Date;
@@ -28,7 +28,7 @@ export interface IOrganizations extends Document {
   approvalDate: Date;
   mediaData: IMediaData;
   contactData: IContactData;
-  _id?: Schema.Types.ObjectId;
+  _id: Schema.Types.ObjectId;
   users: Schema.Types.ObjectId[];
   request: RequestOrganizationStatus;
   organizationData: IOrganizationData;

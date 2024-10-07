@@ -1,20 +1,20 @@
-import { StaticImageData } from 'next/image';
 import { UserStatus } from '@/types';
 
 export interface IEmployeeCardProps {
   id: string;
-  // TODO: change types when connect load data from server
-  avatarUrl?: StaticImageData | string;
-  firstName: string;
   email: string;
   lastName: string;
+  inById?: boolean;
+  firstName: string;
   position?: string;
   imgWidth?: string;
+  avatarUrl?: string;
   middleName: string;
   className?: string;
+  fieldName?: string;
   status: UserStatus;
-  lastLogin: string;
   classNameImg?: string;
+  lastLogin: string | Date;
   isStatusSelect?: boolean;
-  setStatus?: (status: UserStatus) => void;
+  setFieldValue?: (field: string, value: string) => void;
 }

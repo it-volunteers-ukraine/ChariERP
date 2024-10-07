@@ -15,6 +15,7 @@ export const Button = ({
   ...props
 }: IButtonProps) => {
   const { btn, span, overlay, iconWrapper, loader, spinner } = getStyles({
+    disabled,
     isNarrow,
     styleType,
     className,
@@ -28,7 +29,7 @@ export const Button = ({
       return;
     }
 
-    onClick && onClick();
+    onClick?.();
   };
 
   return (

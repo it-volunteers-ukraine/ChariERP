@@ -67,7 +67,7 @@ export const DashboardAside = () => {
   return (
     <aside className={styles.aside} ref={ref}>
       <div>
-        <div className="flex items-center w-full h-[64px] desktop:h-[96px] border-b border-b-white pl-[16px] tablet:pl-[32px]">
+        <div className="flex h-[64px] w-full items-center border-b border-b-white pl-[16px] tablet:pl-[32px] desktop:h-[96px]">
           <Logo />
         </div>
 
@@ -89,7 +89,7 @@ export const DashboardAside = () => {
                 {children && (
                   <div
                     ref={refChildrenLink}
-                    className={`flex flex-col gap-2 -my-1 transition-all ease-in-out overflow-hidden `}
+                    className={`-my-1 flex flex-col gap-2 overflow-hidden transition-all ease-in-out`}
                     style={{
                       opacity: `${opacityChildren}`,
                       maxHeight: `${heightChildren}`,
@@ -115,14 +115,14 @@ export const DashboardAside = () => {
         </nav>
       </div>
 
-      <div className="flex tablet:hidden items-center justify-between w-full h-[88px] border-t border-t-white px-4 tablet:px-8 ">
+      <div className="flex h-[88px] w-full items-center justify-between border-t border-t-white px-4 tablet:hidden tablet:px-8">
         <LanguageSwitcher />
         <button
           onClick={onExit}
-          className="flex gap-3 items-center text-base text-white transition-all duration-300 cursor-pointer hover:scale-110 hover:drop-shadow-md"
+          className="flex cursor-pointer items-center gap-3 text-base text-white transition-all duration-300 hover:scale-110 hover:drop-shadow-md"
         >
           {linkText('exit')}
-          <Exit className="w-10 h-10" />
+          <Exit className="h-10 w-10" />
         </button>
       </div>
 
