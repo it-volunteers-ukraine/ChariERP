@@ -14,7 +14,7 @@ import { RowItem } from './row-item';
 import { getStyles } from './styles';
 import { getStylesTableWrapper } from '../styles';
 
-const pageSize = 10;
+const pageSize = 12;
 
 export const TableOrganization = () => {
   const table = useTranslations('table');
