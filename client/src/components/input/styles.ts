@@ -57,14 +57,15 @@ export const getStyles = ({
   }),
   input: clsx('peer items-center w-full px-[14px] caret-input-focus placeholder:text-input-info bg-transparent', {
     italic: placeholderItalic && !value,
-    'text-input-text': value,
+    'pr-10 text-input-text truncate': value,
     'text-input-info': placeholder && !value,
     'placeholder:text-input-disabled bg-transparent': disabled,
     'outline-none': isTextarea,
     [`${textAreaClass}`]: textAreaClass,
     'cursor-pointer': type === 'date',
     'cancel-search-btn px-0 h-[23px]': type === 'search',
-    'pr-12': isTypePassword || type === 'file' || cross || type === 'date',
+    '!pr-0 !w-[calc(100%-45px)]': type === 'file',
+    'pr-12': isTypePassword || cross || type === 'date',
     'focus:text-input-focus': !visiblePassword,
     'focus:text-input-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none':
       type === 'number',

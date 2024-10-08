@@ -7,6 +7,5 @@ export interface IModalAdminProps {
   rightBtnText: string;
   onConfirm: () => void;
   classNameBtn?: string;
-  onNavigate: () => void;
   content?: string | React.ReactNode;
 }

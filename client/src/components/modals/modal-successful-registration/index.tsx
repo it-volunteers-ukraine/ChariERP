@@ -1,3 +1,8 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+
+import { routes } from '@/constants';
 import { Overlay, Button } from '@/components';
 
 import { IModalAdminProps } from './types';
@@ -9,11 +14,11 @@ export const ModalSuccessfulRegistration = ({
   onClose,
   onConfirm,
   isLoading,
-  onNavigate,
   leftBtnText,
   classNameBtn,
   rightBtnText,
 }: IModalAdminProps) => {
+  const router = useRouter();
   const isContentString = typeof content === 'string';
 
   return (
@@ -37,7 +42,12 @@ export const ModalSuccessfulRegistration = ({
             className={classNameBtn}
           />
 
-          <Button styleType="outline-blue" className={classNameBtn} onClick={onNavigate} text={rightBtnText} />
+          <Button
+            text={rightBtnText}
+            styleType="outline-blue"
+            className={classNameBtn}
+            onClick={() => router.push(routes.contacts)}
+          />
         </div>
       </div>
     </Overlay>
