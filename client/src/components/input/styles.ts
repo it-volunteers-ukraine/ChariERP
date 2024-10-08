@@ -64,7 +64,7 @@ export const getStyles = ({
     [`${textAreaClass}`]: textAreaClass,
     'cursor-pointer': type === 'date',
     'cancel-search-btn px-0 h-[23px]': type === 'search',
-    'pr-4 w-[calc(100%-30px)]': type === 'file',
+    '!pr-0 !w-[calc(100%-45px)]': type === 'file',
     'pr-12': isTypePassword || cross || type === 'date',
     'focus:text-input-focus': !visiblePassword,
     'focus:text-input-text [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none':
