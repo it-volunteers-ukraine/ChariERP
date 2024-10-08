@@ -212,7 +212,8 @@
   "success": {
     "admin-pages": {
       "sentEmail": "The letter was sent to {email}",
-      "deleteOrganization": "The organization was deleted"
+      "deleteOrganization": "The organization was deleted",
+      "Organization updated": "Organization updated"
     }
   },
   "errors": {

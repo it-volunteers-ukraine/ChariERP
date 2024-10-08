@@ -90,7 +90,7 @@ const AdminOrganizationById = () => {
     }
 
     if (response.success && response.organization) {
-      showMessage.success(response.message);
+      showMessage.success(success(response.message));
 
       const parsedOrganization = JSON.parse(response.organization);
 
