@@ -1,19 +1,28 @@
+import clsx from 'clsx';
 import Image from 'next/image';
 
 import { lettersToColor } from '@/utils';
 
 interface IMokUserIconProps {
-  firstName: string;
+  props?: boolean;
   lastName: string;
   avatarUrl: string;
+  firstName: string;
 }
 
-export const UserIcon = ({ firstName, lastName, avatarUrl }: IMokUserIconProps) => {
+export const UserIcon = ({ firstName, lastName, avatarUrl, props }: IMokUserIconProps) => {
+  const color = lettersToColor(firstName, lastName);
+
+  console.log(typeof color);
+
   return (
     <div
-      className="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full text-[16px] text-white ring-2 ring-white"
+      className={clsx(
+        `flex cursor-pointer items-center justify-center overflow-hidden rounded-full text-white ring-2 ring-white`,
+        { 'h-10 w-10 [&>span]:text-[16px]': props === undefined, 'h-6 w-6 [&>span]:text-[12px]': !!props },
+      )}
       style={{
-        backgroundColor: `${lettersToColor(firstName, lastName)}`,
+        backgroundColor: `${color}`,
       }}
     >
       {avatarUrl.length === 0 ? (
