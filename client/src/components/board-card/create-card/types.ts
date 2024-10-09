@@ -1,5 +1,6 @@
 interface IStylesType {
   text: string;
+  wrapper: string;
   wrapperCreate: string;
 }
 

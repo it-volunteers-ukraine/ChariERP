@@ -5,7 +5,8 @@ export interface IBoardData {
 }
 
 export interface IBoardCardProps {
-  sumBoards?: number;
+  idx?: number;
+  sumBoards: number;
   className?: string;
   limitOfCard?: number;
   cardInfo?: IBoardData;

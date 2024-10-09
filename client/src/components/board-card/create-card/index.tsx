@@ -9,15 +9,19 @@ export const CreateCard = ({ setIsEdit, isEdit, sumBoards, styles }: ICreateCard
   const messages = useTranslations('board');
 
   return (
-    <div className={styles.wrapperCreate} onClick={() => setIsEdit(true)}>
-      {isEdit ? (
-        <BoardInfo isRoleAccess setIsEdit={setIsEdit} number={sumBoards + 1} />
-      ) : (
-        <>
+    <>
+      {isEdit && (
+        <div className={styles.wrapper} onClick={() => setIsEdit(true)}>
+          <BoardInfo isRoleAccess setIsEdit={setIsEdit} number={sumBoards} />
+        </div>
+      )}
+
+      {!isEdit && (
+        <div className={styles.wrapperCreate} onClick={() => setIsEdit(true)}>
           <Plus className="mb-2 h-10 w-10 text-greenNormal" />
           <p className={styles.text}>{messages('createNew')}</p>
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };

@@ -15,6 +15,7 @@ import { IBoardCardProps } from './types';
 import { CreateCard } from './create-card';
 
 export const BoardCard = ({
+  idx,
   cardInfo,
   className,
   sumBoards,
@@ -22,23 +23,21 @@ export const BoardCard = ({
   limitOfCard = 5,
   ...props
 }: IBoardCardProps) => {
-  const { role } = useUserInfo();
   const router = useRouter();
+  const { role } = useUserInfo();
   const messages = useTranslations('board');
 
   const [isEdit, setIsEdit] = useState(false);
   const [isGoRoute, setIsGoRoute] = useState(true);
 
   const isBoardData = !!cardInfo;
+  const currenIdx = idx ? idx + 1 : undefined;
   const isRoleAccess = role !== Roles.USER;
-  const isLimit = sumBoards ? sumBoards >= limitOfCard : undefined;
-  const isCreateCard = !isBoardData && !isLimit && (sumBoards || sumBoards === 0) && isRoleAccess;
-  const isLimitCard = !isBoardData && isLimit && sumBoards && isRoleAccess;
+  const isLimit = currenIdx === limitOfCard;
+  const isLimitCard = isLimit && !!sumBoards && isRoleAccess;
+  const isCreateCard = !isBoardData || (currenIdx === sumBoards && !isLimitCard && isRoleAccess);
 
-  const styles = getStyles({
-    isEdit,
-    className,
-  });
+  const styles = getStyles({ className });
 
   const clickBoard = () => {
     if (isGoRoute && cardInfo) {
@@ -51,26 +50,19 @@ export const BoardCard = ({
   return (
     <>
       {!!cardInfo && (
-        <div className={styles.wrapper} {...props} onClick={() => clickBoard()}>
+        <div className={styles.wrapper} {...props} onClick={clickBoard}>
           <BoardInfo isRoleAccess={isRoleAccess} setIsGoRoute={setIsGoRoute} boardData={cardInfo} />
         </div>
       )}
 
-      {isCreateCard && (
-        <>
-          <CreateCard setIsEdit={setIsEdit} isEdit={isEdit} sumBoards={sumBoards} styles={styles} />
-          <div className={styles.wrapperClass}></div>
-        </>
-      )}
+      {isCreateCard && <CreateCard setIsEdit={setIsEdit} isEdit={isEdit} sumBoards={sumBoards + 1} styles={styles} />}
 
       {isLimitCard && (
         <>
-          <div className={styles.wrapperLimit} {...props}>
+          <div className={styles.wrapperLimit}>
             <Info className="mb-2 h-10 w-10 text-red" />
             <p className={styles.text}>{messages('limitExceeded', { int: limitOfCard })}</p>
           </div>
-
-          <div className={styles.wrapperClass}></div>
         </>
       )}
 
