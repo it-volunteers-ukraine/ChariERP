@@ -59,7 +59,7 @@ export const DropdownList = ({ users, setIsDropdownOpen }: IDropdownListProps) =
                   {`${firstName[0]}${lastName[0]}`}
                 </div>
 
-                <p className="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap text-nowrap font-robotoCondensed text-base text-comet">
+                <p className="line-clamp-1 max-w-[200px] break-all font-robotoCondensed text-base text-comet">
                   {`${firstName} ${lastName}`}
                 </p>
               </div>
