@@ -13,8 +13,6 @@ interface IMokUserIconProps {
 export const UserIcon = ({ firstName, lastName, avatarUrl, props }: IMokUserIconProps) => {
   const color = lettersToColor(firstName, lastName);
 
-  console.log(typeof color);
-
   return (
     <div
       className={clsx(
