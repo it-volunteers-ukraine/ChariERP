@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { useOutsideClick } from '@/hooks';
-import { Delete, DotSettings } from '@/assets/icons';
+import { Delete, DotsSettings } from '@/assets/icons';
 import { Participants } from '@/components/participants';
 import { IMokUserCountProps } from '@/components/participants/mock-user';
 
@@ -39,7 +39,7 @@ export const Card = ({ id, title, users, setData, data }: ICard) => {
         <p className="line-clamp-2 max-w-[170px] break-all font-roboto text-[14px] leading-[20px]">{title}</p>
 
         <button onClick={() => setIsActive(true)}>
-          <DotSettings />
+          <DotsSettings />
         </button>
 
         <div className={deleteWindow} ref={ref}>
