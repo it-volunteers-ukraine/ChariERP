@@ -12,7 +12,9 @@ interface IDropdownListProps {
 }
 
 export const DropdownList = ({ users, setIsDropdownOpen }: IDropdownListProps) => {
-  const translate = useTranslations('');
+  const translateBoard = useTranslations('board');
+  const translateSearch = useTranslations('inputs.placeholder');
+
   const [searchTerm, setSearchTerm] = useState('');
 
   const debouncedSearch = useCallback(
@@ -29,7 +31,7 @@ export const DropdownList = ({ users, setIsDropdownOpen }: IDropdownListProps) =
   return (
     <div className="absolute left-0 top-0 z-50 w-[280px] rounded-lg border bg-arcticSky pb-3 shadow-dashboard">
       <div className="flex items-center justify-between p-3 font-scada text-lg text-black">
-        <p className="font-scada uppercase">{translate('board.allParticipants')}</p>
+        <p className="font-scada uppercase">{translateBoard('allParticipants')}</p>
 
         <button className="w-6" onClick={setIsDropdownOpen}>
           <Close />
@@ -42,9 +44,9 @@ export const DropdownList = ({ users, setIsDropdownOpen }: IDropdownListProps) =
 
           <input
             type="text"
-            className="w-full text-comet"
-            placeholder={translate('inputs.placeholder.search')}
             onChange={handleInputChange}
+            className="w-full text-comet"
+            placeholder={translateSearch('search')}
           />
         </label>
 

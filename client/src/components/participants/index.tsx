@@ -6,7 +6,6 @@ import { useOutsideClick } from '@/hooks';
 
 import { UserIcon } from './user-icon';
 import { DropdownList } from './dropdown';
-
 import { IMokUserCountProps } from './mock-user';
 
 import { getStyles } from './style';
@@ -17,6 +16,8 @@ interface IParticipantsProps {
 }
 
 export const Participants = ({ users, small }: IParticipantsProps) => {
+  const usersLength = users.length - 5;
+
   const ref = useRef<HTMLDivElement>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -36,8 +37,8 @@ export const Participants = ({ users, small }: IParticipantsProps) => {
         {users.length > 5 && <span className={plus}>+</span>}
 
         <button onClick={() => (!small ? setIsDropdownOpen(!isDropdownOpen) : undefined)} className={button}>
-          {users.length - 5 > 0 && users.length - 5 < 100 && `ще ${users.length - 5}`}
-          {users.length - 5 > 99 && 'ще 99 +'}
+          {usersLength > 0 && usersLength < 100 && `ще ${usersLength}`}
+          {usersLength > 99 && 'ще 99 +'}
         </button>
 
         {isDropdownOpen && <DropdownList users={users} setIsDropdownOpen={() => setIsDropdownOpen(false)} />}
