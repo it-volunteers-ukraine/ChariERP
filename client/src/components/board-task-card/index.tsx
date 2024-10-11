@@ -14,8 +14,8 @@ export const BoardTaskCard = ({ cardData }: IBoardTaskCard) => {
 
   return (
     <>
-      {data.map(({ id, title }, idx) => (
-        <Card key={`id_card_${idx}`} idCard={id} title={title} setData={setData} data={data} />
+      {data.map((cardTask, idx) => (
+        <Card key={`id_card_${idx}`} {...cardTask} setData={setData} data={data} />
       ))}
     </>
   );
