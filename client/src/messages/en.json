@@ -256,5 +256,8 @@
   },
   "copy": {
     "messages": "Copied to clipboard"
+  },
+  "globalPronouns": {
+    "more": "more"
   }
 }

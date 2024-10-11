@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { useTranslations } from 'use-intl';
 
 import { useOutsideClick } from '@/hooks';
 
@@ -15,30 +16,34 @@ interface IParticipantsProps {
   users: IMokUserCountProps[];
 }
 
+const maxUser = 5;
+
 export const Participants = ({ users, small }: IParticipantsProps) => {
-  const usersLength = users.length - 5;
+  const usersLength = users.length - maxUser;
+
+  const translate = useTranslations('globalPronouns');
 
   const ref = useRef<HTMLDivElement>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const { participantsBox, iconBox, counter, plus, button } = getStyles(small);
+  const styles = getStyles(small);
 
   useOutsideClick(ref, () => setIsDropdownOpen(false));
 
   return (
-    <div className={participantsBox}>
-      <div className={iconBox}>
-        {users.slice(0, 5).map((user) => (
+    <div className={styles.participantsBox}>
+      <div className={styles.iconBox}>
+        {users.slice(0, maxUser).map((user) => (
           <UserIcon {...user} props={small} key={`userCount-${user.id}`} />
         ))}
       </div>
 
-      <div ref={ref} className={counter}>
-        {users.length > 5 && <span className={plus}>+</span>}
+      <div ref={ref} className={styles.counter}>
+        {users.length > maxUser && <span className={styles.plus}>+</span>}
 
-        <button onClick={() => (!small ? setIsDropdownOpen(!isDropdownOpen) : undefined)} className={button}>
-          {usersLength > 0 && usersLength < 100 && `ще ${usersLength}`}
-          {usersLength > 99 && 'ще 99 +'}
+        <button onClick={() => (!small ? setIsDropdownOpen(!isDropdownOpen) : undefined)} className={styles.button}>
+          {usersLength > 0 && usersLength < 100 && `${translate('more')} ${usersLength}`}
+          {usersLength > 99 && `${translate('more')} 99 +`}
         </button>
 
         {isDropdownOpen && <DropdownList users={users} setIsDropdownOpen={() => setIsDropdownOpen(false)} />}
