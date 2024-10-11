@@ -1,5 +1,8 @@
 import { Metadata } from 'next';
 
+import { BoardTaskCard } from '@/components';
+import { mockCards } from '@/components/board-task-card/mock';
+
 import { BoardTitle } from './board-title';
 
 interface Props {
@@ -22,6 +25,8 @@ const DashboardSlug = ({ params }: Props) => {
   return (
     <>
       <BoardTitle titleText={titleContent} />
+
+      <BoardTaskCard cardData={mockCards} />
 
       {decodeURIComponent(params.slug)}
     </>
