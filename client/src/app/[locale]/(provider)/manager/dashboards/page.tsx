@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { Participants } from '@/components';
+import { Participants, TasksColumn } from '@/components';
 import { mokUserCount } from '@/components/participants/mock-user';
 
 import { EmptyBoard } from './empty-board';
@@ -14,6 +14,7 @@ const Dashboards = () => {
   return (
     <>
       <Participants users={mokUserCount} />
+      <TasksColumn />
       <EmptyBoard />
     </>
   );

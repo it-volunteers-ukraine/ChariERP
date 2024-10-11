@@ -40,3 +40,4 @@ export { default as UA } from './ua.svg';
 export { default as User } from './user.svg';
 export { default as Users } from './users.svg';
 export { default as Warning } from './warning.svg';
+export { default as DotsSettings } from './dots-settings.svg';
