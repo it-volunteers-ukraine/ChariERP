@@ -38,6 +38,7 @@ const darkGray = '#49454F';
 const arcticSky = '#D0DDEC';
 const amethyst = '#A86CCC';
 const emeraldGreen = '#40BC6A';
+const skyBlue = '#5684C6';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -71,6 +72,7 @@ const config: Config = {
         purple: amethyst,
         greenNormal,
         red,
+        skyBlue,
         title: {
           title: caret,
           media: Magnolia,
