@@ -120,7 +120,11 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
       const newTab = window.open();
 
       if (newTab) {
-        newTab.document.body.innerHTML = `<Image src="${downloadedFile.image}" alt="Certificate Image" style="width: 100%; height: auto;">`;
+        newTab.document.body.innerHTML = `
+                <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                    <img src="${downloadedFile.image}" alt="Certificate Image" style="height: 100%; width: auto;">
+                </div>
+            `;
         newTab.document.title = 'Certificate';
       }
     } catch (error) {
