@@ -120,7 +120,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
       const newTab = window.open();
 
       if (newTab) {
-        newTab.document.body.innerHTML = `<Image src="${downloadedFile.image}" alt="Certificate Image" style="width: 50%; height: auto;">`;
+        newTab.document.body.innerHTML = `<Image src="${downloadedFile.image}" alt="Certificate Image" style="width: 100%; height: auto;">`;
         newTab.document.title = 'Certificate';
       }
     } catch (error) {
