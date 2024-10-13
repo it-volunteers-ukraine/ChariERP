@@ -232,7 +232,7 @@ const AdminOrganizationById = () => {
               }
             />
 
-            <div className="mb-20 flex justify-start rounded-lg bg-white px-8 pb-12 shadow-dashboard">
+            <div className="mb-20 flex justify-start rounded-lg bg-white px-4 pb-12 shadow-dashboard tablet:px-8">
               <div className="mx-auto w-full max-w-[1066px]">
                 <div className="mb-4 flex items-center justify-between border-b-2 border-lightBlue py-6 pr-2">
                   <div className="flex items-center gap-4">
@@ -248,33 +248,37 @@ const AdminOrganizationById = () => {
                 </div>
 
                 {isDeclined && data?.declineReason && (
-                  <Accordion initialState title={text('title.declineReason')}>
+                  <Accordion
+                    initialState
+                    classNameWrapper="mb-9 desktop:mb-12 !gap-2"
+                    title={text('title.declineReason')}
+                  >
                     <p className="text-base=[0.5px] tracking-wide text-mobster">{data.declineReason}</p>
                   </Accordion>
                 )}
 
-                <Form className="flex flex-col gap-12">
+                <Form className="flex flex-col gap-9 desktop:gap-12">
                   <Accordion
                     initialState
                     classNameTitle="text-[20px]"
                     title={text('title.basicInformation')}
-                    classNameChildren="flex flex-col gap-6"
+                    classNameChildren="flex flex-col gap-4"
                     changedLength={Object.keys(errors).length}
                   >
-                    <div className="flex items-start gap-6">
+                    <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-8">
                       <InputField
                         isCopy
                         required
                         type="number"
                         name="edrpou"
-                        wrapperClass="max-w-[140px]"
+                        wrapperClass="laptop:max-w-[140px]"
                         label={text('organizationTaxNumber.labelErdpou')}
                       />
 
                       <InputField isCopy required name="organizationName" label={text('organizationName.label')} />
                     </div>
 
-                    <div className="flex items-start gap-16">
+                    <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
                       <FileField
                         required
                         placeholderItalic
@@ -297,23 +301,23 @@ const AdminOrganizationById = () => {
                   <Accordion
                     initialState
                     classNameTitle="text-[20px]"
-                    classNameChildren="flex flex-col gap-6"
+                    classNameChildren="flex flex-col gap-4"
                     title={text('title.contactInformation')}
                     changedLength={Object.keys(errors).length}
                   >
-                    <div className="flex items-start gap-16">
+                    <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
                       <InputField required name="position" label={text('positionOrganization.label')} />
 
                       <InputField required name="lastName" label={text('lastName.label')} />
                     </div>
 
-                    <div className="flex items-start gap-16">
+                    <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
                       <InputField required name="firstName" label={text('name.label')} />
 
                       <InputField name="middleName" label={text('middleName.label')} />
                     </div>
 
-                    <div className="flex items-start gap-16">
+                    <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
                       <InputField
                         required
                         isMasked
@@ -333,9 +337,14 @@ const AdminOrganizationById = () => {
                     title={text('title.media')}
                     classNameTitle="text-[20px]"
                     changedLength={values?.social?.length}
-                    classNameChildren="flex flex-col gap-6"
+                    classNameChildren="flex flex-col gap-4"
                   >
-                    <InputField cross name="site" wrapperClass="max-w-[465px]" label={text('site.label')} />
+                    <InputField
+                      cross
+                      name="site"
+                      label={text('site.label')}
+                      wrapperClass="laptop:max-w-[calc(50%-24px)]"
+                    />
 
                     <FieldArray
                       name="social"
@@ -351,9 +360,9 @@ const AdminOrganizationById = () => {
                                 <InputField
                                   cross
                                   name={`social.${index}`}
-                                  wrapperClass="max-w-[465px]"
                                   key={`media-signUp-${index}`}
                                   label={text('socialNetworks.label')}
+                                  wrapperClass="laptop:max-w-[calc(50%-24px)]"
                                 />
                                 <div className="flex max-w-[465px] items-center justify-between">
                                   {isRightLength && isLastIndex && (
@@ -382,14 +391,14 @@ const AdminOrganizationById = () => {
                     />
                   </Accordion>
 
-                  <div className="flex w-full justify-end gap-6">
+                  <div className="flex w-full flex-col justify-end gap-3 tablet:flex-row tablet:gap-6">
                     {(isRequests || isDeclined) && (
                       <Button
                         type="button"
                         styleType="green"
                         text={btn('accept')}
-                        className="uppercase"
                         onClick={() => setIsOpenAccept(true)}
+                        className="w-full uppercase tablet:w-fit"
                       />
                     )}
 
@@ -397,9 +406,9 @@ const AdminOrganizationById = () => {
                       <Button
                         type="button"
                         styleType="red"
-                        className="uppercase"
                         text={btn('decline')}
                         onClick={() => setIsOpenDecline(true)}
+                        className="w-full uppercase tablet:w-fit"
                       />
                     )}
 
@@ -407,9 +416,9 @@ const AdminOrganizationById = () => {
                       <Button
                         type="button"
                         styleType="red"
-                        className="uppercase"
                         text={btn('delete')}
                         onClick={() => setIsOpenDelete(true)}
+                        className="w-full uppercase tablet:w-fit"
                       />
                     )}
                   </div>
