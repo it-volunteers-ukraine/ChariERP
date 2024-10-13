@@ -247,6 +247,12 @@ const AdminOrganizationById = () => {
                   </div>
                 </div>
 
+                {isDeclined && data?.declineReason && (
+                  <Accordion initialState title={text('title.declineReason')}>
+                    <p className="text-base=[0.5px] tracking-wide text-mobster">{data.declineReason}</p>
+                  </Accordion>
+                )}
+
                 <Form className="flex flex-col gap-12">
                   <Accordion
                     initialState

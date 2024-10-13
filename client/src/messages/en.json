@@ -30,6 +30,7 @@
   },
   "inputs": {
     "title": {
+      "declineReason": "Reason for rejection",
       "basicInformation": "Basic information",
       "contactInformation": "Contact information",
       "loginInformation": "Login information",
