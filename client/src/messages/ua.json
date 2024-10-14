@@ -30,6 +30,7 @@
   },
   "inputs": {
     "title": {
+      "declineReason": "Причина відхилення",
       "basicInformation": "основна інформація",
       "contactInformation": "контактна інформація",
       "loginInformation": "Данні для входу",

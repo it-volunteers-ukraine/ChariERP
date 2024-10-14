@@ -63,12 +63,14 @@ export interface OrganizationFormValues {
 
 export interface OrganizationEditValues extends Omit<OrganizationFormValues, 'agree' | 'dateOfRegistration'> {
   dateOfRegistration: Date;
+  declineReason?: string;
 }
 
 export type OrganizationCreateValues = Omit<OrganizationFormValues, 'agree '>;
 
 export interface OrganizationUpdateValues extends Omit<OrganizationFormValues, 'agree' | 'certificate'> {
-  request?: RequestOrganizationStatus;
+  declineReason?: string;
+  request?: RequestOrganizationStatus; 
 }
 
 export interface AdminOrganizationProps {
