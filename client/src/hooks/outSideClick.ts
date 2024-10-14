@@ -1,9 +1,16 @@
 'use client';
+
 import { RefObject, useEffect } from 'react';
 
-const useOutsideClick = (ref: RefObject<HTMLDivElement> | null, callback: () => void) => {
+type OutsideClickRef = RefObject<HTMLDivElement> | RefObject<HTMLDivElement>[] | null;
+
+const useOutsideClick = (refs: OutsideClickRef, callback: () => void) => {
+  const refArray = Array.isArray(refs) ? refs : [refs];
+
   const handleClick = (e: MouseEvent) => {
-    if (ref && ref.current && !ref.current.contains(e.target as Node)) {
+    const isOutside = refs && refArray.every((ref) => ref && ref.current && !ref.current.contains(e.target as Node));
+
+    if (isOutside) {
       callback();
     }
   };
