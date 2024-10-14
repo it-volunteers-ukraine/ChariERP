@@ -16,14 +16,13 @@ interface IParticipantsProps {
   users: IMokUserCountProps[];
 }
 
-const maxUser = 5;
-
 export const Participants = ({ users, small }: IParticipantsProps) => {
-  const usersLength = users.length - maxUser;
-
+  const ref = useRef<HTMLDivElement>(null);
   const translate = useTranslations('globalPronouns');
 
-  const ref = useRef<HTMLDivElement>(null);
+  const maxUser = 5;
+  const usersLength = users.length - maxUser;
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const styles = getStyles(small);
