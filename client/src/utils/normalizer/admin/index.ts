@@ -9,16 +9,17 @@ export const oneOrganizationNormalizer = (data: IOrganizations) => {
   const file = createFile(fileName![0], fileName![1]);
 
   return {
+    certificate: file,
     site: data.mediaData.site || '',
     email: data.contactData.email || '',
     phone: data.contactData.phone || '',
-    edrpou: data.organizationData.edrpou || '',
     social: data.mediaData.social || [''],
+    declineReason: data.declineReason || '',
     lastName: data.contactData.lastName || '',
     position: data.contactData.position || '',
+    edrpou: data.organizationData.edrpou || '',
     firstName: data.contactData.firstName || '',
     middleName: data.contactData.middleName || '',
-    certificate: file,
     organizationName: data.organizationData.organizationName || '',
     dateOfRegistration: data.organizationData.dateOfRegistration || '',
   };
