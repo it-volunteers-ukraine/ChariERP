@@ -117,15 +117,15 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
         return;
       }
 
-      const newTab = window.open();
+      const certificatePage = window.open();
 
-      if (newTab) {
-        newTab.document.body.innerHTML = `
-                <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-                    <img src="${downloadedFile.image}" alt="Certificate Image" style="height: 100%; width: auto;">
-                </div>
-            `;
-        newTab.document.title = 'Certificate';
+      if (certificatePage) {
+        certificatePage.document.title = 'Certificate';
+        certificatePage.document.body.innerHTML = `
+        <div style="display: flex; justify-content: center; align-items: center; height: 100%; width: 100%;">
+          <img src="${downloadedFile.image}" alt="Certificate Image" style="height: 100%;">
+        </div>
+        `;
       }
     } catch (error) {
       console.error('Error when loading a certificate:', error);
