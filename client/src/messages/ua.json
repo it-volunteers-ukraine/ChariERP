@@ -253,5 +253,8 @@
   },
   "copy": {
     "messages": "Скопійовано в буфер обміну"
+  },
+  "globalPronouns": {
+    "more": "ще"
   }
 }
