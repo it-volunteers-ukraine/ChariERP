@@ -7,7 +7,7 @@ import { useLocale, useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
 import { Copy, Doc } from '@/assets/icons';
-import { dateFormat, onCopy } from '@/utils';
+import { dateFormat, onCopy, openNewWindowForCertificate } from '@/utils';
 import { RequestOrganizationStatus, RowItemProps } from '@/types';
 import { Button, ModalAdmin, showMessage, ModalDecline } from '@/components';
 import {
@@ -117,16 +117,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
         return;
       }
 
-      const certificatePage = window.open();
-
-      if (certificatePage) {
-        certificatePage.document.title = 'Certificate';
-        certificatePage.document.body.innerHTML = `
-        <div style="display: flex; justify-content: center; align-items: center; height: 100%; width: 100%;">
-          <img src="${downloadedFile.image}" alt="Certificate Image" style="height: 100%;">
-        </div>
-        `;
-      }
+      openNewWindowForCertificate(downloadedFile.image as string);
     } catch (error) {
       console.error('Error when loading a certificate:', error);
     }
