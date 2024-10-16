@@ -219,12 +219,23 @@ const config: Config = {
           '0%': { transform: 'scale(1)' },
           '100%': { transform: 'scale(0)' },
         },
+
+        dropDownStart: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        dropDownDel: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
       },
       animation: {
         portalOpen: 'appearanceOverlay ease-in-out forwards',
         portalClose: 'disappearanceOverlay ease-in-out forwards',
         modalOpen: 'appearanceModal ease-in-out forwards',
         modalClose: 'disappearanceModal ease-in-out forwards',
+        dropDownStart: 'dropDownStart ease-in-out forwards',
+        dropDownDel: 'dropDownDel ease-in-out forwards',
       },
     },
   },
