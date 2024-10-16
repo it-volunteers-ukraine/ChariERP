@@ -7,11 +7,15 @@ import { useLocale, useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
 import { Copy, Doc } from '@/assets/icons';
-import { downloadFileFromBucket } from '@/services';
 import { RequestOrganizationStatus, RowItemProps } from '@/types';
-import { dateFormat, getUrlWithExtension, onCopy } from '@/utils';
+import { dateFormat, onCopy, openNewWindowForCertificate } from '@/utils';
 import { Button, ModalAdmin, showMessage, ModalDecline } from '@/components';
-import { declineOrganizationAction, deleteOrganizationAction, updateOrganizationAction } from '@/actions';
+import {
+  getImageAction,
+  deleteOrganizationAction,
+  updateOrganizationAction,
+  declineOrganizationAction,
+} from '@/actions';
 
 export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const locale = useLocale();
@@ -105,7 +109,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
     e.stopPropagation();
 
     try {
-      const downloadedFile = await downloadFileFromBucket(item.certificate);
+      const downloadedFile = await getImageAction(item.certificate);
 
       if (!downloadedFile) {
         console.error('Failed to upload file: no body');
@@ -113,9 +117,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
         return;
       }
 
-      const fileUrl = await getUrlWithExtension({ url: item.certificate, file: downloadedFile });
-
-      window.open(fileUrl as string, '_blank');
+      openNewWindowForCertificate(downloadedFile.image as string);
     } catch (error) {
       console.error('Error when loading a certificate:', error);
     }
