@@ -7,8 +7,8 @@ import { useLocale, useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
 import { Copy, Doc } from '@/assets/icons';
-import { dateFormat, onCopy, openNewWindowForCertificate } from '@/utils';
 import { RequestOrganizationStatus, RowItemProps } from '@/types';
+import { dateFormat, onCopy, openNewWindowForCertificate } from '@/utils';
 import { Button, ModalAdmin, showMessage, ModalDecline } from '@/components';
 import {
   getImageAction,
