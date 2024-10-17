@@ -1,25 +1,23 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 import { useOutsideClick } from '@/hooks';
 import { Delete, DotsSettings, Edit } from '@/assets/icons';
 
 import { showMessage } from '../toastify';
-
 import { getStyles } from './styles';
-
-const deleting = 'видалити';
-const edit = 'Перейменувати';
-const title = 'зробити до кінця місяця І ВІДПРАВИТИ НА ПЕРЕВІРКУ В ПОЛДАТКОВУ';
 
 export const TasksColumn = () => {
   const refInput = useRef<HTMLInputElement>(null);
   const refDropMenu = useRef<HTMLDivElement>(null);
+  const translateBtn = useTranslations('button');
+  const translateBoard = useTranslations('board');
 
-  const [value, setValue] = useState<string>(title);
-  const [isDisable, setIsDisable] = useState<boolean>(true);
-  const [isActiveDropMenu, setIsActiveDropMenu] = useState<boolean>(false);
+  const [isDisable, setIsDisable] = useState(true);
+  const [isActiveDropMenu, setIsActiveDropMenu] = useState(false);
+  const [value, setValue] = useState(translateBoard('titleTask'));
 
   const style = getStyles(isDisable);
 
@@ -31,7 +29,6 @@ export const TasksColumn = () => {
 
   const handlerDelete = () => {
     setIsActiveDropMenu(false);
-    setIsDisable(false);
   };
 
   const handlerInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,24 +69,25 @@ export const TasksColumn = () => {
         <button onClick={() => setIsActiveDropMenu(true)}>
           <DotsSettings className="h-6 w-6" />
         </button>
+
         {isActiveDropMenu ? (
           <div ref={refDropMenu} className={style.dropMenu}>
-            <button onClick={handlerEdit} className={style.btnEdit}>
-              {edit}
+            <button onClick={handlerEdit} className={style.btnTools}>
+              {translateBtn('edit')}
               <Edit className="h-6 w-6" />
             </button>
 
-            <button onClick={handlerDelete} className={style.btnDelete}>
-              {deleting}
+            <button onClick={handlerDelete} className={style.btnTools}>
+              {translateBtn('delete')}
               <Delete className="h-6 w-6" />
             </button>
           </div>
         ) : null}
       </div>
 
-      <button className={style.btnAdd}>
-        <span className="text-[20px] font-bold leading-none">+</span>
-        <span className="leading-5">Додати завдання</span>
+      <button className={style.addTask}>
+        <span className="text-2xl font-bold leading-none">+</span>
+        <span className="text-sm leading-5">{translateBtn('addTask')}</span>
       </button>
     </div>
   );

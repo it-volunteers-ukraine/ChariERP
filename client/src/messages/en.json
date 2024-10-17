@@ -185,7 +185,9 @@
     "contact": "contact",
     "goToAllBoards": "go to all boards",
     "yes": "YES",
-    "no": "NO"
+    "no": "NO",
+    "edit": "edit",
+    "addTask": "Add tasks"
   },
   "validation": {
     "minPlural": "Minimum {int} characters",
@@ -253,7 +255,8 @@
     "limitExceeded": "You can have no more than {int} boards",
     "massageCopyTitle": "Link copied",
     "emptyBoard": "There is no board with your participation on this page yet",
-    "allParticipants": "all participants"
+    "allParticipants": "all participants",
+    "titleTask": "make it by the end of the month and send it to the tax office for verification"
   },
   "copy": {
     "messages": "Copied to clipboard"
