@@ -12,6 +12,8 @@ interface IToolsDropMenuProps {
   duration?: number;
   className?: string;
   onClose: () => void;
+  animationOpen?: string;
+  animationClose?: string;
 }
 
 export const ToolsDropMenu = ({
@@ -19,13 +21,15 @@ export const ToolsDropMenu = ({
   onClose,
   children,
   className,
+  animationOpen,
+  animationClose,
   duration = 300,
 }: ChildrenProps<IToolsDropMenuProps>) => {
   const ref = useRef<HTMLDivElement | null>(null);
 
   const { unmounted } = useMounted({ opened, duration });
 
-  const style = getStyle({ className, opened });
+  const style = getStyle({ className, opened, animationClose, animationOpen });
 
   useOutsideClick(ref, () => onClose());
 

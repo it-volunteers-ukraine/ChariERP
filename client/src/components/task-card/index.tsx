@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
@@ -7,27 +9,25 @@ import { Participants } from '@/components/participants';
 import { ToolsDropMenu } from '@/components/tools-drop-menu';
 import { IUsers } from '@/components/participants/mock-user';
 
-interface ICard {
+interface ITaskCard {
   id: string;
   title: string;
   users: IUsers[];
   onDelete: (props: string) => void;
 }
 
-export const Card = ({ id, title, users, onDelete }: ICard) => {
+export const TaskCard = ({ id, title, users, onDelete }: ITaskCard) => {
   const ref = useRef<HTMLDivElement>(null);
   const deleteMessage = useTranslations('button');
 
-  const duration = 150;
+  const duration = 300;
 
-  const [isActive, setIsActive] = useState<boolean>(false);
+  const [isActive, setIsActive] = useState(false);
 
   const handlerClick = () => {
     setIsActive(false);
 
     setTimeout(() => onDelete(id), duration);
-
-    return;
   };
 
   useOutsideClick(ref, () => setIsActive(false));
@@ -43,7 +43,7 @@ export const Card = ({ id, title, users, onDelete }: ICard) => {
 
         <ToolsDropMenu opened={isActive} onClose={() => setIsActive(false)} duration={duration}>
           <button
-            className="flex w-full items-center justify-between gap-x-3 rounded-[8px] p-2 font-roboto text-sm transition duration-300 ease-in-out"
+            className="flex justify-between rounded p-2 font-robotoCondensed text-base text-comet transition hover:bg-arcticSky"
             onClick={handlerClick}
           >
             <p>{deleteMessage('delete')}</p>
