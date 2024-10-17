@@ -2,39 +2,37 @@
 
 import { useRef } from 'react';
 
-import { useMounted, useOutsideClick } from '@/hooks';
 import { ChildrenProps } from '@/types';
-import clsx from 'clsx';
+import { useMounted, useOutsideClick } from '@/hooks';
+
+import { getStyle } from './style';
 
 interface IToolsDropMenuProps {
   opened: boolean;
+  duration?: number;
   className?: string;
   onClose: () => void;
-  duration: number;
 }
 
-export const ToolsDropMenu = ({ onClose, children, className, opened }: ChildrenProps<IToolsDropMenuProps>) => {
+export const ToolsDropMenu = ({
+  opened,
+  onClose,
+  children,
+  className,
+  duration = 300,
+}: ChildrenProps<IToolsDropMenuProps>) => {
   const ref = useRef<HTMLDivElement | null>(null);
 
-  console.log({ children, opened });
+  const { unmounted } = useMounted({ opened, duration });
 
-  const { unmounted } = useMounted({ opened, duration: 1000 });
-
-  const cllsx = clsx(
-    'border-swissCoffee bg-red-500 absolute right-0 top-0 z-[10] flex w-[200px] flex-col justify-between gap-2 rounded-lg border bg-white px-3 py-2 shadow-boardCard backdrop-blur-lg',
-    className,
-    {
-      'animate-dropDownStart': opened,
-      'animate-dropDownDel': !opened,
-    },
-  );
+  const style = getStyle({ className, opened });
 
   useOutsideClick(ref, () => onClose());
 
-  if (!unmounted) return null;
+  if (!unmounted || !children) return null;
 
   return (
-    <div ref={ref} className={cllsx} style={{ animationDuration: `1000ms` }}>
+    <div ref={ref} className={style.toolsMenu} style={{ animationDuration: `${duration}ms` }}>
       {children}
     </div>
   );

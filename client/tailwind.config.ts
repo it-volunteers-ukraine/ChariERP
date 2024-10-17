@@ -220,11 +220,11 @@ const config: Config = {
           '100%': { transform: 'scale(0)' },
         },
 
-        dropDownStart: {
+        inToolsMenu: {
           '0%': { transform: 'translateX(100%)' },
           '100%': { transform: 'translateX(0)' },
         },
-        dropDownDel: {
+        outToolsMenu: {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(100%)' },
         },
@@ -234,8 +234,8 @@ const config: Config = {
         portalClose: 'disappearanceOverlay ease-in-out forwards',
         modalOpen: 'appearanceModal ease-in-out forwards',
         modalClose: 'disappearanceModal ease-in-out forwards',
-        dropDownStart: 'dropDownStart ease-in-out forwards',
-        dropDownDel: 'dropDownDel ease-in-out forwards',
+        openToolsMenu: 'inToolsMenu ease-in-out forwards',
+        closeToolsMenu: 'outToolsMenu ease-in-out forwards',
       },
     },
   },

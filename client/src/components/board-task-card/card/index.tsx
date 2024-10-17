@@ -5,28 +5,29 @@ import { useOutsideClick } from '@/hooks';
 import { Delete, DotsSettings } from '@/assets/icons';
 import { Participants } from '@/components/participants';
 import { ToolsDropMenu } from '@/components/tools-drop-menu';
-import { IMokUserCountProps } from '@/components/participants/mock-user';
-
-import { IMockCards } from '../mock';
+import { IUsers } from '@/components/participants/mock-user';
 
 interface ICard {
   id: string;
   title: string;
-  data: IMockCards[]; //ICardData
-  users: IMokUserCountProps[]; //IUsers
-  setData: React.Dispatch<React.SetStateAction<IMockCards[]>>;
+  users: IUsers[];
+  onDelete: (props: string) => void;
 }
 
-export const Card = ({ id, title, users, setData, data }: ICard) => {
+export const Card = ({ id, title, users, onDelete }: ICard) => {
   const ref = useRef<HTMLDivElement>(null);
   const deleteMessage = useTranslations('button');
+
+  const duration = 150;
 
   const [isActive, setIsActive] = useState<boolean>(false);
 
   const handlerClick = () => {
     setIsActive(false);
 
-    return setData(data.filter((idx) => idx.id !== id));
+    setTimeout(() => onDelete(id), duration);
+
+    return;
   };
 
   useOutsideClick(ref, () => setIsActive(false));
@@ -40,7 +41,7 @@ export const Card = ({ id, title, users, setData, data }: ICard) => {
           <DotsSettings />
         </button>
 
-        <ToolsDropMenu opened={isActive} duration={1000} onClose={() => setIsActive(false)}>
+        <ToolsDropMenu opened={isActive} onClose={() => setIsActive(false)} duration={duration}>
           <button
             className="flex w-full items-center justify-between gap-x-3 rounded-[8px] p-2 font-roboto text-sm transition duration-300 ease-in-out"
             onClick={handlerClick}

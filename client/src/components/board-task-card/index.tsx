@@ -3,10 +3,10 @@
 import { useState } from 'react';
 
 import { Card } from './card';
-import { IMockCards } from './mock';
+import { IDataCards } from './mock';
 
 interface IBoardTaskCard {
-  cardData: IMockCards[];
+  cardData: IDataCards[];
 }
 
 export const BoardTaskCard = ({ cardData }: IBoardTaskCard) => {
@@ -15,7 +15,11 @@ export const BoardTaskCard = ({ cardData }: IBoardTaskCard) => {
   return (
     <>
       {data.map((cardTask, idx) => (
-        <Card key={`id_card_${idx}`} {...cardTask} setData={setData} data={data} />
+        <Card
+          {...cardTask}
+          key={`id_card_${idx}`}
+          onDelete={(id) => setData((prev) => prev.filter((item) => item.id !== id))}
+        />
       ))}
     </>
   );

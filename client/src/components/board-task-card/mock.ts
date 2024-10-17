@@ -1,12 +1,12 @@
-import { IMokUserCountProps, mokUserCount } from '../participants/mock-user';
+import { IUsers, mokUserCount } from '../participants/mock-user';
 
-export interface IMockCards {
+export interface IDataCards {
   id: string;
   title: string;
-  users: IMokUserCountProps[];
+  users: IUsers[];
 }
 
-export const mockCards: IMockCards[] = [
+export const mockCards: IDataCards[] = [
   {
     title: 'Зустріч з підрядником Зустріч з підрядникомЗустріч з підрядником',
     id: '1',
