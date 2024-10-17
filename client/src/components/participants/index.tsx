@@ -5,15 +5,15 @@ import { useTranslations } from 'use-intl';
 
 import { useOutsideClick } from '@/hooks';
 
+import { IUsers } from './mock-user';
 import { UserIcon } from './user-icon';
 import { DropdownList } from './dropdown';
-import { IMokUserCountProps } from './mock-user';
 
 import { getStyles } from './style';
 
 interface IParticipantsProps {
+  users: IUsers[];
   small?: boolean;
-  users: IMokUserCountProps[];
 }
 
 export const Participants = ({ users, small }: IParticipantsProps) => {

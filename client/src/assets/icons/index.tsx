@@ -11,6 +11,7 @@ export { default as Copy } from './copy.svg';
 export { default as CopyBoard } from './copy-board.svg';
 export { default as Delete } from './delete.svg';
 export { default as Doc } from './doc.svg';
+export { default as DotsSettings } from './dots-settings.svg';
 export { default as Edit } from './edit.svg';
 export { default as EN } from './en.svg';
 export { default as Exit } from './exit.svg';
