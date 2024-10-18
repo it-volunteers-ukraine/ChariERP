@@ -66,7 +66,7 @@ export const TasksColumn = () => {
           onChange={handlerInputChange}
         />
 
-        <button onClick={() => setIsActiveDropMenu(true)}>
+        <button className="rounded hover:bg-arcticSky" onClick={() => setIsActiveDropMenu(true)}>
           <DotsSettings className="h-6 w-6" />
         </button>
 
