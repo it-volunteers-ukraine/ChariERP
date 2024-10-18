@@ -1,8 +1,8 @@
-import { IBoardData } from '../types';
+import { IBoardData, MergeBoard } from '../types';
 
 export interface IBoardInfoProps {
   number?: number;
-  boardData?: IBoardData;
+  board?: IBoardData | MergeBoard;
   isRoleAccess?: boolean;
   setIsEdit?: (isEdit: boolean) => void;
   setIsGoRoute?: (isGoRoute: boolean) => void;

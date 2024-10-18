@@ -1,20 +1,24 @@
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { Plus } from '@/assets/icons';
 
 import { BoardInfo } from '../board-info';
 import { ICreateCardProps } from './types';
+import { getBoardStyles } from '../board-styles';
 
-export const CreateCard = ({ setIsEdit, isEdit, sumBoards, styles }: ICreateCardProps) => {
+export const CreateCard = ({ boardLength }: ICreateCardProps) => {
   const messages = useTranslations('board');
+
+  const [isEdit, setIsEdit] = useState(false);
+
+  const styles = getBoardStyles();
+
+  // useOutsideClick(ref, () => setIsEdit(false));
 
   return (
     <>
-      {isEdit && (
-        <div className={styles.wrapper} onClick={() => setIsEdit(true)}>
-          <BoardInfo isRoleAccess setIsEdit={setIsEdit} number={sumBoards} />
-        </div>
-      )}
+      {isEdit && <BoardInfo isRoleAccess setIsEdit={setIsEdit} number={boardLength} />}
 
       {!isEdit && (
         <div className={styles.wrapperCreate} onClick={() => setIsEdit(true)}>
