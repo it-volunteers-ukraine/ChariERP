@@ -1,10 +1,10 @@
-import clsx from 'clsx';
+import { cn } from '@/utils';
 
 export const getStyles = (isDisable: boolean) => {
   return {
     columTask: 'flex min-h-[254px] max-w-[254px] flex-col gap-y-3 rounded-md bg-whiteSecond px-4 py-5',
     titleBox: 'relative flex items-center justify-between',
-    input: clsx(
+    input: cn(
       'max-w-[196px]  text-ellipsis break-all p-2 font-scada border-[1px] text-xl font-bold uppercase text-comet',
       isDisable && 'bg-transparent border-transparent',
       !isDisable && 'rounded-lg border-skyBlue bg-white',

@@ -8,6 +8,8 @@ import { Delete, DotsSettings, Edit } from '@/assets/icons';
 
 import { showMessage } from '../toastify';
 import { getStyles } from './styles';
+import { TaskCard } from '../task-card';
+import { mockCards } from '../task-card/mock';
 
 export const TasksColumn = () => {
   const refInput = useRef<HTMLInputElement>(null);
@@ -15,6 +17,7 @@ export const TasksColumn = () => {
   const translateBtn = useTranslations('button');
   const translateBoard = useTranslations('board');
 
+  const [dataTack, setDataTack] = useState(mockCards);
   const [isDisable, setIsDisable] = useState(true);
   const [isActiveDropMenu, setIsActiveDropMenu] = useState(false);
   const [value, setValue] = useState(translateBoard('titleTask'));
@@ -84,6 +87,15 @@ export const TasksColumn = () => {
           </div>
         ) : null}
       </div>
+      {dataTack.map((task, index: number) => {
+        return (
+          <TaskCard
+            {...task}
+            key={index}
+            onDelete={(id) => setDataTack((prev) => prev.filter((item) => item.id !== id))}
+          />
+        );
+      })}
 
       <button className={style.addTask}>
         <span className="text-2xl font-bold leading-none">+</span>
