@@ -5,9 +5,10 @@ import { useTranslations } from 'next-intl';
 
 import { useOutsideClick } from '@/hooks';
 import { Delete, DotsSettings } from '@/assets/icons';
-import { Participants } from '@/components/participants';
-import { ToolsDropMenu } from '@/components/tools-drop-menu';
 import { IUsers } from '@/components/participants/mock-user';
+
+import { Participants } from '../participants';
+import { ToolsDropMenu } from '../tools-drop-menu';
 
 interface ITaskCard {
   id: string;
