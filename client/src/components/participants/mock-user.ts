@@ -1,11 +1,11 @@
-export interface IMokUserCountProps {
+export interface IUsers {
   id: string;
-  firstName: string;
   lastName: string;
+  firstName: string;
   avatarUrl: string;
 }
 
-export const mokUserCount: IMokUserCountProps[] = [
+export const mokUserCount: IUsers[] = [
   {
     id: '1',
     firstName: 'John',
