@@ -219,16 +219,27 @@ const config: Config = {
           '0%': { transform: 'scale(1)' },
           '100%': { transform: 'scale(0)' },
         },
+
+        inToolsMenu: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        outToolsMenu: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
       },
       animation: {
         portalOpen: 'appearanceOverlay ease-in-out forwards',
         portalClose: 'disappearanceOverlay ease-in-out forwards',
         modalOpen: 'appearanceModal ease-in-out forwards',
         modalClose: 'disappearanceModal ease-in-out forwards',
+        openToolsMenu: 'inToolsMenu ease-in-out forwards',
+        closeToolsMenu: 'outToolsMenu ease-in-out forwards',
       },
     },
   },
-  plugins: [require('@tailwindcss/line-clamp')],
+  plugins: [],
 };
 
 export default config;
