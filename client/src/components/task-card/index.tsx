@@ -16,11 +16,11 @@ interface ITaskCard {
   onDelete: (props: string) => void;
 }
 
+const duration = 300;
+
 export const TaskCard = ({ id, title, users, onDelete }: ITaskCard) => {
   const ref = useRef<HTMLDivElement>(null);
   const deleteMessage = useTranslations('button');
-
-  const duration = 300;
 
   const [isActive, setIsActive] = useState(false);
 
@@ -37,13 +37,16 @@ export const TaskCard = ({ id, title, users, onDelete }: ITaskCard) => {
       <div className="flex items-start justify-between">
         <p className="line-clamp-2 max-w-[170px] hyphens-auto font-roboto text-[14px] leading-[20px]">{title}</p>
 
-        <button onClick={() => setIsActive(true)}>
+        <button
+          className="rounded transition duration-300 ease-in-out hover:bg-arcticSky"
+          onClick={() => setIsActive(true)}
+        >
           <DotsSettings />
         </button>
 
         <ToolsDropMenu opened={isActive} onClose={() => setIsActive(false)} duration={duration}>
           <button
-            className="flex justify-between rounded p-2 font-robotoCondensed text-base text-comet transition hover:bg-arcticSky"
+            className="flex justify-between rounded p-2 font-robotoCondensed text-base text-comet transition duration-300 ease-in-out hover:bg-arcticSky"
             onClick={handlerClick}
           >
             <p>{deleteMessage('delete')}</p>
