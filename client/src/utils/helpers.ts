@@ -149,4 +149,23 @@ export const onCopy = (e: MouseEvent<SVGElement | HTMLButtonElement>, text: numb
   showMessage.success(messages, { autoClose: 500 });
 };
 
+export const lettersToColor = (firstName: string, lastName: string) => {
+  // Capitalize both first letters for consistency
+  const char1 = firstName[0].toUpperCase();
+  const char2 = lastName[0].toUpperCase();
+
+  // Get ASCII codes for both letters
+  const charCode1 = char1.charCodeAt(0);
+  const charCode2 = char2.charCodeAt(0);
+
+  // Combining ASCII codes for RGB generation
+  const red = (charCode1 * 23 + charCode2 * 17) % 256;
+  const green = (charCode1 * 47 + charCode2 * 31) % 256;
+  const blue = (charCode1 * 71 + charCode2 * 29) % 256;
+
+  // Convert RGB values to hex format
+  const color = `#${red.toString(16).padStart(2, '0')}${green.toString(16).padStart(2, '0')}${blue.toString(16).padStart(2, '0')}`;
+
+  return color;
+};
 export const cleanSpaces = (str: string) => str.trim().replace(/\s+/g, ' ');

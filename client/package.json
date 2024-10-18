@@ -36,6 +36,7 @@
     "react-number-format": "^5.4.2",
     "react-phone-number-input": "^3.4.8",
     "react-toastify": "^10.0.5",
+    "tailwind-merge": "^2.5.4",
     "ts-node": "^10.9.2",
     "yup": "^1.4.0"
   },
