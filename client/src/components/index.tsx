@@ -29,5 +29,7 @@ export { Participants } from './participants';
 export { RadioField } from './radio-field';
 export { ResponseWrapper } from './response';
 export { SmallBtn } from './small-button';
+export { TaskCard } from './task-card';
 export { Title } from './title';
 export { Toast, showMessage } from './toastify';
+export { ToolsDropMenu } from './tools-drop-menu';
