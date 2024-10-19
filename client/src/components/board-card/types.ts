@@ -1,25 +1,22 @@
-import { Roles } from '@/types';
-
 export interface IBoardData {
   id: string;
   title: string;
   order: number;
-  isLast?: boolean;
 }
 
 export interface IBoardCardProps {
-  role?: Roles;
-  idx: number;
-  boardLength: number;
-  limitOfCard: number;
+  idx?: number;
+  isRoleAccess?: boolean;
+  onDelete: (id: string) => void;
   board: MergeBoard | IBoardData;
+  onReset: (text: string) => void;
+  onSubmit: (title: string, id: string) => void;
 }
 
 export interface MergeBoard {
   id: string;
   title: string;
   order: number;
-  isLast?: boolean;
   [key: `column-${number}`]: { [index: number]: number };
 }
 

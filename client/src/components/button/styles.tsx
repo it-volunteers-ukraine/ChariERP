@@ -75,10 +75,8 @@ export const getStyles = ({ disabled, isNarrow, styleType, className, isLoading 
       'group-active:opacity-100': !isLoading,
     },
   ),
-  loader: clsx(
+  loader:
     'absolute top-0 left-0 w-full h-full flex items-center justify-center z-[4] backdrop-blur-[1px] rounded-[60px]',
-    {},
-  ),
   spinner: clsx({
     'w-5 h-5': isNarrow,
     'w-6 h-6': !isNarrow,

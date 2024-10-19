@@ -11,7 +11,6 @@ export { CheckboxField } from './checkbox-field';
 export { CheckboxRadio } from './checkbox-radio';
 export { Avatar, DashboardAside, DashboardHeader } from './dashboard';
 export { DateField } from './date-field';
-export { DragAndDrop } from './drag-and-drop';
 export { EmployeeCard } from './employee-card';
 export { FileField } from './file-field';
 export * from './formik-config';

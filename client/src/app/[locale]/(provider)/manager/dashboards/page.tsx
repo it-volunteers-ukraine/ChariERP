@@ -1,16 +1,13 @@
-// @ts-nocheck
-/* eslint-disable */
 'use client';
 
 import { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 
+import { Roles } from '@/types';
 import { useWindowWidth } from '@/hooks';
 import { generateColumns, reorder } from './helpers';
 import { useLoaderAdminPage, useUserInfo } from '@/context';
-import { BoardCard, IBoardData, IColumns } from '@/components';
-import { LimitCard } from '@/components/board-card/limit-card';
-import { CreateCard } from '@/components/board-card/create-card';
+import { BoardCard, Button, IBoardData, IColumns } from '@/components';
 
 import { boardsMock } from './mock';
 
@@ -20,10 +17,13 @@ const limitOfCard = 5;
 const Dashboards = () => {
   const { role } = useUserInfo();
   const { isLaptop } = useWindowWidth();
-  const { isLoading, setIsLoading } = useLoaderAdminPage();
+  const { setIsLoading } = useLoaderAdminPage();
 
   const [columns, setColumns] = useState<IColumns>({});
   const [boards, setBoards] = useState<IBoardData[]>([]);
+
+  const isRoleAccess = role !== Roles.USER;
+  const isLimitExceeded = boards.length === limitOfCard;
 
   useEffect(() => {
     setIsLoading(true);
@@ -32,8 +32,53 @@ const Dashboards = () => {
       setBoards(boardsMock);
       setColumns(generateColumns(numberOfColumns, boardsMock));
       setIsLoading(false);
-    }, 1000);
+    }, 300);
   }, []);
+
+  const onSubmit = (title: string, id: string) => {
+    const newBoards = boards.map((board) => {
+      if (board.id === id) {
+        return { ...board, title };
+      }
+
+      return board;
+    });
+
+    const orderedBoards = newBoards.map((item, index) => ({ ...item, order: index + 1 }));
+
+    try {
+      setBoards(orderedBoards);
+      setColumns(generateColumns(numberOfColumns, orderedBoards));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onDelete = (id: string) => {
+    const newBoards = boards.filter((board) => board.id !== id);
+    const orderedBoards = newBoards.map((item, index) => ({ ...item, order: index + 1 }));
+
+    try {
+      setBoards(orderedBoards);
+      setColumns(generateColumns(numberOfColumns, orderedBoards));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addBoard = () => {
+    const newBoards = [...boards, { title: '', order: boards.length + 1, id: 'new' }];
+
+    setBoards(newBoards);
+    setColumns(generateColumns(numberOfColumns, newBoards));
+  };
+
+  const onReset = (id: string) => {
+    const filteredBoards = boards.filter((board) => board.id !== id);
+
+    setBoards(filteredBoards);
+    setColumns(generateColumns(numberOfColumns, filteredBoards));
+  };
 
   const handleDragEndSmall = (result: DropResult) => {
     if (!result.destination) return;
@@ -41,9 +86,7 @@ const Dashboards = () => {
     const newBoards = reorder(boards, result.source.index, result.destination.index);
 
     setBoards(newBoards);
-    const updatedColumns = generateColumns(numberOfColumns, newBoards);
-
-    setColumns(updatedColumns);
+    setColumns(generateColumns(numberOfColumns, newBoards));
   };
 
   const handleDragEndLarge = (result: DropResult) => {
@@ -62,38 +105,21 @@ const Dashboards = () => {
     const sourceBoardIndex = columns[sourceCol][source.index][sourceCol][source.index];
     const destinationBoardIndex = columns[destCol][destination.index][destCol][destination.index];
 
-    const updatedBoards = Array.from(boards);
-
-    const newBoards = reorder(updatedBoards, sourceBoardIndex, destinationBoardIndex);
+    const newBoards = reorder(boards, sourceBoardIndex, destinationBoardIndex);
 
     setBoards(newBoards);
-    const updatedColumns = generateColumns(numberOfColumns, newBoards);
-
-    setColumns(updatedColumns);
+    setColumns(generateColumns(numberOfColumns, newBoards));
   };
 
-  const isBoardLengthZero = boards.length === 0;
-
   return (
-    <div className="min-h-[calc(100dvh-96px)] bg-white">
-      {isBoardLengthZero && (
-        // @ts-ignore
-        // eslint-disable-next-line
-        <BoardCard
-          // idx={index}
-          // role={role}
-          // board={board}
-
-          limitOfCard={limitOfCard}
-          boardLength={boards.length}
-        />
+    <div className="min-h-[calc(100dvh-96px)] bg-white p-8">
+      {isRoleAccess && (
+        <Button onClick={addBoard} disabled={isLimitExceeded}>
+          <span className="uppercase">+ Додати дошки</span>
+        </Button>
       )}
 
-      {boards.length < limitOfCard && !isLoading && <CreateCard boardLength={boards.length} />}
-
-      {boards.length === limitOfCard && !isLoading && <LimitCard limit={limitOfCard} />}
-
-      <div className="px-8 py-10">
+      <div className="py-10">
         {!isLaptop && (
           <DragDropContext onDragEnd={handleDragEndSmall}>
             <Droppable droppableId="droppable-1" type="Boards">
@@ -104,11 +130,12 @@ const Dashboards = () => {
                       return (
                         <BoardCard
                           idx={index}
-                          role={role}
                           board={board}
                           key={board.id}
-                          limitOfCard={limitOfCard}
-                          boardLength={boards.length}
+                          onReset={onReset}
+                          onSubmit={onSubmit}
+                          onDelete={onDelete}
+                          isRoleAccess={isRoleAccess}
                         />
                       );
                     })}
@@ -125,7 +152,6 @@ const Dashboards = () => {
           <div className="flex w-full gap-6 desktop:max-w-[1088px]">
             <DragDropContext onDragEnd={handleDragEndLarge}>
               {columns &&
-                !isBoardLengthZero &&
                 Object.keys(columns)?.map((key) => (
                   <Droppable key={key} droppableId={key} type="Boards">
                     {(provided) => (
@@ -133,11 +159,12 @@ const Dashboards = () => {
                         {columns[key].map((board, index) => (
                           <BoardCard
                             idx={index}
-                            role={role}
                             board={board}
                             key={board.id}
-                            limitOfCard={limitOfCard}
-                            boardLength={boards.length}
+                            onReset={onReset}
+                            onSubmit={onSubmit}
+                            onDelete={onDelete}
+                            isRoleAccess={isRoleAccess}
                           />
                         ))}
 

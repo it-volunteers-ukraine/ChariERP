@@ -1,39 +1,55 @@
-// @ts-nocheck
-/* eslint-disable */
 'use client';
 
-import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 import { onCopy } from '@/utils';
+import { routes } from '@/constants';
 import { useOutsideClick } from '@/hooks';
 import { CopyBoard, Delete, PencilJust } from '@/assets/icons';
 
 import { getStyles } from './style';
-import { IBoardInfoProps } from './types';
+import { IBoardCardProps } from '../types';
 
-export const BoardInfo = ({ isRoleAccess, setIsGoRoute, board, setIsEdit, number, isEdit }: IBoardInfoProps) => {
-  const wrapperRef = useRef<HTMLDivElement>(null);
+export const BoardInfo = ({ isRoleAccess, board, onReset, onSubmit, onDelete }: IBoardCardProps) => {
+  const linkRef = useRef<HTMLAnchorElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const messages = useTranslations('board');
   const messagesCopy = useTranslations('copy');
 
-  const isBoardData = !!board;
+  const isCreateCard = board.id === 'new';
 
-  const [isEditing, setIsEditing] = useState(!isBoardData);
-  const [title, setTitle] = useState(board?.title || '');
+  const [title, setTitle] = useState(board.title || '');
+  const [isEditing, setIsEditing] = useState(isCreateCard);
+
+  const emptyText = title === '';
 
   const styles = getStyles(isEditing);
 
-  useOutsideClick(wrapperRef, () => {
-    if (isEditing) {
-      setIsEditing(false);
-      put();
-    }
-  });
+  const onHandleBlur = (state?: boolean) => {
+    const newIsEdit = state ?? false;
 
-  const put = () => {
-    console.log({ text: title });
+    setIsEditing(newIsEdit);
+
+    if (!isEditing && emptyText) {
+      setTitle(board?.title || '');
+    }
+
+    if (isCreateCard && emptyText && onReset) {
+      onReset(board.id);
+
+      return;
+    }
+
+    if (title !== board?.title && !emptyText) {
+      onSubmit(title, board.id);
+    }
+
+    if (emptyText) {
+      setTitle(board?.title || '');
+    }
   };
 
   const handleFocus = () => {
@@ -48,6 +64,8 @@ export const BoardInfo = ({ isRoleAccess, setIsGoRoute, board, setIsEdit, number
     }
   };
 
+  useOutsideClick(linkRef, onHandleBlur);
+
   useEffect(() => {
     if (isEditing && textareaRef.current) {
       handleFocus();
@@ -55,77 +73,32 @@ export const BoardInfo = ({ isRoleAccess, setIsGoRoute, board, setIsEdit, number
   }, [isEditing]);
 
   const handleEditClick = () => {
-    setIsEditing((prev) => {
-      const newEdit = !prev;
-
-      if (!newEdit) {
-        if (title === '') {
-          setTitle(board?.title || '');
-
-          return newEdit;
-        }
-        put();
-      }
-
-      return newEdit;
-    });
-
-    // if (setIsGoRoute) {
-    //   setIsGoRoute(false);
-    // }
+    onHandleBlur(!isEditing);
   };
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTitle(e.target.value);
   };
 
-  // const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
-  //   e.target.scrollTop = 0;
-  //   console.log({ e: e.target });
-
-  //   if (title === '') {
-  //     setIsEdit?.(false);
-  //     setIsEditing(false);
-
-  //     return;
-  //   }
-
-  //   if (!isBoardData) {
-  //     //TODO create board
-  //     setIsEditing(false);
-
-  //     return;
-  //   }
-
-  //   if (board?.title !== title) {
-  //     //TODO edit board
-  //   }
-  //   setIsEditing(false);
-  // };
-
-  const stopPropagation = (e: React.MouseEvent<HTMLButtonElement>, func: () => void) => {
+  const stopPropagation = (e: React.MouseEvent<HTMLButtonElement | HTMLTextAreaElement>, func?: () => void) => {
+    e.preventDefault();
     e.stopPropagation();
-    func();
+
+    if (func) {
+      func();
+    }
   };
 
-  const handleDeleteClick = () => {
-    //TODO delete board boardData.id
-  };
+  console.log({ board });
 
   return (
-    <div ref={wrapperRef} className={styles.wrapper}>
+    <Link ref={linkRef} className={styles.wrapper} href={!isCreateCard ? `${routes.managerDashboard}/${board.id}` : ''}>
       <div className="mb-8 flex w-full items-center justify-between">
-        <p className="text-[18px] font-medium leading-5 !text-comet">
-          #{board?.order !== undefined ? board.order : number}
-        </p>
+        <p className="text-[18px] font-medium leading-5 text-comet">#{board.order}</p>
 
         <div className="flex">
           {isRoleAccess && (
-            <button
-              className={styles.editButton}
-              // disabled={isEditing && !board?.id}
-              onClick={(e) => stopPropagation(e, handleEditClick)}
-            >
+            <button className={styles.editButton} onClick={(e) => stopPropagation(e, handleEditClick)}>
               <PencilJust className={styles.icon} />
             </button>
           )}
@@ -133,7 +106,7 @@ export const BoardInfo = ({ isRoleAccess, setIsGoRoute, board, setIsEdit, number
           <button
             disabled={isEditing}
             className={styles.button}
-            onClick={(e) => onCopy(e, `${window.location.href}/${board?.id}`, messagesCopy('messages'))}
+            onClick={(e) => onCopy(e, `${window.location.href}/${board.id}`, messagesCopy('messages'))}
           >
             <CopyBoard className={styles.icon} />
           </button>
@@ -142,7 +115,7 @@ export const BoardInfo = ({ isRoleAccess, setIsGoRoute, board, setIsEdit, number
             <button
               disabled={isEditing}
               className={styles.button}
-              onClick={(e) => stopPropagation(e, handleDeleteClick)}
+              onClick={(e) => stopPropagation(e, () => onDelete(board.id))}
             >
               <Delete className={styles.icon} />
             </button>
@@ -153,13 +126,13 @@ export const BoardInfo = ({ isRoleAccess, setIsGoRoute, board, setIsEdit, number
       <textarea
         value={title}
         ref={textareaRef}
-        // onBlur={handleBlur}
+        onChange={onChange}
         disabled={!isEditing}
+        onClick={stopPropagation}
         className={styles.textarea}
-        onChange={handleTitleChange}
+        onBlur={() => onHandleBlur()}
         placeholder={messages('newBoard')}
-        onClick={(e) => e.stopPropagation()}
       />
-    </div>
+    </Link>
   );
 };
