@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Select } from './select';
 import { getStyles } from './styles';
 import { IInfoProps } from './types';
+import { EllipsisText } from '@/components/ellipsisText';
 
 export const Info = ({ label, data, status, fieldName, setFieldValue, isStatusSelect }: IInfoProps) => {
   const styles = getStyles({ status, isStatusSelect });
@@ -18,7 +19,9 @@ export const Info = ({ label, data, status, fieldName, setFieldValue, isStatusSe
       {isStatusSelect ? (
         <Select status={status} fieldName={fieldName} setFieldValue={setFieldValue} />
       ) : (
-        <p className={styles.data}>{statusText || (data as string)}</p>
+        <EllipsisText classNameWrapper={'w-full overflow-hidden'}>
+          <p className={styles.data}>{statusText || (data as string)}</p>
+        </EllipsisText>
       )}
     </div>
   );
