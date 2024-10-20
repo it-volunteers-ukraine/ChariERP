@@ -3,19 +3,19 @@ import { Metadata } from 'next';
 import { BoardTitle } from './board-title';
 
 interface Props {
-  params: { slug: string };
+  params: { id: string };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = params;
+  const { id } = params;
 
   return {
-    title: `Dashboard - ${decodeURIComponent(slug)}`,
-    description: `This is the dashboard page for ${decodeURIComponent(slug)}`,
+    title: `Dashboard - ${id}`,
+    description: `This is the dashboard page for ${id}`,
   };
 }
 
-const DashboardSlug = ({ params }: Props) => {
+const DashboardId = ({ params }: Props) => {
   const titleContent =
     'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam nam praesentium error natus voluptatum eos, explicabo quis incidunt quae delectus illo eius facere necessitatibus molestiae ipsam perspiciatis repellat eligendi vitae?';
 
@@ -23,9 +23,9 @@ const DashboardSlug = ({ params }: Props) => {
     <>
       <BoardTitle titleText={titleContent} />
 
-      {decodeURIComponent(params.slug)}
+      {params.id}
     </>
   );
 };
 
-export default DashboardSlug;
+export default DashboardId;
