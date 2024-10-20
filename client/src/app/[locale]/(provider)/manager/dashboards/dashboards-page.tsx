@@ -19,8 +19,8 @@ const limitOfCard = 5;
 const DashboardsPage = () => {
   const { role } = useUserInfo();
   const { isLaptop } = useWindowWidth();
-  const { setIsLoading } = useLoaderAdminPage();
   const board = useTranslations('board');
+  const { setIsLoading } = useLoaderAdminPage();
 
   const [columns, setColumns] = useState<IColumns>({});
   const [boards, setBoards] = useState<IBoardData[]>([]);
