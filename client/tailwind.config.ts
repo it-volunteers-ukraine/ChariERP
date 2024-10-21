@@ -38,6 +38,7 @@ const darkGray = '#49454F';
 const arcticSky = '#D0DDEC';
 const amethyst = '#A86CCC';
 const emeraldGreen = '#40BC6A';
+const skyBlue = '#5684C6';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -71,6 +72,7 @@ const config: Config = {
         purple: amethyst,
         greenNormal,
         red,
+        skyBlue,
         title: {
           title: caret,
           media: Magnolia,
@@ -217,16 +219,27 @@ const config: Config = {
           '0%': { transform: 'scale(1)' },
           '100%': { transform: 'scale(0)' },
         },
+
+        inToolsMenu: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        outToolsMenu: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
       },
       animation: {
         portalOpen: 'appearanceOverlay ease-in-out forwards',
         portalClose: 'disappearanceOverlay ease-in-out forwards',
         modalOpen: 'appearanceModal ease-in-out forwards',
         modalClose: 'disappearanceModal ease-in-out forwards',
+        openToolsMenu: 'inToolsMenu ease-in-out forwards',
+        closeToolsMenu: 'outToolsMenu ease-in-out forwards',
       },
     },
   },
-  plugins: [require('@tailwindcss/line-clamp')],
+  plugins: [],
 };
 
 export default config;

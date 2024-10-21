@@ -5,7 +5,8 @@ import { isValidPhoneNumber } from 'libphonenumber-js';
 import { OrganizationFormValues } from '@/types';
 
 const maxSize = 5;
-const linkRegExp = /^https:\/\/([\w.-]+)\.([a-z]{2,6})(\/[\w.-]*)*\/?$/;
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const linkRegExp = /^https:\/\/([\w.-]+)\.([a-z]{2,6})(\/[\w.~@!$&'()*+,;=:%-]*)*(\?[\w.~@!$&'()*+,;=:%-]*)?$/i;
 
 export const organizationInitialValues: OrganizationFormValues = {
   site: '',
@@ -68,7 +69,7 @@ export const organizationValidation = (error: (key: string, params?: Translation
       .trim()
       .min(6, error('minPlural', { int: 6 }))
       .max(50, error('maxPlural', { int: 50 }))
-      .email(error('notValidEmail'))
+      .matches(emailRegex, error('notValidEmail'))
       .required(error('required')),
     site: Yup.string()
       .trim()
@@ -81,7 +82,7 @@ export const organizationValidation = (error: (key: string, params?: Translation
         .matches(linkRegExp, error('siteStart'))
         .min(10, error('minPlural', { int: 10 }))
         .max(2000, error('maxPlural', { int: 2000 }))
-        .test('isRequired', error('required'), (value, context) => {
+        .test('isRequired', error('notEmpty'), (value, context) => {
           const { parent } = context;
 
           if (parent && parent.length > 1) {

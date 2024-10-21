@@ -14,7 +14,8 @@ export const Button = ({
   styleType = 'primary',
   ...props
 }: IButtonProps) => {
-  const { btn, span, overlay, iconWrapper, loader, spinner } = getStyles({
+  const styles = getStyles({
+    disabled,
     isNarrow,
     styleType,
     className,
@@ -32,18 +33,18 @@ export const Button = ({
   };
 
   return (
-    <button className={btn} disabled={disabled} onClick={handleClick} {...props}>
+    <button className={styles.btn} disabled={disabled} onClick={handleClick} {...props}>
       {isLoading && (
-        <div className={loader}>
-          <Loader className={spinner} />
+        <div className={styles.loader}>
+          <Loader className={styles.spinner} />
         </div>
       )}
 
-      {text && <span className={span}>{text}</span>}
+      {(text || props.children) && <span className={styles.span}>{text || props.children}</span>}
 
-      {Icon && <div className={iconWrapper}>{Icon}</div>}
+      {Icon && <div className={styles.iconWrapper}>{Icon}</div>}
 
-      {!disabled && (styleType === 'primary' || styleType === 'icon-primary') && <div className={overlay}></div>}
+      {!disabled && (styleType === 'primary' || styleType === 'icon-primary') && <div className={styles.overlay}></div>}
     </button>
   );
 };

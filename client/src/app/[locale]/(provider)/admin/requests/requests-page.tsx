@@ -7,7 +7,7 @@ import { getAdminOrganizationsAction } from '@/actions';
 import { Input, Pagination, TableRequests } from '@/components';
 import { IOrganization, RequestOrganizationStatus } from '@/types';
 
-const pageSize = 10;
+const pageSize = 12;
 
 export const RequestsPage = () => {
   const [page, setPage] = useState(1);

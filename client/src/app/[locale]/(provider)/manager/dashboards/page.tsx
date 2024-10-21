@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { EmptyBoard } from './empty-board';
+import { DashboardsPage } from './dashboards-page';
 
 export const metadata: Metadata = {
   title: 'Dashboards',
@@ -8,11 +8,7 @@ export const metadata: Metadata = {
 };
 
 const Dashboards = () => {
-  return (
-    <>
-      <EmptyBoard />
-    </>
-  );
+  return <DashboardsPage />;
 };
 
 export default Dashboards;

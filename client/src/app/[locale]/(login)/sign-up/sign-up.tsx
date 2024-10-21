@@ -89,7 +89,6 @@ const SignUp = () => {
               isLoading={isLoading}
               onClose={onCloseModal}
               onConfirm={onCloseModal}
-              onNavigate={onCloseModal}
               rightBtnText={btn('contact')}
               leftBtnText={btn('understood')}
               classNameBtn="w-[120px] uppercase"

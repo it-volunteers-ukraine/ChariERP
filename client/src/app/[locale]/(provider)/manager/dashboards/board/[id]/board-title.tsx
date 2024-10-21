@@ -1,9 +1,9 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { onCopy } from '@/utils';
 import { Copy } from '@/assets/icons';
-
-import { useTranslations } from 'next-intl';
 
 interface IBoardTitleProps {
   titleText: string;

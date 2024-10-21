@@ -34,6 +34,7 @@ export const serializeOrganizationsUpdate = (
       position: cleanSpaces(data.position),
       firstName: cleanSpaces(data.firstName),
       middleName: cleanSpaces(data.middleName),
+      declineReason: cleanSpaces(data.declineReason || ''),
       social: data.social.map((item) => cleanSpaces(item)),
       organizationName: cleanSpaces(data.organizationName),
       dateOfRegistration: new Date(data.dateOfRegistration).toISOString(),
