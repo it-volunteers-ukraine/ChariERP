@@ -21,6 +21,7 @@ export const routes = {
   aboutUs: '/about_us',
   contacts: '/contacts',
   faq: '/faq',
+  home: '/',
   login: '/sign-in',
   passwordChange: '/password-change',
   registration: '/sign-up',

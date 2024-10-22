@@ -1,9 +1,6 @@
 import { Metadata } from 'next';
 
-import { Participants } from '@/components';
-import { mokUserCount } from '@/components/participants/mock-user';
-
-import { EmptyBoard } from './empty-board';
+import { DashboardsPage } from './dashboards-page';
 
 export const metadata: Metadata = {
   title: 'Dashboards',
@@ -11,12 +8,7 @@ export const metadata: Metadata = {
 };
 
 const Dashboards = () => {
-  return (
-    <>
-      <Participants users={mokUserCount} />
-      <EmptyBoard />
-    </>
-  );
+  return <DashboardsPage />;
 };
 
 export default Dashboards;

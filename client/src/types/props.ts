@@ -70,7 +70,7 @@ export type OrganizationCreateValues = Omit<OrganizationFormValues, 'agree '>;
 
 export interface OrganizationUpdateValues extends Omit<OrganizationFormValues, 'agree' | 'certificate'> {
   declineReason?: string;
-  request?: RequestOrganizationStatus; 
+  request?: RequestOrganizationStatus;
 }
 
 export interface AdminOrganizationProps {
