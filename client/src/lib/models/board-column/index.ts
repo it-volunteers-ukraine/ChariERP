@@ -25,4 +25,4 @@ BoardColumnSchema.pre('findOneAndDelete', async function (next) {
   next();
 });
 
-export default models.BoardColumn || model<IBoardColumn>('BoardColumn', BoardColumnSchema);
+export default models.Board_Column || model<IBoardColumn>('Board_Column', BoardColumnSchema);

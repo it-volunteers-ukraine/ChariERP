@@ -30,6 +30,8 @@ const DashboardsPage = () => {
 
   const styles = getStyle(isLimitExceeded);
 
+  console.log({ process: process.env.NODE_ENV });
+
   useEffect(() => {
     setIsLoading(true);
 

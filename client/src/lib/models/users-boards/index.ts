@@ -20,4 +20,4 @@ const UsersBoardsSchema = new Schema<IUsersBoards>(
   },
 );
 
-export default models.UsersBoards || model<IUsersBoards>('UsersBoards', UsersBoardsSchema);
+export default models.Users_Boards || model<IUsersBoards>('Users_Boards', UsersBoardsSchema);

@@ -10,7 +10,7 @@ const TaskSchema = new Schema<ITask>({
   priority: { type: String },
   date_start: { type: Date, required: true },
   created_at: { type: Date, default: Date.now },
-  attachment: { type: [File], default: [] },
+  attachment: { type: [String], default: [] },
   comments: { type: [String], default: [] },
   description: { type: String },
   _id: Schema.Types.ObjectId,
