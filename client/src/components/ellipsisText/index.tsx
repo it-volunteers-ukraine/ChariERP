@@ -1,74 +1,90 @@
 'use client';
 
 import {
+  useRef,
   Children,
+  useState,
+  ReactNode,
+  useEffect,
   cloneElement,
+  ReactElement,
   CSSProperties,
   isValidElement,
-  ReactElement,
-  useEffect,
-  useRef,
-  useState,
 } from 'react';
 
 import { useOutsideClick } from '@/hooks';
 
-import { IEllipsisTextProps } from './types';
+import { Portal } from '../portal';
 import { getStyles } from './style';
+import { IEllipsisTextProps } from './types';
 
 export const EllipsisText = ({
+  content,
   children,
-  isMultiline,
-  widthToolTip,
-  marginTooltip = 4,
-  classNameWrapper = null,
-  classNameTooltipText = null,
-  classNameTooltipWrapper = null,
+  margin = 0,
+  delay = 200,
+  isShowAlways,
+  classNameWrapper,
 }: IEllipsisTextProps) => {
-  const [text, setText] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const [targetWidth, setTargetWidth] = useState(230);
+  const [isEllipsis, setIsEllipsis] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const [isEllipsisTarget, setIsEllipsisTarget] = useState(false);
   const [isEllipsisTooltip, setIsEllipsisTooltip] = useState(false);
 
   const targetRef = useRef<HTMLElement>(null);
-  const tooltipRef = useRef<HTMLDivElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const tooltipWrapperRef = useRef<HTMLDivElement>(null);
+  const tooltipTextRef = useRef<HTMLParagraphElement>(null);
 
-  useOutsideClick(tooltipRef, () => {
+  useOutsideClick(tooltipWrapperRef, () => {
     setIsOpen(false);
   });
-
-  useEffect(() => {
-    const checkTouchDevice = () => {
-      setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
-    };
-
-    if (typeof window !== 'undefined') {
-      checkTouchDevice();
-    }
-  }, []);
 
   const checkTargetEllipsis = () => {
     if (!targetRef.current) return;
 
     const element = targetRef.current as HTMLElement;
+    const offsetHeight = element.offsetHeight || 0;
+    const scrollHeight = element.scrollHeight || 0;
+    const heightRatio = scrollHeight / offsetHeight;
 
-    setText(element.textContent || '');
-    setTargetWidth(element.clientWidth);
+    console.log(element.scrollHeight > element.clientHeight + 1);
 
-    const isOverflow = isMultiline
-      ? element.scrollHeight > element.clientHeight + 1
-      : element.scrollWidth > element.clientWidth;
-
-    setIsEllipsisTarget(isOverflow);
+    setIsEllipsis(element.scrollWidth > element.clientWidth || heightRatio > 1.3);
   };
 
-  const checkTooltipEllipsis = () => {
-    if (!tooltipRef.current) return;
+  // const checkTargetEllipsis = () => {
+  //   if (!targetRef.current) return;
 
-    const element = tooltipRef.current as HTMLElement;
+  //   const element = targetRef.current as HTMLElement;
+
+  //   const offsetWidth = element.offsetWidth || 0;
+  //   const scrollWidth = element.scrollWidth || 0;
+  //   const offsetHeight = element.offsetHeight || 0;
+  //   const scrollHeight = element.scrollHeight || 0;
+  //   const widthRatio = scrollWidth / offsetWidth;
+  //   const heightRatio = scrollHeight / offsetHeight;
+
+  //   setIsEllipsis(widthRatio > 1.0 || heightRatio > 1.5);
+  // };
+
+  // const checkTargetEllipsis = () => {
+  //   if (!targetRef.current) return;
+
+  //   const element = targetRef.current as HTMLElement;
+
+  //   //isMulti
+
+  //   const isOverflow =
+  //     1 < 0 ? element.scrollHeight > element.clientHeight + 1 : element.scrollWidth > element.clientWidth;
+
+  //   setIsEllipsis(isOverflow);
+  // };
+
+  const checkTooltipEllipsis = () => {
+    if (!tooltipTextRef.current) return;
+
+    const element = tooltipTextRef.current as HTMLElement;
 
     if (!isEllipsisTooltip) {
       const isOverflow = element.scrollWidth > element.clientWidth;
@@ -77,127 +93,68 @@ export const EllipsisText = ({
     }
   };
 
-  const calculateTooltipSpacing = (
-    rectTarget: DOMRect,
-    windowWidth: number,
-    windowHeight: number,
-    rectWrapperToolTip: DOMRect,
-  ) => {
-    const spaceBelowTooltip = windowHeight - rectWrapperToolTip.bottom - 20;
-    let spaceToLeftEdge = 0;
-    let spaceToRightEdge = 0;
+  useEffect(() => {
+    if (!isShowAlways) {
+      checkTargetEllipsis();
+    }
+  }, [children]);
 
-    if (widthToolTip) {
-      if (widthToolTip < targetWidth) {
-        spaceToLeftEdge = rectTarget.left + (targetWidth - widthToolTip) / 2 - 20;
-        spaceToRightEdge = windowWidth - rectTarget.right + (targetWidth - widthToolTip) / 2 - 20;
-      } else {
-        spaceToLeftEdge = rectTarget.left + targetWidth / 2 - widthToolTip / 2 - 20;
-        spaceToRightEdge = windowWidth - rectTarget.right + targetWidth / 2 - widthToolTip / 2 - 20;
-      }
-    } else {
-      spaceToLeftEdge = rectTarget.left - 10;
-      spaceToRightEdge = windowWidth - rectTarget.right - 20;
+  useEffect(() => {
+    const close = () => {
+      setIsOpen(false);
+    };
+
+    if (isTouchDevice) {
+      window.addEventListener('touchmove', close);
     }
 
-    return { spaceBelowTooltip, spaceToRightEdge, spaceToLeftEdge };
-  };
+    return () => {
+      window.removeEventListener('touchmove', close);
+    };
+  }, [isOpen, isTouchDevice]);
 
-  const updateTooltipPosition = () => {
-    if (isOpen && targetRef.current && tooltipRef.current && tooltipWrapperRef.current) {
-      const rectTarget = targetRef.current.getBoundingClientRect();
-      const rectTooltip = tooltipRef.current.getBoundingClientRect();
-      const rectWrapperToolTip = tooltipWrapperRef.current.getBoundingClientRect();
+  const updatePosition = () => {
+    if (isOpen && targetRef.current && tooltipWrapperRef.current) {
+      const targetRect = targetRef.current.getBoundingClientRect();
+      const tooltipWrapperRect = tooltipWrapperRef.current.getBoundingClientRect();
 
+      const style: CSSProperties = {};
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
 
-      const style: CSSProperties = {};
+      const scrollY = window.scrollY;
+      const scrollX = window.scrollX;
 
-      const { spaceBelowTooltip, spaceToRightEdge, spaceToLeftEdge } = calculateTooltipSpacing(
-        rectTarget,
-        windowWidth,
-        windowHeight,
-        rectWrapperToolTip,
-      );
+      const distanceTop = targetRect.top + scrollY + margin + targetRect.height;
+      const distanceBottom = windowHeight - (targetRect.top + scrollY) + margin;
 
-      style.left = '50%';
-      style.transform = 'translateX(-50%)';
-      style.height = `${rectTarget.height + marginTooltip + rectTooltip.height}px`;
+      const distanceLeft = targetRect.left + scrollX + targetRect.width / 2 - tooltipWrapperRect.width / 2;
+      const distanceRight = windowWidth - distanceLeft - tooltipWrapperRect.width;
 
-      if (widthToolTip) {
-        if (widthToolTip < targetWidth) {
-          style.alignItems = 'center';
-          style.width = `${targetWidth}px`;
-        }
-      }
-
-      if (spaceToRightEdge < 0) {
-        if ('left' in style) {
-          delete style.left;
+      if (distanceLeft < 11 && distanceRight < 50) {
+        style.left = '10px';
+        style.marginRight = '10px';
+      } else if (distanceLeft < 11 || distanceRight < 11) {
+        if (distanceLeft < 11) {
+          style.left = '10px';
         }
 
-        style.right = '0px';
-        style.alignItems = 'start';
-        style.transform = 'translateX(0)';
-
-        if (widthToolTip) {
-          if (widthToolTip > targetWidth) {
-            const distanceToTarget = (windowWidth - rectTarget.right - 20) * -1;
-
-            if (distanceToTarget < 0) {
-              style.right = `${distanceToTarget + 5}px`;
-            } else {
-              style.right = '0px';
-              style.width = `${widthToolTip + 5 + distanceToTarget}px`;
-            }
-          } else {
-            if ((targetWidth - widthToolTip) / 2 + spaceToRightEdge < 0) {
-              style.width = `${targetWidth + 5 + ((targetWidth - widthToolTip) / 2 + spaceToRightEdge) * -1}px`;
-            } else {
-              style.alignItems = 'end';
-              tooltipRef.current.style.marginRight = `${spaceToRightEdge * -1 + targetWidth / 2 - 45}px`;
-            }
-          }
-        } else {
-          style.width = `${targetWidth + 5 + spaceToRightEdge * -1}px`;
+        if (distanceRight < 11) {
+          style.right = '10px';
         }
       } else {
-        if (spaceToLeftEdge < 0) {
-          style.left = '0px';
-          style.alignItems = 'end';
-          style.transform = 'translateX(0)';
-
-          if (widthToolTip) {
-            if (widthToolTip > targetWidth) {
-              const distanceToTarget = (rectTarget.left - 10) * -1;
-
-              if (distanceToTarget < 0) {
-                style.left = `${distanceToTarget}px`;
-              } else {
-                style.left = '0px';
-                style.width = `${widthToolTip + distanceToTarget}px`;
-              }
-            } else {
-              if ((targetWidth - widthToolTip) / 2 + spaceToLeftEdge < 0) {
-                style.width = `${targetWidth - 10 + ((targetWidth - widthToolTip) / 2 + spaceToLeftEdge) * -1}px`;
-              } else {
-                style.alignItems = 'start';
-                tooltipRef.current.style.marginLeft = `${spaceToLeftEdge * -1 + targetWidth / 2 - 60}px`;
-              }
-            }
-          } else {
-            style.width = `${targetWidth + spaceToLeftEdge * -1}px`;
-          }
-        }
+        style.left = `${distanceLeft}px`;
       }
 
-      if (spaceBelowTooltip < 0) {
-        style.bottom = '0px';
-        style.flexDirection = 'column';
+      const isBottom = windowHeight - targetRect.top - targetRect.height - margin - tooltipWrapperRect.height > 0;
+      const isMoreSpaceTop =
+        windowHeight - targetRect.top - targetRect.height - margin - tooltipWrapperRect.height >
+        targetRect.top - margin - tooltipWrapperRect.height;
+
+      if (isBottom || isMoreSpaceTop) {
+        style.top = `${distanceTop}px`;
       } else {
-        style.top = '0px';
-        style.flexDirection = 'column-reverse';
+        style.bottom = `${distanceBottom}px`;
       }
 
       if (tooltipWrapperRef.current) {
@@ -209,37 +166,52 @@ export const EllipsisText = ({
   };
 
   useEffect(() => {
-    checkTargetEllipsis();
-  }, [children]);
-
-  useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !isEllipsisTooltip) {
       checkTooltipEllipsis();
     }
-    updateTooltipPosition();
+
+    updatePosition();
   }, [isOpen]);
 
-  const styles = getStyles({
-    isEllipsisTooltip,
-    classNameTooltipText,
-    classNameTooltipWrapper,
-  });
+  const handleMouseEnter = () => {
+    checkTargetEllipsis();
 
-  const childrenUpdate = Children.map(children, (child) => {
+    if (!isOpen) {
+      setIsOpen(true);
+    }
+
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, delay);
+  };
+
+  useEffect(() => {
+    const checkTouchDevice = () => {
+      setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    };
+
+    if (typeof window !== 'undefined') {
+      checkTouchDevice();
+    }
+  }, []);
+
+  const updateChildren = Children.map(children, (child) => {
     if (isValidElement(child)) {
       return cloneElement(child as ReactElement, {
         ref: targetRef,
-        onMouseEnter: !isTouchDevice
-          ? () => {
-              if (!isOpen) {
-                setIsOpen(true);
-              }
-            }
-          : undefined,
-
+        onMouseEnter: !isTouchDevice ? handleMouseEnter : undefined,
+        onMouseLeave: !isTouchDevice ? handleMouseLeave : undefined,
         onClick: isTouchDevice
           ? (e: React.MouseEvent) => {
               e.stopPropagation();
+              checkTargetEllipsis();
               setIsOpen(true);
             }
           : undefined,
@@ -249,28 +221,42 @@ export const EllipsisText = ({
     return child;
   });
 
-  return (
-    <div className={classNameWrapper ? `${classNameWrapper} relative` : 'relative'}>
-      {childrenUpdate}
+  const updateContent = () => {
+    const renderTooltip = (content: ReactNode) => (
+      <div
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className={styles.toolTipWrapper}
+        ref={tooltipWrapperRef}
+      >
+        {content}
+      </div>
+    );
 
-      {isOpen && isEllipsisTarget && (
-        <div
-          onMouseLeave={!isTouchDevice ? () => setIsOpen(false) : undefined}
-          ref={tooltipWrapperRef}
-          style={{ position: 'absolute', width: widthToolTip ? widthToolTip : targetWidth }}
-          className="z-10 flex"
-        >
-          <div
-            ref={tooltipRef}
-            className={styles.toolTipWrapper}
-            style={{
-              maxWidth: widthToolTip ? widthToolTip : targetWidth,
-            }}
-          >
-            <p className={styles.toolTipText}>{text}</p>
-          </div>
-        </div>
-      )}
-    </div>
+    let newContent;
+
+    if (isValidElement(content)) {
+      newContent = content;
+    } else if (typeof content === 'string') {
+      newContent = (
+        <p ref={tooltipTextRef} className={styles.toolTipText}>
+          {content}
+        </p>
+      );
+    } else {
+      newContent = <p></p>;
+    }
+
+    return renderTooltip(newContent);
+  };
+
+  const styles = getStyles({ isEllipsisTooltip, classNameWrapper });
+
+  return (
+    <>
+      {updateChildren}
+      {!isShowAlways && isEllipsis && <Portal opened={isOpen}>{updateContent()}</Portal>}
+      {isShowAlways && <Portal opened={isOpen}>{updateContent()}</Portal>}
+    </>
   );
 };

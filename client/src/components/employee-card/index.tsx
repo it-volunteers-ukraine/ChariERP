@@ -14,8 +14,8 @@ import { JobTitle } from './job-title';
 import { showMessage } from '../toastify';
 import { IEmployeeCardProps } from './types';
 import { AvatarField } from '../avatar-field';
-import { AvatarEmployee } from '../avatar-employee';
 import { EllipsisText } from '../ellipsisText';
+import { AvatarEmployee } from '../avatar-employee';
 
 export const EmployeeCard = ({
   id,
@@ -81,13 +81,13 @@ export const EmployeeCard = ({
         {inById && <AvatarField name="avatarUrl" lastName={lastName} firstName={firstName} />}
 
         <div className="flex w-[calc(100%-102px)] flex-col gap-1">
-          <EllipsisText>
+          <EllipsisText content={lastName}>
             <p className={styles.abbName}>{lastName}</p>
           </EllipsisText>
-          <EllipsisText>
+          <EllipsisText content={firstName}>
             <p className={styles.abbName}>{firstName}</p>
           </EllipsisText>
-          <EllipsisText>
+          <EllipsisText content={middleName}>
             <p className={`${styles.abbName} ${styles.abbNameLast}`}>{middleName}</p>
           </EllipsisText>
 

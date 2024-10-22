@@ -1,15 +1,13 @@
 export interface IEllipsisTextProps {
-  isMultiline?: boolean;
-  widthToolTip?: number;
-  marginTooltip?: number;
+  delay?: number;
+  margin?: number;
+  isShowAlways?: boolean;
   children: React.ReactNode;
-  classNameWrapper?: string | null;
-  classNameTooltipText?: string | null;
-  classNameTooltipWrapper?: string | null;
+  classNameWrapper?: string;
+  content: React.ReactNode | string;
 }
 
 export interface IGetStylesProps {
   isEllipsisTooltip: boolean;
-  classNameTooltipText?: string | null;
-  classNameTooltipWrapper?: string | null;
+  classNameWrapper?: string | null;
 }
