@@ -81,13 +81,13 @@ export const EmployeeCard = ({
         {inById && <AvatarField name="avatarUrl" lastName={lastName} firstName={firstName} />}
 
         <div className="flex w-[calc(100%-102px)] flex-col gap-1">
-          <EllipsisText content={lastName}>
+          <EllipsisText delay={0} content={lastName}>
             <p className={styles.abbName}>{lastName}</p>
           </EllipsisText>
-          <EllipsisText content={firstName}>
+          <EllipsisText delay={0} content={firstName}>
             <p className={styles.abbName}>{firstName}</p>
           </EllipsisText>
-          <EllipsisText content={middleName}>
+          <EllipsisText delay={0} content={middleName}>
             <p className={`${styles.abbName} ${styles.abbNameLast}`}>{middleName}</p>
           </EllipsisText>
 

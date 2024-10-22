@@ -44,42 +44,14 @@ export const EllipsisText = ({
     if (!targetRef.current) return;
 
     const element = targetRef.current as HTMLElement;
+
     const offsetHeight = element.offsetHeight || 0;
     const scrollHeight = element.scrollHeight || 0;
+
     const heightRatio = scrollHeight / offsetHeight;
 
-    console.log(element.scrollHeight > element.clientHeight + 1);
-
-    setIsEllipsis(element.scrollWidth > element.clientWidth || heightRatio > 1.3);
+    setIsEllipsis(element.scrollWidth - 0.1 > element.clientWidth || heightRatio > 1.3);
   };
-
-  // const checkTargetEllipsis = () => {
-  //   if (!targetRef.current) return;
-
-  //   const element = targetRef.current as HTMLElement;
-
-  //   const offsetWidth = element.offsetWidth || 0;
-  //   const scrollWidth = element.scrollWidth || 0;
-  //   const offsetHeight = element.offsetHeight || 0;
-  //   const scrollHeight = element.scrollHeight || 0;
-  //   const widthRatio = scrollWidth / offsetWidth;
-  //   const heightRatio = scrollHeight / offsetHeight;
-
-  //   setIsEllipsis(widthRatio > 1.0 || heightRatio > 1.5);
-  // };
-
-  // const checkTargetEllipsis = () => {
-  //   if (!targetRef.current) return;
-
-  //   const element = targetRef.current as HTMLElement;
-
-  //   //isMulti
-
-  //   const isOverflow =
-  //     1 < 0 ? element.scrollHeight > element.clientHeight + 1 : element.scrollWidth > element.clientWidth;
-
-  //   setIsEllipsis(isOverflow);
-  // };
 
   const checkTooltipEllipsis = () => {
     if (!tooltipTextRef.current) return;
@@ -92,26 +64,6 @@ export const EllipsisText = ({
       setIsEllipsisTooltip(isOverflow);
     }
   };
-
-  useEffect(() => {
-    if (!isShowAlways) {
-      checkTargetEllipsis();
-    }
-  }, [children]);
-
-  useEffect(() => {
-    const close = () => {
-      setIsOpen(false);
-    };
-
-    if (isTouchDevice) {
-      window.addEventListener('touchmove', close);
-    }
-
-    return () => {
-      window.removeEventListener('touchmove', close);
-    };
-  }, [isOpen, isTouchDevice]);
 
   const updatePosition = () => {
     if (isOpen && targetRef.current && tooltipWrapperRef.current) {
@@ -165,13 +117,11 @@ export const EllipsisText = ({
     }
   };
 
-  useEffect(() => {
-    if (isOpen && !isEllipsisTooltip) {
-      checkTooltipEllipsis();
-    }
-
-    updatePosition();
-  }, [isOpen]);
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, delay);
+  };
 
   const handleMouseEnter = () => {
     checkTargetEllipsis();
@@ -186,19 +136,33 @@ export const EllipsisText = ({
     }
   };
 
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsOpen(false);
-    }, delay);
-  };
+  useEffect(() => {
+    if (!isShowAlways) {
+      checkTargetEllipsis();
+    }
+  }, [children]);
 
   useEffect(() => {
-    const checkTouchDevice = () => {
-      setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
-    };
+    if (isTouchDevice) {
+      window.addEventListener('touchmove', () => setIsOpen(false));
+    }
 
+    return () => {
+      window.removeEventListener('touchmove', () => setIsOpen(false));
+    };
+  }, [isOpen, isTouchDevice]);
+
+  useEffect(() => {
+    if (isOpen && !isEllipsisTooltip) {
+      checkTooltipEllipsis();
+    }
+
+    updatePosition();
+  }, [isOpen]);
+
+  useEffect(() => {
     if (typeof window !== 'undefined') {
-      checkTouchDevice();
+      setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
     }
   }, []);
 
