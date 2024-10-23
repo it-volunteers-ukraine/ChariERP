@@ -2,6 +2,8 @@
 
 import { useTranslations } from 'next-intl';
 
+import { EllipsisText } from '@/components';
+
 import { Select } from './select';
 import { getStyles } from './styles';
 import { IInfoProps } from './types';
@@ -18,7 +20,9 @@ export const Info = ({ label, data, status, fieldName, setFieldValue, isStatusSe
       {isStatusSelect ? (
         <Select status={status} fieldName={fieldName} setFieldValue={setFieldValue} />
       ) : (
-        <p className={styles.data}>{statusText || (data as string)}</p>
+        <EllipsisText content={statusText || (data as string)}>
+          <p className={styles.data}>{statusText || (data as string)}</p>
+        </EllipsisText>
       )}
     </div>
   );
