@@ -130,7 +130,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
         className="grid cursor-pointer grid-cols-2 rounded-2xl border border-[#A3A3A359] p-3 transition-all duration-300 hover:bg-superBlue laptop:grid-cols-tableRequests laptop:items-center laptop:gap-5 laptop:rounded-none laptop:border-x-0 laptop:border-b laptop:border-t-0 laptop:py-[13px] laptop:pl-3 laptop:pr-0"
       >
         <EllipsisText
-          classNameWrapper="max-w-[300px] laptop:max-w-[380px] desktop:max-w-[500px]"
+          className="max-w-[300px] laptop:max-w-[380px] desktop:max-w-[500px]"
           content={item.organizationName}
         >
           <div className="col-span-2 overflow-hidden truncate whitespace-nowrap font-robotoCondensed text-lg leading-[22px] laptop:col-auto">

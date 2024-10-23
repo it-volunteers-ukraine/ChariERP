@@ -3,11 +3,11 @@ export interface IEllipsisTextProps {
   margin?: number;
   isShowAlways?: boolean;
   children: React.ReactNode;
-  classNameWrapper?: string;
+  className?: string;
   content: React.ReactNode | string;
 }
 
 export interface IGetStylesProps {
   isEllipsisTooltip: boolean;
-  classNameWrapper?: string | null;
+  className?: string | null;
 }

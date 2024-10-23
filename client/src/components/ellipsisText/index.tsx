@@ -24,7 +24,7 @@ export const EllipsisText = ({
   margin = 0,
   delay = 200,
   isShowAlways,
-  classNameWrapper,
+  className,
 }: IEllipsisTextProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isEllipsis, setIsEllipsis] = useState(false);
@@ -216,7 +216,7 @@ export const EllipsisText = ({
     return renderTooltip(newContent);
   };
 
-  const styles = getStyles({ isEllipsisTooltip, classNameWrapper });
+  const styles = getStyles({ isEllipsisTooltip, className });
 
   return (
     <>

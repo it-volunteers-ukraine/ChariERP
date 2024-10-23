@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
-import { EllipsisText } from '@/components/ellipsisText';
+import { EllipsisText } from '@/components';
 
 import { Select } from './select';
 import { getStyles } from './styles';

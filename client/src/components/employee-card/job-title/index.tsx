@@ -1,4 +1,4 @@
-import { EllipsisText } from '@/components/ellipsisText';
+import { EllipsisText } from '@/components';
 
 export const JobTitle = ({ jobTitle }: { jobTitle?: string }) => {
   if (!jobTitle) return null;

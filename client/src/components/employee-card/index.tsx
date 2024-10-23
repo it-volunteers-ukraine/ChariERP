@@ -7,6 +7,7 @@ import { useParams, useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
 import { getImageAction } from '@/actions';
+import { EllipsisText } from '@/components';
 
 import { Info } from './info';
 import { getStyles } from './styles';
@@ -14,7 +15,6 @@ import { JobTitle } from './job-title';
 import { showMessage } from '../toastify';
 import { IEmployeeCardProps } from './types';
 import { AvatarField } from '../avatar-field';
-import { EllipsisText } from '../ellipsisText';
 import { AvatarEmployee } from '../avatar-employee';
 
 export const EmployeeCard = ({
