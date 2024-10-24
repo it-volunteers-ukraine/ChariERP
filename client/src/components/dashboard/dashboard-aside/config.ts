@@ -6,35 +6,35 @@ import { routes } from '@/constants';
 import { Organizations, Rejected, Settings, Tablet, Users } from '@/assets/icons';
 
 interface getLinksProps {
-  text: string;
+  title: string;
   href: string;
   disabled?: boolean;
-  dashboards?: getLinksProps[];
+  children?: getLinksProps[];
   icon?: React.ComponentType<SVGProps<SVGSVGElement>>;
 }
 
 export const getLinksByRole = (
   text: (key: string, params?: TranslationValues) => string,
   role?: Roles,
-  dashboards?: getLinksProps[],
+  children?: getLinksProps[],
 ): getLinksProps[] => {
   const commonLinks = [
-    { text: text('home'), href: routes.managerHome, icon: Tablet },
-    { text: text('myOrganization'), href: routes.managerOrganization, icon: Organizations },
-    { text: text('employees'), href: routes.employees, icon: Users },
+    { title: text('home'), href: routes.managerHome, icon: Tablet },
+    { title: text('myOrganization'), href: routes.managerOrganization, icon: Organizations },
+    { title: text('employees'), href: routes.employees, icon: Users },
     {
-      text: text('boards'),
+      title: text('boards'),
       href: routes.managerDashboards,
       icon: Tablet,
-      dashboards,
+      children,
     },
-    { text: text('settings'), href: routes.managerSettings, icon: Settings },
+    { title: text('settings'), href: routes.managerSettings, icon: Settings },
   ];
 
   const adminLinks = [
-    { text: text('requests'), href: routes.requests, icon: Tablet },
-    { text: text('declined'), href: routes.declined, icon: Rejected },
-    { text: text('organizations'), href: routes.organizations, icon: Organizations },
+    { title: text('requests'), href: routes.requests, icon: Tablet },
+    { title: text('declined'), href: routes.declined, icon: Rejected },
+    { title: text('organizations'), href: routes.organizations, icon: Organizations },
   ];
 
   const links = {

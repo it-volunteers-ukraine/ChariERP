@@ -10,7 +10,7 @@ export interface IBoardCardProps {
   onDelete: (id: string) => void;
   board: MergeBoard | IBoardData;
   onReset: (text: string) => void;
-  onSubmit: (title: string, id: string) => void;
+  onEdit: (id: string, text: string) => void;
 }
 
 export interface MergeBoard {

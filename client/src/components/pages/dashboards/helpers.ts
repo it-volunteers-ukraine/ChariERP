@@ -1,16 +1,18 @@
 import { IBoardData, IColumns, IIndexesForBoards } from '@/components';
 
-export const generateIndexesForBoards = (numOfColumns: number, boards: IBoardData[]): IIndexesForBoards => {
+const numberOfColumns = 2;
+
+export const generateIndexesForBoards = (boards: IBoardData[]): IIndexesForBoards => {
   const indexesForBoards: IIndexesForBoards = {};
 
-  for (let i = 0; i < numOfColumns; i++) {
+  for (let i = 0; i < numberOfColumns; i++) {
     const columnKey = `column-${i + 1}`;
 
     indexesForBoards[columnKey] = {};
 
     boards.forEach((_, index) => {
-      if (index % numOfColumns === i) {
-        const columnPosition = Math.floor(index / numOfColumns);
+      if (index % numberOfColumns === i) {
+        const columnPosition = Math.floor(index / numberOfColumns);
 
         indexesForBoards[columnKey][columnPosition] = index;
       }
@@ -33,13 +35,13 @@ export const reorder = (list: IBoardData[], startIndex: number, endIndex: number
   }));
 };
 
-export const generateColumns = (numOfColumns: number, boards: IBoardData[]): IColumns => {
+export const generateColumns = (boards: IBoardData[]): IColumns => {
   const columns: IColumns = {};
 
-  for (let i = 0; i < numOfColumns; i++) {
-    const filteredBoards = boards.filter((_, index) => index % numOfColumns === i);
+  for (let i = 0; i < numberOfColumns; i++) {
+    const filteredBoards = boards.filter((_, index) => index % numberOfColumns === i);
     const mappedBoard = filteredBoards.map((item, index) => {
-      const indexForBoard = generateIndexesForBoards(numOfColumns, boards);
+      const indexForBoard = generateIndexesForBoards(boards);
 
       return {
         ...item,

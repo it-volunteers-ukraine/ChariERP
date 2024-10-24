@@ -4,12 +4,14 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
 
-import { routes } from '@/constants';
+import { queryClient } from '@/modules';
 import { useUserInfo } from '@/context';
 import { Exit, JamMenu } from '@/assets/icons';
-import { LanguageSwitcher, Logo } from '@/components';
+import { idUser, routes, boardState } from '@/constants';
 import { useOutsideClick, useWindowWidth } from '@/hooks';
+import { LanguageSwitcher, Logo, boardApi } from '@/components';
 
 import { NavItem } from './item';
 import { getStyles } from './styles';
@@ -17,21 +19,6 @@ import { getBoolean } from './helper';
 import { getLinksByRole } from './config';
 
 const duration = 500;
-
-const dashboards = [
-  {
-    text: '#1 якщо я писака і пишу багато, як би багато я не писав, навіть якщо вона буде аж прям така довга, то користувач все одно зможе її скопіювати',
-    href: `${routes.managerDashboard}/${'1'}`,
-  },
-  { text: '#2 Дошка', href: `${routes.managerDashboard}/${'2'}` },
-  { text: '#3 Дошка', href: `${routes.managerDashboard}/${'3'}` },
-  { text: '#4 Дошка', href: `${routes.managerDashboard}/${'4'}` },
-  {
-    text: '#5 Дошка',
-    href: `${routes.managerDashboard}/${'5'}`,
-    disabled: true,
-  },
-];
 
 export const DashboardAside = () => {
   const ref = useRef(null);
@@ -49,17 +36,30 @@ export const DashboardAside = () => {
   const [heightChildren, setHeightChildren] = useState(() => (isOpenChildrenLinks ? 'none' : '0px'));
   const [opacityChildren, setOpacityChildren] = useState(() => (isOpenChildrenLinks ? '1' : '0'));
 
+  const { data } = useQuery({
+    ...boardApi.getBoardsList(),
+    staleTime: 0,
+    gcTime: Infinity,
+    initialData: () => queryClient.getQueryData(boardApi.queryKey),
+  });
+
+  const boards =
+    data?.boards.map((item) => ({
+      title: `#${item.order} ${item.title}`,
+      href: `${routes.managerDashboard}/${item.id}`,
+    })) || [];
+
   useOutsideClick(ref, () => {
     if (!isDesktop) setIsOpenSidebar(false);
   });
 
-  const links = getLinksByRole(linkText, role, dashboards);
+  const links = getLinksByRole(linkText, role, boards);
 
   const styles = getStyles(isOpenSidebar);
 
   const onExit = () => {
-    Cookies.remove('id');
-    Cookies.remove('boards-state');
+    Cookies.remove(idUser);
+    Cookies.remove(boardState);
     router.push(routes.home);
   };
 
@@ -68,9 +68,9 @@ export const DashboardAside = () => {
       const newState = !prev;
 
       if (newState) {
-        Cookies.set('boards-state', 'true', { expires: 365 });
+        Cookies.set(boardState, 'true', { expires: 365 });
       } else {
-        Cookies.set('boards-state', 'false', { expires: 365 });
+        Cookies.set(boardState, 'false', { expires: 365 });
       }
 
       return newState;
@@ -102,21 +102,21 @@ export const DashboardAside = () => {
         </div>
 
         <nav className="flex flex-col gap-3 p-[16px] pb-0 tablet:px-[32px] desktop:px-[36px] desktop:pt-[42px]">
-          {links.map(({ text, href, icon, disabled, dashboards }, idx) => {
+          {links.map(({ title, href, icon, disabled, children }, idx) => {
             return (
               <Fragment key={`${href}_${idx}`}>
                 <NavItem
-                  text={text}
+                  title={title}
                   Icon={icon}
                   href={href}
                   disabled={disabled}
-                  isParent={!!dashboards}
-                  isOpen={dashboards && isOpenChildrenLinks}
+                  isParent={!!children}
+                  isOpen={children && isOpenChildrenLinks}
                   onCloseSideBar={() => setIsOpenSidebar(false)}
-                  setIsOpen={() => (dashboards ? onAccordion() : undefined)}
+                  setIsOpen={() => (children ? onAccordion() : undefined)}
                 />
 
-                {dashboards && (
+                {children && (
                   <div
                     ref={refChildrenLink}
                     className={`-my-1 flex flex-col gap-2 overflow-hidden transition-all ease-in-out`}
@@ -126,11 +126,11 @@ export const DashboardAside = () => {
                       transition: `max-height ${duration}ms ease, opacity ${duration + 100}ms ease`,
                     }}
                   >
-                    {dashboards.map(({ text, href, icon, disabled }, index) => (
+                    {children.map(({ title, href, icon, disabled }, index) => (
                       <NavItem
                         isChildren
                         href={href}
-                        text={text}
+                        title={title}
                         Icon={icon}
                         disabled={disabled}
                         key={`${href}_${index}_${idx}`}

@@ -12,7 +12,7 @@ import { CopyBoard, Delete, PencilJust } from '@/assets/icons';
 import { getStyles } from './style';
 import { IBoardCardProps } from '../types';
 
-export const BoardInfo = ({ isRoleAccess, board, onReset, onSubmit, onDelete }: IBoardCardProps) => {
+export const BoardInfo = ({ isRoleAccess, board, onReset, onEdit, onDelete }: IBoardCardProps) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -44,7 +44,7 @@ export const BoardInfo = ({ isRoleAccess, board, onReset, onSubmit, onDelete }: 
     }
 
     if (title !== board?.title && !emptyText) {
-      onSubmit(title, board.id);
+      onEdit(board.id, title);
     }
 
     if (emptyText) {
@@ -88,8 +88,6 @@ export const BoardInfo = ({ isRoleAccess, board, onReset, onSubmit, onDelete }: 
       func();
     }
   };
-
-  console.log({ board });
 
   return (
     <Link ref={linkRef} className={styles.wrapper} href={!isCreateCard ? `${routes.managerDashboard}/${board.id}` : ''}>

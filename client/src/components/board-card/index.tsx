@@ -6,7 +6,7 @@ import { BoardInfo } from './board-info';
 import { getDraggableStyle } from './helper';
 import { IBoardCardProps, IBoardData, IColumns, IIndexesForBoards } from './types';
 
-const BoardCard = ({ idx, board, onReset, isRoleAccess, onSubmit, onDelete }: IBoardCardProps) => (
+const BoardCard = ({ idx, board, onReset, isRoleAccess, onEdit, onDelete }: IBoardCardProps) => (
   <Draggable draggableId={board.id} index={idx!} isDragDisabled={!isRoleAccess}>
     {(provided, snapshot) => (
       <div
@@ -16,13 +16,7 @@ const BoardCard = ({ idx, board, onReset, isRoleAccess, onSubmit, onDelete }: IB
         {...provided.dragHandleProps}
         style={getDraggableStyle(provided.draggableProps.style, snapshot)}
       >
-        <BoardInfo
-          board={board}
-          onReset={onReset}
-          onSubmit={onSubmit}
-          onDelete={onDelete}
-          isRoleAccess={isRoleAccess}
-        />
+        <BoardInfo board={board} onReset={onReset} onEdit={onEdit} onDelete={onDelete} isRoleAccess={isRoleAccess} />
       </div>
     )}
   </Draggable>

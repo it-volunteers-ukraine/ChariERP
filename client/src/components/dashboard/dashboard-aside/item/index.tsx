@@ -9,8 +9,8 @@ import { INavItemProps } from './types';
 
 export const NavItem = ({
   Icon,
-  text,
   href,
+  title,
   isOpen,
   disabled,
   isParent,
@@ -46,7 +46,7 @@ export const NavItem = ({
     <Link href={disabled ? '#' : href} className={wrapper} onClick={onClose}>
       {Icon && <Icon width={24} height={24} className={icon} />}
 
-      <span className={span}>{text}</span>
+      <span className={span}>{title}</span>
 
       {isParent && (
         <div className={svg} onClick={(e) => onRotateArrow(e)}>

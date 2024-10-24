@@ -6,8 +6,8 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { FormikHelpers, FormikValues } from 'formik';
 
-import { routes } from '@/constants';
 import { loginAction } from '@/actions';
+import { idUser, routes } from '@/constants';
 
 import { LoginForm } from '../login-form';
 
@@ -26,7 +26,7 @@ const SignIn = () => {
       if (result.success && result.user) {
         const user = JSON.parse(result.user);
 
-        Cookies.set('id', user._id.toString(), { expires: 7 });
+        Cookies.set(idUser, user._id.toString(), { expires: 7 });
         router.push(routes.managerHome);
       }
 
