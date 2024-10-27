@@ -3,7 +3,6 @@
 import { useTranslations } from 'use-intl';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 
-import { Roles } from '@/types';
 import { useUserInfo } from '@/context';
 import { useWindowWidth } from '@/hooks';
 import { BoardCard, Button } from '@/components';
@@ -13,23 +12,26 @@ import { useAddBoard } from './use-add';
 import { useBoards } from './use-boards';
 import { useEditBoard } from './use-edit';
 import { useMoveBoards } from './use-move';
+import { generateColumns } from './helpers';
 import { useDeleteBoard } from './use-delete';
 
 const limitOfCard = 5;
 
 const Dashboards = () => {
-  const { role } = useUserInfo();
+  const { isManager, _id } = useUserInfo();
   const { isLaptop } = useWindowWidth();
   const board = useTranslations('board');
 
-  const { boards, columns } = useBoards();
+  const { response } = useBoards(String(_id));
 
-  const { onEdit } = useEditBoard();
-  const { onDelete } = useDeleteBoard();
+  const { boards, columns } = { boards: response?.data || [], columns: generateColumns(response?.data || []) };
+
   const { addBoard, onReset } = useAddBoard();
-  const { onMoveDragEndSmall, onMoveDragEndLarge } = useMoveBoards();
+  const { onDelete } = useDeleteBoard(String(_id));
+  const { onEdit, isLoadingCreate, isLoadingEdit } = useEditBoard(String(_id));
+  const { onMoveDragEndSmall, onMoveDragEndLarge } = useMoveBoards(String(_id));
 
-  const isRoleAccess = role === Roles.MANAGER;
+  const isRoleAccess = isManager;
   const isLimitExceeded = boards.length === limitOfCard;
 
   const styles = getStyle(isLimitExceeded);
@@ -38,7 +40,12 @@ const Dashboards = () => {
     <div className="h-full bg-white px-4 pt-[40px] tablet:px-8 desktop:px-[64px] desktop:pt-[64px]">
       {isRoleAccess && (
         <div className="flex flex-col gap-3">
-          <Button onClick={() => addBoard(boards.length)} disabled={isLimitExceeded} className="max-w-fit">
+          <Button
+            className="max-w-fit"
+            disabled={isLimitExceeded}
+            onClick={() => addBoard(boards.length)}
+            isLoading={isLoadingCreate || isLoadingEdit}
+          >
             <span className="uppercase">+ {board('newBoard')}</span>
           </Button>
 
@@ -64,7 +71,7 @@ const Dashboards = () => {
                         <BoardCard
                           idx={index}
                           board={board}
-                          key={board.id}
+                          key={board._id}
                           onEdit={onEdit}
                           onReset={onReset}
                           onDelete={onDelete}
@@ -93,8 +100,8 @@ const Dashboards = () => {
                           <BoardCard
                             idx={index}
                             board={board}
-                            key={board.id}
                             onEdit={onEdit}
+                            key={board._id}
                             onReset={onReset}
                             onDelete={onDelete}
                             isRoleAccess={isRoleAccess}

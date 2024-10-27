@@ -4,27 +4,34 @@ import { IBoardData } from '@/components';
 import { getParsedJsonData } from '@/modules';
 import { createBoardAction, deleteBoardAction, editBoardAction, getBoardsAction, moveBoardsAction } from '@/actions';
 
-import { generateColumns } from './helpers';
+import { IMoveBoardsProps, ResponseCreate, ResponseDeleteEdit, ResponseGet } from './types';
 
 export const boardApi = {
   queryKey: ['boards', 'all'],
-  getBoardsList: function () {
+  getBoardsList: function (id: string) {
     return queryOptions({
+      enabled: !!id,
       queryKey: this.queryKey,
-      queryFn: getParsedJsonData<IBoardData[]>(getBoardsAction),
-      select: (data) => ({ boards: data || [], columns: generateColumns(data || []) }),
+      queryFn: getParsedJsonData<ResponseGet, { id: string }>(getBoardsAction, { id }),
+      select: (response) => {
+        return { ...response, data: response.data.sort((a, b) => a.order - b.order) };
+      },
     });
   },
-  createBoard: (text: string) => {
-    return getParsedJsonData<[], { text: string }>(createBoardAction, { text });
+  createBoard: (text: string, userId: string) => {
+    return getParsedJsonData<ResponseCreate, { text: string; userId: string }>(createBoardAction, { text, userId });
   },
-  moveBoards: (boards: IBoardData[]) => {
-    return getParsedJsonData<IBoardData[], IBoardData[]>(moveBoardsAction, boards);
+  moveBoards: (boards: IBoardData[], userId: string) => {
+    return getParsedJsonData<ResponseDeleteEdit, IMoveBoardsProps>(moveBoardsAction, { boards, userId });
   },
-  editBoard: (id: string, text: string) => {
-    return getParsedJsonData<[], { id: string; text: string }>(editBoardAction, { id, text });
+  editBoard: (id: string, text: string, userId: string) => {
+    return getParsedJsonData<ResponseDeleteEdit, { id: string; text: string; userId: string }>(editBoardAction, {
+      id,
+      text,
+      userId,
+    });
   },
-  deleteBoard: (id: string) => {
-    return getParsedJsonData<IBoardData[], { id: string }>(deleteBoardAction, { id });
+  deleteBoard: (id: string, userId: string) => {
+    return getParsedJsonData<ResponseDeleteEdit, { id: string; userId: string }>(deleteBoardAction, { id, userId });
   },
 };

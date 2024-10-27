@@ -1,5 +1,5 @@
 export interface IBoardData {
-  id: string;
+  _id: string;
   title: string;
   order: number;
 }
@@ -14,7 +14,7 @@ export interface IBoardCardProps {
 }
 
 export interface MergeBoard {
-  id: string;
+  _id: string;
   title: string;
   order: number;
   [key: `column-${number}`]: { [index: number]: number };

@@ -25,7 +25,7 @@ export const DashboardAside = () => {
   const refChildrenLink = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
-  const { role } = useUserInfo();
+  const { role, _id } = useUserInfo();
   const { isDesktop } = useWindowWidth();
   const linkText = useTranslations('sidebar');
 
@@ -36,17 +36,18 @@ export const DashboardAside = () => {
   const [heightChildren, setHeightChildren] = useState(() => (isOpenChildrenLinks ? 'none' : '0px'));
   const [opacityChildren, setOpacityChildren] = useState(() => (isOpenChildrenLinks ? '1' : '0'));
 
-  const { data } = useQuery({
-    ...boardApi.getBoardsList(),
+  const { data: response, isLoading } = useQuery({
+    ...boardApi.getBoardsList(String(_id)),
     staleTime: 0,
+    enabled: !!_id,
     gcTime: Infinity,
     initialData: () => queryClient.getQueryData(boardApi.queryKey),
   });
 
   const boards =
-    data?.boards.map((item) => ({
+    response?.data.map((item) => ({
       title: `#${item.order} ${item.title}`,
-      href: `${routes.managerDashboard}/${item.id}`,
+      href: `${routes.managerDashboard}/${item._id}`,
     })) || [];
 
   useOutsideClick(ref, () => {
@@ -106,9 +107,9 @@ export const DashboardAside = () => {
             return (
               <Fragment key={`${href}_${idx}`}>
                 <NavItem
-                  title={title}
                   Icon={icon}
                   href={href}
+                  title={title}
                   disabled={disabled}
                   isParent={!!children}
                   isOpen={children && isOpenChildrenLinks}
@@ -116,7 +117,7 @@ export const DashboardAside = () => {
                   setIsOpen={() => (children ? onAccordion() : undefined)}
                 />
 
-                {children && (
+                {children && !isLoading && (
                   <div
                     ref={refChildrenLink}
                     className={`-my-1 flex flex-col gap-2 overflow-hidden transition-all ease-in-out`}
@@ -130,8 +131,8 @@ export const DashboardAside = () => {
                       <NavItem
                         isChildren
                         href={href}
-                        title={title}
                         Icon={icon}
+                        title={title}
                         disabled={disabled}
                         key={`${href}_${index}_${idx}`}
                         onCloseSideBar={() => setIsOpenSidebar(false)}

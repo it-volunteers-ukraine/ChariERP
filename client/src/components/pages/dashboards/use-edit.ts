@@ -1,28 +1,31 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query';
 
 import { boardApi } from './api';
+import { ResponseCreate, ResponseDeleteEdit } from './types';
 
-export const useEditBoard = () => {
+export const useEditBoard = (userId: string) => {
   const queryClient = useQueryClient();
 
-  const editMutation = useMutation({
-    mutationFn: ({ id, text }: { id: string; text: string }) => {
-      const abortController = new AbortController();
+  const editMutation: UseMutationResult<ResponseDeleteEdit, Error, { id: string; text: string }, unknown> = useMutation(
+    {
+      mutationFn: ({ id, text }: { id: string; text: string }) => {
+        const abortController = new AbortController();
 
-      return boardApi.editBoard(id, text)({ signal: abortController.signal });
+        return boardApi.editBoard(id, text, userId)({ signal: abortController.signal });
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries({
+          queryKey: boardApi.queryKey,
+        });
+      },
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: boardApi.queryKey,
-      });
-    },
-  });
+  );
 
-  const createMutation = useMutation({
+  const createMutation: UseMutationResult<ResponseCreate, Error, { text: string }, unknown> = useMutation({
     mutationFn: ({ text }: { text: string }) => {
       const abortController = new AbortController();
 
-      return boardApi.createBoard(text)({ signal: abortController.signal });
+      return boardApi.createBoard(text, userId)({ signal: abortController.signal });
     },
     onSettled: () => {
       queryClient.invalidateQueries({
@@ -32,7 +35,6 @@ export const useEditBoard = () => {
   });
 
   const onEdit = (id: string, text: string) => {
-    console.log({ id, text });
     if (id === 'new') {
       createMutation.mutate({ text });
 
@@ -42,5 +44,5 @@ export const useEditBoard = () => {
     editMutation.mutate({ id, text });
   };
 
-  return { onEdit };
+  return { onEdit, isLoadingCreate: createMutation.isPending, isLoadingEdit: editMutation.isPending };
 };

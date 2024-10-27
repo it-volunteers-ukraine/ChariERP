@@ -22,7 +22,7 @@ export const generateIndexesForBoards = (boards: IBoardData[]): IIndexesForBoard
   return indexesForBoards;
 };
 
-export const reorder = (list: IBoardData[], startIndex: number, endIndex: number): IBoardData[] => {
+export const reorder = (list: IBoardData[] = [], startIndex: number, endIndex: number): IBoardData[] => {
   const result = Array.from(list);
 
   const [removed] = result.splice(startIndex, 1);
@@ -35,11 +35,12 @@ export const reorder = (list: IBoardData[], startIndex: number, endIndex: number
   }));
 };
 
-export const generateColumns = (boards: IBoardData[]): IColumns => {
+export const generateColumns = (boards: IBoardData[] = []): IColumns => {
   const columns: IColumns = {};
 
   for (let i = 0; i < numberOfColumns; i++) {
     const filteredBoards = boards.filter((_, index) => index % numberOfColumns === i);
+
     const mappedBoard = filteredBoards.map((item, index) => {
       const indexForBoard = generateIndexesForBoards(boards);
 

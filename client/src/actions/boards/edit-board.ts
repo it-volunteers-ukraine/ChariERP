@@ -2,9 +2,9 @@
 
 import { boardService } from '@/lib';
 
-export async function editBoardAction({ text, id }: { text: string; id: string }) {
+export async function editBoardAction({ text, id, userId }: { text: string; id: string; userId: string }) {
   try {
-    return await boardService.editBoard(id, text);
+    return await boardService.editBoard(id, text, userId);
   } catch (error) {
     return Promise.reject(error);
   }

@@ -2,10 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 
 import { boardApi } from './api';
 
-export const useBoards = () => {
+export const useBoards = (userId: string) => {
   const { data, isLoading } = useQuery({
-    ...boardApi.getBoardsList(),
+    ...boardApi.getBoardsList(userId),
   });
 
-  return { boards: data?.boards ?? [], columns: data?.columns ?? {}, isLoading };
+  return { response: data, isLoading };
 };

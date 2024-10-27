@@ -1,7 +1,7 @@
 import { Schema, model, models } from 'mongoose';
 
 import { IBoard } from '@/types';
-import { BoardColumn } from '@/lib';
+import { BoardColumn, UsersBoards } from '@/lib';
 
 const BoardSchema = new Schema<IBoard>({
   title: { type: String },
@@ -10,7 +10,7 @@ const BoardSchema = new Schema<IBoard>({
   boardColumns: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'BoardColumn',
+      ref: 'Board_Column',
     },
   ],
 });
@@ -18,8 +18,14 @@ const BoardSchema = new Schema<IBoard>({
 BoardSchema.pre('findOneAndDelete', async function (next) {
   const board = await this.model.findOne(this.getFilter()).populate('boardColumns');
 
+  const usersBoard = await UsersBoards.find({ board_id: this.getFilter() });
+
+  if (usersBoard) {
+    await UsersBoards.deleteMany({ board_id: board._id });
+  }
+
   if (board) {
-    await BoardColumn.deleteMany({ _id: { $in: board.boardColumns } });
+    await BoardColumn.deleteMany({ _id: { $in: board.board_columns } });
   }
 
   next();

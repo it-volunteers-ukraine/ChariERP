@@ -14,6 +14,11 @@ const UsersBoardsSchema = new Schema<IUsersBoards>(
       ref: 'Board',
       required: true,
     },
+    organization_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Organizations',
+      required: true,
+    },
   },
   {
     timestamps: true,

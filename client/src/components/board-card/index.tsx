@@ -7,7 +7,7 @@ import { getDraggableStyle } from './helper';
 import { IBoardCardProps, IBoardData, IColumns, IIndexesForBoards } from './types';
 
 const BoardCard = ({ idx, board, onReset, isRoleAccess, onEdit, onDelete }: IBoardCardProps) => (
-  <Draggable draggableId={board.id} index={idx!} isDragDisabled={!isRoleAccess}>
+  <Draggable draggableId={board._id} index={idx!} isDragDisabled={!isRoleAccess}>
     {(provided, snapshot) => (
       <div
         className="w-full"
