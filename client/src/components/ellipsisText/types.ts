@@ -1,13 +1,13 @@
 export interface IEllipsisTextProps {
   delay?: number;
   margin?: number;
+  className?: string;
   isShowAlways?: boolean;
   children: React.ReactNode;
-  className?: string;
   content: React.ReactNode | string;
 }
 
 export interface IGetStylesProps {
-  isEllipsisTooltip: boolean;
   className?: string | null;
+  isEllipsisTooltip: boolean;
 }

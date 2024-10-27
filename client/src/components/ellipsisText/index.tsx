@@ -21,10 +21,10 @@ import { IEllipsisTextProps } from './types';
 export const EllipsisText = ({
   content,
   children,
+  className,
   margin = 0,
   delay = 200,
   isShowAlways,
-  className,
 }: IEllipsisTextProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isEllipsis, setIsEllipsis] = useState(false);
@@ -190,10 +190,10 @@ export const EllipsisText = ({
   const updateContent = () => {
     const renderTooltip = (content: ReactNode) => (
       <div
+        ref={tooltipWrapperRef}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         className={styles.toolTipWrapper}
-        ref={tooltipWrapperRef}
       >
         {content}
       </div>
