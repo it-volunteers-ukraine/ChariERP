@@ -18,23 +18,25 @@ import { useDeleteBoard } from './use-delete';
 const limitOfCard = 5;
 
 const Dashboards = () => {
-  const { isManager, _id } = useUserInfo();
   const { isLaptop } = useWindowWidth();
   const board = useTranslations('board');
+  const { isManager, _id } = useUserInfo();
 
   const { response } = useBoards(String(_id));
 
   const { boards, columns } = { boards: response?.data || [], columns: generateColumns(response?.data || []) };
 
   const { addBoard, onReset } = useAddBoard();
-  const { onDelete } = useDeleteBoard(String(_id));
+  const { onDelete, isLoadingDelete } = useDeleteBoard(String(_id));
   const { onEdit, isLoadingCreate, isLoadingEdit } = useEditBoard(String(_id));
-  const { onMoveDragEndSmall, onMoveDragEndLarge } = useMoveBoards(String(_id));
+  const { onMoveDragEndSmall, onMoveDragEndLarge, isLoadingMove } = useMoveBoards(String(_id));
 
   const isRoleAccess = isManager;
   const isLimitExceeded = boards.length === limitOfCard;
 
   const styles = getStyle(isLimitExceeded);
+
+  const isBtnLoading = isLoadingDelete || isLoadingCreate || isLoadingEdit || isLoadingMove;
 
   return (
     <div className="h-full bg-white px-4 pt-[40px] tablet:px-8 desktop:px-[64px] desktop:pt-[64px]">
@@ -42,9 +44,9 @@ const Dashboards = () => {
         <div className="flex flex-col gap-3">
           <Button
             className="max-w-fit"
+            isLoading={isBtnLoading}
             disabled={isLimitExceeded}
             onClick={() => addBoard(boards.length)}
-            isLoading={isLoadingCreate || isLoadingEdit}
           >
             <span className="uppercase">+ {board('newBoard')}</span>
           </Button>

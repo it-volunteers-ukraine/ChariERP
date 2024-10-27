@@ -73,5 +73,5 @@ export const useMoveBoards = (id: string) => {
     );
   };
 
-  return { onMoveDragEndSmall, onMoveDragEndLarge };
+  return { onMoveDragEndSmall, onMoveDragEndLarge, isLoadingMove: moveMutation.isPending };
 };

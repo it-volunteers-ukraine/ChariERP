@@ -23,5 +23,5 @@ export const useDeleteBoard = (userId: string) => {
     });
   };
 
-  return { onDelete };
+  return { onDelete, isLoadingDelete: deleteMutation.isPending };
 };
