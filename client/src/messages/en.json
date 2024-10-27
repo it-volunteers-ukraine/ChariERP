@@ -259,5 +259,21 @@
   },
   "globalPronouns": {
     "more": "more"
+  },
+  "privacyPage": {
+    "title": "Privacy Policy",
+    "subTitle": "Heading 1 for subparagraphs",
+    "text1": "We greatly value your trust and are committed to ensuring the reliable protection of your confidential information. This Privacy Policy outlines in detail how we collect, use, transfer, and store your personal data while you use our ERP system. We strive to maintain transparency in all of our actions related to your data and guarantee that all processes adhere to the highest standards of security and privacy. Our system is designed with cutting-edge information security technologies to prevent unauthorized access to your data. We use a comprehensive approach to security, including both technical and organizational measures, to ensure the protection of your personal data at every stage of its processing. We understand how important it is for you to know what data is being collected, for what purposes it is used, and who has access to it. This document will explain in detail how we manage your information and what steps you can take to protect your data or correct any errors. We also provide you with the ability to control your data and privacy rights, ensuring maximum control on your part. Whether you are a new user or an experienced client, we are always committed to providing you with a safe and comfortable experience while using our system. Should you have any questions or need additional clarification, our support team is always available to assist you. We are happy to help you navigate all aspects of protecting your data.",
+    "list": [
+      "Collection of Information",
+      "We may collect the following types of personal information:",
+      "We collect information from the following sources:",
+      "Data that you provide directly when registering or using the system;",
+      "Automatic data collection through the use of cookies and similar technologies.",
+      "Use of Information",
+      "We use your data to:",
+      "Providing and maintaining the functionality of the ERP system;"
+    ],
+    "text2": "We highly appreciate your trust. {link} And undertake to provide reliable protection for your Our system is designed with advanced information security technologies in mind to prevent unauthorized access to your data. We use a comprehensive approach to security, including both technical and organizational measures, to ensure that your personal data is protected at every stage of its processing. We understand how important it is for you to know what data is collected, for what purposes it is used and who has access to it. In this document, we will explain in detail how we manage your information and what steps you can take to protect your data or correct any errors. We also give you the ability to manage your data and privacy rights, which guarantees maximum control on your part. Whether you're a new user or an experienced customer, we're always committed to providing you with a safe and comfortable experience with our system. If you have any questions or need additional explanations, you can always contact our support team. We will be happy to help you understand all aspects of protecting your data."
   }
 }
