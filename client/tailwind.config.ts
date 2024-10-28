@@ -48,7 +48,6 @@ const config: Config = {
   theme: {
     extend: {
       ...defaultTheme,
-
       colors: {
         white,
         whiteSecond,
@@ -194,6 +193,9 @@ const config: Config = {
       },
       transitionProperty: {
         rounded: 'border-radius',
+      },
+      objectPosition: {
+        '30-left': '30% center',
       },
       keyframes: {
         appearBg: {
