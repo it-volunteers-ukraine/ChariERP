@@ -3,7 +3,7 @@ import { TranslationValues } from 'next-intl';
 import { isValidPhoneNumber } from 'libphonenumber-js';
 
 const maxSize = 5;
-const linkRegExp = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6})(\/[\w.-]*)*\/?$/;
+const linkRegExp = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,})(\/[\w.-]*)*(\?[\w=&%-]*)?(#[\w-]*)?\/?$/i;
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export const organizationValidation = (error: (key: string, params?: TranslationValues) => string) =>
