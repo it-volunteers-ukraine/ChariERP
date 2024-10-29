@@ -30,6 +30,7 @@
   },
   "inputs": {
     "title": {
+      "declineReason": "Причина відхилення",
       "basicInformation": "основна інформація",
       "contactInformation": "контактна інформація",
       "loginInformation": "Данні для входу",
@@ -243,14 +244,16 @@
     "blocked": "Заблокований"
   },
   "board": {
-    "newBoard": "Назвати дошку",
-    "createNew": "Створити нову дошку",
-    "limitExceeded": "Ви можете мати не більше {int} дошок",
+    "newBoard": "Додати дошку",
+    "limitExceeded": "На даній сторінці Ви можете створити не більше {int} дошок.",
     "massageCopyTitle": "Посилання скопійовано",
     "emptyBoard": "На даній сторінці ще не створено дошку з вашою участю",
     "allParticipants": "всі учасники"
   },
   "copy": {
     "messages": "Скопійовано в буфер обміну"
+  },
+  "globalPronouns": {
+    "more": "ще"
   }
 }

@@ -121,6 +121,7 @@ class OrganizationService extends BaseService {
     }
 
     const updateOrganization = {
+      declineReason: reason,
       request: RequestOrganizationStatus.DECLINED,
     };
 

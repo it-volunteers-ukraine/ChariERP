@@ -50,6 +50,17 @@ export const getUrlWithExtension = async ({ url, file, downloadType = DownloadTy
   return URL.createObjectURL(blob);
 };
 
+export const openNewWindowForCertificate = (certificate: string) => {
+  const newWindow = window.open();
+
+  if (newWindow) {
+    newWindow.document.write(`<img style="width: 100%; max-width: 100%;" src="${certificate}" alt=${certificate} />`);
+    newWindow.document.close();
+  } else {
+    showMessage.warn('Failed to open a new window. Please check your browser settings.');
+  }
+};
+
 export const streamToBase64 = async (stream: Readable) => {
   const chunks: Buffer[] = [];
 

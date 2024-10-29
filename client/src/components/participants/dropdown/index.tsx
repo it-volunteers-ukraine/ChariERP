@@ -4,10 +4,10 @@ import { useTranslations } from 'next-intl';
 import { debounce } from '@/utils';
 import { Close, Search } from '@/assets/icons';
 
-import { IMokUserCountProps } from '../mock-user';
+import { IUsers } from '../mock-user';
 
 interface IDropdownListProps {
-  users: IMokUserCountProps[];
+  users: IUsers[];
   setIsDropdownOpen: () => void;
 }
 
