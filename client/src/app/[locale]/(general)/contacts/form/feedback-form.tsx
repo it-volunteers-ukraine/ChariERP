@@ -28,7 +28,7 @@ export const FeedbackForm = () => {
 
   return (
     <Formik onSubmit={handleSubmit} initialValues={InitialValues} validationSchema={ValidationSchema(error)}>
-      <Form className="m-auto bg-white px-2 py-4 shadow-md tablet:max-w-[605px] tablet:px-12 tablet:py-10 laptop:max-w-[800px] desktop:max-w-[588px] desktop:px-10 desktop:py-8">
+      <Form className="m-auto bg-white px-2 py-4 shadow-md tablet:max-w-[605px] tablet:px-12 tablet:py-10 laptop:max-w-[800px] desktop:max-w-[588px] desktop:px-10 desktop:py-8 desktopXl:px-28 desktopXl:py-10">
         <div className="m-auto mb-8 max-w-[342px] tablet:max-w-[456px] laptop:max-w-[622px] desktop:max-w-[456px] desktopXl:max-w-[642px]">
           <h2 className="m-auto mb-6 text-center font-scada text-2xl font-bold uppercase tablet:text-[32px]">
             {contactPageTranslation('feedback')}
