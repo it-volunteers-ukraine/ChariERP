@@ -6,30 +6,22 @@ import { ChildrenProps } from '@/types';
 import { useMounted, useOutsideClick } from '@/hooks';
 
 import { getStyle } from './style';
-
-interface IToolsDropMenuProps {
-  opened: boolean;
-  duration?: number;
-  className?: string;
-  onClose: () => void;
-  animationOpen?: string;
-  animationClose?: string;
-}
+import { IToolsDropMenuProps } from './types';
 
 export const ToolsDropMenu = ({
   opened,
   onClose,
   children,
   className,
-  animationOpen,
-  animationClose,
+  animationStart,
+  animationEnd,
   duration = 300,
 }: ChildrenProps<IToolsDropMenuProps>) => {
   const ref = useRef<HTMLDivElement | null>(null);
 
   const { unmounted } = useMounted({ opened, duration });
 
-  const style = getStyle({ className, opened, animationClose, animationOpen });
+  const style = getStyle({ className, opened, animationStart, animationEnd });
 
   useOutsideClick(ref, () => onClose());
 

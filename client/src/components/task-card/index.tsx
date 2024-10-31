@@ -34,7 +34,7 @@ export const TaskCard = ({ id, title, users, onDelete }: ITaskCard) => {
   useOutsideClick(ref, () => setIsActive(false));
 
   return (
-    <div className="relative flex max-w-[222px] flex-col gap-3 overflow-hidden rounded-[8px] border border-arcticSky bg-white px-3 py-4">
+    <div className="relative flex max-w-[222px] shrink-0 flex-col gap-3 overflow-hidden rounded-[8px] border border-arcticSky bg-white px-3 py-4">
       <div className="flex items-start justify-between">
         <p className="line-clamp-2 max-w-[170px] hyphens-auto font-roboto text-[14px] leading-[20px]">{title}</p>
 

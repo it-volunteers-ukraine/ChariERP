@@ -255,8 +255,7 @@
     "limitExceeded": "You can have no more than {int} boards",
     "massageCopyTitle": "Link copied",
     "emptyBoard": "There is no board with your participation on this page yet",
-    "allParticipants": "all participants",
-    "titleTask": "make it by the end of the month and send it to the tax office for verification"
+    "allParticipants": "all participants"
   },
   "copy": {
     "messages": "Copied to clipboard"
