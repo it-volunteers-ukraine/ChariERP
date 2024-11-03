@@ -6,20 +6,19 @@ import { useTranslations } from 'next-intl';
 
 import { onCopy } from '@/utils';
 import { routes } from '@/constants';
-import { useOutsideClick } from '@/hooks';
 import { CopyBoard, Delete, PencilJust } from '@/assets/icons';
 
 import { getStyles } from './style';
 import { IBoardCardProps } from '../types';
 
-export const BoardInfo = ({ isRoleAccess, board, onReset, onSubmit, onDelete }: IBoardCardProps) => {
+export const BoardInfo = ({ isRoleAccess, board, onReset, onEdit, onDelete }: IBoardCardProps) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const messages = useTranslations('board');
   const messagesCopy = useTranslations('copy');
 
-  const isCreateCard = board.id === 'new';
+  const isCreateCard = board._id === 'new';
 
   const [title, setTitle] = useState(board.title || '');
   const [isEditing, setIsEditing] = useState(isCreateCard);
@@ -38,13 +37,13 @@ export const BoardInfo = ({ isRoleAccess, board, onReset, onSubmit, onDelete }: 
     }
 
     if (isCreateCard && emptyText && onReset) {
-      onReset(board.id);
+      onReset(board._id);
 
       return;
     }
 
     if (title !== board?.title && !emptyText) {
-      onSubmit(title, board.id);
+      onEdit(board._id, title);
     }
 
     if (emptyText) {
@@ -63,8 +62,6 @@ export const BoardInfo = ({ isRoleAccess, board, onReset, onSubmit, onDelete }: 
       textarea.focus();
     }
   };
-
-  useOutsideClick(linkRef, onHandleBlur);
 
   useEffect(() => {
     if (isEditing && textareaRef.current) {
@@ -89,10 +86,12 @@ export const BoardInfo = ({ isRoleAccess, board, onReset, onSubmit, onDelete }: 
     }
   };
 
-  console.log({ board });
-
   return (
-    <Link ref={linkRef} className={styles.wrapper} href={!isCreateCard ? `${routes.managerDashboard}/${board.id}` : ''}>
+    <Link
+      ref={linkRef}
+      className={styles.wrapper}
+      href={!isCreateCard ? `${routes.managerDashboard}/${board._id}` : ''}
+    >
       <div className="mb-8 flex w-full items-center justify-between">
         <p className="text-[18px] font-medium leading-5 text-comet">#{board.order}</p>
 
@@ -106,7 +105,9 @@ export const BoardInfo = ({ isRoleAccess, board, onReset, onSubmit, onDelete }: 
           <button
             disabled={isEditing}
             className={styles.button}
-            onClick={(e) => onCopy(e, `${window.location.href}/${board.id}`, messagesCopy('messages'))}
+            onClick={(e) =>
+              stopPropagation(e, () => onCopy(e, `${window.location.href}/${board._id}`, messagesCopy('messages')))
+            }
           >
             <CopyBoard className={styles.icon} />
           </button>
@@ -115,7 +116,7 @@ export const BoardInfo = ({ isRoleAccess, board, onReset, onSubmit, onDelete }: 
             <button
               disabled={isEditing}
               className={styles.button}
-              onClick={(e) => stopPropagation(e, () => onDelete(board.id))}
+              onClick={(e) => stopPropagation(e, () => onDelete(board._id))}
             >
               <Delete className={styles.icon} />
             </button>

@@ -263,5 +263,18 @@
   },
   "globalPronouns": {
     "more": "more"
+  },
+  "contactPageTranslation": {
+    "title": "contact us :",
+    "feedback": "fill out the feedback form",
+    "feedbackMessage": "There will be some text here, but for now it will be replaced by this text, just to check the translation",
+    "feedbackForm": {
+      "labelName": "Name",
+      "labelSurname": "Surname",
+      "labelTextarea": "Message",
+      "buttonSubmit": "Submit form",
+      "labelEmail": "E-mail address (e-mail)",
+      "labelPhone": "Phone number (with area code)"
+    }
   }
 }

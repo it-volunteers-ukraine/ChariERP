@@ -1,5 +1,5 @@
 export interface IBoardData {
-  id: string;
+  _id: string;
   title: string;
   order: number;
 }
@@ -10,11 +10,11 @@ export interface IBoardCardProps {
   onDelete: (id: string) => void;
   board: MergeBoard | IBoardData;
   onReset: (text: string) => void;
-  onSubmit: (title: string, id: string) => void;
+  onEdit: (id: string, text: string) => void;
 }
 
 export interface MergeBoard {
-  id: string;
+  _id: string;
   title: string;
   order: number;
   [key: `column-${number}`]: { [index: number]: number };
