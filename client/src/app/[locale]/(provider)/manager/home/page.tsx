@@ -1,14 +1,12 @@
 import { Metadata } from 'next';
 
-import { HomePage } from '@/components';
-
 export const metadata: Metadata = {
   title: 'Home',
   description: 'Home page',
 };
 
 const Home = () => {
-  return <HomePage />;
+  return <div>home</div>;
 };
 
 export default Home;

@@ -141,6 +141,7 @@ const config: Config = {
       },
       backgroundImage: {
         burger: 'linear-gradient(315deg, #78D6EF 0%, #3879B6 100%)',
+        scrollItemBg: 'linear-gradient(135deg, #78D6EF 0%, #1E619F 100%)',
         boardAside: blueCrayolaToDeepBlue,
         'burger-tablet': 'linear-gradient(315deg, #3879B6 0%, #78D6EF 100%)',
         'header-gradient': blueCrayolaToDeepBlue,

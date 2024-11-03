@@ -13,9 +13,9 @@ export const Modal = ({ onClick }: { onClick: () => void }) => {
           CHARI eRp
         </h1>
 
-        <span className="text-center font-scada text-[14px] font-bold leading-[120%] text-darkGray tablet:text-[20px] laptop:text-[24px]">
+        <p className="text-center font-scada text-[14px] font-bold leading-[120%] text-darkGray tablet:text-[20px] laptop:text-[24px]">
           {modal('home.text')}
-        </span>
+        </p>
       </div>
 
       <Button onClick={onClick} text={btn('learnMore')} className="uppercase" />
