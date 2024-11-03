@@ -4,41 +4,42 @@ const defaultTheme = require('tailwindcss/defaultConfig');
 import { media } from './src/constants';
 
 //Colors
+const amethyst = '#A86CCC';
+const arcticSky = '#D0DDEC';
 const blue = '#2C73AC';
+const blueCrayola = '#78D6EF';
+const caret = '#61B6DB';
+const cerise = '#E23A81';
+const comet = '#5D647C';
+const darkGray = '#49454F';
+const deepBlue = '#3879B6';
+const dimGray = '#656575B2';
+const disabled = '#C2C3C5';
+const ebb = '#E7E2E2';
+const emeraldGreen = '#40BC6A';
 const error = '#B3261E';
-const white = '#FFFFFF';
-const whiteSecond = '#F4F7FE';
+const green = '#84BB46';
+const greenActive = '#178D40';
+const greenHover = '#34AB5D';
+const greenNormal = '#5BC780';
 const lightBlue = '#61B6DB';
 const lightBlueHover = '#E8EEFB';
-const blueCrayola = '#78D6EF';
-const deepBlue = '#3879B6';
-const disabled = '#C2C3C5';
-const green = '#84BB46';
-const greenNormal = '#5BC780';
-const greenHover = '#34AB5D';
-const greenActive = '#178D40';
-const red = '#DD6B64';
-const redHover = '#C83C34';
-const redActive = '#B3261E';
-const comet = '#5D647C';
-const mobster = '#79747E';
-const cerise = '#E23A81';
-const caret = '#61B6DB';
-const swissCoffee = '#D0CBCB';
-const lynch = '#687A95';
-const lobLolly = '#BEC6D0';
-const spunPearl = '#A8A8AD';
 const liteGray = '#A3A3A3';
-const dimGray = '#656575B2';
-const steelBlue = '#3B91BE';
+const lobLolly = '#BEC6D0';
+const lynch = '#687A95';
 const Magnolia = '#5D647CB2';
-const superBlue = '#DFF0F8';
 const midGray = '#656575';
-const darkGray = '#49454F';
-const arcticSky = '#D0DDEC';
-const amethyst = '#A86CCC';
-const emeraldGreen = '#40BC6A';
+const mobster = '#79747E';
+const red = '#DD6B64';
+const redActive = '#B3261E';
+const redHover = '#C83C34';
 const skyBlue = '#5684C6';
+const spunPearl = '#A8A8AD';
+const steelBlue = '#3B91BE';
+const superBlue = '#DFF0F8';
+const swissCoffee = '#D0CBCB';
+const white = '#FFFFFF';
+const whiteSecond = '#F4F7FE';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -50,6 +51,7 @@ const config: Config = {
       ...defaultTheme,
 
       colors: {
+        ebb,
         white,
         whiteSecond,
         lightBlue,

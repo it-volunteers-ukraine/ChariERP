@@ -127,6 +127,9 @@
     "email": "Email"
   },
   "modal": {
+    "home": {
+      "text": "EFFECTIVE RESOURCE MANAGEMENT FOR CIVIC ORGANIZATIONS"
+    },
     "register": {
       "title": "REGISTER?",
       "text": "and send an email with the password to "
@@ -184,6 +187,7 @@
     "understood": "understood",
     "contact": "contact",
     "goToAllBoards": "go to all boards",
+    "learnMore": "learn more",
     "yes": "YES",
     "no": "NO"
   },
