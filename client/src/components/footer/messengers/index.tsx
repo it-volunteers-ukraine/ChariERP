@@ -1,10 +1,11 @@
-import { cn } from '@/utils';
 import Link from 'next/link';
 
-export interface IMessengers {
-  link: string;
+import { cn } from '@/utils';
+
+import { ISocial } from '../config';
+
+export interface IMessengers extends ISocial {
   icon?: string;
-  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
 export const Messengers = ({ Icon, link, icon }: IMessengers) => {

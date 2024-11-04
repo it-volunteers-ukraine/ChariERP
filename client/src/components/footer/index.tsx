@@ -2,6 +2,9 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+
+import { routes } from '@/constants';
 
 import { Logo } from '../logo';
 import { Button } from '../button';
@@ -9,11 +12,10 @@ import { Button } from '../button';
 import { Navigate } from './navigate';
 import { Messengers } from './messengers';
 import { config } from './config';
-import { routes } from '@/constants';
-import { useTranslations } from 'next-intl';
 
 export const Footer = () => {
   const router = useRouter();
+  const footer = useTranslations('footer');
   const auth = useTranslations('auth-page.links');
 
   const { social, navigate } = config;
@@ -44,6 +46,7 @@ export const Footer = () => {
             onClick={() => router.push(routes.login)}
             className="h-fit px-2 uppercase"
           />
+
           <Button
             styleType="secondary"
             text={auth('registration')}
@@ -56,7 +59,7 @@ export const Footer = () => {
         // TODO add a route to the privacy policy link
       }
       <Link href={'#'} className="block text-center font-scada text-xs text-white">
-        © 2023 Charli, All Right Reserved
+        © 2023 Charli, {footer('privacyPolicy')}
       </Link>
     </footer>
   );
