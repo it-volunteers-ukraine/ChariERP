@@ -32,7 +32,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 tablet:pr-32 laptop:pr-0 lg:mr-0 lg:flex-row lg:gap-8 desktop:flex-row desktop:gap-16 desktopXl:gap-[108px]">
+        <div className="flex flex-col gap-4 tablet:pr-8 laptop:pr-0 lg:mr-0 lg:flex-row lg:gap-8 desktop:flex-row desktop:gap-16 desktopXl:gap-[108px]">
           {navigate.map((item, idx) => (
             <Navigate key={`navigate_${idx}`} {...item} />
           ))}
