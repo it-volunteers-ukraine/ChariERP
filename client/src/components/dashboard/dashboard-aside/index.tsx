@@ -6,7 +6,6 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 
-import { queryClient } from '@/modules';
 import { useUserInfo } from '@/context';
 import { Exit, JamMenu } from '@/assets/icons';
 import { idUser, routes, boardState } from '@/constants';
@@ -29,19 +28,20 @@ export const DashboardAside = () => {
   const { isDesktop } = useWindowWidth();
   const linkText = useTranslations('sidebar');
 
-  const boardsState = getBoolean(Cookies.get('boards-state'));
+  const boardsState = getBoolean(Cookies.get(boardState));
 
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const [isOpenChildrenLinks, setIsOpenChildrenLinks] = useState(boardsState);
   const [heightChildren, setHeightChildren] = useState(() => (isOpenChildrenLinks ? 'none' : '0px'));
   const [opacityChildren, setOpacityChildren] = useState(() => (isOpenChildrenLinks ? '1' : '0'));
 
-  const { data: response, isLoading } = useQuery({
+  const { data: response } = useQuery({
     ...boardApi.getBoardsList(String(_id)),
     staleTime: 0,
     enabled: !!_id,
     gcTime: Infinity,
-    initialData: () => queryClient.getQueryData(boardApi.queryKey),
+
+    refetchOnMount: false,
   });
 
   const boards =
@@ -81,7 +81,7 @@ export const DashboardAside = () => {
   useEffect(() => {
     const element = refChildrenLink.current;
 
-    if (element) {
+    if (element && response) {
       const currentHeight = isOpenChildrenLinks ? `${element.scrollHeight}px` : '0px';
       const currentOpacity = isOpenChildrenLinks ? '1' : '0';
 
@@ -93,7 +93,7 @@ export const DashboardAside = () => {
         setOpacityChildren(currentOpacity);
       }
     }
-  }, [isOpenChildrenLinks, duration, heightChildren, refChildrenLink.current]);
+  }, [isOpenChildrenLinks, heightChildren, refChildrenLink.current, response]);
 
   return (
     <aside className={styles.aside} ref={ref}>
@@ -117,7 +117,7 @@ export const DashboardAside = () => {
                   setIsOpen={() => (children ? onAccordion() : undefined)}
                 />
 
-                {children && !isLoading && (
+                {children && (
                   <div
                     ref={refChildrenLink}
                     className={`-my-1 flex flex-col gap-2 overflow-hidden transition-all ease-in-out`}
