@@ -199,7 +199,7 @@ const AdminOrganizationById = () => {
         initialValues={getInitialDataOrganization(data)}
         validationSchema={organizationValidation((key, params) => error(key, params)).omit(['agree', 'password'])}
       >
-        {({ values, errors, validateForm, handleSubmit, touched }) => (
+        {({ values, errors, validateForm, handleSubmit, dirty }) => (
           <div className="bg-boardHeader relative h-full w-full">
             <ModalAdmin
               isOpen={isOpenSave}
@@ -242,7 +242,7 @@ const AdminOrganizationById = () => {
                       icon="save"
                       iconType="primary"
                       onClick={() => setIsOpenSave(true)}
-                      disabled={!touched || Object.keys(errors).length > 0}
+                      disabled={!dirty || Object.keys(errors).length > 0}
                     />
                   </div>
                 </div>
