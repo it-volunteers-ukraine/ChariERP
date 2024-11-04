@@ -183,8 +183,8 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
             styleType="red"
             isNarrow={isLaptop}
             text={declined ? 'Decline' : 'Delete'}
-            onClick={() => (declined ? setIsOpenReject(true) : setIsOpenRemove(true))}
             className="uppercase laptop:normal-case"
+            onClick={() => (declined ? setIsOpenReject(true) : setIsOpenRemove(true))}
           />
         </div>
       </div>
