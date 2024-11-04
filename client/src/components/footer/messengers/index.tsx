@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { cn } from '@/utils';
 
-import { ISocial } from '../config';
+import { ISocial } from '../types';
 
 export interface IMessengers extends ISocial {
   icon?: string;

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
-import { INavigate } from '../config';
+import { INavigate } from '../types';
 
 export const Navigate = ({ link, title }: INavigate) => {
   const footer = useTranslations('footer');

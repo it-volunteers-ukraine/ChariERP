@@ -7,11 +7,10 @@ import { useTranslations } from 'next-intl';
 import { routes } from '@/constants';
 
 import { Logo } from '../logo';
+import { config } from './config';
 import { Button } from '../button';
-
 import { Navigate } from './navigate';
 import { Messengers } from './messengers';
-import { config } from './config';
 
 export const Footer = () => {
   const router = useRouter();
@@ -28,14 +27,14 @@ export const Footer = () => {
 
           <div className="flex gap-x-2">
             {social.map((item, idx) => (
-              <Messengers key={item.id + '_' + idx} {...item} />
+              <Messengers key={`social_${idx}`} {...item} />
             ))}
           </div>
         </div>
 
         <div className="flex flex-col gap-4 tablet:pr-32 laptop:pr-0 lg:mr-0 lg:flex-row lg:gap-8 desktop:flex-row desktop:gap-16 desktopXl:gap-[108px]">
           {navigate.map((item, idx) => (
-            <Navigate key={item.id + '_' + idx} {...item} />
+            <Navigate key={`navigate_${idx}`} {...item} />
           ))}
         </div>
 
@@ -43,22 +42,22 @@ export const Footer = () => {
           <Button
             styleType="outline"
             text={auth('login')}
-            onClick={() => router.push(routes.login)}
             className="h-fit px-2 uppercase"
+            onClick={() => router.push(routes.login)}
           />
 
           <Button
             styleType="secondary"
             text={auth('registration')}
-            onClick={() => router.push(routes.registration)}
             className="h-fit px-2 uppercase"
+            onClick={() => router.push(routes.registration)}
           />
         </div>
       </div>
       {
         // TODO add a route to the privacy policy link
       }
-      <Link href={'#'} className="block text-center font-scada text-xs text-white">
+      <Link href="#" className="block text-center font-scada text-xs text-white">
         © 2023 Charli, {footer('privacyPolicy')}
       </Link>
     </footer>
