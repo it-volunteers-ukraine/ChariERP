@@ -1,106 +1,121 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
 import { onCopy } from '@/utils';
+import { routes } from '@/constants';
+import { useOutsideClick } from '@/hooks';
 import { CopyBoard, Delete, PencilJust } from '@/assets/icons';
 
 import { getStyles } from './style';
-import { IBoardInfoProps } from './types';
+import { IBoardCardProps } from '../types';
 
-export const BoardInfo = ({ isRoleAccess, setIsGoRoute, boardData, setIsEdit, number }: IBoardInfoProps) => {
+export const BoardInfo = ({ isRoleAccess, board, onReset, onSubmit, onDelete }: IBoardCardProps) => {
+  const linkRef = useRef<HTMLAnchorElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const messages = useTranslations('board');
   const messagesCopy = useTranslations('copy');
 
-  const isBoardData = !!boardData;
+  const isCreateCard = board.id === 'new';
 
-  const [isEdited, setIsEdited] = useState(!isBoardData);
-  const [title, setTitle] = useState(boardData?.title || '');
+  const [title, setTitle] = useState(board.title || '');
+  const [isEditing, setIsEditing] = useState(isCreateCard);
 
-  const styles = getStyles(isEdited);
+  const emptyText = title === '';
 
-  useEffect(() => {
-    if (isEdited && textareaRef.current) {
-      textareaRef.current.focus();
+  const styles = getStyles(isEditing);
+
+  const onHandleBlur = (state?: boolean) => {
+    const newIsEdit = state ?? false;
+
+    setIsEditing(newIsEdit);
+
+    if (!isEditing && emptyText) {
+      setTitle(board?.title || '');
     }
-  }, [isEdited]);
 
-  const handleEditClick = () => {
-    setIsEdited(true);
-    if (setIsGoRoute) {
-      setIsGoRoute(false);
+    if (isCreateCard && emptyText && onReset) {
+      onReset(board.id);
+
+      return;
+    }
+
+    if (title !== board?.title && !emptyText) {
+      onSubmit(title, board.id);
+    }
+
+    if (emptyText) {
+      setTitle(board?.title || '');
     }
   };
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleFocus = () => {
+    const textarea = textareaRef.current;
+
+    if (textarea) {
+      if (textarea.value.length > 0) {
+        textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+      }
+
+      textarea.focus();
+    }
+  };
+
+  useOutsideClick(linkRef, onHandleBlur);
+
+  useEffect(() => {
+    if (isEditing && textareaRef.current) {
+      handleFocus();
+    }
+  }, [isEditing]);
+
+  const handleEditClick = () => {
+    onHandleBlur(!isEditing);
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTitle(e.target.value);
   };
 
-  const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
-    e.target.scrollTop = 0;
-
-    if (title === '') {
-      setIsEdit?.(false);
-      setIsEdited(false);
-
-      return;
-    }
-
-    if (!isBoardData) {
-      //TODO create board
-      setIsEdited(false);
-
-      return;
-    }
-
-    if (boardData?.title !== title) {
-      //TODO edit board
-    }
-    setIsEdited(false);
-  };
-
-  const stopPropagation = (e: React.MouseEvent<HTMLButtonElement>, func: () => void) => {
+  const stopPropagation = (e: React.MouseEvent<HTMLButtonElement | HTMLTextAreaElement>, func?: () => void) => {
+    e.preventDefault();
     e.stopPropagation();
-    func();
+
+    if (func) {
+      func();
+    }
   };
 
-  const handleDeleteClick = () => {
-    //TODO delete board boardData.id
-  };
+  console.log({ board });
 
   return (
-    <>
+    <Link ref={linkRef} className={styles.wrapper} href={!isCreateCard ? `${routes.managerDashboard}/${board.id}` : ''}>
       <div className="mb-8 flex w-full items-center justify-between">
-        <p className="text-[18px] font-medium leading-5 !text-comet">
-          #{boardData?.number !== undefined ? boardData.number + 1 : number}
-        </p>
+        <p className="text-[18px] font-medium leading-5 text-comet">#{board.order}</p>
 
         <div className="flex">
           {isRoleAccess && (
-            <button
-              className={styles.editButton}
-              disabled={isEdited && !boardData?.id}
-              onClick={(e) => stopPropagation(e, handleEditClick)}
-            >
+            <button className={styles.editButton} onClick={(e) => stopPropagation(e, handleEditClick)}>
               <PencilJust className={styles.icon} />
             </button>
           )}
 
           <button
-            disabled={isEdited}
+            disabled={isEditing}
             className={styles.button}
-            onClick={(e) => onCopy(e, `${window.location.href}/${boardData?.id}`, messagesCopy('messages'))}
+            onClick={(e) => onCopy(e, `${window.location.href}/${board.id}`, messagesCopy('messages'))}
           >
             <CopyBoard className={styles.icon} />
           </button>
 
           {isRoleAccess && (
             <button
-              disabled={isEdited}
+              disabled={isEditing}
               className={styles.button}
-              onClick={(e) => stopPropagation(e, handleDeleteClick)}
+              onClick={(e) => stopPropagation(e, () => onDelete(board.id))}
             >
               <Delete className={styles.icon} />
             </button>
@@ -111,13 +126,13 @@ export const BoardInfo = ({ isRoleAccess, setIsGoRoute, boardData, setIsEdit, nu
       <textarea
         value={title}
         ref={textareaRef}
-        onBlur={handleBlur}
-        disabled={!isEdited}
+        onChange={onChange}
+        disabled={!isEditing}
+        onClick={stopPropagation}
         className={styles.textarea}
-        onChange={handleTitleChange}
+        onBlur={() => onHandleBlur()}
         placeholder={messages('newBoard')}
-        onClick={(e) => e.stopPropagation()}
       />
-    </>
+    </Link>
   );
 };

@@ -27,6 +27,7 @@ export interface IOrganizations extends Document {
   requestDate: Date;
   approvalDate: Date;
   mediaData: IMediaData;
+  declineReason?: string;
   contactData: IContactData;
   _id: Schema.Types.ObjectId;
   users: Schema.Types.ObjectId[];
@@ -37,8 +38,9 @@ export interface IOrganizations extends Document {
 export interface IOrganizationsUpdate {
   approvalDate?: Date;
   mediaData: IMediaData;
+  declineReason?: string;
   contactData: IContactData;
-  organizationData: IOrganizationData;
-  request: RequestOrganizationStatus;
   users?: Schema.Types.ObjectId[];
+  request: RequestOrganizationStatus;
+  organizationData: IOrganizationData;
 }
