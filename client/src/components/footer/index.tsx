@@ -20,7 +20,7 @@ export const Footer = () => {
 
   return (
     <footer className="flex w-full flex-col gap-14 bg-boardAside px-4 py-8 tablet:gap-12 tablet:px-8 tablet:pt-14 laptop:px-9 desktop:gap-10 desktop:px-[136px] desktopXl:px-[92px]">
-      <div className="flex flex-col justify-between gap-10 tablet:flex-row tablet:gap-16 desktop:gap-0">
+      <div className="flex flex-col justify-between gap-10 tablet:flex-row tablet:gap-0">
         <div className="flex flex-col gap-6">
           <Logo className="desktop:pl-1" />
 
@@ -31,7 +31,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 tablet:mr-7 lg:mr-10 lg:flex-row lg:gap-8 desktop:mr-0 desktop:flex-row desktop:gap-16 desktopXl:gap-[108px]">
+        <div className="flex flex-col gap-4 tablet:pr-32 laptop:pr-0 lg:mr-0 lg:flex-row lg:gap-8 desktop:flex-row desktop:gap-16 desktopXl:gap-[108px]">
           {navigate.map((item, idx) => (
             <Navigate key={item.id + '_' + idx} {...item} />
           ))}
@@ -53,7 +53,7 @@ export const Footer = () => {
         </div>
       </div>
       {
-        // TODO add a root to the privacy policy line
+        // TODO add a route to the privacy policy link
       }
       <Link href={'#'} className="block text-center font-scada text-xs text-white">
         © 2023 Charli, All Right Reserved
