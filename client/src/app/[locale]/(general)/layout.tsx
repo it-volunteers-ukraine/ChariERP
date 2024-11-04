@@ -1,4 +1,4 @@
-import { Header } from '@/components';
+import { Footer, Header } from '@/components';
 import { ChildrenProps } from '@/types';
 
 export default async function Layout({ children }: ChildrenProps) {
@@ -6,6 +6,7 @@ export default async function Layout({ children }: ChildrenProps) {
     <>
       <Header />
       <main>{children}</main>
+      <Footer />
     </>
   );
 }

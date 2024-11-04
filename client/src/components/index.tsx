@@ -14,6 +14,7 @@ export { DateField } from './date-field';
 export { EllipsisText } from './ellipsisText';
 export { EmployeeCard } from './employee-card';
 export { FileField } from './file-field';
+export { Footer } from './footer';
 export * from './formik-config';
 export { Header } from './header';
 export { Input } from './input';
