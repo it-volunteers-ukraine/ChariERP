@@ -25,6 +25,8 @@ export const HomePage = () => {
         <RevealOnScroll />
 
         <OpportunityChariCircle />
+
+        <div>AAA</div>
       </div>
     </>
   );

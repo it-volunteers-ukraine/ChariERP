@@ -8,15 +8,15 @@ export const OpportunityChariCircle = () => {
       <div className="relative h-full w-full animate-spin rounded-full bg-yellow-500">
         {cards.map((card, index) => {
           const angle = (index / cards.length) * 2 * Math.PI;
-          const x = 200 * Math.cos(angle);
-          const y = 200 * Math.sin(angle);
+          const x = Math.round(200 * Math.cos(angle) * 100) / 100;
+          const y = Math.round(200 * Math.sin(angle) * 100) / 100;
 
           return (
             <div
               key={index}
               style={{
-                top: `calc(43% + ${y}px)`,
-                left: `calc(38% + ${x}px)`,
+                top: `calc(43% + ${x}px)`,
+                left: `calc(38% + ${y}px)`,
               }}
               className="absolute w-fit animate-notRotate rounded-md bg-sky-500 p-2 text-white"
             >
