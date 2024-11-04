@@ -1,16 +1,19 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
+import { getStyles } from './styles';
 import { ScrollItemProps } from './types';
 
 export const ScrollItem = ({ text, isEven, number }: ScrollItemProps) => {
+  const styles = getStyles(isEven);
+
   const { ref, inView } = useInView({
     triggerOnce: false,
     threshold: 0.2,
   });
 
   return (
-    <div className={`flex ${isEven ? 'justify-end' : 'justify-start'}`}>
+    <div className={styles.wrapper}>
       <motion.div
         ref={ref}
         transition={{ duration: 0.6 }}
@@ -22,9 +25,7 @@ export const ScrollItem = ({ text, isEven, number }: ScrollItemProps) => {
           #{number}
         </h1>
 
-        <p className="font-roboto uppercase leading-[150%] text-superBlue tablet:text-[20px] desktop:text-[24px]">
-          {text}
-        </p>
+        <p className={styles.text}>{text}</p>
       </motion.div>
     </div>
   );
