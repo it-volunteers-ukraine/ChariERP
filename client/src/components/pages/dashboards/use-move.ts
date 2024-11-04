@@ -18,6 +18,32 @@ export const useMoveBoards = (id: string) => {
 
       return boardApi.moveBoards(newBoards, id)({ signal: abortController.signal });
     },
+
+    onMutate: async ({ newBoards }) => {
+      await queryClient.cancelQueries({ queryKey: boardApi.queryKey });
+
+      const previousBoards = queryClient.getQueryData(boardApi.queryKey);
+
+      queryClient.setQueryData(boardApi.queryKey, (old: IBoardMove) => ({ ...old, data: newBoards }));
+
+      return { previousBoards };
+    },
+
+    onError: (_, __, context) => {
+      if (context?.previousBoards) {
+        queryClient.setQueryData(boardApi.queryKey, context.previousBoards);
+      }
+    },
+
+    onSettled: (data) => {
+      if (!data?.success && data?.message) {
+        throw new Error(data.message);
+      }
+
+      queryClient.invalidateQueries({
+        queryKey: boardApi.queryKey,
+      });
+    },
   });
 
   const onMoveDragEndSmall = (result: DropResult) => {
@@ -27,16 +53,7 @@ export const useMoveBoards = (id: string) => {
 
     const newBoards = reorder(boards?.data as IBoardData[], result.source.index, result.destination.index);
 
-    moveMutation.mutate(
-      { newBoards },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: boardApi.queryKey,
-          });
-        },
-      },
-    );
+    moveMutation.mutate({ newBoards });
   };
 
   const onMoveDragEndLarge = (result: DropResult) => {
@@ -61,16 +78,7 @@ export const useMoveBoards = (id: string) => {
 
     const newBoards = reorder(boards?.data as IBoardData[], sourceBoardIndex, destinationBoardIndex);
 
-    moveMutation.mutate(
-      { newBoards },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: boardApi.queryKey,
-          });
-        },
-      },
-    );
+    moveMutation.mutate({ newBoards });
   };
 
   return { onMoveDragEndSmall, onMoveDragEndLarge, isLoadingMove: moveMutation.isPending };

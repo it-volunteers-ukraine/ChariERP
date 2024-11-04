@@ -223,7 +223,7 @@ const AdminOrganizationById = () => {
               onClose={() => setIsOpenAccept(false)}
               onConfirm={async () => await submitHandle(validateForm, handleSubmit)}
               content={
-                <div className="lending-6 flex flex-col text-center text-mobster">
+                <div className="lending-6 flex flex-col break-words text-center text-mobster">
                   <span>{data?.organizationName}</span>
                   <span>
                     {modal('register.text')} {data?.email}

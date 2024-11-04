@@ -67,6 +67,7 @@ class BoardService extends BaseService {
         message: 'Id, title and userId are required for editing a board app',
       };
     }
+
     await this.connect();
 
     const user = await Users.findById(userId);
@@ -102,15 +103,7 @@ class BoardService extends BaseService {
       },
     }));
 
-    try {
-      const result = await Board.bulkWrite(bulkOperations);
-
-      console.log({ result });
-
-      console.log('Обновлено документов:', result.modifiedCount);
-    } catch (error) {
-      console.error('Ошибка при обновлении документов:', error);
-    }
+    await Board.bulkWrite(bulkOperations);
 
     return { success: true, message: 'Boards moved' };
   }

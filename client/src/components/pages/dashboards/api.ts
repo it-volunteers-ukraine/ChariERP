@@ -22,7 +22,10 @@ export const boardApi = {
     return getParsedJsonData<ResponseCreate, { text: string; userId: string }>(createBoardAction, { text, userId });
   },
   moveBoards: (boards: IBoardData[], userId: string) => {
-    return getParsedJsonData<ResponseDeleteEdit, IMoveBoardsProps>(moveBoardsAction, { boards, userId });
+    return getParsedJsonData<ResponseDeleteEdit, IMoveBoardsProps>(moveBoardsAction, {
+      boards,
+      userId,
+    });
   },
   editBoard: (id: string, text: string, userId: string) => {
     return getParsedJsonData<ResponseDeleteEdit, { id: string; text: string; userId: string }>(editBoardAction, {
