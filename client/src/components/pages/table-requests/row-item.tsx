@@ -133,12 +133,12 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
           className="max-w-[300px] laptop:max-w-[380px] desktop:max-w-[500px]"
           content={item.organizationName}
         >
-          <div className="col-span-2 overflow-hidden truncate whitespace-nowrap font-robotoCondensed text-lg leading-[22px] laptop:col-auto">
+          <div className="col-span-2 overflow-hidden truncate whitespace-nowrap font-robotoCondensed text-xl leading-6 text-midGray laptop:col-auto laptop:text-lg laptop:leading-[22px]">
             {item.organizationName}
           </div>
         </EllipsisText>
 
-        <span className="mt-6 font-robotoCondensed text-lg leading-[22px] laptop:mt-0 laptop:hidden">
+        <span className="mt-6 font-robotoCondensed text-lg leading-[22px] text-dimGray laptop:mt-0 laptop:hidden">
           {table('EDRPOU')}
         </span>
 
@@ -154,7 +154,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
           />
         </div>
 
-        <div className="mt-8 font-robotoCondensed text-lg leading-[22px] laptop:mt-0 laptop:hidden laptop:text-center">
+        <div className="mt-8 font-robotoCondensed text-lg leading-[22px] text-dimGray laptop:mt-0 laptop:hidden laptop:text-center">
           {table('document')}
         </div>
 
@@ -172,12 +172,19 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
           className="col-span-2 mt-12 flex flex-col gap-3 laptop:col-auto laptop:mt-0 laptop:flex-row laptop:gap-4"
           onClick={(e) => e.stopPropagation()}
         >
-          <Button text="Accept" styleType="green" isNarrow={isLaptop} onClick={() => setIsOpenRegister(true)} />
+          <Button
+            text="Accept"
+            styleType="green"
+            isNarrow={isLaptop}
+            onClick={() => setIsOpenRegister(true)}
+            className="uppercase laptop:normal-case"
+          />
           <Button
             styleType="red"
             isNarrow={isLaptop}
             text={declined ? 'Decline' : 'Delete'}
             onClick={() => (declined ? setIsOpenReject(true) : setIsOpenRemove(true))}
+            className="uppercase laptop:normal-case"
           />
         </div>
       </div>
