@@ -146,7 +146,7 @@ export const DashboardAside = () => {
         </nav>
       </div>
 
-      <div className="flex h-[88px] w-full items-center justify-between border-t border-t-white px-4 tablet:hidden tablet:px-8">
+      <div className="flex h-[88px] w-full items-center justify-between border-t border-t-white px-4 laptop:hidden laptop:px-8">
         <LanguageSwitcher />
         <button
           onClick={onExit}

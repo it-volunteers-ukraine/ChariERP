@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 export const getStyles = (isOpen?: boolean) => ({
   aside: clsx(
-    'flex flex-col justify-between h-full bg-boardAside w-full absolute desktop:relative transition-all duration-300 z-10 tablet:max-w-[290px]',
+    'flex flex-col justify-between h-full bg-boardAside w-full absolute desktop:relative transition-all duration-300 z-10 laptop:max-w-[290px]',
     {
       '-translate-x-full desktop:translate-x-0': !isOpen,
       'translate-x-0': isOpen,
