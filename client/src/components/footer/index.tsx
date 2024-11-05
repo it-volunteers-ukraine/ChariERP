@@ -54,10 +54,7 @@ export const Footer = () => {
           />
         </div>
       </div>
-      {
-        // TODO add a route to the privacy policy link
-      }
-      <Link href="#" className="block text-center font-scada text-xs text-white">
+      <Link href={routes.privacyPolicy} className="block text-center font-scada text-xs text-white">
         © 2023 Charli, {footer('privacyPolicy')}
       </Link>
     </footer>
