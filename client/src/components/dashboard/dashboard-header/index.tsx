@@ -8,6 +8,7 @@ import { Exit } from '@/assets/icons';
 import { useUserInfo } from '@/context';
 import { useWindowWidth } from '@/hooks';
 import { LanguageSwitcher } from '@/components';
+import { boardState, idUser, routes } from '@/constants';
 
 import { Avatar } from '../avatar';
 import { getLinksByRole } from '../dashboard-aside/config';
@@ -16,14 +17,15 @@ export const DashboardHeader = () => {
   const router = useRouter();
   const path = usePathname();
   const { role } = useUserInfo();
-  const { isTablet } = useWindowWidth();
+  const { isLaptop } = useWindowWidth();
   const linkText = useTranslations('sidebar');
 
   const links = getLinksByRole((key, params) => linkText(key, params), role);
 
   const onExit = () => {
-    Cookies.remove('id');
-    router.push('/');
+    Cookies.remove(idUser);
+    Cookies.remove(boardState);
+    router.push(routes.home);
   };
 
   const titleNav = links.find(({ href }) => path.includes(href));
@@ -31,12 +33,12 @@ export const DashboardHeader = () => {
   return (
     <header className="w-full bg-whiteSecond px-[16px] pl-[60px] desktopXl:px-0">
       <div className="flex h-[64px] items-center justify-between desktop:h-24 desktopXl:mx-8">
-        <span className="font-scada text-[20px] font-normal text-lightBlue">{titleNav?.text}</span>
+        <span className="font-scada text-[20px] font-normal text-lightBlue">{titleNav?.title}</span>
 
         <div className="flex gap-6">
-          <Avatar img={null} name="Super_admin1" />
+          <Avatar img={null} name={isLaptop ? 'Super_admin1' : ''} />
 
-          {isTablet && (
+          {isLaptop && (
             <>
               <Exit
                 onClick={onExit}

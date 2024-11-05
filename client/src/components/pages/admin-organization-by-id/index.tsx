@@ -90,7 +90,7 @@ const AdminOrganizationById = () => {
     }
 
     if (response.success && response.organization) {
-      showMessage.success(response.message);
+      showMessage.success(success(response.message));
 
       const parsedOrganization = JSON.parse(response.organization);
 
@@ -199,7 +199,7 @@ const AdminOrganizationById = () => {
         initialValues={getInitialDataOrganization(data)}
         validationSchema={organizationValidation((key, params) => error(key, params)).omit(['agree', 'password'])}
       >
-        {({ values, errors, validateForm, handleSubmit, touched }) => (
+        {({ values, errors, validateForm, handleSubmit, dirty }) => (
           <div className="bg-boardHeader relative h-full w-full">
             <ModalAdmin
               isOpen={isOpenSave}
@@ -223,7 +223,7 @@ const AdminOrganizationById = () => {
               onClose={() => setIsOpenAccept(false)}
               onConfirm={async () => await submitHandle(validateForm, handleSubmit)}
               content={
-                <div className="lending-6 flex flex-col text-center text-mobster">
+                <div className="lending-6 flex flex-col break-words text-center text-mobster">
                   <span>{data?.organizationName}</span>
                   <span>
                     {modal('register.text')} {data?.email}
@@ -242,7 +242,7 @@ const AdminOrganizationById = () => {
                       icon="save"
                       iconType="primary"
                       onClick={() => setIsOpenSave(true)}
-                      disabled={!touched || Object.keys(errors).length > 0}
+                      disabled={!dirty || Object.keys(errors).length > 0}
                     />
                   </div>
                 </div>

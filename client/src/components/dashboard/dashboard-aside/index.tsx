@@ -4,12 +4,13 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
 
-import { routes } from '@/constants';
 import { useUserInfo } from '@/context';
 import { Exit, JamMenu } from '@/assets/icons';
-import { LanguageSwitcher, Logo } from '@/components';
+import { idUser, routes, boardState } from '@/constants';
 import { useOutsideClick, useWindowWidth } from '@/hooks';
+import { LanguageSwitcher, Logo, boardApi } from '@/components';
 
 import { NavItem } from './item';
 import { getStyles } from './styles';
@@ -18,48 +19,48 @@ import { getLinksByRole } from './config';
 
 const duration = 500;
 
-const dashboards = [
-  {
-    text: '#1 якщо я писака і пишу багато, як би багато я не писав, навіть якщо вона буде аж прям така довга, то користувач все одно зможе її скопіювати',
-    href: `${routes.managerDashboard}/${'1'}`,
-  },
-  { text: '#2 Дошка', href: `${routes.managerDashboard}/${'2'}` },
-  { text: '#3 Дошка', href: `${routes.managerDashboard}/${'3'}` },
-  { text: '#4 Дошка', href: `${routes.managerDashboard}/${'4'}` },
-  {
-    text: '#5 Дошка',
-    href: `${routes.managerDashboard}/${'5'}`,
-    disabled: true,
-  },
-];
-
 export const DashboardAside = () => {
   const ref = useRef(null);
   const refChildrenLink = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
-  const { role } = useUserInfo();
+  const { role, _id } = useUserInfo();
   const { isDesktop } = useWindowWidth();
   const linkText = useTranslations('sidebar');
 
-  const boardsState = getBoolean(Cookies.get('boards-state'));
+  const boardsState = getBoolean(Cookies.get(boardState));
 
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const [isOpenChildrenLinks, setIsOpenChildrenLinks] = useState(boardsState);
   const [heightChildren, setHeightChildren] = useState(() => (isOpenChildrenLinks ? 'none' : '0px'));
   const [opacityChildren, setOpacityChildren] = useState(() => (isOpenChildrenLinks ? '1' : '0'));
 
+  const { data: response } = useQuery({
+    ...boardApi.getBoardsList(String(_id)),
+    staleTime: 0,
+    enabled: !!_id,
+    gcTime: Infinity,
+
+    refetchOnMount: false,
+  });
+
+  const boards =
+    response?.data.map((item) => ({
+      title: `#${item.order} ${item.title}`,
+      href: `${routes.managerDashboard}/${item._id}`,
+    })) || [];
+
   useOutsideClick(ref, () => {
     if (!isDesktop) setIsOpenSidebar(false);
   });
 
-  const links = getLinksByRole(linkText, role, dashboards);
+  const links = getLinksByRole(linkText, role, boards);
 
   const styles = getStyles(isOpenSidebar);
 
   const onExit = () => {
-    Cookies.remove('id');
-    Cookies.remove('boards-state');
+    Cookies.remove(idUser);
+    Cookies.remove(boardState);
     router.push(routes.home);
   };
 
@@ -68,9 +69,9 @@ export const DashboardAside = () => {
       const newState = !prev;
 
       if (newState) {
-        Cookies.set('boards-state', 'true', { expires: 365 });
+        Cookies.set(boardState, 'true', { expires: 365 });
       } else {
-        Cookies.set('boards-state', 'false', { expires: 365 });
+        Cookies.set(boardState, 'false', { expires: 365 });
       }
 
       return newState;
@@ -80,7 +81,7 @@ export const DashboardAside = () => {
   useEffect(() => {
     const element = refChildrenLink.current;
 
-    if (element) {
+    if (element && response) {
       const currentHeight = isOpenChildrenLinks ? `${element.scrollHeight}px` : '0px';
       const currentOpacity = isOpenChildrenLinks ? '1' : '0';
 
@@ -92,7 +93,7 @@ export const DashboardAside = () => {
         setOpacityChildren(currentOpacity);
       }
     }
-  }, [isOpenChildrenLinks, duration, heightChildren, refChildrenLink.current]);
+  }, [isOpenChildrenLinks, heightChildren, refChildrenLink.current, response]);
 
   return (
     <aside className={styles.aside} ref={ref}>
@@ -102,21 +103,21 @@ export const DashboardAside = () => {
         </div>
 
         <nav className="flex flex-col gap-3 p-[16px] pb-0 tablet:px-[32px] desktop:px-[36px] desktop:pt-[42px]">
-          {links.map(({ text, href, icon, disabled, dashboards }, idx) => {
+          {links.map(({ title, href, icon, disabled, children }, idx) => {
             return (
               <Fragment key={`${href}_${idx}`}>
                 <NavItem
-                  text={text}
                   Icon={icon}
                   href={href}
+                  title={title}
                   disabled={disabled}
-                  isParent={!!dashboards}
-                  isOpen={dashboards && isOpenChildrenLinks}
+                  isParent={!!children}
+                  isOpen={children && isOpenChildrenLinks}
                   onCloseSideBar={() => setIsOpenSidebar(false)}
-                  setIsOpen={() => (dashboards ? onAccordion() : undefined)}
+                  setIsOpen={() => (children ? onAccordion() : undefined)}
                 />
 
-                {dashboards && (
+                {children && (
                   <div
                     ref={refChildrenLink}
                     className={`-my-1 flex flex-col gap-2 overflow-hidden transition-all ease-in-out`}
@@ -126,12 +127,12 @@ export const DashboardAside = () => {
                       transition: `max-height ${duration}ms ease, opacity ${duration + 100}ms ease`,
                     }}
                   >
-                    {dashboards.map(({ text, href, icon, disabled }, index) => (
+                    {children.map(({ title, href, icon, disabled }, index) => (
                       <NavItem
                         isChildren
                         href={href}
-                        text={text}
                         Icon={icon}
+                        title={title}
                         disabled={disabled}
                         key={`${href}_${index}_${idx}`}
                         onCloseSideBar={() => setIsOpenSidebar(false)}
@@ -145,7 +146,7 @@ export const DashboardAside = () => {
         </nav>
       </div>
 
-      <div className="flex h-[88px] w-full items-center justify-between border-t border-t-white px-4 tablet:hidden tablet:px-8">
+      <div className="flex h-[88px] w-full items-center justify-between border-t border-t-white px-4 laptop:hidden laptop:px-8">
         <LanguageSwitcher />
         <button
           onClick={onExit}
