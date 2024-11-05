@@ -273,5 +273,12 @@
       "labelEmail": "E-mail address (e-mail)",
       "labelPhone": "Phone number (with area code)"
     }
+  },
+  "footer": {
+    "aboutUs": "About Us",
+    "aboutService": "About Service",
+    "faq": "FAQs",
+    "contacts": "contacts",
+    "privacyPolicy": "All Right Reserved"
   }
 }

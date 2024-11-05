@@ -269,5 +269,12 @@
       "labelPhone": "Телефон (з кодом міста)",
       "labelEmail": "Електронна скринька (e-mail)"
     }
+  },
+  "footer": {
+    "aboutUs": "Про Нас",
+    "aboutService": "Про сервіс",
+    "faq": "поширені питання",
+    "contacts": "контакти",
+    "privacyPolicy": "Всі права захищені."
   }
 }
