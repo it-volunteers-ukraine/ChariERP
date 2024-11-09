@@ -50,9 +50,9 @@ export const DashboardAside = () => {
       href: `${routes.managerDashboard}/${item._id}`,
     })) || [];
 
-  useOutsideClick(ref, () => {
+  useOutsideClick(() => {
     if (!isDesktop) setIsOpenSidebar(false);
-  });
+  }, ref);
 
   const links = getLinksByRole(linkText, role, boards);
 

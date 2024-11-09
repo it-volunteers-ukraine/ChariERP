@@ -17,7 +17,7 @@ export const Burger = () => {
   const { burger, nav } = getStyles({ isActive });
   const auth = useTranslations('auth-page.links');
 
-  useOutsideClick(ref, () => setIsActive(false));
+  useOutsideClick(() => setIsActive(false), ref);
 
   const onHandleClick = async (route: string) => {
     await router.push(route);

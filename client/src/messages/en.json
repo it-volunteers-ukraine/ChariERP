@@ -185,7 +185,10 @@
     "contact": "contact",
     "goToAllBoards": "go to all boards",
     "yes": "YES",
-    "no": "NO"
+    "no": "NO",
+    "edit": "edit",
+    "addTask": "Add tasks",
+    "addColumn": "Add column"
   },
   "validation": {
     "minPlural": "Minimum {int} characters",

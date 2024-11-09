@@ -233,6 +233,14 @@ const config: Config = {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(100%)' },
         },
+        expandToolsMenu: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
+        collapseToolsMenu: {
+          '0%': { opacity: 1 },
+          '100%': { opacity: 0 },
+        },
       },
       animation: {
         portalOpen: 'appearanceOverlay ease-in-out forwards',
@@ -241,6 +249,8 @@ const config: Config = {
         modalClose: 'disappearanceModal ease-in-out forwards',
         openToolsMenu: 'inToolsMenu ease-in-out forwards',
         closeToolsMenu: 'outToolsMenu ease-in-out forwards',
+        startExpand: 'expandToolsMenu ease-in-out forwards',
+        startCollapse: 'collapseToolsMenu ease-in-out forwards',
       },
     },
   },
