@@ -36,9 +36,9 @@ export const EllipsisText = ({
   const tooltipWrapperRef = useRef<HTMLDivElement>(null);
   const tooltipTextRef = useRef<HTMLParagraphElement>(null);
 
-  useOutsideClick(tooltipWrapperRef, () => {
+  useOutsideClick(() => {
     setIsOpen(false);
-  });
+  }, tooltipWrapperRef);
 
   const checkTargetEllipsis = () => {
     if (!targetRef.current) return;

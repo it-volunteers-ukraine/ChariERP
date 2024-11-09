@@ -27,7 +27,7 @@ export const Participants = ({ users, small }: IParticipantsProps) => {
 
   const styles = getStyles(small);
 
-  useOutsideClick(ref, () => setIsDropdownOpen(false));
+  useOutsideClick(() => setIsDropdownOpen(false), ref);
 
   return (
     <div className={styles.participantsBox}>
