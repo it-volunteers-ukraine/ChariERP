@@ -23,7 +23,6 @@ const redActive = '#B3261E';
 const comet = '#5D647C';
 const mobster = '#79747E';
 const cerise = '#E23A81';
-const caret = '#61B6DB';
 const swissCoffee = '#D0CBCB';
 const lynch = '#687A95';
 const lobLolly = '#BEC6D0';
@@ -77,7 +76,7 @@ const config: Config = {
         red,
         skyBlue,
         title: {
-          title: caret,
+          title: lightBlue,
           media: Magnolia,
         },
         pagination: {
@@ -89,7 +88,7 @@ const config: Config = {
           star: cerise,
           hover: mobster,
           focus: blue,
-          caret,
+          caret: lightBlue,
           disabled: swissCoffee,
           info: `${lynch}80`,
           liteGray,
@@ -103,7 +102,7 @@ const config: Config = {
           'default-text': comet,
           'disabled-text': swissCoffee,
           'disabled-selected-text': lobLolly,
-          'link-default': caret,
+          'link-default': lightBlue,
           'link-disabled': swissCoffee,
           'link-disabled-selected': lobLolly,
           'disabled-check': spunPearl,
