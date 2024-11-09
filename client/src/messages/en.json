@@ -187,7 +187,8 @@
     "yes": "YES",
     "no": "NO",
     "edit": "edit",
-    "addTask": "Add tasks"
+    "addTask": "Add tasks",
+    "addColumn": "Add column"
   },
   "validation": {
     "minPlural": "Minimum {int} characters",

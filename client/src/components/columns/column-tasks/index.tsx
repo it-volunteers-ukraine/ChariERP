@@ -1,33 +1,29 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useEffect, useRef, useState } from 'react';
 
-import { cn } from '@/utils';
-import { useOutsideClick } from '@/hooks';
 import { Delete, DotsSettings, Edit } from '@/assets/icons';
+import { useOutsideClick } from '@/hooks';
+import { ChildrenProps } from '@/types';
+import { cn } from '@/utils';
 
-import { TaskCard } from '../task-card';
-// import { showMessage } from '../toastify';
-import { ToolsDropMenu } from '../tools-drop-menu';
+import { ToolsDropMenu } from '../../tools-drop-menu';
 
 import { getStyles } from './styles';
-import { IDataCards } from '../task-card/mock';
 
-interface ITasksColumn {
+interface IColumnTasks {
   id: string;
   title: string;
-  tasks?: IDataCards[];
-  idx?: number;
-  onDeleteColumn?: (props: string) => void;
+  onDeleteColumn: (props: string) => void;
+  onChangeTitle: (props: string) => void;
 }
 
-export const TasksColumn = ({ id, title, tasks, onDeleteColumn, idx }: ITasksColumn) => {
+export const ColumnTasks = ({ id, title, children, onDeleteColumn, onChangeTitle }: ChildrenProps<IColumnTasks>) => {
   const refInput = useRef<HTMLInputElement>(null);
   const translateBtn = useTranslations('button');
 
   const [value, setValue] = useState(title);
-  const [dataTask, setDataTask] = useState(tasks);
   const [isDisable, setIsDisable] = useState(true);
   const [isToolsMenu, setIsToolsMenu] = useState(false);
 
@@ -51,7 +47,7 @@ export const TasksColumn = ({ id, title, tasks, onDeleteColumn, idx }: ITasksCol
     if (!value && title) {
       setIsDisable(true);
       setValue(title);
-      refInput.current?.blur();
+      onChangeTitle(title);
     }
     setIsDisable(true);
   };
@@ -62,22 +58,14 @@ export const TasksColumn = ({ id, title, tasks, onDeleteColumn, idx }: ITasksCol
     if (!isDisable && refInput) {
       refInput.current?.focus();
     }
-  }, [isDisable, value, dataTask]);
+  }, [isDisable]);
 
   return (
-    <div id={id + idx} className={style.columTask}>
+    <div id={id} className={style.columTask}>
       <div className={style.titleBox}>
         {isDisable && !!value ? (
           <div className="w-[190px] border-[1px] border-transparent p-[8px_0px_8px_8px]">
-            <p className={cn('line-clamp-1 break-all font-scada text-xl font-bold uppercase text-comet')}>
-              {isDisable && !!value
-                ? value
-                : (() => {
-                    setIsDisable(false);
-
-                    return title;
-                  })()}
-            </p>
+            <p className={cn('line-clamp-1 break-all font-scada text-xl font-bold uppercase text-comet')}>{value}</p>
           </div>
         ) : (
           <input
@@ -116,15 +104,7 @@ export const TasksColumn = ({ id, title, tasks, onDeleteColumn, idx }: ITasksCol
       </div>
 
       <div className="scroll-textarea flex max-h-[500px] flex-col gap-y-3 overflow-hidden overflow-y-scroll pr-1">
-        {dataTask?.map((task, index: number) => {
-          return (
-            <TaskCard
-              {...task}
-              key={index}
-              onDelete={(id) => setDataTask((prev) => prev?.filter((item) => item.id !== id))}
-            />
-          );
-        })}
+        {children}
       </div>
 
       <div className="pr-3">
