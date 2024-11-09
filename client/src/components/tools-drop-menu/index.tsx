@@ -23,7 +23,7 @@ export const ToolsDropMenu = ({
 
   const style = getStyle({ className, opened, animationStart, animationEnd });
 
-  useOutsideClick(ref, () => onClose());
+  useOutsideClick(() => onClose(), ref);
 
   if (!unmounted || !children) return null;
 

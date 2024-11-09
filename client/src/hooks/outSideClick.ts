@@ -4,7 +4,7 @@ import { RefObject, useEffect } from 'react';
 
 type OutsideClickRef = RefObject<HTMLElement> | RefObject<HTMLElement>[] | null;
 
-const useOutsideClick = (refs: OutsideClickRef, callback: () => void) => {
+const useOutsideClick = (callback: () => void, refs: OutsideClickRef) => {
   const refArray = Array.isArray(refs) ? refs : [refs];
 
   const handleClick = (e: MouseEvent) => {

@@ -52,7 +52,7 @@ export const ColumnTasks = ({ id, title, children, onDeleteColumn, onChangeTitle
     setIsDisable(true);
   };
 
-  useOutsideClick(refInput, () => setIsToolsMenu(false));
+  useOutsideClick(() => setIsToolsMenu(false), refInput);
 
   useEffect(() => {
     if (!isDisable && refInput) {
