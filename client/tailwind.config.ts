@@ -34,6 +34,8 @@ const steelBlue = '#3B91BE';
 const Magnolia = '#5D647CB2';
 const superBlue = '#DFF0F8';
 const midGray = '#656575';
+const newBlack = '#1D1B20';
+const darkBlueFocus = '#0C6399';
 const darkGray = '#49454F';
 const arcticSky = '#D0DDEC';
 const amethyst = '#A86CCC';
@@ -48,14 +50,15 @@ const config: Config = {
   theme: {
     extend: {
       ...defaultTheme,
-
       colors: {
         white,
+        newBlack,
         whiteSecond,
         lightBlue,
         lightBlueHover,
         lynch,
         disabled,
+        darkBlueFocus,
         darkGray,
         comet,
         dimGray,
@@ -194,6 +197,9 @@ const config: Config = {
       },
       transitionProperty: {
         rounded: 'border-radius',
+      },
+      objectPosition: {
+        '30-left': '30% center',
       },
       keyframes: {
         appearBg: {
