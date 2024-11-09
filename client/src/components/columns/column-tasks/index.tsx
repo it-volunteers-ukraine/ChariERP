@@ -103,9 +103,7 @@ export const ColumnTasks = ({ id, title, children, onDeleteColumn, onChangeTitle
         </ToolsDropMenu>
       </div>
 
-      <div className="scroll-textarea flex max-h-[500px] flex-col gap-y-3 overflow-hidden overflow-y-scroll pr-1">
-        {children}
-      </div>
+      <div className="scroll-textarea flex flex-col gap-y-3 overflow-hidden overflow-y-scroll pr-1">{children}</div>
 
       <div className="pr-3">
         <button className={style.addTask}>
