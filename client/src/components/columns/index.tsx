@@ -85,7 +85,6 @@ export const Columns = () => {
               onBlur={onBlurChange}
               className={cn(
                 'max-w-[222`px] text-ellipsis text-nowrap break-all border-[1px] p-2 font-scada text-xl font-bold uppercase text-comet',
-                !createColumn && 'rounded-lg border-skyBlue bg-white',
               )}
               placeholder={translateBtn('addColumn')}
               onChange={handlerInputChange}
