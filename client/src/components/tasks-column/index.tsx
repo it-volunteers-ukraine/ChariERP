@@ -115,7 +115,7 @@ export const TasksColumn = ({ id, title, tasks, onDeleteColumn, idx }: ITasksCol
         </ToolsDropMenu>
       </div>
 
-      <div className="scroll-textarea mr-1 flex max-h-[500px] flex-col gap-y-3 overflow-hidden overflow-y-scroll">
+      <div className="scroll-textarea flex max-h-[500px] flex-col gap-y-3 overflow-hidden overflow-y-scroll pr-1">
         {dataTask?.map((task, index: number) => {
           return (
             <TaskCard
@@ -127,11 +127,13 @@ export const TasksColumn = ({ id, title, tasks, onDeleteColumn, idx }: ITasksCol
         })}
       </div>
 
-      <button className={style.addTask}>
-        <span className="text-2xl font-bold leading-none">+</span>
+      <div className="pr-3">
+        <button className={style.addTask}>
+          <span className="text-2xl font-bold leading-none">+</span>
 
-        <span className="text-sm leading-5">{translateBtn('addTask')}</span>
-      </button>
+          <span className="text-sm leading-5">{translateBtn('addTask')}</span>
+        </button>
+      </div>
     </div>
   );
 };
