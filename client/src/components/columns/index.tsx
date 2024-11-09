@@ -52,8 +52,6 @@ export const Columns = () => {
     refInput.current?.focus();
   };
 
-  console.log(dataColumn);
-
   useEffect(() => {
     if (createColumn && refInput) {
       refInput.current?.focus();
@@ -61,7 +59,7 @@ export const Columns = () => {
   }, [createColumn, dataColumn, refInput]);
 
   return (
-    <div className="scroll-textarea flex h-full gap-6 overflow-x-scroll bg-white px-10 py-5">
+    <div className="scroll-blue scroll-column flex gap-6 overflow-y-hidden overflow-x-scroll bg-white px-5 py-5">
       {dataColumn.map((item, index) => (
         <ColumnTasks
           {...item}
