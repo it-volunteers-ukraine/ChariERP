@@ -24,7 +24,11 @@ import {
 import { Organizations, Users } from '..';
 import { BaseService } from '../database/base.service';
 
-const sortOfDate = { 'organizationData.dateOfRegistration': 1 } as { [key: string]: SortOrder };
+const sort = {
+  [RequestOrganizationStatus.PENDING]: { requestDate: -1 } as { [key: string]: SortOrder },
+  [RequestOrganizationStatus.DECLINED]: { declinedDate: -1 } as { [key: string]: SortOrder },
+  [RequestOrganizationStatus.APPROVED]: { approvalDate: -1 } as { [key: string]: SortOrder },
+};
 
 class OrganizationService extends BaseService {
   async createOrganization(formData: FormData) {
@@ -89,8 +93,8 @@ class OrganizationService extends BaseService {
       page,
       limit,
       populate,
-      sort: sortOfDate,
       model: Organizations,
+      sort: sort[filterStatus],
       filter: { request: filterStatus },
     });
 
@@ -122,6 +126,7 @@ class OrganizationService extends BaseService {
 
     const updateOrganization = {
       declineReason: reason,
+      declinedDate: new Date(),
       request: RequestOrganizationStatus.DECLINED,
     };
 

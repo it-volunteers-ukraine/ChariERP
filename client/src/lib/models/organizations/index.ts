@@ -26,6 +26,7 @@ const organizationsSchema = new Schema<IOrganizations>({
   },
   requestDate: { type: Date, default: Date.now },
   approvalDate: { type: Date },
+  declinedDate: { type: Date },
   users: [
     {
       type: Schema.Types.ObjectId,
