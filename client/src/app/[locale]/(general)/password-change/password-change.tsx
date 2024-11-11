@@ -55,7 +55,7 @@ const PasswordChange = () => {
   };
 
   return (
-    <section className="flex h-screen justify-center bg-bgAuthGradient px-4 pt-16 shadow-passwordChange tablet:px-0">
+    <section className="flex h-full justify-center bg-bgAuthGradient px-4 py-16 shadow-passwordChange tablet:px-0">
       <Formik onSubmit={onSubmit} initialValues={initialValues} validationSchema={validationSchema}>
         {() => (
           <Form className="h-min w-full max-w-[611px] rounded-lg px-[20px] pb-[32px] pt-[44px] shadow-auth tablet:px-[56px] tablet:pb-[48px]">

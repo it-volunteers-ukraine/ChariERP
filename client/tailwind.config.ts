@@ -23,7 +23,6 @@ const redActive = '#B3261E';
 const comet = '#5D647C';
 const mobster = '#79747E';
 const cerise = '#E23A81';
-const caret = '#61B6DB';
 const swissCoffee = '#D0CBCB';
 const lynch = '#687A95';
 const lobLolly = '#BEC6D0';
@@ -34,6 +33,8 @@ const steelBlue = '#3B91BE';
 const Magnolia = '#5D647CB2';
 const superBlue = '#DFF0F8';
 const midGray = '#656575';
+const newBlack = '#1D1B20';
+const darkBlueFocus = '#0C6399';
 const darkGray = '#49454F';
 const arcticSky = '#D0DDEC';
 const amethyst = '#A86CCC';
@@ -50,11 +51,13 @@ const config: Config = {
       ...defaultTheme,
       colors: {
         white,
+        newBlack,
         whiteSecond,
         lightBlue,
         lightBlueHover,
         lynch,
         disabled,
+        darkBlueFocus,
         darkGray,
         comet,
         dimGray,
@@ -73,7 +76,7 @@ const config: Config = {
         red,
         skyBlue,
         title: {
-          title: caret,
+          title: lightBlue,
           media: Magnolia,
         },
         pagination: {
@@ -85,7 +88,7 @@ const config: Config = {
           star: cerise,
           hover: mobster,
           focus: blue,
-          caret,
+          caret: lightBlue,
           disabled: swissCoffee,
           info: `${lynch}80`,
           liteGray,
@@ -99,7 +102,7 @@ const config: Config = {
           'default-text': comet,
           'disabled-text': swissCoffee,
           'disabled-selected-text': lobLolly,
-          'link-default': caret,
+          'link-default': lightBlue,
           'link-disabled': swissCoffee,
           'link-disabled-selected': lobLolly,
           'disabled-check': spunPearl,
@@ -160,6 +163,8 @@ const config: Config = {
         passwordChange: '0px 0px 8px 0px rgba(0, 0, 0, 0.17)',
         boardCard: '0px 0px 3px 0px rgba(0, 0, 0, 0.13), 0px 2px 2px 0px rgba(101, 101, 117, 0.15)',
         status: '0px 0px 2px 0px rgba(101, 101, 117, 0.37)',
+        createColumn: '0px 0px 3px 0px #00000021, 0px 2px 2px 0px #65657526',
+        boardColumn: '0px 0px 3px 0px #00000021, 0px 2px 2px 0px #65657526',
       },
       backgroundSize: {
         200: '201%',
@@ -230,6 +235,14 @@ const config: Config = {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(100%)' },
         },
+        expandToolsMenu: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
+        collapseToolsMenu: {
+          '0%': { opacity: 1 },
+          '100%': { opacity: 0 },
+        },
       },
       animation: {
         portalOpen: 'appearanceOverlay ease-in-out forwards',
@@ -238,6 +251,8 @@ const config: Config = {
         modalClose: 'disappearanceModal ease-in-out forwards',
         openToolsMenu: 'inToolsMenu ease-in-out forwards',
         closeToolsMenu: 'outToolsMenu ease-in-out forwards',
+        startExpand: 'expandToolsMenu ease-in-out forwards',
+        startCollapse: 'collapseToolsMenu ease-in-out forwards',
       },
     },
   },

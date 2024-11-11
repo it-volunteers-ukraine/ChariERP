@@ -154,7 +154,11 @@ export function showErrorMessageOfOrganizationExist(
   return showMessage.error(error('companyAlreadyRegistered', { errors: text }), { autoClose: 5000 });
 }
 
-export const onCopy = (e: MouseEvent<SVGElement | HTMLButtonElement>, text: number | string, messages: string) => {
+export const onCopy = <T extends MouseEvent<HTMLElement | SVGElement> = MouseEvent<SVGElement | HTMLButtonElement>>(
+  e: T,
+  text: number | string,
+  messages: string,
+) => {
   e.stopPropagation();
   navigator.clipboard.writeText(text.toString());
   showMessage.success(messages, { autoClose: 500 });
