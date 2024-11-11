@@ -83,12 +83,13 @@ export const Columns = () => {
               value={value}
               ref={refInput}
               onBlur={onBlurChange}
+              onChange={handlerInputChange}
+              placeholder={translateBtn('addColumn')}
               className={cn(
                 'max-w-[222`px] text-ellipsis text-nowrap break-all border-[1px] p-2 font-scada text-xl font-bold uppercase text-comet',
               )}
-              placeholder={translateBtn('addColumn')}
-              onChange={handlerInputChange}
             />
+
             <button className="box-border flex w-full items-center justify-start gap-x-3 rounded-lg border-[1px] bg-arcticSky p-3 font-roboto text-comet hover:border-skyBlue">
               <span className="text-2xl font-bold leading-none">+</span>
 
@@ -99,10 +100,13 @@ export const Columns = () => {
 
         <button
           onClick={onClickCreateColumn}
-          className="flex h-[254px] w-[254px] flex-col items-center justify-center gap-y-3 rounded-md bg-whiteSecond px-4 py-5"
+          className="flex h-[254px] w-[254px] flex-col items-center justify-center gap-y-3 rounded-md bg-white px-4 py-5 shadow-createColumn"
         >
-          <span className="font-scada text-5xl text-comet">+</span>
-          <p className="w w-[222px] text-nowrap text-center font-scada text-comet">{translateBtn('addColumn')}</p>
+          <span className="font-scada text-5xl text-[rgba(104,122,149,0.5)]">+</span>
+
+          <p className="w-[222px] text-nowrap text-center font-scada text-[rgba(104,122,149,0.5)]">
+            {translateBtn('addColumn')}
+          </p>
         </button>
       </div>
     </div>

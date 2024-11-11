@@ -163,6 +163,8 @@ const config: Config = {
         passwordChange: '0px 0px 8px 0px rgba(0, 0, 0, 0.17)',
         boardCard: '0px 0px 3px 0px rgba(0, 0, 0, 0.13), 0px 2px 2px 0px rgba(101, 101, 117, 0.15)',
         status: '0px 0px 2px 0px rgba(101, 101, 117, 0.37)',
+        createColumn: '0px 0px 3px 0px #00000021, 0px 2px 2px 0px #65657526',
+        boardColumn: '0px 0px 3px 0px #00000021, 0px 2px 2px 0px #65657526',
       },
       backgroundSize: {
         200: '201%',

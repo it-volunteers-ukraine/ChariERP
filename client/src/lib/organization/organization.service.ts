@@ -52,11 +52,7 @@ class OrganizationService extends BaseService {
       return { message: matches, success: false };
     }
 
-    const uploadedFileUrl = await uploadFileToBucket(
-      data.organizationName,
-      BucketFolders.CertificateOfRegister,
-      certificate,
-    );
+    const uploadedFileUrl = await uploadFileToBucket(data.edrpou, BucketFolders.CertificateOfRegister, certificate);
 
     const body = {
       request: RequestOrganizationStatus.PENDING,
