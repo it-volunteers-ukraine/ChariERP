@@ -104,7 +104,7 @@ export const Columns = () => {
         >
           <span className="font-scada text-5xl text-[rgba(104,122,149,0.5)]">+</span>
 
-          <p className="w w-[222px] text-nowrap text-center font-scada text-[rgba(104,122,149,0.5)]">
+          <p className="w-[222px] text-nowrap text-center font-scada text-[rgba(104,122,149,0.5)]">
             {translateBtn('addColumn')}
           </p>
         </button>
