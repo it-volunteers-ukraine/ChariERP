@@ -79,5 +79,5 @@ export const getStyles = ({
   iconClose: 'hover:text-error',
   iconCopyDiv: 'flex cursor-pointer peer-focus:[&>svg]:text-input-focus ',
   iconCopy: 'text-lightBlue hover:text-dark-blue active:text-greenActive',
-  search: 'w-[18px] text-lightBlue cursor-pointer hover:scale-110 transition-all duration-200',
+  search: 'w-[24px] text-lightBlue cursor-pointer hover:scale-110 transition-all duration-200 mr-3',
 });
