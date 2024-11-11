@@ -55,7 +55,7 @@ export const Footer = () => {
         </div>
       </div>
       <Link href={routes.privacyPolicy} className="block text-center font-scada text-xs text-white">
-        © 2023 Charli, {footer('privacyPolicy')}
+        © 2024 ChariERP, {footer('privacyPolicy')}
       </Link>
     </footer>
   );

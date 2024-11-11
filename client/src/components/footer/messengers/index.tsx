@@ -8,9 +8,13 @@ export interface IMessengers extends ISocial {
   icon?: string;
 }
 
-export const Messengers = ({ Icon, link, icon }: IMessengers) => {
+export const Messengers = ({ Icon, link, icon, name }: IMessengers) => {
   return (
-    <Link href={link} className={cn('active:text-b text-white transition-all duration-300 hover:text-dark-blue', icon)}>
+    <Link
+      href={name === 'email' ? `mailto:${link}` : link}
+      target="_blank"
+      className={cn('active:text-b text-white transition-all duration-300 hover:text-dark-blue', icon)}
+    >
       <Icon />
     </Link>
   );

@@ -5,14 +5,17 @@ import { INavigate, ISocial, IConfigFooter } from './types';
 
 const social: ISocial[] = [
   {
+    name: 'facebook',
     Icon: FacebookSocial,
-    link: 'https://facebook.com/it/volunteers',
+    link: 'https://facebook.com/it.volunteers.ukraine',
   },
   {
+    name: 'instagram',
     Icon: InstagramSocial,
     link: 'https://www.instagram.com/it.volunteers.ukraine/',
   },
   {
+    name: 'email',
     Icon: EmailSocial,
     link: 'it.volunteers.ukraine@gmail.com',
   },
