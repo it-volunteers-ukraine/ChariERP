@@ -3,12 +3,12 @@
 import { MouseEvent, useState } from 'react';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 
-import { routes } from '@/constants';
 import { Copy, Doc } from '@/assets/icons';
+import { dateFormat, routes } from '@/constants';
+import { onCopy, openNewWindowForCertificate } from '@/utils';
 import { RequestOrganizationStatus, RowItemProps } from '@/types';
-import { dateFormat, onCopy, openNewWindowForCertificate } from '@/utils';
 import { Button, ModalAdmin, showMessage, ModalDecline, EllipsisText } from '@/components';
 import {
   getImageAction,
@@ -18,7 +18,6 @@ import {
 } from '@/actions';
 
 export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
-  const locale = useLocale();
   const router = useRouter();
 
   const btn = useTranslations('button');
@@ -164,7 +163,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
         </div>
 
         <div className="mt-6 font-robotoCondensed text-lg leading-[22px] laptop:mt-0 laptop:text-center">
-          {item.requestDate && format(new Date(item.requestDate), dateFormat[locale])}
+          {item.requestDate && format(new Date(item.requestDate), dateFormat)}
         </div>
 
         <div
