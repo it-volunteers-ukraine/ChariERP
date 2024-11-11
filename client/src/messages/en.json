@@ -278,7 +278,9 @@
       "labelTextarea": "Message",
       "buttonSubmit": "Submit form",
       "labelEmail": "E-mail address (e-mail)",
-      "labelPhone": "Phone number (with area code)"
+      "labelPhone": "Phone number (with area code)",
+      "successfully": "Email sent successfully!",
+      "error": "Error sending email!"
     }
   },
   "footer": {
