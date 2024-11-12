@@ -16,9 +16,8 @@ export const OpportunityChariCircle = () => {
 
         <div className="relative box-border h-[330px] w-[330px] rotate-[-90deg] tablet:h-[698px] tablet:w-[698px] tablet:animate-spinner laptop:h-[771px] laptop:w-[771px] desktop:h-[991px] desktop:w-[991px]">
           {cards.map((card, index) => {
-            const arc = 2 * Math.PI * (1 / cards.length);
             const radius = 37;
-            const angle = index * arc;
+            const angle = index * 2 * Math.PI * (1 / cards.length);
 
             const x = Math.floor(radius * Math.cos(angle) + 50);
             const y = Math.floor(radius * Math.sin(angle) + 50);
