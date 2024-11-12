@@ -201,12 +201,20 @@ const config: Config = {
         '30-left': '30% center',
       },
       keyframes: {
-        notRotate: {
+        spinner: {
           '0%': {
-            transform: 'rotate(0)',
+            transform: 'rotate(-90deg)',
           },
           '100%': {
-            transform: 'rotate(-360deg)',
+            transform: 'rotate(270deg)',
+          },
+        },
+        notRotate: {
+          '0%': {
+            transform: 'translate(-50%, -50%) rotate(90deg)',
+          },
+          '100%': {
+            transform: 'translate(-50%, -50%) rotate(-270deg)',
           },
         },
         appearBg: {
@@ -249,7 +257,7 @@ const config: Config = {
         modalClose: 'disappearanceModal ease-in-out forwards',
         openToolsMenu: 'inToolsMenu ease-in-out forwards',
         closeToolsMenu: 'outToolsMenu ease-in-out forwards',
-        spin: 'spin 30s linear infinite',
+        spinner: 'spinner 30s linear infinite',
         notRotate: 'notRotate 30s linear infinite',
       },
     },
