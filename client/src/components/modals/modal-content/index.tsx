@@ -21,7 +21,7 @@ export const ModalContent = ({ name, setFieldValue, organizationName, values }: 
     <>
       <div className="mb-1 flex flex-col gap-4">
         <div className="lending-6 flex flex-col text-center text-mobster">
-          <span>{organizationName}</span>
+          <span className="break-words">{organizationName}</span>
           <span>{modal('subTitle')}</span>
         </div>
 

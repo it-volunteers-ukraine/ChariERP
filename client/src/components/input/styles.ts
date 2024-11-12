@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { cn } from '@/utils';
 
 interface IStylesInput {
   type?: string;
@@ -30,10 +30,10 @@ export const getStyles = ({
   visiblePassword,
   placeholderItalic,
 }: IStylesInput) => ({
-  wrapper: clsx('relative items-baseline flex flex-col laptop:flex-row gap-1 laptop:gap-6 items-start w-full', {
+  wrapper: cn('relative items-baseline flex flex-col laptop:flex-row gap-1 laptop:gap-6 items-start w-full', {
     [`${wrapperClass}`]: !!wrapperClass,
   }),
-  fieldset: clsx(
+  fieldset: cn(
     'relative flex align-center pb-3 w-full overflow-hidden transition-all duration-300 border rounded group/item',
     {
       'h-[64px]': type !== 'search',
@@ -47,15 +47,15 @@ export const getStyles = ({
       'h-auto': isTextarea,
     },
   ),
-  star: clsx('text-[14px]/[13px] tracking-[0.4px]', {
+  star: cn('text-[14px]/[13px] tracking-[0.4px]', {
     'text-input-star': !disabled,
     'text-input-disabled': disabled,
   }),
-  label: clsx('text-[13px]/[13px]', {
+  label: cn('text-[13px]/[13px]', {
     'text-input-text': !disabled,
     'text-input-disabled': disabled,
   }),
-  input: clsx('peer items-center w-full px-[14px] caret-input-focus placeholder:text-input-info bg-transparent', {
+  input: cn('peer items-center w-full px-[14px] caret-input-focus placeholder:text-input-info bg-transparent', {
     italic: placeholderItalic && !value,
     'pr-10 text-input-text truncate': value,
     'text-input-info': placeholder && !value,
@@ -71,13 +71,13 @@ export const getStyles = ({
       type === 'number',
   }),
   div: 'flex cursor-pointer peer-focus:[&>svg]:text-input-focus',
-  iconEye: clsx('absolute mb-3 right-3 transition-all duration-300 text-input-text'),
+  iconEye: 'absolute mb-3 right-3 transition-all duration-300 text-input-text',
   error: 'text-input-error text-[12px]/[14px]',
   infoSpan: 'text-input-info text-[14px]/[20px]',
   fileType: 'hidden',
   iconClip: 'group-hover/item:text-green',
   iconClose: 'hover:text-error',
   iconCopyDiv: 'flex cursor-pointer peer-focus:[&>svg]:text-input-focus ',
-  iconCopy: 'hover:text-green',
+  iconCopy: 'text-lightBlue hover:text-dark-blue active:text-greenActive',
   search: 'w-[18px] text-lightBlue cursor-pointer hover:scale-110 transition-all duration-200',
 });

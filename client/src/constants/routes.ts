@@ -24,5 +24,6 @@ export const routes = {
   home: '/',
   login: '/sign-in',
   passwordChange: '/password-change',
+  privacyPolicy: '/privacy-policy',
   registration: '/sign-up',
 };

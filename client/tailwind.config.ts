@@ -4,19 +4,12 @@ const defaultTheme = require('tailwindcss/defaultConfig');
 import { media } from './src/constants';
 
 //Colors
-const amethyst = '#A86CCC';
-const arcticSky = '#D0DDEC';
 const blue = '#2C73AC';
 const blueCrayola = '#78D6EF';
-const caret = '#61B6DB';
-const cerise = '#E23A81';
-const comet = '#5D647C';
-const darkGray = '#49454F';
+const redHover = '#C83C34';
 const deepBlue = '#3879B6';
-const dimGray = '#656575B2';
 const disabled = '#C2C3C5';
 const ebb = '#E7E2E2';
-const emeraldGreen = '#40BC6A';
 const error = '#B3261E';
 const green = '#84BB46';
 const greenActive = '#178D40';
@@ -24,15 +17,23 @@ const greenHover = '#34AB5D';
 const greenNormal = '#5BC780';
 const lightBlue = '#61B6DB';
 const lightBlueHover = '#E8EEFB';
-const liteGray = '#A3A3A3';
-const lobLolly = '#BEC6D0';
-const lynch = '#687A95';
-const Magnolia = '#5D647CB2';
-const midGray = '#656575';
-const mobster = '#79747E';
 const red = '#DD6B64';
 const redActive = '#B3261E';
-const redHover = '#C83C34';
+const comet = '#5D647C';
+const mobster = '#79747E';
+const cerise = '#E23A81';
+const lynch = '#687A95';
+const lobLolly = '#BEC6D0';
+const liteGray = '#A3A3A3';
+const dimGray = '#656575B2';
+const Magnolia = '#5D647CB2';
+const midGray = '#656575';
+const newBlack = '#1D1B20';
+const darkBlueFocus = '#0C6399';
+const darkGray = '#49454F';
+const arcticSky = '#D0DDEC';
+const amethyst = '#A86CCC';
+const emeraldGreen = '#40BC6A';
 const skyBlue = '#5684C6';
 const spunPearl = '#A8A8AD';
 const steelBlue = '#3B91BE';
@@ -52,11 +53,13 @@ const config: Config = {
       colors: {
         ebb,
         white,
+        newBlack,
         whiteSecond,
         lightBlue,
         lightBlueHover,
         lynch,
         disabled,
+        darkBlueFocus,
         darkGray,
         comet,
         dimGray,
@@ -75,7 +78,7 @@ const config: Config = {
         red,
         skyBlue,
         title: {
-          title: caret,
+          title: lightBlue,
           media: Magnolia,
         },
         pagination: {
@@ -87,7 +90,7 @@ const config: Config = {
           star: cerise,
           hover: mobster,
           focus: blue,
-          caret,
+          caret: lightBlue,
           disabled: swissCoffee,
           info: `${lynch}80`,
           liteGray,
@@ -101,7 +104,7 @@ const config: Config = {
           'default-text': comet,
           'disabled-text': swissCoffee,
           'disabled-selected-text': lobLolly,
-          'link-default': caret,
+          'link-default': lightBlue,
           'link-disabled': swissCoffee,
           'link-disabled-selected': lobLolly,
           'disabled-check': spunPearl,
@@ -163,6 +166,8 @@ const config: Config = {
         passwordChange: '0px 0px 8px 0px rgba(0, 0, 0, 0.17)',
         boardCard: '0px 0px 3px 0px rgba(0, 0, 0, 0.13), 0px 2px 2px 0px rgba(101, 101, 117, 0.15)',
         status: '0px 0px 2px 0px rgba(101, 101, 117, 0.37)',
+        createColumn: '0px 0px 3px 0px #00000021, 0px 2px 2px 0px #65657526',
+        boardColumn: '0px 0px 3px 0px #00000021, 0px 2px 2px 0px #65657526',
       },
       backgroundSize: {
         200: '201%',
@@ -249,6 +254,14 @@ const config: Config = {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(100%)' },
         },
+        expandToolsMenu: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
+        collapseToolsMenu: {
+          '0%': { opacity: 1 },
+          '100%': { opacity: 0 },
+        },
       },
       animation: {
         portalOpen: 'appearanceOverlay ease-in-out forwards',
@@ -259,6 +272,8 @@ const config: Config = {
         closeToolsMenu: 'outToolsMenu ease-in-out forwards',
         spinner: 'spinner 30s linear infinite',
         notRotate: 'notRotate 30s linear infinite',
+        startExpand: 'expandToolsMenu ease-in-out forwards',
+        startCollapse: 'collapseToolsMenu ease-in-out forwards',
       },
     },
   },

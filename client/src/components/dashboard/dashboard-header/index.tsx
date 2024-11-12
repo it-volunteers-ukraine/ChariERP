@@ -17,7 +17,7 @@ export const DashboardHeader = () => {
   const router = useRouter();
   const path = usePathname();
   const { role } = useUserInfo();
-  const { isTablet } = useWindowWidth();
+  const { isLaptop } = useWindowWidth();
   const linkText = useTranslations('sidebar');
 
   const links = getLinksByRole((key, params) => linkText(key, params), role);
@@ -36,9 +36,9 @@ export const DashboardHeader = () => {
         <span className="font-scada text-[20px] font-normal text-lightBlue">{titleNav?.title}</span>
 
         <div className="flex gap-6">
-          <Avatar img={null} name="Super_admin1" />
+          <Avatar img={null} name={isLaptop ? 'Super_admin1' : ''} />
 
-          {isTablet && (
+          {isLaptop && (
             <>
               <Exit
                 onClick={onExit}
