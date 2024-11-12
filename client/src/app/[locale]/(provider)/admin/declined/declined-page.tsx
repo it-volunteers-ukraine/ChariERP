@@ -55,7 +55,7 @@ export const DeclinedPage = () => {
         onChange={setPage}
         pageSize={pageSize}
         total={totalRecords}
-        className="my-auto max-w-[440px] py-16 desktop:ml-11"
+        className="my-auto max-w-[440px] py-16 desktop:ml-8"
       />
     </>
   );

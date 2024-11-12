@@ -23,7 +23,7 @@ export const Pagination = ({
 }: IPagination) => {
   const { isMobile } = useWindowWidth();
 
-  const wrapper = clsx('mx-auto w-full py-8', {
+  const wrapper = clsx('flex justify-center w-full py-8 desktop:justify-start m-auto desktop:m-0', {
     [`${className}`]: !!className,
   });
 

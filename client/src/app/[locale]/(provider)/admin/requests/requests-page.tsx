@@ -55,7 +55,7 @@ export const RequestsPage = () => {
         onChange={setPage}
         pageSize={pageSize}
         total={totalRecords}
-        className="my-auto max-w-[440px] desktop:ml-11"
+        className="my-auto max-w-[440px] desktop:ml-8"
       />
     </>
   );
