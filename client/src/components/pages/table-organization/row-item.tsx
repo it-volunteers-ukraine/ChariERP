@@ -1,17 +1,16 @@
 'use client';
 
-import { MouseEvent } from 'react';
 import { format } from 'date-fns';
+import { MouseEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 
-import { routes } from '@/constants';
+import { onCopy } from '@/utils';
 import { RowItemOrgProps } from '@/types';
 import { Copy, User } from '@/assets/icons';
-import { dateFormat, onCopy } from '@/utils';
+import { dateFormat, routes } from '@/constants';
 
 export const RowItem = ({ item }: RowItemOrgProps) => {
-  const locale = useLocale();
   const router = useRouter();
   const table = useTranslations('table');
   const messagesCopy = useTranslations('copy');
@@ -51,7 +50,7 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
       </div>
 
       <div className="mt-6 font-robotoCondensed text-lg leading-[22px] laptop:mt-0 laptop:hidden laptop:text-center">
-        {item.approvalDate && format(new Date(item.approvalDate), dateFormat[locale])}
+        {item.approvalDate && format(new Date(item.approvalDate), dateFormat)}
       </div>
 
       <div className="mt-6 flex items-center justify-end laptop:mt-0 laptop:justify-center">
@@ -63,7 +62,7 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
       </div>
 
       <div className="mt-6 hidden font-robotoCondensed text-lg leading-[22px] laptop:mt-0 laptop:block laptop:text-center">
-        {item.approvalDate && format(new Date(item.approvalDate), dateFormat[locale])}
+        {item.approvalDate && format(new Date(item.approvalDate), dateFormat)}
       </div>
 
       <span className="mt-6 font-robotoCondensed text-lg leading-[22px] text-dimGray laptop:hidden">
