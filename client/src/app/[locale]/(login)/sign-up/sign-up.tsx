@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { KeyboardEvent, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikHelpers } from 'formik';
 
@@ -73,6 +73,12 @@ const SignUp = () => {
     setIsOpenModal(false);
   };
 
+  const pressKeyboard = (e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (!/^[0-9]*$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Tab') {
+      e.preventDefault();
+    }
+  };
+
   return (
     <Formik
       validateOnBlur
@@ -127,6 +133,7 @@ const SignUp = () => {
                   required
                   type="number"
                   name="edrpou"
+                  onKeyDown={pressKeyboard}
                   wrapperClass="laptop:max-w-[calc(50%-12px)]"
                   label={text('organizationTaxNumber.labelErdpouOfOrganization')}
                 />
