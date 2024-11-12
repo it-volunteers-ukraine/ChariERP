@@ -21,7 +21,7 @@ export const HomePage = () => {
         </div>
       </div>
 
-      <div className="m-auto flex max-w-[1920px] flex-col gap-[96px] overflow-hidden tablet:gap-[120px] laptop:gap-[168px] desktop:gap-[216px] desktopXl:gap-[288px]">
+      <div className="m-auto flex max-w-[1920px] flex-col gap-[96px] overflow-hidden px-4 tablet:gap-[120px] tablet:px-8 laptop:gap-[168px] desktop:gap-[216px] desktop:px-[136px] desktopXl:gap-[288px] desktopXl:px-[86px]">
         <RevealOnScroll />
 
         <OpportunityChariCircle />
