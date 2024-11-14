@@ -4,7 +4,7 @@ import {
   ProcessControl,
   FinancialManagement,
   MembershipAndParticipation,
-} from '../../assets';
+} from '../../assets/icons';
 
 export const cards = [
   {

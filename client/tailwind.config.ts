@@ -154,6 +154,7 @@ const config: Config = {
         bgAuthGradient: 'linear-gradient(90.36deg, #cfedf8 0.31%, #ffffff 25.15%, #FFFFFF 74.85%, #cfeef7 99.69%)',
         bgAuthLinks: 'linear-gradient(135deg, #78D6EF 0%, #3879B6 100%)',
         outlineBlueBtnText: 'linear-gradient(135deg, #0c6399 0%, #60adf3 50%, #61b6db 100%)',
+        bgNGOs: 'linear-gradient(180deg, #0677BA 0%, #08335F 89%)',
       },
       boxShadow: {
         btn: { inset: 'inset 0px 0px 5px 2px rgba(0,0,0,0.1)' },

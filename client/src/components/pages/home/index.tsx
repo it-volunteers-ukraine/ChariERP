@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { MainThemeBg } from '@/assets/img';
 
-import { Modal, OpportunityChariCircle, RevealOnScroll } from './components';
+import { ForNGOs, Modal, OpportunityChariCircle, RevealOnScroll } from './components';
 
 export const HomePage = () => {
   return (
@@ -21,12 +21,12 @@ export const HomePage = () => {
         </div>
       </div>
 
-      <div className="m-auto flex max-w-[1920px] flex-col gap-[96px] overflow-hidden px-4 tablet:gap-[120px] tablet:px-8 laptop:gap-[168px] desktop:gap-[216px] desktop:px-[136px] desktopXl:gap-[288px] desktopXl:px-[86px]">
+      <div className="m-auto flex max-w-[1920px] flex-col gap-[96px] overflow-hidden">
         <RevealOnScroll />
 
         <OpportunityChariCircle />
 
-        <div>AAA</div>
+        <ForNGOs />
       </div>
     </>
   );
