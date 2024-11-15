@@ -5,6 +5,7 @@ const defaultTheme = require('tailwindcss/defaultConfig');
 import { media } from './src/constants';
 
 //Colors
+const java = '#14ADD6';
 const blue = '#2C73AC';
 const blueCrayola = '#78D6EF';
 const redHover = '#C83C34';
@@ -53,6 +54,7 @@ const config: Config = {
       ...defaultTheme,
       colors: {
         ebb,
+        java,
         white,
         newBlack,
         whiteSecond,
@@ -144,6 +146,7 @@ const config: Config = {
         overlay: '#687a95',
       },
       backgroundImage: {
+        arrowBg: 'linear-gradient(60deg, #78D6EF 0%, #3879B6 100%)',
         burger: 'linear-gradient(315deg, #78D6EF 0%, #3879B6 100%)',
         scrollItemBg: 'linear-gradient(135deg, #78D6EF 0%, #1E619F 100%)',
         boardAside: blueCrayolaToDeepBlue,
