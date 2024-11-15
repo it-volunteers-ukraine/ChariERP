@@ -7,15 +7,16 @@ import { RadioField } from '@/components';
 
 import { getStyles } from './styles';
 import { IModalContent } from './types';
+import { Warning } from '@/assets/icons';
 
-export const ModalContent = ({ name, setFieldValue, organizationName, values }: IModalContent) => {
+export const ModalContent = ({ name, setFieldValue, organizationName, values, errors }: IModalContent) => {
   const modal = useTranslations('modal.decline');
 
   const [textareaValue, setTextareaValue] = useState('');
 
   const isOtherSelected = values ? values[name] === modal('radioBtn.other') : false;
 
-  const styles = getStyles(isOtherSelected);
+  const styles = getStyles(isOtherSelected, !!errors.otherReason);
 
   return (
     <>
@@ -69,6 +70,14 @@ export const ModalContent = ({ name, setFieldValue, organizationName, values }: 
           }}
           onBlur={() => setFieldValue && setFieldValue('otherReason', textareaValue)}
         />
+
+        {errors.otherReason && (
+          <div className="flex gap-3 pl-2">
+            <Warning width={24} height={24} />
+
+            <span className="text-[14px] text-input-error">{errors.otherReason}</span>
+          </div>
+        )}
       </div>
     </>
   );
