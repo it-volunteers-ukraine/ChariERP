@@ -1,5 +1,5 @@
-import { Accordion } from './accordion';
 import { mockData } from './mock';
+import { Accordion } from './accordion';
 
 export const KeyAdvantages = () => {
   return (
