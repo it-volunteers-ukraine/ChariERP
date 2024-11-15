@@ -83,8 +83,6 @@ export const EllipsisText = ({
       const distanceLeft = targetRect.left + scrollX + targetRect.width / 2 - tooltipWrapperRect.width / 2;
       const distanceRight = windowWidth - distanceLeft - tooltipWrapperRect.width;
 
-      style.maxWidth = 'calc(100% - 20px)';
-
       if (distanceLeft < 11 && distanceRight < 50) {
         style.left = '10px';
         style.marginRight = '10px';
