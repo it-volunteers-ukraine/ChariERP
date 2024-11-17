@@ -14,7 +14,7 @@ export const Modal = ({ onClick }: { onClick: () => void }) => {
         </h1>
 
         <p className="text-center font-scada text-[14px] font-bold leading-[120%] text-darkGray tablet:text-[20px] laptop:text-[24px]">
-          {modal('home.text')}
+          {modal('homePageModal.text')}
         </p>
       </div>
 

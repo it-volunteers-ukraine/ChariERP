@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { MainThemeBg } from '@/assets/img';
 
-import { Modal } from '../modal';
+import { Modal } from './modal';
 
 export const MainTheme = () => {
   return (

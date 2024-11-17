@@ -6,25 +6,25 @@ import {
   MembershipAndParticipation,
 } from '../../assets/icons';
 
-export const cards = [
+export const cardsData = (text: (key: string) => string) => [
   {
     icon: ProcessControl,
-    text: 'УПРАВЛІННЯ ПРОЦЕСАМИ',
+    text: text('buttons.firstButtonText'),
   },
   {
     icon: MembershipAndParticipation,
-    text: 'ЧЛЕНСТВО ТА УЧАСТЬ',
+    text: text('buttons.secondButtonText'),
   },
   {
     icon: Analytics,
-    text: 'АНАЛІТИКА',
+    text: text('buttons.thirdButtonText'),
   },
   {
     icon: Communication,
-    text: 'КОМУНІКАЦІЯ',
+    text: text('buttons.fourButtonText'),
   },
   {
     icon: FinancialManagement,
-    text: 'ФІНАНСОВИЙ МЕНЕДЖМЕНТ',
+    text: text('buttons.fiveButtonText'),
   },
 ];

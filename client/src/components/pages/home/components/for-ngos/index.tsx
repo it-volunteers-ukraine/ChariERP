@@ -1,10 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { useInView } from 'react-intersection-observer';
 
-import { mockData } from './mock';
+import { cardsData } from './mock';
 
 export const ForNGOs = () => {
+  const text = useTranslations('homePage.forNGOs');
+  const cards = cardsData(text);
+
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -19,7 +23,7 @@ export const ForNGOs = () => {
           </h2>
 
           <p className="font-scada uppercase leading-[100%] text-superBlue tablet:w-[50%] tablet:text-[20px] laptop:text-[24px] desktop:w-[60%] desktop:text-[32px] desktopXl:w-full">
-            Розроблено спеціально під потреби громадських організацій
+            {text('title')}
           </p>
         </div>
 
@@ -27,7 +31,7 @@ export const ForNGOs = () => {
           ref={ref}
           className="grid grid-cols-1 gap-y-[40px] tablet:grid-cols-2 tablet:gap-x-[32px] tablet:gap-y-[24px] laptop:gap-x-[42px] laptop:gap-y-[32px] desktop:laptop:gap-x-[80px] desktopXl:gap-x-[40px]"
         >
-          {mockData.map((item, index) => {
+          {cards.map((item, index) => {
             return (
               <motion.div
                 key={index}

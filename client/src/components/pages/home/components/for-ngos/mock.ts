@@ -1,34 +1,34 @@
 import { Adaptability, Defense, Efficiency, Happy, Integration, Support } from '../../assets/icons';
 
-export const mockData = [
+export const cardsData = (text: (key: string) => string) => [
   {
     icon: Integration,
-    title: 'Інтеграція процесів',
-    text: 'Об’єднуйте всі важливі процеси в одну платформу для покращення координації та продуктивності.',
+    title: text('cards.firstCard.title'),
+    text: text('cards.firstCard.text'),
   },
   {
     icon: Happy,
-    title: 'Зручність використання',
-    text: 'Інтуїтивно зрозумілий інтерфейс, який не потребує спеціальних технічних знань.',
+    title: text('cards.secondCard.title'),
+    text: text('cards.secondCard.text'),
   },
   {
     icon: Efficiency,
-    title: 'Ефективність',
-    text: 'Зменшення часу на адміністративні задачі та оптимізація використання ресурсів.',
+    title: text('cards.thirdCard.title'),
+    text: text('cards.thirdCard.text'),
   },
   {
     icon: Adaptability,
-    title: 'Адаптивність',
-    text: 'Легко налаштовується під конкретні потреби вашої організації.',
+    title: text('cards.fourCard.title'),
+    text: text('cards.fourCard.text'),
   },
   {
     icon: Defense,
-    title: 'Безпека',
-    text: 'Високий рівень захисту даних для забезпечення конфіденційності та надійності.',
+    title: text('cards.fiveCard.title'),
+    text: text('cards.fiveCard.text'),
   },
   {
     icon: Support,
-    title: 'Підтримка та навчання',
-    text: 'Наша команда забезпечує технічну підтримку і навчання користувачів для використання системи.',
+    title: text('cards.sixCard.title'),
+    text: text('cards.sixCard.text'),
   },
 ];

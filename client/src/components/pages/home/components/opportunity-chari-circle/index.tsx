@@ -1,16 +1,20 @@
-import { cards } from './mock';
+import { useTranslations } from 'next-intl';
+
 import { Title } from './title';
+import { cardsData } from './mock';
 
 export const OpportunityChariCircle = () => {
+  const text = useTranslations('homePage.opportunityChariCircle');
+  const cards = cardsData(text);
   const iconWidth = 'w-[106px] tablet:w-[184px] laptop:w-[208px] desktop:w-[258px]';
 
   return (
     <div>
-      <Title text="Можливості Chari ERP" className="m-auto block max-w-[202px] pb-[48px] text-[24px] tablet:hidden" />
+      <Title text={text('title')} className="m-auto block max-w-[202px] pb-[48px] text-[24px] tablet:hidden" />
 
       <div className="relative m-auto flex w-fit items-center justify-center">
         <Title
-          text="Можливості Chari ERP"
+          text={text('title')}
           className="absolute z-20 hidden tablet:block tablet:max-w-[202px] tablet:text-[32px] laptop:max-w-[227px] laptop:text-[36px] desktop:max-w-[315px] desktop:text-[50px]"
         />
 
