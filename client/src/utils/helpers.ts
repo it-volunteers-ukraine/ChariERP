@@ -6,11 +6,6 @@ import { TranslationValues } from 'next-intl';
 import { showMessage } from '@/components';
 import { DownloadType, Fields, GetUrlProps, IOrganizations } from '@/types';
 
-export const dateFormat: Record<string, string> = {
-  ua: 'dd.MM.yyyy',
-  en: 'MM.dd.yyyy',
-};
-
 const switchExtension = (extension: string) => {
   switch (extension) {
     case 'pdf':

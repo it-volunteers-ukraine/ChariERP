@@ -3,9 +3,10 @@ import { useTranslations } from 'next-intl';
 
 import { Form, Formik, FormikHelpers } from 'formik';
 
-import { Button, InputField } from '@/components';
+import { sendEmail } from '@/services';
+import { Button, InputField, showMessage } from '@/components';
 
-import { InitialValues } from './config';
+import { emailData, InitialValues } from './config';
 import { ValidationSchema } from './validationSchema';
 
 type InitialValuesType = typeof InitialValues;
@@ -17,13 +18,19 @@ export const FeedbackForm = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (values: InitialValuesType, { resetForm }: FormikHelpers<InitialValuesType>) => {
+  const handleSubmit = async (values: InitialValuesType, { resetForm }: FormikHelpers<InitialValuesType>) => {
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
 
-    resetForm();
+    try {
+      await sendEmail(emailData(values));
+      showMessage.success(feedbackForm('successfully'));
+      resetForm();
+    } catch (error) {
+      console.error(error);
+      showMessage.error(feedbackForm('error'));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

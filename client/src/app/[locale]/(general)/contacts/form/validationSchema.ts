@@ -23,4 +23,5 @@ export const ValidationSchema = (error: (key: string, params?: TranslationValues
     message: Yup.string()
       .trim()
       .max(400, error('maxPlural', { int: 400 })),
+    phone: Yup.string().trim().required(error('required')),
   });
