@@ -5,7 +5,7 @@ import { IModalAdminProps } from './types';
 export const ModalAdmin = ({
   title,
   isOpen,
-  errors,
+  isError,
   content,
   onClose,
   subtitle,
@@ -42,7 +42,7 @@ export const ModalAdmin = ({
             text={btnConfirmText}
             isLoading={isLoading}
             className={classNameBtn}
-            disabled={errors?.otherReason ? true : false}
+            disabled={isError}
           />
 
           <Button styleType="red" className={classNameBtn} onClick={onClose} text={btnCancelText} />

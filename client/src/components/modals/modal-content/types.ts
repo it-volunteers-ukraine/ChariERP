@@ -1,14 +1,9 @@
-import { FormikErrors, FormikValues } from 'formik';
-
-export interface FormValues {
-  otherReason: string;
-  declineReason: string;
-}
+import { FormikValues } from 'formik';
 
 export interface IModalContent {
   name: string;
+  error?: string;
   values?: FormikValues;
   organizationName: string;
-  errors: FormikErrors<FormValues>;
   setFieldValue?: (field: string, value: string | boolean, shouldValidate?: boolean) => void;
 }

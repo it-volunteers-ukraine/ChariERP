@@ -9,14 +9,14 @@ import { getStyles } from './styles';
 import { IModalContent } from './types';
 import { Warning } from '@/assets/icons';
 
-export const ModalContent = ({ name, setFieldValue, organizationName, values, errors }: IModalContent) => {
+export const ModalContent = ({ name, setFieldValue, organizationName, values, error }: IModalContent) => {
   const modal = useTranslations('modal.decline');
 
   const [textareaValue, setTextareaValue] = useState('');
 
   const isOtherSelected = values ? values[name] === modal('radioBtn.other') : false;
 
-  const styles = getStyles(isOtherSelected, !!errors.otherReason);
+  const styles = getStyles(isOtherSelected, !!error);
 
   return (
     <>
@@ -71,11 +71,11 @@ export const ModalContent = ({ name, setFieldValue, organizationName, values, er
           onBlur={() => setFieldValue && setFieldValue('otherReason', textareaValue)}
         />
 
-        {errors.otherReason && (
+        {error && (
           <div className="flex gap-3 pl-2">
             <Warning width={24} height={24} />
 
-            <span className="text-[14px] text-input-error">{errors.otherReason}</span>
+            <span className="text-[14px] text-input-error">{error}</span>
           </div>
         )}
       </div>
