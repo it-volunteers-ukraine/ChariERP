@@ -23,12 +23,9 @@ export const sendEmail = async ({ to, subject, text, html }: ISendEmailProps) =>
     from: { name: 'Chari ERP', email: emailFrom! },
   };
 
-  sgMail
-    .send(message)
-    .then(() => {
-      console.warn('Email sent');
-    })
-    .catch((error) => {
-      console.log('Send Grid Error: ', error);
-    });
+  try {
+    await sgMail.send(message);
+  } catch (error) {
+    return Promise.reject(error);
+  }
 };

@@ -3,7 +3,7 @@ import { cn } from '@/utils';
 export const getStyles = (isDisable: boolean) => {
   return {
     columTask:
-      'flex min-h-[254px] h-fit max-h-full w-[254px] flex-col gap-y-3 rounded-md bg-whiteSecond pl-4 pr-1 py-5',
+      'flex min-h-[254px] h-fit max-h-full w-[254px] flex-col gap-y-3 rounded-md bg-whiteSecond pl-4 pr-1 py-5 shadow-boardColumn',
     titleBox: 'relative w-[222px] pr-3 flex items-center justify-between',
     input: cn(
       'max-w-[190px] text-nowrap text-ellipsis break-all p-2 font-scada border-[1px] text-xl font-bold uppercase text-comet',

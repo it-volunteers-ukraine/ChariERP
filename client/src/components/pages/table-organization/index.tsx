@@ -18,6 +18,7 @@ const pageSize = 12;
 
 export const TableOrganization = () => {
   const table = useTranslations('table');
+  const placeholder = useTranslations('inputs.placeholder');
 
   const [page, setPage] = useState(1);
   const { setIsLoading } = useLoaderAdminPage();
@@ -67,7 +68,8 @@ export const TableOrganization = () => {
           type="search"
           name="requisitionSearch"
           label="requisitionSearch"
-          wrapperClass="mb-6 px-6 tablet:pl-8 tablet:max-w-[373px]"
+          placeholder={placeholder('searchTable')}
+          wrapperClass="mb-6 px-4 tablet:pl-8 tablet:pr-0 tablet:max-w-[405px] desktop:max-w-[541px]"
         />
 
         <div className={wrapper}>

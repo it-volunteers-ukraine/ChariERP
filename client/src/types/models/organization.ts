@@ -25,6 +25,7 @@ export interface IMediaData {
 
 export interface IOrganizations extends Document {
   requestDate: Date;
+  declinedDate: Date;
   approvalDate: Date;
   mediaData: IMediaData;
   declineReason?: string;
