@@ -83,16 +83,15 @@ export const EllipsisText = ({
       const distanceLeft = targetRect.left + scrollX + targetRect.width / 2 - tooltipWrapperRect.width / 2;
       const distanceRight = windowWidth - distanceLeft - tooltipWrapperRect.width;
 
-      if (distanceLeft < 11 && distanceRight < 50) {
-        style.left = '10px';
-        style.marginRight = '10px';
-      } else if (distanceLeft < 11 || distanceRight < 11) {
+      if (distanceLeft < 11 || distanceRight < 11) {
         if (distanceLeft < 11) {
           style.left = '10px';
+          style.marginRight = '10px';
         }
 
         if (distanceRight < 11) {
           style.right = '10px';
+          style.marginLeft = '10px';
         }
       } else {
         style.left = `${distanceLeft}px`;
@@ -137,20 +136,30 @@ export const EllipsisText = ({
   };
 
   useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     if (!isShowAlways) {
       checkTargetEllipsis();
     }
   }, [children]);
 
   useEffect(() => {
+    const close = () => setIsOpen(false);
+
     if (isTouchDevice) {
-      window.addEventListener('touchmove', () => setIsOpen(false));
+      window.addEventListener('touchmove', close);
     }
 
     return () => {
-      window.removeEventListener('touchmove', () => setIsOpen(false));
+      window.removeEventListener('touchmove', close);
     };
-  }, [isOpen, isTouchDevice]);
+  }, [isTouchDevice]);
 
   useEffect(() => {
     if (isOpen && !isEllipsisTooltip) {
