@@ -78,6 +78,6 @@ export const getStyles = ({
   iconClip: 'group-hover/item:text-green',
   iconClose: 'hover:text-error',
   iconCopyDiv: 'flex cursor-pointer peer-focus:[&>svg]:text-input-focus ',
-  iconCopy: 'text-lightBlue hover:text-dark-blue active:text-greenActive',
+  iconCopy: 'text-lightBlue hover:text-dark-blue active:text-greenActive active:transition-none',
   search: 'w-6 text-lightBlue cursor-pointer hover:scale-110 transition-all duration-200 mr-3',
 });
