@@ -1,4 +1,8 @@
 {
+  "projectName": {
+    "CHARIEPR": "CHARI EPR",
+    "CHARIeRp": "CHARI eRp"
+  },
   "auth-page": {
     "links": {
       "admin": "Create Admin",

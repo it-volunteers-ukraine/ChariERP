@@ -17,7 +17,7 @@ export const RevealOnScroll = () => {
       </div>
 
       {scrollItemsData(text).map((item, index) => (
-        <ScrollCard key={item.id} text={item.text} number={item.id} isEven={index % 2 === 1} />
+        <ScrollCard key={item.id + item.text} text={item.text} number={item.id} isEven={index % 2 === 1} />
       ))}
     </div>
   );

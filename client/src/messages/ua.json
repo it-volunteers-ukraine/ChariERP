@@ -1,4 +1,7 @@
 {
+  "projectName": {
+    "name": "CHARI EPR"
+  },
   "auth-page": {
     "links": {
       "admin": "Створити Адміна",

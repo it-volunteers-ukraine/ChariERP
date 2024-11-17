@@ -6,7 +6,7 @@ import {
   MembershipAndParticipation,
 } from '../../assets/icons';
 
-export const cardsData = (text: (key: string) => string) => [
+export const buttonsData = (text: (key: string) => string) => [
   {
     icon: ProcessControl,
     text: text('buttons.firstButtonText'),

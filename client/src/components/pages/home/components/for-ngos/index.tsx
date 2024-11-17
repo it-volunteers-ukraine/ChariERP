@@ -6,6 +6,7 @@ import { useInView } from 'react-intersection-observer';
 import { cardsData } from './mock';
 
 export const ForNGOs = () => {
+  const projectName = useTranslations('projectName');
   const text = useTranslations('homePage.forNGOs');
   const cards = cardsData(text);
 
@@ -19,7 +20,7 @@ export const ForNGOs = () => {
       <div className="flex max-w-[1737px] flex-col gap-[40px] rounded-[40px] bg-bgNGOs p-[32px_16px] tablet:p-[40px_32px] laptop:p-[56px_72px] desktop:p-[64px_96px] desktopXl:flex-row desktopXl:gap-x-[160px] desktopXl:p-[80px_92px]">
         <div className="desktopXl:min-w-[457px]">
           <h2 className="font-scada text-[24px] font-bold leading-[130%] text-white tablet:text-[32px] laptop:text-[36px] desktop:text-[50px]">
-            CHARI EPR
+            {projectName('CHARIEPR')}
           </h2>
 
           <p className="font-scada uppercase leading-[100%] text-superBlue tablet:w-[50%] tablet:text-[20px] laptop:text-[24px] desktop:w-[60%] desktop:text-[32px] desktopXl:w-full">
@@ -41,7 +42,7 @@ export const ForNGOs = () => {
                 className="rounded-[20px] border border-white p-4"
               >
                 <div className="mb-4">
-                  <item.icon />
+                  <item.icon className="text-white" />
                 </div>
 
                 <div className="mb-2 h-[48px] font-scada text-[20px] font-bold leading-[120%] text-white tablet:h-[58px] tablet:text-[24px] laptop:h-fit desktop:text-[32px]">
