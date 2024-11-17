@@ -16,7 +16,7 @@ export const MainTheme = () => {
       />
 
       <div className="absolute inset-0 flex h-full items-center justify-center">
-        <Modal onClick={() => {}} />
+        <Modal />
       </div>
     </div>
   );

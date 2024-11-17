@@ -1,8 +1,11 @@
 import { useTranslations } from 'next-intl';
 
+import { routes } from '@/constants';
 import { Button } from '@/components';
+import { useRouter } from 'next/navigation';
 
-export const Modal = ({ onClick }: { onClick: () => void }) => {
+export const Modal = () => {
+  const router = useRouter();
   const btn = useTranslations('button');
   const modal = useTranslations('modal');
   const projectName = useTranslations('projectName');
@@ -18,8 +21,7 @@ export const Modal = ({ onClick }: { onClick: () => void }) => {
           {modal('homePageModal.text')}
         </p>
       </div>
-
-      <Button onClick={onClick} text={btn('learnMore')} className="uppercase" />
+      <Button onClick={() => router.push(routes.aboutService)} text={btn('learnMore')} className="uppercase" />
     </div>
   );
 };
