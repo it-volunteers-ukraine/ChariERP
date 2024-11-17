@@ -36,8 +36,10 @@ export const EllipsisText = ({
   const tooltipWrapperRef = useRef<HTMLDivElement>(null);
   const tooltipTextRef = useRef<HTMLParagraphElement>(null);
 
+  const close = () => setIsOpen(false);
+
   useOutsideClick(() => {
-    setIsOpen(false);
+    close();
   }, tooltipWrapperRef);
 
   const checkTargetEllipsis = () => {
@@ -118,7 +120,7 @@ export const EllipsisText = ({
 
   const handleMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
-      setIsOpen(false);
+      close();
     }, delay);
   };
 
@@ -150,8 +152,6 @@ export const EllipsisText = ({
   }, [children]);
 
   useEffect(() => {
-    const close = () => setIsOpen(false);
-
     if (isTouchDevice) {
       window.addEventListener('touchmove', close);
     }
