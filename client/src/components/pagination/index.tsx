@@ -1,7 +1,6 @@
 'use client';
 
 import { ReactNode } from 'react';
-
 import { clsx } from 'clsx';
 import { default as RcPagination } from 'rc-pagination';
 
