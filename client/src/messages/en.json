@@ -116,7 +116,8 @@
       "information": "I agree to the processing of personal data in accordance with the"
     },
     "placeholder": {
-      "search": "Search"
+      "search": "Search",
+      "searchTable": "Search"
     },
     "avatar": {
       "information": " Add an image or leave it blank and we will automatically add the first letters of your first and last name. Max size 5 MB. Format jpg, jpeg, png."

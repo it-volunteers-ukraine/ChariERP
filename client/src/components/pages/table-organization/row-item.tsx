@@ -42,7 +42,7 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
         </span>
 
         <Copy
-          className="h-6 w-6 flex-shrink-0 cursor-pointer text-lightBlue transition duration-300 hover:text-dark-blue active:text-greenActive"
+          className="h-6 w-6 flex-shrink-0 cursor-pointer text-lightBlue transition duration-300 hover:text-dark-blue active:text-greenActive active:transition-none"
           onClick={(e: MouseEvent<SVGSVGElement>) =>
             onCopy<MouseEvent<SVGSVGElement>>(e, item.EDRPOU, messagesCopy('messages'))
           }
@@ -77,7 +77,7 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
             <Copy
               width={24}
               height={24}
-              className="flex-shrink-0 cursor-pointer text-lightBlue"
+              className="flex-shrink-0 cursor-pointer text-lightBlue transition duration-300 hover:text-dark-blue active:text-greenActive active:transition-none"
               onClick={(e: MouseEvent<SVGSVGElement>) => onCopy(e, item.email, messagesCopy('messages'))}
             />
           </div>
