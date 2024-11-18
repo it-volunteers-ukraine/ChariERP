@@ -28,7 +28,7 @@ export const ButtonsCircle = () => {
           >
             <card.icon className={iconWidth} />
 
-            <div className="text-center font-scada text-[12px] font-bold leading-[140%] text-black tablet:text-[16px] desktop:text-[24px]">
+            <div className="text-center font-scada text-xs font-bold leading-[140%] text-black tablet:text-base desktop:text-2xl">
               {card.text}
             </div>
           </div>

@@ -22,11 +22,9 @@ export const ScrollCard = ({ text, isEven, number }: ScrollItemProps) => {
         transition={{ duration: 0.6 }}
         initial={{ opacity: 0, x: xWithEven }}
         animate={{ opacity: inView ? 1 : 0, x }}
-        className="flex w-full flex-col gap-4 rounded-[40px] bg-scrollItemBg p-[24px_32px] tablet:w-[582px] tablet:p-[32px] laptop:w-[739px] desktop:w-[911px] desktop:p-[48px] desktopXl:w-[943px] desktopXl:p-[48px_64px]"
+        className="flex w-full flex-col gap-4 rounded-[40px] bg-scrollItemBg p-[24px_32px] tablet:w-[582px] tablet:p-8 laptop:w-[739px] desktop:w-[911px] desktop:p-12 desktopXl:w-[943px] desktopXl:p-[48px_64px]"
       >
-        <h1 className="font-scada text-[20px] font-bold text-dark-blue tablet:text-[24px] desktop:text-[40px]">
-          #{number}
-        </h1>
+        <h1 className="font-scada text-xl font-bold text-dark-blue tablet:text-2xl desktop:text-[40px]">#{number}</h1>
 
         <p className={styles.text}>{text}</p>
       </motion.div>
