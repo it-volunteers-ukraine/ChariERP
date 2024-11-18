@@ -28,12 +28,12 @@ export const Accordion = ({
 
   useEffect(() => {
     if (contentRef.current) {
-      const contentHeight = `${contentRef.current.scrollHeight}px`;
+      const contentHeight = contentRef.current.scrollHeight;
 
       if (isFirstRender.current && initialState) {
-        setMaxHeight(contentHeight);
+        setMaxHeight(`${contentHeight + 18}px`);
       } else {
-        setMaxHeight(isOpen ? contentHeight : '0px');
+        setMaxHeight(isOpen ? `${contentHeight + 18}px` : '0px');
       }
 
       isFirstRender.current = false;

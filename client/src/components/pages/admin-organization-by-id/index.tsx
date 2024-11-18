@@ -370,7 +370,7 @@ const AdminOrganizationById = () => {
                                       type="add"
                                       text={btn('addField')}
                                       onClick={() => push('')}
-                                      className="mt-3 flex w-full justify-start !leading-4"
+                                      className="mt-3 flex justify-start !leading-4"
                                     />
                                   )}
 
@@ -379,7 +379,7 @@ const AdminOrganizationById = () => {
                                       type="delete"
                                       text={btn('deleteField')}
                                       onClick={() => remove(index)}
-                                      className="mt-3 flex w-full justify-end !leading-4"
+                                      className="mt-3 flex justify-end !leading-4"
                                     />
                                   )}
                                 </div>
