@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { ArrowUp } from '@/assets/icons';
 
 import { getStyles } from './styles';
-import { IAccordionProps } from './typex';
+import { IAccordionProps } from './types';
 
 export const Accordion = ({ title, description, disabled }: IAccordionProps) => {
   const [isOpen, setIsOpen] = useState(false);
