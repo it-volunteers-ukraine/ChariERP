@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 };
 
 const Home = () => {
-  return <>Home</>;
+  return <div>Home</div>;
 };
 
 export default Home;

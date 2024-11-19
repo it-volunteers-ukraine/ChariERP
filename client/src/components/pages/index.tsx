@@ -1,4 +1,5 @@
 export { AdminOrganizationById } from './admin-organization-by-id';
+export { HomePage } from './home';
 export { boardApi } from './dashboards/api';
 export { Dashboards } from './dashboards';
 export { NoAccess } from './no-access';
