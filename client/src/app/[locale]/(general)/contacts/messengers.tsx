@@ -3,20 +3,12 @@ import Image from 'next/image';
 
 import { Cube } from '@/assets/img';
 
-import { IMessengerMock } from './messengerMock';
+import { contactLinks, IMessengerMock } from './messengerMock';
 
 export const Messenger = ({ title, link, icon: IconSVG }: IMessengerMock) => {
-  let differentHrefTitle;
-
-  if (title === 'telegram') {
-    differentHrefTitle = `https://t.me/${link}`;
-  } else if (title === 'phone') {
-    differentHrefTitle = `tel:+${link}`;
-  } else if (title === 'email') {
-    differentHrefTitle = `mailto:${link}`;
-  } else {
-    differentHrefTitle = `https://www.${link}`;
-  }
+  const finalLink = Object.keys(contactLinks).find((key) => contactLinks[key] === contactLinks[title])
+    ? `${contactLinks[title]}`
+    : `https://www.${link}`;
 
   return (
     <div className="tablet:w-[48%] desktop:w-auto">
@@ -34,7 +26,7 @@ export const Messenger = ({ title, link, icon: IconSVG }: IMessengerMock) => {
           </h3>
 
           <Link
-            href={differentHrefTitle}
+            href={finalLink}
             target="_blank"
             className="easy-in-out font-scada text-[14px] font-[400] uppercase leading-[17px] text-[#1D1B20] underline transition-all duration-300 hover:text-[#2C73AC] laptop:text-xl"
           >

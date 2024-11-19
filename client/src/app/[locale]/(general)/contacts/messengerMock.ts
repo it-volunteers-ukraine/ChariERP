@@ -6,6 +6,10 @@ export interface IMessengerMock {
   icon: React.ComponentType<{ className?: string }>;
 }
 
+interface IСontactLinks {
+  [key: string]: string;
+}
+
 export const MessengerMock: IMessengerMock[] = [
   {
     icon: Email,
@@ -38,3 +42,9 @@ export const MessengerMock: IMessengerMock[] = [
     link: 'linkedin.com/company/it-volunteers',
   },
 ];
+
+export const contactLinks: IСontactLinks = {
+  telegram: 'https://t.me/it_volunteers',
+  phone: 'tel:+380 98 347 0035',
+  email: 'mailto:it.volunteers.ukraine@gmail.com',
+};
