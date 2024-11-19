@@ -11,6 +11,7 @@ const blueCrayola = '#78D6EF';
 const redHover = '#C83C34';
 const deepBlue = '#3879B6';
 const disabled = '#C2C3C5';
+const newDisabled = '#D0CBCB';
 const ebb = '#E7E2E2';
 const error = '#B3261E';
 const green = '#84BB46';
@@ -57,6 +58,7 @@ const config: Config = {
         java,
         white,
         newBlack,
+        newDisabled,
         whiteSecond,
         lightBlue,
         lightBlueHover,
@@ -160,6 +162,8 @@ const config: Config = {
         bgNGOs: 'linear-gradient(180deg, #0677BA 0%, #08335F 89%)',
       },
       boxShadow: {
+        accordionArrowShadow: '0 0 4px rgba(0, 0, 0, 0.13)',
+        accordionShadow: '4px 4px 10px rgba(0, 0, 0, 0.25)',
         btn: { inset: 'inset 0px 0px 5px 2px rgba(0,0,0,0.1)' },
         auth: '0px 0px 10px 4px rgba(0, 0, 0, 0.05)',
         circle: '0px 0px 3px 0px rgba(0, 0, 0, 0.13)',

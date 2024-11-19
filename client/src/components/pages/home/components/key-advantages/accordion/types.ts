@@ -3,3 +3,8 @@ export interface IAccordionProps {
   description: string;
   disabled?: boolean;
 }
+
+export interface IStylesProps {
+  isOpen: boolean;
+  disabled?: boolean;
+}
