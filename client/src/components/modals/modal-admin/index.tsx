@@ -18,7 +18,7 @@ export const ModalAdmin = ({
 
   return (
     <Overlay opened={isOpen} onClose={onClose}>
-      <div className="flex w-full flex-col justify-between gap-4 break-words">
+      <div className="flex w-full flex-col justify-between gap-2 break-words tablet:gap-4">
         <div className="flex w-full flex-col gap-2">
           <h1 className="text-scada text-center text-xl font-bold uppercase leading-6 text-mobster desktop:text-2xl">
             {title}

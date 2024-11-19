@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
-import { RadioField } from '@/components';
+import { EllipsisText, RadioField } from '@/components';
 
 import { getStyles } from './styles';
 import { IModalContent } from './types';
@@ -19,9 +19,11 @@ export const ModalContent = ({ name, setFieldValue, organizationName, values }: 
 
   return (
     <>
-      <div className="mb-1 flex flex-col gap-4">
+      <div className="mb-1 flex flex-col gap-2 tablet:gap-4">
         <div className="lending-6 flex flex-col text-center text-mobster">
-          <span className="break-words">{organizationName}</span>
+          <EllipsisText content={organizationName}>
+            <span className="line-clamp-1 break-words">{organizationName}</span>
+          </EllipsisText>
           <span>{modal('subTitle')}</span>
         </div>
 
