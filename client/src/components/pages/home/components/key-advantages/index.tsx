@@ -15,7 +15,7 @@ export const KeyAdvantages = () => {
 
       <div className="flex flex-col gap-6 laptop:gap-8">
         {accordions.map((card, index) => (
-          <Accordion key={index} title={card.title} disabled description={card.text} />
+          <Accordion key={index} title={card.title} description={card.text} />
         ))}
       </div>
     </div>
