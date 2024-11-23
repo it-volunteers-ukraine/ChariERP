@@ -1,10 +1,13 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
+import { isValidObjectId } from '@/middleware';
 
 import { Logo } from '../logo';
 import { config } from './config';
@@ -12,14 +15,17 @@ import { Button } from '../button';
 import { Navigate } from './navigate';
 import { Messengers } from './messengers';
 
-interface IFooterProps {
-  isLoggedIn: boolean;
-}
-
-export const Footer = ({ isLoggedIn }: IFooterProps) => {
+export const Footer = () => {
   const router = useRouter();
   const footer = useTranslations('footer');
   const auth = useTranslations('auth-page.links');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const id = Cookies.get('id') || '';
+
+    setIsLoggedIn(isValidObjectId(id));
+  }, []);
 
   const { social, navigate } = config;
 

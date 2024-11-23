@@ -1,19 +1,25 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
 import { Search } from '@/assets/icons';
+import { isValidObjectId } from '@/middleware';
 import { Logo, Burger, Button, Navigation, ResponseWrapper, LanguageSwitcher } from '@/components';
 
-interface IHeaderProps {
-  isLoggedIn?: boolean;
-}
-
-export const Header = ({ isLoggedIn }: IHeaderProps) => {
+export const Header = () => {
   const router = useRouter();
   const auth = useTranslations('auth-page.links');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const id = Cookies.get('id') || '';
+
+    setIsLoggedIn(isValidObjectId(id));
+  }, []);
 
   return (
     <header className="top-0 z-[2] w-full bg-header-gradient py-[19px] desktop:py-[21px]">
