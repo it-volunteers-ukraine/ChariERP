@@ -1,12 +1,17 @@
 'use client';
+
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
+import { routes } from '@/constants';
 import { Search } from '@/assets/icons';
 import { Logo, Burger, Button, Navigation, ResponseWrapper, LanguageSwitcher } from '@/components';
-import { routes } from '@/constants';
 
-export const Header = () => {
+interface IHeaderProps {
+  isLoggedIn?: boolean;
+}
+
+export const Header = ({ isLoggedIn }: IHeaderProps) => {
   const router = useRouter();
   const auth = useTranslations('auth-page.links');
 
@@ -21,13 +26,15 @@ export const Header = () => {
 
         <div className="flex items-center gap-8 desktop:gap-3">
           <ResponseWrapper endpoint="isDesktop">
-            <Button
-              isNarrow
-              styleType="secondary"
-              text={auth('registration')}
-              className="hidden desktop:flex"
-              onClick={() => router.push(routes.registration)}
-            />
+            {!isLoggedIn && (
+              <Button
+                isNarrow
+                styleType="secondary"
+                text={auth('registration')}
+                className="hidden desktop:flex"
+                onClick={() => router.push(routes.registration)}
+              />
+            )}
 
             <Button
               isNarrow
@@ -41,7 +48,7 @@ export const Header = () => {
           <Search className="ml-auto aspect-[1/1] w-[18px] cursor-pointer text-white hover:drop-shadow-sm desktop:ml-3 desktop:mr-3" />
 
           <ResponseWrapper endpoint="isNotDesktop">
-            <Burger />
+            <Burger isLoggedIn={isLoggedIn} />
           </ResponseWrapper>
 
           <LanguageSwitcher isNarrow className="hidden desktop:flex" />

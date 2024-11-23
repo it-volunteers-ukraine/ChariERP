@@ -12,7 +12,11 @@ import { Button } from '../button';
 import { Navigate } from './navigate';
 import { Messengers } from './messengers';
 
-export const Footer = () => {
+interface IFooterProps {
+  isLoggedIn: boolean;
+}
+
+export const Footer = ({ isLoggedIn }: IFooterProps) => {
   const router = useRouter();
   const footer = useTranslations('footer');
   const auth = useTranslations('auth-page.links');
@@ -32,13 +36,13 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 tablet:pr-8 laptop:pr-0 lg:mr-0 lg:flex-row lg:gap-8 desktop:flex-row desktop:gap-16 desktopXl:gap-[108px]">
+        <div className="laptop:ml-18 flex flex-col gap-4 tablet:ml-[120px] lg:mr-0 lg:flex-row lg:gap-8 desktop:ml-auto desktop:flex-row desktop:gap-16 desktopXl:gap-[108px]">
           {navigate.map((item, idx) => (
             <Navigate key={`navigate_${idx}`} {...item} />
           ))}
         </div>
 
-        <div className="flex shrink-0 gap-14 tablet:gap-6 laptop:gap-8 desktop:gap-6 desktopXl:gap-8">
+        <div className="flex shrink-0 gap-14 tablet:ml-auto tablet:gap-6 laptop:gap-8 desktop:ml-auto desktop:gap-6 desktopXl:gap-8">
           <Button
             styleType="outline"
             text={auth('login')}
@@ -46,12 +50,14 @@ export const Footer = () => {
             onClick={() => router.push(routes.login)}
           />
 
-          <Button
-            styleType="secondary"
-            text={auth('registration')}
-            className="h-fit px-2 uppercase"
-            onClick={() => router.push(routes.registration)}
-          />
+          {!isLoggedIn && (
+            <Button
+              styleType="secondary"
+              text={auth('registration')}
+              className="h-fit px-2 uppercase"
+              onClick={() => router.push(routes.registration)}
+            />
+          )}
         </div>
       </div>
       <Link href={routes.privacyPolicy} className="block text-center font-scada text-xs text-white">
