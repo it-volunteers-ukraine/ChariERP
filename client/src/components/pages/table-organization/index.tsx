@@ -129,7 +129,7 @@ export const TableOrganization = () => {
         onChange={setPage}
         pageSize={pageSize}
         total={totalRecords}
-        className="max-w-[440px] desktop:ml-11"
+        className="max-w-[440px] desktop:ml-8"
       />
     </>
   );

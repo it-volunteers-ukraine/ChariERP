@@ -1,5 +1,6 @@
 export interface ISocial {
   link: string;
+  name?: string;
   Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 

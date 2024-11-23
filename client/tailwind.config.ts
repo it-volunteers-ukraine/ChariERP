@@ -1,37 +1,35 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import type { Config } from 'tailwindcss';
 const defaultTheme = require('tailwindcss/defaultConfig');
 
 import { media } from './src/constants';
 
 //Colors
+const java = '#14ADD6';
 const blue = '#2C73AC';
-const error = '#B3261E';
-const white = '#FFFFFF';
-const whiteSecond = '#F4F7FE';
-const lightBlue = '#61B6DB';
-const lightBlueHover = '#E8EEFB';
 const blueCrayola = '#78D6EF';
+const redHover = '#C83C34';
 const deepBlue = '#3879B6';
 const disabled = '#C2C3C5';
+const newDisabled = '#D0CBCB';
+const ebb = '#E7E2E2';
+const error = '#B3261E';
 const green = '#84BB46';
-const greenNormal = '#5BC780';
-const greenHover = '#34AB5D';
 const greenActive = '#178D40';
+const greenHover = '#34AB5D';
+const greenNormal = '#5BC780';
+const lightBlue = '#61B6DB';
+const lightBlueHover = '#E8EEFB';
 const red = '#DD6B64';
-const redHover = '#C83C34';
 const redActive = '#B3261E';
 const comet = '#5D647C';
 const mobster = '#79747E';
 const cerise = '#E23A81';
-const swissCoffee = '#D0CBCB';
 const lynch = '#687A95';
 const lobLolly = '#BEC6D0';
-const spunPearl = '#A8A8AD';
 const liteGray = '#A3A3A3';
 const dimGray = '#656575B2';
-const steelBlue = '#3B91BE';
 const Magnolia = '#5D647CB2';
-const superBlue = '#DFF0F8';
 const midGray = '#656575';
 const newBlack = '#1D1B20';
 const darkBlueFocus = '#0C6399';
@@ -40,6 +38,12 @@ const arcticSky = '#D0DDEC';
 const amethyst = '#A86CCC';
 const emeraldGreen = '#40BC6A';
 const skyBlue = '#5684C6';
+const spunPearl = '#A8A8AD';
+const steelBlue = '#3B91BE';
+const superBlue = '#DFF0F8';
+const swissCoffee = '#D0CBCB';
+const white = '#FFFFFF';
+const whiteSecond = '#F4F7FE';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -50,8 +54,11 @@ const config: Config = {
     extend: {
       ...defaultTheme,
       colors: {
+        ebb,
+        java,
         white,
         newBlack,
+        newDisabled,
         whiteSecond,
         lightBlue,
         lightBlueHover,
@@ -141,7 +148,9 @@ const config: Config = {
         overlay: '#687a95',
       },
       backgroundImage: {
+        arrowBg: 'linear-gradient(60deg, #78D6EF 0%, #3879B6 100%)',
         burger: 'linear-gradient(315deg, #78D6EF 0%, #3879B6 100%)',
+        scrollItemBg: 'linear-gradient(135deg, #78D6EF 0%, #1E619F 100%)',
         boardAside: blueCrayolaToDeepBlue,
         'burger-tablet': 'linear-gradient(315deg, #3879B6 0%, #78D6EF 100%)',
         'header-gradient': blueCrayolaToDeepBlue,
@@ -150,8 +159,11 @@ const config: Config = {
         bgAuthGradient: 'linear-gradient(90.36deg, #cfedf8 0.31%, #ffffff 25.15%, #FFFFFF 74.85%, #cfeef7 99.69%)',
         bgAuthLinks: 'linear-gradient(135deg, #78D6EF 0%, #3879B6 100%)',
         outlineBlueBtnText: 'linear-gradient(135deg, #0c6399 0%, #60adf3 50%, #61b6db 100%)',
+        bgNGOs: 'linear-gradient(180deg, #0677BA 0%, #08335F 89%)',
       },
       boxShadow: {
+        accordionArrowShadow: '0 0 4px rgba(0, 0, 0, 0.13)',
+        accordionShadow: '4px 4px 10px rgba(0, 0, 0, 0.25)',
         btn: { inset: 'inset 0px 0px 5px 2px rgba(0,0,0,0.1)' },
         auth: '0px 0px 10px 4px rgba(0, 0, 0, 0.05)',
         circle: '0px 0px 3px 0px rgba(0, 0, 0, 0.13)',
@@ -203,6 +215,22 @@ const config: Config = {
         '30-left': '30% center',
       },
       keyframes: {
+        spinner: {
+          '0%': {
+            transform: 'rotate(-90deg)',
+          },
+          '100%': {
+            transform: 'rotate(270deg)',
+          },
+        },
+        notRotate: {
+          '0%': {
+            transform: 'translate(-50%, -50%) rotate(90deg)',
+          },
+          '100%': {
+            transform: 'translate(-50%, -50%) rotate(-270deg)',
+          },
+        },
         appearBg: {
           '0%': { opacity: '0' },
           '100%': {
@@ -251,6 +279,8 @@ const config: Config = {
         modalClose: 'disappearanceModal ease-in-out forwards',
         openToolsMenu: 'inToolsMenu ease-in-out forwards',
         closeToolsMenu: 'outToolsMenu ease-in-out forwards',
+        spinner: 'spinner 30s linear infinite',
+        notRotate: 'notRotate 30s linear infinite',
         startExpand: 'expandToolsMenu ease-in-out forwards',
         startCollapse: 'collapseToolsMenu ease-in-out forwards',
       },

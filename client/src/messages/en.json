@@ -1,4 +1,8 @@
 {
+  "projectName": {
+    "CHARIEPR": "CHARI EPR",
+    "CHARIeRp": "CHARI eRp"
+  },
   "auth-page": {
     "links": {
       "admin": "Create Admin",
@@ -128,6 +132,9 @@
     "email": "Email"
   },
   "modal": {
+    "homePageModal": {
+      "text": "EFFECTIVE RESOURCE MANAGEMENT FOR CIVIC ORGANIZATIONS"
+    },
     "register": {
       "title": "REGISTER?",
       "text": "and send an email with the password to "
@@ -169,7 +176,7 @@
   },
   "button": {
     "submit": "Submit Form",
-    "addField": "Add more links",
+    "addField": "Add another link",
     "changePass": "Change password",
     "forgotPass": "forgot your password",
     "deleteField": "Delete field",
@@ -185,6 +192,7 @@
     "understood": "understood",
     "contact": "contact",
     "goToAllBoards": "go to all boards",
+    "learnMore": "learn more",
     "yes": "YES",
     "no": "NO",
     "edit": "edit",
@@ -264,6 +272,88 @@
   },
   "globalPronouns": {
     "more": "more"
+  },
+  "homePage": {
+    "revealOnScroll": {
+      "title": {
+        "firstPart": "Our ERP system",
+        "secondPart": "is specially designed",
+        "thirdPart": "for the needs of non-governmental organizations"
+      },
+      "cards": {
+        "firstCardText": "It combines all key processes into one integrated platform, enabling you to manage resources, time, and finances more efficiently.",
+        "secondCardText": "From project planning to financial management and reporting, our product provides everything you need to make your organization successful.",
+        "thirdCardText": "It will help non-governmental organizations optimize processes, improve resource management, and reach new heights in their activities."
+      }
+    },
+    "opportunityChariCircle": {
+      "title": "Chari ERP features",
+      "buttons": {
+        "firstButtonText": "PROCESS MANAGEMENT",
+        "secondButtonText": "MEMBERSHIP AND PARTICIPATION",
+        "thirdButtonText": "ANALYTICS",
+        "fourButtonText": "COMMUNICATION",
+        "fiveButtonText": "FINANCIAL MANAGEMENT"
+      }
+    },
+    "forNGOs": {
+      "title": "Designed specifically for the needs of non-governmental organizations",
+      "cards": {
+        "firstCard": {
+          "title": "Process integration",
+          "text": "Combine all important processes into one platform to improve coordination and productivity."
+        },
+        "secondCard": {
+          "title": "Ease of use",
+          "text": "Intuitive interface that does not require special technical knowledge."
+        },
+        "thirdCard": {
+          "title": "Efficiency",
+          "text": "Reduce time spent on administrative tasks and optimize resource utilization."
+        },
+        "fourCard": {
+          "title": "Adaptability",
+          "text": "Easily customizable to meet the specific needs of your organization."
+        },
+        "fiveCard": {
+          "title": "Security.",
+          "text": "High level of data protection to ensure confidentiality and reliability."
+        },
+        "sixCard": {
+          "title": "Support and training",
+          "text": "Our team provides technical support and training for users to use the system."
+        }
+      }
+    },
+    "keyAdvantages": {
+      "title": "key benefits for each member of the organization",
+      "accordions": {
+        "firstAccordion": {
+          "title": "Director of a non-governmental organization",
+          "text": "The ERP system provides a complete overview of the organization's activities, helping the director to make strategic decisions based on up-to-date data. Control over resources and easy access to information about the budget, finances, and other resources allows you to optimize their use. The ability to monitor productivity, tools for assessing team performance and project efficiency help to achieve the set goals."
+        },
+        "secondAccordion": {
+          "title": "Financial manager",
+          "text": "Control over budgeting and reporting ERP system provides automated financial management, report generation and expense monitoring to ensure transparency and accuracy in financial activities. In cost optimization: analytical tools help identify and reduce unnecessary costs. In payment control, there is a simplification of invoice and payment processing, which reduces errors and improves financial discipline."
+        },
+        "thirdAccordion": {
+          "title": "Project manager",
+          "text": "For the Project Manager, the ERP system will help plan and manage projects by providing tools for effective project planning, monitoring, and execution. For team coordination, it provides the ability to track tasks and deadlines, ensuring effective collaboration within the team, as well as tools for analyzing project results to help improve their efficiency and achieve better results."
+        },
+        "fourAccordion": {
+          "title": "Employees",
+          "text": "The intuitive interface makes it easy for employees to learn the system and use its functions effectively. In optimizing workflows, task automation allows you to focus on more important and creative aspects of work. Access to the necessary information and tools in one place helps to increase the efficiency of tasks."
+        },
+        "fiveAccordion": {
+          "title": "Members of the Board of Directors",
+          "text": "In terms of transparency and accountability, an ERP system provides access to up-to-date information about the organization's activities. Data-driven decision-making: analytical tools help to make informed decisions based on detailed reports and data analysis. It also provides the ability to track progress in achieving the organization's strategic goals."
+        },
+        "sixAccordion": {
+          "title": "Volunteers",
+          "text": "In the area of easy volunteer participation in non-governmental organizations, the ERP system provides: tools that help manage volunteers, easily attract new participants and coordinate their activities. In convenient communication, integrated communication tools simplify information exchange and coordination. Recognition and appreciation of volunteers' contributions through the system helps to keep them motivated and engaged."
+        }
+      }
+    }
   },
   "privacyPage": {
     "title": "Privacy Policy",
