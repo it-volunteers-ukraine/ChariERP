@@ -19,6 +19,8 @@ export const Footer = () => {
 
   const { social, navigate } = config;
 
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="flex w-full flex-col gap-14 bg-boardAside px-4 py-8 tablet:gap-12 tablet:px-8 tablet:pt-14 laptop:px-9 desktop:gap-10 desktop:px-[136px] desktopXl:px-[92px]">
       <div className="flex flex-col justify-between gap-10 tablet:flex-row tablet:gap-0">
@@ -55,7 +57,7 @@ export const Footer = () => {
         </div>
       </div>
       <Link href={routes.privacyPolicy} className="block text-center font-scada text-xs text-white">
-        © 2023 Charli, {footer('privacyPolicy')}
+        © {currentYear} ChariERP, {footer('privacyPolicy')}
       </Link>
     </footer>
   );
