@@ -364,13 +364,13 @@ const AdminOrganizationById = () => {
                                   label={text('socialNetworks.label')}
                                   wrapperClass="laptop:max-w-[calc(50%-24px)]"
                                 />
-                                <div className="flex max-w-[465px] items-center justify-between">
+                                <div className="flex items-center justify-between laptop:max-w-[calc(50%-24px)]">
                                   {isRightLength && isLastIndex && (
                                     <SmallBtn
                                       type="add"
                                       text={btn('addField')}
                                       onClick={() => push('')}
-                                      className="mt-3 flex w-full justify-start !leading-4"
+                                      className="mt-3 flex justify-start !leading-4"
                                     />
                                   )}
 
@@ -379,7 +379,7 @@ const AdminOrganizationById = () => {
                                       type="delete"
                                       text={btn('deleteField')}
                                       onClick={() => remove(index)}
-                                      className="mt-3 flex w-full justify-end !leading-4"
+                                      className={`flex ${isRightLength && isLastIndex ? 'justify-end' : 'ml-auto'} !leading-4`}
                                     />
                                   )}
                                 </div>

@@ -176,7 +176,7 @@
   },
   "button": {
     "submit": "Submit Form",
-    "addField": "Add more links",
+    "addField": "Add another link",
     "changePass": "Change password",
     "forgotPass": "forgot your password",
     "deleteField": "Delete field",
