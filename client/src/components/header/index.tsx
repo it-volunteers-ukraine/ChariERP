@@ -22,7 +22,7 @@ export const Header = () => {
   }, []);
 
   return (
-    <header className="top-0 z-[2] w-full bg-header-gradient py-[8px] desktop:py-[10px]">
+    <header className="top-0 z-[2] w-full bg-header-gradient py-2 desktop:py-[10px]">
       <div className="container-chari flex items-center justify-between gap-8">
         <Logo />
 
