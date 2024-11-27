@@ -155,9 +155,11 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
             {isCopy && (
               <div
                 className={styles.iconCopyDiv}
-                onClick={(e: MouseEvent<HTMLDivElement>) =>
-                  onCopy<MouseEvent<HTMLDivElement>>(e, value as string | number, messagesCopy('messages'))
-                }
+                onClick={(e: MouseEvent<HTMLDivElement>) => {
+                  if (value) {
+                    onCopy<MouseEvent<HTMLDivElement>>(e, value as string | number, messagesCopy('messages'));
+                  }
+                }}
               >
                 <Copy width={24} height={24} className={`${styles.iconEye} ${styles.iconCopy}`} />
               </div>

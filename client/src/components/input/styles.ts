@@ -77,7 +77,12 @@ export const getStyles = ({
   fileType: 'hidden',
   iconClip: 'group-hover/item:text-green',
   iconClose: 'hover:text-error',
-  iconCopyDiv: 'flex cursor-pointer peer-focus:[&>svg]:text-input-focus ',
-  iconCopy: 'text-lightBlue hover:text-dark-blue active:text-greenActive active:transition-none',
+  iconCopyDiv: cn('flex cursor-pointer', {
+    'peer-focus:[&>svg]:text-input-focus': value,
+  }),
+  iconCopy: cn({
+    'text-lightBlue hover:text-dark-blue active:text-greenActive active:transition-none': value,
+    'cursor-not-allowed hover:none active:none text-black': !value,
+  }),
   search: 'w-6 text-lightBlue cursor-pointer hover:scale-110 transition-all duration-200 mr-3',
 });

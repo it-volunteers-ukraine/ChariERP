@@ -17,7 +17,7 @@ export const LoaderPage = ({ children }: ChildrenProps) => {
 
   const wrapperClassName = clsx('scroll-blue h-full', {
     'overflow-y-auto': !isLoading,
-    'overflow-y-[hidden]': isLoading,
+    'overflow-y-[hidden] ': isLoading,
   });
 
   return (
