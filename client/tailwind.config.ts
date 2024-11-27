@@ -44,6 +44,7 @@ const superBlue = '#DFF0F8';
 const swissCoffee = '#D0CBCB';
 const white = '#FFFFFF';
 const whiteSecond = '#F4F7FE';
+const blueGreen = '#2A505B';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -54,6 +55,7 @@ const config: Config = {
     extend: {
       ...defaultTheme,
       colors: {
+        blueGreen,
         ebb,
         java,
         white,
@@ -160,6 +162,9 @@ const config: Config = {
         bgAuthLinks: 'linear-gradient(135deg, #78D6EF 0%, #3879B6 100%)',
         outlineBlueBtnText: 'linear-gradient(135deg, #0c6399 0%, #60adf3 50%, #61b6db 100%)',
         bgNGOs: 'linear-gradient(180deg, #0677BA 0%, #08335F 89%)',
+        bgCardTeam: 'linear-gradient(150.18deg, #CFEDF8 0%, rgba(255, 255, 255, 0.8) 98.08%)',
+        bgSubCardTeam: 'linear-gradient(180deg, #B3E3FA 0%, #68BAE0 100%)',
+        bgDecorCardTeam: 'linear-gradient(90deg, #9CD6F2 0%, #5EB4DD 100%)',
       },
       boxShadow: {
         accordionArrowShadow: '0 0 4px rgba(0, 0, 0, 0.13)',

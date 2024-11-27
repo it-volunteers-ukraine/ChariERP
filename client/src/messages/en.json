@@ -377,6 +377,12 @@
       "error": "Error sending email!"
     }
   },
+  "aboutUsPage": {
+    "historyTitle": "History of creation",
+    "history": "Write about us. Be sure to touch on the topic of IT volunteers... maybe the user has never heard of them, so let them hear) ala the text about the idea of creation. This is the story of the birth of the Chari project. Write about us. Be sure to touch on the topic of IT volunteers... maybe the user has never heard of them, so let them hear) ala the text about the idea of creation. This is the story of the birth of the Chari project. Be sure to touch on the topic of IT volunteers... maybe the user has never heard of them, so let them hear) ala the text about the idea of creation. This is the story of the birth of the Chari project. Be sure to touch on the topic of IT volunteers... maybe the user has never heard of",
+    "teamTitle": "команда",
+    "team": "Наша команда волонтерів об’єдналася для створення Chary. Ми впроваджуємо технологічні рішення, щоб дати можливість кожній організації працювати ефективніше та зосередитися на тому, що дійсно важливо – допомозі людям."
+  },
   "footer": {
     "aboutUs": "About Us",
     "aboutService": "About Service",
