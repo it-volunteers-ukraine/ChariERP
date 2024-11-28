@@ -8,8 +8,8 @@ export const ScrollCard = ({ text, isEven, number }: ScrollItemProps) => {
   const styles = getStyles(isEven);
 
   const { ref, inView } = useInView({
-    triggerOnce: false,
     threshold: 0.8,
+    triggerOnce: true,
   });
 
   const xWithEven = isEven ? 200 : -200;
