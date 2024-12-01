@@ -33,10 +33,11 @@ export const ModalDecline = ({ isOpen, onClose, isLoading, onSubmitDecline, orga
       initialValues={declineInitialValues}
       validationSchema={declineValidationSchema(errorValidation)}
     >
-      {({ values, setFieldValue }) => {
+      {({ values, setFieldValue, errors }) => {
         return (
           <ModalAdmin
             isOpen={isOpen}
+            isError={!!errors.otherReason}
             isLoading={isLoading}
             classNameBtn="w-[82px]"
             btnCancelText={btn('no')}
@@ -47,6 +48,7 @@ export const ModalDecline = ({ isOpen, onClose, isLoading, onSubmitDecline, orga
             content={
               <ModalContent
                 values={values}
+                error={errors.otherReason}
                 name="declineReason"
                 setFieldValue={setFieldValue}
                 organizationName={organizationName}

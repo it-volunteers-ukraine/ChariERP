@@ -11,10 +11,6 @@
   }
 }
 
-html {
-  scrollbar-gutter: stable;
-}
-
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
@@ -40,6 +36,10 @@ body {
   .container-chari {
     @apply max-w-[1736px];
   }
+}
+
+.gutter-stable {
+  scrollbar-gutter: stable;
 }
 
 .nav-toggle {

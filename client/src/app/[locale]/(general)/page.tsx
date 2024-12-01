@@ -1,5 +1,7 @@
+import { HomePage } from '@/components';
+
 function Home() {
-  return <>Home</>;
+  return <HomePage />;
 }
 
 export default Home;

@@ -19,13 +19,13 @@ const ContactPage = () => {
           <Image
             src={BannerContacts}
             alt="bannerContacts"
-            className="aspect-[1.3] h-fit object-cover object-30-left tablet:aspect-[1.5] laptop:aspect-[2.06] laptop:object-contain"
+            className="pointer-events-none aspect-[1.3] h-fit select-none object-cover object-30-left tablet:aspect-[1.5] laptop:aspect-[2.06] laptop:object-contain"
           />
         </div>
 
         <div className="mb-24 flex flex-col tablet:mb-[120px] laptop:mb-[168px] xl:max-w-[1440px] desktop:mb-[216px] desktop:flex-row desktop:justify-between desktopXl:m-auto desktopXl:mb-[288px]">
           <div>
-            <h2 className="mb-8 text-center font-scada text-2xl font-bold uppercase tablet:mb-[54px] tablet:text-[32px] desktop:mb-12">
+            <h2 className="pointer-events-none mb-8 select-none text-center font-scada text-2xl font-bold uppercase tablet:mb-[54px] tablet:text-[32px] desktop:mb-12">
               {contactPageTranslation('title')}
             </h2>
 

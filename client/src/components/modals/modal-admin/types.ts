@@ -2,6 +2,7 @@ export interface IModalAdminProps {
   title: string;
   isOpen: boolean;
   subtitle?: string;
+  isError?: boolean;
   isLoading?: boolean;
   onClose: () => void;
   onConfirm: () => void;
