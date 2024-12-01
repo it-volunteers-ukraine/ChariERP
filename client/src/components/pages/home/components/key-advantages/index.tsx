@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { accordionsData } from './mock';
 import { Accordion } from './accordion';
 
 export const KeyAdvantages = () => {
+  const [isOpen, setIsOpen] = useState<number | null>(null);
+
   const text = useTranslations('homePage.keyAdvantages');
   const accordions = accordionsData(text);
 
@@ -15,7 +18,13 @@ export const KeyAdvantages = () => {
 
       <div className="flex flex-col gap-6 laptop:gap-8">
         {accordions.map((card, index) => (
-          <Accordion key={index} title={card.title} description={card.text} />
+          <Accordion
+            key={index}
+            title={card.title}
+            description={card.text}
+            isOpen={isOpen === index}
+            onClick={() => setIsOpen(index)}
+          />
         ))}
       </div>
     </div>
