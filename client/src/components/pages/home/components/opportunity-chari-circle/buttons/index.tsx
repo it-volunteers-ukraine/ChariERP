@@ -6,10 +6,10 @@ import { buttonsData } from '../mock';
 export const ButtonsCircle = () => {
   const text = useTranslations('homePage.opportunityChariCircle');
   const buttons = buttonsData(text);
-  const iconWidth = 'w-[106px] tablet:w-[184px] laptop:w-[208px] desktop:w-[258px]';
+  const iconWidth = 'w-[106px] tablet:w-[184px]';
 
   return (
-    <div className="relative box-border h-[330px] w-[330px] rotate-[-90deg] tablet:h-[698px] tablet:w-[698px] tablet:animate-spinner laptop:h-[771px] laptop:w-[771px] desktop:h-[991px] desktop:w-[991px]">
+    <div className="relative box-border h-[330px] w-[330px] rotate-[-90deg] tablet:h-[698px] tablet:w-[698px] tablet:animate-spinner">
       {buttons.map((card, index) => {
         const radius = 37;
         const angle = index * 2 * Math.PI * (1 / buttons.length);
@@ -28,7 +28,7 @@ export const ButtonsCircle = () => {
           >
             <card.icon className={iconWidth} />
 
-            <div className="text-center font-scada text-xs font-bold leading-[140%] text-black tablet:text-base desktop:text-2xl">
+            <div className="text-center font-scada text-xs font-bold leading-[140%] text-black tablet:text-base">
               {card.text}
             </div>
           </div>
