@@ -28,7 +28,7 @@ export const Accordion = ({
 
   useEffect(() => {
     if (contentRef.current) {
-      const contentHeight = `${contentRef.current.scrollHeight + contentRef.current.children.length * 18}px`;
+      const contentHeight = `${contentRef.current.children.length * 130 - 50}px`;
 
       if (isFirstRender.current && initialState) {
         setMaxHeight(contentHeight);
@@ -38,7 +38,7 @@ export const Accordion = ({
 
       isFirstRender.current = false;
     }
-  }, [isOpen, changedLength, initialState]);
+  }, [isOpen, changedLength, initialState, contentRef.current?.children.length]);
 
   const styles = getStyles({ isOpen, classNameTitle, classNameWrapper, classNameChildren });
 
