@@ -1,13 +1,13 @@
 import {
-  S3Client,
-  GetObjectCommand,
-  PutObjectCommand,
-  ListObjectsCommand,
   DeleteObjectCommand,
-  GetObjectCommandInput,
-  PutObjectCommandInput,
   DeleteObjectCommandInput,
   DeleteObjectCommandOutput,
+  GetObjectCommand,
+  GetObjectCommandInput,
+  ListObjectsCommand,
+  PutObjectCommand,
+  PutObjectCommandInput,
+  S3Client,
 } from '@aws-sdk/client-s3';
 
 const region = 'fra1';
@@ -38,11 +38,10 @@ const s3Client = new S3Client({
  */
 
 const uploadFileToBucket = async (organizationName: string, folder: BucketFolders, file: File) => {
-  const fileContent = await file.arrayBuffer();
   const bucketFileDestinationPath = `${encodeURIComponent(organizationName)}/${folder}/${file.name}`;
 
   const params = {
-    Body: fileContent,
+    Body: file,
     ACL: 'private',
     Key: bucketFileDestinationPath,
     Bucket: process.env.S3_BUCKET_ID,
