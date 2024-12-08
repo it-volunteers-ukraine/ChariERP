@@ -12,7 +12,7 @@ import { getAllUsersByOrganizationIdActions } from '@/actions';
 import { IEmployeeCardProps } from '@/components/employee-card/types';
 import { Button, EmployeeCard, Input, Pagination } from '@/components';
 
-const recordsPerPage = 10;
+const recordsPerPage = 12;
 
 function EmployeesPage() {
   const router = useRouter();
