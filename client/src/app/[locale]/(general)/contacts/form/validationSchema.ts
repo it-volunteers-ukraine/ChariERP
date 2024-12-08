@@ -1,4 +1,5 @@
 import { TranslationValues } from 'next-intl';
+import { isValidPhoneNumber } from 'libphonenumber-js';
 
 import * as Yup from 'yup';
 
@@ -23,5 +24,10 @@ export const ValidationSchema = (error: (key: string, params?: TranslationValues
     message: Yup.string()
       .trim()
       .max(400, error('maxPlural', { int: 400 })),
-    phone: Yup.string().trim().required(error('required')),
+    phone: Yup.string()
+      .test('is-valid-length', error('enter9Digits'), (value) => {
+        return value ? value.replace(/\D/g, '').length >= 12 : false;
+      })
+      .test('is-valid-phone', error('notValidPhone'), (value) => !!isValidPhoneNumber(value as string))
+      .required(error('required')),
   });
