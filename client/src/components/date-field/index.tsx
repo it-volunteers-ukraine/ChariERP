@@ -87,7 +87,7 @@ export const DateField = ({ name, label, required, placeholder, wrapperClass, ..
               yearDropdownItemNumber={150}
               placeholderText={placeholder}
               onCalendarClose={handelClose}
-              minDate={new Date('1991-01-01')}
+              minDate={new Date('1944-01-01')}
               onChange={(date) => onChange(date)}
               selected={value ? new Date(value) : null}
               customInput={
