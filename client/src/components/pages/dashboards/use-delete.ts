@@ -2,14 +2,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { boardApi } from './api';
 
-export const useDeleteBoard = (userId: string) => {
+export const useDeleteBoard = (userId: string | undefined) => {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => {
       const abortController = new AbortController();
 
-      return boardApi.deleteBoard(id, userId)({ signal: abortController.signal });
+      return boardApi.deleteBoard(id, userId!)({ signal: abortController.signal });
     },
   });
 

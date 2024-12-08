@@ -8,11 +8,10 @@ import { IMoveBoardsProps, ResponseCreate, ResponseDeleteEdit, ResponseGet } fro
 
 export const boardApi = {
   queryKey: ['boards', 'all'],
-  getBoardsList: function (id: string) {
+  getBoardsList: function (id: string | undefined) {
     return queryOptions({
-      enabled: !!id,
       queryKey: this.queryKey,
-      queryFn: getParsedJsonData<ResponseGet, { id: string }>(getBoardsAction, { id }),
+      queryFn: getParsedJsonData<ResponseGet, { id: string }>(getBoardsAction, { id: id! }),
       select: (response) => {
         return { ...response, data: response.data.sort((a, b) => a.order - b.order) };
       },

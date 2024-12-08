@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 
 import { cn } from '@/utils';
 import { TaskCard } from '@/components';
@@ -58,22 +59,106 @@ export const Columns = () => {
     }
   }, [createColumn, dataColumn, refInput]);
 
+  const onMoveColumn = (result: DropResult) => {
+    const { source, destination, type } = result;
+
+    if (!destination) return;
+
+    const newColumns = [...dataColumn];
+
+    if (type === 'Columns') {
+      const column = dataColumn[source.index];
+
+      newColumns.splice(source.index, 1);
+      newColumns.splice(destination.index, 0, column);
+
+      setDataColumn(newColumns);
+    }
+
+    if (type === 'Tasks') {
+      const columnStartIndex = parseInt(source.droppableId.split('-')[0]) as unknown as number;
+      const columnFinishIndex = parseInt(destination.droppableId.split('-')[0]);
+
+      const columnStart = dataColumn[columnStartIndex];
+      const columnFinish = dataColumn[columnFinishIndex];
+
+      const task = columnStart.tasks[source.index];
+
+      if (columnStart.id === columnFinish.id) {
+        const newTasks = Array.from(columnStart.tasks);
+
+        newTasks.splice(source.index, 1);
+
+        newTasks.splice(destination.index, 0, task);
+
+        const newColumn = {
+          ...columnStart,
+          tasks: newTasks,
+        };
+
+        newColumns.splice(columnStartIndex, 1);
+        newColumns.splice(columnFinishIndex, 0, newColumn);
+
+        setDataColumn(newColumns);
+      }
+
+      if (columnStart.id !== columnFinish.id) {
+        newColumns[columnStartIndex].tasks.splice(source.index, 1);
+        newColumns[columnFinishIndex].tasks.splice(destination.index, 0, task);
+
+        setDataColumn(newColumns);
+      }
+    }
+  };
+
   return (
-    <div className="scroll-blue scroll-column flex gap-6 overflow-y-hidden overflow-x-scroll bg-white px-5 py-5">
-      {dataColumn.map((item, index) => (
-        <ColumnTasks
-          {...item}
-          key={item.id}
-          onChangeTitle={() => console.log(1)}
-          onDeleteColumn={(id) => setDataColumn((prev) => prev.filter((item) => item.id !== id))}
-        >
-          <>
-            {item.tasks.map((task, idx: number) => {
-              return <TaskCard {...task} key={`task_${index}_${idx}`} onDelete={(id) => handleDeleteTask(id, index)} />;
-            })}
-          </>
-        </ColumnTasks>
-      ))}
+    <div className="scroll-blue scroll-column flex gap-6 bg-white px-5 py-5">
+      <DragDropContext onDragEnd={onMoveColumn}>
+        <Droppable droppableId="column-area" type="Columns" direction="horizontal">
+          {(provided) => (
+            <>
+              <div ref={provided.innerRef} {...provided.droppableProps} className="flex gap-6 overflow-x-auto">
+                {dataColumn.map((item, index) => (
+                  <ColumnTasks
+                    {...item}
+                    key={item.id}
+                    index={index}
+                    onChangeTitle={() => console.log(1)}
+                    onDeleteColumn={(id) => setDataColumn((prev) => prev.filter((item) => item.id !== id))}
+                  >
+                    <Droppable droppableId={`${index}-columns`} type="Tasks">
+                      {(providedTask) => (
+                        <div ref={providedTask.innerRef} {...providedTask.droppableProps}>
+                          {item.tasks.map((task, idx: number) => {
+                            return (
+                              <TaskCard
+                                idx={idx}
+                                {...task}
+                                id={`${item.id}_${idx}`}
+                                key={`task_${index}_${idx}`}
+                                onDelete={(id) => handleDeleteTask(id, index)}
+                              />
+                            );
+                          })}
+                          <div
+                            className={cn(
+                              item.tasks.length === 0 && 'min-h-[96px] rounded border-2 border-dashed border-gray-300',
+                            )}
+                          >
+                            {providedTask.placeholder}
+                          </div>
+                        </div>
+                      )}
+                    </Droppable>
+                  </ColumnTasks>
+                ))}
+              </div>
+
+              <div>{provided.placeholder}</div>
+            </>
+          )}
+        </Droppable>
+      </DragDropContext>
 
       <div className="flex h-full gap-6 bg-white">
         {createColumn && (

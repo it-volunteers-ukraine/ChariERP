@@ -4,13 +4,13 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
 
 import { useUserInfo } from '@/context';
 import { Exit, JamMenu } from '@/assets/icons';
+import { LanguageSwitcher, Logo } from '@/components';
 import { idUser, routes, boardState } from '@/constants';
+import { useBoards } from '@/components/pages/dashboards';
 import { useOutsideClick, useWindowWidth } from '@/hooks';
-import { LanguageSwitcher, Logo, boardApi } from '@/components';
 
 import { NavItem } from './item';
 import { getStyles } from './styles';
@@ -35,14 +35,9 @@ export const DashboardAside = () => {
   const [heightChildren, setHeightChildren] = useState(() => (isOpenChildrenLinks ? 'none' : '0px'));
   const [opacityChildren, setOpacityChildren] = useState(() => (isOpenChildrenLinks ? '1' : '0'));
 
-  const { data: response } = useQuery({
-    ...boardApi.getBoardsList(String(_id)),
-    staleTime: 0,
-    enabled: !!_id,
-    gcTime: Infinity,
+  const id = _id ? String(_id) : undefined;
 
-    refetchOnMount: false,
-  });
+  const { response } = useBoards(id);
 
   const boards =
     response?.data.map((item) => ({

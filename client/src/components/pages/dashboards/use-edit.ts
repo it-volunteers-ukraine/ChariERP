@@ -3,7 +3,7 @@ import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-
 import { boardApi } from './api';
 import { ResponseCreate, ResponseDeleteEdit } from './types';
 
-export const useEditBoard = (userId: string) => {
+export const useEditBoard = (userId: string | undefined) => {
   const queryClient = useQueryClient();
 
   const editMutation: UseMutationResult<ResponseDeleteEdit, Error, { id: string; text: string }, unknown> = useMutation(
@@ -11,7 +11,7 @@ export const useEditBoard = (userId: string) => {
       mutationFn: ({ id, text }: { id: string; text: string }) => {
         const abortController = new AbortController();
 
-        return boardApi.editBoard(id, text, userId)({ signal: abortController.signal });
+        return boardApi.editBoard(id, text, userId!)({ signal: abortController.signal });
       },
       onSettled: () => {
         queryClient.invalidateQueries({
@@ -25,7 +25,7 @@ export const useEditBoard = (userId: string) => {
     mutationFn: ({ text }: { text: string }) => {
       const abortController = new AbortController();
 
-      return boardApi.createBoard(text, userId)({ signal: abortController.signal });
+      return boardApi.createBoard(text, userId!)({ signal: abortController.signal });
     },
     onSettled: () => {
       queryClient.invalidateQueries({

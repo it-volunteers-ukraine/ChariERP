@@ -9,14 +9,14 @@ import { generateColumns, reorder } from './helpers';
 
 type IBoardMove = ResponseGet | undefined;
 
-export const useMoveBoards = (id: string) => {
+export const useMoveBoards = (id: string | undefined) => {
   const queryClient = useQueryClient();
 
   const moveMutation = useMutation({
     mutationFn: ({ newBoards }: { newBoards: IBoardData[] }) => {
       const abortController = new AbortController();
 
-      return boardApi.moveBoards(newBoards, id)({ signal: abortController.signal });
+      return boardApi.moveBoards(newBoards, id!)({ signal: abortController.signal });
     },
 
     onMutate: async ({ newBoards }) => {

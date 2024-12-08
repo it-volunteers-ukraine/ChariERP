@@ -1,12 +1,13 @@
 'use client';
 
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
 import { getMeAction } from '@/actions';
 import { showMessage } from '@/components';
 import { ChildrenProps, ICustomer, Roles } from '@/types';
+import { useQuery } from '@tanstack/react-query';
 
 type IUser = ICustomer | null;
 
@@ -38,7 +39,7 @@ export const UserProvider = ({ children }: ChildrenProps) => {
   const router = useRouter();
   const [user, setUser] = useState<IUser>(null);
 
-  const getUser = useCallback(async () => {
+  const getUser = async () => {
     try {
       const response: IGetMeResponse = await getMeAction();
 
@@ -50,18 +51,20 @@ export const UserProvider = ({ children }: ChildrenProps) => {
 
       if (response && response.user) {
         setUser(JSON.parse(response.user));
+
+        return JSON.parse(response.user);
       }
     } catch (error) {
       console.error(error);
       router.push(routes.login);
     }
-  }, [router]);
+  };
 
-  useEffect(() => {
-    if (!user) {
-      getUser();
-    }
-  }, [user, getUser]);
+  useQuery({
+    enabled: !user,
+    queryKey: ['me'],
+    queryFn: () => getUser(),
+  });
 
   return (
     <UserContext.Provider

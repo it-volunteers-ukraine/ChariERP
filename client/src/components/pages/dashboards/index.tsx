@@ -22,14 +22,16 @@ const Dashboards = () => {
   const board = useTranslations('board');
   const { isManager, _id } = useUserInfo();
 
-  const { response } = useBoards(String(_id));
+  const id = _id ? String(_id) : undefined;
+
+  const { response } = useBoards(id);
 
   const { boards, columns } = { boards: response?.data || [], columns: generateColumns(response?.data || []) };
 
   const { addBoard, onReset } = useAddBoard();
-  const { onDelete, isLoadingDelete } = useDeleteBoard(String(_id));
-  const { onEdit, isLoadingCreate, isLoadingEdit } = useEditBoard(String(_id));
-  const { onMoveDragEndSmall, onMoveDragEndLarge, isLoadingMove } = useMoveBoards(String(_id));
+  const { onDelete, isLoadingDelete } = useDeleteBoard(id);
+  const { onEdit, isLoadingCreate, isLoadingEdit } = useEditBoard(id);
+  const { onMoveDragEndSmall, onMoveDragEndLarge, isLoadingMove } = useMoveBoards(id);
 
   const isRoleAccess = isManager;
   const isLimitExceeded = boards.length === limitOfCard;
@@ -123,4 +125,4 @@ const Dashboards = () => {
   );
 };
 
-export { Dashboards };
+export { Dashboards, useBoards };
