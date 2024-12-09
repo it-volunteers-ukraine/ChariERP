@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 
 import { ArrowUp } from '@/assets/icons';
@@ -10,37 +11,51 @@ import { IAccordionProps } from './types';
 export const Accordion = ({
   title,
   children,
-  changedLength,
   classNameTitle,
   classNameWrapper,
-  classNameChildren,
   initialState = false,
 }: IAccordionProps) => {
-  const contentRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef<boolean>(true);
+  const childrenContainer = useRef<HTMLDivElement>(null);
 
   const [isOpen, setIsOpen] = useState<boolean>(initialState);
-  const [maxHeight, setMaxHeight] = useState<string>(initialState ? 'none' : '0px');
+  const [maxHeight, setMaxHeight] = useState<string>('unset');
 
   const toggleAccordion = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
 
+  const styles = getStyles({ isOpen, classNameTitle, classNameWrapper });
+
   useEffect(() => {
-    if (contentRef.current) {
-      const contentHeight = `${contentRef.current.children.length * 130 - 50}px`;
+    let resizeObserver: ResizeObserver | undefined;
 
-      if (isFirstRender.current && initialState) {
-        setMaxHeight(contentHeight);
-      } else {
-        setMaxHeight(isOpen ? contentHeight : '0px');
-      }
+    if (childrenContainer.current) {
+      setMaxHeight(childrenContainer.current.offsetHeight.toString());
 
-      isFirstRender.current = false;
+      resizeObserver = new ResizeObserver((entries) => {
+        const entry = entries[0];
+
+        setMaxHeight(entry.contentRect.height.toString());
+      });
+
+      resizeObserver.observe(childrenContainer.current);
     }
-  }, [isOpen, changedLength, initialState, contentRef.current?.children.length]);
 
-  const styles = getStyles({ isOpen, classNameTitle, classNameWrapper, classNameChildren });
+    isFirstRender.current = false;
+
+    return () => {
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
+    };
+  }, [childrenContainer]);
+
+  const accordionHeight = isOpen ? `${maxHeight}px` : '0px';
+
+  if (React.Children.count(children) !== 1) {
+    console.error('Children має бути лише один елемент.');
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -53,11 +68,10 @@ export const Accordion = ({
       </div>
 
       <div
-        ref={contentRef}
         className={styles.children}
-        style={{ maxHeight: maxHeight, transition: isFirstRender.current ? 'none' : `max-height 0.3s ease` }}
+        style={{ maxHeight: accordionHeight, transition: isFirstRender.current ? 'none' : `max-height 0.3s ease` }}
       >
-        {children}
+        <div ref={childrenContainer}>{children}</div>
       </div>
     </div>
   );
