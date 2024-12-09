@@ -8,8 +8,9 @@ export const ScrollCard = ({ text, isEven, number }: ScrollItemProps) => {
   const styles = getStyles(isEven);
 
   const { ref, inView } = useInView({
+    threshold: 0.4,
     triggerOnce: true,
-    threshold: 0.2,
+    rootMargin: '0px 0px -100px 0px',
   });
 
   const xWithEven = isEven ? 200 : -200;
@@ -19,7 +20,7 @@ export const ScrollCard = ({ text, isEven, number }: ScrollItemProps) => {
     <div className={styles.wrapper}>
       <motion.div
         ref={ref}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 1 }}
         initial={{ opacity: 0, x: xWithEven }}
         animate={{ opacity: inView ? 1 : 0, x }}
         className="flex w-full flex-col gap-4 rounded-[40px] bg-scrollItemBg p-[24px_32px] tablet:w-[582px] tablet:p-8 laptop:w-[739px] desktop:w-[911px] desktop:p-12 desktopXl:w-[943px] desktopXl:p-[48px_64px]"

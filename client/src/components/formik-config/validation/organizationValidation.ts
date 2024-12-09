@@ -4,7 +4,7 @@ import { isValidPhoneNumber } from 'libphonenumber-js';
 
 const maxSize = 5;
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const linkRegExp = /^(https?):\/\/([a-zA-Z0-9.-]+)(\/[^\s]*)?(\?[^\s]*)?$/i;
+const linkRegExp = /^(https):\/\/([a-zA-Z0-9.-]+)(\/[^\s]*)?(\?[^\s]*)?$/i;
 
 export const organizationValidation = (error: (key: string, params?: TranslationValues) => string) =>
   Yup.object().shape({

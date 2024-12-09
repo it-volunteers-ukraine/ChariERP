@@ -1,7 +1,9 @@
 export interface IAccordionProps {
   title: string;
-  description: string;
+  isOpen: boolean;
   disabled?: boolean;
+  description: string;
+  onClick: () => void;
 }
 
 export interface IStylesProps {

@@ -16,7 +16,7 @@ export const InitialValues = {
 
 export const emailData = (values: IEmailData) => ({
   subject: `Зворотній зв'язок для ${values.name} ${values.surname}`,
-  to: 'it.volunteers.ukraine@gmail.com',
+  to: 'Foxalina31@gmail.com',
   text: `Ім'я: ${values.name}\nПрізвище: ${values.surname}\nEmail: ${values.email}\nТелефон: ${values.phone}\nПовідомлення: ${values.message}`,
   html: `
     <h3>Зворотня Форма</h3>
