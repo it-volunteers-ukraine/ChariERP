@@ -20,6 +20,15 @@ export const AvatarField = ({ name, info, isSubmit, lastName, firstName, classNa
           const file = e.target.files?.[0];
 
           if (file) {
+            const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg'];
+            const isValidFormat = allowedFormats.includes(file.type);
+
+            if (!isValidFormat) {
+              e.target.value = '';
+
+              return;
+            }
+
             await form.setFieldValue(name, file);
             await form.setFieldValue(`isImgChange`, true);
             form.setFieldTouched(name);
