@@ -51,7 +51,13 @@ export const AvatarUploader = ({
           <label className={styles.cameraWrapper}>
             <Camera width={iconSize} height={iconSize} />
 
-            <input name={name} type="file" onChange={onChange} className="hidden" />
+            <input
+              name={name}
+              type="file"
+              onChange={onChange}
+              className="hidden"
+              accept="image/jpeg, image/png, image/jpg"
+            />
           </label>
 
           {avatarUrl && (
