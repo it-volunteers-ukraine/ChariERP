@@ -187,7 +187,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                     type="textarea"
                     label={text('notes.label')}
                     wrapperClass="laptop:max-w-[calc(50%-24px)]"
-                    textAreaClass="!p-[0_4px_0_16px] mr-[6px] min-h-[183px] scroll-textarea !text-input-text resize-none"
+                    textAreaClass="!p-[0_4px_0_16px] mr-[6px] min-h-[183px] scroll-textarea !text-input-text resize-none whitespace-pre-wrap !overflow-y-scroll"
                   />
                 </Accordion>
 
