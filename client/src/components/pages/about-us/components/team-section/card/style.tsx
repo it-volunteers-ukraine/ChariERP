@@ -1,17 +1,13 @@
-import { cn } from '@/utils';
-
 export const getStyles = () => ({
   decorativeCircle:
     'absolute top-[52px] tablet:top-[74px] desktop:top-[87px] left-2/4 h-[128px] w-[128px] -translate-y-2/4 -translate-x-2/4 rounded-full border-[1.5px] border-white tablet:h-[168px] tablet:w-[168px] desktop:h-[186px] desktop:w-[186px]',
   decorativeBigCircle:
     'absolute top-[52px] tablet:top-[74px] desktop:top-[87px] left-2/4 h-[180px] w-[180px] -translate-y-2/4 -translate-x-2/4 rounded-full border-b-[1.5px] border-b-white tablet:h-[236px] tablet:w-[236px] desktop:h-[262px] desktop:w-[262px]',
-  card: cn(
-    'group/card shadow-teamCard relative h-full w-full overflow-hidden rounded-2xl bg-bgCardTeam tablet:rounded-3xl text-center',
-  ),
+  card: 'group/card relative h-full w-full overflow-hidden rounded-2xl bg-bgCardTeam tablet:rounded-3xl text-center',
   decorativeWrapper:
     'clip-angled absolute left-[7px] top-0 h-[27px] w-[150px] bg-bgDecorCardTeam tablet:left-[10px] tablet:h-[38px] tablet:w-[209px] desktop:h-[45px] desktop:w-[245px]',
   cardWrapper:
-    'relative  h-[208px] w-[156px] overflow-hidden rounded-bl-[28px] rounded-br-[16px] rounded-tl-[20px] rounded-tr-[20px] bg-bgSubCardTeam pl-2 pt-2 transition-all duration-300 ease-in-out tablet:h-[286px] tablet:w-[218px] tablet:rounded-bl-[42px] tablet:rounded-br-[24px] tablet:rounded-tl-[32px] tablet:rounded-tr-[32px] tablet:pl-3 tablet:pt-3 desktop:h-[338px] desktop:w-[256px]',
+    'relative  h-[208px] shadow-teamCard w-[156px] overflow-hidden rounded-bl-[28px] rounded-br-[16px] rounded-tl-[20px] rounded-tr-[20px] bg-bgSubCardTeam pl-2 pt-2 transition-all duration-300 ease-in-out tablet:h-[286px] tablet:w-[218px] tablet:rounded-bl-[42px] tablet:rounded-br-[24px] tablet:rounded-tl-[32px] tablet:rounded-tr-[32px] tablet:pl-3 tablet:pt-3 desktop:h-[338px] desktop:w-[256px]',
   description:
     'relative z-[1]  text-[14px] leading-4 text-midGray tablet:text-[16px] tablet:leading-[20px] desktop:text-[20px] desktop:leading-[24px]',
   name: 'relative z-[1] font-scada text-[13px] font-bold uppercase leading-4 text-dark-blue tablet:text-[16px] tablet:leading-[20px] desktop:text-[20px] desktop:leading-[24px]',

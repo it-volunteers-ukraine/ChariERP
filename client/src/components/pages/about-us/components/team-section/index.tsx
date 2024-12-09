@@ -26,7 +26,7 @@ export const TeamSection = () => {
           <Card
             activeCard={activeCard}
             teamsMember={teamsMember}
-            key={`${teamsMember.nameEn}`}
+            key={`${teamsMember.id}`}
             setActiveCard={(id) => setActiveCard(id)}
           />
         ))}
