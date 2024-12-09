@@ -1,0 +1,150 @@
+[
+  {
+    "name": "Сергій Воронько",
+    "nameEn": "Serhii Voronko",
+    "location": "Харків",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/voronko/",
+      "telegram": "https://t.me/it_volunteers"
+    },
+    "role": "CEO",
+    "url": "voronkoSerhii"
+  },
+  {
+    "name": "Роман Кириченко",
+    "nameEn": "Roman Kyrychenko",
+    "location": "Харків/Kharkiv",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/roman-kyrychenko/",
+      "github": "https://github.com/rpkyrych",
+      "telegram": "https://t.me/rpkyrych"
+    },
+    "role": "головний нероба та пригнічувач новачків, CTO",
+    "url": "kyrychenkoRoman"
+  },
+  {
+    "name": "Євген Павлов",
+    "nameEn": "Evhen Pavlov",
+    "location": "Донецьк/Світловодськ",
+    "social": {
+      "instagram": "https://www.instagram.com/evgeny5798/",
+      "linkedin": "https://www.linkedin.com/in/evgen-pavlov-916475171",
+      "telegram": "https://t.me/evgeniy_x100"
+    }
+  },
+  {
+    "name": "Анастасія Дрогомирецька",
+    "nameEn": "Anastasiia Drohomyretska",
+    "location": "Івано-Франківськ/ Краків",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/anastasiia-drohomyretska-701542285",
+      "behance": "https://www.behance.net/anastasdrogomy",
+      "telegram": "https://t.me/Anastasiia_0793"
+    },
+    "role": "Ux/Ui designer",
+    "url": "drohomyretskaAnastasiia"
+  },
+  {
+    "name": "Владислав Терещенко",
+    "nameEn": "Vladyslav Tereshchenko",
+    "location": "Київ",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/vladyslav-tereshchenko-770bab270",
+      "telegram": "https://t.me/Vlad_Tereshchenko"
+    },
+    "role": "Project manager"
+  },
+  {
+    "name": "Аліна Іваніщева",
+    "nameEn": "Alina Ivanishcheva",
+    "location": "Київ/Івано-Франківськ",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/alina-ivanishcheva-416245281/",
+      "telegram": "https://t.me/Alina_Ivani"
+    },
+    "url": "ivanishchevaAlina"
+  },
+  {
+    "name": "Ольга Вербівська",
+    "nameEn": "Olha Verbivska",
+    "location": "Луганськ/Київ",
+    "social": {
+      "telegram": "https://t.me/asazi",
+      "website": "https://asazi.framer.website"
+    },
+    "role": "Designer"
+  },
+  {
+    "name": "Денис Кислиця",
+    "nameEn": "Denys Kyslytsia",
+    "location": "Дніпро",
+    "social": {
+      "telegram": "https://t.me/KyslytsiaDenys",
+      "github": "https://github.com/Kyslytsia",
+      "linkedin": "https://www.linkedin.com/in/denys-kyslytsa-5b9790139/"
+    },
+    "role": "Frontend",
+    "url": "kyslytsiaDenys"
+  },
+  {
+    "name": "Катерина Пупкова",
+    "nameEn": "Kateryna Pupkova",
+    "location": "Дніпро/ Брно",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/kateryna-pupkova",
+      "telegram": "https://t.me/Kate_Pupkova"
+    },
+    "role": "QA engineer",
+    "url": "pupkovaKateryna"
+  },
+  {
+    "name": "Анатолій Гладченко",
+    "nameEn": "Anatolii Hladchenko",
+    "location": "Дніпро",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/anatolii-hladchenko-0a7778212/"
+    },
+    "role": "Frontend Developer",
+    "url": "hladchenkoAnatolii"
+  },
+  {
+    "name": "Лілія Строц",
+    "nameEn": "Liliia Strots",
+    "location": "Дніпро",
+    "social": {
+      "behance": "https://www.behance.net/1d28b2d3",
+      "linkedin": "https://www.linkedin.com/in/liliia-strots/"
+    },
+    "role": "UI/UX Designer"
+  },
+  {
+    "name": "Владислав Костиря",
+    "nameEn": "Vladyslav Kostyria",
+    "location": "Дніпро",
+    "social": {
+      "telegram": "https://t.me/VladDotk1",
+      "github": "https://github.com/VladDot"
+    },
+    "role": "Frontend Developer"
+  },
+  {
+    "name": "Анна Мєдвєдєва",
+    "nameEn": "Anna Medvedeva",
+    "location": "Київ",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/annamedvedevaaa/",
+      "telegram": "@miedviedievaaa"
+    },
+    "role": "Business Analyst"
+  },
+  {
+    "name": "Дмитро Давидюк",
+    "nameEn": "Dmytro Davydiuk",
+    "location": "Покров / Харків",
+    "social": {
+      "linkedin": "https://www.linkedin.com/in/davydiukdmytro",
+      "github": "https://github.com/DavydiukDmytro"
+    },
+    "role": "Frontend Developer"
+  }
+]

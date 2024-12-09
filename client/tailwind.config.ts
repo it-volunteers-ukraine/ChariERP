@@ -45,6 +45,7 @@ const swissCoffee = '#D0CBCB';
 const white = '#FFFFFF';
 const whiteSecond = '#F4F7FE';
 const blueGreen = '#2A505B';
+const yellow = '#DBC553';
 
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
@@ -77,6 +78,7 @@ const config: Config = {
         steelBlue,
         arcticSky,
         'dark-blue': blue,
+        yellow,
         error,
         green,
         greenActive,
@@ -182,7 +184,9 @@ const config: Config = {
         status: '0px 0px 2px 0px rgba(101, 101, 117, 0.37)',
         createColumn: '0px 0px 3px 0px #00000021, 0px 2px 2px 0px #65657526',
         boardColumn: '0px 0px 3px 0px #00000021, 0px 2px 2px 0px #65657526',
+        teamCard: '0px 2px 6px -1px rgba(12, 12, 13, 0.05), 2px 2px 6px -1px rgba(12, 12, 13, 0.1)',
       },
+
       backgroundSize: {
         200: '201%',
         150: '150%',

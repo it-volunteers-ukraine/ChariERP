@@ -1,22 +1,82 @@
-import { AboutUsMain } from '@/assets/img';
-import Image from 'next/image';
+'use client';
 
-export const Card = () => {
+import { useLocale } from 'next-intl';
+import Image, { StaticImageData } from 'next/image';
+
+import { Location } from '@/assets/icons';
+import { SocialIcon } from '@/components';
+import * as Images from '@/assets/about-us';
+
+import { getStyles } from './style';
+
+interface ICard {
+  teamsMember: {
+    name: string;
+    url?: string;
+    role?: string;
+    nameEn: string;
+    location?: string;
+    social?: { [key: string]: string | undefined };
+  };
+}
+
+export const Card = ({ teamsMember }: ICard) => {
+  const locale = useLocale();
+
+  const { name, nameEn, url, role = 'Member', location = 'Ukraine', social } = teamsMember;
+
+  const images: { [key: string]: StaticImageData } = Images;
+
+  const imageSrc = url && images[url] ? images[url] : images.default;
+
+  function formatName(name: string): string {
+    return name.replace(' ', ' <br/>');
+  }
+
+  const socialKeys = Object.keys(social ?? {}).slice(0, 3);
+
+  const styles = getStyles();
+
   return (
-    <div className="relative h-[208px] w-[156px] overflow-hidden rounded-bl-[28px] rounded-br-[36px] rounded-tl-[20px] rounded-tr-[20px] bg-bgSubCardTeam pl-2 pt-2 tablet:h-[286px] tablet:w-[218px] tablet:rounded-bl-[42px] tablet:rounded-tl-[32px] tablet:rounded-tr-[32px] tablet:pl-3 tablet:pt-3 desktop:h-[338px] desktop:w-[256px]">
-      <div className="clip-angled absolute left-[7px] top-0 h-[27px] w-[150px] bg-bgDecorCardTeam tablet:left-[10px] tablet:h-[38px] tablet:w-[209px] desktop:h-[45px] desktop:w-[245px]"></div>
-      <div className="relative h-full w-full rounded-2xl bg-bgCardTeam px-3 py-4 text-center tablet:rounded-3xl tablet:p-5 desktop:py-6">
-        <Image
-          alt="Photo"
-          src={AboutUsMain}
-          className="mx-auto mb-3 h-[68px] w-[68px] rounded-full object-cover tablet:mb-6 tablet:h-[102px] tablet:w-[102px] desktop:mb-9 desktop:h-[142] desktop:w-[142]"
-        />
-        <p className="mb-3 font-scada text-[13px] font-bold uppercase leading-4 text-dark-blue tablet:mb-4 tablet:text-[16px] tablet:leading-[20px] desktop:text-[20px] desktop:leading-[24px]">
-          роман <br /> Кириченко
-        </p>
-        <p className="text-[14px] leading-4 text-midGray tablet:text-[16px] tablet:leading-[20px] desktop:text-[20px] desktop:leading-[24px]">
-          Головний нероба та пригнічувач новачків
-        </p>
+    <div className={styles.cardWrapper}>
+      <div className={styles.decorativeWrapper}></div>
+      <div className={styles.card}>
+        <div className={styles.decorativeCircle}></div>
+        <div className={styles.decorativeBigCircle}></div>
+
+        <div className={styles.cardFrontSide}>
+          <div className={styles.wrapperPhoto}>
+            <Image alt="Photo" src={imageSrc} className={styles.img} />
+          </div>
+
+          <p
+            className={styles.name}
+            dangerouslySetInnerHTML={{
+              __html: locale === 'ua' ? formatName(name) : formatName(nameEn),
+            }}
+          ></p>
+          <p className={styles.description}>{role}</p>
+        </div>
+
+        <div className={styles.cardBackSide}>
+          <div className={styles.wrapperLocation}>
+            <Location className={styles.iconLocation} />
+            <p className={styles.description}>{location}</p>
+          </div>
+          <div className={styles.linkWrapper}>
+            {socialKeys.map((key) => {
+              if (!social) {
+                return;
+              }
+
+              return (
+                <a key={key} href={social[key]} target="_blank" rel="noopener noreferrer" className={styles.link}>
+                  <SocialIcon keyName={key} className={styles.social} />
+                </a>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );
