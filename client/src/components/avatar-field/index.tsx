@@ -5,8 +5,12 @@ import { Field, FieldProps } from 'formik';
 
 import { AvatarFieldProps } from './types';
 import { AvatarUploader } from '../avatar-uploader';
+import { showMessage } from '../toastify';
+import { useTranslations } from 'next-intl';
 
 export const AvatarField = ({ name, info, isSubmit, lastName, firstName, className }: AvatarFieldProps) => {
+  const errorText = useTranslations('errors');
+
   return (
     <Field name={name}>
       {({ meta, form, field: { value } }: FieldProps) => {
@@ -24,6 +28,7 @@ export const AvatarField = ({ name, info, isSubmit, lastName, firstName, classNa
             const isValidFormat = allowedFormats.includes(file.type);
 
             if (!isValidFormat) {
+              showMessage.error(errorText('fileDownload'));
               e.target.value = '';
 
               return;

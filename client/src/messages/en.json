@@ -240,7 +240,8 @@
     },
     "admin": {
       "emptyValue": "Please, pick one reason"
-    }
+    },
+    "fileDownload": "Invalid file format"
   },
   "loader": {
     "top": "Please wait!",
