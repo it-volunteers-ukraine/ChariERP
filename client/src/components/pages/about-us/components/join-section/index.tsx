@@ -54,7 +54,7 @@ export const JoinSection = () => {
                   name="message"
                   type="textarea"
                   label={text('form.message')}
-                  textAreaClass="scroll-textarea overflow-y-auto !text-input-text resize-none text-wrap h-[167px] w-full"
+                  textAreaClass="scroll-textarea !overflow-y-auto !text-input-text resize-none text-wrap h-[167px] w-full"
                 />
                 <Button type="submit" styleType="primary" text={text('form.join')} className="uppercase" />
               </Form>

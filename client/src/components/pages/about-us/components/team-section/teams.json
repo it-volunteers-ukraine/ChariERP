@@ -1,5 +1,6 @@
 [
   {
+    "id": "1",
     "name": "Сергій Воронько",
     "nameEn": "Serhii Voronko",
     "location": "Харків",
@@ -11,6 +12,7 @@
     "url": "voronkoSerhii"
   },
   {
+    "id": "2",
     "name": "Роман Кириченко",
     "nameEn": "Roman Kyrychenko",
     "location": "Харків/Kharkiv",
@@ -23,6 +25,7 @@
     "url": "kyrychenkoRoman"
   },
   {
+    "id": "3",
     "name": "Євген Павлов",
     "nameEn": "Evhen Pavlov",
     "location": "Донецьк/Світловодськ",
@@ -33,6 +36,7 @@
     }
   },
   {
+    "id": "4",
     "name": "Анастасія Дрогомирецька",
     "nameEn": "Anastasiia Drohomyretska",
     "location": "Івано-Франківськ/ Краків",
@@ -45,6 +49,7 @@
     "url": "drohomyretskaAnastasiia"
   },
   {
+    "id": "5",
     "name": "Владислав Терещенко",
     "nameEn": "Vladyslav Tereshchenko",
     "location": "Київ",
@@ -55,6 +60,7 @@
     "role": "Project manager"
   },
   {
+    "id": "6",
     "name": "Аліна Іваніщева",
     "nameEn": "Alina Ivanishcheva",
     "location": "Київ/Івано-Франківськ",
@@ -65,6 +71,7 @@
     "url": "ivanishchevaAlina"
   },
   {
+    "id": "7",
     "name": "Ольга Вербівська",
     "nameEn": "Olha Verbivska",
     "location": "Луганськ/Київ",
@@ -75,6 +82,7 @@
     "role": "Designer"
   },
   {
+    "id": "8",
     "name": "Денис Кислиця",
     "nameEn": "Denys Kyslytsia",
     "location": "Дніпро",
@@ -87,6 +95,7 @@
     "url": "kyslytsiaDenys"
   },
   {
+    "id": "9",
     "name": "Катерина Пупкова",
     "nameEn": "Kateryna Pupkova",
     "location": "Дніпро/ Брно",
@@ -98,6 +107,7 @@
     "url": "pupkovaKateryna"
   },
   {
+    "id": "10",
     "name": "Анатолій Гладченко",
     "nameEn": "Anatolii Hladchenko",
     "location": "Дніпро",
@@ -108,6 +118,7 @@
     "url": "hladchenkoAnatolii"
   },
   {
+    "id": "11",
     "name": "Лілія Строц",
     "nameEn": "Liliia Strots",
     "location": "Дніпро",
@@ -118,6 +129,7 @@
     "role": "UI/UX Designer"
   },
   {
+    "id": "12",
     "name": "Владислав Костиря",
     "nameEn": "Vladyslav Kostyria",
     "location": "Дніпро",
@@ -128,16 +140,18 @@
     "role": "Frontend Developer"
   },
   {
+    "id": "13",
     "name": "Анна Мєдвєдєва",
     "nameEn": "Anna Medvedeva",
     "location": "Київ",
     "social": {
       "linkedin": "https://www.linkedin.com/in/annamedvedevaaa/",
-      "telegram": "@miedviedievaaa"
+      "telegram": "https://t.me/miedviedievaaa"
     },
     "role": "Business Analyst"
   },
   {
+    "id": "14",
     "name": "Дмитро Давидюк",
     "nameEn": "Dmytro Davydiuk",
     "location": "Покров / Харків",

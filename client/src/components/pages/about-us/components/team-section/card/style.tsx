@@ -16,7 +16,7 @@ export const getStyles = () => ({
     'relative z-[1]  text-[14px] leading-4 text-midGray tablet:text-[16px] tablet:leading-[20px] desktop:text-[20px] desktop:leading-[24px]',
   name: 'relative z-[1] font-scada text-[13px] font-bold uppercase leading-4 text-dark-blue tablet:text-[16px] tablet:leading-[20px] desktop:text-[20px] desktop:leading-[24px]',
   img: 'rounded-full object-cover h-full w-full shadow-[0_2px_2px_0px_#65657526]',
-  link: 'z-[1] relative h-10 w-10 p-2 desktop:p-1 desktop:h-12 desktop:w-12 transition-all duration-300 ease-in-out hover:p-1',
+  link: 'z-[1] relative h-10 w-10 p-2 desktop:p-1 desktop:h-12 desktop:w-12 transition-all duration-300 ease-in-out desktop:hover:p-0 hover:p-1',
   linkWrapper: 'flex justify-center tablet: gap-1 desktop:gap-5',
   iconLocation: 'bg-yellow mx-auto mb-3 h-10 w-10 rounded-full px-[13px] py-[11px] text-white',
   social: 'group-hover/card:block hidden',
@@ -24,7 +24,7 @@ export const getStyles = () => ({
     'relative mx-auto mb-3 h-[68px] w-[68px] tablet:mb-6 tablet:h-[102px] tablet:w-[102px] desktop:mb-9 desktop:h-[122px] desktop:w-[122px]',
   wrapperLocation: 'relative h-[90px] tablet:h-[104px] ',
   cardFrontSide:
-    'z-[1] w-full tablet:py-5 desktop:py-6 desktop:py-8 flex flex-col justify-between group-hover/card:opacity-0 opacity-100 absolute top-0 h-full px-3 py-4 tablet:p-5 left-2/4 -translate-x-1/2',
+    'w-full tablet:py-5 desktop:py-6 desktop:py-8 flex flex-col justify-between group-hover/card:opacity-0 transition-all duration-300 ease-in-out opacity-100 absolute top-0 h-full px-3 py-4 tablet:p-5 left-2/4 -translate-x-1/2',
   cardBackSide:
-    'z-[1] w-full desktop:pt-[59px] desktop:pb-8 tablet:py-5 tablet:pb-8 tablet:pt-[37px] group-hover/card:opacity-100 flex flex-col px-3 justify-between tablet:px-5 group-hover/card:z-[11] opacity-0 absolute top-0 left-2/4 h-full py-[21px] -translate-x-1/2',
+    'w-full desktop:pt-[59px] desktop:pb-8 tablet:py-5 tablet:pb-8 tablet:pt-[37px] group-hover/card:opacity-100 transition-all duration-300 ease-in-out flex flex-col px-3 justify-between tablet:px-5 group-hover/card:z-[11] opacity-0 absolute top-0 left-2/4 h-full py-[21px] -translate-x-1/2',
 });
