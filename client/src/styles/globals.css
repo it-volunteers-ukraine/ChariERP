@@ -117,3 +117,7 @@ body {
 .scroll-textarea::-webkit-scrollbar-thumb {
   @apply w-[6px] cursor-pointer rounded-[100px] bg-arcticSky;
 }
+
+.clip-angled {
+  clip-path: polygon(0 0, calc(100% - 0px) 0, 100% 100%, 30px 100%);
+}
