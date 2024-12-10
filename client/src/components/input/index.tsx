@@ -1,13 +1,16 @@
 'use client';
 
-import React, { useState, forwardRef } from 'react';
+import React, { useState, forwardRef, MouseEvent } from 'react';
+import { useTranslations } from 'next-intl';
 import { PatternFormat } from 'react-number-format';
 
+import { onCopy } from '@/utils';
 import { Eye, Info, Clip, Copy, EyeOff, Search, Warning, Calendar, InputClose } from '@/assets/icons';
 
-import './styles.css';
 import { getStyles } from './styles';
 import { InputProps } from './types';
+
+import './styles.css';
 
 export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
   (
@@ -35,6 +38,8 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
     const initialType = type === 'file' ? 'text' : type;
     const [inputType, setInputType] = useState(initialType);
 
+    const messagesCopy = useTranslations('copy');
+
     const styles = getStyles({
       type,
       cross,
@@ -60,10 +65,6 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
       e.preventDefault();
 
       onChange?.('');
-    };
-
-    const onCopyToClipboard = async () => {
-      await navigator.clipboard.writeText(value as string);
     };
 
     return (
@@ -152,7 +153,14 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
             )}
 
             {isCopy && (
-              <div className={styles.iconCopyDiv} onClick={onCopyToClipboard}>
+              <div
+                className={styles.iconCopyDiv}
+                onClick={(e: MouseEvent<HTMLDivElement>) => {
+                  if (value) {
+                    onCopy<MouseEvent<HTMLDivElement>>(e, value as string | number, messagesCopy('messages'));
+                  }
+                }}
+              >
                 <Copy width={24} height={24} className={`${styles.iconEye} ${styles.iconCopy}`} />
               </div>
             )}

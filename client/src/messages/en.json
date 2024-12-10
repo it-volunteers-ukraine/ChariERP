@@ -1,4 +1,8 @@
 {
+  "projectName": {
+    "CHARIEPR": "CHARI EPR",
+    "CHARIeRp": "CHARI eRp"
+  },
   "auth-page": {
     "links": {
       "admin": "Create Admin",
@@ -112,7 +116,8 @@
       "information": "I agree to the processing of personal data in accordance with the"
     },
     "placeholder": {
-      "search": "Search"
+      "search": "Search",
+      "searchTable": "Search"
     },
     "avatar": {
       "information": " Add an image or leave it blank and we will automatically add the first letters of your first and last name. Max size 5 MB. Format jpg, jpeg, png."
@@ -127,6 +132,9 @@
     "email": "Email"
   },
   "modal": {
+    "homePageModal": {
+      "text": "EFFECTIVE RESOURCE MANAGEMENT FOR CIVIC ORGANIZATIONS"
+    },
     "register": {
       "title": "REGISTER?",
       "text": "and send an email with the password to "
@@ -168,7 +176,7 @@
   },
   "button": {
     "submit": "Submit Form",
-    "addField": "Add more links",
+    "addField": "Add another link",
     "changePass": "Change password",
     "forgotPass": "forgot your password",
     "deleteField": "Delete field",
@@ -184,8 +192,12 @@
     "understood": "understood",
     "contact": "contact",
     "goToAllBoards": "go to all boards",
+    "learnMore": "learn more",
     "yes": "YES",
-    "no": "NO"
+    "no": "NO",
+    "edit": "edit",
+    "addTask": "Add tasks",
+    "addColumn": "Add column"
   },
   "validation": {
     "minPlural": "Minimum {int} characters",
@@ -213,7 +225,11 @@
   "success": {
     "admin-pages": {
       "sentEmail": "The letter was sent to {email}",
-      "deleteOrganization": "The organization was deleted"
+      "deleteOrganization": "The organization was deleted",
+      "Organization updated": "Organization updated"
+    },
+    "employees": {
+      "addUser": "User created successfully"
     }
   },
   "errors": {
@@ -227,6 +243,9 @@
     },
     "admin": {
       "emptyValue": "Please, pick one reason"
+    },
+    "employees": {
+      "addUser": "Email already exists"
     }
   },
   "loader": {
@@ -248,9 +267,8 @@
     "blocked": "Blocked"
   },
   "board": {
-    "newBoard": "Name the board",
-    "createNew": "Create a new board",
-    "limitExceeded": "You can have no more than {int} boards",
+    "newBoard": "add board",
+    "limitExceeded": "You can create no more than {int} boards on this page.",
     "massageCopyTitle": "Link copied",
     "emptyBoard": "There is no board with your participation on this page yet",
     "allParticipants": "all participants"
@@ -260,5 +278,116 @@
   },
   "globalPronouns": {
     "more": "more"
+  },
+  "homePage": {
+    "revealOnScroll": {
+      "title": {
+        "firstPart": "Our ERP system",
+        "secondPart": "is specially designed",
+        "thirdPart": "for the needs of non-governmental organizations"
+      },
+      "cards": {
+        "firstCardText": "It combines all key processes into one integrated platform, enabling you to manage resources, time, and finances more efficiently.",
+        "secondCardText": "From project planning to financial management and reporting, our product provides everything you need to make your organization successful.",
+        "thirdCardText": "It will help non-governmental organizations optimize processes, improve resource management, and reach new heights in their activities."
+      }
+    },
+    "opportunityChariCircle": {
+      "title": "Chari ERP features",
+      "buttons": {
+        "firstButtonText": "PROCESS MANAGEMENT",
+        "secondButtonText": "MEMBERSHIP AND PARTICIPATION",
+        "thirdButtonText": "ANALYTICS",
+        "fourButtonText": "COMMUNICATION",
+        "fiveButtonText": "FINANCIAL MANAGEMENT"
+      }
+    },
+    "forNGOs": {
+      "title": "Designed specifically for the needs of non-governmental organizations",
+      "cards": {
+        "firstCard": {
+          "title": "Process integration",
+          "text": "Combine all important processes into one platform to improve coordination and productivity."
+        },
+        "secondCard": {
+          "title": "Ease of use",
+          "text": "Intuitive interface that does not require special technical knowledge."
+        },
+        "thirdCard": {
+          "title": "Efficiency",
+          "text": "Reduce time spent on administrative tasks and optimize resource utilization."
+        },
+        "fourCard": {
+          "title": "Adaptability",
+          "text": "Easily customizable to meet the specific needs of your organization."
+        },
+        "fiveCard": {
+          "title": "Security.",
+          "text": "High level of data protection to ensure confidentiality and reliability."
+        },
+        "sixCard": {
+          "title": "Support and training",
+          "text": "Our team provides technical support and training for users to use the system."
+        }
+      }
+    },
+    "keyAdvantages": {
+      "title": "key benefits for each member of the organization",
+      "accordions": {
+        "firstAccordion": {
+          "title": "Director of a non-governmental organization",
+          "text": "The ERP system provides a complete overview of the organization's activities, helping the director to make strategic decisions based on up-to-date data. Control over resources and easy access to information about the budget, finances, and other resources allows you to optimize their use. The ability to monitor productivity, tools for assessing team performance and project efficiency help to achieve the set goals."
+        },
+        "secondAccordion": {
+          "title": "Financial manager",
+          "text": "Control over budgeting and reporting ERP system provides automated financial management, report generation and expense monitoring to ensure transparency and accuracy in financial activities. In cost optimization: analytical tools help identify and reduce unnecessary costs. In payment control, there is a simplification of invoice and payment processing, which reduces errors and improves financial discipline."
+        },
+        "thirdAccordion": {
+          "title": "Project manager",
+          "text": "For the Project Manager, the ERP system will help plan and manage projects by providing tools for effective project planning, monitoring, and execution. For team coordination, it provides the ability to track tasks and deadlines, ensuring effective collaboration within the team, as well as tools for analyzing project results to help improve their efficiency and achieve better results."
+        },
+        "fourAccordion": {
+          "title": "Employees",
+          "text": "The intuitive interface makes it easy for employees to learn the system and use its functions effectively. In optimizing workflows, task automation allows you to focus on more important and creative aspects of work. Access to the necessary information and tools in one place helps to increase the efficiency of tasks."
+        },
+        "fiveAccordion": {
+          "title": "Members of the Board of Directors",
+          "text": "In terms of transparency and accountability, an ERP system provides access to up-to-date information about the organization's activities. Data-driven decision-making: analytical tools help to make informed decisions based on detailed reports and data analysis. It also provides the ability to track progress in achieving the organization's strategic goals."
+        },
+        "sixAccordion": {
+          "title": "Volunteers",
+          "text": "In the area of easy volunteer participation in non-governmental organizations, the ERP system provides: tools that help manage volunteers, easily attract new participants and coordinate their activities. In convenient communication, integrated communication tools simplify information exchange and coordination. Recognition and appreciation of volunteers' contributions through the system helps to keep them motivated and engaged."
+        }
+      }
+    }
+  },
+  "privacyPage": {
+    "title": "Privacy Policy",
+    "subTitle": "Heading 1 for subparagraphs",
+    "introText": "We greatly value your trust and are committed to ensuring the reliable protection of your confidential information. This Privacy Policy outlines in detail how we collect, use, transfer, and store your personal data while you use our ERP system. We strive to maintain transparency in all of our actions related to your data and guarantee that all processes adhere to the highest standards of security and privacy. Our system is designed with cutting-edge information security technologies to prevent unauthorized access to your data. We use a comprehensive approach to security, including both technical and organizational measures, to ensure the protection of your personal data at every stage of its processing. We understand how important it is for you to know what data is being collected, for what purposes it is used, and who has access to it. This document will explain in detail how we manage your information and what steps you can take to protect your data or correct any errors. We also provide you with the ability to control your data and privacy rights, ensuring maximum control on your part. Whether you are a new user or an experienced client, we are always committed to providing you with a safe and comfortable experience while using our system. Should you have any questions or need additional clarification, our support team is always available to assist you. We are happy to help you navigate all aspects of protecting your data.",
+    "list": "1. Collection of Information.<br/>2. We may collect the following types of personal information.<br/>3. We collect information from the following sources.<br/>4. Data that you provide directly when registering or using the system.<br/>5. Automatic data collection through the use of cookies and similar technologies.<br/>6. Use of Information.<br/>7. We use your data to.<br/>8. Providing and maintaining the functionality of the ERP system.",
+    "informationDetails": "We highly appreciate your trust. {link} And undertake to provide reliable protection for your Our system is designed with advanced information security technologies in mind to prevent unauthorized access to your data. We use a comprehensive approach to security, including both technical and organizational measures, to ensure that your personal data is protected at every stage of its processing. We understand how important it is for you to know what data is collected, for what purposes it is used and who has access to it. In this document, we will explain in detail how we manage your information and what steps you can take to protect your data or correct any errors. We also give you the ability to manage your data and privacy rights, which guarantees maximum control on your part. Whether you're a new user or an experienced customer, we're always committed to providing you with a safe and comfortable experience with our system. If you have any questions or need additional explanations, you can always contact our support team. We will be happy to help you understand all aspects of protecting your data."
+  },
+  "contactPageTranslation": {
+    "title": "contact us :",
+    "feedback": "fill out the feedback form",
+    "feedbackMessage": "There will be some text here, but for now it will be replaced by this text, just to check the translation",
+    "feedbackForm": {
+      "labelName": "Name",
+      "labelSurname": "Surname",
+      "labelTextarea": "Message",
+      "buttonSubmit": "Submit form",
+      "labelEmail": "E-mail address (e-mail)",
+      "labelPhone": "Phone number (with area code)",
+      "successfully": "Email sent successfully!",
+      "error": "Error sending email!"
+    }
+  },
+  "footer": {
+    "aboutUs": "About Us",
+    "aboutService": "About Service",
+    "faq": "FAQs",
+    "contacts": "contacts",
+    "privacyPolicy": "All Right Reserved"
   }
 }

@@ -5,6 +5,7 @@ import { IModalAdminProps } from './types';
 export const ModalAdmin = ({
   title,
   isOpen,
+  isError,
   content,
   onClose,
   subtitle,
@@ -18,11 +19,9 @@ export const ModalAdmin = ({
 
   return (
     <Overlay opened={isOpen} onClose={onClose}>
-      <div className="flex w-full flex-col justify-between gap-4">
+      <div className="flex w-full flex-col justify-between gap-2 break-words tablet:gap-4">
         <div className="flex w-full flex-col gap-2">
-          <h1 className="text-scada text-center text-xl font-bold uppercase leading-6 text-mobster desktop:text-2xl">
-            {title}
-          </h1>
+          <h1 className="text-center font-scada text-[20px] font-bold uppercase leading-6 text-mobster">{title}</h1>
 
           {subtitle && <h2 className="text-roboto text-center font-normal text-dimGray">{subtitle}</h2>}
         </div>
@@ -41,6 +40,7 @@ export const ModalAdmin = ({
             text={btnConfirmText}
             isLoading={isLoading}
             className={classNameBtn}
+            disabled={isError}
           />
 
           <Button styleType="red" className={classNameBtn} onClick={onClose} text={btnCancelText} />

@@ -21,7 +21,9 @@ export const routes = {
   aboutUs: '/about_us',
   contacts: '/contacts',
   faq: '/faq',
+  home: '/',
   login: '/sign-in',
   passwordChange: '/password-change',
+  privacyPolicy: '/privacy-policy',
   registration: '/sign-up',
 };

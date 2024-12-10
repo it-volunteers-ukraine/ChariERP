@@ -90,7 +90,7 @@ const AdminOrganizationById = () => {
     }
 
     if (response.success && response.organization) {
-      showMessage.success(response.message);
+      showMessage.success(success(response.message));
 
       const parsedOrganization = JSON.parse(response.organization);
 
@@ -140,8 +140,6 @@ const AdminOrganizationById = () => {
       if (response?.error) {
         return;
       }
-
-      router.push(backPath);
     } catch (error) {
       // TODO Connect error message
       console.log(error);
@@ -199,234 +197,239 @@ const AdminOrganizationById = () => {
         initialValues={getInitialDataOrganization(data)}
         validationSchema={organizationValidation((key, params) => error(key, params)).omit(['agree', 'password'])}
       >
-        {({ values, errors, validateForm, handleSubmit, touched }) => (
-          <div className="bg-boardHeader relative h-full w-full">
-            <ModalAdmin
-              isOpen={isOpenSave}
-              classNameBtn="w-[82px]"
-              btnCancelText={btn('no')}
-              title={modal('save.title')}
-              btnConfirmText={btn('yes')}
-              isLoading={isLoadingRequest}
-              content={modal('save.text')}
-              onClose={() => setIsOpenSave(false)}
-              onConfirm={async () => await handleSave(values as OrganizationEditValues)}
-            />
+        {({ values, errors, validateForm, handleSubmit, touched, isValid }) => {
+          const isTouched = Object.keys(touched).length > 0;
 
-            <ModalAdmin
-              isOpen={isOpenAccept}
-              classNameBtn="w-[82px]"
-              btnCancelText={btn('no')}
-              btnConfirmText={btn('yes')}
-              isLoading={isLoadingRequest}
-              title={modal('register.title')}
-              onClose={() => setIsOpenAccept(false)}
-              onConfirm={async () => await submitHandle(validateForm, handleSubmit)}
-              content={
-                <div className="lending-6 flex flex-col text-center text-mobster">
-                  <span>{data?.organizationName}</span>
-                  <span>
-                    {modal('register.text')} {data?.email}
-                  </span>
-                </div>
-              }
-            />
+          return (
+            <div className="bg-boardHeader relative h-full w-full">
+              <ModalAdmin
+                isOpen={isOpenSave}
+                classNameBtn="w-[82px]"
+                btnCancelText={btn('no')}
+                title={modal('save.title')}
+                btnConfirmText={btn('yes')}
+                isLoading={isLoadingRequest}
+                content={modal('save.text')}
+                onClose={() => setIsOpenSave(false)}
+                onConfirm={async () => await handleSave(values as OrganizationEditValues)}
+              />
 
-            <div className="mb-20 flex justify-start rounded-lg bg-white px-4 pb-12 shadow-dashboard tablet:px-8">
-              <div className="mx-auto w-full max-w-[1066px]">
-                <div className="mb-4 flex items-center justify-between border-b-2 border-lightBlue py-6 pr-2">
-                  <div className="flex items-center gap-4">
-                    <ButtonIcon icon="back" iconType="primary" onClick={() => router.back()} />
-
-                    <ButtonIcon
-                      icon="save"
-                      iconType="primary"
-                      onClick={() => setIsOpenSave(true)}
-                      disabled={!touched || Object.keys(errors).length > 0}
-                    />
+              <ModalAdmin
+                isOpen={isOpenAccept}
+                classNameBtn="w-[82px]"
+                btnCancelText={btn('no')}
+                btnConfirmText={btn('yes')}
+                isLoading={isLoadingRequest}
+                title={modal('register.title')}
+                onClose={() => setIsOpenAccept(false)}
+                onConfirm={async () => await submitHandle(validateForm, handleSubmit)}
+                content={
+                  <div className="lending-6 flex flex-col break-words text-center text-mobster">
+                    <span>{values?.organizationName}</span>
+                    <span>
+                      {modal('register.text')} {values?.email}
+                    </span>
                   </div>
-                </div>
+                }
+              />
 
-                {isDeclined && data?.declineReason && (
-                  <Accordion
-                    initialState
-                    classNameWrapper="mb-9 desktop:mb-12 !gap-2"
-                    title={text('title.declineReason')}
-                  >
-                    <p className="text-base=[0.5px] tracking-wide text-mobster">{data.declineReason}</p>
-                  </Accordion>
-                )}
+              <div className="mb-20 flex justify-start rounded-lg bg-white px-4 pb-12 shadow-dashboard tablet:px-8">
+                <div className="mx-auto w-full max-w-[1066px]">
+                  <div className="mb-4 flex items-center justify-between border-b-2 border-lightBlue py-6 pr-2">
+                    <div className="flex items-center gap-4">
+                      <ButtonIcon icon="back" iconType="primary" onClick={() => router.back()} />
 
-                <Form className="flex flex-col gap-9 desktop:gap-12">
-                  <Accordion
-                    initialState
-                    classNameTitle="text-[20px]"
-                    title={text('title.basicInformation')}
-                    classNameChildren="flex flex-col gap-4"
-                    changedLength={Object.keys(errors).length}
-                  >
-                    <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-8">
+                      <ButtonIcon
+                        icon="save"
+                        iconType="primary"
+                        disabled={!isValid || !isTouched}
+                        onClick={() => setIsOpenSave(true)}
+                      />
+                    </div>
+                  </div>
+
+                  {isDeclined && data?.declineReason && (
+                    <Accordion
+                      initialState
+                      classNameWrapper="mb-9 desktop:mb-12 !gap-2"
+                      title={text('title.declineReason')}
+                    >
+                      <p className="text-base=[0.5px] tracking-wide text-mobster">{data.declineReason}</p>
+                    </Accordion>
+                  )}
+
+                  <Form className="flex flex-col gap-9 desktop:gap-12">
+                    <Accordion
+                      initialState
+                      classNameTitle="text-[20px]"
+                      title={text('title.basicInformation')}
+                      classNameChildren="flex flex-col gap-4"
+                      changedLength={Object.keys(errors).length}
+                    >
+                      <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-8">
+                        <InputField
+                          isCopy
+                          required
+                          type="number"
+                          name="edrpou"
+                          wrapperClass="laptop:max-w-[140px]"
+                          label={text('organizationTaxNumber.labelErdpou')}
+                        />
+
+                        <InputField isCopy required name="organizationName" label={text('organizationName.label')} />
+                      </div>
+
+                      <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
+                        <FileField
+                          required
+                          placeholderItalic
+                          name="certificate"
+                          accept=".pdf, .jpg, .jpeg, .png"
+                          label={text('certificateOfRegister.label')}
+                          placeholder={text('certificateOfRegister.downloadDoc')}
+                        />
+
+                        <DateField
+                          required
+                          placeholderItalic
+                          name="dateOfRegistration"
+                          label={text('dateOfRegisterOrganization.label')}
+                          placeholder={text('dateOfRegisterOrganization.chooseDate')}
+                        />
+                      </div>
+                    </Accordion>
+
+                    <Accordion
+                      initialState
+                      classNameTitle="text-[20px]"
+                      classNameChildren="flex flex-col gap-4"
+                      title={text('title.contactInformation')}
+                      changedLength={Object.keys(errors).length}
+                    >
+                      <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
+                        <InputField required name="position" label={text('positionOrganization.label')} />
+
+                        <InputField required name="lastName" label={text('lastName.label')} />
+                      </div>
+
+                      <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
+                        <InputField required name="firstName" label={text('name.label')} />
+
+                        <InputField name="middleName" label={text('middleName.label')} />
+                      </div>
+
+                      <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
+                        <InputField
+                          required
+                          isMasked
+                          name="phone"
+                          placeholderItalic
+                          label={text('phone.label')}
+                          placeholder="+38(0__)___-__-__"
+                        />
+
+                        <InputField isCopy required name="email" label={text('email.label')} />
+                      </div>
+                    </Accordion>
+
+                    <Accordion
+                      initialState
+                      classNameWrapper="gap-0"
+                      title={text('title.media')}
+                      classNameTitle="text-[20px]"
+                      changedLength={values?.social?.length}
+                      classNameChildren="flex flex-col gap-4"
+                    >
                       <InputField
-                        isCopy
-                        required
-                        type="number"
-                        name="edrpou"
-                        wrapperClass="laptop:max-w-[140px]"
-                        label={text('organizationTaxNumber.labelErdpou')}
+                        cross
+                        name="site"
+                        label={text('site.label')}
+                        wrapperClass="laptop:max-w-[calc(50%-24px)]"
                       />
 
-                      <InputField isCopy required name="organizationName" label={text('organizationName.label')} />
-                    </div>
+                      <FieldArray
+                        name="social"
+                        render={({ push, remove }) => (
+                          <>
+                            {values.social.map((_, index: number) => {
+                              const isRightLength = values.social.length < 5;
+                              const isLastIndex = index === values.social.length - 1;
+                              const isMoreThanOne = values.social.length > 1;
 
-                    <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
-                      <FileField
-                        required
-                        placeholderItalic
-                        name="certificate"
-                        accept=".pdf, .jpg, .jpeg, .png"
-                        label={text('certificateOfRegister.label')}
-                        placeholder={text('certificateOfRegister.downloadDoc')}
-                      />
+                              return (
+                                <div key={index}>
+                                  <InputField
+                                    cross
+                                    name={`social.${index}`}
+                                    key={`media-signUp-${index}`}
+                                    label={text('socialNetworks.label')}
+                                    wrapperClass="laptop:max-w-[calc(50%-24px)]"
+                                  />
+                                  <div className="flex items-center justify-between laptop:max-w-[calc(50%-24px)]">
+                                    {isRightLength && isLastIndex && (
+                                      <SmallBtn
+                                        type="add"
+                                        text={btn('addField')}
+                                        onClick={() => push('')}
+                                        className="mt-3 flex justify-start !leading-4"
+                                      />
+                                    )}
 
-                      <DateField
-                        required
-                        placeholderItalic
-                        name="dateOfRegistration"
-                        label={text('dateOfRegisterOrganization.label')}
-                        placeholder={text('dateOfRegisterOrganization.chooseDate')}
-                      />
-                    </div>
-                  </Accordion>
-
-                  <Accordion
-                    initialState
-                    classNameTitle="text-[20px]"
-                    classNameChildren="flex flex-col gap-4"
-                    title={text('title.contactInformation')}
-                    changedLength={Object.keys(errors).length}
-                  >
-                    <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
-                      <InputField required name="position" label={text('positionOrganization.label')} />
-
-                      <InputField required name="lastName" label={text('lastName.label')} />
-                    </div>
-
-                    <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
-                      <InputField required name="firstName" label={text('name.label')} />
-
-                      <InputField name="middleName" label={text('middleName.label')} />
-                    </div>
-
-                    <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
-                      <InputField
-                        required
-                        isMasked
-                        name="phone"
-                        placeholderItalic
-                        label={text('phone.label')}
-                        placeholder="+38(0__)___-__-__"
-                      />
-
-                      <InputField isCopy required name="email" label={text('email.label')} />
-                    </div>
-                  </Accordion>
-
-                  <Accordion
-                    initialState
-                    classNameWrapper="gap-0"
-                    title={text('title.media')}
-                    classNameTitle="text-[20px]"
-                    changedLength={values?.social?.length}
-                    classNameChildren="flex flex-col gap-4"
-                  >
-                    <InputField
-                      cross
-                      name="site"
-                      label={text('site.label')}
-                      wrapperClass="laptop:max-w-[calc(50%-24px)]"
-                    />
-
-                    <FieldArray
-                      name="social"
-                      render={({ push, remove }) => (
-                        <>
-                          {values.social.map((_, index: number) => {
-                            const isRightLength = values.social.length < 5;
-                            const isLastIndex = index === values.social.length - 1;
-                            const isMoreThanOne = values.social.length > 1;
-
-                            return (
-                              <div key={index}>
-                                <InputField
-                                  cross
-                                  name={`social.${index}`}
-                                  key={`media-signUp-${index}`}
-                                  label={text('socialNetworks.label')}
-                                  wrapperClass="laptop:max-w-[calc(50%-24px)]"
-                                />
-                                <div className="flex max-w-[465px] items-center justify-between">
-                                  {isRightLength && isLastIndex && (
-                                    <SmallBtn
-                                      type="add"
-                                      text={btn('addField')}
-                                      onClick={() => push('')}
-                                      className="mt-3 flex w-full justify-start !leading-4"
-                                    />
-                                  )}
-
-                                  {isMoreThanOne && (
-                                    <SmallBtn
-                                      type="delete"
-                                      text={btn('deleteField')}
-                                      onClick={() => remove(index)}
-                                      className="mt-3 flex w-full justify-end !leading-4"
-                                    />
-                                  )}
+                                    {isMoreThanOne && (
+                                      <SmallBtn
+                                        type="delete"
+                                        text={btn('deleteField')}
+                                        onClick={() => remove(index)}
+                                        className={`flex ${isRightLength && isLastIndex ? 'justify-end' : 'ml-auto'} !leading-4`}
+                                      />
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                            );
-                          })}
-                        </>
+                              );
+                            })}
+                          </>
+                        )}
+                      />
+                    </Accordion>
+
+                    <div className="flex w-full flex-col justify-end gap-3 tablet:flex-row tablet:gap-6">
+                      {(isRequests || isDeclined) && (
+                        <Button
+                          type="button"
+                          styleType="green"
+                          disabled={!isValid}
+                          text={btn('accept')}
+                          onClick={() => setIsOpenAccept(true)}
+                          className="w-full uppercase tablet:w-fit"
+                        />
                       )}
-                    />
-                  </Accordion>
 
-                  <div className="flex w-full flex-col justify-end gap-3 tablet:flex-row tablet:gap-6">
-                    {(isRequests || isDeclined) && (
-                      <Button
-                        type="button"
-                        styleType="green"
-                        text={btn('accept')}
-                        onClick={() => setIsOpenAccept(true)}
-                        className="w-full uppercase tablet:w-fit"
-                      />
-                    )}
+                      {isRequests && (
+                        <Button
+                          type="button"
+                          styleType="red"
+                          text={btn('decline')}
+                          onClick={() => setIsOpenDecline(true)}
+                          className="w-full uppercase tablet:w-fit"
+                        />
+                      )}
 
-                    {isRequests && (
-                      <Button
-                        type="button"
-                        styleType="red"
-                        text={btn('decline')}
-                        onClick={() => setIsOpenDecline(true)}
-                        className="w-full uppercase tablet:w-fit"
-                      />
-                    )}
-
-                    {(isDeclined || isOrganization) && (
-                      <Button
-                        type="button"
-                        styleType="red"
-                        text={btn('delete')}
-                        onClick={() => setIsOpenDelete(true)}
-                        className="w-full uppercase tablet:w-fit"
-                      />
-                    )}
-                  </div>
-                </Form>
+                      {(isDeclined || isOrganization) && (
+                        <Button
+                          type="button"
+                          styleType="red"
+                          text={btn('delete')}
+                          onClick={() => setIsOpenDelete(true)}
+                          className="w-full uppercase tablet:w-fit"
+                        />
+                      )}
+                    </div>
+                  </Form>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          );
+        }}
       </Formik>
 
       {isOpenDecline && data && (

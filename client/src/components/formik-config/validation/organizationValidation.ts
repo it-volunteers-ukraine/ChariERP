@@ -3,8 +3,8 @@ import { TranslationValues } from 'next-intl';
 import { isValidPhoneNumber } from 'libphonenumber-js';
 
 const maxSize = 5;
-const linkRegExp = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6})(\/[\w.-]*)*\/?$/;
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const linkRegExp = /^(https):\/\/([a-zA-Z0-9.-]+)(\/[^\s]*)?(\?[^\s]*)?$/i;
 
 export const organizationValidation = (error: (key: string, params?: TranslationValues) => string) =>
   Yup.object().shape({
@@ -82,7 +82,7 @@ export const organizationValidation = (error: (key: string, params?: Translation
         .matches(linkRegExp, error('siteStart'))
         .min(10, error('minPlural', { int: 10 }))
         .max(2000, error('maxPlural', { int: 2000 }))
-        .test('isRequired', error('required'), (value, context) => {
+        .test('isRequired', error('notEmpty'), (value, context) => {
           const { parent } = context;
 
           if (parent && parent.length > 1) {

@@ -2,6 +2,8 @@
 
 const withNextIntl = require('next-intl/plugin')('./src/i18n.ts');
 
+process.env.TZ = 'Europe/Kyiv';
+
 const nextConfig = {
   output: 'standalone',
   experimental: {
@@ -29,6 +31,8 @@ const nextConfig = {
 
     // Modify the file loader rule to ignore *.svg, since we have it handled now.
     fileLoaderRule.exclude = /\.svg$/i;
+
+    console.log(`SERVER DATE: ${new Date()}`);
 
     return config;
   },

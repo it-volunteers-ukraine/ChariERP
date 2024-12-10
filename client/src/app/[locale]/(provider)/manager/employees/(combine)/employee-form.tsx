@@ -1,19 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikErrors, FormikValues } from 'formik';
 
 import {
   Button,
   Accordion,
   DateField,
+  ButtonIcon,
   InputField,
   ModalAdmin,
-  ButtonIcon,
-  showMessage,
   AvatarField,
+  showMessage,
   EmployeeCard,
   employeeValidation,
 } from '@/components';
@@ -49,7 +49,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
       enableReinitialize
       onSubmit={onSubmit}
       initialValues={initialValues}
-      validationSchema={employeeValidation(error).omit(['password'])}
+      validationSchema={!isCreate ? employeeValidation(error).omit(['password']) : employeeValidation(error)}
     >
       {({ values, errors, validateForm, handleSubmit, setFieldValue, setValues }) => (
         <div className="scroll-blue w-full overflow-y-auto bg-white p-[24px_16px_48px] tablet:p-[24px_32px_48px] desktop:p-[32px_36px_48px]">

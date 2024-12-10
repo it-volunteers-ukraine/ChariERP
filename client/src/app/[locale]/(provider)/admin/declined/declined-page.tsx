@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 import { useLoaderAdminPage } from '@/context';
 import { getAdminOrganizationsAction } from '@/actions';
@@ -13,6 +14,7 @@ export const DeclinedPage = () => {
   const [page, setPage] = useState(1);
   const { setIsLoading } = useLoaderAdminPage();
   const [totalRecords, setTotalRecords] = useState(1);
+  const placeholder = useTranslations('inputs.placeholder');
   const [organizations, setOrganizations] = useState<IOrganization[]>([]);
 
   const getData = async (currentPage: number) => {
@@ -44,7 +46,8 @@ export const DeclinedPage = () => {
           type="search"
           name="requisitionSearch"
           label="requisitionSearch"
-          wrapperClass="mb-6 px-6 tablet:pl-8 tablet:max-w-[373px]"
+          placeholder={placeholder('searchTable')}
+          wrapperClass="mb-6 px-4 tablet:pl-8 tablet:pr-0 tablet:max-w-[405px] desktop:max-w-[541px]"
         />
 
         <TableRequests data={organizations} getData={() => getData(page)} isPagination={totalRecords > pageSize} />
@@ -55,7 +58,7 @@ export const DeclinedPage = () => {
         onChange={setPage}
         pageSize={pageSize}
         total={totalRecords}
-        className="my-auto max-w-[440px] py-16 desktop:ml-11"
+        className="my-auto max-w-[440px] py-16 desktop:ml-8"
       />
     </>
   );

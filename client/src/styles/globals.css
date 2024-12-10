@@ -38,6 +38,10 @@ body {
   }
 }
 
+.gutter-stable {
+  scrollbar-gutter: stable;
+}
+
 .nav-toggle {
   position: relative;
   background: transparent;
@@ -100,6 +104,10 @@ body {
 
 .scroll-blue::-webkit-scrollbar-thumb {
   @apply w-[7px] cursor-pointer rounded-[100px] bg-lightBlue;
+}
+
+.scroll-column.scroll-blue::-webkit-scrollbar-thumb {
+  @apply border-2 border-solid border-superBlue;
 }
 
 .scroll-textarea::-webkit-scrollbar {

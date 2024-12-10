@@ -39,8 +39,8 @@ class UserService extends BaseService {
     const user = await Users.findOne({ email });
     const admin = await Admin.findOne({ email });
 
-    if (user || admin) {
-      const foundUser = user || admin;
+    if (admin || user) {
+      const foundUser = admin || user;
 
       if (foundUser.status === UserStatus.BLOCKED) {
         return { success: false, message: 'blockedAccount' };
@@ -131,11 +131,13 @@ class UserService extends BaseService {
       return { success: false, message: errors };
     }
 
-    const isEmailExist = await Users.findOne({
+    const isUserEmailExist = await Users.findOne({
       email: data.email,
     });
 
-    if (isEmailExist) {
+    const isAdminEmailReceived = await Admin.findOne({ email: data.email });
+
+    if (isAdminEmailReceived || isUserEmailExist) {
       return { success: false, message: 'Email already exists' };
     }
 
@@ -147,8 +149,11 @@ class UserService extends BaseService {
       return { success: false, message: `Organization  doesn't exist` };
     }
 
+    const hash = await bcrypt.hash(data.password, 10);
+
     const body = {
       ...data,
+      password: hash,
       status: UserStatus.ACTIVE,
       avatarUrl: '',
       organizationId: organizationId,

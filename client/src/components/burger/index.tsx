@@ -10,14 +10,18 @@ import { Button, LanguageSwitcher, Navigation } from '@/components';
 
 import { getStyles } from './styles';
 
-export const Burger = () => {
+interface IBurgerProps {
+  isLoggedIn?: boolean;
+}
+
+export const Burger = ({ isLoggedIn }: IBurgerProps) => {
   const ref = useRef(null);
   const router = useRouter();
   const [isActive, setIsActive] = useState(false);
   const { burger, nav } = getStyles({ isActive });
   const auth = useTranslations('auth-page.links');
 
-  useOutsideClick(ref, () => setIsActive(false));
+  useOutsideClick(() => setIsActive(false), ref);
 
   const onHandleClick = async (route: string) => {
     await router.push(route);
@@ -37,12 +41,14 @@ export const Burger = () => {
           <Navigation onBurgerClose={() => setIsActive(false)} />
 
           <div className="flex flex-wrap justify-between gap-[13px_35px]">
-            <Button
-              styleType="secondary"
-              className="uppercase"
-              text={auth('registration')}
-              onClick={() => onHandleClick(routes.registration)}
-            />
+            {!isLoggedIn && (
+              <Button
+                styleType="secondary"
+                className="uppercase"
+                text={auth('registration')}
+                onClick={() => onHandleClick(routes.registration)}
+              />
+            )}
 
             <Button
               styleType="outline"

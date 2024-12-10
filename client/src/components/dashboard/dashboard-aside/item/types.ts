@@ -1,6 +1,6 @@
 export interface INavItemProps {
   href: string;
-  text: string;
+  title: string;
   isOpen?: boolean;
   isParent?: boolean;
   disabled?: boolean;

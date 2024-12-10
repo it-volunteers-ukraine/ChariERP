@@ -3,25 +3,28 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
-import { RadioField } from '@/components';
+import { EllipsisText, RadioField } from '@/components';
 
 import { getStyles } from './styles';
 import { IModalContent } from './types';
+import { Warning } from '@/assets/icons';
 
-export const ModalContent = ({ name, setFieldValue, organizationName, values }: IModalContent) => {
+export const ModalContent = ({ name, setFieldValue, organizationName, values, error }: IModalContent) => {
   const modal = useTranslations('modal.decline');
 
   const [textareaValue, setTextareaValue] = useState('');
 
   const isOtherSelected = values ? values[name] === modal('radioBtn.other') : false;
 
-  const styles = getStyles(isOtherSelected);
+  const styles = getStyles(isOtherSelected, !!error);
 
   return (
     <>
-      <div className="mb-1 flex flex-col gap-4">
+      <div className="mb-1 flex flex-col gap-2 tablet:gap-4">
         <div className="lending-6 flex flex-col text-center text-mobster">
-          <span>{organizationName}</span>
+          <EllipsisText content={organizationName}>
+            <span className="line-clamp-1 break-words">{organizationName}</span>
+          </EllipsisText>
           <span>{modal('subTitle')}</span>
         </div>
 
@@ -69,6 +72,14 @@ export const ModalContent = ({ name, setFieldValue, organizationName, values }: 
           }}
           onBlur={() => setFieldValue && setFieldValue('otherReason', textareaValue)}
         />
+
+        {error && (
+          <div className="flex gap-3 pl-2">
+            <Warning width={24} height={24} />
+
+            <span className="text-[14px] text-input-error">{error}</span>
+          </div>
+        )}
       </div>
     </>
   );

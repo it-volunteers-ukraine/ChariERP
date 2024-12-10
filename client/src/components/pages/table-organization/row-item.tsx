@@ -1,17 +1,16 @@
 'use client';
 
-import { MouseEvent } from 'react';
 import { format } from 'date-fns';
+import { MouseEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 
-import { routes } from '@/constants';
+import { onCopy } from '@/utils';
 import { RowItemOrgProps } from '@/types';
 import { Copy, User } from '@/assets/icons';
-import { dateFormat, onCopy } from '@/utils';
+import { dateFormat, routes } from '@/constants';
 
 export const RowItem = ({ item }: RowItemOrgProps) => {
-  const locale = useLocale();
   const router = useRouter();
   const table = useTranslations('table');
   const messagesCopy = useTranslations('copy');
@@ -29,11 +28,11 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
       onClick={handleRowClick}
       className="grid-cols-[auto, auto] grid cursor-pointer rounded-2xl border border-[#A3A3A359] p-3 transition-all duration-300 hover:bg-superBlue laptop:grid-cols-tableOrganization laptop:items-center laptop:gap-5 laptop:rounded-none laptop:border-x-0 laptop:border-b laptop:border-t-0 laptop:py-[13px] laptop:pl-3 laptop:pr-0"
     >
-      <div className="col-span-2 overflow-hidden truncate whitespace-nowrap font-robotoCondensed text-lg leading-[22px] laptop:col-auto">
+      <div className="col-span-2 overflow-hidden truncate whitespace-nowrap font-robotoCondensed text-xl leading-6 text-midGray laptop:col-auto laptop:text-lg laptop:leading-[22px]">
         {item.organizationName}
       </div>
 
-      <span className="mt-6 font-robotoCondensed text-lg leading-[22px] laptop:mt-0 laptop:hidden">
+      <span className="mt-6 font-robotoCondensed text-lg leading-[22px] text-dimGray laptop:mt-0 laptop:hidden">
         {table('EDRPOU')}
       </span>
 
@@ -43,15 +42,15 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
         </span>
 
         <Copy
-          width={24}
-          height={24}
-          className="flex-shrink-0 cursor-pointer text-lightBlue"
-          onClick={(e: MouseEvent<SVGSVGElement>) => onCopy(e, item.EDRPOU, messagesCopy('messages'))}
+          className="h-6 w-6 flex-shrink-0 cursor-pointer text-lightBlue transition duration-300 hover:text-dark-blue active:text-greenActive active:transition-none"
+          onClick={(e: MouseEvent<SVGSVGElement>) =>
+            onCopy<MouseEvent<SVGSVGElement>>(e, item.EDRPOU, messagesCopy('messages'))
+          }
         />
       </div>
 
       <div className="mt-6 font-robotoCondensed text-lg leading-[22px] laptop:mt-0 laptop:hidden laptop:text-center">
-        {item.approvalDate && format(new Date(item.approvalDate), dateFormat[locale])}
+        {item.approvalDate && format(new Date(item.approvalDate), dateFormat)}
       </div>
 
       <div className="mt-6 flex items-center justify-end laptop:mt-0 laptop:justify-center">
@@ -63,10 +62,12 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
       </div>
 
       <div className="mt-6 hidden font-robotoCondensed text-lg leading-[22px] laptop:mt-0 laptop:block laptop:text-center">
-        {item.approvalDate && format(new Date(item.approvalDate), dateFormat[locale])}
+        {item.approvalDate && format(new Date(item.approvalDate), dateFormat)}
       </div>
 
-      <span className="mt-6 font-robotoCondensed text-lg leading-[22px] laptop:hidden">{table('email')}</span>
+      <span className="mt-6 font-robotoCondensed text-lg leading-[22px] text-dimGray laptop:hidden">
+        {table('email')}
+      </span>
 
       <div className="mt-6 laptop:col-auto laptop:mt-0 laptop:pl-2">
         <div className="flex justify-end gap-2 laptop:justify-between">
@@ -76,7 +77,7 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
             <Copy
               width={24}
               height={24}
-              className="flex-shrink-0 cursor-pointer text-lightBlue"
+              className="flex-shrink-0 cursor-pointer text-lightBlue transition duration-300 hover:text-dark-blue active:text-greenActive active:transition-none"
               onClick={(e: MouseEvent<SVGSVGElement>) => onCopy(e, item.email, messagesCopy('messages'))}
             />
           </div>

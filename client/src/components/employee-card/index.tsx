@@ -7,6 +7,7 @@ import { useParams, useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
 import { getImageAction } from '@/actions';
+import { EllipsisText } from '@/components';
 
 import { Info } from './info';
 import { getStyles } from './styles';
@@ -67,7 +68,7 @@ export const EmployeeCard = ({
   };
 
   useEffect(() => {
-    startTransition(async () => {
+    startTransition(() => {
       loadImg();
     });
   }, [avatarUrl]);
@@ -80,9 +81,15 @@ export const EmployeeCard = ({
         {inById && <AvatarField name="avatarUrl" lastName={lastName} firstName={firstName} />}
 
         <div className="flex w-[calc(100%-102px)] flex-col gap-1">
-          <p className={styles.abbName}>{lastName}</p>
-          <p className={styles.abbName}>{firstName}</p>
-          <p className={`${styles.abbName} ${styles.abbNameLast}`}>{middleName}</p>
+          <EllipsisText delay={0} content={lastName}>
+            <p className={styles.abbName}>{lastName}</p>
+          </EllipsisText>
+          <EllipsisText delay={0} content={firstName}>
+            <p className={styles.abbName}>{firstName}</p>
+          </EllipsisText>
+          <EllipsisText delay={0} content={middleName}>
+            <p className={`${styles.abbName} ${styles.abbNameLast}`}>{middleName}</p>
+          </EllipsisText>
 
           <JobTitle jobTitle={position} />
         </div>

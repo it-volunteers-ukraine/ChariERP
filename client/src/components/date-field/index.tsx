@@ -10,6 +10,7 @@ import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { controlError } from '@/utils';
+import { dateFormat } from '@/constants';
 
 import { Input } from '../input';
 import { DateFieldProps } from './types';
@@ -82,11 +83,11 @@ export const DateField = ({ name, label, required, placeholder, wrapperClass, ..
               maxDate={new Date()}
               portalId="DatePicker"
               scrollableYearDropdown
-              dateFormat="dd.MM.yyyy"
+              dateFormat={dateFormat}
               yearDropdownItemNumber={150}
               placeholderText={placeholder}
               onCalendarClose={handelClose}
-              minDate={new Date('1991-01-01')}
+              minDate={new Date('1944-01-01')}
               onChange={(date) => onChange(date)}
               selected={value ? new Date(value) : null}
               customInput={

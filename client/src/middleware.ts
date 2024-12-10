@@ -3,48 +3,55 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { ActiveLanguage } from './types';
 import { cookiesLocale, locales, routes } from './constants';
+import { RequestCookies } from 'next/dist/compiled/@edge-runtime/cookies';
 
-const intlMiddleware = createMiddleware({
+const initMiddlewareWithDefaults = createMiddleware({
   locales,
   defaultLocale: 'ua',
   localePrefix: 'never',
 });
 
-const getValidId = (id: string) => {
-  const objectIdRegex = /^[0-9a-fA-F]{24}$/;
-
-  return objectIdRegex.test(id);
-};
-
 export async function middleware(request: NextRequest) {
-  const cookies = request.cookies;
+  setDefaultLocaleIfEmpty(request.cookies);
 
-  const id = cookies.get('id')?.value || '';
+  return handleRedirection(request);
+}
+
+const setDefaultLocaleIfEmpty = (cookies: RequestCookies): void => {
   const language = cookies.get(cookiesLocale)?.value;
 
   if (!language) {
     cookies.set(cookiesLocale, ActiveLanguage.UA);
   }
+};
 
-  const response = intlMiddleware(request);
+function handleRedirection(request: NextRequest): NextResponse {
+  const id = request.cookies.get('id')?.value || '';
+  const { pathname } = request.nextUrl;
 
-  if (!getValidId(id) && request.nextUrl.pathname.includes(routes.requests)) {
-    const url = request.nextUrl.clone();
-
-    url.pathname = routes.login;
-
-    return NextResponse.redirect(url);
+  if (!isValidObjectId(id) && pathname.includes(routes.requests)) {
+    return redirect(request, routes.login);
   }
 
-  if (getValidId(id) && request.nextUrl.pathname === routes.login) {
-    const url = request.nextUrl.clone();
-
-    url.pathname = routes.requests;
-
-    return NextResponse.redirect(url);
+  if (isValidObjectId(id) && pathname === routes.login) {
+    return redirect(request, routes.requests);
   }
 
-  return response;
+  return initMiddlewareWithDefaults(request);
+}
+
+export const isValidObjectId = (id: string): boolean => {
+  const objectIdRegex = /^[0-9a-fA-F]{24}$/;
+
+  return objectIdRegex.test(id);
+};
+
+function redirect(request: NextRequest, targetPath: string): NextResponse {
+  const url = request.nextUrl.clone();
+
+  url.pathname = targetPath;
+
+  return NextResponse.redirect(url);
 }
 
 export const config = {
