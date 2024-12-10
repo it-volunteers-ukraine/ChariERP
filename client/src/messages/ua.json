@@ -223,6 +223,9 @@
       "sentEmail": "Лист було надіслано на {email}",
       "deleteOrganization": "Заявку видалено",
       "Organization updated": "Організацію оновлено"
+    },
+    "employees": {
+      "addUser": "Користувача успішно створено"
     }
   },
   "errors": {
@@ -237,7 +240,10 @@
     "admin": {
       "emptyValue": "Будь ласка, оберіть одну причину"
     },
-    "fileDownload": "Невірний формат файлу"
+    "fileDownload": "Невірний формат файлу",
+    "employees": {
+      "addUser": "Електронна пошта вже існує"
+    }
   },
   "loader": {
     "top": "Будь ласка, зачекайте!",

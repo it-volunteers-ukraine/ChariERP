@@ -227,6 +227,9 @@
       "sentEmail": "The letter was sent to {email}",
       "deleteOrganization": "The organization was deleted",
       "Organization updated": "Organization updated"
+    },
+    "employees": {
+      "addUser": "User created successfully"
     }
   },
   "errors": {
@@ -241,7 +244,10 @@
     "admin": {
       "emptyValue": "Please, pick one reason"
     },
-    "fileDownload": "Invalid file format"
+    "fileDownload": "Invalid file format",
+    "employees": {
+      "addUser": "Email already exists"
+    }
   },
   "loader": {
     "top": "Please wait!",

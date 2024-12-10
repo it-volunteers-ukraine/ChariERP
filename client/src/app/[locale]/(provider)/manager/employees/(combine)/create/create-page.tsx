@@ -12,8 +12,11 @@ import { createUserByCompanyIdAction } from '@/actions';
 import { employeeCreateInitialValues, showMessage } from '@/components';
 
 import { EmployeeForm } from '../employee-form';
+import { useTranslations } from 'next-intl';
 
 const CreatePage = () => {
+  const addUserError = useTranslations('errors.employees');
+  const addUserSuccess = useTranslations('success.employees');
   const { organizationId } = useUserInfo();
   const router = useRouter();
 
@@ -32,12 +35,12 @@ const CreatePage = () => {
       const resp = await createUserByCompanyIdAction(formData);
 
       if (resp.success) {
-        showMessage.success('User created successfully');
+        showMessage.success(addUserSuccess('addUser'));
         router.push(routes.employees);
       }
 
       if (!resp.success) {
-        showMessage.error(resp.message);
+        showMessage.error(addUserError('addUser'));
       }
     } catch (error) {
       console.log(error);
