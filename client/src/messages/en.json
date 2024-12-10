@@ -244,6 +244,7 @@
     "admin": {
       "emptyValue": "Please, pick one reason"
     },
+    "fileDownload": "Invalid file format",
     "employees": {
       "addUser": "Email already exists"
     }
