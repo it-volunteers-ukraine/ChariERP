@@ -2,11 +2,11 @@
 
 import { ChangeEvent } from 'react';
 import { Field, FieldProps } from 'formik';
+import { useTranslations } from 'next-intl';
 
+import { showMessage } from '../toastify';
 import { AvatarFieldProps } from './types';
 import { AvatarUploader } from '../avatar-uploader';
-import { showMessage } from '../toastify';
-import { useTranslations } from 'next-intl';
 
 export const AvatarField = ({ name, info, isSubmit, lastName, firstName, className }: AvatarFieldProps) => {
   const errorText = useTranslations('errors');
