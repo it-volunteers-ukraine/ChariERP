@@ -249,7 +249,8 @@
     },
     "employees": {
       "addUser": "Email already exists"
-    }
+    },
+    "error-upload": "Error when uploading a file"
   },
   "loader": {
     "top": "Please wait!",

@@ -66,6 +66,10 @@ class OrganizationService extends BaseService {
 
     const uploadedFileUrl = await uploadFileToBucket(data.edrpou, BucketFolders.CertificateOfRegister, certificate);
 
+    if (!uploadedFileUrl) {
+      return { message: 'error-upload', success: false };
+    }
+
     const body = {
       request: RequestOrganizationStatus.PENDING,
       organizationData: {
@@ -214,6 +218,10 @@ class OrganizationService extends BaseService {
         BucketFolders.CertificateOfRegister,
         certificate,
       );
+
+      if (!uploadedFileUrl) {
+        return { message: 'error-upload', success: false };
+      }
     }
 
     const body: IOrganizationsUpdate = {
@@ -258,13 +266,16 @@ class OrganizationService extends BaseService {
 
       body.users = [response._id];
       body.approvalDate = new Date();
-
-      await sendEmail({
-        html: getHtmlCodeForPassword({ email: body.contactData.email, password }),
-        text: 'Ваші дані для входу',
-        subject: 'Ваші дані для входу',
-        to: body.contactData.email,
-      });
+      try {
+        await sendEmail({
+          html: getHtmlCodeForPassword({ email: body.contactData.email, password }),
+          text: 'Ваші дані для входу',
+          subject: 'Ваші дані для входу',
+          to: body.contactData.email,
+        });
+      } catch (error) {
+        console.log('Send email', error);
+      }
     }
 
     const response = await Organizations.findByIdAndUpdate(id, { $set: body }, { new: true });

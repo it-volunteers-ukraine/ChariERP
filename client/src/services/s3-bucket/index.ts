@@ -40,8 +40,10 @@ const s3Client = new S3Client({
 const uploadFileToBucket = async (organizationName: string, folder: BucketFolders, file: File) => {
   const bucketFileDestinationPath = `${encodeURIComponent(organizationName)}/${folder}/${file.name}`;
 
+  const fileContent = await file.arrayBuffer();
+
   const params = {
-    Body: file,
+    Body: fileContent,
     ACL: 'private',
     Key: bucketFileDestinationPath,
     Bucket: process.env.S3_BUCKET_ID,
