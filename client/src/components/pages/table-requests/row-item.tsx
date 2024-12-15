@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 
 import { Copy, Doc } from '@/assets/icons';
 import { dateFormat, routes } from '@/constants';
-import { onCopy, openNewWindowForCertificate } from '@/utils';
+import { onCopy, openNewWindowForCertificate, showErrorMessageOfOrganizationExist } from '@/utils';
 import { RequestOrganizationStatus, RowItemProps } from '@/types';
 import { Button, ModalAdmin, showMessage, ModalDecline, EllipsisText } from '@/components';
 import {
@@ -24,6 +24,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const modal = useTranslations('modal');
   const table = useTranslations('table');
   const messagesCopy = useTranslations('copy');
+  const globalError = useTranslations('errors');
   const success = useTranslations('success.admin-pages');
 
   const [isLoading, setIsLoading] = useState(false);
@@ -43,8 +44,8 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
 
       const response = await updateOrganizationAction(item.id, formData);
 
-      if (!response.success && !Array.isArray(response.message)) {
-        return showMessage.error(response.message);
+      if (!response.success && response.message) {
+        return showErrorMessageOfOrganizationExist(globalError, response.message);
       }
 
       showMessage.success(success('sentEmail', { email: item.email }));

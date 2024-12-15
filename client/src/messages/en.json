@@ -241,13 +241,17 @@
       "or": "or",
       "blockedAccount": "Your account is blocked"
     },
+    "employee": {
+      "lastLogin": "No data"
+    },
     "admin": {
       "emptyValue": "Please, pick one reason"
     },
     "fileDownload": "Invalid file format",
     "employees": {
       "addUser": "Email already exists"
-    }
+    },
+    "error-upload": "Error when uploading a file"
   },
   "loader": {
     "top": "Please wait!",

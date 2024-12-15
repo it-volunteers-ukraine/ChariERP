@@ -39,7 +39,7 @@ const AdminOrganizationById = () => {
   const text = useTranslations('inputs');
   const modal = useTranslations('modal');
   const error = useTranslations('validation');
-  const errorText = useTranslations('errors.login');
+  const globalError = useTranslations('errors');
   const success = useTranslations('success.admin-pages');
 
   const isRequests = path?.includes(routes.requests);
@@ -83,8 +83,8 @@ const AdminOrganizationById = () => {
 
     const response = await updateOrganizationAction(id as string, formData);
 
-    if (!response.success && Array.isArray(response.message)) {
-      showErrorMessageOfOrganizationExist(errorText, response.message);
+    if (!response.success && response.message) {
+      showErrorMessageOfOrganizationExist(globalError, response.message);
 
       return { error: true };
     }
