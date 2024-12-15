@@ -69,7 +69,7 @@ export const EmployeeCard = ({
   };
 
   useEffect(() => {
-    startTransition(async () => {
+    startTransition(() => {
       loadImg();
     });
   }, [avatarUrl]);

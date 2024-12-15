@@ -36,39 +36,42 @@ class UserService extends BaseService {
   async login(email: string, password: string) {
     await this.connect();
 
-    let foundUser = await Users.findOne({ email });
+    const user = await Users.findOne({ email });
+    const admin = await Admin.findOne({ email });
 
-    if (!foundUser) {
-      foundUser = await Admin.findOne({ email });
-    }
+    if (admin || user) {
+      const foundUser = admin || user;
 
-    if (!foundUser) {
-      return { success: false, message: 'userNotFound' };
-    }
+      if (foundUser.status === UserStatus.BLOCKED) {
+        return { success: false, message: 'blockedAccount' };
+      }
 
-    if (foundUser.status === UserStatus.BLOCKED) {
-      return { success: false, message: 'blockedAccount' };
-    }
+      const compare = await bcrypt.compare(password, foundUser.password);
 
-    const isPasswordValid = await bcrypt.compare(password, foundUser.password);
+      if (compare) {
+        let updatedUser;
 
-    if (!isPasswordValid) {
+        if (foundUser.role !== Roles.ADMIN) {
+          updatedUser = await Users.findByIdAndUpdate(
+            foundUser._id,
+            {
+              $set: { lastLogin: new Date() },
+            },
+            {
+              new: true,
+            },
+          );
+
+          return { success: true, user: JSON.stringify(updatedUser) };
+        }
+
+        return { success: true, user: JSON.stringify(foundUser) };
+      }
+
       return { success: false, message: 'userIncorrect' };
     }
 
-    if (foundUser.role !== Roles.ADMIN) {
-      foundUser = await Users.findByIdAndUpdate(
-        foundUser._id,
-        {
-          $set: { lastLogin: new Date() },
-        },
-        {
-          new: true,
-        },
-      );
-    }
-
-    return { success: true, user: JSON.stringify(foundUser) };
+    return { success: false, message: 'userNotFound' };
   }
 
   async getAllByOrganizationId({ id, page, limit = 10 }: IUsersByOrganizationProps) {
@@ -144,11 +147,13 @@ class UserService extends BaseService {
       return { success: false, message: errors };
     }
 
-    const isEmailExist = await Users.findOne({
+    const isUserEmailExist = await Users.findOne({
       email: data.email,
     });
 
-    if (isEmailExist) {
+    const isAdminEmailReceived = await Admin.findOne({ email: data.email });
+
+    if (isAdminEmailReceived || isUserEmailExist) {
       return { success: false, message: 'Email already exists' };
     }
 
@@ -160,8 +165,11 @@ class UserService extends BaseService {
       return { success: false, message: `Organization  doesn't exist` };
     }
 
+    const hash = await bcrypt.hash(data.password, 10);
+
     const body = {
       ...data,
+      password: hash,
       status: UserStatus.ACTIVE,
       avatarUrl: '',
       organizationId: organizationId,

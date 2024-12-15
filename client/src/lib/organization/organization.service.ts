@@ -21,7 +21,7 @@ import {
   RequestOrganizationStatus,
 } from '@/types';
 
-import { Organizations, Users } from '..';
+import { Admin, Organizations, Users } from '..';
 import { BaseService } from '../database/base.service';
 
 const sort = {
@@ -35,6 +35,18 @@ class OrganizationService extends BaseService {
     await this.connect();
     const certificate = formData.get('certificate') as File;
     const data = JSON.parse(formData.get('data') as string) as OrganizationCreateValues;
+
+    const isUserEmailExist = await Users.findOne({
+      email: data.email,
+    });
+
+    const isAdminEmailReceived = await Admin.findOne({ email: data.email });
+
+    if (isUserEmailExist || isAdminEmailReceived) {
+      const email = isAdminEmailReceived?.email || isUserEmailExist?.email;
+
+      return { message: [email], success: false };
+    }
 
     const organizationExist = await Organizations.find({
       $or: [{ 'organizationData.edrpou': data.edrpou }, { 'contactData.email': data.email }],
@@ -164,6 +176,18 @@ class OrganizationService extends BaseService {
     const certificate = formData.get('certificate') as File;
     const isNewCertificate = certificate && certificate?.size !== 1;
     const isApproved = data.request === RequestOrganizationStatus.APPROVED && organization.users.length === 0;
+
+    const isUserEmailExist = await Users.findOne({
+      email: data.email,
+    });
+
+    const isAdminEmailReceived = await Admin.findOne({ email: data.email });
+
+    if (isUserEmailExist || isAdminEmailReceived) {
+      const email = isAdminEmailReceived?.email || isUserEmailExist?.email;
+
+      return { message: [email], success: false };
+    }
 
     const organizationExist = await Organizations.find({
       $or: [{ 'organizationData.edrpou': data.edrpou }, { 'contactData.email': data.email }],
