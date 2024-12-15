@@ -122,7 +122,9 @@ export const ColumnTasks = ({
             </ToolsDropMenu>
           </div>
 
-          <div className="scroll-textarea flex flex-col gap-y-3 pr-1">{children}</div>
+          <div className="scroll-textarea flex max-h-[calc(100%-62px)] flex-col gap-y-3 overflow-y-auto pr-1">
+            {children}
+          </div>
 
           <div className="pr-3">
             <button className={style.addTask}>

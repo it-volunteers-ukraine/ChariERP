@@ -112,12 +112,12 @@ export const Columns = () => {
   };
 
   return (
-    <div className="scroll-blue scroll-column flex gap-6 bg-white px-5 py-5">
+    <div className="scroll-blue scroll-column flex h-[calc(100%-62px)] gap-6 overflow-x-auto bg-white px-5 py-5">
       <DragDropContext onDragEnd={onMoveColumn}>
         <Droppable droppableId="column-area" type="Columns" direction="horizontal">
           {(provided) => (
             <>
-              <div ref={provided.innerRef} {...provided.droppableProps} className="flex gap-6 overflow-x-auto">
+              <div ref={provided.innerRef} {...provided.droppableProps} className="flex gap-6">
                 {dataColumn.map((item, index) => (
                   <ColumnTasks
                     {...item}
@@ -128,7 +128,11 @@ export const Columns = () => {
                   >
                     <Droppable droppableId={`${index}-columns`} type="Tasks">
                       {(providedTask) => (
-                        <div ref={providedTask.innerRef} {...providedTask.droppableProps}>
+                        <div
+                          ref={providedTask.innerRef}
+                          {...providedTask.droppableProps}
+                          className="flex flex-col gap-3"
+                        >
                           {item.tasks.map((task, idx: number) => {
                             return (
                               <TaskCard
@@ -142,7 +146,8 @@ export const Columns = () => {
                           })}
                           <div
                             className={cn(
-                              item.tasks.length === 0 && 'min-h-[96px] rounded border-2 border-dashed border-gray-300',
+                              item.tasks.length === 0 &&
+                                'mr-3 min-h-[96px] rounded border-2 border-dashed border-gray-300',
                             )}
                           >
                             {providedTask.placeholder}
@@ -160,7 +165,7 @@ export const Columns = () => {
         </Droppable>
       </DragDropContext>
 
-      <div className="flex h-full gap-6 bg-white">
+      <div className="-ml-6 flex h-full bg-white">
         {createColumn && (
           <div className="flex h-fit min-h-[254px] w-[254px] flex-col gap-y-3 rounded-md bg-whiteSecond px-4 py-5">
             <input
