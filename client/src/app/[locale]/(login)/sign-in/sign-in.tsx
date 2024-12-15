@@ -26,7 +26,7 @@ const SignIn = () => {
       if (result.success && result.user) {
         const user = JSON.parse(result.user);
 
-        Cookies.set(idUser, user._id.toString(), { expires: 7 });
+        Cookies.set(idUser, user._id.toString(), { expires: 1 });
         router.push(routes.managerHome);
       }
 

@@ -1,3 +1,4 @@
+export { AboutUsPage } from './about-us';
 export { AdminOrganizationById } from './admin-organization-by-id';
 export { HomePage } from './home';
 export { boardApi } from './dashboards/api';
