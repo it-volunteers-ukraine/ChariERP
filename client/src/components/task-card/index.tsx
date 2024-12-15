@@ -16,7 +16,7 @@ interface ITaskCard {
   idx: number;
   title: string;
   users: IUsers[];
-  onDelete: (props: string) => void;
+  onDelete: (props: number) => void;
 }
 
 const duration = 300;
@@ -30,7 +30,7 @@ export const TaskCard = ({ id, idx, title, users, onDelete }: ITaskCard) => {
   const handlerClick = () => {
     setIsActive(false);
 
-    setTimeout(() => onDelete(id), duration);
+    setTimeout(() => onDelete(idx), duration);
   };
 
   useOutsideClick(() => setIsActive(false), ref);

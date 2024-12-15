@@ -29,12 +29,13 @@ export const Columns = () => {
     setValue(e.target.value);
   };
 
-  const handleDeleteTask = (idDelete: string, idxColumn: number) => {
+  const handleDeleteTask = (idxDelete: number, idxColumn: number) => {
     setDataColumn((prev) => {
-      const newColumn = { ...prev[idxColumn], tasks: prev[idxColumn].tasks.filter(({ id }) => id !== idDelete) };
-      const newData = [...prev.slice(0, idxColumn), newColumn, ...prev.slice(idxColumn)];
+      const newArray = [...prev];
 
-      return newData;
+      newArray[idxColumn].tasks.splice(idxDelete, 1);
+
+      return newArray;
     });
   };
 
@@ -140,7 +141,7 @@ export const Columns = () => {
                                 {...task}
                                 id={`${item.id}_${idx}`}
                                 key={`task_${index}_${idx}`}
-                                onDelete={(id) => handleDeleteTask(id, index)}
+                                onDelete={(idxTask) => handleDeleteTask(idxTask, index)}
                               />
                             );
                           })}
