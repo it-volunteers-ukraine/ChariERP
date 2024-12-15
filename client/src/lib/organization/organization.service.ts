@@ -291,15 +291,15 @@ class OrganizationService extends BaseService {
     await this.connect();
     const organization = await Organizations.findOne({ _id: id });
 
+    if (!organization) {
+      return { message: 'Organization not found', success: false };
+    }
+
     const name = organization.organizationData.certificate?.split('/').shift();
 
     await deleteFolderFromBucket(name);
 
-    const response = await Organizations.deleteOne({ _id: id });
-
-    if (response.deletedCount === 0) {
-      return { message: 'Organization not found', success: false };
-    }
+    await Organizations.findByIdAndDelete(id);
 
     return { success: true };
   }
