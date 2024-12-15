@@ -122,11 +122,15 @@ export function checkFieldsToUniqueOfOrganization<T extends Fields>(
 
 export function showErrorMessageOfOrganizationExist(
   error: (key: string, params?: TranslationValues) => string,
-  data: unknown[],
+  data: unknown[] | string,
 ) {
-  const text = data.join(` ${error('or')} `);
+  if (Array.isArray(data)) {
+    const text = data.join(` ${error('or')} `);
 
-  return showMessage.error(error('companyAlreadyRegistered', { errors: text }), { autoClose: 5000 });
+    return showMessage.error(error('login.companyAlreadyRegistered', { errors: text }), { autoClose: 5000 });
+  }
+
+  return showMessage.error(error(data), { autoClose: 5000 });
 }
 
 export const onCopy = <T extends MouseEvent<HTMLElement | SVGElement> = MouseEvent<SVGElement | HTMLButtonElement>>(

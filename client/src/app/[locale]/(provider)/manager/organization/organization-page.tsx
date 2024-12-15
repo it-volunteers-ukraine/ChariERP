@@ -32,7 +32,7 @@ const OrganizationPage = () => {
   const text = useTranslations('inputs');
   const error = useTranslations('validation');
   const modal = useTranslations('modal.save');
-  const errorText = useTranslations('errors.login');
+  const globalError = useTranslations('errors');
 
   const [isLoadingModal, setIsLoadingModal] = useState(false);
   const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
@@ -51,8 +51,8 @@ const OrganizationPage = () => {
 
       const response = await updateOrganizationAction(organizationId as unknown as string, formData);
 
-      if (!response.success && Array.isArray(response.message)) {
-        showErrorMessageOfOrganizationExist(errorText, response.message);
+      if (!response.success && response.message) {
+        showErrorMessageOfOrganizationExist(globalError, response.message);
         throw new Error('Organization already exist');
       }
 

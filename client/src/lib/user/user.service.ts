@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 
 import { getPaginate } from '@/utils';
-import { IUsers, IUsersByOrganizationProps, UserStatus } from '@/types';
+import { IUsers, IUsersByOrganizationProps, Roles, UserStatus } from '@/types';
 import { BucketFolders, deleteFileFromBucket, uploadFileToBucket } from '@/services';
 
 import { Admin, Organizations, Users } from '..';
@@ -49,6 +49,22 @@ class UserService extends BaseService {
       const compare = await bcrypt.compare(password, foundUser.password);
 
       if (compare) {
+        let updatedUser;
+
+        if (foundUser.role !== Roles.ADMIN) {
+          updatedUser = await Users.findByIdAndUpdate(
+            foundUser._id,
+            {
+              $set: { lastLogin: new Date() },
+            },
+            {
+              new: true,
+            },
+          );
+
+          return { success: true, user: JSON.stringify(updatedUser) };
+        }
+
         return { success: true, user: JSON.stringify(foundUser) };
       }
 
