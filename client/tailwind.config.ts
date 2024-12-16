@@ -91,7 +91,8 @@ const config: Config = {
           media: Magnolia,
         },
         pagination: {
-          color: Magnolia,
+          color: dimGray,
+          iconColor: lightBlue,
         },
         input: {
           text: comet,

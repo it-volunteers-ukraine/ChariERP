@@ -42,7 +42,7 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
         </span>
 
         <Copy
-          className="h-6 w-6 flex-shrink-0 cursor-pointer text-lightBlue transition duration-300 hover:text-dark-blue active:text-greenActive active:transition-none"
+          className="h-[22px] w-[22px] flex-shrink-0 cursor-pointer text-lightBlue transition duration-300 hover:text-dark-blue active:text-greenActive active:transition-none"
           onClick={(e: MouseEvent<SVGSVGElement>) =>
             onCopy<MouseEvent<SVGSVGElement>>(e, item.EDRPOU, messagesCopy('messages'))
           }
@@ -54,7 +54,7 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
       </div>
 
       <div className="mt-6 flex items-center justify-end laptop:mt-0 laptop:justify-center">
-        <span className="text-midGray">{item.users}</span>
+        <span className="leading-[22px] text-midGray">{item.users}</span>
 
         <div className="flex h-[24px] w-[24px] items-center justify-center laptop:hidden">
           <User className="text-midGray" width={14.5} height={14.5} />
@@ -71,13 +71,11 @@ export const RowItem = ({ item }: RowItemOrgProps) => {
 
       <div className="mt-6 laptop:col-auto laptop:mt-0 laptop:pl-2">
         <div className="flex justify-end gap-2 laptop:justify-between">
-          <span className="max-w-[200px] truncate">{item.email}</span>
+          <span className="max-w-[200px] truncate leading-[22px]">{item.email}</span>
 
           <div className="flex justify-center laptop:min-w-[40px]">
             <Copy
-              width={24}
-              height={24}
-              className="flex-shrink-0 cursor-pointer text-lightBlue transition duration-300 hover:text-dark-blue active:text-greenActive active:transition-none"
+              className="h-[22px] w-[22px] flex-shrink-0 cursor-pointer text-lightBlue transition duration-300 hover:text-dark-blue active:text-greenActive active:transition-none"
               onClick={(e: MouseEvent<SVGSVGElement>) => onCopy(e, item.email, messagesCopy('messages'))}
             />
           </div>

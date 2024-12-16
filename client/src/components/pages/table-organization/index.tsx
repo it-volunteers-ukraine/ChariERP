@@ -63,13 +63,13 @@ export const TableOrganization = () => {
 
   return (
     <>
-      <div className="relative flex flex-1 flex-col overflow-y-auto rounded-b-lg bg-white pt-6 shadow-dashboard">
+      <div className="relative flex flex-1 flex-col overflow-y-auto rounded-b-lg bg-white pt-6">
         <Input
           type="search"
           name="requisitionSearch"
           label="requisitionSearch"
           placeholder={placeholder('searchTable')}
-          wrapperClass="mb-6 px-4 tablet:pl-8 tablet:pr-0 tablet:max-w-[405px] desktop:max-w-[541px]"
+          wrapperClass="mb-6 px-4 tablet:pl-8 tablet:pr-0 laptop:pl-8 desktop:pl-8 desktopXl:pl-16 tablet:max-w-[405px] desktop:max-w-[541px]"
         />
 
         <div className={wrapper}>
@@ -129,7 +129,7 @@ export const TableOrganization = () => {
         onChange={setPage}
         pageSize={pageSize}
         total={totalRecords}
-        className="max-w-[440px] desktop:ml-8"
+        className="my-auto max-w-[440px] desktop:ml-16"
       />
     </>
   );
