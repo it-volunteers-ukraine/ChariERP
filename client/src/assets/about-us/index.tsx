@@ -5,4 +5,4 @@ export { default as kyrychenkoRoman } from './kyrychenkoRoman.png';
 export { default as voronkoSerhii } from './voronkoSerhii.jpg';
 export { default as hladchenkoAnatolii } from './hladchenkoAnatolii.jpg';
 export { default as ivanishchevaAlina } from './ivanishchevaAlina.jpg';
-export { default as default } from './default.jpg';
+export { default as default } from './default.png';
