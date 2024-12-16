@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl';
 
 import { Form, Formik, FormikHelpers } from 'formik';
 
+import { routes } from '@/constants';
 import { sendEmail } from '@/services';
 import { Button, CheckboxField, InputField, showMessage } from '@/components';
 
@@ -77,8 +78,8 @@ export const FeedbackForm = () => {
           />
 
           <CheckboxField
-            href="#"
             name="agree"
+            href={routes.privacyPolicy}
             label={text('checkbox.information')}
             hrefText={text('checkbox.privacyPolicy')}
             className="!items-start laptop:mx-auto laptop:!items-center"

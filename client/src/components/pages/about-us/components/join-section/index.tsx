@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { Form, Formik } from 'formik';
 import { useTranslations } from 'next-intl';
 
+import { routes } from '@/constants';
 import { bgJoin } from '@/assets/img';
 import { useWindowWidth } from '@/hooks';
 import { Title } from '@/components/title';
@@ -59,8 +60,8 @@ export const JoinSection = () => {
                   textAreaClass="scroll-textarea !overflow-y-auto !text-input-text resize-none text-wrap h-[167px] w-full"
                 />
                 <CheckboxField
-                  href="#"
                   name="agree"
+                  href={routes.privacyPolicy}
                   label={privacyPolicy('checkbox.information')}
                   hrefText={privacyPolicy('checkbox.privacyPolicy')}
                   className="mb-6 !items-start laptop:mx-auto laptop:!items-center"
