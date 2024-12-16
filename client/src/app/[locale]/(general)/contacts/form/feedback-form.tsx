@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikHelpers } from 'formik';
 
 import { sendEmail } from '@/services';
-import { Button, InputField, showMessage } from '@/components';
+import { Button, CheckboxField, InputField, showMessage } from '@/components';
 
 import { emailData, InitialValues } from './config';
 import { ValidationSchema } from './validationSchema';
@@ -12,6 +12,7 @@ import { ValidationSchema } from './validationSchema';
 type InitialValuesType = typeof InitialValues;
 
 export const FeedbackForm = () => {
+  const text = useTranslations('inputs');
   const error = useTranslations('validation');
   const contactPageTranslation = useTranslations('contactPageTranslation');
   const feedbackForm = useTranslations('contactPageTranslation.feedbackForm');
@@ -73,6 +74,14 @@ export const FeedbackForm = () => {
             type="textarea"
             label={feedbackForm('labelTextarea')}
             textAreaClass="h-[240px] tablet:h-[148px] scroll-textarea !text-input-text resize-none text-wrap"
+          />
+
+          <CheckboxField
+            href="#"
+            name="agree"
+            label={text('checkbox.information')}
+            hrefText={text('checkbox.privacyPolicy')}
+            className="!items-start laptop:mx-auto laptop:!items-center"
           />
 
           <Button

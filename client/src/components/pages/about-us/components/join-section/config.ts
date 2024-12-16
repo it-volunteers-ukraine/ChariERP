@@ -8,6 +8,7 @@ export interface IJoinFormValues {
   name: string;
   email: string;
   phone: string;
+  agree: boolean;
   message: string;
   telegram: string;
 }
@@ -18,6 +19,7 @@ export const joinInitialValues: IJoinFormValues = {
   phone: '',
   message: '',
   telegram: '',
+  agree: false,
 };
 
 export const joinValidation = (error: (key: string, params?: TranslationValues) => string) =>
@@ -44,4 +46,5 @@ export const joinValidation = (error: (key: string, params?: TranslationValues) 
       .trim()
       .min(10, error('minPlural', { int: 10 }))
       .max(2000, error('maxPlural', { int: 2000 })),
+    agree: Yup.boolean().oneOf([true]).required(),
   });

@@ -7,6 +7,7 @@ import { useWindowWidth } from '@/hooks';
 import { Title } from '@/components/title';
 import { Button } from '@/components/button';
 import { InputField } from '@/components/input-field';
+import { CheckboxField } from '@/components/checkbox-field';
 
 import { IJoinFormValues, joinInitialValues, joinValidation } from './config';
 
@@ -14,6 +15,7 @@ export const JoinSection = () => {
   const { isTablet } = useWindowWidth();
   const text = useTranslations('aboutUsPage');
   const error = useTranslations('validation');
+  const privacyPolicy = useTranslations('inputs');
 
   const validationSchema = joinValidation(error);
 
@@ -56,6 +58,14 @@ export const JoinSection = () => {
                   label={text('form.message')}
                   textAreaClass="scroll-textarea !overflow-y-auto !text-input-text resize-none text-wrap h-[167px] w-full"
                 />
+                <CheckboxField
+                  href="#"
+                  name="agree"
+                  label={privacyPolicy('checkbox.information')}
+                  hrefText={privacyPolicy('checkbox.privacyPolicy')}
+                  className="mb-6 !items-start laptop:mx-auto laptop:!items-center"
+                />
+
                 <Button type="submit" styleType="primary" text={text('form.join')} className="uppercase" />
               </Form>
             );
