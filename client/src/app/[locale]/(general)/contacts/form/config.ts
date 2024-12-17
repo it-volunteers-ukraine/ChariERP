@@ -2,6 +2,7 @@ interface IEmailData {
   name: string;
   email: string;
   phone: string;
+  agree: boolean;
   message: string;
   surname: string;
 }
@@ -12,6 +13,7 @@ export const InitialValues = {
   phone: '',
   message: '',
   surname: '',
+  agree: false,
 };
 
 export const emailData = (values: IEmailData) => ({
