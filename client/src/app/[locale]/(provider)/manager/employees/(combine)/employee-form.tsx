@@ -162,7 +162,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                   classNameTitle="text-[20px] uppercase"
                   title={text('title.additionalInformation')}
                 >
-                  <div className="box-border flex flex-col gap-3 transition-all duration-300">
+                  <div className="box-border flex flex-col gap-3">
                     <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
                       <div className="flex flex-col gap-4 laptop:w-[calc(50%-24px)]">
                         <DateField
