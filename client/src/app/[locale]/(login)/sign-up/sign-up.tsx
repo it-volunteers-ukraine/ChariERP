@@ -28,7 +28,7 @@ const SignUp = () => {
   const text = useTranslations('inputs');
   const modal = useTranslations('modal');
   const error = useTranslations('validation');
-  const errorText = useTranslations('errors.login');
+  const errorText = useTranslations('errors');
 
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -54,7 +54,7 @@ const SignUp = () => {
         setIsOpenModal(true);
       }
 
-      if (!data.success && Array.isArray(data.message)) {
+      if (!data.success && data.message) {
         return showErrorMessageOfOrganizationExist(errorText, data.message);
       }
 
@@ -62,7 +62,7 @@ const SignUp = () => {
     } catch (error) {
       console.log(error);
 
-      showMessage.error(errorText('somethingWrong'), { autoClose: 2000 });
+      showMessage.error(errorText('login.somethingWrong'), { autoClose: 2000 });
     } finally {
       setIsLoading(false);
     }

@@ -43,6 +43,7 @@ export const EmployeeCard = ({
   const styles = getStyles({ className });
 
   const cardTranslate = useTranslations('employeeCard');
+  const lastLoginTranslate = useTranslations('errors.employee');
 
   const itemClass = clsx({
     'tablet:!max-w-[calc(50%-48px)]': inById,
@@ -68,10 +69,12 @@ export const EmployeeCard = ({
   };
 
   useEffect(() => {
-    startTransition(async () => {
+    startTransition(() => {
       loadImg();
     });
   }, [avatarUrl]);
+
+  const loginTranslate = lastLogin === 'lastLogin' ? lastLoginTranslate(lastLogin) : lastLogin;
 
   return (
     <div className={styles.wrapper} onClick={() => (isParamsId ? '' : router.push(`${routes.employeesEdit}/${id}`))}>
@@ -105,7 +108,7 @@ export const EmployeeCard = ({
           isStatusSelect={isStatusSelect}
           label={cardTranslate('statusText')}
         />
-        <Info label={cardTranslate('lastSession')} data={lastLogin} />
+        <Info label={cardTranslate('lastSession')} data={loginTranslate} />
       </div>
     </div>
   );

@@ -1,19 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikErrors, FormikValues } from 'formik';
 
 import {
   Button,
   Accordion,
   DateField,
+  ButtonIcon,
   InputField,
   ModalAdmin,
-  ButtonIcon,
-  showMessage,
   AvatarField,
+  showMessage,
   EmployeeCard,
   employeeValidation,
 } from '@/components';
@@ -49,7 +49,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
       enableReinitialize
       onSubmit={onSubmit}
       initialValues={initialValues}
-      validationSchema={employeeValidation(error).omit(['password'])}
+      validationSchema={!isCreate ? employeeValidation(error).omit(['password']) : employeeValidation(error)}
     >
       {({ values, validateForm, handleSubmit, setFieldValue, setValues }) => (
         <div className="scroll-blue w-full overflow-y-auto bg-white p-[24px_16px_48px] tablet:p-[24px_32px_48px] desktop:p-[32px_36px_48px]">
@@ -162,23 +162,34 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                   classNameTitle="text-[20px] uppercase"
                   title={text('title.additionalInformation')}
                 >
-                  <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
-                    <div className="flex flex-col gap-4 laptop:w-[calc(50%-24px)]">
-                      <DateField
-                        placeholderItalic
-                        name="dateOfBirth"
-                        label={text('dateOfBirth.label')}
-                        placeholder={text('dateOfRegisterOrganization.chooseDate')}
-                      />
+                  <div className="box-border flex flex-col gap-3 transition-all duration-300">
+                    <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
+                      <div className="flex flex-col gap-4 laptop:w-[calc(50%-24px)]">
+                        <DateField
+                          placeholderItalic
+                          name="dateOfBirth"
+                          label={text('dateOfBirth.label')}
+                          placeholder={text('dateOfRegisterOrganization.chooseDate')}
+                        />
 
-                      <DateField
-                        placeholderItalic
-                        name="dateOfEntry"
-                        label={text('dateOfEntry.label')}
-                        placeholder={text('dateOfRegisterOrganization.chooseDate')}
-                      />
+                        <DateField
+                          placeholderItalic
+                          name="dateOfEntry"
+                          label={text('dateOfEntry.label')}
+                          placeholder={text('dateOfRegisterOrganization.chooseDate')}
+                        />
 
-                      <InputField cross name="address" label={text('homeAddress.label')} />
+                        <InputField cross name="address" label={text('homeAddress.label')} />
+                      </div>
+
+                      <InputField
+                        isTextarea
+                        name="notes"
+                        type="textarea"
+                        label={text('notes.label')}
+                        wrapperClass="laptop:max-w-[calc(50%-24px)]"
+                        textAreaClass="!p-[0_4px_0_16px] mr-[6px] min-h-[183px] scroll-textarea !text-input-text resize-none"
+                      />
                     </div>
 
                     <InputField
@@ -187,7 +198,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                       type="textarea"
                       label={text('notes.label')}
                       wrapperClass="laptop:max-w-[calc(50%-24px)]"
-                      textAreaClass="!p-[0_4px_0_16px] mr-[6px] min-h-[183px] scroll-textarea !text-input-text resize-none"
+                      textAreaClass="!p-[0_4px_0_16px] mr-[6px] min-h-[183px] scroll-textarea !text-input-text resize-none whitespace-pre-wrap !overflow-y-scroll"
                     />
                   </div>
                 </Accordion>

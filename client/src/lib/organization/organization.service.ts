@@ -21,7 +21,7 @@ import {
   RequestOrganizationStatus,
 } from '@/types';
 
-import { Organizations, Users } from '..';
+import { Admin, Organizations, Users } from '..';
 import { BaseService } from '../database/base.service';
 
 const sort = {
@@ -35,6 +35,18 @@ class OrganizationService extends BaseService {
     await this.connect();
     const certificate = formData.get('certificate') as File;
     const data = JSON.parse(formData.get('data') as string) as OrganizationCreateValues;
+
+    const isUserEmailExist = await Users.findOne({
+      email: data.email,
+    });
+
+    const isAdminEmailReceived = await Admin.findOne({ email: data.email });
+
+    if (isUserEmailExist || isAdminEmailReceived) {
+      const email = isAdminEmailReceived?.email || isUserEmailExist?.email;
+
+      return { message: [email], success: false };
+    }
 
     const organizationExist = await Organizations.find({
       $or: [{ 'organizationData.edrpou': data.edrpou }, { 'contactData.email': data.email }],
@@ -53,6 +65,10 @@ class OrganizationService extends BaseService {
     }
 
     const uploadedFileUrl = await uploadFileToBucket(data.edrpou, BucketFolders.CertificateOfRegister, certificate);
+
+    if (!uploadedFileUrl) {
+      return { message: 'error-upload', success: false };
+    }
 
     const body = {
       request: RequestOrganizationStatus.PENDING,
@@ -165,6 +181,18 @@ class OrganizationService extends BaseService {
     const isNewCertificate = certificate && certificate?.size !== 1;
     const isApproved = data.request === RequestOrganizationStatus.APPROVED && organization.users.length === 0;
 
+    const isUserEmailExist = await Users.findOne({
+      email: data.email,
+    });
+
+    const isAdminEmailReceived = await Admin.findOne({ email: data.email });
+
+    if (isUserEmailExist || isAdminEmailReceived) {
+      const email = isAdminEmailReceived?.email || isUserEmailExist?.email;
+
+      return { message: [email], success: false };
+    }
+
     const organizationExist = await Organizations.find({
       $or: [{ 'organizationData.edrpou': data.edrpou }, { 'contactData.email': data.email }],
       _id: { $ne: id },
@@ -190,6 +218,10 @@ class OrganizationService extends BaseService {
         BucketFolders.CertificateOfRegister,
         certificate,
       );
+
+      if (!uploadedFileUrl) {
+        return { message: 'error-upload', success: false };
+      }
     }
 
     const body: IOrganizationsUpdate = {
@@ -234,13 +266,16 @@ class OrganizationService extends BaseService {
 
       body.users = [response._id];
       body.approvalDate = new Date();
-
-      await sendEmail({
-        html: getHtmlCodeForPassword({ email: body.contactData.email, password }),
-        text: 'Ваші дані для входу',
-        subject: 'Ваші дані для входу',
-        to: body.contactData.email,
-      });
+      try {
+        await sendEmail({
+          html: getHtmlCodeForPassword({ email: body.contactData.email, password }),
+          text: 'Ваші дані для входу',
+          subject: 'Ваші дані для входу',
+          to: body.contactData.email,
+        });
+      } catch (error) {
+        console.log('Send email', error);
+      }
     }
 
     const response = await Organizations.findByIdAndUpdate(id, { $set: body }, { new: true });
@@ -256,15 +291,15 @@ class OrganizationService extends BaseService {
     await this.connect();
     const organization = await Organizations.findOne({ _id: id });
 
+    if (!organization) {
+      return { message: 'Organization not found', success: false };
+    }
+
     const name = organization.organizationData.certificate?.split('/').shift();
 
     await deleteFolderFromBucket(name);
 
-    const response = await Organizations.deleteOne({ _id: id });
-
-    if (response.deletedCount === 0) {
-      return { message: 'Organization not found', success: false };
-    }
+    await Organizations.findByIdAndDelete(id);
 
     return { success: true };
   }
