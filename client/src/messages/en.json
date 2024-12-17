@@ -408,6 +408,11 @@
       "join": "join"
     }
   },
+  "servicePage": {
+    "banner": {
+      "title": "Support and assistance for your Community Organization"
+    }
+  },
   "footer": {
     "aboutUs": "About Us",
     "aboutService": "About Service",
