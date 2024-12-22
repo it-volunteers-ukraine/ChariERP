@@ -1,11 +1,16 @@
-import { Task } from '@/components';
+import { Metadata } from 'next';
 
-interface Props {
-  params: { task_id: string; column_id: string; board_id: string };
+import { NewTask } from '@/components';
+import { TaskPageParamsProps } from '@/types';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: `New Task`,
+    description: `This is the new task page`,
+  };
 }
-
-const TaskPage = ({ params }: Props) => {
-  return <Task params={{ ...params, task_id: 'create-task' }} />;
+const New = ({ params }: TaskPageParamsProps) => {
+  return <NewTask params={params} />;
 };
 
-export default TaskPage;
+export default New;

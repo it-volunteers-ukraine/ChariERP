@@ -3,7 +3,7 @@ import internal from 'stream';
 import { Schema } from 'mongoose';
 import { SdkStreamMixin } from '@aws-sdk/types';
 
-import { IAdmin, IUsers } from './models';
+import { IAdmin, ICreateTask, IUsers } from './models';
 import { DownloadType, RequestOrganizationStatus, UserStatus } from './enums';
 
 export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
@@ -114,4 +114,15 @@ export interface IEditUser extends Omit<ICreateUser, 'password' | 'organizationI
   lastLogin: string | number;
   dateOfEntry: string | number;
   dateOfBirth: string | number;
+}
+
+export interface TaskPageParamsProps {
+  params: { task_id: string; column_id: string; board_id: string };
+}
+
+export interface ICreateTaskProps {
+  userId: string;
+  boardId: string;
+  columnId: string;
+  task: ICreateTask;
 }

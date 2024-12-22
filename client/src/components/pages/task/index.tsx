@@ -10,18 +10,15 @@ import { ButtonIcon } from '../../button-icon';
 import { getValidationSchema } from './config';
 
 interface TaskProps {
-  params: { task_id: string; column_id: string; board_id: string };
+  title: string;
+  isCreate?: boolean;
+  onSubmit: () => void;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const Task = ({ params }: TaskProps) => {
-  const isCreate = params.task_id === 'create-task';
+export const Task = ({ title, setTitle, isCreate, onSubmit }: TaskProps) => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-  const [title, setTitle] = useState(
-    isCreate
-      ? ''
-      : 'Назва для таски Назва для таски Назва для таски Назва для таски Назва для таски Назва для таски  Назва для таски Назва для таски нНазва для таски Назва для таски Назва для таски Назва для таски Назва для таски Назва для таски  Назва для таски Назва для таски н',
-  );
 
   const styles = getStyles(isCreate);
 
@@ -41,8 +38,7 @@ export const Task = ({ params }: TaskProps) => {
     try {
       await getValidationSchema().validate({ title });
       setError(null);
-      // TODO create task addTask(title)
-      console.log({ title: title, columnId: params.column_id });
+      onSubmit();
     } catch (validationError) {
       setError((validationError as Error).message);
     }

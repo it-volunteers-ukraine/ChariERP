@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { showMessage } from '@/components';
+
 import { boardApi } from './api';
 
 export const useDeleteBoard = (userId: string | undefined) => {
@@ -15,7 +17,11 @@ export const useDeleteBoard = (userId: string | undefined) => {
 
   const onDelete = (id: string) => {
     deleteMutation.mutate(id, {
-      onSuccess: () => {
+      onSuccess: (response) => {
+        if (!response.success && response.message) {
+          showMessage.error(response.message);
+        }
+
         queryClient.invalidateQueries({
           queryKey: boardApi.queryKey,
         });

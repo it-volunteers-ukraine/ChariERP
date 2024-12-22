@@ -1,15 +1,16 @@
 import { BoardColumn } from '@/lib';
-import { IBoardColumn, ICreateTask, Roles } from '@/types';
+import { IBoardColumn, ICreateTaskProps, Roles } from '@/types';
 
 import { Task, UsersBoards } from '..';
 import { BaseService } from '../database/base.service';
 
 class TaskService extends BaseService {
-  async createTask(userId: string, boardId: string, columnId: string, task: ICreateTask) {
+  //Толя! бесишь, линивая жопа
+  async createTask({ userId, boardId, columnId, task }: ICreateTaskProps) {
     if (!columnId || !userId || !boardId || !task) {
       return {
         success: false,
-        message: 'userId , boardId, columnId,object task  amd  boardId are required for create a task',
+        message: 'user Id , board Id, column Id, object task and boardId are required for create a task',
       };
     }
     // TODO Validation of object task when we know all func of task

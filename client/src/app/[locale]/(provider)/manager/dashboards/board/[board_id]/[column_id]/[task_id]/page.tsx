@@ -1,10 +1,9 @@
 import { Metadata } from 'next';
 
-interface Props {
-  params: { task_id: string; column_id: string; board_id: string };
-}
+import { EditTask } from '@/components';
+import { TaskPageParamsProps } from '@/types';
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: TaskPageParamsProps): Promise<Metadata> {
   const { task_id } = params;
 
   return {
@@ -13,8 +12,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const TaskId = ({ params }: Props) => {
-  return <div>TaskId: {params.task_id}</div>;
+const TaskId = ({ params }: TaskPageParamsProps) => {
+  return <EditTask params={params} />;
 };
 
 export default TaskId;
