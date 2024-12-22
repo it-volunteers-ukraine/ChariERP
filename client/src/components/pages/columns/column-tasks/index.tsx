@@ -11,7 +11,7 @@ import { ChildrenProps } from '@/types';
 import { useOutsideClick } from '@/hooks';
 import { Delete, DotsSettings, Edit } from '@/assets/icons';
 
-import { ToolsDropMenu } from '../../tools-drop-menu';
+import { ToolsDropMenu } from '../../../tools-drop-menu';
 
 import { getStyles } from './styles';
 
@@ -20,6 +20,7 @@ interface IColumnTasks {
   title: string;
   index: number;
   boardId: string;
+  isManager: boolean;
   onDeleteColumn: (props: string) => void;
   onChangeTitle: (props: string) => void;
 }
@@ -30,6 +31,7 @@ export const ColumnTasks = ({
   title,
   boardId,
   children,
+  isManager,
   onChangeTitle,
   onDeleteColumn,
 }: ChildrenProps<IColumnTasks>) => {
@@ -74,7 +76,7 @@ export const ColumnTasks = ({
   }, [isDisable]);
 
   return (
-    <Draggable draggableId={id} index={index}>
+    <Draggable draggableId={id} index={index} isDragDisabled={!isManager}>
       {(provided) => (
         <div
           id={id}

@@ -1,4 +1,4 @@
-import { IDataCards, mockCards } from '../../task-card/mock';
+import { IDataCards, mockCards } from '../../../task-card/mock';
 
 export interface IMockColumn {
   id: string;

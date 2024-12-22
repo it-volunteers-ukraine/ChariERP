@@ -6,10 +6,12 @@ import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 
 import { cn } from '@/utils';
 import { TaskCard } from '@/components';
-import { columns } from '@/components/columns/mock';
+import { useUserInfo } from '@/context';
+import { columns } from '@/components/pages/columns/mock';
 
+import { useColumns } from './useColumns';
 import { ColumnTasks } from './column-tasks';
-import { IDataCards } from '../task-card/mock';
+import { IDataCards } from '../../task-card/mock';
 
 export interface IColumns {
   id: string;
@@ -18,12 +20,17 @@ export interface IColumns {
 }
 
 export const Columns = ({ boardId }: { boardId: string }) => {
+  const { isManager } = useUserInfo();
   const refInput = useRef<HTMLInputElement>(null);
   const translateBtn = useTranslations('button');
 
   const [value, setValue] = useState('');
   const [dataColumn, setDataColumn] = useState(columns);
   const [createColumn, setCreateColumn] = useState(false);
+
+  const { response, isLoading } = useColumns();
+
+  console.log({ response, isLoading });
 
   const handlerInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -125,6 +132,7 @@ export const Columns = ({ boardId }: { boardId: string }) => {
                     key={item.id}
                     index={index}
                     boardId={boardId}
+                    isManager={isManager}
                     onChangeTitle={() => console.log(1)}
                     onDeleteColumn={(id) => setDataColumn((prev) => prev.filter((item) => item.id !== id))}
                   >
@@ -142,6 +150,7 @@ export const Columns = ({ boardId }: { boardId: string }) => {
                                 {...task}
                                 boardId={boardId}
                                 columnId={item.id}
+                                isManager={isManager}
                                 key={`task_${index}_${idx}`}
                                 onDelete={(idxTask) => handleDeleteTask(idxTask, index)}
                               />

@@ -20,12 +20,13 @@ interface ITaskCard {
   users: IUsers[];
   boardId: string;
   columnId: string;
+  isManager: boolean;
   onDelete: (props: number) => void;
 }
 
 const duration = 300;
 
-export const TaskCard = ({ id, idx, title, users, onDelete, boardId, columnId }: ITaskCard) => {
+export const TaskCard = ({ id, idx, title, users, onDelete, boardId, columnId, isManager }: ITaskCard) => {
   const ref = useRef<HTMLDivElement>(null);
   const deleteMessage = useTranslations('button');
 
@@ -49,7 +50,7 @@ export const TaskCard = ({ id, idx, title, users, onDelete, boardId, columnId }:
   useOutsideClick(() => setIsActive(false), ref);
 
   return (
-    <Draggable draggableId={`${id}-${idx}`} index={idx}>
+    <Draggable draggableId={`${id}-${idx}`} index={idx} isDragDisabled={!isManager}>
       {(provided) => (
         <Link
           ref={provided.innerRef}

@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 
+import { Columns } from '@/components';
+
 import { BoardTitle } from './board-title';
-import { Columns } from '@/components/columns';
 
 interface Props {
   params: { board_id: string };

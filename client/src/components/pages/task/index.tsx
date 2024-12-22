@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Warning } from '@/assets/icons';
 
 import { getStyles } from './style';
-import { ButtonIcon } from '../button-icon';
+import { ButtonIcon } from '../../button-icon';
 import { getValidationSchema } from './config';
 
 interface TaskProps {
