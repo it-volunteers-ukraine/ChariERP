@@ -29,11 +29,11 @@ export const Columns = () => {
     setValue(e.target.value);
   };
 
-  const handleDeleteTask = (idxDelete: number, idxColumn: number) => {
+  const handleDeleteTask = (taskIdx: number, idxColumn: number) => {
     setDataColumn((prev) => {
       const newArray = [...prev];
 
-      newArray[idxColumn].tasks.splice(idxDelete, 1);
+      newArray[idxColumn].tasks.splice(taskIdx, 1);
 
       return newArray;
     });
