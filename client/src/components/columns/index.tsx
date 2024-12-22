@@ -17,7 +17,7 @@ export interface IColumns {
   tasks: IDataCards[];
 }
 
-export const Columns = () => {
+export const Columns = ({ boardId }: { boardId: string }) => {
   const refInput = useRef<HTMLInputElement>(null);
   const translateBtn = useTranslations('button');
 
@@ -124,6 +124,7 @@ export const Columns = () => {
                     {...item}
                     key={item.id}
                     index={index}
+                    boardId={boardId}
                     onChangeTitle={() => console.log(1)}
                     onDeleteColumn={(id) => setDataColumn((prev) => prev.filter((item) => item.id !== id))}
                   >
@@ -139,7 +140,8 @@ export const Columns = () => {
                               <TaskCard
                                 idx={idx}
                                 {...task}
-                                id={`${item.id}_${idx}`}
+                                boardId={boardId}
+                                columnId={item.id}
                                 key={`task_${index}_${idx}`}
                                 onDelete={(idxTask) => handleDeleteTask(idxTask, index)}
                               />
@@ -183,7 +185,6 @@ export const Columns = () => {
 
             <button className="box-border flex w-full items-center justify-start gap-x-3 rounded-lg border-[1px] bg-arcticSky p-3 font-roboto text-comet hover:border-skyBlue">
               <span className="text-2xl font-bold leading-none">+</span>
-
               <span className="text-sm leading-5">{translateBtn('addTask')}</span>
             </button>
           </div>

@@ -1,13 +1,15 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Draggable } from '@hello-pangea/dnd';
 
-import { Delete, DotsSettings, Edit } from '@/assets/icons';
-import { useOutsideClick } from '@/hooks';
-import { ChildrenProps } from '@/types';
 import { cn } from '@/utils';
+import { routes } from '@/constants';
+import { ChildrenProps } from '@/types';
+import { useOutsideClick } from '@/hooks';
+import { Delete, DotsSettings, Edit } from '@/assets/icons';
 
 import { ToolsDropMenu } from '../../tools-drop-menu';
 
@@ -17,6 +19,7 @@ interface IColumnTasks {
   id: string;
   title: string;
   index: number;
+  boardId: string;
   onDeleteColumn: (props: string) => void;
   onChangeTitle: (props: string) => void;
 }
@@ -25,6 +28,7 @@ export const ColumnTasks = ({
   id,
   index,
   title,
+  boardId,
   children,
   onChangeTitle,
   onDeleteColumn,
@@ -127,11 +131,11 @@ export const ColumnTasks = ({
           </div>
 
           <div className="pr-3">
-            <button className={style.addTask}>
+            <Link href={`${routes.managerDashboard}/${boardId}/${id}/new-task`} className={style.addTask}>
               <span className="text-2xl font-bold leading-none">+</span>
 
               <span className="text-sm leading-5">{translateBtn('addTask')}</span>
-            </button>
+            </Link>
           </div>
         </div>
       )}

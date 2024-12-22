@@ -10,11 +10,11 @@ import { ButtonIcon } from '../button-icon';
 import { getValidationSchema } from './config';
 
 interface TaskProps {
-  params: { idTask: string; idColumn: string };
+  params: { task_id: string; column_id: string; board_id: string };
 }
 
 export const Task = ({ params }: TaskProps) => {
-  const isCreate = params.idTask === 'create-task';
+  const isCreate = params.task_id === 'create-task';
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [title, setTitle] = useState(
@@ -42,7 +42,7 @@ export const Task = ({ params }: TaskProps) => {
       await getValidationSchema().validate({ title });
       setError(null);
       // TODO create task addTask(title)
-      console.log({ title: title, columnId: params.idColumn });
+      console.log({ title: title, columnId: params.column_id });
     } catch (validationError) {
       setError((validationError as Error).message);
     }
