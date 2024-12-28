@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 
@@ -9,7 +9,7 @@ import { TaskCard } from '@/components';
 import { useUserInfo } from '@/context';
 import { columns } from '@/components/pages/columns/mock';
 
-import { useColumns } from './useColumns';
+import { useColumns } from './use-columns';
 import { ColumnTasks } from './column-tasks';
 import { IDataCards } from '../../task-card/mock';
 
@@ -46,7 +46,7 @@ export const Columns = ({ boardId }: { boardId: string }) => {
     });
   };
 
-  const onBlurChange = () => {
+  const onBlurChangeCreate = () => {
     if (value !== '') {
       setCreateColumn(true);
       dataColumn.push({ id: '100', title: value, tasks: [] });
@@ -58,16 +58,12 @@ export const Columns = ({ boardId }: { boardId: string }) => {
 
   const onClickCreateColumn = () => {
     setCreateColumn(true);
-    refInput.current?.focus();
+    if (refInput.current) {
+      setTimeout(() => refInput.current?.focus(), 0);
+    }
   };
 
-  useEffect(() => {
-    if (createColumn && refInput) {
-      refInput.current?.focus();
-    }
-  }, [createColumn, dataColumn, refInput]);
-
-  const onMoveColumn = (result: DropResult) => {
+  const onMoveColumnAndTasks = (result: DropResult) => {
     const { source, destination, type } = result;
 
     if (!destination) return;
@@ -121,7 +117,7 @@ export const Columns = ({ boardId }: { boardId: string }) => {
 
   return (
     <div className="scroll-blue scroll-column flex h-[calc(100%-62px)] gap-6 overflow-x-auto bg-white px-5 py-5">
-      <DragDropContext onDragEnd={onMoveColumn}>
+      <DragDropContext onDragEnd={onMoveColumnAndTasks}>
         <Droppable droppableId="column-area" type="Columns" direction="horizontal">
           {(provided) => (
             <>
@@ -184,7 +180,7 @@ export const Columns = ({ boardId }: { boardId: string }) => {
               type="text"
               value={value}
               ref={refInput}
-              onBlur={onBlurChange}
+              onBlur={onBlurChangeCreate}
               onChange={handlerInputChange}
               placeholder={translateBtn('addColumn')}
               className={cn(

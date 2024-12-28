@@ -126,3 +126,9 @@ export interface ICreateTaskProps {
   columnId: string;
   task: ICreateTask;
 }
+
+export interface ICreateColumnProps {
+  title: string;
+  boardId: string;
+  userId: string;
+}

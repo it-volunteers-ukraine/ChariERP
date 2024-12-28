@@ -37,11 +37,11 @@ class BoardColumnService extends BaseService {
     return JSON.stringify({ success: true, data: board.board_id.boardColumns });
   }
 
-  async createBoardColumn(title: string, boardId: string, userId: string) {
+  async createBoardColumn({ title, boardId, userId }: { title: string; boardId: string; userId: string }) {
     if (!title || !userId || !boardId) {
       return {
         success: false,
-        message: 'Title, userId  amd  boardId are required for creating a board column app',
+        message: 'Title, userId amd boardId are required for creating a board column app',
       };
     }
 

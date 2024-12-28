@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Draggable } from '@hello-pangea/dnd';
@@ -47,7 +47,7 @@ export const ColumnTasks = ({
   const handlerEdit = () => {
     setIsDisable(false);
     setIsToolsMenu(false);
-    refInput.current?.focus();
+    setTimeout(() => refInput.current?.focus(), 0);
   };
 
   const handlerDelete = () => {
@@ -58,7 +58,7 @@ export const ColumnTasks = ({
     setValue(e.target.value);
   };
 
-  const onBlurChange = () => {
+  const onBlurChangeEdit = () => {
     if (!value && title) {
       setIsDisable(true);
       setValue(title);
@@ -68,12 +68,6 @@ export const ColumnTasks = ({
   };
 
   useOutsideClick(() => setIsToolsMenu(false), refInput);
-
-  useEffect(() => {
-    if (!isDisable && refInput) {
-      refInput.current?.focus();
-    }
-  }, [isDisable]);
 
   return (
     <Draggable draggableId={id} index={index} isDragDisabled={!isManager}>
@@ -98,8 +92,8 @@ export const ColumnTasks = ({
                 value={value}
                 ref={refInput}
                 disabled={isDisable}
-                onBlur={onBlurChange}
                 className={style.input}
+                onBlur={onBlurChangeEdit}
                 placeholder="додати колонку"
                 onChange={handlerInputChange}
               />
