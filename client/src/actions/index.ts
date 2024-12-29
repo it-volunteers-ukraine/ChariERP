@@ -20,3 +20,4 @@ export { loginAction } from './login/log-in';
 export { moveBoardsAction } from './boards/move-boards';
 export { updateMemberByIdAction } from './user/update-member-by-id';
 export { updateOrganizationAction } from './admin/update-organization';
+export { deleteColumn } from './columns/delete-columns';

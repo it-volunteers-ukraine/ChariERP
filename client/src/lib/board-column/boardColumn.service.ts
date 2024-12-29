@@ -1,10 +1,10 @@
-import { Roles } from '@/types';
+import { ICreateColumnProps, IDeleteColumnProps, IGetColumnsProps, Roles } from '@/types';
 
-import { BoardColumn, Users, UsersBoards } from '..';
 import { BaseService } from '../database/base.service';
+import { Board, BoardColumn, UsersBoards } from '..';
 
 class BoardColumnService extends BaseService {
-  async getBoardColumns(boardId: string, userId: string) {
+  async getBoardColumns({ boardId, userId }: IGetColumnsProps) {
     if (!boardId || !userId) {
       return {
         success: false,
@@ -38,7 +38,7 @@ class BoardColumnService extends BaseService {
     return JSON.stringify({ success: true, data: board.board_id.boardColumns });
   }
 
-  async createBoardColumn({ title, boardId, userId }: { title: string; boardId: string; userId: string }) {
+  async createBoardColumn({ title, boardId, userId }: ICreateColumnProps) {
     if (!title || !userId || !boardId) {
       return {
         success: false,
@@ -48,40 +48,98 @@ class BoardColumnService extends BaseService {
 
     await this.connect();
 
-    const user = await Users.findById(userId);
-
-    if (!user) {
-      return {
-        success: false,
-        message: 'User not found',
-      };
-    }
-
-    if (user.role !== Roles.MANAGER) {
-      return {
-        success: false,
-        message: 'Access denied',
-      };
-    }
-
-    const board = await UsersBoards.findOne({
+    const userBoard = await UsersBoards.findOne({
       user_id: userId,
       board_id: boardId,
-    }).populate('board_id');
+    }).populate([
+      {
+        path: 'board_id',
+        populate: {
+          path: 'boardColumns',
+        },
+      },
+      {
+        path: 'user_id',
+      },
+    ]);
 
-    if (!board) {
+    if (!userBoard) {
       return {
         success: false,
-        message: 'Board not exist',
+        message: 'The board is missing or the user does not have access.',
+      };
+    }
+
+    const isManager = userBoard.user_id.role === Roles.MANAGER;
+
+    if (!isManager) {
+      return {
+        success: false,
+        message: 'Only manager can create a column',
       };
     }
 
     const newColumn = await BoardColumn.create({
       title,
-      board_id: board.board_id,
+      board_id: boardId,
     });
 
-    return JSON.stringify({ success: true, data: newColumn });
+    await Board.findByIdAndUpdate(boardId, { $push: { boardColumns: newColumn._id } });
+
+    return JSON.stringify({
+      success: true,
+      data: newColumn,
+    });
+  }
+
+  async deleteColumn({ boardId, userId, columnId }: IDeleteColumnProps) {
+    if (!boardId || !userId || !columnId) {
+      return {
+        success: false,
+        message: 'BoardId, columnId and userId are required for deleting a board column',
+      };
+    }
+
+    await this.connect();
+
+    const userBoard = await UsersBoards.findOne({
+      user_id: userId,
+      board_id: boardId,
+    }).populate([
+      {
+        path: 'board_id',
+        populate: {
+          path: 'boardColumns',
+        },
+      },
+      {
+        path: 'user_id',
+      },
+    ]);
+
+    if (!userBoard) {
+      return {
+        success: false,
+        message: 'The board is missing or the user does not have access.',
+      };
+    }
+
+    const isManager = userBoard.user_id.role === Roles.MANAGER;
+
+    if (!isManager) {
+      return {
+        success: false,
+        message: 'Only manager can delete a column',
+      };
+    }
+
+    await BoardColumn.findByIdAndDelete(columnId);
+
+    await Board.findByIdAndUpdate(boardId, {
+      $pull: { boardColumns: columnId },
+    });
+
+    return { success: true, message: 'Column deleted' };
   }
 }
 
