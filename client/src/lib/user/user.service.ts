@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 
 import { getPaginate } from '@/utils';
-import { IUsers, IUsersByOrganizationProps, UserStatus } from '@/types';
+import { IUsers, IUsersByOrganizationProps, Roles, UserStatus } from '@/types';
 import { BucketFolders, deleteFileFromBucket, uploadFileToBucket } from '@/services';
 
 import { Admin, Organizations, Users } from '..';
@@ -39,8 +39,8 @@ class UserService extends BaseService {
     const user = await Users.findOne({ email });
     const admin = await Admin.findOne({ email });
 
-    if (user || admin) {
-      const foundUser = user || admin;
+    if (admin || user) {
+      const foundUser = admin || user;
 
       if (foundUser.status === UserStatus.BLOCKED) {
         return { success: false, message: 'blockedAccount' };
@@ -49,6 +49,22 @@ class UserService extends BaseService {
       const compare = await bcrypt.compare(password, foundUser.password);
 
       if (compare) {
+        let updatedUser;
+
+        if (foundUser.role !== Roles.ADMIN) {
+          updatedUser = await Users.findByIdAndUpdate(
+            foundUser._id,
+            {
+              $set: { lastLogin: new Date() },
+            },
+            {
+              new: true,
+            },
+          );
+
+          return { success: true, user: JSON.stringify(updatedUser) };
+        }
+
         return { success: true, user: JSON.stringify(foundUser) };
       }
 
@@ -131,11 +147,13 @@ class UserService extends BaseService {
       return { success: false, message: errors };
     }
 
-    const isEmailExist = await Users.findOne({
+    const isUserEmailExist = await Users.findOne({
       email: data.email,
     });
 
-    if (isEmailExist) {
+    const isAdminEmailReceived = await Admin.findOne({ email: data.email });
+
+    if (isAdminEmailReceived || isUserEmailExist) {
       return { success: false, message: 'Email already exists' };
     }
 
@@ -147,8 +165,11 @@ class UserService extends BaseService {
       return { success: false, message: `Organization  doesn't exist` };
     }
 
+    const hash = await bcrypt.hash(data.password, 10);
+
     const body = {
       ...data,
+      password: hash,
       status: UserStatus.ACTIVE,
       avatarUrl: '',
       organizationId: organizationId,

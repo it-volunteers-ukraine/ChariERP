@@ -16,6 +16,7 @@ export const FileField = ({ name, label, ...props }: FileInputProps) => {
         const onChange = async (e: InputOnChangeEventType) => {
           if (typeof e === 'string') {
             await form.setFieldValue(name, '');
+            await form.setFieldTouched(name);
 
             return;
           }

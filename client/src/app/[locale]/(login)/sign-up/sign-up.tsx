@@ -4,6 +4,7 @@ import { KeyboardEvent, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikHelpers } from 'formik';
 
+import { routes } from '@/constants';
 import { OrganizationFormValues } from '@/types';
 import { createOrganizationAction } from '@/actions';
 import { serializeOrganizationsCreate, showErrorMessageOfOrganizationExist } from '@/utils';
@@ -28,7 +29,7 @@ const SignUp = () => {
   const text = useTranslations('inputs');
   const modal = useTranslations('modal');
   const error = useTranslations('validation');
-  const errorText = useTranslations('errors.login');
+  const errorText = useTranslations('errors');
 
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -54,7 +55,7 @@ const SignUp = () => {
         setIsOpenModal(true);
       }
 
-      if (!data.success && Array.isArray(data.message)) {
+      if (!data.success && data.message) {
         return showErrorMessageOfOrganizationExist(errorText, data.message);
       }
 
@@ -62,7 +63,7 @@ const SignUp = () => {
     } catch (error) {
       console.log(error);
 
-      showMessage.error(errorText('somethingWrong'), { autoClose: 2000 });
+      showMessage.error(errorText('login.somethingWrong'), { autoClose: 2000 });
     } finally {
       setIsLoading(false);
     }
@@ -292,8 +293,8 @@ const SignUp = () => {
             </div>
 
             <CheckboxField
-              href="#"
               name="agree"
+              href={routes.privacyPolicy}
               label={text('checkbox.information')}
               hrefText={text('checkbox.privacyPolicy')}
               className="!items-start laptop:mx-auto laptop:!items-center"

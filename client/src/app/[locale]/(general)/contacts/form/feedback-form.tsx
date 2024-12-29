@@ -3,8 +3,9 @@ import { useTranslations } from 'next-intl';
 
 import { Form, Formik, FormikHelpers } from 'formik';
 
+import { routes } from '@/constants';
 import { sendEmail } from '@/services';
-import { Button, InputField, showMessage } from '@/components';
+import { Button, CheckboxField, InputField, showMessage } from '@/components';
 
 import { emailData, InitialValues } from './config';
 import { ValidationSchema } from './validationSchema';
@@ -12,6 +13,7 @@ import { ValidationSchema } from './validationSchema';
 type InitialValuesType = typeof InitialValues;
 
 export const FeedbackForm = () => {
+  const text = useTranslations('inputs');
   const error = useTranslations('validation');
   const contactPageTranslation = useTranslations('contactPageTranslation');
   const feedbackForm = useTranslations('contactPageTranslation.feedbackForm');
@@ -35,17 +37,17 @@ export const FeedbackForm = () => {
 
   return (
     <Formik onSubmit={handleSubmit} initialValues={InitialValues} validationSchema={ValidationSchema(error)}>
-      <Form className="m-auto bg-white px-2 py-4 shadow-md tablet:max-w-[605px] tablet:px-12 tablet:py-10 laptop:max-w-[800px] desktop:max-w-[588px] desktop:px-10 desktop:py-8 desktopXl:px-28 desktopXl:py-10">
-        <div className="m-auto mb-8 max-w-[342px] tablet:max-w-[456px] laptop:max-w-[622px] desktop:max-w-[456px] desktopXl:max-w-[642px]">
+      <Form className="m-auto bg-white px-2 py-4 shadow-md tablet:w-[605px] tablet:px-12 tablet:py-10 laptop:w-[800px] desktop:w-[588px] desktop:px-10 desktop:py-8 desktopXl:w-[738px] desktopXl:px-12 desktopXl:py-10">
+        <div className="m-auto mb-8 max-w-[342px] tablet:mb-12 tablet:max-w-[456px] laptop:max-w-[622px] desktop:max-w-[456px] desktopXl:max-w-[642px]">
           <h2 className="pointer-events-none m-auto mb-6 select-none text-center font-scada text-2xl font-bold uppercase tablet:text-[32px]">
             {contactPageTranslation('feedback')}
           </h2>
 
-          <h3 className="pointer-events-none select-none text-center font-scada font-bold tablet:text-lg">
+          <h3 className="pointer-events-none m-auto max-w-[456px] select-none text-center font-scada font-bold leading-[22px] text-newBlack tablet:text-[18px] tablet:leading-[22px]">
             {contactPageTranslation('feedbackMessage')}
           </h3>
         </div>
-        <div className="flex flex-col gap-y-8">
+        <div className="flex flex-col gap-y-8 laptop:gap-y-12 desktop:gap-y-8 desktopXl:px-[66px]">
           <InputField required name="surname" label={feedbackForm('labelSurname')} />
 
           <InputField required name="name" label={feedbackForm('labelName')} />
@@ -72,14 +74,22 @@ export const FeedbackForm = () => {
             name="message"
             type="textarea"
             label={feedbackForm('labelTextarea')}
-            textAreaClass=" min-h-[280px] tablet:min-h-[188px] scroll-textarea !text-input-text resize-none text-wrap"
+            textAreaClass="h-[240px] tablet:h-[148px] scroll-textarea !text-input-text resize-none text-wrap"
+          />
+
+          <CheckboxField
+            name="agree"
+            href={routes.privacyPolicy}
+            label={text('checkbox.information')}
+            hrefText={text('checkbox.privacyPolicy')}
+            className="!items-start laptop:mx-auto laptop:!items-center"
           />
 
           <Button
             type="submit"
             styleType="primary"
             isLoading={isLoading}
-            className="m-auto uppercase"
+            className="m-auto mt-4 uppercase laptop:mt-0 desktop:mt-4"
             text={feedbackForm('buttonSubmit')}
           />
         </div>

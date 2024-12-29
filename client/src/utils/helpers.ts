@@ -4,14 +4,13 @@ import { randomInt } from 'crypto';
 import { TranslationValues } from 'next-intl';
 
 import { showMessage } from '@/components';
-import { DownloadType, Fields, GetUrlProps, IOrganizations } from '@/types';
+import { Fields, IOrganizations } from '@/types';
 
 const switchExtension = (extension: string) => {
-  switch (extension) {
-    case 'pdf':
-      return 'application/pdf';
-    default:
-      return `image/${extension}`;
+  if (extension === 'pdf') {
+    return 'application/pdf';
+  } else {
+    return `image/${extension}`;
   }
 };
 
@@ -26,23 +25,6 @@ export const getExtensionForBase64 = (url: string) => {
   const extension = url.split('.')?.pop()?.toLowerCase();
 
   return switchExtension(extension!);
-};
-
-export const getUrlWithExtension = async ({ url, file, downloadType = DownloadType.URL }: GetUrlProps) => {
-  const byteArray = await file.transformToByteArray();
-  const extension = url.split('.')?.pop()?.toLowerCase();
-
-  const fileName = url.split('/')[2];
-
-  const mimeType = switchExtension(extension!);
-
-  const blob = new Blob([byteArray], { type: mimeType });
-
-  if (downloadType === DownloadType.FILE) {
-    return new File([blob], fileName, { type: mimeType });
-  }
-
-  return URL.createObjectURL(blob);
 };
 
 export const openNewWindowForCertificate = (certificate: string) => {
@@ -93,9 +75,7 @@ export const createFile = (filename: string, extension: string) => {
 
   const fileContent = new Blob(['\x00'], { type: mimeType });
 
-  const file = new File([fileContent], `${filename}.${extension}`, { type: fileContent.type });
-
-  return file;
+  return new File([fileContent], `${filename}.${extension}`, { type: fileContent.type });
 };
 
 export const getHtmlCodeForPassword = ({
@@ -142,11 +122,15 @@ export function checkFieldsToUniqueOfOrganization<T extends Fields>(
 
 export function showErrorMessageOfOrganizationExist(
   error: (key: string, params?: TranslationValues) => string,
-  data: unknown[],
+  data: unknown[] | string,
 ) {
-  const text = data.join(` ${error('or')} `);
+  if (Array.isArray(data)) {
+    const text = data.join(` ${error('or')} `);
 
-  return showMessage.error(error('companyAlreadyRegistered', { errors: text }), { autoClose: 5000 });
+    return showMessage.error(error('login.companyAlreadyRegistered', { errors: text }), { autoClose: 5000 });
+  }
+
+  return showMessage.error(error(data), { autoClose: 5000 });
 }
 
 export const onCopy = <T extends MouseEvent<HTMLElement | SVGElement> = MouseEvent<SVGElement | HTMLButtonElement>>(
@@ -174,8 +158,6 @@ export const lettersToColor = (firstName: string, lastName: string) => {
   const blue = (charCode1 * 71 + charCode2 * 29) % 256;
 
   // Convert RGB values to hex format
-  const color = `#${red.toString(16).padStart(2, '0')}${green.toString(16).padStart(2, '0')}${blue.toString(16).padStart(2, '0')}`;
-
-  return color;
+  return `#${red.toString(16).padStart(2, '0')}${green.toString(16).padStart(2, '0')}${blue.toString(16).padStart(2, '0')}`;
 };
 export const cleanSpaces = (str: string) => str.trim().replace(/\s+/g, ' ');

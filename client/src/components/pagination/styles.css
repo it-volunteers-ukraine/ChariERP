@@ -3,7 +3,20 @@
 .custom-pagination .rc-pagination-next,
 .custom-pagination .rc-pagination-jump-prev,
 .custom-pagination .rc-pagination-jump-next {
-  @apply mx-2 flex h-[32px] w-[32px] cursor-pointer select-none list-none items-center justify-center rounded-full text-sm text-pagination-color shadow-circle outline-0;
+  @apply mx-2 flex h-[32px] w-[32px] cursor-pointer select-none list-none items-center justify-center rounded-full bg-white text-sm text-pagination-color shadow-circle outline-0;
+}
+
+.custom-pagination .rc-pagination-item a,
+.custom-pagination .rc-pagination-prev a,
+.custom-pagination .rc-pagination-next a,
+.custom-pagination .rc-pagination-jump-prev a,
+.custom-pagination .rc-pagination-jump-next a {
+  @apply text-sm;
+}
+
+.custom-pagination .rc-pagination-prev,
+.custom-pagination .rc-pagination-next {
+  @apply text-pagination-iconColor;
 }
 
 .custom-pagination .rc-pagination-item:hover,
@@ -25,7 +38,7 @@
 }
 
 .custom-pagination .rc-pagination-disabled {
-  @apply pointer-events-none opacity-50;
+  @apply pointer-events-none;
 }
 
 .custom-pagination .rc-pagination-jump-prev button::after,

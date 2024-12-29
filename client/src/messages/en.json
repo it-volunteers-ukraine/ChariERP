@@ -205,6 +205,11 @@
     "required": "Required field",
     "notEmpty": "The field must be filled in",
     "matches_english": "{field} must not contain Cyrillic characters",
+    "mustContainUppercase": "The password must contain at least one uppercase letter",
+    "mustContainLowercase": "The password must contain at least one lowercase letter",
+    "mustContainNumber": "The password must contain at least one digit",
+    "mustContainSymbol": "The password must contain at least one special character",
+    "invalidCharacters": "Only allowed characters",
     "taxNumber": "Tax number must contain exactly 8 Arabic numerals.",
     "notValidPhone": "Wrong number dialed",
     "enter9Digits": "Please enter 9 digits",
@@ -227,6 +232,9 @@
       "sentEmail": "The letter was sent to {email}",
       "deleteOrganization": "The organization was deleted",
       "Organization updated": "Organization updated"
+    },
+    "employees": {
+      "addUser": "User created successfully"
     }
   },
   "errors": {
@@ -238,9 +246,17 @@
       "or": "or",
       "blockedAccount": "Your account is blocked"
     },
+    "employee": {
+      "lastLogin": "No data"
+    },
     "admin": {
       "emptyValue": "Please, pick one reason"
-    }
+    },
+    "fileDownload": "Invalid file format",
+    "employees": {
+      "addUser": "Email already exists"
+    },
+    "error-upload": "Error when uploading a file"
   },
   "loader": {
     "top": "Please wait!",
@@ -375,6 +391,21 @@
       "labelPhone": "Phone number (with area code)",
       "successfully": "Email sent successfully!",
       "error": "Error sending email!"
+    }
+  },
+  "aboutUsPage": {
+    "historyTitle": "History of creation",
+    "history": "Write about us. Be sure to touch on the topic of IT volunteers... maybe the user has never heard of them, so let them hear) ala the text about the idea of creation. This is the story of the birth of the Chari project. Write about us. Be sure to touch on the topic of IT volunteers... maybe the user has never heard of them, so let them hear) ala the text about the idea of creation. This is the story of the birth of the Chari project. Be sure to touch on the topic of IT volunteers... maybe the user has never heard of them, so let them hear) ala the text about the idea of creation. This is the story of the birth of the Chari project. Be sure to touch on the topic of IT volunteers... maybe the user has never heard of",
+    "teamTitle": "команда",
+    "team": "Our team of volunteers came together to create Chary. We implement technology solutions to enable every organization to work more efficiently and focus on what really matters - helping people.",
+    "joinTitle": "join us",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "telegram": "Telegram",
+      "phone": "Phone",
+      "message": "Messages",
+      "join": "join"
     }
   },
   "footer": {
