@@ -168,3 +168,31 @@ export interface ITaskUsersNormalizer extends Omit<ITask, 'users'> {
 export interface IBoardColumnTasksForFront extends Omit<IBoardColumn, 'task_ids'> {
   task_ids: ITaskUsersNormalizer[];
 }
+export interface IChangeColumnTitleProps {
+  boardId: string;
+  userId: string;
+  columnId: string;
+  title: string;
+}
+
+export interface IMoveBoardColumnProps {
+  boardId: string;
+  userId: string;
+  sourceIndex: number;
+  destinationIndex: number;
+}
+
+export interface IDeleteTaskProps {
+  boardId: string;
+  userId: string;
+  taskId: string;
+}
+
+export interface IMoveTaskProps {
+  boardId: string;
+  userId: string;
+  taskId: string;
+  columnId: string;
+  destinationIndex: string;
+  destinationColumnId: string;
+}

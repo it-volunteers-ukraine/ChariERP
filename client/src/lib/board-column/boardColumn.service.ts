@@ -1,4 +1,11 @@
-import { ICreateColumnProps, IDeleteColumnProps, IGetColumnsProps, Roles } from '@/types';
+import {
+  Roles,
+  IGetColumnsProps,
+  ICreateColumnProps,
+  IDeleteColumnProps,
+  IMoveBoardColumnProps,
+  IChangeColumnTitleProps,
+} from '@/types';
 
 import { BaseService } from '../database/base.service';
 import { Board, BoardColumn, UsersBoards } from '..';
@@ -78,6 +85,18 @@ class BoardColumnService extends BaseService {
       };
     }
 
+    const existingColumn = await BoardColumn.findOne({
+      board_id: boardId,
+      title: title,
+    });
+
+    if (existingColumn) {
+      return {
+        success: false,
+        message: 'A column by that name already exists on this board',
+      };
+    }
+
     const newColumn = await BoardColumn.create({
       title,
       board_id: boardId,
@@ -139,6 +158,109 @@ class BoardColumnService extends BaseService {
     });
 
     return { success: true, message: 'Column deleted' };
+  }
+
+  async changeColumnTitle({ boardId, userId, columnId, title }: IChangeColumnTitleProps) {
+    if (!boardId || !userId || !columnId || !title) {
+      return {
+        success: false,
+        message: 'BoardId, columnId, title and userId are required for changing a board column title',
+      };
+    }
+
+    const userBoard = await UsersBoards.findOne({
+      user_id: userId,
+      board_id: boardId,
+    }).populate([
+      {
+        path: 'board_id',
+        populate: {
+          path: 'boardColumns',
+        },
+      },
+      {
+        path: 'user_id',
+      },
+    ]);
+
+    if (!userBoard) {
+      return {
+        success: false,
+        message: 'The board is missing or the user does not have access.',
+      };
+    }
+
+    const isManager = userBoard.user_id.role === Roles.MANAGER;
+
+    if (!isManager) {
+      return {
+        success: false,
+        message: 'Only manager can change column title',
+      };
+    }
+
+    const existingColumn = await BoardColumn.findOne({
+      board_id: boardId,
+      title: title,
+      _id: { $ne: columnId },
+    });
+
+    if (existingColumn) {
+      return {
+        success: false,
+        message: 'A column by that name already exists on this board',
+      };
+    }
+
+    const updatedColumn = await BoardColumn.findByIdAndUpdate(columnId, { $set: { title } });
+
+    return JSON.stringify({ success: true, data: updatedColumn });
+  }
+
+  async moveBoardColumn({ boardId, userId, sourceIndex, destinationIndex }: IMoveBoardColumnProps) {
+    if (!boardId || !userId || sourceIndex === undefined || destinationIndex === undefined) {
+      return {
+        success: false,
+        message: 'BoardId, userId, sourceIndex and destinationIndex are mandatory to move a column',
+      };
+    }
+
+    await this.connect();
+
+    const board = await Board.findById(boardId);
+
+    if (!board) {
+      return {
+        success: false,
+        message: 'Board not found',
+      };
+    }
+
+    const userBoard = await UsersBoards.findOne({
+      user_id: userId,
+      board_id: boardId,
+    });
+
+    if (!userBoard) {
+      return {
+        success: false,
+        message: 'The user does not have access to this board',
+      };
+    }
+
+    const columns = [...board.boardColumns];
+    const [removedColumn] = columns.splice(sourceIndex, 1);
+
+    columns.splice(destinationIndex, 0, removedColumn);
+
+    board.boardColumns = columns;
+
+    await Board.findByIdAndUpdate(boardId, { $set: { boardColumns: columns } });
+
+    return JSON.stringify({
+      success: true,
+      message: 'Column successfully moved',
+    });
   }
 }
 
