@@ -1,13 +1,12 @@
 import { useCallback, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
+import { IUsersNormalizer } from '@/types';
 import { debounce } from '@/utils';
 import { Close, Search } from '@/assets/icons';
 
-import { IUsers } from '../mock-user';
-
 interface IDropdownListProps {
-  users: IUsers[];
+  users: IUsersNormalizer[];
   setIsDropdownOpen: () => void;
 }
 

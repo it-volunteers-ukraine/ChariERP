@@ -21,8 +21,8 @@ interface IColumnTasks {
   index: number;
   boardId: string;
   isManager: boolean;
-  onDeleteColumn: (props: string) => void;
-  onChangeTitle: (props: string) => void;
+  onDeleteColumn: (id: string) => void;
+  onChangeTitle: ({ columnId, title }: { columnId: string; title: string }) => void;
 }
 
 export const ColumnTasks = ({
@@ -44,25 +44,31 @@ export const ColumnTasks = ({
 
   const style = getStyles(isDisable);
 
-  const handlerEdit = () => {
+  const handleEdit = () => {
     setIsDisable(false);
     setIsToolsMenu(false);
     setTimeout(() => refInput.current?.focus(), 0);
   };
 
-  const handlerDelete = () => {
+  const handleDelete = () => {
     if (onDeleteColumn) onDeleteColumn(id);
   };
 
-  const handlerInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
+  const handleInputKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onBlurChangeEdit();
+    }
+  };
+
   const onBlurChangeEdit = () => {
-    if (!value && title) {
+    if (value && title) {
       setIsDisable(true);
       setValue(title);
-      onChangeTitle(title);
+      onChangeTitle({ columnId: id, title });
     }
     setIsDisable(true);
   };
@@ -94,8 +100,9 @@ export const ColumnTasks = ({
                 disabled={isDisable}
                 className={style.input}
                 onBlur={onBlurChangeEdit}
+                onKeyUp={handleInputKeyUp}
                 placeholder="додати колонку"
-                onChange={handlerInputChange}
+                onChange={handleInputChange}
               />
             )}
 
@@ -110,12 +117,12 @@ export const ColumnTasks = ({
               animationStart="startExpand"
               onClose={() => setIsToolsMenu(false)}
             >
-              <button onClick={handlerEdit} className={style.btnTools}>
+              <button onClick={handleEdit} className={style.btnTools}>
                 {translateBtn('edit')}
                 <Edit className="h-6 w-6" />
               </button>
 
-              <button onClick={handlerDelete} className={style.btnTools}>
+              <button onClick={handleDelete} className={style.btnTools}>
                 {translateBtn('delete')}
                 <Delete className="h-6 w-6" />
               </button>

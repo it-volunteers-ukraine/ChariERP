@@ -36,8 +36,22 @@ export const Columns = ({ boardId }: { boardId: string }) => {
 
   console.log({ response, isLoading });
 
-  const handlerInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
+  };
+
+  const handleInputKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onBlurChangeCreate();
+    }
+  };
+
+  const handleChangeTitle = ({ columnId, title }: { columnId: string; title: string }) => {
+    console.log({ columnId, title });
+  };
+
+  const handleDeleteColumn = (id: string) => {
+    console.log({ deleteColumnId: id });
   };
 
   const handleDeleteTask = (taskIdx: number, idxColumn: number) => {
@@ -124,15 +138,16 @@ export const Columns = ({ boardId }: { boardId: string }) => {
           {(provided) => (
             <>
               <div ref={provided.innerRef} {...provided.droppableProps} className="flex gap-6">
-                {dataColumn.map((item, index) => (
+                {response?.map((item, index) => (
                   <ColumnTasks
-                    {...item}
-                    key={item.id}
                     index={index}
                     boardId={boardId}
+                    title={item.title}
+                    id={item.id}
                     isManager={isManager}
-                    onChangeTitle={() => console.log(1)}
-                    onDeleteColumn={(id) => setDataColumn((prev) => prev.filter((item) => item.id !== id))}
+                    key={item.id}
+                    onChangeTitle={handleChangeTitle}
+                    onDeleteColumn={handleDeleteColumn}
                   >
                     <Droppable droppableId={`${index}-columns`} type="Tasks">
                       {(providedTask) => (
@@ -145,11 +160,14 @@ export const Columns = ({ boardId }: { boardId: string }) => {
                             return (
                               <TaskCard
                                 idx={idx}
-                                {...task}
+                                // {...task}
                                 boardId={boardId}
-                                columnId={item.id}
+                                users={task.users}
+                                title={task.title}
                                 isManager={isManager}
-                                key={`task_${index}_${idx}`}
+                                id={task.id}
+                                key={`task_${task.id}`}
+                                columnId={String(item.id)}
                                 onDelete={(idxTask) => handleDeleteTask(idxTask, index)}
                               />
                             );
@@ -182,8 +200,9 @@ export const Columns = ({ boardId }: { boardId: string }) => {
               type="text"
               value={value}
               ref={refInput}
+              onKeyUp={handleInputKeyUp}
               onBlur={onBlurChangeCreate}
-              onChange={handlerInputChange}
+              onChange={handleInputChange}
               placeholder={translateBtn('addColumn')}
               className={cn(
                 'max-w-[222px] text-ellipsis text-nowrap break-all border-[1px] p-2 font-scada text-xl font-bold uppercase text-comet',

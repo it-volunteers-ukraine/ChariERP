@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { IGetColumns } from '@/types';
+import { boardColumnsNormalizer } from '@/utils';
 
 import { columnApi } from '../api';
 
@@ -9,5 +10,7 @@ export const useColumns = ({ boardId, userId }: IGetColumns) => {
     ...columnApi.getColumnsList({ boardId, userId }),
   });
 
-  return { response: response?.data, isLoading };
+  const columns = boardColumnsNormalizer(response?.data);
+
+  return { response: columns, isLoading };
 };

@@ -1,4 +1,5 @@
 import { Schema } from 'mongoose';
+import { IUsers } from './users';
 
 export interface ITask {
   title: string;
@@ -20,3 +21,7 @@ export interface ICreateTask extends Omit<ITask, 'boardColumn_id' | '_id' | 'cre
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface IEditTask extends Partial<Omit<ITask, 'boardColumn_id' | 'users' | '_id' | 'created_at'>> {}
+
+export interface ITaskUsers extends Omit<ITask, 'users'> {
+  users: IUsers[];
+}

@@ -3,7 +3,7 @@ import internal from 'stream';
 import { Schema } from 'mongoose';
 import { SdkStreamMixin } from '@aws-sdk/types';
 
-import { IAdmin, IBoardColumn, ICreateTask, IUsers } from './models';
+import { IAdmin, IBoardColumn, ICreateTask, ITask, IUsers } from './models';
 import { DownloadType, RequestOrganizationStatus, UserStatus } from './enums';
 
 export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
@@ -152,4 +152,19 @@ export interface IDeleteColumnProps {
   boardId: string;
   userId: string;
   columnId: string;
+}
+
+export interface IUsersNormalizer {
+  id: string;
+  lastName: string;
+  firstName: string;
+  avatarUrl: string;
+}
+
+export interface ITaskUsersNormalizer extends Omit<ITask, 'users'> {
+  users: IUsersNormalizer[];
+}
+
+export interface IBoardColumnTasksForFront extends Omit<IBoardColumn, 'task_ids'> {
+  task_ids: ITaskUsersNormalizer[];
 }

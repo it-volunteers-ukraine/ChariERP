@@ -7,8 +7,8 @@ import { Draggable } from '@hello-pangea/dnd';
 
 import { routes } from '@/constants';
 import { useOutsideClick } from '@/hooks';
+import { IUsersNormalizer } from '@/types';
 import { Delete, DotsSettings } from '@/assets/icons';
-import { IUsers } from '@/components/participants/mock-user';
 
 import { Participants } from '../participants';
 import { ToolsDropMenu } from '../tools-drop-menu';
@@ -17,16 +17,16 @@ interface ITaskCard {
   id: string;
   idx: number;
   title: string;
-  users: IUsers[];
   boardId: string;
   columnId: string;
   isManager: boolean;
+  users?: IUsersNormalizer[];
   onDelete: (props: number) => void;
 }
 
 const duration = 300;
 
-export const TaskCard = ({ id, idx, title, users, onDelete, boardId, columnId, isManager }: ITaskCard) => {
+export const TaskCard = ({ id, idx, title, users = [], onDelete, boardId, columnId, isManager }: ITaskCard) => {
   const ref = useRef<HTMLDivElement>(null);
   const deleteMessage = useTranslations('button');
 
