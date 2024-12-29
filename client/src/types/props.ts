@@ -153,3 +153,23 @@ export interface IDeleteColumnProps {
   userId: string;
   columnId: string;
 }
+
+export interface IChangeColumnTitleProps {
+  boardId: string;
+  userId: string;
+  columnId: string;
+  title: string;
+}
+
+export interface IMoveBoardColumnProps {
+  boardId: string;
+  userId: string;
+  sourceIndex: number;
+  destinationIndex: number;
+}
+
+export interface IDeleteTaskProps {
+  boardId: string;
+  userId: string;
+  taskId: string;
+}
