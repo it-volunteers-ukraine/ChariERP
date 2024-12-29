@@ -132,3 +132,8 @@ export interface ICreateColumnProps {
   boardId: string;
   userId: string;
 }
+
+export interface IGetColumns {
+  boardId: string;
+  userId: string;
+}

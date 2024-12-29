@@ -11,7 +11,7 @@ export const boardApi = {
   getBoardsList: function (id: string | undefined) {
     return queryOptions({
       queryKey: this.queryKey,
-      queryFn: getParsedJsonData<ResponseGet, { id: string }>(getBoardsAction, { id: id! }),
+      queryFn: () => getParsedJsonData<ResponseGet, { id: string }>(getBoardsAction, { id: id! }),
       select: (response) => {
         return { ...response, data: response.data.sort((a, b) => a.order - b.order) };
       },

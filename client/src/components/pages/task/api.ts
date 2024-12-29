@@ -30,7 +30,7 @@ export const taskApi = {
   getTaskById: function () {
     return queryOptions({
       queryKey: this.queryKey,
-      queryFn: getParsedJsonData<ResponseGetTask, undefined>(getTaskById),
+      queryFn: () => getParsedJsonData<ResponseGetTask, undefined>(getTaskById),
     });
   },
   createTask: ({ userId, boardId, columnId, task }: ICreateTaskProps) => {

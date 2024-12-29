@@ -3,7 +3,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { showMessage } from '@/components';
-import { createBoardColumn } from '@/actions';
+
+import { columnApi } from '../api';
 
 interface UseAddColumnProps {
   boardId: string;
@@ -14,20 +15,21 @@ export const useAddColumn = ({ boardId, userId }: UseAddColumnProps) => {
   const queryClient = useQueryClient();
 
   const addColumnMutation = useMutation({
-    mutationFn: (title: string) => createBoardColumn({ title, boardId, userId }),
-    onSuccess: () => {
-      // if (!response.success && response?.message) {
-      //   showMessage.error(response.message);
+    mutationFn: async (title: string) => columnApi.addColumn({ title, boardId, userId }),
 
-      //   return;
-      // }
+    onSuccess: (response) => {
+      if (!response?.success && response?.message) {
+        showMessage.error(response.message);
+
+        return;
+      }
 
       queryClient.invalidateQueries({
-        queryKey: ['columns', boardId],
+        queryKey: columnApi.queryKey,
       });
     },
     onError: (error) => {
-      showMessage.error('Что-то пошло не так');
+      showMessage.error('Something went wrong');
       console.error(error);
     },
   });

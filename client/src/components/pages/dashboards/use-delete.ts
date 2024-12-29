@@ -8,11 +8,7 @@ export const useDeleteBoard = (userId: string | undefined) => {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
-    mutationFn: (id: string) => {
-      const abortController = new AbortController();
-
-      return boardApi.deleteBoard(id, userId!)({ signal: abortController.signal });
-    },
+    mutationFn: (id: string) => boardApi.deleteBoard(id, userId!),
   });
 
   const onDelete = (id: string) => {

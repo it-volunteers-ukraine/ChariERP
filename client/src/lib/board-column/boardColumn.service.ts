@@ -33,6 +33,7 @@ class BoardColumnService extends BaseService {
         message: 'The board is missing or the user does not have access.',
       };
     }
+    console.log({ data: board.board_id.boardColumns, board });
 
     return JSON.stringify({ success: true, data: board.board_id.boardColumns });
   }

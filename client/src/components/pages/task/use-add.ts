@@ -7,11 +7,7 @@ import { taskApi } from './api';
 
 export const useAddTask = ({ userId, boardId, columnId }: { userId: string; boardId: string; columnId: string }) => {
   const addMutation = useMutation({
-    mutationFn: (task: ICreateTask) => {
-      const abortController = new AbortController();
-
-      return taskApi.createTask({ userId, boardId, columnId, task })({ signal: abortController.signal });
-    },
+    mutationFn: (task: ICreateTask) => taskApi.createTask({ userId, boardId, columnId, task }),
   });
 
   const addTask = (task: ICreateTask) => {

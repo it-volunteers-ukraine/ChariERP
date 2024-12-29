@@ -8,11 +8,7 @@ export const useEditBoard = (userId: string | undefined) => {
 
   const editMutation: UseMutationResult<ResponseDeleteEdit, Error, { id: string; text: string }, unknown> = useMutation(
     {
-      mutationFn: ({ id, text }: { id: string; text: string }) => {
-        const abortController = new AbortController();
-
-        return boardApi.editBoard(id, text, userId!)({ signal: abortController.signal });
-      },
+      mutationFn: ({ id, text }: { id: string; text: string }) => boardApi.editBoard(id, text, userId!),
       onSettled: () => {
         queryClient.invalidateQueries({
           queryKey: boardApi.queryKey,
@@ -22,11 +18,7 @@ export const useEditBoard = (userId: string | undefined) => {
   );
 
   const createMutation: UseMutationResult<ResponseCreate, Error, { text: string }, unknown> = useMutation({
-    mutationFn: ({ text }: { text: string }) => {
-      const abortController = new AbortController();
-
-      return boardApi.createBoard(text, userId!)({ signal: abortController.signal });
-    },
+    mutationFn: ({ text }: { text: string }) => boardApi.createBoard(text, userId!),
     onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: boardApi.queryKey,

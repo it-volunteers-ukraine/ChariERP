@@ -9,6 +9,7 @@ import { TaskCard } from '@/components';
 import { useUserInfo } from '@/context';
 import { columns } from '@/components/pages/columns/mock';
 
+import { useAddColumn } from './use-add';
 import { useColumns } from './use-columns';
 import { ColumnTasks } from './column-tasks';
 import { IDataCards } from '../../task-card/mock';
@@ -20,7 +21,7 @@ export interface IColumns {
 }
 
 export const Columns = ({ boardId }: { boardId: string }) => {
-  const { isManager } = useUserInfo();
+  const { isManager, _id } = useUserInfo();
   const refInput = useRef<HTMLInputElement>(null);
   const translateBtn = useTranslations('button');
 
@@ -28,7 +29,10 @@ export const Columns = ({ boardId }: { boardId: string }) => {
   const [dataColumn, setDataColumn] = useState(columns);
   const [createColumn, setCreateColumn] = useState(false);
 
-  const { response, isLoading } = useColumns();
+  const id = _id ? String(_id) : undefined;
+
+  const { response, isLoading } = useColumns({ boardId, userId: id! });
+  const { addColumn } = useAddColumn({ boardId, userId: id! });
 
   console.log({ response, isLoading });
 
@@ -49,7 +53,7 @@ export const Columns = ({ boardId }: { boardId: string }) => {
   const onBlurChangeCreate = () => {
     if (value !== '') {
       setCreateColumn(true);
-      dataColumn.push({ id: '100', title: value, tasks: [] });
+      addColumn(value);
       setValue('');
       refInput.current?.blur();
     }
@@ -58,9 +62,7 @@ export const Columns = ({ boardId }: { boardId: string }) => {
 
   const onClickCreateColumn = () => {
     setCreateColumn(true);
-    if (refInput.current) {
-      setTimeout(() => refInput.current?.focus(), 0);
-    }
+    setTimeout(() => refInput.current?.focus(), 0);
   };
 
   const onMoveColumnAndTasks = (result: DropResult) => {
@@ -184,7 +186,7 @@ export const Columns = ({ boardId }: { boardId: string }) => {
               onChange={handlerInputChange}
               placeholder={translateBtn('addColumn')}
               className={cn(
-                'max-w-[222`px] text-ellipsis text-nowrap break-all border-[1px] p-2 font-scada text-xl font-bold uppercase text-comet',
+                'max-w-[222px] text-ellipsis text-nowrap break-all border-[1px] p-2 font-scada text-xl font-bold uppercase text-comet',
               )}
             />
 
@@ -197,7 +199,10 @@ export const Columns = ({ boardId }: { boardId: string }) => {
 
         <button
           onClick={onClickCreateColumn}
-          className="flex h-[254px] w-[254px] flex-col items-center justify-center gap-y-3 rounded-md bg-white px-4 py-5 shadow-createColumn"
+          className={cn(
+            'flex h-[254px] w-[254px] flex-col items-center justify-center gap-y-3 rounded-md bg-white px-4 py-5 shadow-createColumn',
+            createColumn && 'ml-6',
+          )}
         >
           <span className="font-scada text-5xl text-[rgba(104,122,149,0.5)]">+</span>
 

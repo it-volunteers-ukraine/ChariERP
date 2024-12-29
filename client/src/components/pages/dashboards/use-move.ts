@@ -13,11 +13,7 @@ export const useMoveBoards = (id: string | undefined) => {
   const queryClient = useQueryClient();
 
   const moveMutation = useMutation({
-    mutationFn: ({ newBoards }: { newBoards: IBoardData[] }) => {
-      const abortController = new AbortController();
-
-      return boardApi.moveBoards(newBoards, id!)({ signal: abortController.signal });
-    },
+    mutationFn: ({ newBoards }: { newBoards: IBoardData[] }) => boardApi.moveBoards(newBoards, id!),
 
     onMutate: async ({ newBoards }) => {
       await queryClient.cancelQueries({ queryKey: boardApi.queryKey });
