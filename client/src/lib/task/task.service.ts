@@ -1,5 +1,5 @@
 import { BoardColumn } from '@/lib';
-import { IBoardColumn, ICreateTaskProps, IDeleteTaskProps, Roles } from '@/types';
+import { IBoardColumn, ICreateTaskProps, IDeleteTaskProps, IMoveTaskProps, Roles } from '@/types';
 
 import { Task, UsersBoards } from '..';
 import { BaseService } from '../database/base.service';
@@ -113,6 +113,107 @@ class TaskService extends BaseService {
     return JSON.stringify({
       success: true,
       message: 'Task successfully deleted',
+    });
+  }
+
+  async moveTask({ boardId, userId, taskId, columnId, destinationIndex, destinationColumnId }: IMoveTaskProps) {
+    if (!boardId || !userId || !taskId || !columnId || !destinationIndex) {
+      return {
+        success: false,
+        message: 'BoardId, userId, taskId, columnId, destinationIndex are required for moving a task',
+      };
+    }
+
+    await this.connect();
+
+    const userBoard = await UsersBoards.findOne({
+      user_id: userId,
+      board_id: boardId,
+    }).populate([
+      {
+        path: 'board_id',
+        populate: {
+          path: 'boardColumns',
+        },
+      },
+    ]);
+
+    if (!userBoard) {
+      return {
+        success: false,
+        message: 'The board is missing or the user does not have access.',
+      };
+    }
+
+    const columns = userBoard.board_id.boardColumns;
+
+    const sourceColumn = columns.find((col: IBoardColumn) => String(col._id) === columnId);
+
+    if (!sourceColumn) {
+      return {
+        success: false,
+        message: 'Source column not found in this board',
+      };
+    }
+
+    if (destinationColumnId) {
+      const destinationColumn = columns.find((col: IBoardColumn) => String(col._id) === destinationColumnId);
+
+      if (!destinationColumn) {
+        return {
+          success: false,
+          message: 'Destination column not found in this board',
+        };
+      }
+    }
+
+    const task = await Task.findById(taskId);
+
+    if (!task) {
+      return {
+        success: false,
+        message: 'Task not found',
+      };
+    }
+
+    if (String(task.boardColumn_id) !== columnId) {
+      return {
+        success: false,
+        message: 'Task does not belong to the specified source column',
+      };
+    }
+
+    if (destinationColumnId && destinationColumnId !== columnId) {
+      await BoardColumn.findByIdAndUpdate(columnId, { $pull: { task_ids: taskId } });
+
+      await BoardColumn.findByIdAndUpdate(destinationColumnId, {
+        $push: {
+          task_ids: {
+            $each: [taskId],
+            $position: Number(destinationIndex),
+          },
+        },
+      });
+
+      await Task.findByIdAndUpdate(taskId, { boardColumn_id: destinationColumnId });
+    } else {
+      await BoardColumn.findByIdAndUpdate(columnId, {
+        $pull: { task_ids: taskId },
+      });
+
+      await BoardColumn.findByIdAndUpdate(columnId, {
+        $push: {
+          task_ids: {
+            $each: [taskId],
+            $position: Number(destinationIndex),
+          },
+        },
+      });
+    }
+
+    return JSON.stringify({
+      success: true,
+      message: 'Task successfully moved',
     });
   }
 }

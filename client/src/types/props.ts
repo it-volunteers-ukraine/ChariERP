@@ -173,3 +173,12 @@ export interface IDeleteTaskProps {
   userId: string;
   taskId: string;
 }
+
+export interface IMoveTaskProps {
+  boardId: string;
+  userId: string;
+  taskId: string;
+  columnId: string;
+  destinationIndex: string;
+  destinationColumnId: string;
+}
