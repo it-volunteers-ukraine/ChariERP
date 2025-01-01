@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { showMessage } from '@/components';
 
-import { columnApi } from '../api';
+import { columnApi } from './api';
 
 interface UseAddColumnProps {
   boardId: string;
@@ -14,7 +14,7 @@ interface UseAddColumnProps {
 export const useAddColumn = ({ boardId, userId }: UseAddColumnProps) => {
   const queryClient = useQueryClient();
 
-  const addColumnMutation = useMutation({
+  const addMutation = useMutation({
     mutationFn: async (title: string) => columnApi.addColumn({ title, boardId, userId }),
 
     onSuccess: (response) => {
@@ -34,12 +34,12 @@ export const useAddColumn = ({ boardId, userId }: UseAddColumnProps) => {
     },
   });
 
-  const addColumn = (title: string) => {
-    addColumnMutation.mutate(title);
+  const addColumnMutation = (title: string) => {
+    addMutation.mutate(title);
   };
 
   return {
-    addColumn,
-    isLoading: addColumnMutation.isPending,
+    addColumnMutation,
+    isLoading: addMutation.isPending,
   };
 };

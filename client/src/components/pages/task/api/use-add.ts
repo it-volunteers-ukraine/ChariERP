@@ -10,7 +10,7 @@ export const useAddTask = ({ userId, boardId, columnId }: { userId: string; boar
     mutationFn: (task: ICreateTask) => taskApi.createTask({ userId, boardId, columnId, task }),
   });
 
-  const addTask = (task: ICreateTask) => {
+  const addTaskMutation = (task: ICreateTask) => {
     addMutation.mutate(task, {
       onSuccess: (response) => {
         if (!response.success && response.message) {
@@ -20,5 +20,5 @@ export const useAddTask = ({ userId, boardId, columnId }: { userId: string; boar
     });
   };
 
-  return { addTask, isLoading: addMutation.isPending };
+  return { addTaskMutation, isLoading: addMutation.isPending };
 };

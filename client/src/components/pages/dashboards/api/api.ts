@@ -4,7 +4,7 @@ import { IBoardData } from '@/components';
 import { getParsedJsonData } from '@/modules';
 import { createBoardAction, deleteBoardAction, editBoardAction, getBoardsAction, moveBoardsAction } from '@/actions';
 
-import { IMoveBoardsProps, ResponseCreate, ResponseDeleteEdit, ResponseGet } from './types';
+import { IMoveBoardsProps, ResponseCreate, ResponseDeleteEdit, ResponseGet } from '../types';
 
 export const boardApi = {
   queryKey: ['boards', 'all'],

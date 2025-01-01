@@ -8,7 +8,7 @@ import { useUserInfo } from '@/context';
 import { TaskPageParamsProps } from '@/types';
 
 import { Task } from '..';
-import { useAddTask } from '../use-add';
+import { useAddTask } from '../api/use-add';
 
 const task = {
   status: 'in_progress',
@@ -27,10 +27,10 @@ export const NewTask = ({ params }: TaskPageParamsProps) => {
 
   const id = _id ? String(_id) : undefined;
 
-  const { addTask } = useAddTask({ userId: id!, boardId: params.board_id, columnId: params.column_id });
+  const { addTaskMutation } = useAddTask({ userId: id!, boardId: params.board_id, columnId: params.column_id });
 
   const onSubmit = async () => {
-    addTask({ ...task, title });
+    addTaskMutation({ ...task, title });
   };
 
   return (

@@ -3,10 +3,10 @@
 import { taskService } from '@/lib';
 import { IMoveTaskProps } from '@/types';
 
-export async function moveTask({
-  boardId,
+export async function moveTaskAction({
   userId,
   taskId,
+  boardId,
   columnId,
   destinationIndex,
   destinationColumnId,

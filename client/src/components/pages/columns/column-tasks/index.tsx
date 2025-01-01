@@ -9,9 +9,8 @@ import { cn } from '@/utils';
 import { routes } from '@/constants';
 import { ChildrenProps } from '@/types';
 import { useOutsideClick } from '@/hooks';
+import { ToolsDropMenu } from '@/components';
 import { Delete, DotsSettings, Edit } from '@/assets/icons';
-
-import { ToolsDropMenu } from '../../../tools-drop-menu';
 
 import { getStyles } from './styles';
 
@@ -67,8 +66,7 @@ export const ColumnTasks = ({
   const onBlurChangeEdit = () => {
     if (value && title) {
       setIsDisable(true);
-      setValue(title);
-      onChangeTitle({ columnId: id, title });
+      onChangeTitle({ columnId: id, title: value });
     }
     setIsDisable(true);
   };

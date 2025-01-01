@@ -1,7 +1,7 @@
 import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query';
 
 import { boardApi } from './api';
-import { ResponseCreate, ResponseDeleteEdit } from './types';
+import { ResponseCreate, ResponseDeleteEdit } from '../types';
 
 export const useEditBoard = (userId: string | undefined) => {
   const queryClient = useQueryClient();

@@ -1,10 +1,10 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import { createTask } from '@/actions';
 import { ICreateTaskProps } from '@/types';
+import { createTaskAction } from '@/actions';
 import { getParsedJsonData } from '@/modules';
 
-import { ResponseGetTask } from './types';
+import { ResponseGetTask } from '../types';
 
 const task = {
   title: 'Some Task',
@@ -34,7 +34,7 @@ export const taskApi = {
     });
   },
   createTask: ({ userId, boardId, columnId, task }: ICreateTaskProps) => {
-    return getParsedJsonData<ResponseGetTask, ICreateTaskProps>(createTask, {
+    return getParsedJsonData<ResponseGetTask, ICreateTaskProps>(createTaskAction, {
       task,
       userId,
       boardId,

@@ -4,8 +4,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { IBoardData } from '@/components';
 
 import { boardApi } from './api';
-import { ResponseGet } from './types';
-import { generateColumns, reorder } from './helpers';
+import { ResponseGet } from '../types';
+import { generateColumns, reorder } from '../helpers';
 
 type IBoardMove = ResponseGet | undefined;
 

@@ -7,13 +7,10 @@ import { useUserInfo } from '@/context';
 import { useWindowWidth } from '@/hooks';
 import { BoardCard, Button } from '@/components';
 
-import { getStyle } from './styles';
-import { useAddBoard } from './use-add';
-import { useBoards } from './use-boards';
-import { useEditBoard } from './use-edit';
-import { useMoveBoards } from './use-move';
 import { generateColumns } from './helpers';
-import { useDeleteBoard } from './use-delete';
+import { useAddBoard, useEditBoard, useMoveBoards, useDeleteBoard, useBoards } from './api';
+
+import { getStyle } from './styles';
 
 const limitOfCard = 5;
 

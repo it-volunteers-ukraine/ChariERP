@@ -7,12 +7,11 @@ import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import { cn } from '@/utils';
 import { TaskCard } from '@/components';
 import { useUserInfo } from '@/context';
-import { columns } from '@/components/pages/columns/mock';
+import { useAddColumn, useColumns, useDeleteColumn, useEditTitleColumn } from './api';
 
-import { useAddColumn } from './use-add';
-import { useColumns } from './use-columns';
 import { ColumnTasks } from './column-tasks';
 import { IDataCards } from '../../task-card/mock';
+// import task from '@/lib/models/task';
 
 export interface IColumns {
   id: string;
@@ -26,15 +25,17 @@ export const Columns = ({ boardId }: { boardId: string }) => {
   const translateBtn = useTranslations('button');
 
   const [value, setValue] = useState('');
-  const [dataColumn, setDataColumn] = useState(columns);
+  // const [dataColumn, setDataColumn] = useState(columns);
   const [createColumn, setCreateColumn] = useState(false);
 
   const id = _id ? String(_id) : undefined;
 
-  const { response, isLoading } = useColumns({ boardId, userId: id! });
-  const { addColumn } = useAddColumn({ boardId, userId: id! });
+  const { response } = useColumns({ boardId, userId: id! });
+  const { addColumnMutation } = useAddColumn({ boardId, userId: id! });
+  const { onEditTitleColumn } = useEditTitleColumn({ boardId, userId: id! });
+  const { onDeleteColumn } = useDeleteColumn({ boardId, userId: id! });
 
-  console.log({ response, isLoading });
+  console.log({ response });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -48,26 +49,25 @@ export const Columns = ({ boardId }: { boardId: string }) => {
 
   const handleChangeTitle = ({ columnId, title }: { columnId: string; title: string }) => {
     console.log({ columnId, title });
+    onEditTitleColumn({ title, columnId });
   };
 
   const handleDeleteColumn = (id: string) => {
-    console.log({ deleteColumnId: id });
+    onDeleteColumn(id);
   };
 
-  const handleDeleteTask = (taskIdx: number, idxColumn: number) => {
-    setDataColumn((prev) => {
-      const newArray = [...prev];
-
-      newArray[idxColumn].tasks.splice(taskIdx, 1);
-
-      return newArray;
-    });
+  const handleDeleteTask = () => {
+    // setDataColumn((prev) => {
+    //   const newArray = [...prev];
+    //   newArray[idxColumn].tasks.splice(taskIdx, 1);
+    //   return newArray;
+    // });
   };
 
   const onBlurChangeCreate = () => {
     if (value !== '') {
       setCreateColumn(true);
-      addColumn(value);
+      addColumnMutation(value);
       setValue('');
       refInput.current?.blur();
     }
@@ -82,52 +82,42 @@ export const Columns = ({ boardId }: { boardId: string }) => {
   const onMoveColumnAndTasks = (result: DropResult) => {
     const { source, destination, type } = result;
 
+    console.log({ source, destination, type });
+
     if (!destination) return;
 
-    const newColumns = [...dataColumn];
+    // const newColumns = [...dataColumn];
 
     if (type === 'Columns') {
-      const column = dataColumn[source.index];
-
-      newColumns.splice(source.index, 1);
-      newColumns.splice(destination.index, 0, column);
-
-      setDataColumn(newColumns);
+      // const column = dataColumn[source.index];
+      // newColumns.splice(source.index, 1);
+      // newColumns.splice(destination.index, 0, column);
+      // setDataColumn(newColumns);
     }
 
     if (type === 'Tasks') {
-      const columnStartIndex = parseInt(source.droppableId.split('-')[0]) as unknown as number;
-      const columnFinishIndex = parseInt(destination.droppableId.split('-')[0]);
-
-      const columnStart = dataColumn[columnStartIndex];
-      const columnFinish = dataColumn[columnFinishIndex];
-
-      const task = columnStart.tasks[source.index];
-
-      if (columnStart.id === columnFinish.id) {
-        const newTasks = Array.from(columnStart.tasks);
-
-        newTasks.splice(source.index, 1);
-
-        newTasks.splice(destination.index, 0, task);
-
-        const newColumn = {
-          ...columnStart,
-          tasks: newTasks,
-        };
-
-        newColumns.splice(columnStartIndex, 1);
-        newColumns.splice(columnFinishIndex, 0, newColumn);
-
-        setDataColumn(newColumns);
-      }
-
-      if (columnStart.id !== columnFinish.id) {
-        newColumns[columnStartIndex].tasks.splice(source.index, 1);
-        newColumns[columnFinishIndex].tasks.splice(destination.index, 0, task);
-
-        setDataColumn(newColumns);
-      }
+      // const columnStartIndex = parseInt(source.droppableId.split('-')[0]) as unknown as number;
+      // const columnFinishIndex = parseInt(destination.droppableId.split('-')[0]);
+      // const columnStart = dataColumn[columnStartIndex];
+      // const columnFinish = dataColumn[columnFinishIndex];
+      // const task = columnStart.tasks[source.index];
+      // if (columnStart.id === columnFinish.id) {
+      //   const newTasks = Array.from(columnStart.tasks);
+      //   newTasks.splice(source.index, 1);
+      //   newTasks.splice(destination.index, 0, task);
+      //   const newColumn = {
+      //     ...columnStart,
+      //     tasks: newTasks,
+      //   };
+      //   newColumns.splice(columnStartIndex, 1);
+      //   newColumns.splice(columnFinishIndex, 0, newColumn);
+      //   setDataColumn(newColumns);
+      // }
+      // if (columnStart.id !== columnFinish.id) {
+      //   newColumns[columnStartIndex].tasks.splice(source.index, 1);
+      //   newColumns[columnFinishIndex].tasks.splice(destination.index, 0, task);
+      //   setDataColumn(newColumns);
+      // }
     }
   };
 
@@ -168,7 +158,7 @@ export const Columns = ({ boardId }: { boardId: string }) => {
                                 id={task.id}
                                 key={`task_${task.id}`}
                                 columnId={String(item.id)}
-                                onDelete={(idxTask) => handleDeleteTask(idxTask, index)}
+                                onDelete={() => handleDeleteTask()}
                               />
                             );
                           })}
