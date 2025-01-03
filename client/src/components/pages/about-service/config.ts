@@ -1,6 +1,4 @@
 import data from '@/messages/en.json';
-import { generateKey } from '@/utils';
-
 import {
   Sales,
   SeoSvg,
@@ -19,6 +17,8 @@ import {
   AutomaticReporting,
   OrganizationEvents,
 } from '@/assets/icons';
+
+import { generateKey } from './utils';
 
 export interface IBeneficiary {
   subTitle: string;

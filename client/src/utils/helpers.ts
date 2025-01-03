@@ -161,7 +161,3 @@ export const lettersToColor = (firstName: string, lastName: string) => {
   return `#${red.toString(16).padStart(2, '0')}${green.toString(16).padStart(2, '0')}${blue.toString(16).padStart(2, '0')}`;
 };
 export const cleanSpaces = (str: string) => str.trim().replace(/\s+/g, ' ');
-
-export const generateKey = (array: string[], key: string) => {
-  return array.map((_, idx) => `${key}.${idx}`);
-};
