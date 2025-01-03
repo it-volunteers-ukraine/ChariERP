@@ -1,5 +1,7 @@
+import { AboutServicePage } from '@/components';
+
 const AboutService = () => {
-  return <>AboutService</>;
+  return <AboutServicePage />;
 };
 
 export default AboutService;
