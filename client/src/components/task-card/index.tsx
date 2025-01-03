@@ -21,7 +21,7 @@ interface ITaskCard {
   columnId: string;
   isManager: boolean;
   users?: IUsersNormalizer[];
-  onDelete: (props: number) => void;
+  onDelete: (id: string) => void;
 }
 
 const duration = 300;
@@ -44,7 +44,7 @@ export const TaskCard = ({ id, idx, title, users = [], onDelete, boardId, column
 
     setIsActive(false);
 
-    setTimeout(() => onDelete(idx), duration);
+    setTimeout(() => onDelete(id), duration);
   };
 
   useOutsideClick(() => setIsActive(false), ref);

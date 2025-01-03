@@ -1,13 +1,44 @@
-import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 
-import { IGetColumns } from '@/types';
+import { showMessage } from '@/components';
+import { ResponseGetType } from '@/modules';
+import { boardColumnsNormalizer } from '@/utils';
+import { getBoardColumnsAction } from '@/actions';
+import { IBoardColumnTasks, IUseColumns } from '@/types';
 
-import { columnApi } from './api';
+import { IBoardColumn } from './types';
 
-export const useColumns = ({ boardId, userId }: IGetColumns) => {
-  const { data: response, isLoading } = useQuery({
-    ...columnApi.getColumnsList({ boardId, userId }),
-  });
+export const useColumns = ({ boardId, userId }: IUseColumns) => {
+  const [columns, setColumns] = useState<IBoardColumn[]>([]);
 
-  return { response: response?.data, isLoading };
+  const getColumns = async () => {
+    try {
+      const response: ResponseGetType<IBoardColumnTasks[]> | string = (await getBoardColumnsAction({
+        boardId,
+        userId,
+      })) as ResponseGetType<IBoardColumnTasks[]>;
+
+      if (!response?.success && response?.message && !response?.data) {
+        showMessage.error(response.message);
+
+        return;
+      }
+
+      if (typeof response === 'string') {
+        const parsedResponse = JSON.parse(response);
+
+        setColumns(boardColumnsNormalizer(parsedResponse?.data));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (userId) {
+      getColumns();
+    }
+  }, [userId]);
+
+  return { response: columns, setColumns };
 };

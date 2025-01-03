@@ -7,17 +7,18 @@ import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import { cn } from '@/utils';
 import { TaskCard } from '@/components';
 import { useUserInfo } from '@/context';
-import { useAddColumn, useColumns, useDeleteColumn, useEditTitleColumn } from './api';
+import { useOutsideClick } from '@/hooks';
 
 import { ColumnTasks } from './column-tasks';
-import { IDataCards } from '../../task-card/mock';
-// import task from '@/lib/models/task';
-
-export interface IColumns {
-  id: string;
-  title: string;
-  tasks: IDataCards[];
-}
+import {
+  useColumns,
+  useMoveTask,
+  useAddColumn,
+  useDeleteTask,
+  useMoveColumn,
+  useDeleteColumn,
+  useEditTitleColumn,
+} from './api';
 
 export const Columns = ({ boardId }: { boardId: string }) => {
   const { isManager, _id } = useUserInfo();
@@ -25,51 +26,52 @@ export const Columns = ({ boardId }: { boardId: string }) => {
   const translateBtn = useTranslations('button');
 
   const [value, setValue] = useState('');
-  // const [dataColumn, setDataColumn] = useState(columns);
   const [createColumn, setCreateColumn] = useState(false);
 
   const id = _id ? String(_id) : undefined;
 
-  const { response } = useColumns({ boardId, userId: id! });
-  const { addColumnMutation } = useAddColumn({ boardId, userId: id! });
+  const { response, setColumns } = useColumns({ boardId, userId: id! });
+  const { onAddColumn } = useAddColumn({ boardId, userId: id! });
   const { onEditTitleColumn } = useEditTitleColumn({ boardId, userId: id! });
   const { onDeleteColumn } = useDeleteColumn({ boardId, userId: id! });
+  const { onMoveColumn } = useMoveColumn({ boardId, userId: id! });
+  const { onMoveTask } = useMoveTask({ boardId, userId: id! });
+  const { onDeleteTask } = useDeleteTask({ boardId, userId: id! });
 
   console.log({ response });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
+  useOutsideClick(() => {
+    refInput.current?.blur();
+    setCreateColumn(false);
+  }, refInput);
 
   const handleInputKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      onBlurChangeCreate();
+      refInput.current?.blur();
     }
   };
 
-  const handleChangeTitle = ({ columnId, title }: { columnId: string; title: string }) => {
-    console.log({ columnId, title });
-    onEditTitleColumn({ title, columnId });
+  const handleChangeTitle = async ({ columnId, title }: { columnId: string; title: string }) => {
+    await onEditTitleColumn({ title, columnId, response, setColumns });
   };
 
-  const handleDeleteColumn = (id: string) => {
-    onDeleteColumn(id);
+  const handleDeleteColumn = async (id: string) => {
+    await onDeleteColumn({ columnId: id, response, setColumns });
   };
 
-  const handleDeleteTask = () => {
-    // setDataColumn((prev) => {
-    //   const newArray = [...prev];
-    //   newArray[idxColumn].tasks.splice(taskIdx, 1);
-    //   return newArray;
-    // });
+  const handleDeleteTask = async (id: string) => {
+    await onDeleteTask({
+      taskId: id,
+      response,
+      setColumns,
+    });
   };
 
-  const onBlurChangeCreate = () => {
+  const onBlurChangeCreate = async () => {
     if (value !== '') {
       setCreateColumn(true);
-      addColumnMutation(value);
+      await onAddColumn({ title: value, response, setColumns });
       setValue('');
-      refInput.current?.blur();
     }
     setCreateColumn(false);
   };
@@ -79,45 +81,29 @@ export const Columns = ({ boardId }: { boardId: string }) => {
     setTimeout(() => refInput.current?.focus(), 0);
   };
 
-  const onMoveColumnAndTasks = (result: DropResult) => {
+  const onMoveColumnAndTasks = async (result: DropResult) => {
+    if (!result.destination) return;
+
     const { source, destination, type } = result;
 
-    console.log({ source, destination, type });
-
-    if (!destination) return;
-
-    // const newColumns = [...dataColumn];
-
     if (type === 'Columns') {
-      // const column = dataColumn[source.index];
-      // newColumns.splice(source.index, 1);
-      // newColumns.splice(destination.index, 0, column);
-      // setDataColumn(newColumns);
+      await onMoveColumn({ source: source.index, destination: destination.index, response, setColumns });
     }
 
     if (type === 'Tasks') {
-      // const columnStartIndex = parseInt(source.droppableId.split('-')[0]) as unknown as number;
-      // const columnFinishIndex = parseInt(destination.droppableId.split('-')[0]);
-      // const columnStart = dataColumn[columnStartIndex];
-      // const columnFinish = dataColumn[columnFinishIndex];
-      // const task = columnStart.tasks[source.index];
-      // if (columnStart.id === columnFinish.id) {
-      //   const newTasks = Array.from(columnStart.tasks);
-      //   newTasks.splice(source.index, 1);
-      //   newTasks.splice(destination.index, 0, task);
-      //   const newColumn = {
-      //     ...columnStart,
-      //     tasks: newTasks,
-      //   };
-      //   newColumns.splice(columnStartIndex, 1);
-      //   newColumns.splice(columnFinishIndex, 0, newColumn);
-      //   setDataColumn(newColumns);
-      // }
-      // if (columnStart.id !== columnFinish.id) {
-      //   newColumns[columnStartIndex].tasks.splice(source.index, 1);
-      //   newColumns[columnFinishIndex].tasks.splice(destination.index, 0, task);
-      //   setDataColumn(newColumns);
-      // }
+      if (!response) return;
+
+      const columnStartIndex = Number(source.droppableId.split('-')[0]);
+      const columnFinishIndex = Number(destination.droppableId.split('-')[0]);
+
+      await onMoveTask({
+        response,
+        setColumns,
+        columnStartIndex,
+        columnFinishIndex,
+        sourceIndex: source.index,
+        destinationIndex: destination.index,
+      });
     }
   };
 
@@ -126,18 +112,19 @@ export const Columns = ({ boardId }: { boardId: string }) => {
       <DragDropContext onDragEnd={onMoveColumnAndTasks}>
         <Droppable droppableId="column-area" type="Columns" direction="horizontal">
           {(provided) => (
-            <>
-              <div ref={provided.innerRef} {...provided.droppableProps} className="flex gap-6">
+            <div ref={provided.innerRef} {...provided.droppableProps} className="flex">
+              <div className="flex">
                 {response?.map((item, index) => (
                   <ColumnTasks
+                    key={item.id}
+                    id={item.id}
                     index={index}
                     boardId={boardId}
                     title={item.title}
-                    id={item.id}
                     isManager={isManager}
-                    key={item.id}
                     onChangeTitle={handleChangeTitle}
                     onDeleteColumn={handleDeleteColumn}
+                    hasNextColumn={index < response.length - 1}
                   >
                     <Droppable droppableId={`${index}-columns`} type="Tasks">
                       {(providedTask) => (
@@ -146,63 +133,51 @@ export const Columns = ({ boardId }: { boardId: string }) => {
                           {...providedTask.droppableProps}
                           className="flex flex-col gap-3"
                         >
-                          {item.tasks.map((task, idx: number) => {
-                            return (
-                              <TaskCard
-                                idx={idx}
-                                // {...task}
-                                boardId={boardId}
-                                users={task.users}
-                                title={task.title}
-                                isManager={isManager}
-                                id={task.id}
-                                key={`task_${task.id}`}
-                                columnId={String(item.id)}
-                                onDelete={() => handleDeleteTask()}
-                              />
-                            );
-                          })}
+                          {item?.tasks?.map((task, idx: number) => (
+                            <TaskCard
+                              idx={idx}
+                              id={task.id}
+                              boardId={boardId}
+                              users={task.users}
+                              title={task.title}
+                              isManager={isManager}
+                              key={`task_${task.id}`}
+                              columnId={String(item.id)}
+                              onDelete={handleDeleteTask}
+                            />
+                          ))}
                           <div
                             className={cn(
-                              item.tasks.length === 0 &&
-                                'mr-3 min-h-[96px] rounded border-2 border-dashed border-gray-300',
+                              item.tasks?.length === 0 &&
+                                'mr-3 min-h-[94px] rounded border-2 border-dashed border-lynch',
                             )}
-                          >
-                            {providedTask.placeholder}
-                          </div>
+                          />
+                          {providedTask.placeholder}
                         </div>
                       )}
                     </Droppable>
                   </ColumnTasks>
                 ))}
+                {provided.placeholder}
               </div>
-
-              <div>{provided.placeholder}</div>
-            </>
+            </div>
           )}
         </Droppable>
       </DragDropContext>
 
-      <div className="-ml-6 flex h-full bg-white">
+      <div className="flex h-full bg-white">
         {createColumn && (
-          <div className="flex h-fit min-h-[254px] w-[254px] flex-col gap-y-3 rounded-md bg-whiteSecond px-4 py-5">
+          <div className="flex h-fit min-h-[254px] w-[254px] flex-col gap-y-3 rounded-md bg-whiteSecond px-4 py-5 shadow-boardColumn">
             <input
               type="text"
               value={value}
               ref={refInput}
               onKeyUp={handleInputKeyUp}
               onBlur={onBlurChangeCreate}
-              onChange={handleInputChange}
+              onChange={(e) => setValue(e.target.value)}
               placeholder={translateBtn('addColumn')}
-              className={cn(
-                'max-w-[222px] text-ellipsis text-nowrap break-all border-[1px] p-2 font-scada text-xl font-bold uppercase text-comet',
-              )}
+              className="max-w-[222px] text-ellipsis text-nowrap break-all border-[1px] p-2 font-scada text-xl font-bold uppercase text-comet"
             />
-
-            <button className="box-border flex w-full items-center justify-start gap-x-3 rounded-lg border-[1px] bg-arcticSky p-3 font-roboto text-comet hover:border-skyBlue">
-              <span className="text-2xl font-bold leading-none">+</span>
-              <span className="text-sm leading-5">{translateBtn('addTask')}</span>
-            </button>
           </div>
         )}
 
@@ -214,7 +189,6 @@ export const Columns = ({ boardId }: { boardId: string }) => {
           )}
         >
           <span className="font-scada text-5xl text-[rgba(104,122,149,0.5)]">+</span>
-
           <p className="w-[222px] text-nowrap text-center font-scada text-[rgba(104,122,149,0.5)]">
             {translateBtn('addColumn')}
           </p>

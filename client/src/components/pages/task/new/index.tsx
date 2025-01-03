@@ -27,10 +27,10 @@ export const NewTask = ({ params }: TaskPageParamsProps) => {
 
   const id = _id ? String(_id) : undefined;
 
-  const { addTaskMutation } = useAddTask({ userId: id!, boardId: params.board_id, columnId: params.column_id });
+  const { addTask } = useAddTask({ userId: id!, boardId: params.board_id, columnId: params.column_id });
 
   const onSubmit = async () => {
-    addTaskMutation({ ...task, title });
+    await addTask({ ...task, title });
   };
 
   return (

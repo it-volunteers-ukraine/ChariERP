@@ -133,7 +133,7 @@ export interface ICreateColumnProps {
   userId: string;
 }
 
-export interface IGetColumns {
+export interface IUseColumns {
   boardId: string;
   userId: string;
 }
@@ -193,6 +193,6 @@ export interface IMoveTaskProps {
   userId: string;
   taskId: string;
   columnId: string;
-  destinationIndex: string;
+  destinationIndex: number;
   destinationColumnId: string;
 }

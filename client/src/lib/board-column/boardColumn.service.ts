@@ -157,7 +157,7 @@ class BoardColumnService extends BaseService {
       $pull: { boardColumns: columnId },
     });
 
-    return { success: true, message: 'Column deleted' };
+    return JSON.stringify({ success: true, message: 'Column deleted' });
   }
 
   async changeColumnTitle({ boardId, userId, columnId, title }: IChangeColumnTitleProps) {
@@ -221,7 +221,7 @@ class BoardColumnService extends BaseService {
     if (!boardId || !userId || sourceIndex === undefined || destinationIndex === undefined) {
       return {
         success: false,
-        message: 'BoardId, userId, sourceIndex and destinationIndex are mandatory to move a column',
+        message: 'BoardId, userId, sourceIndex or destinationIndex are mandatory to move a column',
       };
     }
 

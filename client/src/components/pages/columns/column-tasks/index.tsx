@@ -16,13 +16,16 @@ import { getStyles } from './styles';
 
 interface IColumnTasks {
   id: string;
-  title: string;
   index: number;
+  title: string;
   boardId: string;
   isManager: boolean;
+  hasNextColumn: boolean;
   onDeleteColumn: (id: string) => void;
   onChangeTitle: ({ columnId, title }: { columnId: string; title: string }) => void;
 }
+
+const duration = 300;
 
 export const ColumnTasks = ({
   id,
@@ -31,6 +34,7 @@ export const ColumnTasks = ({
   boardId,
   children,
   isManager,
+  hasNextColumn,
   onChangeTitle,
   onDeleteColumn,
 }: ChildrenProps<IColumnTasks>) => {
@@ -50,7 +54,8 @@ export const ColumnTasks = ({
   };
 
   const handleDelete = () => {
-    if (onDeleteColumn) onDeleteColumn(id);
+    setIsToolsMenu(false);
+    setTimeout(() => onDeleteColumn(id), duration);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,10 +80,10 @@ export const ColumnTasks = ({
 
   return (
     <Draggable draggableId={id} index={index} isDragDisabled={!isManager}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <div
           id={id}
-          className={style.columnTask}
+          className={cn(style.columnTask, snapshot.isDragging && style.columnDragging, hasNextColumn && 'mr-6')}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -109,10 +114,9 @@ export const ColumnTasks = ({
             </button>
 
             <ToolsDropMenu
+              animation="fade"
               className="top-full"
               opened={isToolsMenu}
-              animationEnd="startCollapse"
-              animationStart="startExpand"
               onClose={() => setIsToolsMenu(false)}
             >
               <button onClick={handleEdit} className={style.btnTools}>

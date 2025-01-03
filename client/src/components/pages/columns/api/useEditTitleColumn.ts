@@ -1,38 +1,52 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import { showMessage } from '@/components';
+import { ResponseGetType } from '@/modules';
+import { changeColumnTitleAction } from '@/actions';
+import { IBoardColumnTasks, IUseColumns } from '@/types';
 
-import { columnApi } from './api';
+import { IUseStateBoardColumns } from './types';
 
-export const useEditTitleColumn = ({ boardId, userId }: { boardId: string; userId: string }) => {
-  const queryClient = useQueryClient();
+interface onEditTitleColumnProps extends IUseStateBoardColumns {
+  title: string;
+  columnId: string;
+}
 
-  const editTitleColumnMutation = useMutation({
-    mutationFn: ({ title, columnId }: { title: string; columnId: string }) =>
-      columnApi.editTitleColumn({ title, boardId, userId, columnId }),
-  });
+export const useEditTitleColumn = ({ boardId, userId }: IUseColumns) => {
+  const onEditTitleColumn = async ({ title, columnId, response, setColumns }: onEditTitleColumnProps) => {
+    const oldResponse = [...response];
 
-  const onEditTitleColumn = ({ title, columnId }: { title: string; columnId: string }) => {
-    editTitleColumnMutation.mutate(
-      { title, columnId },
-      {
-        onSuccess: (response) => {
-          if (!response?.success && response?.message) {
-            showMessage.error(response.message);
+    setColumns(
+      response.map((column) => {
+        if (column.id === columnId) {
+          return { ...column, title };
+        }
 
-            return;
-          }
-
-          queryClient.invalidateQueries({
-            queryKey: columnApi.queryKey,
-          });
-        },
-      },
+        return column;
+      }),
     );
+
+    try {
+      const res: ResponseGetType<IBoardColumnTasks> | string = await changeColumnTitleAction({
+        title,
+        userId,
+        boardId,
+        columnId,
+      });
+
+      if (typeof res === 'string') {
+        return;
+      }
+
+      if (!res?.success && res?.message) {
+        showMessage.error(res.message);
+        setColumns(oldResponse);
+      }
+    } catch (error) {
+      console.log(error);
+      setColumns(oldResponse);
+    }
   };
 
   return {
     onEditTitleColumn,
-    isLoadingEditTitle: editTitleColumnMutation.isPending,
   };
 };

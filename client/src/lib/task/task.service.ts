@@ -117,7 +117,7 @@ class TaskService extends BaseService {
   }
 
   async moveTask({ boardId, userId, taskId, columnId, destinationIndex, destinationColumnId }: IMoveTaskProps) {
-    if (!boardId || !userId || !taskId || !columnId || !destinationIndex) {
+    if (!boardId || !userId || !taskId || !columnId || destinationIndex === undefined) {
       return {
         success: false,
         message: 'BoardId, userId, taskId, columnId, destinationIndex are required for moving a task',

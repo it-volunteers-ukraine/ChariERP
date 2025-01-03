@@ -1,24 +1,29 @@
-import { useMutation } from '@tanstack/react-query';
-
 import { ICreateTask } from '@/types';
 import { showMessage } from '@/components';
-
-import { taskApi } from './api';
+import { ResponseGetType } from '@/modules';
+import { createTaskAction } from '@/actions';
 
 export const useAddTask = ({ userId, boardId, columnId }: { userId: string; boardId: string; columnId: string }) => {
-  const addMutation = useMutation({
-    mutationFn: (task: ICreateTask) => taskApi.createTask({ userId, boardId, columnId, task }),
-  });
+  const addTask = async (task: ICreateTask) => {
+    try {
+      const res: ResponseGetType<ICreateTask> | string = await createTaskAction({
+        task,
+        userId,
+        boardId,
+        columnId,
+      });
 
-  const addTaskMutation = (task: ICreateTask) => {
-    addMutation.mutate(task, {
-      onSuccess: (response) => {
-        if (!response.success && response.message) {
-          showMessage.error(response.message);
-        }
-      },
-    });
+      if (typeof res === 'string') {
+        return;
+      }
+
+      if (!res?.success && res?.message) {
+        showMessage.error(res.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  return { addTaskMutation, isLoading: addMutation.isPending };
+  return { addTask };
 };
