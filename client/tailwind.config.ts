@@ -44,9 +44,9 @@ const superBlue = '#DFF0F8';
 const swissCoffee = '#D0CBCB';
 const white = '#FFFFFF';
 const whiteSecond = '#F4F7FE';
+const blueBorder = '#126DFB';
 const blueGreen = '#2A505B';
 const yellow = '#DBC553';
-
 //Gradients
 const blueCrayolaToDeepBlue = `linear-gradient(135deg, ${blueCrayola} 0%, ${deepBlue} 100%)`;
 
@@ -56,6 +56,7 @@ const config: Config = {
     extend: {
       ...defaultTheme,
       colors: {
+        blueBorder,
         blueGreen,
         ebb,
         java,
