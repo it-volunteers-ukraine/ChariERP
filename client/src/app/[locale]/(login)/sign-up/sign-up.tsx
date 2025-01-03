@@ -4,6 +4,7 @@ import { KeyboardEvent, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikHelpers } from 'formik';
 
+import { routes } from '@/constants';
 import { OrganizationFormValues } from '@/types';
 import { createOrganizationAction } from '@/actions';
 import { serializeOrganizationsCreate, showErrorMessageOfOrganizationExist } from '@/utils';
@@ -292,8 +293,8 @@ const SignUp = () => {
             </div>
 
             <CheckboxField
-              href="#"
               name="agree"
+              href={routes.privacyPolicy}
               label={text('checkbox.information')}
               hrefText={text('checkbox.privacyPolicy')}
               className="!items-start laptop:mx-auto laptop:!items-center"
