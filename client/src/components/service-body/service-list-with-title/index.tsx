@@ -18,7 +18,7 @@ export const ServiceListWithTitle = ({ list, info }: IServiceListWithTitleProps)
         <div className="flex h-full flex-col gap-y-4 rounded-[15px] border-[5px] border-blueBorder p-4">
           {info?.map(({ subTitle, texts }) => (
             <div key={subTitle}>
-              <h3 className="pb-2 font-scada text-[18px] font-bold leading-[21px] tablet:text-[20px] tablet:leading-6 desktop:leading-7 desktop:text-[24xp]">
+              <h3 className="pb-2 font-scada text-[18px] font-bold leading-[21px] tablet:text-[20px] tablet:leading-6 desktop:text-[24px] desktop:leading-7">
                 {subTitleCard(subTitle)}
               </h3>
 
