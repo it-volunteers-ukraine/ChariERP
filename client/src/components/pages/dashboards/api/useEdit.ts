@@ -17,12 +17,17 @@ export const useEditBoard = (userId: string | undefined) => {
   const [isLoading, setIsLoading] = useState(false);
   const onEdit = async ({ id, text, boards, setBoards }: IEditCreate) => {
     const oldBoards = [...boards];
+
+    const boardWithOutNew = oldBoards.filter((board) => board._id !== id);
+
     let response;
 
     setIsLoading(true);
 
+    const isEdit = id !== 'new';
+
     try {
-      if (id === 'new' && userId) {
+      if (!isEdit && userId) {
         response = (await createBoardAction({ text, userId })) as ResponseGetType<IBoardData> | string;
 
         if (typeof response === 'string') {
@@ -34,7 +39,7 @@ export const useEditBoard = (userId: string | undefined) => {
         }
       }
 
-      if (id !== 'new' && userId) {
+      if (isEdit && userId) {
         response = (await editBoardAction({ id, text, userId })) as ResponseGetType<IBoardData> | string;
 
         if (typeof response === 'string') {
@@ -44,15 +49,31 @@ export const useEditBoard = (userId: string | undefined) => {
         }
       }
 
-      if (!response?.success && response?.message) {
+      if (!response?.success && response?.message && !isEdit) {
         showMessage.error(response.message);
+
+        setBoards(boardWithOutNew);
+
+        return;
+      }
+
+      if (!response?.success && response?.message && isEdit) {
+        showMessage.error(response.message);
+
         setBoards(oldBoards);
 
         return;
       }
     } catch (error) {
-      setBoards(oldBoards);
       console.log(error);
+
+      if (isEdit) {
+        setBoards(oldBoards);
+
+        return;
+      }
+
+      setBoards(boardWithOutNew);
     } finally {
       setIsLoading(false);
     }

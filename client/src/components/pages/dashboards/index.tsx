@@ -25,7 +25,7 @@ const Dashboards = () => {
 
   const { response, setBoards, isLoading } = useBoards(id, path);
 
-  const { boards, columns } = { boards: response || [], columns: generateColumns(response || []) };
+  const { boards, columns } = { boards: response, columns: generateColumns(response) };
 
   const { addBoard, onReset } = useAddBoard();
   const { onEdit, isEditing } = useEditBoard(id);
