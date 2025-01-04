@@ -62,7 +62,6 @@ export const useBoards = (userId: string | undefined, path?: string | undefined)
   useEffect(() => {
     if (userId) {
       getBoards(userId);
-      console.log({ text: 'useBoards', path });
     }
   }, [userId, path]);
 
