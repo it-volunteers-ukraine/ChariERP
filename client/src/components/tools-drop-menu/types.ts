@@ -1,12 +1,9 @@
-type AnimationStart = 'openToolsMenu' | 'startExpand';
-
-type AnimationEnd = 'closeToolsMenu' | 'startCollapse';
+type Animation = 'horizontal' | 'fade';
 
 export interface IGetStyleProps {
   opened: boolean;
   className?: string;
-  animationEnd?: AnimationEnd;
-  animationStart?: AnimationStart;
+  animation?: Animation;
 }
 
 export interface IToolsDropMenuProps {
@@ -14,6 +11,5 @@ export interface IToolsDropMenuProps {
   duration?: number;
   className?: string;
   onClose: () => void;
-  animationEnd?: AnimationEnd;
-  animationStart?: AnimationStart;
+  animation?: Animation;
 }

@@ -3,7 +3,7 @@ import internal from 'stream';
 import { Schema } from 'mongoose';
 import { SdkStreamMixin } from '@aws-sdk/types';
 
-import { IAdmin, IUsers } from './models';
+import { IAdmin, IBoardColumn, ICreateTask, ITask, IUsers } from './models';
 import { DownloadType, RequestOrganizationStatus, UserStatus } from './enums';
 
 export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
@@ -115,3 +115,86 @@ export interface IEditUser extends Omit<ICreateUser, 'password' | 'organizationI
   dateOfEntry: string | number;
   dateOfBirth: string | number;
 }
+
+export interface TaskPageParamsProps {
+  params: { task_id: string; column_id: string; board_id: string };
+}
+
+export interface ICreateTaskProps {
+  userId: string;
+  boardId: string;
+  columnId: string;
+  task: ICreateTask;
+}
+
+export interface ICreateColumnProps {
+  title: string;
+  boardId: string;
+  userId: string;
+}
+
+export interface IUseColumns {
+  boardId: string;
+  userId: string;
+}
+export interface IGetColumnsProps {
+  boardId: string;
+  userId: string;
+}
+
+export interface IEditColumnProps {
+  data: Omit<IBoardColumn, '_id' | 'created_at' | 'order'>;
+  boardId: string;
+  userId: string;
+}
+
+export interface IDeleteColumnProps {
+  boardId: string;
+  userId: string;
+  columnId: string;
+}
+
+export interface IUsersNormalizer {
+  id: string;
+  lastName: string;
+  firstName: string;
+  avatarUrl: string;
+}
+
+export interface ITaskUsersNormalizer extends Omit<ITask, 'users'> {
+  users: IUsersNormalizer[];
+}
+
+export interface IBoardColumnTasksForFront extends Omit<IBoardColumn, 'task_ids'> {
+  task_ids: ITaskUsersNormalizer[];
+}
+export interface IChangeColumnTitleProps {
+  boardId: string;
+  userId: string;
+  columnId: string;
+  title: string;
+}
+
+export interface IMoveBoardColumnProps {
+  boardId: string;
+  userId: string;
+  sourceIndex: number;
+  destinationIndex: number;
+}
+
+export interface IDeleteTaskProps {
+  boardId: string;
+  userId: string;
+  taskId: string;
+}
+
+export interface IMoveTaskProps {
+  boardId: string;
+  userId: string;
+  taskId: string;
+  columnId: string;
+  destinationIndex: number;
+  destinationColumnId: string;
+}
+
+export type ResponseGetType<T> = { success: boolean; data?: T; message?: string };

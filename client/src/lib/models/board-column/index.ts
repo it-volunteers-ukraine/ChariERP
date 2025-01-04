@@ -5,7 +5,6 @@ import { IBoardColumn } from '@/types';
 
 const BoardColumnSchema = new Schema<IBoardColumn>({
   title: { type: String },
-  order: { type: Number, required: true },
   created_at: { type: Date, default: Date.now },
   board_id: {
     type: Schema.Types.ObjectId,

@@ -13,15 +13,14 @@ export const ToolsDropMenu = ({
   onClose,
   children,
   className,
-  animationStart,
-  animationEnd,
+  animation,
   duration = 300,
 }: ChildrenProps<IToolsDropMenuProps>) => {
   const ref = useRef<HTMLDivElement | null>(null);
 
   const { unmounted } = useMounted({ opened, duration });
 
-  const style = getStyle({ className, opened, animationStart, animationEnd });
+  const style = getStyle({ className, opened, animation });
 
   useOutsideClick(() => onClose(), ref);
 

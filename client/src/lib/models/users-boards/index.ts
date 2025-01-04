@@ -6,7 +6,7 @@ const UsersBoardsSchema = new Schema<IUsersBoards>(
   {
     user_id: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'Users',
       required: true,
     },
     board_id: {

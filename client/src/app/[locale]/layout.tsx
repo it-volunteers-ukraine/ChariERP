@@ -5,7 +5,6 @@ import { ChildrenProps, LocalizationProps } from '@/types';
 
 import '../../styles/globals.css';
 import { WidthToast } from './width-toast';
-import { ClientQueryProvider } from './client-query-provider';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -39,9 +38,7 @@ export default function RootLayout({ children }: ChildrenProps<LocalizationProps
     <html lang={locale} className="scroll-smooth">
       <body className={`${roboto.variable} ${robotoCondensed.variable} ${scada.variable}`}>
         <NextIntlClientProvider messages={messages}>
-          <ClientQueryProvider>
-            <WidthToast>{children}</WidthToast>
-          </ClientQueryProvider>
+          <WidthToast>{children}</WidthToast>
         </NextIntlClientProvider>
       </body>
     </html>

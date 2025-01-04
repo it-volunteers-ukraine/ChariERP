@@ -1,3 +1,4 @@
+export { boardColumnService } from './board-column/boardColumn.service';
 export { boardService } from './board/board.service';
 export { default as Admin } from './models/admin';
 export { default as Board } from './models/board';
@@ -9,4 +10,5 @@ export { default as Users } from './models/users';
 export { default as UsersBoards } from './models/users-boards';
 export { imageService } from './image/image.service';
 export { organizationService } from './organization/organization.service';
+export { taskService } from './task/task.service';
 export { userService } from './user/user.service';

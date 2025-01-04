@@ -6,7 +6,6 @@ export const routes = {
   requests: '/admin/requests',
 
   // manager
-  boards: '/manager/boards',
   employees: '/manager/employees',
   employeesEdit: '/manager/employees/edit',
   employeesCreate: '/manager/employees/create',

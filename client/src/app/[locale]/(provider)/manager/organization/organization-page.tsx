@@ -139,14 +139,6 @@ const OrganizationPage = () => {
                   className="min-w-[36px]"
                   onClick={() => setIsOpenSave(true)}
                 />
-
-                <InputField
-                  label=""
-                  type="search"
-                  name="search"
-                  placeholder="search"
-                  wrapperClass="w-full laptop:max-w-[373px]"
-                />
               </div>
 
               <div className="flex flex-col gap-9 desktop:gap-12">
