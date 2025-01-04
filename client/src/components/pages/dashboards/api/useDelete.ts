@@ -1,29 +1,44 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+'use client';
 
-import { showMessage } from '@/components';
+import { useState } from 'react';
 
-import { boardApi } from './api';
+import { ResponseGetType } from '@/modules';
+import { deleteBoardAction } from '@/actions';
+import { IBoardData, showMessage } from '@/components';
+
+import { IUseStateBoards } from './types';
+
+interface IDelete extends IUseStateBoards {
+  id: string;
+}
 
 export const useDeleteBoard = (userId: string | undefined) => {
-  const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const deleteMutation = useMutation({
-    mutationFn: (id: string) => boardApi.deleteBoard(id, userId!),
-  });
+  const onDelete = async ({ id, setBoards, boards }: IDelete) => {
+    const oldBoards = [...boards];
 
-  const onDelete = (id: string) => {
-    deleteMutation.mutate(id, {
-      onSuccess: (response) => {
-        if (!response.success && response.message) {
-          showMessage.error(response.message);
-        }
+    setIsLoading(true);
 
-        queryClient.invalidateQueries({
-          queryKey: boardApi.queryKey,
-        });
-      },
-    });
+    try {
+      const response = (await deleteBoardAction({ id, userId: userId! })) as ResponseGetType<IBoardData> | string;
+
+      if (typeof response === 'string') {
+        setBoards(boards.filter((board) => board._id !== id));
+
+        return;
+      }
+
+      if (!response?.success && response?.message) {
+        showMessage.error(response.message);
+        setBoards(oldBoards);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  return { onDelete, isLoadingDelete: deleteMutation.isPending };
+  return { onDelete, isDeleting: isLoading };
 };

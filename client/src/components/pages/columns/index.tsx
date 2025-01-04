@@ -38,8 +38,6 @@ export const Columns = ({ boardId }: { boardId: string }) => {
   const { onMoveTask } = useMoveTask({ boardId, userId: id! });
   const { onDeleteTask } = useDeleteTask({ boardId, userId: id! });
 
-  console.log({ response });
-
   useOutsideClick(() => {
     refInput.current?.blur();
     setCreateColumn(false);

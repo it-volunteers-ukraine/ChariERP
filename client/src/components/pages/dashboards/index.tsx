@@ -1,33 +1,35 @@
 'use client';
 
 import { useTranslations } from 'use-intl';
+import { usePathname } from 'next/navigation';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 
-import { useUserInfo } from '@/context';
 import { useWindowWidth } from '@/hooks';
-import { BoardCard, Button } from '@/components';
-
 import { generateColumns } from './helpers';
-import { useAddBoard, useEditBoard, useMoveBoards, useDeleteBoard, useBoards } from './api';
+import { BoardCard, Button } from '@/components';
+import { useBoards, useUserInfo } from '@/context';
+
+import { useAddBoard, useEditBoard, useMoveBoards, useDeleteBoard } from './api';
 
 import { getStyle } from './styles';
 
 const limitOfCard = 5;
 
 const Dashboards = () => {
+  const path = usePathname();
   const { isLaptop } = useWindowWidth();
   const board = useTranslations('board');
   const { isManager, _id } = useUserInfo();
 
   const id = _id ? String(_id) : undefined;
 
-  const { response } = useBoards(id);
+  const { response, setBoards, isLoading } = useBoards(id, path);
 
-  const { boards, columns } = { boards: response?.data || [], columns: generateColumns(response?.data || []) };
+  const { boards, columns } = { boards: response || [], columns: generateColumns(response || []) };
 
   const { addBoard, onReset } = useAddBoard();
-  const { onDelete, isLoadingDelete } = useDeleteBoard(id);
-  const { onEdit, isLoadingCreate, isLoadingEdit } = useEditBoard(id);
+  const { onEdit, isEditing } = useEditBoard(id);
+  const { onDelete, isDeleting } = useDeleteBoard(id);
   const { onMoveDragEndSmall, onMoveDragEndLarge, isLoadingMove } = useMoveBoards(id);
 
   const isRoleAccess = isManager;
@@ -35,7 +37,7 @@ const Dashboards = () => {
 
   const styles = getStyle(isLimitExceeded);
 
-  const isBtnLoading = isLoadingDelete || isLoadingCreate || isLoadingEdit || isLoadingMove;
+  const isLoadingBtn = isLoading || isEditing || isDeleting || isLoadingMove;
 
   return (
     <div className="h-full bg-white px-4 pt-[40px] tablet:px-8 desktop:px-[64px] desktop:pt-[64px]">
@@ -43,9 +45,9 @@ const Dashboards = () => {
         <div className="flex flex-col gap-3">
           <Button
             className="max-w-fit"
-            isLoading={isBtnLoading}
+            isLoading={isLoadingBtn}
             disabled={isLimitExceeded}
-            onClick={() => addBoard(boards.length)}
+            onClick={() => addBoard({ length: boards.length, boards, setBoards })}
           >
             <span className="uppercase">+ {board('newBoard')}</span>
           </Button>
@@ -62,7 +64,7 @@ const Dashboards = () => {
 
       <div className="py-10">
         {!isLaptop && (
-          <DragDropContext onDragEnd={onMoveDragEndSmall}>
+          <DragDropContext onDragEnd={(result) => onMoveDragEndSmall({ result, boards, setBoards })}>
             <Droppable droppableId="droppable-1" type="Boards">
               {(provided) => (
                 <>
@@ -73,10 +75,10 @@ const Dashboards = () => {
                           idx={index}
                           board={board}
                           key={board._id}
-                          onEdit={onEdit}
-                          onReset={onReset}
-                          onDelete={onDelete}
                           isRoleAccess={isRoleAccess}
+                          onReset={(id) => onReset({ id, boards, setBoards })}
+                          onDelete={(id) => onDelete({ id, boards, setBoards })}
+                          onEdit={(id, text) => onEdit({ id, text, boards, setBoards })}
                         />
                       );
                     })}
@@ -91,7 +93,7 @@ const Dashboards = () => {
 
         {isLaptop && (
           <div className="flex w-full gap-6 desktop:max-w-[1088px]">
-            <DragDropContext onDragEnd={onMoveDragEndLarge}>
+            <DragDropContext onDragEnd={(result) => onMoveDragEndLarge({ result, boards, setBoards })}>
               {columns &&
                 Object.keys(columns).map((key) => (
                   <Droppable key={key} droppableId={key} type="Boards">
@@ -101,11 +103,11 @@ const Dashboards = () => {
                           <BoardCard
                             idx={index}
                             board={board}
-                            onEdit={onEdit}
                             key={board._id}
-                            onReset={onReset}
-                            onDelete={onDelete}
                             isRoleAccess={isRoleAccess}
+                            onReset={(id) => onReset({ id, boards, setBoards })}
+                            onDelete={(id) => onDelete({ id, boards, setBoards })}
+                            onEdit={(id, text) => onEdit({ id, text, boards, setBoards })}
                           />
                         ))}
 

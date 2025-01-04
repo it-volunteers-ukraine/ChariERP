@@ -40,6 +40,8 @@ class BoardService extends BaseService {
         message: 'Access denied',
       };
     }
+    //TODO: Check if userBoards already exists
+    //TODO: Error if boards more than 5
 
     const boards = await UsersBoards.find({ organization_id: user.organizationId });
 
@@ -78,7 +80,7 @@ class BoardService extends BaseService {
 
     await Board.findByIdAndUpdate(id, { $set: { title: text } });
 
-    return { success: true, message: 'Board updated' };
+    return JSON.stringify({ success: true, message: 'Board updated' });
   }
 
   async moveBoards(boards: IBoardData[], userId: string) {
@@ -105,7 +107,7 @@ class BoardService extends BaseService {
 
     await Board.bulkWrite(bulkOperations);
 
-    return { success: true, message: 'Boards moved' };
+    return JSON.stringify({ success: true, message: 'Boards moved' });
   }
 
   async deleteBoard(id: string, userId: string) {
@@ -132,7 +134,7 @@ class BoardService extends BaseService {
 
     await Board.updateMany({ _id: { $in: boardIds }, order: { $gt: board.order } }, { $inc: { order: -1 } });
 
-    return { success: true, message: 'Board deleted' };
+    return JSON.stringify({ success: true, message: 'Board deleted' });
   }
 }
 

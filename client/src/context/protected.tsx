@@ -1,13 +1,12 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
 import { getMeAction } from '@/actions';
 import { showMessage } from '@/components';
 import { ChildrenProps, ICustomer, Roles } from '@/types';
-import { useQuery } from '@tanstack/react-query';
 
 type IUser = ICustomer | null;
 
@@ -51,8 +50,6 @@ export const UserProvider = ({ children }: ChildrenProps) => {
 
       if (response && response.user) {
         setUser(JSON.parse(response.user));
-
-        return JSON.parse(response.user);
       }
     } catch (error) {
       console.error(error);
@@ -60,11 +57,9 @@ export const UserProvider = ({ children }: ChildrenProps) => {
     }
   };
 
-  useQuery({
-    enabled: !user,
-    queryKey: ['me'],
-    queryFn: () => getUser(),
-  });
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <UserContext.Provider

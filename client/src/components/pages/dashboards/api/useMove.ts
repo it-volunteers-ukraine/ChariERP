@@ -1,65 +1,59 @@
+'use client';
+
+import { useState } from 'react';
 import { DropResult } from '@hello-pangea/dnd';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { IBoardData } from '@/components';
+import { moveBoardsAction } from '@/actions';
+import { IBoardData, showMessage } from '@/components';
 
-import { boardApi } from './api';
-import { ResponseGet } from '../types';
+import { IUseStateBoards } from './types';
 import { generateColumns, reorder } from '../helpers';
 
-type IBoardMove = ResponseGet | undefined;
+interface IMoveBoardsProps extends IUseStateBoards {
+  result: DropResult;
+}
 
 export const useMoveBoards = (id: string | undefined) => {
-  const queryClient = useQueryClient();
+  const [isLoadingMove, setIsLoadingMove] = useState(false);
 
-  const moveMutation = useMutation({
-    mutationFn: ({ newBoards }: { newBoards: IBoardData[] }) => boardApi.moveBoards(newBoards, id!),
-
-    onMutate: async ({ newBoards }) => {
-      await queryClient.cancelQueries({ queryKey: boardApi.queryKey });
-
-      const previousBoards = queryClient.getQueryData(boardApi.queryKey);
-
-      queryClient.setQueryData(boardApi.queryKey, (old: IBoardMove) => ({ ...old, data: newBoards }));
-
-      return { previousBoards };
-    },
-
-    onError: (_, __, context) => {
-      if (context?.previousBoards) {
-        queryClient.setQueryData(boardApi.queryKey, context.previousBoards);
-      }
-    },
-
-    onSettled: (data) => {
-      if (!data?.success && data?.message) {
-        throw new Error(data.message);
-      }
-
-      queryClient.invalidateQueries({
-        queryKey: boardApi.queryKey,
-      });
-    },
-  });
-
-  const onMoveDragEndSmall = (result: DropResult) => {
+  const onMoveDragEndSmall = async ({ result, boards, setBoards }: IMoveBoardsProps) => {
     if (!result.destination) return;
 
-    const boards: IBoardMove = queryClient.getQueryData(boardApi.queryKey);
+    const oldBoards = [...boards];
 
-    const newBoards = reorder(boards?.data as IBoardData[], result.source.index, result.destination.index);
+    const newBoards = reorder(boards as IBoardData[], result.source.index, result.destination.index);
 
-    moveMutation.mutate({ newBoards });
+    setBoards(newBoards);
+
+    setIsLoadingMove(true);
+
+    try {
+      const response = await moveBoardsAction({ boards: newBoards, userId: id! });
+
+      if (typeof response === 'string') {
+        return;
+      }
+
+      if (!response?.success && response?.message) {
+        showMessage.error(response.message);
+        setBoards(oldBoards);
+      }
+    } catch (error) {
+      setBoards(oldBoards);
+      console.log(error);
+    } finally {
+      setIsLoadingMove(false);
+    }
   };
 
-  const onMoveDragEndLarge = (result: DropResult) => {
+  const onMoveDragEndLarge = async ({ result, boards, setBoards }: IMoveBoardsProps) => {
     const { source, destination } = result;
 
     if (!destination) return;
 
-    const boards: IBoardMove = queryClient.getQueryData(boardApi.queryKey);
+    const oldBoards = [...boards];
 
-    const columns = generateColumns(boards?.data as IBoardData[]);
+    const columns = generateColumns(boards as IBoardData[]);
 
     const sourceCol = source.droppableId as `column-${number}`;
     const destCol = destination.droppableId as `column-${number}`;
@@ -72,10 +66,30 @@ export const useMoveBoards = (id: string | undefined) => {
     const sourceBoardIndex = columns[sourceCol][source.index][sourceCol][source.index];
     const destinationBoardIndex = columns[destCol][destination.index][destCol][destination.index];
 
-    const newBoards = reorder(boards?.data as IBoardData[], sourceBoardIndex, destinationBoardIndex);
+    const newBoards = reorder(boards as IBoardData[], sourceBoardIndex, destinationBoardIndex);
 
-    moveMutation.mutate({ newBoards });
+    setBoards(newBoards);
+
+    setIsLoadingMove(true);
+
+    try {
+      const response = await moveBoardsAction({ boards: newBoards, userId: id! });
+
+      if (typeof response === 'string') {
+        return;
+      }
+
+      if (!response?.success && response?.message) {
+        showMessage.error(response.message);
+        setBoards(oldBoards);
+      }
+    } catch (error) {
+      setBoards(oldBoards);
+      console.log(error);
+    } finally {
+      setIsLoadingMove(false);
+    }
   };
 
-  return { onMoveDragEndSmall, onMoveDragEndLarge, isLoadingMove: moveMutation.isPending };
+  return { onMoveDragEndSmall, onMoveDragEndLarge, isLoadingMove };
 };

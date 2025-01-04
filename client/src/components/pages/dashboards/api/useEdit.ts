@@ -1,40 +1,62 @@
-import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query';
+'use client';
 
-import { boardApi } from './api';
-import { ResponseCreate, ResponseDeleteEdit } from '../types';
+import { useState } from 'react';
+
+import { ResponseGetType } from '@/modules';
+import { IBoardData, showMessage } from '@/components';
+import { createBoardAction, editBoardAction } from '@/actions';
+
+import { IUseStateBoards } from './types';
+
+interface IEditCreate extends IUseStateBoards {
+  id: string;
+  text: string;
+}
 
 export const useEditBoard = (userId: string | undefined) => {
-  const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false);
+  const onEdit = async ({ id, text, boards, setBoards }: IEditCreate) => {
+    const oldBoards = [...boards];
+    let response;
 
-  const editMutation: UseMutationResult<ResponseDeleteEdit, Error, { id: string; text: string }, unknown> = useMutation(
-    {
-      mutationFn: ({ id, text }: { id: string; text: string }) => boardApi.editBoard(id, text, userId!),
-      onSettled: () => {
-        queryClient.invalidateQueries({
-          queryKey: boardApi.queryKey,
-        });
-      },
-    },
-  );
+    setIsLoading(true);
 
-  const createMutation: UseMutationResult<ResponseCreate, Error, { text: string }, unknown> = useMutation({
-    mutationFn: ({ text }: { text: string }) => boardApi.createBoard(text, userId!),
-    onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: boardApi.queryKey,
-      });
-    },
-  });
+    try {
+      if (id === 'new' && userId) {
+        response = (await createBoardAction({ text, userId })) as ResponseGetType<IBoardData> | string;
 
-  const onEdit = (id: string, text: string) => {
-    if (id === 'new') {
-      createMutation.mutate({ text });
+        if (typeof response === 'string') {
+          const filteredBoards = boards.filter((board) => board._id !== 'new');
 
-      return;
+          setBoards([...filteredBoards, JSON.parse(response).data]);
+
+          return;
+        }
+      }
+
+      if (id !== 'new' && userId) {
+        response = (await editBoardAction({ id, text, userId })) as ResponseGetType<IBoardData> | string;
+
+        if (typeof response === 'string') {
+          setBoards(boards.map((board) => (board._id === id ? { ...board, title: text } : board)));
+
+          return;
+        }
+      }
+
+      if (!response?.success && response?.message) {
+        showMessage.error(response.message);
+        setBoards(oldBoards);
+
+        return;
+      }
+    } catch (error) {
+      setBoards(oldBoards);
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
-
-    editMutation.mutate({ id, text });
   };
 
-  return { onEdit, isLoadingCreate: createMutation.isPending, isLoadingEdit: editMutation.isPending };
+  return { onEdit, isEditing: isLoading };
 };

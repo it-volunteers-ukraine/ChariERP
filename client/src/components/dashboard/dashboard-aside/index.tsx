@@ -5,11 +5,10 @@ import Cookies from 'js-cookie';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
-import { useUserInfo } from '@/context';
 import { Exit, JamMenu } from '@/assets/icons';
+import { useBoards, useUserInfo } from '@/context';
 import { LanguageSwitcher, Logo } from '@/components';
 import { idUser, routes, boardState } from '@/constants';
-import { useBoards } from '@/components/pages/dashboards';
 import { useOutsideClick, useWindowWidth } from '@/hooks';
 
 import { NavItem } from './item';
@@ -40,7 +39,7 @@ export const DashboardAside = () => {
   const { response } = useBoards(id);
 
   const boards =
-    response?.data.map((item) => ({
+    response.map((item) => ({
       title: `#${item.order} ${item.title}`,
       href: `${routes.managerDashboard}/${item._id}`,
     })) || [];

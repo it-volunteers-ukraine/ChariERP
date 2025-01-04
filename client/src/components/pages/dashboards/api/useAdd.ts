@@ -1,42 +1,22 @@
-import { useQueryClient } from '@tanstack/react-query';
+import { IUseStateBoards } from './types';
 
-import { IBoardData } from '@/components';
+interface IAddBoard extends IUseStateBoards {
+  length: number;
+}
 
-import { boardApi } from './api';
-
-type ResponseGet = { success: boolean; data: IBoardData[] };
+interface IResetBoard extends IUseStateBoards {
+  id: string;
+}
 
 export const useAddBoard = () => {
-  const queryClient = useQueryClient();
-
-  const addBoard = (length: number) => {
+  const addBoard = ({ length, boards, setBoards }: IAddBoard) => {
     const newBoard = { title: '', order: length + 1, _id: 'new' };
 
-    queryClient.setQueryData(boardApi.queryKey, (oldData: ResponseGet) => {
-      if (!oldData.data) {
-        return [newBoard];
-      }
-
-      return {
-        ...oldData,
-        data: [...oldData.data, newBoard],
-      };
-    });
+    setBoards([...boards, newBoard]);
   };
 
-  const onReset = (id: string) => {
-    queryClient.setQueryData(boardApi.queryKey, (oldData: ResponseGet) => {
-      if (!oldData.data) {
-        return oldData.data;
-      }
-
-      const filteredBoards = oldData.data.filter((board) => board._id !== id);
-
-      return {
-        ...oldData,
-        data: filteredBoards,
-      };
-    });
+  const onReset = ({ id, boards, setBoards }: IResetBoard) => {
+    setBoards(boards.filter((board) => board._id !== id));
   };
 
   return { addBoard, onReset };
