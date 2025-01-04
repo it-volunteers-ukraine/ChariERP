@@ -3,8 +3,8 @@
 import { useRef, useState } from 'react';
 import { useTranslations } from 'use-intl';
 
-import { IUsersNormalizer } from '@/types';
 import { useOutsideClick } from '@/hooks';
+import { IUsersNormalizer } from '@/types';
 
 import { UserIcon } from './user-icon';
 import { DropdownList } from './dropdown';
