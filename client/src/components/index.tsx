@@ -4,6 +4,7 @@ export { Avatar, DashboardAside, DashboardHeader } from './dashboard';
 export { AvatarEmployee } from './avatar-employee';
 export { AvatarField } from './avatar-field';
 export { AvatarUploader } from './avatar-uploader';
+export { Banner } from './banner';
 export { BoardCard, type IColumns, type IBoardData, type IIndexesForBoards } from './board-card';
 export { Burger } from './burger';
 export { Button } from './button';
