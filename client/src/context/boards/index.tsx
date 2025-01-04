@@ -2,10 +2,9 @@
 
 import { createContext, useContext, useState, useEffect, Dispatch, SetStateAction } from 'react';
 
-import { ChildrenProps } from '@/types';
 import { getBoardsAction } from '@/actions';
-import { ResponseGetType } from '@/modules';
 import { IBoardData, showMessage } from '@/components';
+import { ChildrenProps, ResponseGetType } from '@/types';
 
 interface IBoardsState {
   isLoading: boolean;

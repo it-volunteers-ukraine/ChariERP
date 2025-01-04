@@ -1,4 +1,3 @@
-export { boardApi } from './api';
 export { useAddBoard } from './useAdd';
 export { useDeleteBoard } from './useDelete';
 export { useEditBoard } from './useEdit';

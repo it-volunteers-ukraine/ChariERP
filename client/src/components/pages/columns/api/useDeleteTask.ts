@@ -1,7 +1,6 @@
 import { showMessage } from '@/components';
-import { ResponseGetType } from '@/modules';
 import { deleteTaskAction } from '@/actions';
-import { IBoardColumnTasks, IUseColumns } from '@/types';
+import { IBoardColumnTasks, IUseColumns, ResponseGetType } from '@/types';
 
 import { IUseStateBoardColumns } from './types';
 

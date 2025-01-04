@@ -1,10 +1,9 @@
 'use client';
 
 import { showMessage } from '@/components';
-import { ResponseGetType } from '@/modules';
 import { oneBoardColumnNormalizer } from '@/utils';
 import { createBoardColumnAction } from '@/actions';
-import { IBoardColumnTasks, IUseColumns } from '@/types';
+import { IBoardColumnTasks, IUseColumns, ResponseGetType } from '@/types';
 
 import { IUseStateBoardColumns } from './types';
 interface ICreateColumnProps extends IUseStateBoardColumns {

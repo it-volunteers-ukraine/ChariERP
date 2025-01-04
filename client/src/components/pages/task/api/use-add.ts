@@ -1,6 +1,6 @@
 import { ICreateTask } from '@/types';
+import { ResponseGetType } from '@/types';
 import { showMessage } from '@/components';
-import { ResponseGetType } from '@/modules';
 import { createTaskAction } from '@/actions';
 
 export const useAddTask = ({ userId, boardId, columnId }: { userId: string; boardId: string; columnId: string }) => {

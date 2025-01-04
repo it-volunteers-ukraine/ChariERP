@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { showMessage } from '@/components';
-import { ResponseGetType } from '@/modules';
 import { boardColumnsNormalizer } from '@/utils';
 import { getBoardColumnsAction } from '@/actions';
-import { IBoardColumnTasks, IUseColumns } from '@/types';
+import { IBoardColumnTasks, IUseColumns, ResponseGetType } from '@/types';
 
 import { IBoardColumn } from './types';
 

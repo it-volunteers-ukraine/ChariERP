@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { ResponseGetType } from '@/modules';
+import { ResponseGetType } from '@/types';
 import { IBoardData, showMessage } from '@/components';
 import { createBoardAction, editBoardAction } from '@/actions';
 
