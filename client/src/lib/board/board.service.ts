@@ -40,10 +40,27 @@ class BoardService extends BaseService {
         message: 'Access denied',
       };
     }
-    //TODO: Check if userBoards already exists
-    //TODO: Error if boards more than 5
 
     const boards = await UsersBoards.find({ organization_id: user.organizationId });
+
+    if (boards.length >= 5) {
+      return {
+        success: false,
+        message: 'Maximum number of boards (5) reached for this organization',
+      };
+    }
+
+    const existingBoard = await Board.findOne({
+      _id: { $in: boards.map((b) => b.board_id) },
+      title: title,
+    });
+
+    if (existingBoard) {
+      return {
+        success: false,
+        message: 'Board with this title already exists',
+      };
+    }
 
     const body = { title, order: boards.length + 1 };
 
@@ -76,6 +93,20 @@ class BoardService extends BaseService {
 
     if (!user || user.role !== Roles.MANAGER) {
       return { success: false, message: 'User not found, or access denied' };
+    }
+
+    const boards = await UsersBoards.find({ organization_id: user.organizationId });
+
+    const existingBoard = await Board.findOne({
+      _id: { $in: boards.map((b) => b.board_id), $ne: id },
+      title: text,
+    });
+
+    if (existingBoard) {
+      return {
+        success: false,
+        message: 'Board with this title already exists',
+      };
     }
 
     await Board.findByIdAndUpdate(id, { $set: { title: text } });
