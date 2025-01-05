@@ -117,7 +117,7 @@ const OrganizationPage = () => {
       initialValues={getInitialDataOrganization(data)}
       validationSchema={organizationValidation((key, params) => error(key, params)).omit(['agree', 'password'])}
     >
-      {({ values, errors, validateForm, handleSubmit, setValues }) => (
+      {({ values, validateForm, handleSubmit, setValues }) => (
         <div className="flex w-full grow justify-center bg-white">
           <div className="w-full p-[0_16px_48px] tablet:p-[0_32px_48px] desktopXl:max-w-[1100px]">
             <ModalAdmin
@@ -141,14 +141,6 @@ const OrganizationPage = () => {
                   className="min-w-[36px]"
                   onClick={() => setIsOpenSave(true)}
                 />
-
-                <InputField
-                  label=""
-                  type="search"
-                  name="search"
-                  placeholder="search"
-                  wrapperClass="w-full laptop:max-w-[373px]"
-                />
               </div>
 
               <div className="flex flex-col gap-9 desktop:gap-12">
@@ -166,77 +158,77 @@ const OrganizationPage = () => {
                   classNameWrapper="!gap-3"
                   classNameTitle="text-[20px] uppercase"
                   title={text('title.basicInformation')}
-                  classNameChildren="flex flex-col gap-4"
-                  changedLength={Object.keys(errors).length}
                 >
-                  <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
-                    <InputField required name="organizationName" label={text('organizationName.label')} />
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
+                      <InputField required name="organizationName" label={text('organizationName.label')} />
 
-                    <InputField
+                      <InputField
+                        required
+                        type="number"
+                        name="edrpou"
+                        label={text('organizationTaxNumber.labelErdpouOfOrganization')}
+                      />
+                    </div>
+
+                    <FileField
                       required
-                      type="number"
-                      name="edrpou"
-                      label={text('organizationTaxNumber.labelErdpouOfOrganization')}
+                      placeholderItalic
+                      name="certificate"
+                      wrapperClass="laptop:!gap-12"
+                      accept={'.pdf, .jpg, .jpeg, .png'}
+                      label={text('certificateOfRegister.label')}
+                      placeholder={text('certificateOfRegister.downloadDoc')}
+                      info={
+                        <div>
+                          {text('certificateOfRegister.information')}
+                          <Link href="#" className="font-medium italic text-input-link underline">
+                            {text('certificateOfRegister.howDownloadFile')}
+                          </Link>
+                        </div>
+                      }
+                    />
+
+                    <DateField
+                      required
+                      placeholderItalic
+                      name="dateOfRegistration"
+                      wrapperClass="laptop:max-w-[calc(50%-24px)]"
+                      label={text('dateOfRegisterOrganization.label')}
+                      placeholder={text('dateOfRegisterOrganization.chooseDate')}
                     />
                   </div>
-
-                  <FileField
-                    required
-                    placeholderItalic
-                    name="certificate"
-                    wrapperClass="laptop:!gap-12"
-                    accept={'.pdf, .jpg, .jpeg, .png'}
-                    label={text('certificateOfRegister.label')}
-                    placeholder={text('certificateOfRegister.downloadDoc')}
-                    info={
-                      <div>
-                        {text('certificateOfRegister.information')}
-                        <Link href="#" className="font-medium italic text-input-link underline">
-                          {text('certificateOfRegister.howDownloadFile')}
-                        </Link>
-                      </div>
-                    }
-                  />
-
-                  <DateField
-                    required
-                    placeholderItalic
-                    name="dateOfRegistration"
-                    wrapperClass="laptop:max-w-[calc(50%-24px)]"
-                    label={text('dateOfRegisterOrganization.label')}
-                    placeholder={text('dateOfRegisterOrganization.chooseDate')}
-                  />
                 </Accordion>
 
                 <Accordion
                   initialState
                   classNameWrapper="!gap-3"
                   classNameTitle="text-[20px] uppercase"
-                  classNameChildren="flex flex-col gap-4"
                   title={text('title.contactInformation')}
-                  changedLength={Object.keys(errors).length}
                 >
-                  <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
-                    <InputField required name="position" label={text('positionOrganization.label')} />
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
+                      <InputField required name="position" label={text('positionOrganization.label')} />
 
-                    <InputField required name="lastName" label={text('lastName.label')} />
+                      <InputField required name="lastName" label={text('lastName.label')} />
+                    </div>
+
+                    <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
+                      <InputField required name="firstName" label={text('name.label')} />
+
+                      <InputField name="middleName" label={text('middleName.label')} />
+                    </div>
+
+                    <InputField
+                      required
+                      isMasked
+                      name="phone"
+                      placeholderItalic
+                      label={text('phone.label')}
+                      placeholder="+38(0__)___-__-__"
+                      wrapperClass="laptop:max-w-[calc(50%-24px)]"
+                    />
                   </div>
-
-                  <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
-                    <InputField required name="firstName" label={text('name.label')} />
-
-                    <InputField name="middleName" label={text('middleName.label')} />
-                  </div>
-
-                  <InputField
-                    required
-                    isMasked
-                    name="phone"
-                    placeholderItalic
-                    label={text('phone.label')}
-                    placeholder="+38(0__)___-__-__"
-                    wrapperClass="laptop:max-w-[calc(50%-24px)]"
-                  />
                 </Accordion>
 
                 <Accordion
@@ -258,60 +250,60 @@ const OrganizationPage = () => {
                   classNameWrapper="!gap-3"
                   title={text('title.media')}
                   classNameTitle="text-[20px] uppercase"
-                  changedLength={Object.keys(errors).length}
-                  classNameChildren="flex flex-col gap-4 laptop:gap-4"
                 >
-                  <InputField
-                    cross
-                    name="site"
-                    label={text('site.label')}
-                    wrapperClass="laptop:max-w-[calc(50%-24px)]"
-                  />
+                  <div className="flex flex-col gap-4">
+                    <InputField
+                      cross
+                      name="site"
+                      label={text('site.label')}
+                      wrapperClass="laptop:max-w-[calc(50%-24px)]"
+                    />
 
-                  <FieldArray
-                    name="social"
-                    render={({ push, remove }) => (
-                      <>
-                        {values.social.map((_, index) => {
-                          const isRightLength = values.social.length < 5;
-                          const isLastIndex = index === values.social.length - 1;
+                    <FieldArray
+                      name="social"
+                      render={({ push, remove }) => (
+                        <>
+                          {values.social.map((_, index) => {
+                            const isRightLength = values.social.length < 5;
+                            const isLastIndex = index === values.social.length - 1;
 
-                          return (
-                            <div key={index}>
-                              <InputField
-                                cross
-                                name={`social.${index}`}
-                                key={`media-signUp-${index}`}
-                                label={text('socialNetworks.label')}
-                                wrapperClass="laptop:max-w-[calc(50%-24px)]"
-                              />
-                              {isManager && (
-                                <div className="flex items-center justify-between laptop:max-w-[calc(50%-24px)]">
-                                  {isRightLength && isLastIndex && (
-                                    <SmallBtn
-                                      type="add"
-                                      text={btn('addField')}
-                                      onClick={() => push('')}
-                                      className="mt-2 flex w-full justify-start"
-                                    />
-                                  )}
+                            return (
+                              <div key={index}>
+                                <InputField
+                                  cross
+                                  name={`social.${index}`}
+                                  key={`media-signUp-${index}`}
+                                  label={text('socialNetworks.label')}
+                                  wrapperClass="laptop:max-w-[calc(50%-24px)]"
+                                />
+                                {isManager && (
+                                  <div className="flex items-center justify-between laptop:max-w-[calc(50%-24px)]">
+                                    {isRightLength && isLastIndex && (
+                                      <SmallBtn
+                                        type="add"
+                                        text={btn('addField')}
+                                        onClick={() => push('')}
+                                        className="mt-2"
+                                      />
+                                    )}
 
-                                  {index !== 0 && (
-                                    <SmallBtn
-                                      type="delete"
-                                      text={btn('deleteField')}
-                                      onClick={() => remove(index)}
-                                      className="mt-2 flex w-full justify-end"
-                                    />
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </>
-                    )}
-                  />
+                                    {index !== 0 && (
+                                      <SmallBtn
+                                        type="delete"
+                                        text={btn('deleteField')}
+                                        onClick={() => remove(index)}
+                                        className="ml-auto mt-2"
+                                      />
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </>
+                      )}
+                    />
+                  </div>
                 </Accordion>
 
                 {isManager && (

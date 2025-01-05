@@ -18,7 +18,7 @@ function EmployeesPage() {
   const router = useRouter();
   const t = useTranslations();
 
-  const { organizationId } = useUserInfo();
+  const { organizationId, isManager } = useUserInfo();
   const { setIsLoading } = useLoaderAdminPage();
 
   const [page, setPage] = useState(1);
@@ -71,12 +71,14 @@ function EmployeesPage() {
             placeholder={t('inputs.placeholder.search')}
           />
 
-          <Button
-            styleType="primary"
-            text={t('employeesPage.btnAdd')}
-            className="w-full uppercase tablet:max-w-[216px]"
-            onClick={() => router.push(`${routes.employees}/create`)}
-          />
+          {isManager && (
+            <Button
+              styleType="primary"
+              text={t('employeesPage.btnAdd')}
+              className="w-full uppercase tablet:max-w-[216px]"
+              onClick={() => router.push(`${routes.employees}/create`)}
+            />
+          )}
         </div>
 
         <div className="flex w-full flex-wrap gap-6">

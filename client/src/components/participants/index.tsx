@@ -4,16 +4,16 @@ import { useRef, useState } from 'react';
 import { useTranslations } from 'use-intl';
 
 import { useOutsideClick } from '@/hooks';
+import { IUsersNormalizer } from '@/types';
 
-import { IUsers } from './mock-user';
 import { UserIcon } from './user-icon';
 import { DropdownList } from './dropdown';
 
 import { getStyles } from './style';
 
 interface IParticipantsProps {
-  users: IUsers[];
   small?: boolean;
+  users: IUsersNormalizer[];
 }
 
 export const Participants = ({ users, small }: IParticipantsProps) => {
@@ -33,7 +33,13 @@ export const Participants = ({ users, small }: IParticipantsProps) => {
     <div className={styles.participantsBox}>
       <div className={styles.iconBox}>
         {users.slice(0, maxUser).map((user) => (
-          <UserIcon {...user} props={small} key={`userCount-${user.id}`} />
+          <UserIcon
+            props={small}
+            lastName={user.lastName}
+            avatarUrl={user.avatarUrl}
+            firstName={user.firstName}
+            key={`userCount-${user.id}`}
+          />
         ))}
       </div>
 

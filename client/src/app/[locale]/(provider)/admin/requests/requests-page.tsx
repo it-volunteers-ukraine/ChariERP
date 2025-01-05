@@ -42,13 +42,13 @@ export const RequestsPage = () => {
 
   return (
     <>
-      <div className="relative flex flex-1 flex-col rounded-b-lg bg-white pt-6 shadow-dashboard">
+      <div className="relative flex flex-1 flex-col rounded-b-lg bg-white pt-6">
         <Input
           type="search"
           name="requisitionSearch"
           label="requisitionSearch"
           placeholder={placeholder('searchTable')}
-          wrapperClass="mb-6 px-4 tablet:pl-8 tablet:pr-0 tablet:max-w-[405px] desktop:max-w-[541px]"
+          wrapperClass="mb-6 px-4 tablet:pl-16 tablet:pr-0 tablet:max-w-[405px] desktop:max-w-[541px]"
         />
         <TableRequests data={organizations} getData={() => getData(page)} isPagination={totalRecords > pageSize} />
       </div>
@@ -58,7 +58,7 @@ export const RequestsPage = () => {
         onChange={setPage}
         pageSize={pageSize}
         total={totalRecords}
-        className="my-auto max-w-[440px] desktop:ml-8"
+        className="my-auto max-w-[440px] desktop:ml-16"
       />
     </>
   );

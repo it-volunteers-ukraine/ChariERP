@@ -30,4 +30,5 @@ export const ValidationSchema = (error: (key: string, params?: TranslationValues
       })
       .test('is-valid-phone', error('notValidPhone'), (value) => !!isValidPhoneNumber(value as string))
       .required(error('required')),
+    agree: Yup.boolean().oneOf([true]).required(),
   });
