@@ -33,7 +33,7 @@ export const openNewWindowForCertificate = (certificate: string) => {
 
   if (newWindow) {
     newWindow.document.write(
-      `<embed style="width: 100%; ${isPdf && 'height: 100dvh'};" src="${certificate}" alt=${certificate} />`,
+      `<embed style="width: 100%; ${isPdf ? 'height: 100dvh' : ''};" src="${certificate}" alt=${certificate} />`,
     );
     newWindow.document.close();
   } else {
