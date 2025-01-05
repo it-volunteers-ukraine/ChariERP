@@ -84,7 +84,9 @@ const AdminOrganizationById = () => {
     const response = await updateOrganizationAction(id as string, formData);
 
     if (!response.success && response.message) {
-      showErrorMessageOfOrganizationExist(globalError, response.message);
+      const messageArray = Array.isArray(response.message) ? response.message : [response.message];
+
+      showErrorMessageOfOrganizationExist(globalError, messageArray);
 
       return { error: true };
     }

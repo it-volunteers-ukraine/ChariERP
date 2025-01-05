@@ -45,7 +45,9 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
       const response = await updateOrganizationAction(item.id, formData);
 
       if (!response.success && response.message) {
-        return showErrorMessageOfOrganizationExist(globalError, response.message);
+        const messageArray = Array.isArray(response.message) ? response.message : [response.message];
+
+        return showErrorMessageOfOrganizationExist(globalError, messageArray);
       }
 
       showMessage.success(success('sentEmail', { email: item.email }));
@@ -178,6 +180,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
             onClick={() => setIsOpenRegister(true)}
             className="uppercase laptop:normal-case"
           />
+
           <Button
             styleType="red"
             isNarrow={isLaptop}
