@@ -86,6 +86,18 @@ export const BoardInfo = ({ isRoleAccess, board, onReset, onEdit, onDelete }: IB
     }
   };
 
+  const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      onHandleBlur();
+    }
+  };
+
+  useEffect(() => {
+    if (board) {
+      setTitle(board.title);
+    }
+  }, [board]);
+
   return (
     <Link
       ref={linkRef}
@@ -129,6 +141,7 @@ export const BoardInfo = ({ isRoleAccess, board, onReset, onEdit, onDelete }: IB
         ref={textareaRef}
         onChange={onChange}
         disabled={!isEditing}
+        onKeyDown={onKeyDown}
         onClick={stopPropagation}
         className={styles.textarea}
         onBlur={() => onHandleBlur()}

@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
@@ -38,7 +38,7 @@ export const UserProvider = ({ children }: ChildrenProps) => {
   const router = useRouter();
   const [user, setUser] = useState<IUser>(null);
 
-  const getUser = useCallback(async () => {
+  const getUser = async () => {
     try {
       const response: IGetMeResponse = await getMeAction();
 
@@ -55,13 +55,11 @@ export const UserProvider = ({ children }: ChildrenProps) => {
       console.error(error);
       router.push(routes.login);
     }
-  }, [router]);
+  };
 
   useEffect(() => {
-    if (!user) {
-      getUser();
-    }
-  }, [user, getUser]);
+    getUser();
+  }, []);
 
   return (
     <UserContext.Provider

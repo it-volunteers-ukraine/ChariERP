@@ -17,6 +17,7 @@ import {
   EmployeeCard,
   employeeValidation,
 } from '@/components';
+import { useUserInfo } from '@/context';
 
 import { getStyles } from './styles';
 import { IEditData, IEmployeeForm } from './types';
@@ -24,6 +25,7 @@ import { IEditData, IEmployeeForm } from './types';
 export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: IEmployeeForm) => {
   const router = useRouter();
   const styles = getStyles(isCreate);
+  const { isManager } = useUserInfo();
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
   const modal = useTranslations('modal');
@@ -206,14 +208,13 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                 <div className={`${styles.btnWrapper}`}>
                   {!isCreate && (
                     <Button
-                      disabled
                       type="button"
+                      disabled={isManager}
                       className={styles.btn}
                       styleType="outline-blue"
                       text={btn('deleteEmployee')}
                     />
                   )}
-
                   <div className={`${styles.btnWrapper} w-full tablet:w-fit`}>
                     <Button
                       type="submit"
@@ -222,7 +223,6 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                       className={styles.btn}
                       text={isCreate ? btn('add') : btn('saveChanges')}
                     />
-
                     <Button
                       type="button"
                       styleType="red"

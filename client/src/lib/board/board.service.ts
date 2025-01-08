@@ -43,6 +43,25 @@ class BoardService extends BaseService {
 
     const boards = await UsersBoards.find({ organization_id: user.organizationId });
 
+    if (boards.length >= 5) {
+      return {
+        success: false,
+        message: 'Maximum number of boards (5) reached for this organization',
+      };
+    }
+
+    const existingBoard = await Board.findOne({
+      _id: { $in: boards.map((b) => b.board_id) },
+      title: title,
+    });
+
+    if (existingBoard) {
+      return {
+        success: false,
+        message: 'Board with this title already exists',
+      };
+    }
+
     const body = { title, order: boards.length + 1 };
 
     const newBoard = new Board(body);
@@ -76,9 +95,23 @@ class BoardService extends BaseService {
       return { success: false, message: 'User not found, or access denied' };
     }
 
+    const boards = await UsersBoards.find({ organization_id: user.organizationId });
+
+    const existingBoard = await Board.findOne({
+      _id: { $in: boards.map((b) => b.board_id), $ne: id },
+      title: text,
+    });
+
+    if (existingBoard) {
+      return {
+        success: false,
+        message: 'Board with this title already exists',
+      };
+    }
+
     await Board.findByIdAndUpdate(id, { $set: { title: text } });
 
-    return { success: true, message: 'Board updated' };
+    return JSON.stringify({ success: true, message: 'Board updated' });
   }
 
   async moveBoards(boards: IBoardData[], userId: string) {
@@ -105,7 +138,7 @@ class BoardService extends BaseService {
 
     await Board.bulkWrite(bulkOperations);
 
-    return { success: true, message: 'Boards moved' };
+    return JSON.stringify({ success: true, message: 'Boards moved' });
   }
 
   async deleteBoard(id: string, userId: string) {
@@ -132,7 +165,7 @@ class BoardService extends BaseService {
 
     await Board.updateMany({ _id: { $in: boardIds }, order: { $gt: board.order } }, { $inc: { order: -1 } });
 
-    return { success: true, message: 'Board deleted' };
+    return JSON.stringify({ success: true, message: 'Board deleted' });
   }
 }
 
