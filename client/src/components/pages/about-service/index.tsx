@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 
 import { AboutCardType } from '@/components/service-body/about-card-type';
-import { AboutCardWithType, SectionTitle, ServiceListWithTitle } from '@/components/service-body';
+import { AboutCardWithType, ChangedContent, SectionTitle, ServiceListWithTitle } from '@/components/service-body';
 
 import { getStylesAboutService } from './styles';
 import { automatization, planning, beneficiary } from './config';
@@ -12,13 +12,14 @@ export const AboutServicePage = () => {
   const titleLogo = useTranslations('projectName');
   const cardTitle = useTranslations(`aboutService.cardsTitle`);
   const titleSection = useTranslations('aboutService.titleSection');
+  const titleSectionTextEnd = useTranslations('aboutService.titleSection');
 
   const style = getStylesAboutService();
 
   return (
     <>
       <section className={style.section}>
-        <SectionTitle company={`${titleLogo('CHARIeRp')} `} text={`${titleSection('automatizationSection')} :`} />
+        <SectionTitle company={titleLogo('CHARIeRp')} text={titleSection('automatizationSection')} />
 
         <div className={style.automatization}>
           {automatization.map((card) => (
@@ -28,7 +29,7 @@ export const AboutServicePage = () => {
       </section>
 
       <section className={style.section}>
-        <SectionTitle company={`${titleLogo('CHARIeRp')}`} text={`${titleSection('planningSection')} :`} />
+        <SectionTitle company={titleLogo('CHARIeRp')} text={titleSection('planningSection')} />
 
         <div className={style.planningSection}>
           {planning.map((card, idx) => (
@@ -45,7 +46,7 @@ export const AboutServicePage = () => {
       </section>
 
       <section className={style.section}>
-        <SectionTitle company={`${titleLogo('CHARIeRp')}`} text={`${titleSection('beneficiary')} :`} />
+        <SectionTitle company={titleLogo('CHARIeRp')} text={titleSection('beneficiary')} />
 
         <div className={`${style.beneficiary}`}>
           {beneficiary.map((card, idx) => (
@@ -59,6 +60,17 @@ export const AboutServicePage = () => {
             </AboutCardWithType>
           ))}
         </div>
+      </section>
+
+      <section className={style.section}>
+        <SectionTitle
+          type="companyMiddle"
+          company={titleLogo('CHARIeRp')}
+          text={titleSection('previewStart')}
+          textEnd={titleSectionTextEnd('previewEnd')}
+        />
+
+        <ChangedContent />
       </section>
     </>
   );
