@@ -16,7 +16,7 @@ export const ChangedContent = () => {
 
   return (
     <div className="mb-24 flex flex-col gap-y-8 tablet:mb-[104px] laptop:mb-[124px] laptop:gap-y-10 desktop:mb-40 desktop:flex-row desktop:gap-9 desktopXl:mb-[200px] desktopXl:gap-8">
-      <div className="gap de flex w-full flex-col gap-4 laptop:flex-row laptop:justify-between desktop:w-[264px] desktop:flex-col desktop:justify-normal">
+      <div className="flex w-full flex-col gap-4 laptop:flex-row laptop:justify-between desktop:w-[264px] desktop:flex-col desktop:justify-normal desktop:gap-6">
         {changedMock.map(({ Icon, id, name }, idx) => (
           <ChangeButton
             id={id}
