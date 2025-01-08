@@ -1,3 +1,4 @@
+export { AboutServicePage } from './about-service';
 export { AboutUsPage } from './about-us';
 export { AdminOrganizationById } from './admin-organization-by-id';
 export { Columns } from './columns';

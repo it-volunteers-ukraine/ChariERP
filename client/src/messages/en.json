@@ -419,5 +419,166 @@
     "faq": "FAQs",
     "contacts": "contacts",
     "privacyPolicy": "All Right Reserved"
+  },
+
+  "aboutService": {
+    "titleSection": {
+      "automatizationSection": "- This is a comprehensive ERP system for automating the work of public organizations, which provides the ability to:",
+      "planningSection": "- This system can help facilitate the work of planning and resource management for public organizations",
+      "beneficiary": "provides the ability to use, operate, and manage information for"
+    },
+
+    "cardsTitle": {
+      "clarity": "ensure transparency",
+      "automatization": "automation of routine tasks",
+      "interaction": "improvement of interaction with volunteers",
+      "efficiency": "increasing process efficiency",
+      "management": "quality financial management support",
+      "achieveGoals": "achieving social and charitable goals",
+      "support": "quality project management support",
+      "financialAccounting": "financial accounting and management",
+      "contactDatabase": "contact database of donors, volunteers, and partners",
+      "donationProcessing": "tools for processing donations",
+      "planning": "project planning and monitoring",
+      "organizationEvents": "event organization and participant registration",
+      "reporting": "automatic reporting for audit and donors",
+      "managers": "managers of the public organization",
+      "volunteers": "volunteers and employees",
+      "sponsors": "donors and sponsors"
+    },
+
+    "subTitles": {
+      "management": "1. Resource management",
+      "coordination": "2. Project coordination",
+      "reportingAndAnalytics": "3. Reporting and analytics",
+      "accessManagement": "4. Access management",
+      "strategic": "5. Strategic planning",
+      "transparency": "6. Transparency and public relations",
+      "office": "1. Personal account",
+      "participationProjects": "2. Participation in projects",
+      "communication": "3. Communication",
+      "progress": "4. Progress tracking",
+      "training": "5. Training and support",
+      "interaction": "6. Interaction with the organization",
+      "donorAccount": "1. Donor account",
+      "donations": "2. Donations",
+      "reportingAndTransparency": "3. Reporting and transparency",
+      "informing": "4. Informing and communication",
+      "processAutomation": "5. Process automation",
+      "integration": "6. Integration with external services"
+    },
+    "list": {
+      "financialAccounting": [
+        "bookkeeping",
+        "management of assets and liabilities",
+        "control over expenses and income",
+        "automation of accounting operations",
+        "reducing the risk of errors in financial reporting"
+      ],
+      "contactDatabase": [
+        "storage of information about participants",
+        "donors and partners",
+        "including their contact details",
+        "donation history",
+        "participation in events and interests"
+      ],
+      "donationProcessing": [
+        "integration with payment systems to automate online fundraising",
+        "recurring payments",
+        "automatic sending of acknowledgments"
+      ],
+      "planning": ["modules for planning", "resource management", "task allocation", "progress tracking"],
+      "organizationEvents": [
+        "management of events from planning to reporting",
+        "ability to register participants",
+        "task distribution among volunteers",
+        "processing of applications"
+      ],
+      "reporting": ["automatic generation of reports", "on income and expenses", "use of funds"],
+      "management": [
+        "access to budget, financial reports, control over donations, grants, and expenses",
+        "management of volunteers and employees (list, work schedules, access levels)",
+        "inventory and distribution of equipment, humanitarian aid, inventory management"
+      ],
+      "coordination": [
+        "monitoring task status, deadlines, and responsibilities",
+        "creating new projects, setting goals, resources, and key performance indicators",
+        "access to internal chats and document sharing systems for quick coordination"
+      ],
+      "reportingAndAnalytics": [
+        "Automated reports: generation of monthly or annual reports for donors and partners",
+        "Analytics: analysis of project success, financial flows, volunteer efficiency",
+        "Activity history: access to the archive of all actions, reports, and results of previous campaigns"
+      ],
+      "accessManagement": [
+        "User rights control: assigning roles and access levels to other employees (e.g., administrator or project coordinator)",
+        "Data security: setting security policies, control over information confidentiality"
+      ],
+      "strategic": [
+        "Future campaign modeling: assessment of resources and potential impact of future projects",
+        "Scenario planning: risk analysis and development of action plans for crisis situations"
+      ],
+      "transparency": [
+        "Transparency: creation of open reports for the public or donors",
+        "Feedback: collecting responses from volunteers, benefactors, and aid recipients through built-in surveys or questionnaires"
+      ],
+      "office": [
+        "Volunteer profile: view and edit personal data, experience, skills, interests, and project participation history",
+        "Participation schedule: access to the schedule of tasks and events registered for",
+        "Access to resources: view instructions, materials, or documents necessary for task execution"
+      ],
+      "participationProjects": [
+        "List of active projects: view available initiatives, detailed task and need information",
+        "Task registration: sign up for participation in a specific project or event (e.g., distribution of humanitarian aid, logistics)",
+        "Priority areas: select activity spheres according to personal preferences (education, ecology, medicine, IDP assistance, etc.)"
+      ],
+      "communication": [
+        "Built-in chat: communication with project coordinators and other volunteers",
+        "Project updates: receive notifications about changes, new tasks, or important events",
+        "Feedback: opportunity to ask questions to coordinators or leave suggestions"
+      ],
+      "progress": [
+        "Task completion reports: submission of brief reports or photo evidence of completed work",
+        "Contribution overview: access to participation statistics (work hours, number of completed tasks, assistance within projects)",
+        "Receiving recommendations: the system can suggest new projects based on volunteer activity"
+      ],
+      "training": [
+        "Training materials: access to video tutorials, training sessions, or guides to help volunteers develop their skills",
+        "Webinars and events: ability to register for workshops or meetings to improve qualifications",
+        "FAQ and help: quick access to answers to typical questions or support from coordinators"
+      ],
+      "interaction": [
+        "Organization evaluation: leaving feedback about projects or coordination",
+        "Recognition program: participation in a motivation system (e.g., receiving certificates, awards, recognition)",
+        "Community: opportunity to join groups or forums to share experiences"
+      ],
+      "donorAccount": [
+        "access to budget, financial reports, control over donations, grants, and expenses",
+        "management of volunteers and employees (list, work schedules, access levels)",
+        "inventory and distribution of equipment, humanitarian aid, inventory management"
+      ],
+      "donations": [
+        "monitoring task status, deadlines, and responsibilities",
+        "creating new projects, setting goals, resources, and key performance indicators",
+        "access to internal chats and document sharing systems for quick coordination"
+      ],
+      "reportingAndTransparency": [
+        "Automated reports: generation of monthly or annual reports for donors and partners",
+        "Analytics: analysis of project success, financial flows, volunteer efficiency",
+        "Activity history: access to the archive of all actions, reports, and results of previous campaigns"
+      ],
+      "informing": [
+        "User rights control: assigning roles and access levels to other employees (e.g., administrator or project coordinator)",
+        "Data security: setting security policies, control over information confidentiality"
+      ],
+      "processAutomation": [
+        "Future campaign modeling: assessment of resources and potential impact of future projects",
+        "Scenario planning: risk analysis and development of action plans for crisis situations"
+      ],
+      "integration": [
+        "Transparency: creation of open reports for the public or donors",
+        "Feedback: collecting responses from volunteers, benefactors, and aid recipients through built-in surveys or questionnaires"
+      ]
+    }
   }
 }
