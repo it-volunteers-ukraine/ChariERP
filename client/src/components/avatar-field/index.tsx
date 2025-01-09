@@ -9,6 +9,8 @@ import { AvatarFieldProps } from './types';
 import { AvatarUploader } from '../avatar-uploader';
 
 export const AvatarField = ({ name, info, isSubmit, lastName, firstName, className }: AvatarFieldProps) => {
+  const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
   const errorText = useTranslations('errors');
 
   return (
@@ -29,6 +31,13 @@ export const AvatarField = ({ name, info, isSubmit, lastName, firstName, classNa
 
             if (!isValidFormat) {
               showMessage.error(errorText('fileDownload'));
+              e.target.value = '';
+
+              return;
+            }
+
+            if (file.size > MAX_FILE_SIZE) {
+              showMessage.error(errorText('fileSizeExceeded'));
               e.target.value = '';
 
               return;
