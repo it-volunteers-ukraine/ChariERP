@@ -48,54 +48,56 @@ export const Card = ({ teamsMember, setActiveCard, activeCard }: ICard) => {
   };
 
   return (
-    <div className={styles.cardWrapper} ref={wrapperRef} onClick={() => handleToggler(id)}>
-      <div className={styles.decorativeWrapper}></div>
-      <div className={styles.card}>
-        <div className={styles.decorativeCircle}></div>
-        <div className={styles.decorativeBigCircle}></div>
+    <div className={styles.wrapper}>
+      <div className={styles.cardWrapper} ref={wrapperRef} onClick={() => handleToggler(id)}>
+        <div className={styles.decorativeWrapper}></div>
+        <div className={styles.card}>
+          <div className={styles.decorativeCircle}></div>
+          <div className={styles.decorativeBigCircle}></div>
 
-        <div className={styles.cardFrontSide}>
-          <div className={styles.wrapperPhoto}>
-            <Image alt="Photo" src={imageSrc} className={styles.img} />
+          <div className={styles.cardFrontSide}>
+            <div className={styles.wrapperPhoto}>
+              <Image alt="Photo" src={imageSrc} className={styles.img} />
+            </div>
+
+            <p
+              className={styles.name}
+              dangerouslySetInnerHTML={{
+                __html: locale === 'ua' ? formatName(name) : formatName(nameEn),
+              }}
+            ></p>
+            <p className={styles.description}>{role}</p>
           </div>
 
-          <p
-            className={styles.name}
-            dangerouslySetInnerHTML={{
-              __html: locale === 'ua' ? formatName(name) : formatName(nameEn),
-            }}
-          ></p>
-          <p className={styles.description}>{role}</p>
-        </div>
+          <div className={styles.cardBackSide}>
+            <div className={styles.wrapperLocation}>
+              <Location className={styles.iconLocation} />
+              <p className={styles.description}>{location}</p>
+            </div>
+            <div className={styles.linkWrapper}>
+              {socialKeys.map((key) => {
+                if (!social) {
+                  return;
+                }
 
-        <div className={styles.cardBackSide}>
-          <div className={styles.wrapperLocation}>
-            <Location className={styles.iconLocation} />
-            <p className={styles.description}>{location}</p>
-          </div>
-          <div className={styles.linkWrapper}>
-            {socialKeys.map((key) => {
-              if (!social) {
-                return;
-              }
-
-              return (
-                <a
-                  key={key}
-                  href={social[key]}
-                  onClick={(e) => {
-                    if (!isLinkAllowed && isTouchDevice) {
-                      e.preventDefault();
-                    }
-                  }}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.link}
-                >
-                  <SocialIcon keyName={key} />
-                </a>
-              );
-            })}
+                return (
+                  <a
+                    key={key}
+                    href={social[key]}
+                    onClick={(e) => {
+                      if (!isLinkAllowed && isTouchDevice) {
+                        e.preventDefault();
+                      }
+                    }}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.link}
+                  >
+                    <SocialIcon keyName={key} />
+                  </a>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
