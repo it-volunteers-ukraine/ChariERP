@@ -56,7 +56,9 @@ const SignUp = () => {
       }
 
       if (!data.success && data.message) {
-        return showErrorMessageOfOrganizationExist(errorText, data.message);
+        const messageArray = Array.isArray(data.message) ? data.message : [data.message];
+
+        return showErrorMessageOfOrganizationExist(errorText, messageArray);
       }
 
       handleFormik.resetForm();

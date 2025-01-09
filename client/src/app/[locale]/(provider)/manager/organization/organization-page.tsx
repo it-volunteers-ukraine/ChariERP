@@ -52,7 +52,9 @@ const OrganizationPage = () => {
       const response = await updateOrganizationAction(organizationId as unknown as string, formData);
 
       if (!response.success && response.message) {
-        showErrorMessageOfOrganizationExist(globalError, response.message);
+        const messageArray = Array.isArray(response.message) ? response.message : [response.message];
+
+        showErrorMessageOfOrganizationExist(globalError, messageArray);
         throw new Error('Organization already exist');
       }
 
@@ -138,14 +140,6 @@ const OrganizationPage = () => {
                   iconType="primary"
                   className="min-w-[36px]"
                   onClick={() => setIsOpenSave(true)}
-                />
-
-                <InputField
-                  label=""
-                  type="search"
-                  name="search"
-                  placeholder="search"
-                  wrapperClass="w-full laptop:max-w-[373px]"
                 />
               </div>
 

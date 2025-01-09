@@ -15,6 +15,7 @@ export class ImageService {
       if (!response) {
         return { success: false, message: 'Can`t download image' };
       }
+
       const extension = getExtensionForBase64(url);
       const image = await streamToBase64(response as Readable);
 

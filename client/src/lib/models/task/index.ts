@@ -5,7 +5,6 @@ import { ITask } from '@/types';
 const TaskSchema = new Schema<ITask>({
   title: { type: String },
   status: { type: String },
-  order: { type: Number, required: true },
   date_end: { type: Date, required: true },
   priority: { type: String },
   date_start: { type: Date, required: true },
@@ -13,7 +12,6 @@ const TaskSchema = new Schema<ITask>({
   attachment: { type: [String], default: [] },
   comments: { type: [String], default: [] },
   description: { type: String },
-  _id: Schema.Types.ObjectId,
   users: [
     {
       type: Schema.Types.ObjectId,
