@@ -70,28 +70,25 @@ export const Card = ({ teamsMember, setActiveCard, activeCard }: ICard) => {
               <p className={styles.description}>{location}</p>
             </div>
             <div className={styles.linkWrapper}>
-              {socialKeys.map((key) => {
-                if (!social) {
-                  return;
-                }
-
-                return (
-                  <a
-                    key={key}
-                    href={social[key]}
-                    onClick={(e) => {
-                      if (!isLinkAllowed && isTouchDevice) {
-                        e.preventDefault();
-                      }
-                    }}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.link}
-                  >
-                    <SocialIcon keyName={key} />
-                  </a>
-                );
-              })}
+              {social &&
+                socialKeys.map((key) => {
+                  return (
+                    <a
+                      key={key}
+                      href={social[key]}
+                      onClick={(e) => {
+                        if (!isLinkAllowed && isTouchDevice) {
+                          e.preventDefault();
+                        }
+                      }}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.link}
+                    >
+                      <SocialIcon keyName={key} />
+                    </a>
+                  );
+                })}
             </div>
           </div>
         </div>
