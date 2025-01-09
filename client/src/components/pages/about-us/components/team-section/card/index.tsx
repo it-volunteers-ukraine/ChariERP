@@ -37,11 +37,9 @@ export const Card = ({ teamsMember, setActiveCard, activeCard }: ICard) => {
   const imageSrc = url && images[url] ? images[url] : images.default;
   const isTouchDevice = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
 
-  useOutsideClick(() => isTouchDevice && handleToggler(), [wrapperRef]);
+  const [firstName, lastName] = locale === 'ua' ? name.split(' ') : nameEn.split(' ');
 
-  function formatName(name: string): string {
-    return name.replace(' ', ' <br/>');
-  }
+  useOutsideClick(() => isTouchDevice && handleToggler(), [wrapperRef]);
 
   const handleToggler = (id?: string) => {
     setActiveCard(id || '');
@@ -60,12 +58,9 @@ export const Card = ({ teamsMember, setActiveCard, activeCard }: ICard) => {
               <Image alt="Photo" src={imageSrc} className={styles.img} />
             </div>
 
-            <p
-              className={styles.name}
-              dangerouslySetInnerHTML={{
-                __html: locale === 'ua' ? formatName(name) : formatName(nameEn),
-              }}
-            ></p>
+            <p className={styles.name}>{firstName}</p>
+            <p className={styles.name}>{lastName}</p>
+
             <p className={styles.description}>{role}</p>
           </div>
 
