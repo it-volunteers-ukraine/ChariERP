@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 
 import { Copy, Doc } from '@/assets/icons';
 import { dateFormat, routes } from '@/constants';
-import { onCopy, openNewWindowForCertificate } from '@/utils';
+import { onCopy, openNewWindowForCertificate, showErrorMessageOfOrganizationExist } from '@/utils';
 import { RequestOrganizationStatus, RowItemProps } from '@/types';
 import { Button, ModalAdmin, showMessage, ModalDecline, EllipsisText } from '@/components';
 import {
@@ -24,6 +24,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const modal = useTranslations('modal');
   const table = useTranslations('table');
   const messagesCopy = useTranslations('copy');
+  const globalError = useTranslations('errors');
   const success = useTranslations('success.admin-pages');
 
   const [isLoading, setIsLoading] = useState(false);
@@ -43,8 +44,10 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
 
       const response = await updateOrganizationAction(item.id, formData);
 
-      if (!response.success && !Array.isArray(response.message)) {
-        return showMessage.error(response.message);
+      if (!response.success && response.message) {
+        const messageArray = Array.isArray(response.message) ? response.message : [response.message];
+
+        return showErrorMessageOfOrganizationExist(globalError, messageArray);
       }
 
       showMessage.success(success('sentEmail', { email: item.email }));
@@ -126,7 +129,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
     <>
       <div
         onClick={handleRowClick}
-        className="grid cursor-pointer grid-cols-2 rounded-2xl border border-[#A3A3A359] p-3 transition-all duration-300 hover:bg-superBlue laptop:grid-cols-tableRequests laptop:items-center laptop:gap-5 laptop:rounded-none laptop:border-x-0 laptop:border-b laptop:border-t-0 laptop:py-[13px] laptop:pl-3 laptop:pr-0"
+        className="grid cursor-pointer grid-cols-2 rounded-2xl border border-[#A3A3A359] p-3 transition-all duration-300 hover:bg-superBlue laptop:grid-cols-tableRequests laptop:items-center laptop:gap-5 laptop:rounded-none laptop:border-x-0 laptop:border-b laptop:border-t-0 laptop:py-[12px] laptop:pl-3 laptop:pr-0"
       >
         <EllipsisText
           className="max-w-[300px] laptop:max-w-[380px] desktop:max-w-[500px]"
@@ -147,7 +150,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
           </span>
 
           <Copy
-            className="h-6 w-6 flex-shrink-0 cursor-pointer text-lightBlue transition duration-300 hover:text-dark-blue active:text-greenActive active:transition-none"
+            className="h-[22px] w-[22px] flex-shrink-0 cursor-pointer text-lightBlue transition duration-300 hover:text-dark-blue active:text-greenActive active:transition-none"
             onClick={(e: MouseEvent<SVGSVGElement>) => onCopy(e, item.EDRPOU, messagesCopy('messages'))}
           />
         </div>
@@ -158,7 +161,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
 
         <div className="mt-8 flex items-center justify-end laptop:mt-0 laptop:justify-center">
           <button onClick={getCertificate} className="flex items-center justify-center">
-            <Doc width={24} height={24} />
+            <Doc width={22} height={22} />
           </button>
         </div>
 
@@ -177,6 +180,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
             onClick={() => setIsOpenRegister(true)}
             className="uppercase laptop:normal-case"
           />
+
           <Button
             styleType="red"
             isNarrow={isLaptop}

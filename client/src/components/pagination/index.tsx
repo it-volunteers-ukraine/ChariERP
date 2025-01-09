@@ -22,9 +22,12 @@ export const Pagination = ({
 }: IPagination) => {
   const { isMobile } = useWindowWidth();
 
-  const wrapper = clsx('flex justify-center w-full py-8 desktop:justify-start m-auto desktop:m-0', {
-    [`${className}`]: !!className,
-  });
+  const wrapper = clsx(
+    'flex justify-center w-full py-4 tablet-py-6 laptop:py-6 desktop:py-8 desktop:justify-start m-auto desktop:m-0',
+    {
+      [`${className}`]: !!className,
+    },
+  );
 
   if (total <= pageSize) {
     return null;

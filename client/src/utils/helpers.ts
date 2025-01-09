@@ -28,10 +28,13 @@ export const getExtensionForBase64 = (url: string) => {
 };
 
 export const openNewWindowForCertificate = (certificate: string) => {
+  const isPdf = certificate.startsWith('data:application/pdf;');
   const newWindow = window.open();
 
   if (newWindow) {
-    newWindow.document.write(`<img style="width: 100%; max-width: 100%;" src="${certificate}" alt=${certificate} />`);
+    newWindow.document.write(
+      `<embed style="width: 100%; ${isPdf ? 'height: 100dvh' : ''};" src="${certificate}" alt=${certificate} />`,
+    );
     newWindow.document.close();
   } else {
     showMessage.warn('Failed to open a new window. Please check your browser settings.');
