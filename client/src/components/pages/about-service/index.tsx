@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
+import { JoinUs } from '@/components/service-body/section-join-us';
 import { AboutCardType } from '@/components/service-body/about-card-type';
 import { AboutCardWithType, SectionTitle, ServiceListWithTitle } from '@/components/service-body';
 
@@ -60,6 +61,8 @@ export const AboutServicePage = () => {
           ))}
         </div>
       </section>
+
+      <JoinUs />
     </>
   );
 };
