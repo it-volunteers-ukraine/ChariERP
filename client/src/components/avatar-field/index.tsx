@@ -8,6 +8,8 @@ import { showMessage } from '../toastify';
 import { AvatarFieldProps } from './types';
 import { AvatarUploader } from '../avatar-uploader';
 
+const MAX_FILE_SIZE = 5;
+
 export const AvatarField = ({ name, info, isSubmit, lastName, firstName, className }: AvatarFieldProps) => {
   const errorText = useTranslations('errors');
 
@@ -29,6 +31,13 @@ export const AvatarField = ({ name, info, isSubmit, lastName, firstName, classNa
 
             if (!isValidFormat) {
               showMessage.error(errorText('fileDownload'));
+              e.target.value = '';
+
+              return;
+            }
+
+            if (file.size > MAX_FILE_SIZE * 1024 * 1024) {
+              showMessage.error(errorText('fileSizeExceeded', { mb: MAX_FILE_SIZE }));
               e.target.value = '';
 
               return;

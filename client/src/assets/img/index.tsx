@@ -1,7 +1,12 @@
-export { default as Cube } from './cube.png';
-export { default as bgJoin } from './bg-join.png';
-export { default as NoAccessBG } from './no-access.png';
-export { default as BannerHero } from './banner-hero.png';
 export { default as AboutUsMain } from './about-us-main.png';
-export { default as MainThemeBg } from './home-main-theme-bg.png';
+export { default as AddEmployee } from './about-service-add-employee.png';
 export { default as BannerContacts } from './banner-contancts.png';
+export { default as BannerHero } from './banner-hero.png';
+export { default as bgJoin } from './bg-join.png';
+export { default as Boards } from './about-service-boards.png';
+export { default as BoardTask } from './about-service-task.png';
+export { default as Cube } from './cube.png';
+export { default as EmployeesGeneral } from './about-service-employees-general.png';
+export { default as MainThemeBg } from './home-main-theme-bg.png';
+export { default as NoAccessBG } from './no-access.png';
+export { default as Organization } from './about-service-organization.png';
