@@ -13,12 +13,8 @@ interface IChangeButtonProps {
 export const ChangeButton = ({ Icon, name, id, setActive, isActive }: IChangeButtonProps) => {
   const style = getStyle(isActive);
 
-  const handlerChange = () => {
-    setActive(id);
-  };
-
   return (
-    <button onClick={handlerChange} className={style.btn}>
+    <button onClick={() => setActive(id)} className={style.btn}>
       <div className={style.absoluteElement} />
 
       <div className="h-6 w-6 tablet:h-8 tablet:w-8">
