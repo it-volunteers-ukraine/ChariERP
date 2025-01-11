@@ -8,9 +8,9 @@ import { showMessage } from '../toastify';
 import { AvatarFieldProps } from './types';
 import { AvatarUploader } from '../avatar-uploader';
 
-export const AvatarField = ({ name, info, isSubmit, lastName, firstName, className }: AvatarFieldProps) => {
-  const MAX_FILE_SIZE = 5;
+const MAX_FILE_SIZE = 5;
 
+export const AvatarField = ({ name, info, isSubmit, lastName, firstName, className }: AvatarFieldProps) => {
   const errorText = useTranslations('errors');
 
   return (
