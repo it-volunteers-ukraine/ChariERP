@@ -106,7 +106,7 @@ export const Columns = ({ boardId }: { boardId: string }) => {
   };
 
   return (
-    <div className="scroll-blue scroll-column flex h-[calc(100%-62px)] gap-6 overflow-x-auto bg-white px-5 py-5">
+    <div className="scroll-blue scroll-column flex h-[calc(100%-62px)] overflow-x-auto bg-white px-5 py-5">
       <DragDropContext onDragEnd={onMoveColumnAndTasks}>
         <Droppable droppableId="column-area" type="Columns" direction="horizontal">
           {(provided) => (

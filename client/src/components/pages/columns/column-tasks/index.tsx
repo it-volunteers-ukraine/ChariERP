@@ -20,9 +20,9 @@ interface IColumnTasks {
   title: string;
   boardId: string;
   isManager: boolean;
-  hasNextColumn: boolean;
   onDeleteColumn: (id: string) => void;
   onChangeTitle: ({ columnId, title }: { columnId: string; title: string }) => void;
+  hasNextColumn: boolean;
 }
 
 const duration = 300;
@@ -45,7 +45,7 @@ export const ColumnTasks = ({
   const [isDisable, setIsDisable] = useState(true);
   const [isToolsMenu, setIsToolsMenu] = useState(false);
 
-  const style = getStyles(isDisable);
+  const style = getStyles(isDisable, hasNextColumn);
 
   const handleEdit = () => {
     setIsDisable(false);
@@ -83,7 +83,7 @@ export const ColumnTasks = ({
       {(provided, snapshot) => (
         <div
           id={id}
-          className={cn(style.columnTask, snapshot.isDragging && style.columnDragging, hasNextColumn && 'mr-6')}
+          className={cn(style.columnTask, snapshot.isDragging && style.columnDragging)}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}

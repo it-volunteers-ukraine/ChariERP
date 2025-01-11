@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { Exit, JamMenu } from '@/assets/icons';
 import { useBoards, useUserInfo } from '@/context';
@@ -23,6 +23,7 @@ export const DashboardAside = () => {
   const refChildrenLink = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
+  const path = usePathname();
   const { role, _id } = useUserInfo();
   const { isDesktop } = useWindowWidth();
   const linkText = useTranslations('sidebar');
@@ -36,7 +37,7 @@ export const DashboardAside = () => {
 
   const id = _id ? String(_id) : undefined;
 
-  const { response } = useBoards(id);
+  const { response } = useBoards(id, path);
 
   const boards =
     response.map((item) => ({

@@ -37,12 +37,14 @@ export const useUserInfo = () => {
 export const UserProvider = ({ children }: ChildrenProps) => {
   const router = useRouter();
   const [user, setUser] = useState<IUser>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getUser = async () => {
     try {
+      setIsLoading(true);
       const response: IGetMeResponse = await getMeAction();
 
-      if (!response.success && response && response.message) {
+      if (!response.success && response.message) {
         showMessage.error(response.message);
 
         return router.push(routes.login);
@@ -54,12 +56,18 @@ export const UserProvider = ({ children }: ChildrenProps) => {
     } catch (error) {
       console.error(error);
       router.push(routes.login);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     getUser();
   }, []);
+
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <UserContext.Provider

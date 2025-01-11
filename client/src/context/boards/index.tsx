@@ -9,6 +9,7 @@ import { ChildrenProps, ResponseGetType } from '@/types';
 interface IBoardsState {
   isLoading: boolean;
   boards: IBoardData[];
+  getBoards: (id: string) => Promise<void>;
   setIsLoading: (isLoading: boolean) => void;
   setBoards: Dispatch<SetStateAction<IBoardData[]>>;
 }
@@ -19,23 +20,10 @@ export const BoardsProvider = ({ children }: ChildrenProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [boards, setBoards] = useState<IBoardData[]>([]);
 
-  return (
-    <BoardsContext.Provider value={{ boards, isLoading, setBoards, setIsLoading }}>{children}</BoardsContext.Provider>
-  );
-};
-
-export const useBoards = (userId: string | undefined, path?: string | undefined) => {
-  const context = useContext(BoardsContext);
-
-  if (!context) {
-    throw new Error('useBoards must be used within a BoardsProvider');
-  }
-
-  const { setIsLoading, boards, setBoards, isLoading } = context;
-
   const getBoards = async (id: string) => {
     try {
       setIsLoading(true);
+
       const response = (await getBoardsAction({ id })) as ResponseGetType<IBoardData[]> | string;
 
       if (typeof response === 'string') {
@@ -53,11 +41,35 @@ export const useBoards = (userId: string | undefined, path?: string | undefined)
         return;
       }
     } catch (error) {
-      console.log(error);
+      console.log('context error', { error });
     } finally {
       setIsLoading(false);
     }
   };
+
+  return (
+    <BoardsContext.Provider
+      value={{
+        boards,
+        getBoards,
+        isLoading,
+        setBoards,
+        setIsLoading,
+      }}
+    >
+      {children}
+    </BoardsContext.Provider>
+  );
+};
+
+export const useBoards = (userId: string | undefined, path?: string | undefined) => {
+  const context = useContext(BoardsContext);
+
+  if (!context) {
+    throw new Error('useBoards must be used within a BoardsProvider');
+  }
+
+  const { boards, isLoading, setBoards, getBoards } = context;
 
   useEffect(() => {
     if (userId) {
@@ -65,5 +77,9 @@ export const useBoards = (userId: string | undefined, path?: string | undefined)
     }
   }, [userId, path]);
 
-  return { response: boards, isLoading, setBoards };
+  return {
+    setBoards,
+    response: boards,
+    isLoading: isLoading || !userId,
+  };
 };

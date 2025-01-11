@@ -1,13 +1,17 @@
 import { cn } from '@/utils';
 
-export const getStyles = (isDisable: boolean) => {
+export const getStyles = (isDisable: boolean, hasNextColumn: boolean) => {
   return {
     columnTask:
-      'flex min-h-[254px] h-fit max-h-full w-[254px] flex-col gap-y-3 rounded-md bg-whiteSecond pl-4 pr-1 py-5 shadow-boardColumn border border-transparent',
-    columnDragging: 'opacity-80 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.16)] border-lynch bg-whiteSecond',
+      'flex min-h-[254px] h-fit max-h-full w-[254px] flex-col gap-y-3 rounded-md bg-whiteSecond pl-4 pr-1 py-5 shadow-boardColumn border border-transparent mr-6',
+    columnDragging: cn(
+      'opacity-80 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.16)] border-lynch bg-whiteSecond',
+      hasNextColumn && 'mr-6',
+      !hasNextColumn && 'mr-0',
+    ),
     titleBox: 'relative w-[222px] pr-3 flex items-center justify-between',
     input: cn(
-      'max-w-[190px] text-nowrap text-ellipsis break-all p-2 font-scada border-[1px] text-xl font-bold uppercase text-comet',
+      'max-w-[190px] text-nowrap text-ellipsis break-all p-2 font-scada border text-xl font-bold uppercase text-comet',
       isDisable && 'bg-transparent border-transparent',
       !isDisable && 'rounded-lg border-skyBlue bg-white',
     ),
