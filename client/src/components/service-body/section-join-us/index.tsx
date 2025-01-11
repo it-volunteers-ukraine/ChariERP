@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
-import { Button } from '@/components/button';
+import { Button } from '@/components';
 
 import { getStyles } from './style';
 
