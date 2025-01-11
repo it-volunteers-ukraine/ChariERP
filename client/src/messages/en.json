@@ -424,9 +424,11 @@
 
   "aboutService": {
     "titleSection": {
-      "automatizationSection": "- This is a comprehensive ERP system for automating the work of public organizations, which provides the ability to:",
-      "planningSection": "- This system can help facilitate the work of planning and resource management for public organizations",
-      "beneficiary": "provides the ability to use, operate, and manage information for"
+      "automatizationSection": " - This is a comprehensive ERP system for automating the work of public organizations, which provides the ability to :",
+      "planningSection": " - This system can help facilitate the work of planning and resource management for public organizations :",
+      "beneficiary": " provides the ability to use, operate, and manage information for :",
+      "previewStart": "here you can see the appearance of the  ",
+      "previewEnd": " system from the inside :"
     },
 
     "cardsTitle": {
@@ -580,6 +582,7 @@
         "Transparency: creation of open reports for the public or donors",
         "Feedback: collecting responses from volunteers, benefactors, and aid recipients through built-in surveys or questionnaires"
       ]
-    }
+    },
+    "sidebarButtonName": { "Organizations": "My organization", "Employees": "Employees", "Boards": "Boards" }
   }
 }
