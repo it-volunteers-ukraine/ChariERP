@@ -583,6 +583,10 @@
         "Feedback: collecting responses from volunteers, benefactors, and aid recipients through built-in surveys or questionnaires"
       ]
     },
+    "joinUs": {
+      "contactMessage": "If you have any questions or would like to get involved, please contact us.",
+      "buttonContacts": "Contacts"
+    },
     "sidebarButtonName": { "Organizations": "My organization", "Employees": "Employees", "Boards": "Boards" }
   }
 }

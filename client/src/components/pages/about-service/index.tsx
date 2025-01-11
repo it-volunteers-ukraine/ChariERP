@@ -3,7 +3,13 @@
 import { useTranslations } from 'next-intl';
 
 import { AboutCardType } from '@/components/service-body/about-card-type';
-import { AboutCardWithType, ChangedContent, SectionTitle, ServiceListWithTitle } from '@/components/service-body';
+import {
+  JoinUs,
+  SectionTitle,
+  ChangedContent,
+  AboutCardWithType,
+  ServiceListWithTitle,
+} from '@/components/service-body';
 
 import { getStylesAboutService } from './styles';
 import { automatization, planning, beneficiary } from './config';
@@ -72,6 +78,8 @@ export const AboutServicePage = () => {
 
         <ChangedContent />
       </section>
+
+      <JoinUs />
     </>
   );
 };
