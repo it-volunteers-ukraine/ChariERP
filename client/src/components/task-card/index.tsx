@@ -19,14 +19,13 @@ interface ITaskCard {
   title: string;
   boardId: string;
   columnId: string;
-  isManager: boolean;
   users?: IUsersNormalizer[];
   onDelete: (id: string) => void;
 }
 
 const duration = 300;
 
-export const TaskCard = ({ id, idx, title, users = [], onDelete, boardId, columnId, isManager }: ITaskCard) => {
+export const TaskCard = ({ id, idx, title, users = [], onDelete, boardId, columnId }: ITaskCard) => {
   const ref = useRef<HTMLDivElement>(null);
   const deleteMessage = useTranslations('button');
 
@@ -50,7 +49,7 @@ export const TaskCard = ({ id, idx, title, users = [], onDelete, boardId, column
   useOutsideClick(() => setIsActive(false), ref);
 
   return (
-    <Draggable draggableId={`${id}-${idx}`} index={idx} isDragDisabled={!isManager}>
+    <Draggable draggableId={`${id}-${idx}`} index={idx}>
       {(provided) => (
         <Link
           ref={provided.innerRef}
@@ -68,8 +67,8 @@ export const TaskCard = ({ id, idx, title, users = [], onDelete, boardId, column
 
             <ToolsDropMenu opened={isActive} onClose={() => setIsActive(false)} duration={duration}>
               <button
-                className="flex justify-between rounded p-2 font-robotoCondensed text-base text-comet transition duration-300 ease-in-out hover:bg-arcticSky"
                 onClick={handlerDelete}
+                className="flex justify-between rounded p-2 font-robotoCondensed text-base capitalize text-comet transition duration-300 ease-in-out hover:bg-arcticSky"
               >
                 <p>{deleteMessage('delete')}</p>
 

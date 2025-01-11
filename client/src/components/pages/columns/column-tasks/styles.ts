@@ -17,7 +17,7 @@ export const getStyles = (isDisable: boolean, hasNextColumn: boolean) => {
     ),
     dropMenu: 'absolute top-full right-0 flex w-[200px] flex-col gap-2 rounded-md border-[1px] bg-white p-2',
     btnTools:
-      'flex justify-between rounded p-2 font-robotoCondensed text-base text-comet transition hover:bg-arcticSky',
+      'flex justify-between rounded p-2 font-robotoCondensed text-base text-comet transition hover:bg-arcticSky capitalize',
     addTask:
       'box-border flex w-full items-center justify-start gap-x-3 rounded-lg border-[1px] bg-arcticSky p-3 font-roboto text-comet hover:border-skyBlue',
   };

@@ -138,7 +138,6 @@ export const Columns = ({ boardId }: { boardId: string }) => {
                               boardId={boardId}
                               users={task.users}
                               title={task.title}
-                              isManager={isManager}
                               key={`task_${task.id}`}
                               columnId={String(item.id)}
                               onDelete={handleDeleteTask}
