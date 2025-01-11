@@ -169,8 +169,8 @@ export const Columns = ({ boardId }: { boardId: string }) => {
                 ref={refInput}
                 onKeyUp={handleInputKeyUp}
                 onBlur={onBlurChangeCreate}
-                onChange={(e) => setValue(e.target.value)}
                 placeholder={translateBtn('addColumn')}
+                onChange={(e) => setValue(e.target.value)}
                 className="max-w-[222px] text-ellipsis text-nowrap break-all border-[1px] p-2 font-scada text-xl font-bold uppercase text-comet"
               />
             </div>

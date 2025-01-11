@@ -10,6 +10,7 @@ import { IBoardColumn } from './types';
 export const useColumns = ({ boardId, userId }: IUseColumns) => {
   const [columns, setColumns] = useState<IBoardColumn[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
   const getColumns = async () => {
     try {
       const response: ResponseGetType<IBoardColumnTasks[]> | string = (await getBoardColumnsAction({

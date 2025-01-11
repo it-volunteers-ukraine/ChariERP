@@ -20,9 +20,9 @@ interface IColumnTasks {
   title: string;
   boardId: string;
   isManager: boolean;
+  hasNextColumn: boolean;
   onDeleteColumn: (id: string) => void;
   onChangeTitle: ({ columnId, title }: { columnId: string; title: string }) => void;
-  hasNextColumn: boolean;
 }
 
 const duration = 300;

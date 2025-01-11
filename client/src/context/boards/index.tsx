@@ -41,7 +41,7 @@ export const BoardsProvider = ({ children }: ChildrenProps) => {
         return;
       }
     } catch (error) {
-      console.log('context error', { error });
+      console.log(error);
     } finally {
       setIsLoading(false);
     }

@@ -83,6 +83,7 @@ export const TaskCard = ({
                 <button className={style.dotsButton} onClick={handleDots}>
                   <DotsSettings />
                 </button>
+
                 <ToolsDropMenu opened={isActive} onClose={() => setIsActive(false)} duration={duration}>
                   <button onClick={handlerDelete} className={style.deleteButton}>
                     <p>{deleteMessage('delete')}</p>
