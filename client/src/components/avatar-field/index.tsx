@@ -9,7 +9,7 @@ import { AvatarFieldProps } from './types';
 import { AvatarUploader } from '../avatar-uploader';
 
 export const AvatarField = ({ name, info, isSubmit, lastName, firstName, className }: AvatarFieldProps) => {
-  const MAX_FILE_SIZE = 5 * 1024 * 1024;
+  const MAX_FILE_SIZE = 5;
 
   const errorText = useTranslations('errors');
 
@@ -36,8 +36,8 @@ export const AvatarField = ({ name, info, isSubmit, lastName, firstName, classNa
               return;
             }
 
-            if (file.size > MAX_FILE_SIZE) {
-              showMessage.error(errorText('fileSizeExceeded'));
+            if (file.size > MAX_FILE_SIZE * 1024 * 1024) {
+              showMessage.error(errorText('fileSizeExceeded', { mb: MAX_FILE_SIZE }));
               e.target.value = '';
 
               return;

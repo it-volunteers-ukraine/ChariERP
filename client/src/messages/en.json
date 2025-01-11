@@ -253,7 +253,7 @@
       "emptyValue": "Please, pick one reason"
     },
     "fileDownload": "Invalid file format",
-    "fileSizeExceeded": "File size exceeds 5 MB",
+    "fileSizeExceeded": "File size exceeds {mb} MB",
     "employees": {
       "addUser": "Email already exists"
     },
