@@ -33,7 +33,8 @@
       "instagram": "https://www.instagram.com/evgeny5798/",
       "linkedin": "https://www.linkedin.com/in/evgen-pavlov-916475171",
       "telegram": "https://t.me/evgeniy_x100"
-    }
+    },
+    "role": "QA engineer"
   },
   {
     "id": "4",
@@ -68,7 +69,8 @@
       "linkedin": "https://www.linkedin.com/in/alina-ivanishcheva-416245281/",
       "telegram": "https://t.me/Alina_Ivani"
     },
-    "url": "ivanishchevaAlina"
+    "url": "ivanishchevaAlina",
+    "role": "QA engineer"
   },
   {
     "id": "7",
@@ -137,7 +139,8 @@
       "telegram": "https://t.me/VladDotk1",
       "github": "https://github.com/VladDot"
     },
-    "role": "Frontend Developer"
+    "role": "Frontend Developer",
+    "url": "kostyriaVladyslav"
   },
   {
     "id": "13",
