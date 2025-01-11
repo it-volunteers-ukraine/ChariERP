@@ -109,29 +109,32 @@ export const ColumnTasks = ({
               />
             )}
 
-            <button className="rounded hover:bg-arcticSky" onClick={() => setIsToolsMenu(true)}>
-              <DotsSettings className="h-6 w-6" />
-            </button>
+            {isManager && (
+              <>
+                <button className="rounded hover:bg-arcticSky" onClick={() => setIsToolsMenu(true)}>
+                  <DotsSettings className="h-6 w-6" />
+                </button>
+                <ToolsDropMenu
+                  animation="fade"
+                  className="top-full"
+                  opened={isToolsMenu}
+                  onClose={() => setIsToolsMenu(false)}
+                >
+                  <button onClick={handleEdit} className={style.btnTools}>
+                    {translateBtn('edit')}
+                    <Edit className="h-6 w-6" />
+                  </button>
 
-            <ToolsDropMenu
-              animation="fade"
-              className="top-full"
-              opened={isToolsMenu}
-              onClose={() => setIsToolsMenu(false)}
-            >
-              <button onClick={handleEdit} className={style.btnTools}>
-                {translateBtn('edit')}
-                <Edit className="h-6 w-6" />
-              </button>
-
-              <button onClick={handleDelete} className={style.btnTools}>
-                {translateBtn('delete')}
-                <Delete className="h-6 w-6" />
-              </button>
-            </ToolsDropMenu>
+                  <button onClick={handleDelete} className={style.btnTools}>
+                    {translateBtn('delete')}
+                    <Delete className="h-6 w-6" />
+                  </button>
+                </ToolsDropMenu>
+              </>
+            )}
           </div>
 
-          <div className="scroll-textarea flex max-h-[calc(100%-62px)] flex-col gap-y-3 overflow-y-auto pr-1">
+          <div className="scroll-textarea mb-2 flex max-h-[calc(100%-62px)] flex-col overflow-y-auto pr-1">
             {children}
           </div>
 

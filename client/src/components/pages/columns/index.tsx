@@ -30,7 +30,7 @@ export const Columns = ({ boardId }: { boardId: string }) => {
 
   const id = _id ? String(_id) : undefined;
 
-  const { response, setColumns } = useColumns({ boardId, userId: id! });
+  const { response, setColumns, isLoadingColumns } = useColumns({ boardId, userId: id! });
   const { onAddColumn } = useAddColumn({ boardId, userId: id! });
   const { onEditTitleColumn } = useEditTitleColumn({ boardId, userId: id! });
   const { onDeleteColumn } = useDeleteColumn({ boardId, userId: id! });
@@ -129,7 +129,7 @@ export const Columns = ({ boardId }: { boardId: string }) => {
                         <div
                           ref={providedTask.innerRef}
                           {...providedTask.droppableProps}
-                          className="flex flex-col gap-3"
+                          className="relative flex flex-col"
                         >
                           {item?.tasks?.map((task, idx: number) => (
                             <TaskCard
@@ -138,17 +138,14 @@ export const Columns = ({ boardId }: { boardId: string }) => {
                               boardId={boardId}
                               users={task.users}
                               title={task.title}
+                              isManager={isManager}
                               key={`task_${task.id}`}
                               columnId={String(item.id)}
                               onDelete={handleDeleteTask}
+                              hasNextTask={idx < item.tasks.length - 1}
                             />
                           ))}
-                          <div
-                            className={cn(
-                              item.tasks?.length === 0 &&
-                                'mr-3 min-h-[94px] rounded border-2 border-dashed border-lynch',
-                            )}
-                          />
+                          <div className={cn('invisible', item.tasks?.length === 0 && 'h-[1px]')} aria-hidden="true" />
                           {providedTask.placeholder}
                         </div>
                       )}
@@ -162,35 +159,37 @@ export const Columns = ({ boardId }: { boardId: string }) => {
         </Droppable>
       </DragDropContext>
 
-      <div className="flex h-full bg-white">
-        {createColumn && (
-          <div className="flex h-fit min-h-[254px] w-[254px] flex-col gap-y-3 rounded-md bg-whiteSecond px-4 py-5 shadow-boardColumn">
-            <input
-              type="text"
-              value={value}
-              ref={refInput}
-              onKeyUp={handleInputKeyUp}
-              onBlur={onBlurChangeCreate}
-              onChange={(e) => setValue(e.target.value)}
-              placeholder={translateBtn('addColumn')}
-              className="max-w-[222px] text-ellipsis text-nowrap break-all border-[1px] p-2 font-scada text-xl font-bold uppercase text-comet"
-            />
-          </div>
-        )}
-
-        <button
-          onClick={onClickCreateColumn}
-          className={cn(
-            'flex h-[254px] w-[254px] flex-col items-center justify-center gap-y-3 rounded-md bg-white px-4 py-5 shadow-createColumn',
-            createColumn && 'ml-6',
+      {!isLoadingColumns && (
+        <div className="flex h-full bg-white">
+          {createColumn && (
+            <div className="flex h-fit min-h-[254px] w-[254px] flex-col gap-y-3 rounded-md bg-whiteSecond px-4 py-5 shadow-boardColumn">
+              <input
+                type="text"
+                value={value}
+                ref={refInput}
+                onKeyUp={handleInputKeyUp}
+                onBlur={onBlurChangeCreate}
+                onChange={(e) => setValue(e.target.value)}
+                placeholder={translateBtn('addColumn')}
+                className="max-w-[222px] text-ellipsis text-nowrap break-all border-[1px] p-2 font-scada text-xl font-bold uppercase text-comet"
+              />
+            </div>
           )}
-        >
-          <span className="font-scada text-5xl text-[rgba(104,122,149,0.5)]">+</span>
-          <p className="w-[222px] text-nowrap text-center font-scada text-[rgba(104,122,149,0.5)]">
-            {translateBtn('addColumn')}
-          </p>
-        </button>
-      </div>
+
+          <button
+            onClick={onClickCreateColumn}
+            className={cn(
+              'flex h-[254px] w-[254px] flex-col items-center justify-center gap-y-3 rounded-md bg-white px-4 py-5 shadow-createColumn',
+              createColumn && 'ml-6',
+            )}
+          >
+            <span className="font-scada text-5xl text-[rgba(104,122,149,0.5)]">+</span>
+            <p className="w-[222px] text-nowrap text-center font-scada text-[rgba(104,122,149,0.5)]">
+              {translateBtn('addColumn')}
+            </p>
+          </button>
+        </div>
+      )}
     </div>
   );
 };
