@@ -184,7 +184,7 @@ class UserService extends BaseService {
     };
 
     if (avatarUrl) {
-      const uploadedFileUrl = await uploadFileToBucket(organizationId, BucketFolders.Avatar, avatarUrl);
+      const uploadedFileUrl = await uploadFileToBucket(organization._id, BucketFolders.Avatar, avatarUrl);
 
       if (!uploadedFileUrl) {
         return { success: false, message: 'Image error update' };
@@ -267,14 +267,16 @@ class UserService extends BaseService {
     let uploadedFileUrl;
 
     if (isNewCertificate) {
-      uploadedFileUrl = await uploadFileToBucket(
-        data.organizationName,
-        BucketFolders.CertificateOfRegister,
-        certificate,
-      );
+      uploadedFileUrl = await uploadFileToBucket(organization._id, BucketFolders.CertificateOfRegister, certificate);
 
       if (!uploadedFileUrl) {
         return { message: 'error-upload', success: false };
+      }
+
+      const isDeleted = await deleteFileFromBucket(organization.organizationData.certificate);
+
+      if (!isDeleted) {
+        return { message: 'error-delete', success: false };
       }
     }
 

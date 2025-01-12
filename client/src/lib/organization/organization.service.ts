@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { SortOrder } from 'mongoose';
 
-import { BucketFolders, deleteFolderFromBucket, sendEmail, uploadFileToBucket } from '@/services';
+import { BucketFolders, deleteFileFromBucket, deleteFolderFromBucket, sendEmail, uploadFileToBucket } from '@/services';
 import {
   getPaginate,
   generatePassword,
@@ -65,17 +65,10 @@ class OrganizationService extends BaseService {
       return { message: matches, success: false };
     }
 
-    const uploadedFileUrl = await uploadFileToBucket(data.edrpou, BucketFolders.CertificateOfRegister, certificate);
-
-    if (!uploadedFileUrl) {
-      return { message: 'error-upload', success: false };
-    }
-
     const body = {
       request: RequestOrganizationStatus.PENDING,
       organizationData: {
         edrpou: data.edrpou,
-        certificate: uploadedFileUrl,
         organizationName: data.organizationName,
         dateOfRegistration: data.dateOfRegistration,
       },
@@ -94,7 +87,19 @@ class OrganizationService extends BaseService {
     };
     const newOrganization = new Organizations(body);
 
-    await newOrganization.save();
+    const savedOrganization = await newOrganization.save();
+
+    const uploadedFileUrl = await uploadFileToBucket(
+      savedOrganization._id,
+      BucketFolders.CertificateOfRegister,
+      certificate,
+    );
+
+    if (!uploadedFileUrl) {
+      return { message: 'error-upload', success: false };
+    }
+
+    await savedOrganization.updateOne({ $set: { 'organizationData.certificate': uploadedFileUrl } });
 
     return { success: true };
   }
@@ -225,14 +230,16 @@ class OrganizationService extends BaseService {
     let uploadedFileUrl;
 
     if (isNewCertificate) {
-      uploadedFileUrl = await uploadFileToBucket(
-        data.organizationName,
-        BucketFolders.CertificateOfRegister,
-        certificate,
-      );
+      uploadedFileUrl = await uploadFileToBucket(organization._id, BucketFolders.CertificateOfRegister, certificate);
 
       if (!uploadedFileUrl) {
         return { message: 'error-upload', success: false };
+      }
+
+      const isDeleted = await deleteFileFromBucket(organization.organizationData.certificate);
+
+      if (!isDeleted) {
+        return { message: 'error-delete', success: false };
       }
     }
 
