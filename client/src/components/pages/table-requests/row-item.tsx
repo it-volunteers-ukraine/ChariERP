@@ -16,6 +16,7 @@ import {
   updateOrganizationAction,
   declineOrganizationAction,
 } from '@/actions';
+import { useUserInfo } from '@/context';
 
 export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const router = useRouter();
@@ -26,6 +27,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
   const messagesCopy = useTranslations('copy');
   const globalError = useTranslations('errors');
   const success = useTranslations('success.admin-pages');
+  const { _id } = useUserInfo();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenReject, setIsOpenReject] = useState(false);
@@ -42,7 +44,13 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
 
       formData.append('data', JSON.stringify({ request: RequestOrganizationStatus.APPROVED }));
 
-      const response = await updateOrganizationAction(item.id, formData);
+      const sendData = {
+        userId: String(_id),
+        organizationId: String(item.id),
+        formData,
+      };
+
+      const response = await updateOrganizationAction(sendData);
 
       if (!response.success && response.message) {
         const messageArray = Array.isArray(response.message) ? response.message : [response.message];

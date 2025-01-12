@@ -8,7 +8,7 @@ import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
 import { Info } from '@/assets/icons';
 import { OrganizationEditValues } from '@/types';
 import { useLoaderAdminPage, useUserInfo } from '@/context';
-import { getOrganizationByIdAction, updateOrganizationAction } from '@/actions';
+import { getOrganizationByIdAction } from '@/actions';
 import { oneOrganizationNormalizer, serializeOrganizationsUpdate, showErrorMessageOfOrganizationExist } from '@/utils';
 import {
   Button,
@@ -23,10 +23,11 @@ import {
   organizationValidation,
   getInitialDataOrganization,
 } from '@/components';
+import { adapterUpdateAction } from './adapter';
 
 const OrganizationPage = () => {
   const { setIsLoading } = useLoaderAdminPage();
-  const { organizationId, isManager } = useUserInfo();
+  const { organizationId, isManager, _id } = useUserInfo();
 
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
@@ -49,7 +50,17 @@ const OrganizationPage = () => {
       formData.append(`certificate`, file);
       formData.append(`data`, JSON.stringify(data));
 
-      const response = await updateOrganizationAction(organizationId as unknown as string, formData);
+      if (!organizationId || !_id) return;
+
+      const sendData = {
+        userId: String(_id),
+        organizationId: String(organizationId),
+        formData,
+      };
+
+      const updateOrganization = adapterUpdateAction(isManager);
+
+      const response = await updateOrganization(sendData);
 
       if (!response.success && response.message) {
         const messageArray = Array.isArray(response.message) ? response.message : [response.message];
@@ -73,6 +84,7 @@ const OrganizationPage = () => {
       setIsOpenSave(false);
     }
   };
+
   const submitHandle = async (validateForm: () => Promise<FormikErrors<FormikValues>>, handleSubmit: () => void) => {
     const errors = await validateForm();
 
