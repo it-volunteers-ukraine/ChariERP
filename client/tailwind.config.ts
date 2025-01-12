@@ -189,8 +189,9 @@ const config: Config = {
         boardColumn: '0px 0px 3px 0px #00000021, 0px 2px 2px 0px #65657526',
         teamCard: '0px 2px 6px -1px rgba(12, 12, 13, 0.05), 2px 2px 6px -1px rgba(12, 12, 13, 0.1)',
         aboutUs: '0px 4px 4px -1px rgba(12, 12, 13, 0.05), 0px 4px 4px -1px rgba(12, 12, 13, 0.1)',
+        faqShadow: '0px 0px 10px 5px rgba(0, 0, 0, 0.05)',
+        faqAccShadow: '0px 0px 3px 1px rgba(101, 101, 117, 0.25)',
       },
-
       backgroundSize: {
         200: '201%',
         150: '150%',
