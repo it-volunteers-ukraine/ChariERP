@@ -42,7 +42,7 @@ export const UserProvider = ({ children }: ChildrenProps) => {
     try {
       const response: IGetMeResponse = await getMeAction();
 
-      if (!response.success && response && response.message) {
+      if (!response.success && response.message) {
         showMessage.error(response.message);
 
         return router.push(routes.login);

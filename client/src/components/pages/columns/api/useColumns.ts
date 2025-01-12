@@ -9,6 +9,7 @@ import { IBoardColumn } from './types';
 
 export const useColumns = ({ boardId, userId }: IUseColumns) => {
   const [columns, setColumns] = useState<IBoardColumn[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getColumns = async () => {
     try {
@@ -30,6 +31,8 @@ export const useColumns = ({ boardId, userId }: IUseColumns) => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -39,5 +42,5 @@ export const useColumns = ({ boardId, userId }: IUseColumns) => {
     }
   }, [userId]);
 
-  return { response: columns, setColumns };
+  return { response: columns, setColumns, isLoadingColumns: isLoading };
 };
