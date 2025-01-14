@@ -3,7 +3,7 @@ import { isValidPhoneNumber } from 'libphonenumber-js';
 
 import * as Yup from 'yup';
 
-const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+import { regExp } from '@/constants';
 
 export const ValidationSchema = (error: (key: string, params?: TranslationValues) => string) =>
   Yup.object().shape({
@@ -11,7 +11,7 @@ export const ValidationSchema = (error: (key: string, params?: TranslationValues
       .trim()
       .min(6, error('minPlural', { int: 6 }))
       .max(50, error('maxPlural', { int: 50 }))
-      .matches(emailRegex, error('notValidEmail'))
+      .matches(regExp.email, error('notValidEmail'))
       .required(error('required')),
     name: Yup.string()
       .trim()

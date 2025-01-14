@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { SortOrder } from 'mongoose';
 
-import { BucketFolders, deleteFolderFromBucket, sendEmail, uploadFileToBucket } from '@/services';
+import { BucketFolders, deleteFileFromBucket, deleteFolderFromBucket, sendEmail, uploadFileToBucket } from '@/services';
 import {
   getPaginate,
   generatePassword,
@@ -19,6 +19,7 @@ import {
   OrganizationUpdateValues,
   OrganizationCreateValues,
   RequestOrganizationStatus,
+  IUpdateOrganizationByManager,
 } from '@/types';
 
 import { Admin, Organizations, Users } from '..';
@@ -64,17 +65,10 @@ class OrganizationService extends BaseService {
       return { message: matches, success: false };
     }
 
-    const uploadedFileUrl = await uploadFileToBucket(data.edrpou, BucketFolders.CertificateOfRegister, certificate);
-
-    if (!uploadedFileUrl) {
-      return { message: 'error-upload', success: false };
-    }
-
     const body = {
       request: RequestOrganizationStatus.PENDING,
       organizationData: {
         edrpou: data.edrpou,
-        certificate: uploadedFileUrl,
         organizationName: data.organizationName,
         dateOfRegistration: data.dateOfRegistration,
       },
@@ -93,7 +87,19 @@ class OrganizationService extends BaseService {
     };
     const newOrganization = new Organizations(body);
 
-    await newOrganization.save();
+    const savedOrganization = await newOrganization.save();
+
+    const uploadedFileUrl = await uploadFileToBucket(
+      savedOrganization._id,
+      BucketFolders.CertificateOfRegister,
+      certificate,
+    );
+
+    if (!uploadedFileUrl) {
+      return { message: 'error-upload', success: false };
+    }
+
+    await savedOrganization.updateOne({ $set: { 'organizationData.certificate': uploadedFileUrl } });
 
     return { success: true };
   }
@@ -163,14 +169,20 @@ class OrganizationService extends BaseService {
     return { success: true };
   }
 
-  async updateAdminOrganization(id: string, formData: FormData) {
+  async updateAdminOrganization({ organizationId, userId, formData }: IUpdateOrganizationByManager) {
     await this.connect();
 
-    if (!id) {
-      return { message: 'Id is required', success: false };
+    if (!organizationId || !userId) {
+      return { message: 'organizationId and userId are required', success: false };
     }
 
-    const organization = await Organizations.findOne({ _id: id });
+    const admin = await Admin.findById(userId);
+
+    if (!admin) {
+      return { message: 'User not found or access denied', success: false };
+    }
+
+    const organization = await Organizations.findOne({ _id: organizationId });
 
     if (!organization) {
       return { message: 'Organization not found', success: false };
@@ -179,23 +191,28 @@ class OrganizationService extends BaseService {
     const data = JSON.parse(formData.get('data') as string) as OrganizationUpdateValues;
     const certificate = formData.get('certificate') as File;
     const isNewCertificate = certificate && certificate?.size !== 1;
+
     const isApproved = data.request === RequestOrganizationStatus.APPROVED && organization.users.length === 0;
 
     const isUserEmailExist = await Users.findOne({
       email: data.email,
+      organizationId: { $ne: organizationId },
     });
 
-    const isAdminEmailReceived = await Admin.findOne({ email: data.email });
+    const isAdminEmailOccupied = await Admin.findOne({ email: data.email });
 
-    if (isUserEmailExist || isAdminEmailReceived) {
-      const email = isAdminEmailReceived?.email || isUserEmailExist?.email;
+    if (isUserEmailExist || isAdminEmailOccupied) {
+      const email = isAdminEmailOccupied?.email || isUserEmailExist?.email;
 
       return { message: [email], success: false };
     }
 
     const organizationExist = await Organizations.find({
-      $or: [{ 'organizationData.edrpou': data.edrpou }, { 'contactData.email': data.email }],
-      _id: { $ne: id },
+      $or: [
+        { 'organizationData.edrpou': data.edrpou, _id: { $ne: organizationId } },
+        { 'contactData.email': data.email },
+      ],
+      _id: { $ne: organizationId },
     });
 
     if (organizationExist.length > 0) {
@@ -213,14 +230,16 @@ class OrganizationService extends BaseService {
     let uploadedFileUrl;
 
     if (isNewCertificate) {
-      uploadedFileUrl = await uploadFileToBucket(
-        data.organizationName,
-        BucketFolders.CertificateOfRegister,
-        certificate,
-      );
+      uploadedFileUrl = await uploadFileToBucket(organization._id, BucketFolders.CertificateOfRegister, certificate);
 
       if (!uploadedFileUrl) {
         return { message: 'error-upload', success: false };
+      }
+
+      const isDeleted = await deleteFileFromBucket(organization.organizationData.certificate);
+
+      if (!isDeleted) {
+        return { message: 'error-delete', success: false };
       }
     }
 
@@ -278,7 +297,7 @@ class OrganizationService extends BaseService {
       }
     }
 
-    const response = await Organizations.findByIdAndUpdate(id, { $set: body }, { new: true });
+    const response = await Organizations.findByIdAndUpdate(organizationId, { $set: body }, { new: true });
 
     if (!response) {
       return { success: false, message: 'Organization not updated' };

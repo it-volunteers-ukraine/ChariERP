@@ -25,3 +25,4 @@ export { moveBoardsAction } from './boards/move-boards';
 export { moveTaskAction } from './tasks/move-task';
 export { updateMemberByIdAction } from './user/update-member-by-id';
 export { updateOrganizationAction } from './admin/update-organization';
+export { updateOrganizationByManagerAction } from './user/updateOrganization';

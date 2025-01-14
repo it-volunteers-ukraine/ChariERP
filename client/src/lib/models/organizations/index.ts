@@ -9,7 +9,7 @@ const organizationsSchema = new Schema<IOrganizations>({
   organizationData: {
     organizationName: { type: String, required: true },
     edrpou: { type: String, unique: true, required: true },
-    certificate: { type: String, required: true },
+    certificate: { type: String },
     dateOfRegistration: { type: Date, required: true },
   },
   contactData: {

@@ -2,11 +2,10 @@ import * as Yup from 'yup';
 import { TranslationValues } from 'next-intl';
 import { isValidPhoneNumber } from 'libphonenumber-js';
 
+import { regExp } from '@/constants';
 import { OrganizationFormValues } from '@/types';
 
 const maxSize = 5;
-const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const linkRegExp = /^(https):\/\/([a-zA-Z0-9.-]+)(\/[^\s]*)?(\?[^\s]*)?$/i;
 
 export const organizationInitialValues: OrganizationFormValues = {
   site: '',
@@ -69,17 +68,19 @@ export const organizationValidation = (error: (key: string, params?: Translation
       .trim()
       .min(6, error('minPlural', { int: 6 }))
       .max(50, error('maxPlural', { int: 50 }))
-      .matches(emailRegex, error('notValidEmail'))
+      .matches(regExp.email, error('notValidEmail'))
       .required(error('required')),
     site: Yup.string()
       .trim()
-      .matches(linkRegExp, error('siteStart'))
+      .matches(regExp.https, error('siteStart'))
+      .matches(regExp.domain, error('domain'))
       .min(10, error('minPlural', { int: 10 }))
       .max(2000, error('maxPlural', { int: 2000 })),
     social: Yup.array().of(
       Yup.string()
         .trim()
-        .matches(linkRegExp, error('siteStart'))
+        .matches(regExp.https, error('siteStart'))
+        .matches(regExp.domain, error('domain'))
         .min(10, error('minPlural', { int: 10 }))
         .max(2000, error('maxPlural', { int: 2000 }))
         .test('isRequired', error('notEmpty'), (value, context) => {
