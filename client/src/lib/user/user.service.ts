@@ -2,19 +2,20 @@ import bcrypt from 'bcrypt';
 
 import { checkFieldsToUniqueOfOrganization, getPaginate } from '@/utils';
 import {
-  IOrganizationsUpdate,
-  IUpdateOrganizationByManager,
-  IUsers,
-  IUsersByOrganizationProps,
-  OrganizationUpdateValues,
   Roles,
+  IUsers,
   UserStatus,
+  IOrganizationsUpdate,
+  OrganizationUpdateValues,
+  IUsersByOrganizationProps,
+  IUpdateOrganizationByManager,
 } from '@/types';
 import { BucketFolders, deleteFileFromBucket, uploadFileToBucket } from '@/services';
 
 import { Admin, Organizations, Users } from '..';
 import { ImageService } from '../image/image.service';
 import { BaseService } from '../database/base.service';
+
 import { getErrors, requiredUsers, requiredUsersUpdate } from './helpers';
 
 class UserService extends BaseService {

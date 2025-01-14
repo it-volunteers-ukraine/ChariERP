@@ -7,8 +7,8 @@ import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
 
 import { Info } from '@/assets/icons';
 import { OrganizationEditValues } from '@/types';
-import { useLoaderAdminPage, useUserInfo } from '@/context';
 import { getOrganizationByIdAction } from '@/actions';
+import { useLoaderAdminPage, useUserInfo } from '@/context';
 import { oneOrganizationNormalizer, serializeOrganizationsUpdate, showErrorMessageOfOrganizationExist } from '@/utils';
 import {
   Button,
@@ -23,6 +23,7 @@ import {
   organizationValidation,
   getInitialDataOrganization,
 } from '@/components';
+
 import { adapterUpdateAction } from './adapter';
 
 const OrganizationPage = () => {
@@ -53,9 +54,9 @@ const OrganizationPage = () => {
       if (!organizationId || !_id) return;
 
       const sendData = {
+        formData,
         userId: String(_id),
         organizationId: String(organizationId),
-        formData,
       };
 
       const updateOrganization = adapterUpdateAction(isManager);

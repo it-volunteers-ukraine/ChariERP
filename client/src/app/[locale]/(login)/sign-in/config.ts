@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { TranslationValues } from 'next-intl';
+
 import { regExp } from '@/constants';
 
 export const initialValues = {

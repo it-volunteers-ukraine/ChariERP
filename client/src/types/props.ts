@@ -200,7 +200,7 @@ export interface IMoveTaskProps {
 export type ResponseGetType<T> = { success: boolean; data?: T; message?: string };
 
 export interface IUpdateOrganizationByManager {
-  organizationId: string;
   userId: string;
   formData: FormData;
+  organizationId: string;
 }

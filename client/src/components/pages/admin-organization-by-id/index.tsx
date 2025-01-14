@@ -83,9 +83,9 @@ const AdminOrganizationById = () => {
     formData.append(`data`, JSON.stringify(data));
 
     const sendData = {
+      formData,
       userId: String(_id),
       organizationId: String(id),
-      formData,
     };
 
     const response = await updateOrganizationAction(sendData);

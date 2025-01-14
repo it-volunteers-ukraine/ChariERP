@@ -45,9 +45,9 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
       formData.append('data', JSON.stringify({ request: RequestOrganizationStatus.APPROVED }));
 
       const sendData = {
+        formData,
         userId: String(_id),
         organizationId: String(item.id),
-        formData,
       };
 
       const response = await updateOrganizationAction(sendData);
