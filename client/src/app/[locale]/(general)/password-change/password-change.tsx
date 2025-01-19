@@ -1,13 +1,14 @@
 'use client';
 
-import { useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import { useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { Form, Formik, FormikHelpers } from 'formik';
 
 import { routes } from '@/constants';
-import { Button, InputField, Title } from '@/components';
+import { changePasswordAction } from '@/actions';
+import { Button, InputField, showMessage, Title } from '@/components';
 
 import { getValidationSchema, initialValues } from './config';
 
@@ -20,11 +21,19 @@ const PasswordChange = () => {
 
   const validationSchema = getValidationSchema(message);
 
+  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const queryToken = new URLSearchParams(window.location.search).get('token');
+
+      setToken(queryToken);
+    }
+  }, []);
+
   const handleCancel = () => {
-    //TODO select a route
-    router.push(routes.employees);
+    router.push(routes.home);
   };
 
   const onSubmit = async (
@@ -34,14 +43,15 @@ const PasswordChange = () => {
     setIsLoading(true);
 
     try {
-      //TODO create fetch
-      await axios.post('', {
-        newPassword: values.newPassword,
-        passwordConfirmation: values.passwordConfirmation,
-      });
-      //TODO set cookies
-      // Cookies.set('id', data._id, { expires: 7 });
-      //router.push(routes);
+      const response = await changePasswordAction(token, values.passwordConfirmation);
+
+      if (response.success) {
+        showMessage.success(passwordChangeText('successChange'));
+      } else {
+        showMessage.error(response.message);
+      }
+
+      setIsLoading(false);
     } catch (error) {
       if (error instanceof AxiosError) {
         formikHelpers?.setFieldError(
@@ -49,7 +59,6 @@ const PasswordChange = () => {
           error.response?.data.message && errorText(error.response.data.message),
         );
       }
-    } finally {
       setIsLoading(false);
     }
   };
@@ -85,9 +94,9 @@ const PasswordChange = () => {
 
               <Button
                 styleType="red"
+                type="button"
                 text={btn('decline')}
                 className="uppercase"
-                isLoading={isLoading}
                 onClick={() => {
                   handleCancel();
                 }}

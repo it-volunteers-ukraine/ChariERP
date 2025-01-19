@@ -10,14 +10,15 @@ export interface IUsers extends Document {
   address: string;
   lastLogin: Date;
   lastName: string;
-  position: string;
   password: string;
-  firstName: string;
+  position: string;
   dateOfBirth: Date;
   dateOfEntry: Date;
-  middleName: string;
+  firstName: string;
   avatarUrl?: string;
+  middleName: string;
   status: UserStatus;
   _id: Schema.Types.ObjectId;
+  passwordResetToken?: string;
   organizationId: Schema.Types.ObjectId;
 }

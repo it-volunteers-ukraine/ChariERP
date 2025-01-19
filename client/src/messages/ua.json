@@ -19,7 +19,11 @@
   "password-change": {
     "title": "Зміна паролю",
     "newPassword": "Новий пароль",
-    "passwordConfirmation": "Підтвердження паролю"
+    "passwordConfirmation": "Підтвердження паролю",
+    "successSend": "Повідомлення відправлено",
+    "errorSend": "Помилка відправки повідомлення",
+    "userNotFound": "Користувача з такою електронною адресою не знайдено",
+    "successChange": "Пароль змінено успішно"
   },
   "sidebar": {
     "requests": "Заявки",

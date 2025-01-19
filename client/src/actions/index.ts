@@ -1,4 +1,6 @@
 export { changeColumnTitleAction } from './columns/change-column-title';
+export { changePasswordAction } from './user/change-password-action';
+export { changePasswordSendEmailAction } from './user/change-password-send-email-action';
 export { createAdminAction } from './admin/create-admin';
 export { createBoardAction } from './boards/create-board';
 export { createBoardColumnAction } from './columns/create-board-column';

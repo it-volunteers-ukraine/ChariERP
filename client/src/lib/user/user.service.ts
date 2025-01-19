@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt';
+import jwt, { TokenExpiredError } from 'jsonwebtoken';
 
 import { getPaginate } from '@/utils';
 import { IUsers, IUsersByOrganizationProps, Roles, UserStatus } from '@/types';
-import { BucketFolders, deleteFileFromBucket, uploadFileToBucket } from '@/services';
+import { BucketFolders, deleteFileFromBucket, sendEmail, uploadFileToBucket } from '@/services';
 
 import { Admin, Organizations, Users } from '..';
 import { ImageService } from '../image/image.service';
@@ -259,6 +260,84 @@ class UserService extends BaseService {
     const response = await Users.findByIdAndUpdate(id, { $set: body }, { new: true });
 
     return { success: true, message: 'User updated', user: JSON.stringify(response) };
+  }
+
+  async sendResetEmail(email: string, baseUrl: string) {
+    await this.connect();
+
+    const admin = await Admin.findOne({ email });
+    const user = await Users.findOne({ email });
+
+    const targetUser = user || admin;
+
+    if (!targetUser) {
+      return { success: false, message: 'User not found' };
+    }
+
+    const jwtToken = jwt.sign({ userId: targetUser._id }, process.env.SPACES_KEY!, {
+      expiresIn: '1m',
+    });
+
+    const passwordChangeLink = `${baseUrl}/password-change?token=${jwtToken}`;
+
+    await sendEmail({
+      to: email,
+      subject: 'Resetting the password',
+      text: `Follow this link to change your password: ${passwordChangeLink}`,
+      html: `<p>Follow the link to change your password: <a href="${passwordChangeLink}">click</a></p>`,
+    });
+
+    return { success: true, message: 'Email sent successfully' };
+  }
+
+  async changePassword(token: string | null, newPassword: string) {
+    await this.connect();
+
+    if (!token) {
+      return { success: false, message: 'Invalid or missing token' };
+    }
+
+    if (!newPassword) {
+      return { success: false, message: 'Password is required' };
+    }
+
+    try {
+      const decode = jwt.verify(token, process.env.SPACES_KEY!) as { userId: string };
+
+      if (!decode.userId) {
+        return { success: false, message: 'Invalid token' };
+      }
+
+      const user = await Users.findById(decode.userId);
+      const admin = await Admin.findById(decode.userId);
+
+      if (!user && !admin) {
+        return { success: false, message: 'User not found' };
+      }
+
+      const targetUser = user || admin;
+
+      if (targetUser.passwordResetToken === token) {
+        return { success: false, message: 'The link has expired' };
+      }
+
+      targetUser.password = await bcrypt.hash(newPassword, 10);
+      targetUser.passwordResetToken = token;
+
+      if (admin) {
+        await Admin.findByIdAndUpdate(decode.userId, { $set: targetUser }, { new: true });
+      } else {
+        await Users.findByIdAndUpdate(decode.userId, { $set: targetUser }, { new: true });
+      }
+
+      return { success: true, message: 'Password change successfully' };
+    } catch (error) {
+      if (error instanceof TokenExpiredError) {
+        return { success: false, message: 'The link has expired' };
+      }
+
+      return { success: false, message: 'Error change password' };
+    }
   }
 }
 
