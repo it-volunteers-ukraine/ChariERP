@@ -12,9 +12,10 @@ export const Tabs = ({ active, setActive }: TabsProps) => {
     <div className={styles.wrapper}>
       {tabs.map((tab, index) => {
         const isActive = active === index ? 'bg-bgAuthLinks text-white' : 'text-lynch hover:text-dark-blue';
+        const mobileTabs = active === 0 ? 'rounded-t-[32px]' : '';
 
         return (
-          <button key={tab} onClick={() => setActive(index)} className={`${styles.btn} ${isActive}`}>
+          <button key={tab} onClick={() => setActive(index)} className={`${styles.btn} ${isActive} ${mobileTabs}`}>
             {tab}
           </button>
         );
