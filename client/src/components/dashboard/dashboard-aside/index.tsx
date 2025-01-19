@@ -4,12 +4,15 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
+import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
 
+import { cn } from '@/utils';
 import { Exit, JamMenu } from '@/assets/icons';
 import { useBoards, useUserInfo } from '@/context';
 import { LanguageSwitcher, Logo } from '@/components';
 import { idUser, routes, boardState } from '@/constants';
 import { useOutsideClick, useWindowWidth } from '@/hooks';
+import { useMoveBoards } from '@/components/pages/dashboards/api';
 
 import { NavItem } from './item';
 import { getStyles } from './styles';
@@ -24,7 +27,7 @@ export const DashboardAside = () => {
 
   const router = useRouter();
   const path = usePathname();
-  const { role, _id } = useUserInfo();
+  const { role, _id, isManager } = useUserInfo();
   const { isDesktop } = useWindowWidth();
   const linkText = useTranslations('sidebar');
 
@@ -37,7 +40,8 @@ export const DashboardAside = () => {
 
   const id = _id ? String(_id) : undefined;
 
-  const { response } = useBoards(id, path);
+  const { response, setBoards } = useBoards(id, path);
+  const { onMoveDragEndSmall } = useMoveBoards(id);
 
   const boards =
     response.map((item) => ({
@@ -122,17 +126,46 @@ export const DashboardAside = () => {
                       transition: `max-height ${duration}ms ease, opacity ${duration + 100}ms ease`,
                     }}
                   >
-                    {children.map(({ title, href, icon, disabled }, index) => (
-                      <NavItem
-                        isChildren
-                        href={href}
-                        Icon={icon}
-                        title={title}
-                        disabled={disabled}
-                        key={`${href}_${index}_${idx}`}
-                        onCloseSideBar={() => setIsOpenSidebar(false)}
-                      />
-                    ))}
+                    <DragDropContext
+                      onDragEnd={(result) => onMoveDragEndSmall({ result, boards: response, setBoards })}
+                    >
+                      <Droppable droppableId="droppable-aside" type="Aside">
+                        {(provided) => (
+                          <div ref={provided.innerRef} {...provided.droppableProps}>
+                            {children.map(({ title, href, icon, disabled }, index) => (
+                              <Draggable
+                                index={index}
+                                draggableId={href}
+                                isDragDisabled={!isManager}
+                                key={`${href}_${index}_${idx}`}
+                              >
+                                {(providerItem, snapshot) => (
+                                  <div
+                                    ref={providerItem.innerRef}
+                                    {...providerItem.draggableProps}
+                                    {...providerItem.dragHandleProps}
+                                    className={cn(
+                                      snapshot.isDragging && 'rounded-[5px] bg-lightBlue shadow-cardShadow',
+                                    )}
+                                  >
+                                    <NavItem
+                                      isChildren
+                                      href={href}
+                                      Icon={icon}
+                                      title={title}
+                                      disabled={disabled}
+                                      key={`${href}_${index}_${idx}`}
+                                      onCloseSideBar={() => setIsOpenSidebar(false)}
+                                    />
+                                  </div>
+                                )}
+                              </Draggable>
+                            ))}
+                            <div>{provided.placeholder}</div>
+                          </div>
+                        )}
+                      </Droppable>
+                    </DragDropContext>
                   </div>
                 )}
               </Fragment>
