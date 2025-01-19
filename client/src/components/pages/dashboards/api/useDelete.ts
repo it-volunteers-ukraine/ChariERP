@@ -3,8 +3,8 @@
 import { useState } from 'react';
 
 import { ResponseGetType } from '@/types';
+import { showMessage } from '@/components';
 import { deleteBoardAction } from '@/actions';
-import { IBoardData, showMessage } from '@/components';
 
 import { IUseStateBoards } from './types';
 
@@ -21,9 +21,9 @@ export const useDeleteBoard = (userId: string | undefined) => {
     setIsLoading(true);
 
     try {
-      const response = (await deleteBoardAction({ id, userId: userId! })) as ResponseGetType<IBoardData> | string;
+      const response = (await deleteBoardAction({ id, userId: userId! })) as ResponseGetType;
 
-      if (typeof response === 'string') {
+      if (response.success) {
         setBoards(boards.filter((board) => board._id !== id));
 
         return;

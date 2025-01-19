@@ -6,14 +6,14 @@ import { createTaskAction } from '@/actions';
 export const useAddTask = ({ userId, boardId, columnId }: { userId: string; boardId: string; columnId: string }) => {
   const addTask = async (task: ICreateTask) => {
     try {
-      const res: ResponseGetType<ICreateTask> | string = await createTaskAction({
+      const res: ResponseGetType = await createTaskAction({
         task,
         userId,
         boardId,
         columnId,
       });
 
-      if (typeof res === 'string') {
+      if (res.success) {
         return;
       }
 
