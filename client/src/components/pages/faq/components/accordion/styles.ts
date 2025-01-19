@@ -10,7 +10,7 @@ export const getStyles = (active: boolean) => ({
   plusWrapper: cn('text-[40px] transition-all duration-300 ease-in-out', active && 'rotate-45'),
   plus: cn('h-[24px] w-[24px] text-lightBlue group-hover:text-dark-blue', active && 'text-dark-blue'),
   textWrapper: cn(
-    'px-[20px] text-comet max-h-0 opacity-0 transition-all duration-300 ease-in-out',
+    'px-[20px] text-comet max-h-0 opacity-0 transition-all duration-300 ease-in-out overflow-hidden',
     active && 'p-[0_20px_16px] max-h-[1000px] opacity-1',
   ),
 });
