@@ -12,6 +12,11 @@ import { Button, InputField, showMessage, Title } from '@/components';
 
 import { getValidationSchema, initialValues } from './config';
 
+interface IValues {
+  newPassword: string;
+  passwordConfirmation: string;
+}
+
 const PasswordChange = () => {
   const router = useRouter();
   const btn = useTranslations('button');
@@ -36,10 +41,7 @@ const PasswordChange = () => {
     router.push(routes.home);
   };
 
-  const onSubmit = async (
-    values: { newPassword: string; passwordConfirmation: string },
-    formikHelpers?: FormikHelpers<{ newPassword: string; passwordConfirmation: string }>,
-  ) => {
+  const onSubmit = async (values: IValues, formikHelpers?: FormikHelpers<IValues>) => {
     setIsLoading(true);
 
     try {
@@ -50,8 +52,6 @@ const PasswordChange = () => {
       } else {
         showMessage.error(response.message);
       }
-
-      setIsLoading(false);
     } catch (error) {
       if (error instanceof AxiosError) {
         formikHelpers?.setFieldError(
@@ -59,6 +59,7 @@ const PasswordChange = () => {
           error.response?.data.message && errorText(error.response.data.message),
         );
       }
+    } finally {
       setIsLoading(false);
     }
   };
@@ -97,9 +98,7 @@ const PasswordChange = () => {
                 type="button"
                 text={btn('decline')}
                 className="uppercase"
-                onClick={() => {
-                  handleCancel();
-                }}
+                onClick={handleCancel}
               />
             </div>
           </Form>
