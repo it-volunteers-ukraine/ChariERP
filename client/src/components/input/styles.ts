@@ -3,10 +3,12 @@ import { cn } from '@/utils';
 interface IStylesInput {
   type?: string;
   value?: string;
+  label?: boolean;
   cross?: boolean;
   error?: boolean;
   isMasked?: boolean;
   disabled?: boolean;
+  inputClass?: string;
   isTextarea?: boolean;
   placeholder?: string;
   wrapperClass?: string;

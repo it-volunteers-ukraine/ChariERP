@@ -47,6 +47,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
       isTextarea,
       wrapperClass,
       textAreaClass,
+      label: !!label,
       error: !!error,
       placeholderItalic,
       value: value as string,
@@ -71,7 +72,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
       <div className={styles.wrapper}>
         <label className="flex w-full flex-col gap-1">
           <fieldset className={styles.fieldset}>
-            {type !== 'search' && (
+            {type !== 'search' && label && (
               <legend className="ml-[10px] px-1 pb-1">
                 {required && <span className={styles.star}>*</span>}
                 <span className={styles.label}>{label}</span>
@@ -195,7 +196,6 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
             </div>
           )}
         </label>
-
         {info && (
           <div className="relative top-1 flex w-full items-center text-input-info">
             <Info width={24} height={24} className="mr-3 shrink-0 self-center text-input-info tablet:flex" />

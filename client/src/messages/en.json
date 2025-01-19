@@ -69,6 +69,8 @@
       "label": "Position",
       "information": "Enter the role of the employee (accountant, driver, etc.) or leave the field blank"
     },
+    "startDate": { "title": "Start date:" },
+    "endDate": { "title": "End date:" },
     "lastName": {
       "label": "Last name"
     },
