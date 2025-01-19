@@ -1,6 +1,6 @@
 import { showMessage } from '@/components';
 import { moveBoardColumnAction } from '@/actions';
-import { IBoardColumnTasks, IUseColumns, ResponseGetType } from '@/types';
+import { IUseColumns, ResponseGetType } from '@/types';
 
 import { IUseStateBoardColumns } from './types';
 
@@ -21,18 +21,18 @@ export const useMoveColumn = ({ boardId, userId }: IUseColumns) => {
     setColumns(newResponse);
 
     try {
-      const res: ResponseGetType<IBoardColumnTasks[]> | string = await moveBoardColumnAction({
+      const res: ResponseGetType = await moveBoardColumnAction({
         boardId,
         userId,
         sourceIndex: source,
         destinationIndex: destination,
       });
 
-      if (typeof res === 'string') {
+      if (res.success) {
         return;
       }
 
-      if (!res?.success && res?.message) {
+      if (!res.success && res?.message) {
         showMessage.error(res.message);
         setColumns(oldResponse);
       }

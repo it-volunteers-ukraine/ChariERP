@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import { ResponseGetType } from '@/types';
-import { IBoardData, showMessage } from '@/components';
+import { showMessage } from '@/components';
 import { createBoardAction, editBoardAction } from '@/actions';
 
 import { IUseStateBoards } from './types';
@@ -28,21 +28,21 @@ export const useEditBoard = (userId: string | undefined) => {
 
     try {
       if (!isEdit && userId) {
-        response = (await createBoardAction({ text, userId })) as ResponseGetType<IBoardData> | string;
+        response = (await createBoardAction({ text, userId })) as ResponseGetType;
 
-        if (typeof response === 'string') {
+        if (response.success && response.data) {
           const filteredBoards = boards.filter((board) => board._id !== 'new');
 
-          setBoards([...filteredBoards, JSON.parse(response).data]);
+          setBoards([...filteredBoards, JSON.parse(response.data)]);
 
           return;
         }
       }
 
       if (isEdit && userId) {
-        response = (await editBoardAction({ id, text, userId })) as ResponseGetType<IBoardData> | string;
+        response = (await editBoardAction({ id, text, userId })) as ResponseGetType;
 
-        if (typeof response === 'string') {
+        if (response.success) {
           setBoards(boards.map((board) => (board._id === id ? { ...board, title: text } : board)));
 
           return;

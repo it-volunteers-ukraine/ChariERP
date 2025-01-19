@@ -30,7 +30,7 @@ export const useMoveBoards = (id: string | undefined) => {
     try {
       const response = await moveBoardsAction({ boards: newBoards, userId: id! });
 
-      if (typeof response === 'string') {
+      if (response.success) {
         return;
       }
 
@@ -75,7 +75,7 @@ export const useMoveBoards = (id: string | undefined) => {
     try {
       const response = await moveBoardsAction({ boards: newBoards, userId: id! });
 
-      if (typeof response === 'string') {
+      if (response.success) {
         return;
       }
 

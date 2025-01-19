@@ -63,7 +63,7 @@ class TaskService extends BaseService {
 
     await BoardColumn.findByIdAndUpdate(columnId, { $push: { task_ids: newTask._id } });
 
-    return JSON.stringify({ success: true, data: newTask });
+    return { success: true, data: JSON.stringify(newTask) };
   }
 
   async deleteTask({ boardId, userId, taskId }: IDeleteTaskProps) {
@@ -110,10 +110,10 @@ class TaskService extends BaseService {
 
     await task.deleteOne();
 
-    return JSON.stringify({
+    return {
       success: true,
       message: 'Task successfully deleted',
-    });
+    };
   }
 
   async moveTask({ boardId, userId, taskId, columnId, destinationIndex, destinationColumnId }: IMoveTaskProps) {
@@ -211,10 +211,10 @@ class TaskService extends BaseService {
       });
     }
 
-    return JSON.stringify({
+    return {
       success: true,
       message: 'Task successfully moved',
-    });
+    };
   }
 }
 
