@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
+import { Banner } from '@/components/banner';
 import { AboutCardType } from '@/components/service-body/about-card-type';
 import {
   JoinUs,
@@ -24,6 +25,8 @@ export const AboutServicePage = () => {
 
   return (
     <>
+      <Banner />
+
       <section className={style.section}>
         <SectionTitle company={titleLogo('CHARIeRp')} text={titleSection('automatizationSection')} />
 

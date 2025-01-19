@@ -5,10 +5,20 @@ import { accordionsData } from './mock';
 import { Accordion } from './accordion';
 
 export const KeyAdvantages = () => {
-  const [isOpen, setIsOpen] = useState<number | null>(null);
+  const [accordionIndex, setAccordionIndex] = useState<number | null>(null);
 
   const text = useTranslations('homePage.keyAdvantages');
   const accordions = accordionsData(text);
+
+  const toggleAccordion = (number: number) => {
+    if (accordionIndex === number) {
+      setAccordionIndex(null);
+
+      return;
+    }
+
+    setAccordionIndex(number);
+  };
 
   return (
     <div className="m-auto flex w-full max-w-[1082px] flex-col gap-12 px-4 tablet:gap-16 tablet:px-8 desktop:gap-[72px]">
@@ -22,8 +32,8 @@ export const KeyAdvantages = () => {
             key={index}
             title={card.title}
             description={card.text}
-            isOpen={isOpen === index}
-            onClick={() => setIsOpen(index)}
+            isOpen={accordionIndex === index}
+            onClick={() => toggleAccordion(index)}
           />
         ))}
       </div>

@@ -1,12 +1,21 @@
 import bcrypt from 'bcrypt';
 
-import { getPaginate } from '@/utils';
-import { IUsers, IUsersByOrganizationProps, Roles, UserStatus } from '@/types';
+import { checkFieldsToUniqueOfOrganization, getPaginate } from '@/utils';
+import {
+  Roles,
+  IUsers,
+  UserStatus,
+  IOrganizationsUpdate,
+  OrganizationUpdateValues,
+  IUsersByOrganizationProps,
+  IUpdateOrganizationByManager,
+} from '@/types';
 import { BucketFolders, deleteFileFromBucket, uploadFileToBucket } from '@/services';
 
 import { Admin, Organizations, Users } from '..';
 import { ImageService } from '../image/image.service';
 import { BaseService } from '../database/base.service';
+
 import { getErrors, requiredUsers, requiredUsersUpdate } from './helpers';
 
 class UserService extends BaseService {
@@ -176,7 +185,7 @@ class UserService extends BaseService {
     };
 
     if (avatarUrl) {
-      const uploadedFileUrl = await uploadFileToBucket(organizationId, BucketFolders.Avatar, avatarUrl);
+      const uploadedFileUrl = await uploadFileToBucket(organization._id, BucketFolders.Avatar, avatarUrl);
 
       if (!uploadedFileUrl) {
         return { success: false, message: 'Image error update' };
@@ -193,6 +202,114 @@ class UserService extends BaseService {
     });
 
     return { success: true, message: 'User created' };
+  }
+
+  async updateOrganizationByManager({ organizationId, userId, formData }: IUpdateOrganizationByManager) {
+    await this.connect();
+
+    if (!organizationId || !userId) {
+      return { success: false, message: 'organizationId and userId are required' };
+    }
+
+    const organization = await Organizations.findOne({
+      _id: organizationId,
+    }).populate('users');
+
+    if (!organization) {
+      return { success: false, message: 'Organization not found' };
+    }
+    const users = organization?.users || [];
+
+    const isAccessDenied = !users.some(
+      (user: IUsers) => String(user._id) === String(userId) && user.role === Roles.MANAGER,
+    );
+
+    if (isAccessDenied) {
+      return { success: false, message: 'User not found or access denied' };
+    }
+
+    const data = JSON.parse(formData.get('data') as string) as OrganizationUpdateValues;
+    const certificate = formData.get('certificate') as File;
+    const isNewCertificate = certificate && certificate?.size !== 1;
+
+    const isUserEmailExist = await Users.findOne({
+      email: data.email,
+      organizationId: { $ne: organizationId },
+    });
+
+    const isAdminEmailOccupied = await Admin.findOne({ email: data.email });
+
+    if (isUserEmailExist || isAdminEmailOccupied) {
+      const email = isAdminEmailOccupied?.email || isUserEmailExist?.email;
+
+      return { message: [email], success: false };
+    }
+
+    const organizationExist = await Organizations.find({
+      $or: [
+        { 'organizationData.edrpou': data.edrpou, _id: { $ne: organizationId } },
+        { 'contactData.email': data.email },
+      ],
+      _id: { $ne: organizationId },
+    });
+
+    if (organizationExist.length > 0) {
+      const matches = checkFieldsToUniqueOfOrganization(
+        {
+          email: data.email,
+          edrpou: data.edrpou,
+        },
+        organizationExist,
+      );
+
+      return { message: matches, success: false };
+    }
+
+    let uploadedFileUrl;
+
+    if (isNewCertificate) {
+      uploadedFileUrl = await uploadFileToBucket(organization._id, BucketFolders.CertificateOfRegister, certificate);
+
+      if (!uploadedFileUrl) {
+        return { message: 'error-upload', success: false };
+      }
+
+      const isDeleted = await deleteFileFromBucket(organization.organizationData.certificate);
+
+      if (!isDeleted) {
+        return { message: 'error-delete', success: false };
+      }
+    }
+
+    const body: IOrganizationsUpdate = {
+      request: data.request || organization.request,
+      organizationData: {
+        edrpou: data.edrpou || organization.organizationData.edrpou,
+        organizationName: data.organizationName || organization.organizationData.organizationName,
+        dateOfRegistration: data.dateOfRegistration || organization.organizationData.dateOfRegistration,
+        certificate: isNewCertificate ? (uploadedFileUrl as string) : organization.organizationData.certificate,
+      },
+      contactData: {
+        phone: data.phone || organization.contactData.phone,
+        email: data.email || organization.contactData.email,
+        position: data.position || organization.contactData.position,
+        lastName: data.lastName || organization.contactData.lastName,
+        firstName: data.firstName || organization.contactData.firstName,
+        middleName: data.middleName || organization.contactData.middleName,
+      },
+      mediaData: {
+        site: data.site || organization.mediaData.site,
+        social: data.social || organization.mediaData.social,
+      },
+    };
+
+    const response = await Organizations.findByIdAndUpdate(organizationId, { $set: body }, { new: true });
+
+    if (!response) {
+      return { success: false, message: 'Organization not updated' };
+    }
+
+    return { success: true, message: 'Organization updated', organization: JSON.stringify(response) };
   }
 
   async updateMemberById(formData: FormData) {
