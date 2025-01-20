@@ -2,8 +2,7 @@
 
 import React, { useState } from 'react';
 
-import { Tabs } from './components/tabs';
-import { GeneralQuestions } from './components/content-pages/general-questions';
+import { GeneralQuestions, Tabs } from './components';
 
 export const FaqPage = () => {
   const [active, setActive] = useState(0);
