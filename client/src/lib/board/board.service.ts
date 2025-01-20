@@ -12,7 +12,7 @@ class BoardService extends BaseService {
 
     const response = boards.map((board) => board.board_id);
 
-    return JSON.stringify({ success: true, data: response });
+    return { success: true, data: JSON.stringify(response) };
   }
 
   async createBoard(title: string, userId?: string) {
@@ -76,7 +76,7 @@ class BoardService extends BaseService {
 
     await userBoards.save();
 
-    return JSON.stringify({ success: true, data: newBoard });
+    return { success: true, data: JSON.stringify(newBoard) };
   }
 
   async editBoard(id: string, text: string, userId: string) {
@@ -111,7 +111,7 @@ class BoardService extends BaseService {
 
     await Board.findByIdAndUpdate(id, { $set: { title: text } });
 
-    return JSON.stringify({ success: true, message: 'Board updated' });
+    return { success: true, message: 'Board updated' };
   }
 
   async moveBoards(boards: IBoardData[], userId: string) {
@@ -138,7 +138,7 @@ class BoardService extends BaseService {
 
     await Board.bulkWrite(bulkOperations);
 
-    return JSON.stringify({ success: true, message: 'Boards moved' });
+    return { success: true, message: 'Boards moved' };
   }
 
   async deleteBoard(id: string, userId: string) {
@@ -165,7 +165,7 @@ class BoardService extends BaseService {
 
     await Board.updateMany({ _id: { $in: boardIds }, order: { $gt: board.order } }, { $inc: { order: -1 } });
 
-    return JSON.stringify({ success: true, message: 'Board deleted' });
+    return { success: true, message: 'Board deleted' };
   }
 }
 
