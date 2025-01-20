@@ -24,11 +24,11 @@ export const BoardsProvider = ({ children }: ChildrenProps) => {
     try {
       setIsLoading(true);
 
-      const response = (await getBoardsAction({ id })) as ResponseGetType<IBoardData[]> | string;
+      const response = (await getBoardsAction({ id })) as ResponseGetType;
 
-      if (typeof response === 'string') {
-        const parsedResponse = JSON.parse(response);
-        const sortedBoards = (parsedResponse.data as IBoardData[]).sort((a, b) => a.order - b.order);
+      if (response.success && response.data) {
+        const parsedResponse = JSON.parse(response.data);
+        const sortedBoards = (parsedResponse as IBoardData[]).sort((a, b) => a.order - b.order);
 
         setBoards(sortedBoards);
 

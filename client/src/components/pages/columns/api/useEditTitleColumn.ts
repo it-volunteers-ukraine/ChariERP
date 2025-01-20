@@ -1,6 +1,6 @@
 import { showMessage } from '@/components';
 import { changeColumnTitleAction } from '@/actions';
-import { IBoardColumnTasks, IUseColumns, ResponseGetType } from '@/types';
+import { IUseColumns, ResponseGetType } from '@/types';
 
 import { IUseStateBoardColumns } from './types';
 
@@ -24,14 +24,14 @@ export const useEditTitleColumn = ({ boardId, userId }: IUseColumns) => {
     );
 
     try {
-      const res: ResponseGetType<IBoardColumnTasks> | string = await changeColumnTitleAction({
+      const res: ResponseGetType = await changeColumnTitleAction({
         title,
         userId,
         boardId,
         columnId,
       });
 
-      if (typeof res === 'string') {
+      if (res.success) {
         return;
       }
 

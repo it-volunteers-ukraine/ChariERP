@@ -1,6 +1,6 @@
 import { showMessage } from '@/components';
 import { moveTaskAction } from '@/actions';
-import { IBoardColumnTasks, IUseColumns, ResponseGetType } from '@/types';
+import { IUseColumns, ResponseGetType } from '@/types';
 
 import { IUseStateBoardColumns } from './types';
 
@@ -32,7 +32,7 @@ export const useMoveTask = ({ boardId, userId }: IUseColumns) => {
     setColumns(newColumns);
 
     try {
-      const res: ResponseGetType<IBoardColumnTasks[]> | string = await moveTaskAction({
+      const res: ResponseGetType = await moveTaskAction({
         userId,
         boardId,
         columnId,
@@ -41,7 +41,7 @@ export const useMoveTask = ({ boardId, userId }: IUseColumns) => {
         destinationColumnId,
       });
 
-      if (typeof res === 'string') {
+      if (res.success) {
         return;
       }
 
