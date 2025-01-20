@@ -6,8 +6,9 @@ import { useOutsideClick } from '@/hooks';
 import { Delete, Dots, Download } from '@/assets/icons';
 
 import { getStyles } from './styles';
+import { DotsWrapperProps } from './types';
 
-export const DotsWrapper = ({ download, removeFile }: { download: () => void; removeFile: () => void }) => {
+export const DotsWrapper = ({ download, removeFile }: DotsWrapperProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
