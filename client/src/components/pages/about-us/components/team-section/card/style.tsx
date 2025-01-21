@@ -3,8 +3,8 @@ const card = 'relative overflow-hidden rounded-2xl bg-bgCardTeam tablet:rounded-
 export const getStyles = () => ({
   cardContainer:
     'card relative h-[208px] w-[156px] tablet:h-[286px] tablet:w-[218px]  desktop:h-[338px] desktop:w-[256px]',
-  cardSide:
-    'absolute h-full w-full shadow-teamCard overflow-hidden rounded-bl-[28px] rounded-br-[16px] rounded-tl-[20px] rounded-tr-[20px] bg-bgSubCardTeam pl-2 pt-2 tablet:rounded-bl-[42px] tablet:rounded-br-[24px] tablet:rounded-tl-[32px] tablet:rounded-tr-[32px] tablet:pl-3 tablet:pt-3',
+  cardSide: 'absolute h-full w-full shadow-teamCard overflow-hidden bg-bgSubCardTeam pl-2 pt-2 tablet:pl-3 tablet:pt-3',
+  side: 'side bg-bgSubCardTeam',
   decorativeHeader:
     'absolute clip-angled left-[7px] top-0 h-[27px] w-[150px] bg-bgDecorCardTeam tablet:left-[10px] tablet:h-[38px] tablet:w-[209px] desktop:h-[45px] desktop:w-[245px]',
   card: 'relative h-full w-full overflow-hidden rounded-2xl bg-bgCardTeam tablet:rounded-3xl text-center',

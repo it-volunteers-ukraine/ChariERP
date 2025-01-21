@@ -1,21 +1,151 @@
+:root {
+  --transition-duration: 0.8s;
+  --gradient-color: linear-gradient(180deg, #b3e3fa 0%, #68bae0 100%);
+  --card-thickness: 20px;
+}
+
+.wrapper {
+  height: 100%;
+  width: 100%;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transform: rotateX(0deg) rotateY(0deg);
+  transition: transform var(--transition-duration) ease-in-out;
+  perspective-origin: center;
+}
+
+.card:hover .wrapper {
+  transform: rotateY(-180deg);
+}
+
 .front,
-.back {
-  backface-visibility: hidden;
-  transition: transform 0.6s ease-out;
+.back,
+.left,
+.right,
+.back-bottom-layer,
+.front-bottom-layer {
+  position: absolute;
 }
 
 .front {
-  transform: perspective(600px) rotateY(0deg);
+  height: calc(100% - 3px);
+  width: calc(100% - 3px);
+  top: 1px;
+  left: 1px;
+  transform: rotateY(0deg) translateZ(calc(var(--card-thickness) / 2));
 }
 
 .back {
-  transform: perspective(600px) rotateY(180deg);
+  height: calc(100%);
+  width: calc(100% + 1px);
+  top: -1px;
+  left: -2px;
+  transform: rotateY(180deg) translateZ(calc(var(--card-thickness) / 2));
 }
 
-.card:hover .front {
-  transform: perspective(600px) rotateY(-180deg);
+.front-bottom-layer {
+  height: calc(100% - 3px);
+  width: calc(100% - 3px);
+  left: 1px;
+  transform: rotateY(0deg) translateZ(calc(var(--card-thickness) / 2 - 1px));
+  background: var(--gradient-color);
 }
 
-.card:hover .back {
-  transform: perspective(600px) rotateY(0deg);
+.back-bottom-layer {
+  height: calc(100%);
+  width: calc(100% + 1px);
+  top: -1px;
+  left: -2px;
+  transform: rotateY(180deg) translateZ(calc(var(--card-thickness) / 2 - 1px));
+  background: var(--gradient-color);
+}
+
+.left {
+  background: var(--gradient-color);
+  width: calc(var(--card-thickness) - 2px);
+  height: calc(100% - 5px);
+  transform: rotateY(-90deg) translateZ(-10px) scaleX(1);
+  transition: transform var(--transition-duration) ease-in-out;
+}
+
+.right {
+  background: var(--gradient-color);
+  width: calc(var(--card-thickness) - 2px);
+  height: calc(100% - 5px);
+  transform: rotateY(90deg) translateZ(120px) scaleX(1);
+  transition: transform var(--transition-duration) ease-in-out;
+}
+
+.rounded-custom {
+  border-bottom-left-radius: 28px;
+  border-bottom-right-radius: 16px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  transition: border-radius var(--transition-duration) ease-in-out;
+}
+
+.cardTwo:hover .rounded-custom {
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 28px;
+}
+
+.rounded-custom-back {
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 28px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  transition: border-radius var(--transition-duration) ease-in-out;
+}
+
+.cardTwo:hover .rounded-custom-back {
+  border-bottom-left-radius: 28px;
+  border-bottom-right-radius: 16px;
+}
+
+@media (min-width: 768px) {
+  .back {
+    height: calc(100% + 3px);
+    width: calc(100% + 3px);
+    top: -3px;
+    left: -3px;
+  }
+
+  .back-bottom-layer {
+    height: calc(100% + 3px);
+    width: calc(100% + 3px);
+    top: -3px;
+    left: -3px;
+  }
+
+  .left {
+    transform: rotateY(-90deg) translateZ(-20px) scaleX(1);
+  }
+
+  .right {
+    transform: rotateY(90deg) translateZ(170px) scaleX(1);
+  }
+
+  .rounded-custom {
+    border-bottom-left-radius: 42px;
+    border-bottom-right-radius: 24px;
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
+  }
+
+  .cardTwo:hover .rounded-custom {
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 42px;
+  }
+
+  .rounded-custom-back {
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 42px;
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
+  }
+
+  .cardTwo:hover .rounded-custom-back {
+    border-bottom-left-radius: 42px;
+    border-bottom-right-radius: 24px;
+  }
 }
