@@ -4,8 +4,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikValues } from 'formik';
 
-import { sendResetEmail } from '@/actions';
-import { Button, InputField, ModalEnterEmail, showMessage, SmallBtn } from '@/components';
+import { Button, InputField, ModalEnterEmail, SmallBtn } from '@/components';
 
 import { getValidationSchema, initialValues } from './sign-in/config';
 
@@ -18,46 +17,14 @@ const LoginForm = ({ onSubmit, isLoading }: ILoginFormProps) => {
   const btn = useTranslations('button');
   const message = useTranslations('validation');
   const login = useTranslations('auth-page.login');
-  const messagePasswordReset = useTranslations('password-change');
 
   const validationSchema = getValidationSchema(message);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [isSendingEmail, setIsSendingEmail] = useState(false);
-
-  const onSubmitEmail = async (email: string) => {
-    setIsSendingEmail(true);
-    try {
-      if (typeof window !== 'undefined') {
-        const baseUrl = window.location.origin;
-
-        const response = await sendResetEmail(email, baseUrl);
-
-        if (response.success) {
-          showMessage.success(messagePasswordReset('successSend'));
-        } else {
-          if (response.time) {
-            showMessage.error(messagePasswordReset(response.message, { time: response.time }));
-          } else {
-            showMessage.error(messagePasswordReset(response.message));
-          }
-        }
-      }
-    } catch {
-      showMessage.error(messagePasswordReset('errorSend'));
-    } finally {
-      setIsSendingEmail(false);
-    }
-  };
 
   return (
     <>
-      <ModalEnterEmail
-        isOpen={isOpenModal}
-        onClose={setIsOpenModal}
-        onSubmit={onSubmitEmail}
-        isLoading={isSendingEmail}
-      />
+      <ModalEnterEmail isOpen={isOpenModal} onClose={setIsOpenModal} />
 
       <Formik onSubmit={onSubmit} initialValues={initialValues} validationSchema={validationSchema}>
         {() => (

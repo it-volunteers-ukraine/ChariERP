@@ -18,7 +18,7 @@ class ResetTokenService extends BaseService {
       const targetUser = user || admin;
 
       if (!targetUser) {
-        return { success: false, message: 'User not found' };
+        return { success: false, message: 'notFound' };
       }
 
       const existingToken = await ResetToken.findOne({ userId: targetUser._id });
