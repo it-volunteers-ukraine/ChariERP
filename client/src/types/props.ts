@@ -197,4 +197,10 @@ export interface IMoveTaskProps {
   destinationColumnId: string;
 }
 
-export type ResponseGetType<T> = { success: boolean; data?: T; message?: string };
+export type ResponseGetType = { success: boolean; data?: string; message?: string };
+
+export interface IUpdateOrganizationByManager {
+  userId: string;
+  formData: FormData;
+  organizationId: string;
+}

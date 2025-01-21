@@ -1,8 +1,7 @@
 import * as Yup from 'yup';
 import { TranslationValues } from 'next-intl';
 
-const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const linkRegExp = /^(https?):\/\/([a-zA-Z0-9.-]+)(\/[^\s]*)?(\?[^\s]*)?$/i;
+import { regExp } from '@/constants';
 
 export interface IJoinFormValues {
   name: string;
@@ -35,11 +34,12 @@ export const joinValidation = (error: (key: string, params?: TranslationValues) 
       .trim()
       .min(6, error('minPlural', { int: 6 }))
       .max(50, error('maxPlural', { int: 50 }))
-      .matches(emailRegex, error('notValidEmail'))
+      .matches(regExp.email, error('notValidEmail'))
       .required(error('required')),
     telegram: Yup.string()
       .trim()
-      .matches(linkRegExp, error('siteStart'))
+      .matches(regExp.https, error('siteStart'))
+      .matches(regExp.domain, error('domain'))
       .min(10, error('minPlural', { int: 10 }))
       .max(2000, error('maxPlural', { int: 2000 })),
     message: Yup.string()

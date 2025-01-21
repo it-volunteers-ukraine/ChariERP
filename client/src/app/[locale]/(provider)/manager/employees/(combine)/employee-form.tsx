@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Form, Formik, FormikErrors, FormikValues } from 'formik';
 
 import {
@@ -24,14 +24,19 @@ import { IEditData, IEmployeeForm } from './types';
 
 export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: IEmployeeForm) => {
   const router = useRouter();
-  const styles = getStyles(isCreate);
+  const locale = useLocale();
   const { isManager } = useUserInfo();
+
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
   const modal = useTranslations('modal');
   const error = useTranslations('validation');
 
   const [isOpenSave, setIsOpenSave] = useState(false);
+
+  const changeLocale = locale === 'ua' ? 'uk' : locale;
+
+  const styles = getStyles(isCreate);
 
   const submitHandle = async (validateForm: () => Promise<FormikErrors<FormikValues>>, handleSubmit: () => void) => {
     const errors = await validateForm();
@@ -188,20 +193,12 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                         isTextarea
                         name="notes"
                         type="textarea"
+                        lang={changeLocale}
                         label={text('notes.label')}
                         wrapperClass="laptop:max-w-[calc(50%-24px)]"
-                        textAreaClass="!p-[0_4px_0_16px] mr-[6px] min-h-[183px] scroll-textarea !text-input-text resize-none"
+                        textAreaClass="!p-[0_4px_0_16px] mr-[6px] min-h-[183px] scroll-textarea !text-input-text resize-none  !overflow-y-scroll break-words hyphens-auto whitespace-pre-wrap"
                       />
                     </div>
-
-                    <InputField
-                      isTextarea
-                      name="notes"
-                      type="textarea"
-                      label={text('notes.label')}
-                      wrapperClass="laptop:max-w-[calc(50%-24px)]"
-                      textAreaClass="!p-[0_4px_0_16px] mr-[6px] min-h-[183px] scroll-textarea !text-input-text resize-none whitespace-pre-wrap !overflow-y-scroll"
-                    />
                   </div>
                 </Accordion>
 

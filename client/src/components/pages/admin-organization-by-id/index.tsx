@@ -6,7 +6,7 @@ import { useRouter, useParams, usePathname } from 'next/navigation';
 import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
 
 import { routes } from '@/constants';
-import { useLoaderAdminPage } from '@/context';
+import { useLoaderAdminPage, useUserInfo } from '@/context';
 import { OrganizationEditValues, RequestOrganizationStatus } from '@/types';
 import { oneOrganizationNormalizer, serializeOrganizationsUpdate, showErrorMessageOfOrganizationExist } from '@/utils';
 import {
@@ -34,6 +34,7 @@ const AdminOrganizationById = () => {
   const router = useRouter();
   const { id } = useParams();
   const path = usePathname();
+  const { _id } = useUserInfo();
 
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
@@ -81,7 +82,13 @@ const AdminOrganizationById = () => {
     formData.append(`certificate`, file);
     formData.append(`data`, JSON.stringify(data));
 
-    const response = await updateOrganizationAction(id as string, formData);
+    const sendData = {
+      formData,
+      userId: String(_id),
+      organizationId: String(id),
+    };
+
+    const response = await updateOrganizationAction(sendData);
 
     if (!response.success && response.message) {
       const messageArray = Array.isArray(response.message) ? response.message : [response.message];

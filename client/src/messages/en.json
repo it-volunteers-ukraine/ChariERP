@@ -214,7 +214,8 @@
     "notValidPhone": "Wrong number dialed",
     "enter9Digits": "Please enter 9 digits",
     "notValidEmail": "Invalid e-mail address",
-    "siteStart": "The input field must begin with https://...",
+    "siteStart": "Only https:// protocol is allowed",
+    "domain": "Domain must be correct format www.example.com",
     "extensionsFile": "Invalid file format. Available formats: {extensions}",
     "maxSizeFile": "File size exceeds {maxSize}МБ",
     "passwordMismatch": "The entered passwords do not match",
@@ -253,6 +254,7 @@
       "emptyValue": "Please, pick one reason"
     },
     "fileDownload": "Invalid file format",
+    "fileSizeExceeded": "File size exceeds {mb} MB",
     "employees": {
       "addUser": "Email already exists"
     },
@@ -423,9 +425,11 @@
 
   "aboutService": {
     "titleSection": {
-      "automatizationSection": "- This is a comprehensive ERP system for automating the work of public organizations, which provides the ability to:",
-      "planningSection": "- This system can help facilitate the work of planning and resource management for public organizations",
-      "beneficiary": "provides the ability to use, operate, and manage information for"
+      "automatizationSection": " - This is a comprehensive ERP system for automating the work of public organizations, which provides the ability to :",
+      "planningSection": " - This system can help facilitate the work of planning and resource management for public organizations :",
+      "beneficiary": " provides the ability to use, operate, and manage information for :",
+      "previewStart": "here you can see the appearance of the  ",
+      "previewEnd": " system from the inside :"
     },
 
     "cardsTitle": {
@@ -579,6 +583,11 @@
         "Transparency: creation of open reports for the public or donors",
         "Feedback: collecting responses from volunteers, benefactors, and aid recipients through built-in surveys or questionnaires"
       ]
-    }
+    },
+    "joinUs": {
+      "contactMessage": "If you have any questions or would like to get involved, please contact us.",
+      "buttonContacts": "Contacts"
+    },
+    "sidebarButtonName": { "Organizations": "My organization", "Employees": "Employees", "Boards": "Boards" }
   }
 }
