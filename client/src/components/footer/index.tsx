@@ -68,7 +68,7 @@ export const Footer = () => {
           )}
         </div>
       </div>
-      <Link href={routes.privacyPolicy} className="block text-center font-scada text-xs text-white">
+      <Link href={routes.privacyPolicy} className="block text-center font-montserrat text-xs text-white">
         © {currentYear} ChariERP, {footer('privacyPolicy')}
       </Link>
     </footer>

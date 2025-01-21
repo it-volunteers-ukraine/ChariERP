@@ -199,8 +199,9 @@ const config: Config = {
         50: '50px',
       },
       fontFamily: {
-        roboto: ['var(--font-roboto)', 'sans-serif'],
+        montserrat: ['Montserrat', 'sans-serif'],
         scada: ['var(--font-scada)', 'sans-serif'],
+        roboto: ['var(--font-roboto)', 'sans-serif'],
         robotoCondensed: ['var(--font-robotoCondensed)', 'sans-serif'],
       },
       screens: {

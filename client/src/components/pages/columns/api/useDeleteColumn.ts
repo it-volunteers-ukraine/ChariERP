@@ -1,6 +1,6 @@
 import { showMessage } from '@/components';
 import { deleteColumnAction } from '@/actions';
-import { IBoardColumnTasks, IUseColumns, ResponseGetType } from '@/types';
+import { IUseColumns, ResponseGetType } from '@/types';
 
 import { IUseStateBoardColumns } from './types';
 
@@ -14,9 +14,9 @@ export const useDeleteColumn = ({ boardId, userId }: IUseColumns) => {
     setColumns(response.filter((column) => column.id !== columnId));
 
     try {
-      const res: ResponseGetType<IBoardColumnTasks> | string = await deleteColumnAction({ columnId, boardId, userId });
+      const res: ResponseGetType = await deleteColumnAction({ columnId, boardId, userId });
 
-      if (typeof res === 'string') {
+      if (res.success) {
         return;
       }
 
