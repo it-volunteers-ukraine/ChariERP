@@ -27,7 +27,6 @@ const usersSchema = new Schema<IUsers>({
     ref: 'Organizations',
     required: true,
   },
-  passwordResetToken: { type: String },
 });
 
 export default models.Users || model<IUsers>('Users', usersSchema);

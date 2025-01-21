@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikValues } from 'formik';
 
-import { changePasswordSendEmailAction } from '@/actions';
+import { sendResetEmail } from '@/actions';
 import { Button, InputField, ModalEnterEmail, showMessage, SmallBtn } from '@/components';
 
 import { getValidationSchema, initialValues } from './sign-in/config';
@@ -31,17 +31,21 @@ const LoginForm = ({ onSubmit, isLoading }: ILoginFormProps) => {
       if (typeof window !== 'undefined') {
         const baseUrl = window.location.origin;
 
-        const response = await changePasswordSendEmailAction(email, baseUrl);
+        const response = await sendResetEmail(email, baseUrl);
 
         if (response.success) {
           showMessage.success(messagePasswordReset('successSend'));
         } else {
-          showMessage.error(messagePasswordReset('userNotFound'));
+          if (response.time) {
+            showMessage.error(messagePasswordReset(response.message, { time: response.time }));
+          } else {
+            showMessage.error(messagePasswordReset(response.message));
+          }
         }
-        setIsSendingEmail(false);
       }
     } catch {
       showMessage.error(messagePasswordReset('errorSend'));
+    } finally {
       setIsSendingEmail(false);
     }
   };

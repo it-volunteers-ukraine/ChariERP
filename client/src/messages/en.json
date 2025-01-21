@@ -21,10 +21,12 @@
     "newPassword": "New password",
     "passwordConfirmation": "Password confirmation",
     "successSend": "The message has been sent",
+    "tokenExists": "You have already requested a password change. A new link can only be sent 24 hours after the previous request",
+    "tokenExistsTime": "You have already requested a password change. A new link will be sent in {time} hours",
     "errorSend": "Error sending a message",
     "userNotFound": "The user with the following email was not found",
     "successChange": "Password changed successfully",
-    "linkExpired": "Link expired",
+    "linkExpired": "This link is not valid or has expired",
     "passwordRequired": "Password is required",
     "notFound": "User not found",
     "error": "There was an error changing your password, please try again later"

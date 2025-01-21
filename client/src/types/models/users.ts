@@ -19,6 +19,5 @@ export interface IUsers extends Document {
   middleName: string;
   status: UserStatus;
   _id: Schema.Types.ObjectId;
-  passwordResetToken?: string;
   organizationId: Schema.Types.ObjectId;
 }
