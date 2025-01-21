@@ -50,7 +50,26 @@ const PasswordChange = () => {
       if (response.success) {
         showMessage.success(passwordChangeText('successChange'));
       } else {
-        showMessage.error(response.message);
+        let errorKey;
+
+        switch (response.message) {
+          case 'Invalid or missing token':
+            errorKey = 'linkExpired';
+            break;
+          case 'Password is required':
+            errorKey = 'passwordRequired';
+            break;
+          case 'User not found':
+            errorKey = 'notFound';
+            break;
+          case 'The link has expired':
+            errorKey = 'linkExpired';
+            break;
+          default:
+            errorKey = 'error';
+        }
+
+        showMessage.error(passwordChangeText(errorKey));
       }
     } catch (error) {
       if (error instanceof AxiosError) {

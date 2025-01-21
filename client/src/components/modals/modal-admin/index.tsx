@@ -43,13 +43,7 @@ export const ModalAdmin = ({
             className={classNameBtn}
           />
 
-          <Button
-            styleType="red"
-            onClick={onClose}
-            text={btnCancelText}
-            isLoading={isLoading}
-            className={classNameBtn}
-          />
+          <Button styleType="red" type="button" onClick={onClose} text={btnCancelText} className={classNameBtn} />
         </div>
       </div>
     </Overlay>

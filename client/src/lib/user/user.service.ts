@@ -275,16 +275,28 @@ class UserService extends BaseService {
     }
 
     const jwtToken = jwt.sign({ userId: targetUser._id }, process.env.SPACES_KEY!, {
-      expiresIn: '1m',
+      expiresIn: '1h',
     });
 
     const passwordChangeLink = `${baseUrl}/password-change?token=${jwtToken}`;
 
     await sendEmail({
       to: email,
-      subject: 'Resetting the password',
-      text: `Follow this link to change your password: ${passwordChangeLink}`,
-      html: `<p>Follow the link to change your password: <a href="${passwordChangeLink}">click</a></p>`,
+      subject: 'Запит на зміну пароля',
+      text: `Ви надіслали запит на зміну пароля. Перейдіть за цим посиланням, щоб виконати зміну: ${passwordChangeLink}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; padding: 20px; max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-radius: 8px;">
+          <h2 style="color: #0056b3; text-align: center;">Запит на зміну пароля</h2>
+          <p>Ви надіслали запит на зміну пароля. Натисніть кнопку нижче, щоб виконати зміну:</p>
+          <div style="text-align: center; margin: 20px 0;">
+            <a href="${passwordChangeLink}" target="_blank" style="display: inline-block; background-color: #007bff; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
+              Змінити пароль
+            </a>
+          </div>
+          <p style="font-size: 14px; color: #555;">Якщо ви не робили цей запит, просто ігноруйте цей лист або зверніться до служби підтримки.</p>
+          <p style="font-size: 14px; color: #777; text-align: center;">Дякуємо!</p>
+        </div>
+      `,
     });
 
     return { success: true, message: 'Email sent successfully' };
@@ -305,7 +317,7 @@ class UserService extends BaseService {
       const decode = jwt.verify(token, process.env.SPACES_KEY!) as { userId: string };
 
       if (!decode.userId) {
-        return { success: false, message: 'Invalid token' };
+        return { success: false, message: 'Invalid or missing token' };
       }
 
       const user = await Users.findById(decode.userId);

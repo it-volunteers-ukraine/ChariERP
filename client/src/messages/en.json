@@ -23,7 +23,11 @@
     "successSend": "The message has been sent",
     "errorSend": "Error sending a message",
     "userNotFound": "The user with the following email was not found",
-    "successChange": "Password changed successfully"
+    "successChange": "Password changed successfully",
+    "linkExpired": "Link expired",
+    "passwordRequired": "Password is required",
+    "notFound": "User not found",
+    "error": "There was an error changing your password, please try again later"
   },
   "sidebar": {
     "requests": "Requests",

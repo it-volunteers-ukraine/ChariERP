@@ -29,7 +29,6 @@ const LoginForm = ({ onSubmit, isLoading }: ILoginFormProps) => {
     setIsSendingEmail(true);
     try {
       if (typeof window !== 'undefined') {
-        //TODO дослідити проблему можливо перенести base_url в файл .env
         const baseUrl = window.location.origin;
 
         const response = await changePasswordSendEmailAction(email, baseUrl);
