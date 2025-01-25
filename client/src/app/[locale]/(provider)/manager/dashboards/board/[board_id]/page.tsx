@@ -2,10 +2,10 @@ import { Metadata } from 'next';
 import { cache } from 'react';
 import { cookies } from 'next/headers';
 
+import { IBoardServerColumns } from '@/types';
 import { WrapperColumns } from '@/components';
 import { boardColumnsNormalizer } from '@/utils';
 import { getBoardColumnsAction } from '@/actions';
-import { IBoardServerColumns, ResponseGetType } from '@/types';
 
 interface Props {
   params: { board_id: string };
@@ -16,10 +16,10 @@ export const getData = cache(async (boardId: string) => {
   const userId = cookiesStore.get('id')?.value;
 
   try {
-    const response = (await getBoardColumnsAction({
+    const response = await getBoardColumnsAction({
       boardId,
       userId: userId || '',
-    })) as ResponseGetType<string>;
+    });
 
     if (!response.success && !response.data) {
       throw new Error('Error data');

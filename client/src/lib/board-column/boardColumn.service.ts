@@ -104,10 +104,10 @@ class BoardColumnService extends BaseService {
 
     await Board.findByIdAndUpdate(boardId, { $push: { boardColumns: newColumn._id } });
 
-    return JSON.stringify({
+    return {
       success: true,
-      data: newColumn,
-    });
+      data: JSON.stringify(newColumn),
+    };
   }
 
   async deleteColumn({ boardId, userId, columnId }: IDeleteColumnProps) {
@@ -157,7 +157,7 @@ class BoardColumnService extends BaseService {
       $pull: { boardColumns: columnId },
     });
 
-    return JSON.stringify({ success: true, message: 'Column deleted' });
+    return { success: true, message: 'Column deleted' };
   }
 
   async changeColumnTitle({ boardId, userId, columnId, title }: IChangeColumnTitleProps) {
@@ -214,7 +214,7 @@ class BoardColumnService extends BaseService {
 
     const updatedColumn = await BoardColumn.findByIdAndUpdate(columnId, { $set: { title } });
 
-    return JSON.stringify({ success: true, data: updatedColumn });
+    return { success: true, data: updatedColumn };
   }
 
   async moveBoardColumn({ boardId, userId, sourceIndex, destinationIndex }: IMoveBoardColumnProps) {
@@ -257,10 +257,10 @@ class BoardColumnService extends BaseService {
 
     await Board.findByIdAndUpdate(boardId, { $set: { boardColumns: columns } });
 
-    return JSON.stringify({
+    return {
       success: true,
       message: 'Column successfully moved',
-    });
+    };
   }
 }
 

@@ -3,7 +3,7 @@
 import { showMessage } from '@/components';
 import { oneBoardColumnNormalizer } from '@/utils';
 import { createBoardColumnAction } from '@/actions';
-import { IBoardColumnTasks, IUseColumns, ResponseGetType } from '@/types';
+import { IUseColumns, ResponseGetType } from '@/types';
 
 import { IUseStateBoardColumns } from './types';
 interface ICreateColumnProps extends IUseStateBoardColumns {
@@ -13,16 +13,16 @@ interface ICreateColumnProps extends IUseStateBoardColumns {
 export const useAddColumn = ({ boardId, userId }: IUseColumns) => {
   const onAddColumn = async ({ title, response, setColumns }: ICreateColumnProps) => {
     try {
-      const res: ResponseGetType<IBoardColumnTasks> | string = await createBoardColumnAction({
+      const res: ResponseGetType = await createBoardColumnAction({
         title,
         boardId,
         userId,
       });
 
-      if (typeof res === 'string') {
-        const parsedResponse = JSON.parse(res);
+      if (res?.success && res?.data) {
+        const parsedResponse = JSON.parse(res.data);
 
-        setColumns([...response, oneBoardColumnNormalizer(parsedResponse.data)]);
+        setColumns([...response, oneBoardColumnNormalizer(parsedResponse)]);
 
         return;
       }
