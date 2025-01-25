@@ -33,10 +33,10 @@ export const Attachments = () => {
       <div className="flex items-center gap-2">
         <PaperClip />
 
-        <span className="font-scada text-[20px] font-bold text-lightBlue">ВКЛАДЕННЯ</span>
+        <h1 className="font-scada text-[20px] font-bold text-lightBlue">ВКЛАДЕННЯ</h1>
       </div>
 
-      <div className="flex flex-wrap gap-x-[7px] gap-y-[20px]">
+      <div className="flex flex-wrap gap-x-[7px] gap-y-[20px] tablet:gap-x-[20px]">
         <AddCard addFile={handleFileChange} />
 
         {files.map(({ file, preview }, index) => (

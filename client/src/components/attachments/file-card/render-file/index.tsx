@@ -16,7 +16,7 @@ export const RenderFile = ({ file, preview }: RenderFileProps) => {
         height={100}
         src={preview}
         alt={file.name}
-        className="h-full w-full rounded-t-[8px] object-cover"
+        className="h-full w-full scale-100 overflow-hidden rounded-t-[8px] object-cover transition-all duration-300 active:scale-125"
       />
     );
   }
