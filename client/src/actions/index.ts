@@ -1,3 +1,4 @@
+export { applyUserToBoardAction } from './boards/apply-user-to-board';
 export { changeColumnTitleAction } from './columns/change-column-title';
 export { createAdminAction } from './admin/create-admin';
 export { createBoardAction } from './boards/create-board';
@@ -14,6 +15,7 @@ export { editBoardAction } from './boards/edit-board';
 export { getAdminOrganizationsAction } from './admin/get-admin-organization';
 export { getAllUsersByOrganizationIdActions } from './user/get-all';
 export { getBoardColumnsAction } from './columns/get-board-columns';
+export { getBoardMembersAction } from './boards/get-board-members';
 export { getBoardsAction } from './boards/get-boards';
 export { getImageAction } from './image/get-server-image';
 export { getMeAction } from './user/get-me';
