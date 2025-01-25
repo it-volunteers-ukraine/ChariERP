@@ -6,7 +6,7 @@ export const getStyles = (active: boolean) => ({
     'group flex justify-between p-[16px_20px] tablet:p-[20px_24px] w-full cursor-pointer',
     active && 'text-dark-blue',
   ),
-  title: cn('text-[20px] text-lightBlue group-hover:text-dark-blue', active && 'text-dark-blue'),
+  title: cn('text-xl text-lightBlue group-hover:text-dark-blue', active && 'text-dark-blue'),
   plusWrapper: cn('text-[40px] transition-all duration-300 ease-in-out', active && 'rotate-45'),
   plus: cn('h-[24px] w-[24px] text-lightBlue group-hover:text-dark-blue', active && 'text-dark-blue'),
   textWrapper: cn(
