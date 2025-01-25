@@ -43,7 +43,7 @@ export const DotsWrapper = ({ download, removeFile }: DotsWrapperProps) => {
         </div>
 
         <div onClick={deleteFile} className={styles.option}>
-          <span className={styles.optionText}>{text('remove')}</span>
+          <span className={styles.optionText}>{text('delete')}</span>
 
           <Delete className={styles.icon} />
         </div>
