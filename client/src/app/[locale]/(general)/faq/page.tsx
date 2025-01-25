@@ -1,5 +1,7 @@
+import { FaqPage } from '@/components';
+
 const Faq = () => {
-  return <>FAQs</>;
+  return <FaqPage />;
 };
 
 export default Faq;
