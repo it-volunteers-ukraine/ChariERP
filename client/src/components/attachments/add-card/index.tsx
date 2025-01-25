@@ -9,7 +9,7 @@ export const AddCard = ({ addFile }: { addFile: (event: React.ChangeEvent<HTMLIn
 
   return (
     <Wrapper>
-      <label className="flex h-full w-full flex-col items-center justify-center">
+      <label className="flex h-full w-full cursor-pointer flex-col items-center justify-center">
         <Plus className="h-[40px] w-[40px] text-lynch/50" />
 
         <span className="text-lynch/50">{text('attachFile')}</span>
