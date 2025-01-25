@@ -223,3 +223,20 @@ export interface IBoardTaskColumn {
   title: string;
   tasks: ITaskColumns[];
 }
+
+export interface IGetBoardMembersProps {
+  userId: string;
+  boardId: string;
+}
+
+export interface IApplyUserToBoardProps {
+  userId: string;
+  boardId: string;
+  applyUserId: string;
+}
+
+export interface IRevokeUserToBoardProps {
+  userId: string;
+  boardId: string;
+  revokeUserId: string;
+}

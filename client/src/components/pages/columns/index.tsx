@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 
@@ -20,6 +20,7 @@ import {
   useDeleteColumn,
   useEditTitleColumn,
 } from './api';
+import { applyUserToBoardAction, getBoardMembersAction } from '@/actions';
 
 export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoardTaskColumn[] }) => {
   const { isManager, _id } = useUserInfo();
@@ -105,6 +106,13 @@ export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoard
       });
     }
   };
+
+  useEffect(() => {
+    if (id) {
+      applyUserToBoardAction({ userId: id, boardId, applyUserId: '6794badec6af6311f152d91a' });
+      getBoardMembersAction({ userId: id, boardId });
+    }
+  }, [id]);
 
   return (
     <div className="scroll-blue scroll-column flex h-[calc(100%-62px)] overflow-x-auto bg-white px-5 py-5">
