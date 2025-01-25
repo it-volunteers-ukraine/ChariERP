@@ -13,3 +13,7 @@ export interface IBoardColumn {
 export interface IBoardColumnTasks extends Omit<IBoardColumn, 'task_ids'> {
   task_ids: ITaskUsers[];
 }
+
+export interface IBoardServerColumns extends Omit<IBoardColumn, 'board_id' | 'task_ids'> {
+  boardColumns: IBoardColumnTasks[];
+}

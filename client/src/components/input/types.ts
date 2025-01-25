@@ -10,7 +10,7 @@ type CustomInput = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTML
 
 type CustomTextarea = DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>;
 
-type SearchValue = string | number | readonly string[] | undefined;
+export type SearchValue = string | number | readonly string[] | undefined;
 
 export interface InputProps extends Omit<CustomInput & CustomTextarea, 'ref'> {
   name: string;

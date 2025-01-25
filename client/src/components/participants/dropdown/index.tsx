@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
-import { IUsersNormalizer } from '@/types';
 import { debounce } from '@/utils';
+import { IUsersNormalizer } from '@/types';
 import { Close, Search } from '@/assets/icons';
 
 interface IDropdownListProps {

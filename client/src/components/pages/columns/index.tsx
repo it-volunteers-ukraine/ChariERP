@@ -8,6 +8,7 @@ import { cn } from '@/utils';
 import { TaskCard } from '@/components';
 import { useUserInfo } from '@/context';
 import { useOutsideClick } from '@/hooks';
+import { IBoardTaskColumn } from '@/types';
 
 import { ColumnTasks } from './column-tasks';
 import {
@@ -20,7 +21,7 @@ import {
   useEditTitleColumn,
 } from './api';
 
-export const Columns = ({ boardId }: { boardId: string }) => {
+export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoardTaskColumn[] }) => {
   const { isManager, _id } = useUserInfo();
   const refInput = useRef<HTMLInputElement>(null);
   const translateBtn = useTranslations('button');
@@ -30,7 +31,7 @@ export const Columns = ({ boardId }: { boardId: string }) => {
 
   const id = _id ? String(_id) : undefined;
 
-  const { response, setColumns, isLoadingColumns } = useColumns({ boardId, userId: id! });
+  const { response, setColumns, isLoading } = useColumns(columns);
   const { onAddColumn } = useAddColumn({ boardId, userId: id! });
   const { onEditTitleColumn } = useEditTitleColumn({ boardId, userId: id! });
   const { onDeleteColumn } = useDeleteColumn({ boardId, userId: id! });
@@ -159,7 +160,7 @@ export const Columns = ({ boardId }: { boardId: string }) => {
         </Droppable>
       </DragDropContext>
 
-      {!isLoadingColumns && (
+      {!isLoading && (
         <div className="flex h-full bg-white">
           {createColumn && (
             <div className="flex h-fit min-h-[254px] w-[254px] flex-col gap-y-3 rounded-md bg-whiteSecond px-4 py-5 shadow-boardColumn">

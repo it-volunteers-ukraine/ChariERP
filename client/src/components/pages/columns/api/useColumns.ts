@@ -1,46 +1,19 @@
 import { useEffect, useState } from 'react';
 
-import { showMessage } from '@/components';
-import { boardColumnsNormalizer } from '@/utils';
-import { getBoardColumnsAction } from '@/actions';
-import { IBoardColumnTasks, IUseColumns, ResponseGetType } from '@/types';
+import { IBoardTaskColumn } from '@/types';
 
-import { IBoardColumn } from './types';
-
-export const useColumns = ({ boardId, userId }: IUseColumns) => {
-  const [columns, setColumns] = useState<IBoardColumn[]>([]);
+export const useColumns = (boardColumns: IBoardTaskColumn[]) => {
+  const [columns, setColumns] = useState<IBoardTaskColumn[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const getColumns = async () => {
-    try {
-      const response: ResponseGetType<IBoardColumnTasks[]> | string = (await getBoardColumnsAction({
-        boardId,
-        userId,
-      })) as ResponseGetType<IBoardColumnTasks[]>;
-
-      if (!response?.success && response?.message && !response?.data) {
-        showMessage.error(response.message);
-
-        return;
-      }
-
-      if (typeof response === 'string') {
-        const parsedResponse = JSON.parse(response);
-
-        setColumns(boardColumnsNormalizer(parsedResponse?.data));
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
-    if (userId) {
-      getColumns();
+    if (boardColumns) {
+      setColumns(boardColumns);
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
     }
-  }, [userId]);
+  }, []);
 
-  return { response: columns, setColumns, isLoadingColumns: isLoading };
+  return { response: columns, setColumns, isLoading };
 };

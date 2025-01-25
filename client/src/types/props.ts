@@ -204,3 +204,22 @@ export interface IUpdateOrganizationByManager {
   formData: FormData;
   organizationId: string;
 }
+
+export interface IUserColumns {
+  id: string;
+  firstName: string;
+  lastName: string;
+  avatarUrl: string;
+}
+
+export interface ITaskColumns {
+  id: string;
+  title: string;
+  users: IUserColumns[];
+}
+
+export interface IBoardTaskColumn {
+  id: string;
+  title: string;
+  tasks: ITaskColumns[];
+}
