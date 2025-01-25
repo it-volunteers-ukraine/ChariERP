@@ -21,6 +21,12 @@
     "newPassword": "New password",
     "passwordConfirmation": "Password confirmation"
   },
+  "attachments": {
+    "title": "INCLUSIONS",
+    "attachFile": "Attach a file",
+    "download": "Download",
+    "delete": "Delete"
+  },
   "sidebar": {
     "requests": "Requests",
     "declined": "Declined",

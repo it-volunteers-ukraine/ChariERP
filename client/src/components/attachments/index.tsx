@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 import { PaperClip } from '@/assets/icons';
 
@@ -9,6 +10,8 @@ import { FileCard } from './file-card';
 
 export const Attachments = () => {
   const [files, setFiles] = useState<{ file: File; preview: string | null }[]>([]);
+
+  const text = useTranslations('attachments');
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files;
@@ -33,7 +36,7 @@ export const Attachments = () => {
       <div className="flex items-center gap-2">
         <PaperClip />
 
-        <h1 className="font-scada text-[20px] font-bold text-lightBlue">ВКЛАДЕННЯ</h1>
+        <h1 className="font-scada text-[20px] font-bold text-lightBlue">{text('title')}</h1>
       </div>
 
       <div className="flex flex-wrap gap-x-[7px] gap-y-[20px] tablet:gap-x-[20px]">
