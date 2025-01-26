@@ -1,4 +1,4 @@
 export interface RenderFileProps {
   file: File;
-  preview: string | null;
+  preview: string | undefined;
 }

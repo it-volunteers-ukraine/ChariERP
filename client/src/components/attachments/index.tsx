@@ -9,7 +9,7 @@ import { AddCard } from './add-card';
 import { FileCard } from './file-card';
 
 export const Attachments = () => {
-  const [files, setFiles] = useState<{ file: File; preview: string | null }[]>([]);
+  const [files, setFiles] = useState<{ file: File; preview: string | undefined }[]>([]);
 
   const text = useTranslations('attachments');
 
@@ -30,8 +30,6 @@ export const Attachments = () => {
   const handleRemoveFile = (indexToRemove: number) => {
     setFiles((prevFiles) => prevFiles.filter((_, index) => index !== indexToRemove));
   };
-
-  console.log({ files });
 
   return (
     <div className="flex flex-col gap-3 p-[10px_28px]">

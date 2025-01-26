@@ -9,7 +9,7 @@ import { Delete, Dots, Download } from '@/assets/icons';
 import { getStyles } from './styles';
 import { DotsWrapperProps } from './types';
 
-export const DotsWrapper = ({ download, removeFile }: DotsWrapperProps) => {
+export const DotsWrapper = ({ removeFile, preview, fileName }: DotsWrapperProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const text = useTranslations('attachments');
@@ -17,8 +17,7 @@ export const DotsWrapper = ({ download, removeFile }: DotsWrapperProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const styles = getStyles(isOpen);
 
-  const downloadFile = () => {
-    download();
+  const close = () => {
     setIsOpen(false);
   };
 
@@ -36,11 +35,11 @@ export const DotsWrapper = ({ download, removeFile }: DotsWrapperProps) => {
       </div>
 
       <div className={styles.optionsWrapper} ref={ref}>
-        <div onClick={downloadFile} className={styles.option}>
+        <a href={preview} download={fileName} onClick={close} className={styles.option}>
           <span className={styles.optionText}>{text('download')}</span>
 
           <Download />
-        </div>
+        </a>
 
         <div onClick={deleteFile} className={styles.option}>
           <span className={styles.optionText}>{text('delete')}</span>

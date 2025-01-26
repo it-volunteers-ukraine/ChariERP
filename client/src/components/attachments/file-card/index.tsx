@@ -7,22 +7,14 @@ export const FileCard = ({ file, preview, removeFile }: FileCardProps) => {
   const formattedDate = new Date().toLocaleDateString();
   const formattedTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-  const handleDownload = (fileUrl: string, fileName: string) => {
-    const link = document.createElement('a');
-
-    link.href = fileUrl;
-    link.download = fileName;
-    link.click();
-  };
-
   return (
     <Wrapper>
       <div className="relative h-full max-h-[88px] w-full">
-        <div className="flex h-full w-full items-center justify-center overflow-hidden">
+        <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-t-[8px]">
           <RenderFile file={file} preview={preview} />
         </div>
 
-        <DotsWrapper removeFile={removeFile} download={() => handleDownload(preview as string, file.name)} />
+        <DotsWrapper removeFile={removeFile} preview={preview} fileName={file.name} />
       </div>
 
       <div className="flex min-h-[48px] w-full flex-col gap-1 p-[4px_8px_8px]">

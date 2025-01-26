@@ -1,4 +1,5 @@
 export interface DotsWrapperProps {
-  download: () => void;
+  fileName: string;
   removeFile: () => void;
+  preview: string | undefined;
 }
