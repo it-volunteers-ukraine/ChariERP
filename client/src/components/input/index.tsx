@@ -127,6 +127,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
                 <input
                   type="file"
                   className={styles.fileType}
+                  disabled={disabled}
                   ref={ref as React.Ref<HTMLInputElement>}
                   onChange={(e) => onChange && onChange(e)}
                   {...props}
@@ -165,7 +166,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
               </div>
             )}
 
-            {type === 'date' && (
+            {type === 'date' && !disabled && (
               <div className={styles.div}>
                 <Calendar width={24} height={24} className={`${styles.iconEye} ${styles.iconClip}`} />
               </div>
@@ -175,7 +176,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
               <div className={styles.div}>
                 {!value && <Clip width={24} height={24} className={`${styles.iconEye} ${styles.iconClip}`} />}
 
-                {value && (
+                {value && !disabled && (
                   <InputClose
                     width={24}
                     height={24}
