@@ -235,7 +235,7 @@ export interface IApplyUserToBoardProps {
   applyUserId: string;
 }
 
-export interface IRevokeUserToBoardProps {
+export interface IRevokeUserFromBoardProps {
   userId: string;
   boardId: string;
   revokeUserId: string;

@@ -25,6 +25,7 @@ export { loginAction } from './login/log-in';
 export { moveBoardColumnAction } from './columns/move-columns';
 export { moveBoardsAction } from './boards/move-boards';
 export { moveTaskAction } from './tasks/move-task';
+export { removeUserFromBoardAction } from './boards/remove-user-from-board';
 export { updateMemberByIdAction } from './user/update-member-by-id';
 export { updateOrganizationAction } from './admin/update-organization';
 export { updateOrganizationByManagerAction } from './user/updateOrganization';
