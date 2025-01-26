@@ -30,6 +30,10 @@ class BoardColumnService extends BaseService {
         path: 'boardColumns',
         populate: {
           path: 'task_ids',
+          populate: {
+            path: 'users',
+            model: 'Users',
+          },
         },
       },
     });

@@ -1,10 +1,10 @@
 import {
-  IApplyUserToBoardProps,
-  IGetBoardMembersProps,
-  IRevokeUserToBoardProps,
+  Roles,
   IUsers,
   IUsersBoards,
-  Roles,
+  IGetBoardMembersProps,
+  IApplyUserToBoardProps,
+  IRevokeUserFromBoardProps,
 } from '@/types';
 import { IBoardData } from '@/components';
 
@@ -232,7 +232,7 @@ class BoardService extends BaseService {
       board_id: boardId,
     }).populate('user_id');
 
-    const isApplyUserInBoard = usersBoards.find((userBoard) => String(userBoard.user_id) === applyUserId);
+    const isApplyUserInBoard = usersBoards.find((userBoard) => String(userBoard.user_id._id) === applyUserId);
 
     if (isApplyUserInBoard) {
       return { success: false, message: 'User already in board' };
@@ -249,7 +249,11 @@ class BoardService extends BaseService {
     return { success: true, message: 'User added to board' };
   }
 
-  async revokeUserFromBoard({ userId, boardId, revokeUserId }: IRevokeUserToBoardProps) {
+  async revokeUserFromBoard({ userId, boardId, revokeUserId }: IRevokeUserFromBoardProps) {
+    if (userId === revokeUserId) {
+      return { success: false, message: 'You cannot remove yourself from the board' };
+    }
+
     if (!userId || !boardId || !revokeUserId) {
       return { success: false, message: 'userId and boardId and revokeUserId are required' };
     }
@@ -270,13 +274,13 @@ class BoardService extends BaseService {
       board_id: boardId,
     }).populate('user_id');
 
-    const isRevokeUserInBoard = usersBoards.find((userBoard) => String(userBoard.user_id) === revokeUserId);
+    const isRevokeUserInBoard = usersBoards.find((userBoard) => String(userBoard.user_id._id) === revokeUserId);
 
     if (!isRevokeUserInBoard) {
       return { success: false, message: 'User not in board' };
     }
 
-    await UsersBoards.deleteOne({ _id: isRevokeUserInBoard._id });
+    await UsersBoards.findOneAndDelete({ _id: isRevokeUserInBoard._id });
 
     return { success: true, message: 'User revoked from board' };
   }
