@@ -1,16 +1,17 @@
-import { Pdf, Docx, Svg, Xls, Xlsx, Txt, Csv, Mp3, Wav, Mp4, Rar, Zip } from '@/assets/icons';
+import { Pdf, DocNew, Docx, Svg, Xls, Xlsx, Txt, Csv, Mp3, Wav, Mp4, Rar, Zip } from '@/assets/icons';
 
 export const icon: Record<string, string> = {
   pdf: Pdf,
-  docx: Docx,
-  svg: Svg,
-  xls: Xls,
-  xlsx: Xlsx,
-  txt: Txt,
+  msword: DocNew,
+  'vnd.openxmlformats-officedocument.wordprocessingml.document': Docx,
+  'svg+xml': Svg,
+  'vnd.ms-excel': Xls,
+  'vnd.openxmlformats-officedocument.spreadsheetml.sheet': Xlsx,
+  plain: Txt,
   csv: Csv,
-  mp3: Mp3,
+  mpeg: Mp3,
   wav: Wav,
   mp4: Mp4,
-  rar: Rar,
-  zip: Zip,
+  'x-compressed': Rar,
+  'x-zip-compressed': Zip,
 };

@@ -15,6 +15,7 @@ export { default as CopyBoard } from './copy-board.svg';
 export { default as Csv } from './csv.svg';
 export { default as Delete } from './delete.svg';
 export { default as Doc } from './doc.svg';
+export { default as DocNew } from './doc-new.svg';
 export { default as Docx } from './docx.svg';
 export { default as Donations } from './donations.svg';
 export { default as Dots } from './dots.svg';

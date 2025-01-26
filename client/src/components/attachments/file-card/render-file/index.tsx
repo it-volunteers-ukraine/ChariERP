@@ -9,7 +9,7 @@ export const RenderFile = ({ file, preview }: RenderFileProps) => {
   const fileExtension = file.type.split('/').pop();
   const IconComponent = icon[fileExtension as keyof typeof icon];
 
-  if (file.type.startsWith('image/') && preview) {
+  if (file.type.startsWith('image/') && !file.type.startsWith('image/svg+xml') && preview) {
     return (
       <Image
         width={100}

@@ -31,6 +31,8 @@ export const Attachments = () => {
     setFiles((prevFiles) => prevFiles.filter((_, index) => index !== indexToRemove));
   };
 
+  console.log({ files });
+
   return (
     <div className="flex flex-col gap-3 p-[10px_28px]">
       <div className="flex items-center gap-2">
