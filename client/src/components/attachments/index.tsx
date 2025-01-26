@@ -17,12 +17,12 @@ export const Attachments = () => {
     const selectedFiles = event.target.files;
 
     if (selectedFiles) {
-      const newFiles = Array.from(selectedFiles).map((file) => ({
+      const newFile = Array.from(selectedFiles).map((file) => ({
         file,
         preview: URL.createObjectURL(file),
       }));
 
-      setFiles((prev) => [...prev, ...newFiles]);
+      setFiles((prev) => [...prev, ...newFile]);
       event.target.value = '';
     }
   };
@@ -36,7 +36,7 @@ export const Attachments = () => {
       <div className="flex items-center gap-2">
         <PaperClip />
 
-        <h1 className="font-scada text-[20px] font-bold text-lightBlue">{text('title')}</h1>
+        <h1 className="font-scada text-xl font-bold text-lightBlue">{text('title')}</h1>
       </div>
 
       <div className="flex flex-wrap gap-x-[7px] gap-y-[20px] tablet:gap-x-[20px]">

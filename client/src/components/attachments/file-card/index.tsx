@@ -26,11 +26,9 @@ export const FileCard = ({ file, preview, removeFile }: FileCardProps) => {
       </div>
 
       <div className="flex min-h-[48px] w-full flex-col gap-1 p-[4px_8px_8px]">
-        <h1 className="ellipsis overflow-hidden truncate font-roboto text-[14px] font-medium text-darkGray">
-          {file.name}
-        </h1>
+        <h1 className="ellipsis overflow-hidden truncate font-roboto text-sm font-medium text-darkGray">{file.name}</h1>
 
-        <div className="flex w-full items-center gap-[20px]">
+        <div className="flex w-full items-center gap-5">
           <span className="font-roboto text-[10px] leading-[120%]">{formattedDate}</span>
 
           <span className="font-roboto text-[10px] leading-[120%]">{formattedTime}</span>
