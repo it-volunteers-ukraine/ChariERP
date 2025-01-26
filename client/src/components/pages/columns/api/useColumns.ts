@@ -13,7 +13,7 @@ export const useColumns = (boardColumns: IBoardTaskColumn[]) => {
     } else {
       setIsLoading(true);
     }
-  }, []);
+  }, [boardColumns]);
 
   return { response: columns, setColumns, isLoading };
 };

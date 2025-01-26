@@ -4,10 +4,15 @@ import { useTranslations } from 'next-intl';
 
 import { onCopy } from '@/utils';
 import { Copy } from '@/assets/icons';
-import { EllipsisText, Input, Participants, useSearch } from '@/components';
+import { EllipsisText, Input, Participants } from '@/components';
 
-export const BoardTitle = ({ title }: { title: string }) => {
-  const { onChange, value } = useSearch();
+interface IBoardTitleProps {
+  title: string;
+  paramValue: string;
+  onChange: (name: string, value: string) => void;
+}
+
+export const BoardTitle = ({ title, paramValue, onChange }: IBoardTitleProps) => {
   const massageCopyTranslations = useTranslations('board');
 
   return (
@@ -30,8 +35,8 @@ export const BoardTitle = ({ title }: { title: string }) => {
         <Input
           type="search"
           name="search"
-          value={value}
           label="Search"
+          value={paramValue}
           onChange={(e) => onChange('search', e as string)}
         />
 
