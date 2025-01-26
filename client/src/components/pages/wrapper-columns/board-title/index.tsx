@@ -4,15 +4,18 @@ import { useTranslations } from 'next-intl';
 
 import { onCopy } from '@/utils';
 import { Copy } from '@/assets/icons';
-import { EllipsisText, Input, Participants } from '@/components';
+import { EllipsisText, Input } from '@/components';
+
+import { ParticipantsBoard } from '../participants-board';
 
 interface IBoardTitleProps {
   title: string;
+  boardId: string;
   paramValue: string;
   onChange: (name: string, value: string) => void;
 }
 
-export const BoardTitle = ({ title, paramValue, onChange }: IBoardTitleProps) => {
+export const BoardTitle = ({ title, paramValue, onChange, boardId }: IBoardTitleProps) => {
   const massageCopyTranslations = useTranslations('board');
 
   return (
@@ -32,15 +35,18 @@ export const BoardTitle = ({ title, paramValue, onChange }: IBoardTitleProps) =>
         </button>
       </div>
       <div>
-        <Input
-          type="search"
-          name="search"
-          label="Search"
-          value={paramValue}
-          onChange={(e) => onChange('search', e as string)}
-        />
-
-        <Participants users={[]} />
+        <div className="flex grow-0 gap-6">
+          <div className="max-w-[254px]">
+            <Input
+              type="search"
+              name="search"
+              label="Search"
+              value={paramValue}
+              onChange={(e) => onChange('search', e as string)}
+            />
+          </div>
+          <ParticipantsBoard boardId={boardId} />
+        </div>
       </div>
     </div>
   );

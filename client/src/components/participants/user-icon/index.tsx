@@ -23,8 +23,8 @@ export const UserIcon = ({ firstName, lastName, avatarUrl, props }: IMokUserIcon
         backgroundColor: `${color}`,
       }}
     >
-      {avatarUrl.length === 0 ? (
-        <span>{`${firstName[0]}${lastName[0]}`}</span>
+      {avatarUrl?.length === 0 ? (
+        <span>{`${firstName?.[0]}${lastName?.[0]}`}</span>
       ) : (
         <Image fill src={avatarUrl} alt="avatarUrl" className="aspect-square object-cover" />
       )}

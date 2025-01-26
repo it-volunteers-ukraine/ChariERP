@@ -32,7 +32,7 @@ export { ResponseWrapper } from './response';
 export { SmallBtn } from './small-button';
 export { SocialIcon } from './socialIcon';
 export { TaskCard } from './task-card';
-export { BoardTitle } from './board-title';
+export { BoardTitle } from './pages/wrapper-columns/board-title';
 export { Title } from './title';
 export { Toast, showMessage } from './toastify';
 export { ToolsDropMenu } from './tools-drop-menu';

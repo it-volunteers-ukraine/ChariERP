@@ -12,7 +12,7 @@ interface IWrapperColumnsProps {
 }
 
 export const WrapperColumns = ({ id, title, columns }: IWrapperColumnsProps) => {
-  const { onChange, params } = useSearch(0);
+  const { onChange, params } = useSearch();
 
   const search = params.search || '';
 
@@ -20,7 +20,7 @@ export const WrapperColumns = ({ id, title, columns }: IWrapperColumnsProps) => 
 
   return (
     <div className="relative flex h-[calc(100dvh-64px)] flex-col overflow-hidden bg-white desktop:h-[calc(100dvh-96px)]">
-      <BoardTitle title={title} paramValue={search} onChange={onChange} />
+      <BoardTitle title={title} paramValue={search} onChange={onChange} boardId={id} />
 
       <Columns boardId={id} columns={filteredColumns} />
     </div>

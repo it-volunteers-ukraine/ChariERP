@@ -3,13 +3,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 
-import { debounce } from '@/utils';
-
 const getDecodedValue = (value: string) => {
   return decodeURIComponent(value);
 };
 
-export const useSearch = (delay?: number) => {
+export const useSearch = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -17,7 +15,7 @@ export const useSearch = (delay?: number) => {
   const [paramsState, setParamsState] = useState<{ [key: string]: string | undefined }>({});
 
   const updateSearchParams = useCallback(
-    debounce((name: string, value: string) => {
+    (name: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString());
 
       if (value) {
@@ -27,7 +25,7 @@ export const useSearch = (delay?: number) => {
       }
 
       router.push(`${pathname}?${params.toString()}`);
-    }, delay),
+    },
     [router, pathname, searchParams],
   );
 
