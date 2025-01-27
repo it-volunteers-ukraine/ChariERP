@@ -125,12 +125,12 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
             {type === 'file' && (
               <>
                 <input
+                  {...props}
                   type="file"
-                  className={styles.fileType}
                   disabled={disabled}
+                  className={styles.fileType}
                   ref={ref as React.Ref<HTMLInputElement>}
                   onChange={(e) => onChange && onChange(e)}
-                  {...props}
                 />
 
                 <span className={styles.input}>{value || props.placeholder}</span>

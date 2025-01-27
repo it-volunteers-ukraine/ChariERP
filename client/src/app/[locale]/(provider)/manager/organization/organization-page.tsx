@@ -166,20 +166,18 @@ const OrganizationPage = () => {
               <div className="flex flex-col gap-9 desktop:gap-12">
                 {!isUser && (
                   <div className="flex items-start gap-x-3 border-t-[2px] border-lightBlue pt-[24px]">
-                    {isManager && (
-                      <>
-                        <Info width="24px" height="24px" className="text-lightBlue" />
-                        <span className="text-[14px] text-input-info">{text('mainInformation')}</span>
-                      </>
-                    )}
+                    <>
+                      <Info width="24px" height="24px" className="text-lightBlue" />
+                      <span className="text-[14px] text-input-info">{text('mainInformation')}</span>
+                    </>
                   </div>
                 )}
 
                 <Accordion
                   initialState
-                  classNameWrapper={cn('!gap-3', { 'mt-6': isUser })}
                   classNameTitle="text-[20px] uppercase"
                   title={text('title.basicInformation')}
+                  classNameWrapper={cn('!gap-3', { 'mt-6': isUser })}
                 >
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
@@ -204,12 +202,12 @@ const OrganizationPage = () => {
                       disabled={isUser}
                       placeholderItalic
                       name="certificate"
-                      wrapperClass={cn('laptop:!gap-12', {
-                        'laptop:max-w-[calc(50%-24px)]': isUser,
-                      })}
                       accept={'.pdf, .jpg, .jpeg, .png'}
                       label={text('certificateOfRegister.label')}
                       placeholder={text('certificateOfRegister.downloadDoc')}
+                      wrapperClass={cn('laptop:!gap-12', {
+                        'laptop:max-w-[calc(50%-24px)] pointer-events-none': isUser,
+                      })}
                       info={
                         !isUser && (
                           <div>
@@ -227,9 +225,9 @@ const OrganizationPage = () => {
                       disabled={isUser}
                       placeholderItalic
                       name="dateOfRegistration"
-                      wrapperClass="laptop:max-w-[calc(50%-24px)]"
                       label={text('dateOfRegisterOrganization.label')}
                       placeholder={text('dateOfRegisterOrganization.chooseDate')}
+                      wrapperClass={cn('laptop:max-w-[calc(50%-24px)]', { 'pointer-events-none': isUser })}
                     />
                   </div>
                 </Accordion>
@@ -244,8 +242,8 @@ const OrganizationPage = () => {
                     <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
                       <InputField
                         required
-                        disabled={isUser}
                         name="position"
+                        disabled={isUser}
                         label={text('positionOrganization.label')}
                       />
 
