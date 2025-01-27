@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { Form, Formik, FormikHelpers } from 'formik';
+import { Form, Formik } from 'formik';
 
 import { routes } from '@/constants';
 import { changePasswordAction } from '@/actions';
@@ -20,7 +20,6 @@ const PasswordChange = () => {
   const router = useRouter();
   const btn = useTranslations('button');
   const message = useTranslations('validation');
-  const errorText = useTranslations('errors.login');
   const passwordChangeText = useTranslations('password-change');
 
   const validationSchema = getValidationSchema(message);
@@ -40,7 +39,7 @@ const PasswordChange = () => {
     router.push(routes.home);
   };
 
-  const onSubmit = async (values: IValues, formikHelpers?: FormikHelpers<IValues>) => {
+  const onSubmit = async (values: IValues) => {
     setIsLoading(true);
 
     try {
@@ -51,15 +50,10 @@ const PasswordChange = () => {
       } else {
         showMessage.error(passwordChangeText(response.message));
       }
-    } catch (error: unknown) {
-      if (typeof error === 'object' && error !== null && 'response' in error) {
-        const responseMessage = (error as { response?: { data?: { message?: string } } }).response?.data?.message;
+    } catch (error) {
+      console.log(error);
 
-        formikHelpers?.setFieldError(
-          'password',
-          responseMessage ? errorText(responseMessage) : 'Unexpected error occurred.',
-        );
-      }
+      showMessage.error(passwordChangeText('error'));
     } finally {
       setIsLoading(false);
     }
