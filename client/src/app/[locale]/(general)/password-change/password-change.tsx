@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { AxiosError } from 'axios';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { Form, Formik, FormikHelpers } from 'formik';
@@ -52,11 +51,13 @@ const PasswordChange = () => {
       } else {
         showMessage.error(passwordChangeText(response.message));
       }
-    } catch (error) {
-      if (error instanceof AxiosError) {
+    } catch (error: unknown) {
+      if (typeof error === 'object' && error !== null && 'response' in error) {
+        const responseMessage = (error as { response?: { data?: { message?: string } } }).response?.data?.message;
+
         formikHelpers?.setFieldError(
           'password',
-          error.response?.data.message && errorText(error.response.data.message),
+          responseMessage ? errorText(responseMessage) : 'Unexpected error occurred.',
         );
       }
     } finally {
@@ -94,10 +95,10 @@ const PasswordChange = () => {
               />
 
               <Button
-                styleType="red"
                 type="button"
-                text={btn('decline')}
+                styleType="red"
                 className="uppercase"
+                text={btn('decline')}
                 onClick={handleCancel}
               />
             </div>

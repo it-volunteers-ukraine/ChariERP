@@ -19,6 +19,7 @@ import {
   ModalEnterEmail,
   employeeValidation,
 } from '@/components';
+import { cn } from '@/utils';
 import { useUserInfo } from '@/context';
 
 import { getStyles } from './styles';
@@ -154,7 +155,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                   classNameTitle="text-[20px] uppercase"
                   title={text('title.loginInformation')}
                 >
-                  <div className={`flex flex-col ${isCreate && 'gap-4 laptop:flex-row laptop:gap-12'}`}>
+                  <div className={cn('flex flex-col', { 'gap-4 laptop:flex-row laptop:gap-12': isCreate })}>
                     <InputField
                       required
                       name="email"

@@ -29,15 +29,19 @@ export const ModalEnterEmail = ({ isOpen, onClose }: IModalEnterEmail) => {
 
         if (response.success) {
           showMessage.success(messagePasswordReset('successSend'));
-        } else {
-          if (response.time) {
-            showMessage.error(messagePasswordReset(response.message, { time: response.time }));
-          } else {
-            showMessage.error(messagePasswordReset(response.message));
-          }
+
+          return;
         }
+
+        const errorMessage = response.time
+          ? messagePasswordReset(response.message, { time: response.time })
+          : messagePasswordReset(response.message);
+
+        showMessage.error(errorMessage);
       }
-    } catch {
+    } catch (error) {
+      console.log(error);
+
       showMessage.error(messagePasswordReset('errorSend'));
     } finally {
       setIsSendingEmail(false);
