@@ -77,20 +77,21 @@ export const Card = ({ teamsMember, setActiveCard, activeCard }: ICard) => {
                 <Location className={styles.iconLocation} />
                 <p className={styles.description}>{location}</p>
               </div>
+
               <div className={styles.linkWrapper}>
                 {social &&
                   socialKeys.map((key) => (
                     <a
                       key={key}
+                      target="_blank"
                       href={social[key]}
+                      className={styles.link}
+                      rel="noopener noreferrer"
                       onClick={(e) => {
                         if (!isLinkAllowed && isTouchDevice) {
                           e.preventDefault();
                         }
                       }}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.link}
                     >
                       <SocialIcon keyName={key} />
                     </a>

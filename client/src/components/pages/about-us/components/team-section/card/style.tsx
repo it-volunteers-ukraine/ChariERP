@@ -1,10 +1,14 @@
+import { cn } from '@/utils';
+
 const card = 'relative overflow-hidden rounded-2xl bg-bgCardTeam tablet:rounded-3xl text-center';
 
 export const getStyles = () => ({
-  cardContainer:
-    'card relative h-[208px] w-[156px] tablet:h-[286px] tablet:w-[218px]  desktop:h-[338px] desktop:w-[256px]',
+  cardContainer: cn(
+    'card',
+    'relative h-[208px] w-[156px] tablet:h-[286px] tablet:w-[218px]  desktop:h-[338px] desktop:w-[256px]',
+  ),
   cardSide: 'absolute h-full w-full shadow-teamCard overflow-hidden bg-bgSubCardTeam pl-2 pt-2 tablet:pl-3 tablet:pt-3',
-  side: 'side bg-bgSubCardTeam',
+  side: cn('side', 'bg-bgSubCardTeam'),
   decorativeHeader:
     'absolute clip-angled left-[7px] top-0 h-[27px] w-[150px] bg-bgDecorCardTeam tablet:left-[10px] tablet:h-[38px] tablet:w-[209px] desktop:h-[45px] desktop:w-[245px]',
   card: 'relative h-full w-full overflow-hidden rounded-2xl bg-bgCardTeam tablet:rounded-3xl text-center',
@@ -20,11 +24,14 @@ export const getStyles = () => ({
     'relative z-[1] text-[14px] leading-4 text-midGray tablet:text-[16px] tablet:leading-[20px] desktop:text-[20px] desktop:leading-[24px]',
   wrapperLocation: 'relative h-[90px] tablet:h-[104px] ',
   iconLocation: 'bg-yellow mx-auto mb-3 h-10 w-10 rounded-full px-[13px] py-[11px] text-white',
-  linkWrapper: 'flex justify-center tablet: gap-1 desktop:gap-5',
+  linkWrapper: 'flex justify-center tablet:gap-1 desktop:gap-5',
   link: 'z-[1] relative h-10 w-10 p-2 desktop:p-1 desktop:h-12 desktop:w-12 transition-all duration-300 ease-in-out desktop:hover:p-0 hover:p-1',
-  frontContent:
-    card + ' w-full h-full flex flex-col justify-between px-3 py-4 tablet:p-5 tablet:py-5 desktop:py-6 desktop:py-8 ',
-  backContent:
-    card +
-    ' w-full h-full flex flex-col justify-between px-3 py-[21px] tablet:py-5 tablet:pb-8 tablet:pt-[37px] tablet:px-5 desktop:pt-[59px] desktop:pb-8',
+  frontContent: cn(
+    card,
+    'w-full h-full flex flex-col justify-between px-3 py-4 tablet:p-5 tablet:py-5 desktop:py-6 desktop:py-8',
+  ),
+  backContent: cn(
+    card,
+    'w-full h-full flex flex-col justify-between px-3 py-[21px] tablet:py-5 tablet:pb-8 tablet:pt-[37px] tablet:px-5 desktop:pt-[59px] desktop:pb-8',
+  ),
 });

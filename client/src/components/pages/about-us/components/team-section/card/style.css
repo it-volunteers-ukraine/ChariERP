@@ -1,4 +1,4 @@
-:root {
+.card {
   --transition-duration: 0.8s;
   --gradient-color: linear-gradient(180deg, #b3e3fa 0%, #68bae0 100%);
   --card-thickness: 20px;
