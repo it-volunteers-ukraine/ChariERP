@@ -1,15 +1,7 @@
 import bcrypt from 'bcrypt';
 
-import { checkFieldsToUniqueOfOrganization, getPaginate } from '@/utils';
-import {
-  Roles,
-  IUsers,
-  UserStatus,
-  IOrganizationsUpdate,
-  OrganizationUpdateValues,
-  IUsersByOrganizationProps,
-  IUpdateOrganizationByManager,
-} from '@/types';
+import { getPaginate } from '@/utils';
+import { IAdmin, IUsers, IUsersByOrganizationProps, Roles, UserStatus } from '@/types';
 import { BucketFolders, deleteFileFromBucket, uploadFileToBucket } from '@/services';
 
 import { Admin, Organizations, Users } from '..';
@@ -17,6 +9,7 @@ import { ImageService } from '../image/image.service';
 import { BaseService } from '../database/base.service';
 
 import { getErrors, requiredUsers, requiredUsersUpdate } from './helpers';
+import { ObjectId } from 'mongoose';
 
 class UserService extends BaseService {
   imageService: ImageService;
@@ -28,9 +21,11 @@ class UserService extends BaseService {
 
   async createAdmin(email: string, password: string) {
     await this.connect();
-    const admins = await Admin.find();
+    const adminsNumber = await Admin.countDocuments();
 
-    if (admins.length > 0) {
+    if (adminsNumber > 0) {
+      console.warn(`An attempt to create an admin with email: ${email}`)
+
       return { message: 'Admin already exists', success: false };
     }
 
@@ -45,39 +40,40 @@ class UserService extends BaseService {
   async login(email: string, password: string) {
     await this.connect();
 
-    const user = await Users.findOne({ email });
-    const admin = await Admin.findOne({ email });
+    const [user, admin] = await Promise.all([
+      Users.findOne({ email }),
+      Admin.findOne({ email }),
+    ]);
 
     if (admin || user) {
-      const foundUser = admin || user;
+      let foundUser = admin || user;
 
       if (foundUser.status === UserStatus.BLOCKED) {
+        console.warn(`Attempt to sign in with blocked account for user: ${foundUser?._id}`)
+        
         return { success: false, message: 'blockedAccount' };
       }
 
       const compare = await bcrypt.compare(password, foundUser.password);
 
-      if (compare) {
-        let updatedUser;
-
-        if (foundUser.role !== Roles.ADMIN) {
-          updatedUser = await Users.findByIdAndUpdate(
-            foundUser._id,
-            {
-              $set: { lastLogin: new Date() },
-            },
-            {
-              new: true,
-            },
-          );
-
-          return { success: true, user: JSON.stringify(updatedUser) };
-        }
-
-        return { success: true, user: JSON.stringify(foundUser) };
+      if (!compare) {
+        return { success: false, message: 'userIncorrect' };
       }
 
-      return { success: false, message: 'userIncorrect' };
+      if (foundUser.role !== Roles.ADMIN) {
+        foundUser = await Users.findByIdAndUpdate(
+          foundUser._id,
+          {
+            $set: { lastLogin: new Date() },
+          },
+          {
+            new: true,
+          },
+        );
+      }
+      console.info(`User '${foundUser?._id}' successfully signed in`)
+      
+      return { success: true, user: JSON.stringify(foundUser) };
     }
 
     return { success: false, message: 'userNotFound' };
@@ -106,29 +102,31 @@ class UserService extends BaseService {
   }
 
   async getUserById(id: string) {
-    await this.connect();
+    const [admin, user] = await Promise.all([
+      Admin.findById(id),
+      Users.findById(id),
+    ]);
 
-    const admin = await Admin.findById(id);
+    const foundUser: IAdmin | IUsers = admin || user;
 
-    if (admin) {
-      return { success: true, user: JSON.stringify(admin) };
-    }
-
-    const user = await Users.findById(id);
-
-    if (user) {
-      return { success: true, user: JSON.stringify(user) };
-    }
-
-    return { success: false, message: 'User not found' };
+    return foundUser
+      ? { success: true, user: JSON.stringify(foundUser) }
+      : { success: false, message: 'User not found' };
   }
 
-  async getOrganizationMemberById(id: string, organizationId: string) {
+  async getOrganizationMemberById(userId: string, organizationId: string) {
     await this.connect();
 
-    const user = await Users.findById(id);
+    const [organizationExists, user] = await Promise.all([
+      Organizations.exists({ _id: organizationId }),
+      Users.findOne({ _id: userId, organizationId }).lean() as Promise<IUsers | null>,
+    ]);
 
-    if (organizationId !== String(user?.organizationId) || !user) {
+    if (!organizationExists) {
+      return { success: false, message: 'Organization was not found' };
+    }
+
+    if (!user) {
       return { success: false, message: 'User not found' };
     }
     let imageName;
@@ -139,6 +137,7 @@ class UserService extends BaseService {
       user.avatarUrl = response.success ? response.image : '';
       imageName = response.imageName;
     }
+    console.info(`User '${userId}' from organization '${organizationId}' is extracted from DB`)
 
     return { success: true, user: JSON.stringify(user), imageName };
   }
@@ -156,22 +155,17 @@ class UserService extends BaseService {
       return { success: false, message: errors };
     }
 
-    const isUserEmailExist = await Users.findOne({
-      email: data.email,
-    });
+    const [isUserEmailExist, isAdminEmailExist, organization] = await Promise.all([
+      Users.exists({ email: data.email }).lean(),
+      Admin.exists({ email: data.email }).lean(),
+      Organizations.findOne({ _id: organizationId }).lean(),
+    ]);
 
-    const isAdminEmailReceived = await Admin.findOne({ email: data.email });
-
-    if (isAdminEmailReceived || isUserEmailExist) {
+    if (isAdminEmailExist || isUserEmailExist) {
       return { success: false, message: 'Email already exists' };
     }
-
-    const organization = await Organizations.findOne({
-      _id: organizationId,
-    });
-
     if (!organization) {
-      return { success: false, message: `Organization  doesn't exist` };
+      return { success: false, message: `Organization doesn't exist` };
     }
 
     const hash = await bcrypt.hash(data.password, 10);
@@ -181,135 +175,24 @@ class UserService extends BaseService {
       password: hash,
       status: UserStatus.ACTIVE,
       avatarUrl: '',
-      organizationId: organizationId,
+      organizationId,
     };
 
     if (avatarUrl) {
-      const uploadedFileUrl = await uploadFileToBucket(organization._id, BucketFolders.Avatar, avatarUrl);
+      const uploadedFileUrl = await uploadFileToBucket(organizationId, BucketFolders.Avatar, avatarUrl);
 
       if (!uploadedFileUrl) {
         return { success: false, message: 'Image error update' };
       }
-
       body.avatarUrl = uploadedFileUrl;
     }
-    const user = new Users(body);
 
-    const newUser = await user.save();
+    const newUser = await Users.create(body);
 
-    await Organizations.findByIdAndUpdate(organizationId, {
-      $push: { users: newUser._id },
-    });
+    await Organizations.findByIdAndUpdate(organizationId, { $push: { users: newUser._id } });
+    console.info(`New user ${newUser.id} was created in organization '${organizationId}'`)
 
-    return { success: true, message: 'User created' };
-  }
-
-  async updateOrganizationByManager({ organizationId, userId, formData }: IUpdateOrganizationByManager) {
-    await this.connect();
-
-    if (!organizationId || !userId) {
-      return { success: false, message: 'organizationId and userId are required' };
-    }
-
-    const organization = await Organizations.findOne({
-      _id: organizationId,
-    }).populate('users');
-
-    if (!organization) {
-      return { success: false, message: 'Organization not found' };
-    }
-    const users = organization?.users || [];
-
-    const isAccessDenied = !users.some(
-      (user: IUsers) => String(user._id) === String(userId) && user.role === Roles.MANAGER,
-    );
-
-    if (isAccessDenied) {
-      return { success: false, message: 'User not found or access denied' };
-    }
-
-    const data = JSON.parse(formData.get('data') as string) as OrganizationUpdateValues;
-    const certificate = formData.get('certificate') as File;
-    const isNewCertificate = certificate && certificate?.size !== 1;
-
-    const isUserEmailExist = await Users.findOne({
-      email: data.email,
-      organizationId: { $ne: organizationId },
-    });
-
-    const isAdminEmailOccupied = await Admin.findOne({ email: data.email });
-
-    if (isUserEmailExist || isAdminEmailOccupied) {
-      const email = isAdminEmailOccupied?.email || isUserEmailExist?.email;
-
-      return { message: [email], success: false };
-    }
-
-    const organizationExist = await Organizations.find({
-      $or: [
-        { 'organizationData.edrpou': data.edrpou, _id: { $ne: organizationId } },
-        { 'contactData.email': data.email },
-      ],
-      _id: { $ne: organizationId },
-    });
-
-    if (organizationExist.length > 0) {
-      const matches = checkFieldsToUniqueOfOrganization(
-        {
-          email: data.email,
-          edrpou: data.edrpou,
-        },
-        organizationExist,
-      );
-
-      return { message: matches, success: false };
-    }
-
-    let uploadedFileUrl;
-
-    if (isNewCertificate) {
-      uploadedFileUrl = await uploadFileToBucket(organization._id, BucketFolders.CertificateOfRegister, certificate);
-
-      if (!uploadedFileUrl) {
-        return { message: 'error-upload', success: false };
-      }
-
-      const isDeleted = await deleteFileFromBucket(organization.organizationData.certificate);
-
-      if (!isDeleted) {
-        return { message: 'error-delete', success: false };
-      }
-    }
-
-    const body: IOrganizationsUpdate = {
-      request: data.request || organization.request,
-      organizationData: {
-        edrpou: data.edrpou || organization.organizationData.edrpou,
-        organizationName: data.organizationName || organization.organizationData.organizationName,
-        dateOfRegistration: data.dateOfRegistration || organization.organizationData.dateOfRegistration,
-        certificate: isNewCertificate ? (uploadedFileUrl as string) : organization.organizationData.certificate,
-      },
-      contactData: {
-        phone: data.phone || organization.contactData.phone,
-        email: data.email || organization.contactData.email,
-        position: data.position || organization.contactData.position,
-        lastName: data.lastName || organization.contactData.lastName,
-        firstName: data.firstName || organization.contactData.firstName,
-        middleName: data.middleName || organization.contactData.middleName,
-      },
-      mediaData: {
-        site: data.site || organization.mediaData.site,
-        social: data.social || organization.mediaData.social,
-      },
-    };
-
-    const response = await Organizations.findByIdAndUpdate(organizationId, { $set: body }, { new: true });
-
-    if (!response) {
-      return { success: false, message: 'Organization not updated' };
-    }
-
-    return { success: true, message: 'Organization updated', organization: JSON.stringify(response) };
+    return { success: true, message: 'User created', userId: newUser._id };
   }
 
   async updateMemberById(formData: FormData) {
@@ -317,13 +200,7 @@ class UserService extends BaseService {
 
     const avatarUrl = formData.get('avatarUrl') as File;
     const id = formData.get('id') as string;
-    const data = JSON.parse(formData.get('data') as string);
-
-    const user = await Users.findById(id);
-
-    if (!user) {
-      return { success: false, message: 'User not found' };
-    }
+    const data = JSON.parse(formData.get('data') as string) || '';
 
     const errors = getErrors(data, requiredUsersUpdate);
 
@@ -331,12 +208,18 @@ class UserService extends BaseService {
       return { success: false, message: errors };
     }
 
-    const emails = await Users.find({
+    const user = await Users.findById(id) as IUsers;
+
+    if (!user) {
+      return { success: false, message: 'User not found' };
+    }
+
+    const conflictingUsers = await Users.countDocuments({
       email: data.email,
       _id: { $ne: id },
     });
 
-    if (emails.length > 0) {
+    if (conflictingUsers > 0) {
       return { success: false, message: 'Email already exists' };
     }
 
@@ -345,37 +228,31 @@ class UserService extends BaseService {
       avatarUrl: user.avatarUrl,
     };
 
-    if (typeof avatarUrl === 'string' && !avatarUrl) {
-      const res = await deleteFileFromBucket(user.avatarUrl);
+    body.avatarUrl = await this.updateUserAvatar(user.avatarUrl, avatarUrl, user.organizationId);
 
-      if (res) {
-        body.avatarUrl = '';
-      } else {
-        return { success: false, message: 'Image error update' };
-      }
-    }
-
-    if (avatarUrl) {
-      if (user.avatarUrl) {
-        const res = await deleteFileFromBucket(user.avatarUrl);
-
-        if (!res) {
-          return { success: false, message: 'Image error update' };
-        }
-      }
-
-      const uploadedFileUrl = await uploadFileToBucket(user.organizationId, BucketFolders.Avatar, avatarUrl);
-
-      if (!uploadedFileUrl) {
-        return { success: false, message: 'Image error update' };
-      }
-
-      body.avatarUrl = uploadedFileUrl;
+    if (!body.avatarUrl) {
+      return { success: false, message: 'Image error update' };
     }
 
     const response = await Users.findByIdAndUpdate(id, { $set: body }, { new: true });
 
+    console.info(`User '${user.id}' was successfully updated`)
+
     return { success: true, message: 'User updated', user: JSON.stringify(response) };
+  }
+
+  async updateUserAvatar(existingAvatarUrl: string | undefined, newAvatar: File | undefined, organizationId: ObjectId) {
+    let isPreviousOperationSuccessful = true;
+
+    if (existingAvatarUrl) {
+      isPreviousOperationSuccessful = await deleteFileFromBucket(existingAvatarUrl);
+    }
+
+    if (isPreviousOperationSuccessful && newAvatar) {
+      return await this.imageService.uploadAvatar(newAvatar, organizationId as unknown as string);
+    }
+
+    return false;
   }
 }
 
