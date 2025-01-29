@@ -1,17 +1,23 @@
 /** @type {import('next').NextConfig} */
 
-const withNextIntl = require('next-intl/plugin')('./src/i18n.ts');
+import next_intl from 'next-intl/plugin';
+import { NextConfig } from 'next';
+
+const withNextIntl = next_intl('./src/i18n.ts');
 
 process.env.TZ = 'Europe/Kyiv';
 
-const nextConfig = {
+const nextConfig: NextConfig = {
   output: 'standalone',
-  experimental: {
-    instrumentationHook: true,
+  logging: {
+    fetches: {
+      fullUrl: true
+    }
   },
   webpack(config) {
     // Grab the existing rule that handles SVG imports
-    const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.('.svg'));
+    const fileLoaderRule = config.module.rules.find(
+      (rule: { test: { test: (arg0: string) => never; }; }) => rule.test?.test?.('.svg'));
 
     config.module.rules.push(
       // Reapply the existing rule, but only for svg imports ending in ?url
