@@ -74,14 +74,14 @@ export const organizationValidation = (error: (key: string, params?: Translation
     site: Yup.string()
       .trim()
       .matches(regExp.https, error('siteStart'))
-      .matches(regExp.domain, error('domain'))
+      .matches(regExp.domainUpLevel, error('domain'))
       .min(10, error('minPlural', { int: 10 }))
       .max(2000, error('maxPlural', { int: 2000 })),
     social: Yup.array().of(
       Yup.string()
         .trim()
         .matches(regExp.https, error('siteStart'))
-        .matches(regExp.domain, error('domain'))
+        .matches(regExp.domainUpLevel, error('domain'))
         .min(10, error('minPlural', { int: 10 }))
         .max(2000, error('maxPlural', { int: 2000 }))
         .test('isRequired', error('notEmpty'), (value, context) => {
