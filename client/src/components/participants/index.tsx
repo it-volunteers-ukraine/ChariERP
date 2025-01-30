@@ -20,13 +20,14 @@ interface IParticipantsProps {
   setIsDropdownOpen?: (bool: boolean) => void;
 }
 
+const maxUser = 5;
+
 export const Participants = ({ users, small, isDropdownOpen, setIsDropdownOpen, boardId }: IParticipantsProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const translate = useTranslations('globalPronouns');
 
   // const { addUsers } = useAddUser(boardId);
 
-  const maxUser = 5;
   const usersLength = users.length - maxUser;
 
   // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -46,7 +47,7 @@ export const Participants = ({ users, small, isDropdownOpen, setIsDropdownOpen, 
       <div className={styles.iconBox}>
         {users.slice(0, maxUser).map((user) => (
           <UserIcon
-            props={small}
+            small={small}
             lastName={user.lastName}
             avatarUrl={user.avatarUrl}
             firstName={user.firstName}

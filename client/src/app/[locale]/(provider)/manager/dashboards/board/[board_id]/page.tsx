@@ -1,5 +1,5 @@
-import { Metadata } from 'next';
 import { cache } from 'react';
+import { Metadata } from 'next';
 import { cookies } from 'next/headers';
 
 import { IBoardServerColumns } from '@/types';

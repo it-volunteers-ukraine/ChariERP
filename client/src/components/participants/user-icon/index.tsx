@@ -1,24 +1,25 @@
-import clsx from 'clsx';
 import Image from 'next/image';
 
 import { lettersToColor } from '@/utils';
 
-interface IMokUserIconProps {
-  props?: boolean;
+import { getStyles } from './styles';
+
+interface IUserIconProps {
+  small?: boolean;
   lastName: string;
   avatarUrl: string;
   firstName: string;
+  withoutRing?: boolean;
 }
 
-export const UserIcon = ({ firstName, lastName, avatarUrl, props }: IMokUserIconProps) => {
+export const UserIcon = ({ firstName, lastName, avatarUrl, small, withoutRing }: IUserIconProps) => {
   const color = lettersToColor(firstName, lastName);
+
+  const styles = getStyles({ small, withoutRing });
 
   return (
     <div
-      className={clsx(
-        `flex cursor-pointer items-center justify-center overflow-hidden rounded-full text-white ring-2 ring-white`,
-        { 'h-10 w-10 [&>span]:text-[16px]': props === undefined, 'h-6 w-6 [&>span]:text-[12px]': !!props },
-      )}
+      className={styles.wrapper}
       style={{
         backgroundColor: `${color}`,
       }}

@@ -14,12 +14,12 @@ export const ParticipantsBoard = ({ boardId }: { boardId: string }) => {
   console.log({ users });
 
   return (
-    <div className="flex items-center gap-8">
+    <div className="flex items-center gap-6">
       <Participants
         users={users}
+        boardId={boardId}
         isDropdownOpen={isDropdownOpen}
         setIsDropdownOpen={setIsDropdownOpen}
-        boardId={boardId}
       />
 
       <AddUsers className="cursor-pointer" onClick={() => setIsDropdownOpen(!isDropdownOpen)} />

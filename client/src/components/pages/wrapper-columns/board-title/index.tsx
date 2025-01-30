@@ -45,6 +45,7 @@ export const BoardTitle = ({ title, paramValue, onChange, boardId }: IBoardTitle
               onChange={(e) => onChange('search', e as string)}
             />
           </div>
+
           <ParticipantsBoard boardId={boardId} />
         </div>
       </div>

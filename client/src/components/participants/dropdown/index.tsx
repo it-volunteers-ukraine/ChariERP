@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { debounce } from '@/utils';
 import { IUsersNormalizer } from '@/types';
 import { Close, Search } from '@/assets/icons';
+import { UserIcon } from '../user-icon';
 
 interface IDropdownListProps {
   users: IUsersNormalizer[];
@@ -53,12 +54,20 @@ export const DropdownList = ({ users, setIsDropdownOpen }: IDropdownListProps) =
           .filter(({ firstName, lastName }) =>
             `${firstName} ${lastName}`.toLowerCase().includes(searchTerm.toLowerCase()),
           )
-          .map(({ id, firstName, lastName }) => {
+          .map(({ id, firstName, lastName, avatarUrl }) => {
             return (
-              <div key={id} className="flex gap-x-2 border-b-[1px] border-arcticSky p-[6px_8px] hover:bg-superBlue">
-                <div className="h-6 w-6 rounded-full bg-skyBlue text-center text-[12px] text-white">
-                  {`${firstName[0]}${lastName[0]}`}
-                </div>
+              <div
+                key={id}
+                className="flex cursor-pointer gap-x-2 border-b-[1px] border-arcticSky p-[6px_8px] hover:bg-superBlue"
+              >
+                <UserIcon
+                  small
+                  withoutRing
+                  lastName={lastName}
+                  avatarUrl={avatarUrl}
+                  firstName={firstName}
+                  key={`dropdown-${id}`}
+                />
 
                 <p className="line-clamp-1 max-w-[200px] break-all font-robotoCondensed text-base text-comet">
                   {`${firstName} ${lastName}`}
