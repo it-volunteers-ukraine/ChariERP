@@ -21,6 +21,12 @@
     "newPassword": "Новий пароль",
     "passwordConfirmation": "Підтвердження паролю"
   },
+  "attachments": {
+    "title": "ВКЛАДЕННЯ",
+    "attachFile": "Прикріпити файл",
+    "download": "Завантажити",
+    "delete": "Видалити"
+  },
   "sidebar": {
     "requests": "Заявки",
     "declined": "Відхилені",
