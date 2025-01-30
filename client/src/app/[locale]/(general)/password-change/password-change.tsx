@@ -1,54 +1,59 @@
 'use client';
 
-import { useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { Form, Formik, FormikHelpers } from 'formik';
+import { Form, Formik } from 'formik';
 
 import { routes } from '@/constants';
-import { Button, InputField, Title } from '@/components';
+import { changePasswordAction } from '@/actions';
+import { Button, InputField, showMessage, Title } from '@/components';
 
 import { getValidationSchema, initialValues } from './config';
+
+interface IValues {
+  newPassword: string;
+  passwordConfirmation: string;
+}
 
 const PasswordChange = () => {
   const router = useRouter();
   const btn = useTranslations('button');
   const message = useTranslations('validation');
-  const errorText = useTranslations('errors.login');
   const passwordChangeText = useTranslations('password-change');
 
   const validationSchema = getValidationSchema(message);
 
+  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const queryToken = new URLSearchParams(window.location.search).get('token');
+
+      setToken(queryToken);
+    }
+  }, []);
+
   const handleCancel = () => {
-    //TODO select a route
-    router.push(routes.employees);
+    router.push(routes.home);
   };
 
-  const onSubmit = async (
-    values: { newPassword: string; passwordConfirmation: string },
-    formikHelpers?: FormikHelpers<{ newPassword: string; passwordConfirmation: string }>,
-  ) => {
+  const onSubmit = async (values: IValues) => {
     setIsLoading(true);
 
     try {
-      //TODO create fetch
-      await axios.post('', {
-        newPassword: values.newPassword,
-        passwordConfirmation: values.passwordConfirmation,
-      });
-      //TODO set cookies
-      // Cookies.set('id', data._id, { expires: 7 });
-      //router.push(routes);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        formikHelpers?.setFieldError(
-          'password',
-          error.response?.data.message && errorText(error.response.data.message),
-        );
+      const response = await changePasswordAction(token, values.passwordConfirmation);
+
+      if (response.success) {
+        showMessage.success(passwordChangeText('successChange'));
+      } else {
+        showMessage.error(passwordChangeText(response.message));
       }
+    } catch (error) {
+      console.log(error);
+
+      showMessage.error(passwordChangeText('error'));
     } finally {
       setIsLoading(false);
     }
@@ -84,13 +89,11 @@ const PasswordChange = () => {
               />
 
               <Button
+                type="button"
                 styleType="red"
-                text={btn('decline')}
                 className="uppercase"
-                isLoading={isLoading}
-                onClick={() => {
-                  handleCancel();
-                }}
+                text={btn('decline')}
+                onClick={handleCancel}
               />
             </div>
           </Form>

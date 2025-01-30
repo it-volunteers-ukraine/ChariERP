@@ -10,12 +10,12 @@ export const getValidationSchema = (error: (key: string, params?: TranslationVal
   Yup.object().shape({
     newPassword: Yup.string()
       .trim()
-      .required(error('required'))
       .min(8, error('minPlural', { int: 8 }))
       .max(20, error('maxPlural', { int: 20 }))
-      .matches(/^[^\u0400-\u04FF]+$/, error('matches_english', { field: 'Password' })),
-    passwordConfirmation: Yup.string()
-      .trim()
-      .required(error('required'))
-      .oneOf([Yup.ref('newPassword')], error('passwordMismatch')),
+      .matches(/[a-z]/, error('mustContainLowercase'))
+      .matches(/[A-Z]/, error('mustContainUppercase'))
+      .matches(/[0-9]/, error('mustContainNumber'))
+      .matches(/[!@#$%^&*()_+=[\]{}|;:'",.<>/?-]/, error('mustContainSymbol'))
+      .matches(/^[a-zA-Z0-9!@#$%^&*()_+=[\]{}|;:'",.<>/?-]+$/, error('invalidCharacters'))
+      .required(error('required')),
   });
