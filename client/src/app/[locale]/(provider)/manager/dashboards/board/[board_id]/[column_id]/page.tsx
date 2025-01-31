@@ -3,11 +3,13 @@ import { redirect } from 'next/navigation';
 import { routes } from '@/constants';
 
 interface Props {
-  params: { board_id: string };
+  params: Promise<{ board_id: string }>;
 }
 
-const ColumnId = ({ params }: Props) => {
-  return redirect(`${routes.managerDashboard}/${params.board_id}`);
+const ColumnId = async ({ params }: Props) => {
+  const { board_id } = await params
+
+  return redirect(`${routes.managerDashboard}/${board_id}`);
 };
 
 export default ColumnId;

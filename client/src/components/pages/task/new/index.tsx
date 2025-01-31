@@ -20,14 +20,15 @@ const task = {
   description: 'Task description',
 };
 
-export const NewTask = ({ params }: TaskPageParamsProps) => {
+export const NewTask = async ({ params }: TaskPageParamsProps) => {
   const { isManager, _id } = useUserInfo();
 
   const [title, setTitle] = useState('');
 
   const id = _id ? String(_id) : undefined;
+  const { board_id, column_id } = await params
 
-  const { addTask } = useAddTask({ userId: id!, boardId: params.board_id, columnId: params.column_id });
+  const { addTask } = useAddTask({ userId: id!, boardId: board_id, columnId: column_id });
 
   const onSubmit = async () => {
     await addTask({ ...task, title });
@@ -38,7 +39,7 @@ export const NewTask = ({ params }: TaskPageParamsProps) => {
       {isManager ? (
         <Task title={title} setTitle={setTitle} isCreate onSubmit={onSubmit} />
       ) : (
-        redirect(`${routes.managerDashboard}/${params.board_id}`)
+        redirect(`${routes.managerDashboard}/${board_id}`)
       )}
     </>
   );

@@ -31,7 +31,7 @@ export const Card = ({ teamsMember, setActiveCard, activeCard }: ICard) => {
   const locale = useLocale();
   const styles = getStyles();
   const isLinkAllowed = id === activeCard;
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const socialKeys = Object.keys(social ?? {}).slice(0, 3);
   const images: { [key: string]: StaticImageData } = Images;
   const imageSrc = url && images[url] ? images[url] : images.default;
@@ -39,7 +39,7 @@ export const Card = ({ teamsMember, setActiveCard, activeCard }: ICard) => {
 
   const [firstName, lastName] = locale === 'ua' ? name.split(' ') : nameEn.split(' ');
 
-  useOutsideClick(() => isTouchDevice && handleToggler(), [wrapperRef]);
+  useOutsideClick(() => isTouchDevice && handleToggler(), wrapperRef);
 
   const handleToggler = (id?: string) => {
     setActiveCard(id || '');
