@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { JSX, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';

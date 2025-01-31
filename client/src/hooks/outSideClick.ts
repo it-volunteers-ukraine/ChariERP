@@ -2,7 +2,7 @@
 
 import { RefObject, useEffect } from 'react';
 
-type OutsideClickRef = RefObject<HTMLElement> | RefObject<HTMLElement>[] | null;
+type OutsideClickRef = RefObject<HTMLElement> | RefObject<HTMLElement>[] | RefObject<HTMLDivElement> | RefObject<null>;
 
 const useOutsideClick = (callback: () => void, refs: OutsideClickRef) => {
   const refArray = Array.isArray(refs) ? refs : [refs];

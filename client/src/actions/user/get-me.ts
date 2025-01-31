@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 import { userService } from '@/lib';
 
 export async function getMeAction() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const id = cookieStore.get('id');
 
   try {

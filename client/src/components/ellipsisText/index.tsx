@@ -9,7 +9,7 @@ import {
   cloneElement,
   ReactElement,
   CSSProperties,
-  isValidElement,
+  isValidElement, DOMAttributes,
 } from 'react';
 
 import { useOutsideClick } from '@/hooks';
@@ -45,7 +45,7 @@ export const EllipsisText = ({
   const checkTargetEllipsis = () => {
     if (!targetRef.current) return;
 
-    const element = targetRef.current as HTMLElement;
+    const element = targetRef.current;
 
     const offsetHeight = element.offsetHeight || 0;
     const scrollHeight = element.scrollHeight || 0;
@@ -188,7 +188,7 @@ export const EllipsisText = ({
               setIsOpen(true);
             }
           : undefined,
-      });
+      } as DOMAttributes<never>);
     }
 
     return child;

@@ -1,6 +1,6 @@
 'use server';
 
-import { userService } from '@/lib';
+import { organizationService } from '@/lib';
 import { IUpdateOrganizationByManager } from '@/types';
 
 export async function updateOrganizationByManagerAction({
@@ -9,7 +9,7 @@ export async function updateOrganizationByManagerAction({
   organizationId,
 }: IUpdateOrganizationByManager) {
   try {
-    return await userService.updateOrganizationByManager({
+    return await organizationService.updateOrganizationByManager({
       userId,
       formData,
       organizationId,
