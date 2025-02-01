@@ -5,5 +5,8 @@ export { default as ivanishchevaAlina } from './ivanishchevaAlina.jpg';
 export { default as kostyriaVladyslav } from './kostyriaVladyslav.jpg';
 export { default as kyrychenkoRoman } from './kyrychenkoRoman.png';
 export { default as kyslytsiaDenys } from './kyslytsiaDenys.jpg';
+export { default as pavlovEvhen } from './pavlovEvhen.png';
 export { default as pupkovaKateryna } from './pupkovaKateryna.jpg';
+export { default as teslenkoAndriy } from './teslenkoAndriy.png';
+export { default as verbivskaOlha } from './verbivskaOlha.png';
 export { default as voronkoSerhii } from './voronkoSerhii.jpg';

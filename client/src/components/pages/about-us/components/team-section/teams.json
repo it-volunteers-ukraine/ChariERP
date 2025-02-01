@@ -34,7 +34,8 @@
       "linkedin": "https://www.linkedin.com/in/evgen-pavlov-916475171",
       "telegram": "https://t.me/evgeniy_x100"
     },
-    "role": "QA engineer"
+    "role": "QA engineer",
+    "url": "pavlovEvhen"
   },
   {
     "id": "4",
@@ -81,7 +82,8 @@
       "telegram": "https://t.me/asazi",
       "website": "https://asazi.framer.website"
     },
-    "role": "Designer"
+    "role": "Designer",
+    "url": "verbivskaOlha"
   },
   {
     "id": "8",
@@ -155,6 +157,13 @@
   },
   {
     "id": "14",
+    "name": "Андрій Тесленко",
+    "nameEn": "Andriy Teslenko",
+    "url": "teslenkoAndriy",
+    "role": "Role"
+  },
+  {
+    "id": "15",
     "name": "Дмитро Давидюк",
     "nameEn": "Dmytro Davydiuk",
     "location": "Покров / Харків",
