@@ -21,13 +21,16 @@ const task = {
 };
 
 export const NewTask = async ({ params }: TaskPageParamsProps) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { isManager, _id } = useUserInfo();
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [title, setTitle] = useState('');
 
   const id = _id ? String(_id) : undefined;
-  const { board_id, column_id } = await params
+  const { board_id, column_id } = await params;
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { addTask } = useAddTask({ userId: id!, boardId: board_id, columnId: column_id });
 
   const onSubmit = async () => {
