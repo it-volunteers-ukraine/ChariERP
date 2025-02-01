@@ -11,17 +11,14 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   logging: {
     fetches: {
-      fullUrl: true
-    }
+      fullUrl: true,
+    },
   },
-  // typescript: {
-  //   ignoreBuildErrors: true,
-  // },
-
   webpack(config) {
     // Grab the existing rule that handles SVG imports
-    const fileLoaderRule = config.module.rules.find(
-      (rule: { test: { test: (arg0: string) => never; }; }) => rule.test?.test?.('.svg'));
+    const fileLoaderRule = config.module.rules.find((rule: { test: { test: (arg0: string) => never } }) =>
+      rule.test?.test?.('.svg'),
+    );
 
     config.module.rules.push(
       // Reapply the existing rule, but only for svg imports ending in ?url
