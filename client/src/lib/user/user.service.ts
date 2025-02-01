@@ -24,7 +24,7 @@ class UserService extends BaseService {
     const adminsNumber = await Admin.countDocuments();
 
     if (adminsNumber > 0) {
-      console.warn(`An attempt to create an admin with email: ${email}`)
+      console.warn(`An attempt to create an admin with email: ${email}`);
 
       return { message: 'Admin already exists', success: false };
     }
@@ -40,17 +40,14 @@ class UserService extends BaseService {
   async login(email: string, password: string) {
     await this.connect();
 
-    const [user, admin] = await Promise.all([
-      Users.findOne({ email }),
-      Admin.findOne({ email }),
-    ]);
+    const [user, admin] = await Promise.all([Users.findOne({ email }), Admin.findOne({ email })]);
 
     if (admin || user) {
       let foundUser = admin || user;
 
       if (foundUser.status === UserStatus.BLOCKED) {
-        console.warn(`Attempt to sign in with blocked account for user: ${foundUser?._id}`)
-        
+        console.warn(`Attempt to sign in with blocked account for user: ${foundUser?._id}`);
+
         return { success: false, message: 'blockedAccount' };
       }
 
@@ -71,8 +68,8 @@ class UserService extends BaseService {
           },
         );
       }
-      console.info(`User '${foundUser?._id}' successfully signed in`)
-      
+      console.info(`User '${foundUser?._id}' successfully signed in`);
+
       return { success: true, user: JSON.stringify(foundUser) };
     }
 
@@ -102,10 +99,7 @@ class UserService extends BaseService {
   }
 
   async getUserById(id: string) {
-    const [admin, user] = await Promise.all([
-      Admin.findById(id),
-      Users.findById(id),
-    ]);
+    const [admin, user] = await Promise.all([Admin.findById(id), Users.findById(id)]);
 
     const foundUser: IAdmin | IUsers = admin || user;
 
@@ -137,7 +131,7 @@ class UserService extends BaseService {
       user.avatarUrl = response.success ? response.image : '';
       imageName = response.imageName;
     }
-    console.info(`User '${userId}' from organization '${organizationId}' is extracted from DB`)
+    console.info(`User '${userId}' from organization '${organizationId}' is extracted from DB`);
 
     return { success: true, user: JSON.stringify(user), imageName };
   }
@@ -190,7 +184,7 @@ class UserService extends BaseService {
     const newUser = await Users.create(body);
 
     await Organizations.findByIdAndUpdate(organizationId, { $push: { users: newUser._id } });
-    console.info(`New user ${newUser.id} was created in organization '${organizationId}'`)
+    console.info(`New user ${newUser.id} was created in organization '${organizationId}'`);
 
     return { success: true, message: 'User created', userId: newUser._id };
   }
@@ -208,7 +202,7 @@ class UserService extends BaseService {
       return { success: false, message: errors };
     }
 
-    const user = await Users.findById(id) as IUsers;
+    const user = (await Users.findById(id)) as IUsers;
 
     if (!user) {
       return { success: false, message: 'User not found' };
@@ -236,7 +230,7 @@ class UserService extends BaseService {
 
     const response = await Users.findByIdAndUpdate(id, { $set: body }, { new: true });
 
-    console.info(`User '${user.id}' was successfully updated`)
+    console.info(`User '${user.id}' was successfully updated`);
 
     return { success: true, message: 'User updated', user: JSON.stringify(response) };
   }

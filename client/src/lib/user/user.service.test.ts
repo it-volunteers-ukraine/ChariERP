@@ -106,7 +106,6 @@ async function createValidUserDataForUpdate() {
 }
 
 describe('User Service:', () => {
-
   describe('Create Admin operation', () => {
     it('should NOT create admin when exist', async () => {
       // given
@@ -283,7 +282,10 @@ describe('User Service:', () => {
       const existingUser = await createUser(randomOrgId as never);
 
       // when
-      const getByOrgAndUserIdResult = await userService.getOrganizationMemberById(existingUser.id, randomOrgId.toHexString());
+      const getByOrgAndUserIdResult = await userService.getOrganizationMemberById(
+        existingUser.id,
+        randomOrgId.toHexString(),
+      );
 
       // then
       expect(getByOrgAndUserIdResult.success).toBeFalsy();
@@ -296,7 +298,10 @@ describe('User Service:', () => {
       const randomUserId = new mongoose.Types.ObjectId();
 
       // when
-      const getByOrgAndUserIdResult = await userService.getOrganizationMemberById(randomUserId.toHexString(), organization.id);
+      const getByOrgAndUserIdResult = await userService.getOrganizationMemberById(
+        randomUserId.toHexString(),
+        organization.id,
+      );
 
       // then
       expect(getByOrgAndUserIdResult.success).toBeFalsy();
@@ -307,8 +312,7 @@ describe('User Service:', () => {
   describe('Create user by organisation ID', () => {
     it('should create a user if the organisation exist', async () => {
       // given
-      const s3BucketMock = jest.spyOn(s3BucketClient, 'uploadFileToBucket')
-        .mockResolvedValue('some-response-url');
+      const s3BucketMock = jest.spyOn(s3BucketClient, 'uploadFileToBucket').mockResolvedValue('some-response-url');
 
       const organization = await createOrganization();
 
@@ -372,7 +376,7 @@ describe('User Service:', () => {
 
       // then
       expect(createUserResult.success).toBeFalsy();
-      expect(createUserResult.message).toEqual('Organization doesn\'t exist');
+      expect(createUserResult.message).toEqual("Organization doesn't exist");
     });
 
     it('should NOT create a user when an avatar image upload FALSE response received', async () => {
@@ -457,7 +461,7 @@ describe('User Service:', () => {
       const user = await createUser(organization._id);
       const clone = user.$clone();
 
-      clone._id = (new mongoose.Types.ObjectId() as never);
+      clone._id = new mongoose.Types.ObjectId() as never;
       clone.isNew = true;
       clone.email = faker.internet.email();
       const userForUpdate = await clone.save();
@@ -549,7 +553,7 @@ describe('User Service:', () => {
       const uploadAvatarResult = await userService.updateUserAvatar(undefined, undefined, organizationId);
 
       // then
-      expect(uploadAvatarResult).toBeFalsy()
+      expect(uploadAvatarResult).toBeFalsy();
       expect(s3BucketMock).not.toHaveBeenCalled();
     });
   });
