@@ -4,11 +4,13 @@ import { useRef } from 'react';
 import { useLocale } from 'next-intl';
 import Image, { StaticImageData } from 'next/image';
 
+import { cn } from '@/utils';
 import { useOutsideClick } from '@/hooks';
 import { Location } from '@/assets/icons';
 import { SocialIcon } from '@/components';
 import * as Images from '@/assets/about-us';
 
+import './style.css';
 import { getStyles } from './style';
 
 interface ICard {
@@ -46,51 +48,63 @@ export const Card = ({ teamsMember, setActiveCard, activeCard }: ICard) => {
   };
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.cardWrapper} ref={wrapperRef} onClick={() => handleToggler(id)}>
-        <div className={styles.decorativeWrapper}></div>
-        <div className={styles.card}>
-          <div className={styles.decorativeCircle}></div>
-          <div className={styles.decorativeBigCircle}></div>
+    <>
+      <div className={styles.cardContainer} ref={wrapperRef} onClick={() => handleToggler(id)}>
+        <div className="wrapper">
+          <div className={cn(styles.cardSide, 'front', 'rounded-custom')}>
+            <div className={styles.decorativeHeader}></div>
 
-          <div className={styles.cardFrontSide}>
-            <div className={styles.wrapperPhoto}>
-              <Image alt="Photo" src={imageSrc} className={styles.img} />
-            </div>
+            <div className={styles.frontContent}>
+              <div className={styles.decorativeCircle}></div>
+              <div className={styles.decorativeBigCircle}></div>
 
-            <p className={styles.name}>{firstName}</p>
-            <p className={styles.name}>{lastName}</p>
-
-            <p className={styles.description}>{role}</p>
-          </div>
-
-          <div className={styles.cardBackSide}>
-            <div className={styles.wrapperLocation}>
-              <Location className={styles.iconLocation} />
-              <p className={styles.description}>{location}</p>
-            </div>
-            <div className={styles.linkWrapper}>
-              {social &&
-                socialKeys.map((key) => (
-                  <a
-                    key={key}
-                    href={social[key]}
-                    onClick={(e) => {
-                      if (!isLinkAllowed && isTouchDevice) {
-                        e.preventDefault();
-                      }
-                    }}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.link}
-                  >
-                    <SocialIcon keyName={key} />
-                  </a>
-                ))}
+              <div className={styles.wrapperPhoto}>
+                <Image alt="Photo" src={imageSrc} className={styles.img} />
+              </div>
+              <p className={styles.name}>{firstName}</p>
+              <p className={styles.name}>{lastName}</p>
+              <p className={styles.description}>{role}</p>
             </div>
           </div>
+          <div className={cn(styles.cardSide, 'back', 'rounded-custom-back')}>
+            <div className={styles.decorativeHeader}></div>
+
+            <div className={styles.backContent}>
+              <div className={styles.decorativeCircle}></div>
+              <div className={styles.decorativeBigCircle}></div>
+
+              <div className={styles.wrapperLocation}>
+                <Location className={styles.iconLocation} />
+                <p className={styles.description}>{location}</p>
+              </div>
+
+              <div className={styles.linkWrapper}>
+                {social &&
+                  socialKeys.map((key) => (
+                    <a
+                      key={key}
+                      target="_blank"
+                      href={social[key]}
+                      className={styles.link}
+                      rel="noopener noreferrer"
+                      onClick={(e) => {
+                        if (!isLinkAllowed && isTouchDevice) {
+                          e.preventDefault();
+                        }
+                      }}
+                    >
+                      <SocialIcon keyName={key} />
+                    </a>
+                  ))}
+              </div>
+            </div>
+          </div>
+          <div className="back-bottom-layer rounded-custom-back"></div>
+          <div className="front-bottom-layer rounded-custom"></div>
+          <div className="left"></div>
+          <div className="right"></div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
