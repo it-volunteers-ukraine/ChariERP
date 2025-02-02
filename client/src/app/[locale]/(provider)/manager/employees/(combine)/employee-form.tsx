@@ -173,7 +173,10 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                           className="mt-1 py-[14.5px]"
                           onClick={() => setIsOpenModalResetPassword(true)}
                         />
-                        <ModalEnterEmail isOpen={isOpenModalResetPassword} onClose={setIsOpenModalResetPassword} />
+                        <ModalEnterEmail
+                          isOpen={isOpenModalResetPassword}
+                          onClose={() => setIsOpenModalResetPassword(false)}
+                        />
                       </>
                     )}
                   </div>

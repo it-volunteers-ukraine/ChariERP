@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { Form, Formik } from 'formik';
+import { useTranslations } from 'next-intl';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { routes } from '@/constants';
 import { changePasswordAction } from '@/actions';
@@ -18,22 +18,16 @@ interface IValues {
 
 const PasswordChange = () => {
   const router = useRouter();
+
+  const token = useSearchParams().get('token');
+
   const btn = useTranslations('button');
   const message = useTranslations('validation');
   const passwordChangeText = useTranslations('password-change');
 
   const validationSchema = getValidationSchema(message);
 
-  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const queryToken = new URLSearchParams(window.location.search).get('token');
-
-      setToken(queryToken);
-    }
-  }, []);
 
   const handleCancel = () => {
     router.push(routes.home);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Formik, FormikValues } from 'formik';
 
@@ -19,26 +19,30 @@ export const ModalEnterEmail = ({ isOpen, onClose }: IModalEnterEmail) => {
 
   const [isSendingEmail, setIsSendingEmail] = useState(false);
 
+  const baseUrl = useMemo(() => {
+    if (typeof window !== 'undefined') {
+      return window.location.origin;
+    }
+
+    return '';
+  }, []);
+
   const handleSubmit = async (values: FormikValues) => {
     setIsSendingEmail(true);
     try {
-      if (typeof window !== 'undefined') {
-        const baseUrl = window.location.origin;
+      const response = await sendResetEmail(values.email, baseUrl);
 
-        const response = await sendResetEmail(values.email, baseUrl);
+      if (response.success) {
+        showMessage.success(messagePasswordReset('successSend'));
 
-        if (response.success) {
-          showMessage.success(messagePasswordReset('successSend'));
-
-          return;
-        }
-
-        const errorMessage = response.time
-          ? messagePasswordReset(response.message, { time: response.time })
-          : messagePasswordReset(response.message);
-
-        showMessage.error(errorMessage);
+        return;
       }
+
+      const errorMessage = response.time
+        ? messagePasswordReset(response.message, { time: response.time })
+        : messagePasswordReset(response.message);
+
+      showMessage.error(errorMessage);
     } catch (error) {
       console.log(error);
 
@@ -60,7 +64,7 @@ export const ModalEnterEmail = ({ isOpen, onClose }: IModalEnterEmail) => {
             isOpen={isOpen}
             isLoading={isSendingEmail}
             btnCancelText={btn('cancel')}
-            onClose={() => onClose(false)}
+            onClose={() => onClose}
             btnConfirmText={btn('confirm')}
             title={modal('enterPass.title')}
             classNameBtn="w-[136px] uppercase"
