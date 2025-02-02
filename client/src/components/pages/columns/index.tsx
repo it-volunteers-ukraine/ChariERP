@@ -30,9 +30,9 @@ export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoard
   const [value, setValue] = useState('');
   const [createColumn, setCreateColumn] = useState(false);
 
-  const id = _id ? String(_id) : undefined;
+  const id = _id ? String(_id) : '';
 
-  const { response, setColumns, isLoading } = useColumns(columns);
+  const { response, setColumns, isLoading } = useColumns({ boardColumns: columns, boardId, id });
   const { onAddColumn } = useAddColumn({ boardId, userId: id! });
   const { onEditTitleColumn } = useEditTitleColumn({ boardId, userId: id! });
   const { onDeleteColumn } = useDeleteColumn({ boardId, userId: id! });

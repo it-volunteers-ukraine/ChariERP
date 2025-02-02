@@ -1,4 +1,3 @@
-import { cache } from 'react';
 import { Metadata } from 'next';
 import { cookies } from 'next/headers';
 
@@ -11,17 +10,17 @@ interface Props {
   params: { board_id: string };
 }
 
-export const getData = cache(async (boardId: string) => {
+export const getData = async (boardId: string) => {
   const cookiesStore = cookies();
-  const userId = cookiesStore.get('id')?.value;
+  const userId = cookiesStore.get('id')?.value || '';
 
   try {
     const response = await getBoardColumnsAction({
+      userId,
       boardId,
-      userId: userId || '',
     });
 
-    if (!response.success && !response.data) {
+    if (!response.success || !response.data) {
       throw new Error('Error data');
     }
 
@@ -31,7 +30,7 @@ export const getData = cache(async (boardId: string) => {
   } catch (e) {
     console.log({ e });
   }
-});
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { board_id } = params;
