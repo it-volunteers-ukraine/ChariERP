@@ -226,7 +226,8 @@
     "maxSizeFile": "Розмір файлу перевищує {maxSize}МБ",
     "passwordMismatch": "Введені паролі не співпадають",
     "validEmail": "Email повинен бути дійсним",
-    "spacesNotAllowed": "Пробіли на початку та в кінці не допускаються"
+    "spacesNotAllowed": "Пробіли на початку та в кінці не допускаються",
+    "passwordsMustMatch": "Паролі повинні бути одинакові"
   },
   "header": {
     "about": "Про нас",

@@ -230,7 +230,8 @@
     "maxSizeFile": "File size exceeds {maxSize}МБ",
     "passwordMismatch": "The entered passwords do not match",
     "validEmail": "Email must be a valid",
-    "spacesNotAllowed": "Leading and trailing spaces are not allowed"
+    "spacesNotAllowed": "Leading and trailing spaces are not allowed",
+    "passwordsMustMatch": "Passwords must be the same"
   },
   "header": {
     "about": "About Us",
