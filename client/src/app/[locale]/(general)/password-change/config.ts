@@ -12,6 +12,7 @@ export const getValidationSchema = (error: (key: string, params?: TranslationVal
   Yup.object().shape({
     newPassword: getPasswordValidation(error),
     passwordConfirmation: Yup.string()
-      .oneOf([Yup.ref('newPassword')], error('passwordsMustMatch'))
-      .required(error('required')),
+      .trim()
+      .required(error('required'))
+      .oneOf([Yup.ref('newPassword')], error('passwordsMustMatch')),
   });
