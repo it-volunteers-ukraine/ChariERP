@@ -475,7 +475,7 @@
       "progress": "4. Progress tracking",
       "training": "5. Training and support",
       "interaction": "6. Interaction with the organization",
-      "donorAccount": "1. Donor account",
+      "donorAccount": "1. Donor's personal account",
       "donations": "2. Donations",
       "reportingAndTransparency": "3. Reporting and transparency",
       "informing": "4. Informing and communication",
@@ -509,16 +509,16 @@
         "task distribution among volunteers",
         "processing of applications"
       ],
-      "reporting": ["automatic generation of reports", "on income and expenses", "use of funds"],
+      "reporting": ["automatic generation of reports on the receipt and use of funds"],
       "management": [
-        "access to budget, financial reports, control over donations, grants, and expenses",
-        "management of volunteers and employees (list, work schedules, access levels)",
-        "inventory and distribution of equipment, humanitarian aid, inventory management"
+        "Access to budget, financial reports, control over donations, grants, and expenses.",
+        "Management of volunteers and employees (list, work schedules, access levels).",
+        "Inventory and distribution of equipment, humanitarian aid, inventory management."
       ],
       "coordination": [
-        "monitoring task status, deadlines, and responsibilities",
-        "creating new projects, setting goals, resources, and key performance indicators",
-        "access to internal chats and document sharing systems for quick coordination"
+        "Monitoring task status, deadlines, and responsibilities.",
+        "Creating new projects, setting goals, resources, and key performance indicators.",
+        "Access to internal chats and document sharing systems for quick coordination."
       ],
       "reportingAndAnalytics": [
         "Automated reports: generation of monthly or annual reports for donors and partners",
@@ -568,31 +568,31 @@
         "Community: opportunity to join groups or forums to share experiences"
       ],
       "donorAccount": [
-        "access to budget, financial reports, control over donations, grants, and expenses",
-        "management of volunteers and employees (list, work schedules, access levels)",
-        "inventory and distribution of equipment, humanitarian aid, inventory management"
+        "Donor profile: storing personal data, contribution history, and selected areas of support.",
+        "Donation settings: choosing the type of donations (one-time, regular), automatic payment renewal.",
+        "Data security: payment information is stored using encryption."
       ],
       "donations": [
-        "monitoring task status, deadlines, and responsibilities",
-        "creating new projects, setting goals, resources, and key performance indicators",
-        "access to internal chats and document sharing systems for quick coordination"
+        "Convenient payment methods: integration with bank cards, e-wallets, cryptocurrencies, or other methods.",
+        "Targeted funding: the ability to choose which project or area the contribution will go to (humanitarian aid, ecology, medicine, etc.)."
       ],
       "reportingAndTransparency": [
-        "Automated reports: generation of monthly or annual reports for donors and partners",
-        "Analytics: analysis of project success, financial flows, volunteer efficiency",
-        "Activity history: access to the archive of all actions, reports, and results of previous campaigns"
+        "Contribution tracking: view information about how and where donations are used.",
+        "Reports: receive automated reports on the results of supported projects.",
+        "Access to analytics: data on the total financial contribution, the number of people who were helped thanks to the donation."
       ],
       "informing": [
-        "User rights control: assigning roles and access levels to other employees (e.g., administrator or project coordinator)",
-        "Data security: setting security policies, control over information confidentiality"
+        "Project updates: receive notifications about the progress of initiatives supported by the donor.",
+        "Personalized news: information about new projects, promotions, or programs that may be of interest to the donor.",
+        "Feedback: the opportunity to leave your wishes or comments on the work of the organization."
       ],
       "processAutomation": [
-        "Future campaign modeling: assessment of resources and potential impact of future projects",
-        "Scenario planning: risk analysis and development of action plans for crisis situations"
+        "Reminders: notifications about scheduled regular payments or payment data updates.",
+        "Tax benefits: automatic generation of donation reports for tax returns (if applicable in your country)."
       ],
       "integration": [
-        "Transparency: creation of open reports for the public or donors",
-        "Feedback: collecting responses from volunteers, benefactors, and aid recipients through built-in surveys or questionnaires"
+        "Social networks: an opportunity to share participation in charity, popularizing the initiative.",
+        "Crowdfunding: support for joint projects through crowdfunding platforms."
       ]
     },
     "joinUs": {

@@ -4,6 +4,7 @@ export { AdminOrganizationById } from './admin-organization-by-id';
 export { Columns } from './columns';
 export { Dashboards } from './dashboards';
 export { EditTask } from './task/edit';
+export { FaqPage } from './faq';
 export { HomePage } from './home';
 export { NewTask } from './task/new';
 export { NoAccess } from './no-access';

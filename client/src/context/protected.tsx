@@ -11,10 +11,11 @@ import { ChildrenProps, ICustomer, Roles } from '@/types';
 type IUser = ICustomer | null;
 
 interface IProtectedContext extends Partial<ICustomer> {
-  setUser: (user: IUser) => void;
+  isUser: boolean;
   isAdmin: boolean;
   isManager: boolean;
-  isUser: boolean;
+  getUser: () => void;
+  setUser: (user: IUser) => void;
 }
 
 interface IGetMeResponse {
@@ -28,6 +29,7 @@ const UserContext = createContext<IProtectedContext>({
   isAdmin: false,
   isManager: false,
   setUser: () => {},
+  getUser: () => {},
 });
 
 export const useUserInfo = () => {
@@ -66,6 +68,7 @@ export const UserProvider = ({ children }: ChildrenProps) => {
       value={{
         ...user,
         setUser,
+        getUser,
         isUser: user?.role === Roles.USER,
         isAdmin: user?.role === Roles.ADMIN,
         isManager: user?.role === Roles.MANAGER,

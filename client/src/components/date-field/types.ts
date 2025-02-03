@@ -1,6 +1,7 @@
 export interface DateFieldProps {
   name: string;
   label: string;
+  disabled?: boolean;
   className?: string;
   readonly?: boolean;
   required?: boolean;

@@ -4,10 +4,10 @@ import { ForNGOs, KeyAdvantages, MainTheme, OpportunityChariCircle, RevealOnScro
 
 export const HomePage = () => {
   return (
-    <>
+    <div className="bg-bgAuthGradient">
       <MainTheme />
 
-      <div className="m-auto mb-[96px] flex max-w-[1920px] flex-col gap-[96px] tablet:mb-[100px] tablet:gap-[120px] laptop:mb-[150px] laptop:gap-[150px]">
+      <div className="m-auto flex max-w-[1920px] flex-col gap-[96px] pb-[96px] tablet:gap-[120px] tablet:pb-[100px] laptop:gap-[150px] laptop:pb-[150px]">
         <RevealOnScroll />
 
         <OpportunityChariCircle />
@@ -16,6 +16,6 @@ export const HomePage = () => {
 
         <KeyAdvantages />
       </div>
-    </>
+    </div>
   );
 };
