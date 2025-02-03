@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Formik, FormikValues } from 'formik';
 
@@ -19,30 +19,26 @@ export const ModalEnterEmail = ({ isOpen, onClose }: IModalEnterEmail) => {
 
   const [isSendingEmail, setIsSendingEmail] = useState(false);
 
-  const baseUrl = useMemo(() => {
-    if (typeof window !== 'undefined') {
-      return window.location.origin;
-    }
-
-    return '';
-  }, []);
-
   const handleSubmit = async (values: FormikValues) => {
     setIsSendingEmail(true);
     try {
-      const response = await sendResetEmail(values.email, baseUrl);
+      if (typeof window !== 'undefined') {
+        const baseUrl = window.location.origin;
 
-      if (response.success) {
-        showMessage.success(messagePasswordReset('successSend'));
+        const response = await sendResetEmail(values.email, baseUrl);
 
-        return;
+        if (response.success) {
+          showMessage.success(messagePasswordReset('successSend'));
+
+          return;
+        }
+
+        const errorMessage = response.time
+          ? messagePasswordReset(response.message, { time: response.time })
+          : messagePasswordReset(response.message);
+
+        showMessage.error(errorMessage);
       }
-
-      const errorMessage = response.time
-        ? messagePasswordReset(response.message, { time: response.time })
-        : messagePasswordReset(response.message);
-
-      showMessage.error(errorMessage);
     } catch (error) {
       console.log(error);
 
