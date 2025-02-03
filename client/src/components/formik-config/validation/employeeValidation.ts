@@ -4,6 +4,8 @@ import { isValidPhoneNumber } from 'libphonenumber-js';
 
 import { regExp } from '@/constants';
 
+import { getPasswordValidation } from './passwordValidation';
+
 const maxSize = 5;
 
 export const employeeValidation = (error: (key: string, params?: TranslationValues) => string) =>
@@ -41,14 +43,5 @@ export const employeeValidation = (error: (key: string, params?: TranslationValu
       .max(50, error('maxPlural', { int: 50 }))
       .matches(regExp.email, error('notValidEmail'))
       .required(error('required')),
-    password: Yup.string()
-      .trim()
-      .min(8, error('minPlural', { int: 8 }))
-      .max(20, error('maxPlural', { int: 20 }))
-      .matches(/[a-z]/, error('mustContainLowercase'))
-      .matches(/[A-Z]/, error('mustContainUppercase'))
-      .matches(/[0-9]/, error('mustContainNumber'))
-      .matches(/[!@#$%^&*()_+=[\]{}|;:'",.<>/?-]/, error('mustContainSymbol'))
-      .matches(/^[a-zA-Z0-9!@#$%^&*()_+=[\]{}|;:'",.<>/?-]+$/, error('invalidCharacters'))
-      .required(error('required')),
+    password: getPasswordValidation(error),
   });

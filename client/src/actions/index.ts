@@ -1,4 +1,5 @@
 export { changeColumnTitleAction } from './columns/change-column-title';
+export { changePasswordAction } from './reset-token/change-password';
 export { createAdminAction } from './admin/create-admin';
 export { createBoardAction } from './boards/create-board';
 export { createBoardColumnAction } from './columns/create-board-column';
@@ -23,6 +24,7 @@ export { loginAction } from './login/log-in';
 export { moveBoardColumnAction } from './columns/move-columns';
 export { moveBoardsAction } from './boards/move-boards';
 export { moveTaskAction } from './tasks/move-task';
+export { sendResetEmail } from './reset-token/send-reset-email';
 export { updateMemberByIdAction } from './user/update-member-by-id';
 export { updateOrganizationAction } from './admin/update-organization';
 export { updateOrganizationByManagerAction } from './user/updateOrganization';
