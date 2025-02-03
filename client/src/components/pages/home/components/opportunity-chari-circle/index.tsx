@@ -13,7 +13,7 @@ export const OpportunityChariCircle = () => {
       <div className="relative m-auto flex w-fit items-center justify-center">
         <Title
           text={text('title')}
-          className="absolute z-20 hidden tablet:block tablet:max-w-[202px] tablet:text-[32px]"
+          className="absolute z-20 hidden text-[36px] tablet:block tablet:max-w-[202px] tablet:text-[32px] laptop:text-4xl desktop:text-[50px]"
         />
 
         <ButtonsCircle />
