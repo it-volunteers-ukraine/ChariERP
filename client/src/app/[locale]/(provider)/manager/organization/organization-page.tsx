@@ -7,9 +7,14 @@ import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
 
 import { Info } from '@/assets/icons';
 import { OrganizationEditValues } from '@/types';
+import { getOrganizationByIdAction } from '@/actions';
 import { useLoaderAdminPage, useUserInfo } from '@/context';
-import { getOrganizationByIdAction, updateOrganizationAction } from '@/actions';
-import { oneOrganizationNormalizer, serializeOrganizationsUpdate, showErrorMessageOfOrganizationExist } from '@/utils';
+import {
+  cn,
+  oneOrganizationNormalizer,
+  serializeOrganizationsUpdate,
+  showErrorMessageOfOrganizationExist,
+} from '@/utils';
 import {
   Button,
   SmallBtn,
@@ -24,9 +29,11 @@ import {
   getInitialDataOrganization,
 } from '@/components';
 
+import { adapterUpdateAction } from './adapter';
+
 const OrganizationPage = () => {
   const { setIsLoading } = useLoaderAdminPage();
-  const { organizationId, isManager } = useUserInfo();
+  const { organizationId, isManager, _id, isUser } = useUserInfo();
 
   const btn = useTranslations('button');
   const text = useTranslations('inputs');
@@ -49,7 +56,17 @@ const OrganizationPage = () => {
       formData.append(`certificate`, file);
       formData.append(`data`, JSON.stringify(data));
 
-      const response = await updateOrganizationAction(organizationId as unknown as string, formData);
+      if (!organizationId || !_id) return;
+
+      const sendData = {
+        formData,
+        userId: String(_id),
+        organizationId: String(organizationId),
+      };
+
+      const updateOrganization = adapterUpdateAction(isManager);
+
+      const response = await updateOrganization(sendData);
 
       if (!response.success && response.message) {
         const messageArray = Array.isArray(response.message) ? response.message : [response.message];
@@ -73,6 +90,7 @@ const OrganizationPage = () => {
       setIsOpenSave(false);
     }
   };
+
   const submitHandle = async (validateForm: () => Promise<FormikErrors<FormikValues>>, handleSubmit: () => void) => {
     const errors = await validateForm();
 
@@ -133,69 +151,83 @@ const OrganizationPage = () => {
             />
 
             <Form className="w-full">
-              <div className="flex items-center justify-start gap-6 py-6">
-                <ButtonIcon
-                  icon="save"
-                  type="button"
-                  iconType="primary"
-                  className="min-w-[36px]"
-                  onClick={() => setIsOpenSave(true)}
-                />
-              </div>
+              {!isUser && (
+                <div className="flex items-center justify-start gap-6 py-6">
+                  <ButtonIcon
+                    icon="save"
+                    type="button"
+                    iconType="primary"
+                    className="min-w-[36px]"
+                    onClick={() => setIsOpenSave(true)}
+                  />
+                </div>
+              )}
 
               <div className="flex flex-col gap-9 desktop:gap-12">
-                <div className="flex items-start gap-x-3 border-t-[2px] border-lightBlue pt-[24px]">
-                  {isManager && (
+                {!isUser && (
+                  <div className="flex items-start gap-x-3 border-t-[2px] border-lightBlue pt-[24px]">
                     <>
                       <Info width="24px" height="24px" className="text-lightBlue" />
                       <span className="text-[14px] text-input-info">{text('mainInformation')}</span>
                     </>
-                  )}
-                </div>
+                  </div>
+                )}
 
                 <Accordion
                   initialState
-                  classNameWrapper="!gap-3"
                   classNameTitle="text-[20px] uppercase"
                   title={text('title.basicInformation')}
+                  classNameWrapper={cn('!gap-3', { 'mt-6': isUser })}
                 >
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
-                      <InputField required name="organizationName" label={text('organizationName.label')} />
+                      <InputField
+                        required
+                        disabled={isUser}
+                        name="organizationName"
+                        label={text('organizationName.label')}
+                      />
 
                       <InputField
                         required
                         type="number"
                         name="edrpou"
+                        disabled={isUser}
                         label={text('organizationTaxNumber.labelErdpouOfOrganization')}
                       />
                     </div>
 
                     <FileField
                       required
+                      disabled={isUser}
                       placeholderItalic
                       name="certificate"
-                      wrapperClass="laptop:!gap-12"
                       accept={'.pdf, .jpg, .jpeg, .png'}
                       label={text('certificateOfRegister.label')}
                       placeholder={text('certificateOfRegister.downloadDoc')}
+                      wrapperClass={cn('laptop:!gap-12', {
+                        'laptop:max-w-[calc(50%-24px)] pointer-events-none': isUser,
+                      })}
                       info={
-                        <div>
-                          {text('certificateOfRegister.information')}
-                          <Link href="#" className="font-medium italic text-input-link underline">
-                            {text('certificateOfRegister.howDownloadFile')}
-                          </Link>
-                        </div>
+                        !isUser && (
+                          <div>
+                            {text('certificateOfRegister.information')}
+                            <Link href="#" className="font-medium italic text-input-link underline">
+                              {text('certificateOfRegister.howDownloadFile')}
+                            </Link>
+                          </div>
+                        )
                       }
                     />
 
                     <DateField
                       required
+                      disabled={isUser}
                       placeholderItalic
                       name="dateOfRegistration"
-                      wrapperClass="laptop:max-w-[calc(50%-24px)]"
                       label={text('dateOfRegisterOrganization.label')}
                       placeholder={text('dateOfRegisterOrganization.chooseDate')}
+                      wrapperClass={cn('laptop:max-w-[calc(50%-24px)]', { 'pointer-events-none': isUser })}
                     />
                   </div>
                 </Accordion>
@@ -208,21 +240,27 @@ const OrganizationPage = () => {
                 >
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
-                      <InputField required name="position" label={text('positionOrganization.label')} />
+                      <InputField
+                        required
+                        name="position"
+                        disabled={isUser}
+                        label={text('positionOrganization.label')}
+                      />
 
-                      <InputField required name="lastName" label={text('lastName.label')} />
+                      <InputField required disabled={isUser} name="lastName" label={text('lastName.label')} />
                     </div>
 
                     <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
-                      <InputField required name="firstName" label={text('name.label')} />
+                      <InputField required disabled={isUser} name="firstName" label={text('name.label')} />
 
-                      <InputField name="middleName" label={text('middleName.label')} />
+                      <InputField disabled={isUser} name="middleName" label={text('middleName.label')} />
                     </div>
 
                     <InputField
                       required
                       isMasked
                       name="phone"
+                      disabled={isUser}
                       placeholderItalic
                       label={text('phone.label')}
                       placeholder="+38(0__)___-__-__"
@@ -240,6 +278,7 @@ const OrganizationPage = () => {
                   <InputField
                     required
                     name="email"
+                    disabled={isUser}
                     label={text('email.label')}
                     wrapperClass="laptop:max-w-[calc(50%-24px)]"
                   />
@@ -255,6 +294,7 @@ const OrganizationPage = () => {
                     <InputField
                       cross
                       name="site"
+                      disabled={isUser}
                       label={text('site.label')}
                       wrapperClass="laptop:max-w-[calc(50%-24px)]"
                     />
@@ -271,6 +311,7 @@ const OrganizationPage = () => {
                               <div key={index}>
                                 <InputField
                                   cross
+                                  disabled={isUser}
                                   name={`social.${index}`}
                                   key={`media-signUp-${index}`}
                                   label={text('socialNetworks.label')}

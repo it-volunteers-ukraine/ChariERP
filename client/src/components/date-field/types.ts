@@ -4,9 +4,9 @@ export enum DateStyleType {
 
 export interface DateFieldProps {
   name: string;
-  type?: string;
-  label?: string;
+  label: string;
   minDate?: string;
+  disabled?: boolean;
   className?: string;
   readonly?: boolean;
   required?: boolean;

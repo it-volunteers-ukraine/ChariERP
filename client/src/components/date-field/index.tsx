@@ -39,6 +39,7 @@ DatePickerInput.displayName = 'DatePickerInput';
 export const DateField = ({
   name,
   label,
+  disabled,
   required,
   styleType,
   placeholder,
@@ -58,7 +59,7 @@ export const DateField = ({
     const currentWrapper = wrapperRef.current;
     const currentPicker = pickerRef.current;
 
-    if (currentPicker) {
+    if (currentPicker && !disabled) {
       await currentPicker.setOpen(true);
       currentWrapper?.blur();
     }
@@ -96,6 +97,7 @@ export const DateField = ({
               locale={locale}
               showYearDropdown
               className="hidden"
+              disabled={disabled}
               maxDate={new Date()}
               portalId="DatePicker"
               scrollableYearDropdown
