@@ -72,7 +72,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
       <div className={styles.wrapper}>
         <label className="flex w-full flex-col gap-1">
           <fieldset className={styles.fieldset}>
-            {type !== 'search' && label && (
+            {type !== 'search' && (
               <legend className="ml-[10px] px-1 pb-1">
                 {required && <span className={styles.star}>*</span>}
                 <span className={styles.label}>{label}</span>
