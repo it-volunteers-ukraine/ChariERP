@@ -1,7 +1,7 @@
 import { ArrowUp } from '@/assets/icons';
 
 import { ISelectOption, OptionValue } from '../types';
-import { getStyle } from './style';
+import { getStyle } from './styles';
 
 interface ISelectedBase extends ISelectOption {
   isOpen: boolean;

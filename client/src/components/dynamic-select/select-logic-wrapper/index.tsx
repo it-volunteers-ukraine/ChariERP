@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 
 import { useMounted, useOutsideClick } from '@/hooks';
 
-import { selectStyles } from './style';
+import { selectStyles } from './styles';
 import { ISelectLogicWrapperProps } from './types';
 
 export const SelectLogicWrapper = ({

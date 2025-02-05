@@ -1,5 +1,5 @@
 import { ISelectOption, OptionValue } from '../types';
-import { getStyle } from './style';
+import { getStyle } from './styles';
 
 interface IOptionBase extends ISelectOption {
   classNameOptionBase?: string;

@@ -21,8 +21,6 @@ import { useUserInfo } from '@/context';
 
 import { getStyles } from './styles';
 import { IEditData, IEmployeeForm } from './types';
-import { DynamicSelect } from '@/components/dynamic-select';
-import { ISelectOption } from '@/components/dynamic-select/select-logic-wrapper/types';
 
 export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: IEmployeeForm) => {
   const router = useRouter();
@@ -51,24 +49,6 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
     }
   };
 
-  const [val, setValues] = useState<Record<string, ISelectOption>>({});
-
-  const options = [
-    { value: 'option1', text: 'зробити' },
-    { value: 'option2', text: 'перевірити' },
-    { value: 'option3', text: 'не робити' },
-  ];
-
-  const optionsss = [
-    { value: 'option1', text: 'зробити' },
-    { value: 'option2', text: 'перевірити' },
-    { value: 'option3', text: 'не робити' },
-  ];
-
-  const handleSetValue = (name: string, option: ISelectOption) => {
-    setValues((prev) => ({ ...prev, [name]: option }));
-  };
-
   return (
     <Formik
       validateOnBlur
@@ -92,28 +72,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                 onClose={() => setIsOpenSave(false)}
                 onConfirm={() => submitHandle(validateForm, handleSubmit)}
               />
-              <div className="flex w-[500px] flex-col">
-                <DynamicSelect
-                  options={options}
-                  selected={val['first'] || null}
-                  onChange={(option) => handleSetValue('first', option)}
-                  name="first"
-                  placeholder="Дата початку"
-                  withTranslate
-                />
-                <DynamicSelect
-                  withTranslate
-                  options={optionsss}
-                  selected={val['second'] || null}
-                  onChange={(option) => handleSetValue('second', option)}
-                  name="second"
-                  placeholder="Дата початку"
-                />
-              </div>
 
-              {/*               <MultiSelect options={options} selected={value} onChange={handleSetValue} />
-
- */}
               <Form>
                 {isCreate && (
                   <div className="mb-6">
