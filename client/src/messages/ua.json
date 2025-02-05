@@ -583,10 +583,5 @@
       "buttonContacts": "Контакти"
     },
     "sidebarButtonName": { "Organizations": "Моя організація", "Employees": "Співробітники", "Boards": "Дошки" }
-  },
-  "select": {
-    "option1": "зробити",
-    "option2": "перевірити",
-    "option3": "не робити"
   }
 }

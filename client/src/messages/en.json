@@ -589,10 +589,5 @@
       "buttonContacts": "Contacts"
     },
     "sidebarButtonName": { "Organizations": "My organization", "Employees": "Employees", "Boards": "Boards" }
-  },
-  "select": {
-    "option1": "to do",
-    "option2": "review",
-    "option3": "never"
   }
 }
