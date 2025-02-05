@@ -1,4 +1,5 @@
 export { Accordion } from './accordion';
+export { Attachments } from './attachments';
 export { AuthLinks } from './auth-links';
 export { Avatar, DashboardAside, DashboardHeader } from './dashboard';
 export { AvatarEmployee } from './avatar-employee';
