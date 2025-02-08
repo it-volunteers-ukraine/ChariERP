@@ -1,17 +1,17 @@
-import { ISelectOption, OptionValue } from '../types';
 import { getStyle } from './styles';
+import { ISelectOption, OptionValue } from '../types';
 
-interface IOptionBase extends ISelectOption {
-  classNameOptionBase?: string;
+interface IOptionSelect extends ISelectOption {
+  classNameOption?: string;
   onSelect: (value: OptionValue) => void;
   t: (value: OptionValue) => OptionValue;
   isActiveSelected: { value: OptionValue } | null;
 }
 
-export const OptionBase = ({ value, classNameOptionBase, isActiveSelected, onSelect, t }: IOptionBase) => {
+export const OptionSelect = ({ value, classNameOption, isActiveSelected, onSelect, t }: IOptionSelect) => {
   const isActive = isActiveSelected?.value === value;
 
-  const style = getStyle({ classNameOptionBase });
+  const style = getStyle({ classNameOption });
 
   return (
     <div className={style.wrapper} onClick={() => onSelect(value)}>

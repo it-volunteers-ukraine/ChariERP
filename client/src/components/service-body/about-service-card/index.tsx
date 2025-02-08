@@ -1,4 +1,4 @@
-import { FC, SVGProps } from 'react';
+import Image, { StaticImageData } from 'next/image';
 
 import { ChildrenProps } from '@/types';
 
@@ -7,16 +7,16 @@ import { getStyleCard } from './style';
 export interface IAboutServiceCard {
   title: string;
   className?: string;
-  Icon: FC<SVGProps<SVGSVGElement>>;
+  img: StaticImageData;
 }
 
-export const AboutServiceCard = ({ Icon, title, children, className }: ChildrenProps<IAboutServiceCard>) => {
+export const AboutServiceCard = ({ img, title, children, className }: ChildrenProps<IAboutServiceCard>) => {
   const style = getStyleCard(className);
 
   return (
     <div className="flex">
       <div className={style.wrapper}>
-        <Icon className={style.icon} />
+        <Image src={img} alt={title} className={style.icon} width={120} height={120} />
 
         <h3 className={style.title}>{title}</h3>
 

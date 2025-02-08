@@ -1,17 +1,17 @@
 import { ArrowUp } from '@/assets/icons';
 
-import { ISelectOption, OptionValue } from '../types';
 import { getStyle } from './styles';
+import { ISelectOption, OptionValue } from '../types';
 
-interface ISelectedBase extends ISelectOption {
+interface ISelected extends ISelectOption {
   isOpen: boolean;
   placeholder: string;
-  classNameSelectedBase?: string;
+  classNameSelected?: string;
   t: (value: OptionValue) => OptionValue;
 }
 
-export const SelectedBase = ({ t, classNameSelectedBase, value, placeholder, isOpen }: ISelectedBase) => {
-  const style = getStyle({ classNameSelectedBase, placeholder, isOpen, value });
+export const Selected = ({ t, classNameSelected, value, placeholder, isOpen }: ISelected) => {
+  const style = getStyle({ classNameSelected, placeholder, isOpen, value });
 
   return (
     <div className={style.wrapper}>

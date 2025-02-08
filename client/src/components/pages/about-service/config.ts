@@ -1,7 +1,8 @@
 import data from '@/messages/en.json';
+
 import {
+  Seo,
   Sales,
-  SeoSvg,
   Manager,
   Sponsors,
   Staffing,
@@ -16,55 +17,55 @@ import {
   ProjectMonitoring,
   AutomaticReporting,
   OrganizationEvents,
-} from '@/assets/icons';
+} from '@/assets/img';
 
 import { generateKey } from './utils';
 
 export interface IBeneficiary {
-  subTitle: string;
   texts: string[];
+  subTitle: string;
 }
 
 const lists = data.aboutService.list;
 
 export const automatization = [
-  { Icon: Transparency, title: 'clarity' },
-  { Icon: Staffing, title: 'automatization' },
-  { Icon: SocialLike, title: 'interaction' },
-  { Icon: Sales, title: 'efficiency' },
-  { Icon: InvoicePaper, title: 'management' },
-  { Icon: Performance, title: 'achieveGoals' },
-  { Icon: SeoSvg, title: 'support' },
+  { img: Transparency, title: 'clarity' },
+  { img: Staffing, title: 'automatization' },
+  { img: SocialLike, title: 'interaction' },
+  { img: Sales, title: 'efficiency' },
+  { img: InvoicePaper, title: 'management' },
+  { img: Performance, title: 'achieveGoals' },
+  { img: Seo, title: 'support' },
 ];
 
 export const planning = [
   {
-    Icon: BudgetAccounting,
+    img: BudgetAccounting,
     title: 'financialAccounting',
     texts: generateKey(lists.financialAccounting, 'list.financialAccounting'),
   },
   {
-    Icon: ContactDatabase,
+    img: ContactDatabase,
     title: 'contactDatabase',
     texts: generateKey(lists.contactDatabase, 'list.contactDatabase'),
   },
   {
-    Icon: Donations,
+    img: Donations,
     title: 'donationProcessing',
     texts: generateKey(lists.donationProcessing, 'list.donationProcessing'),
   },
   {
-    Icon: ProjectMonitoring,
+    img: ProjectMonitoring,
     title: 'planning',
     texts: generateKey(lists.planning, 'list.planning'),
   },
   {
-    Icon: OrganizationEvents,
+    img: OrganizationEvents,
     title: 'organizationEvents',
     texts: generateKey(lists.organizationEvents, 'list.organizationEvents'),
   },
   {
-    Icon: AutomaticReporting,
+    img: AutomaticReporting,
     title: 'reporting',
     texts: generateKey(lists.reporting, 'list.reporting'),
   },
@@ -72,7 +73,7 @@ export const planning = [
 
 export const beneficiary = [
   {
-    Icon: Manager,
+    img: Manager,
     title: 'managers',
     info: [
       { subTitle: 'management', texts: generateKey(lists.management, 'list.management') },
@@ -87,7 +88,7 @@ export const beneficiary = [
     ],
   },
   {
-    Icon: Volunteers,
+    img: Volunteers,
     title: 'volunteers',
     info: [
       { subTitle: 'office', texts: generateKey(lists.office, 'list.office') },
@@ -105,7 +106,7 @@ export const beneficiary = [
     ],
   },
   {
-    Icon: Sponsors,
+    img: Sponsors,
     title: 'sponsors',
     info: [
       { subTitle: 'donorAccount', texts: generateKey(lists.donorAccount, 'list.donorAccount') },

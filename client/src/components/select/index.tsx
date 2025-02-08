@@ -3,14 +3,13 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
+import { Selected } from './select-logic-wrapper/selected';
 import { SelectLogicWrapper } from './select-logic-wrapper';
-import { Option, Select, SwitchOption, SwitchSelect } from './config';
+import { OptionSelect } from './select-logic-wrapper/option-select';
 import { ISelectOption, OptionValue } from './select-logic-wrapper/types';
 
-interface ICustomSelect {
+interface ISelect {
   name: string;
-  selectType?: Select;
-  optionType?: Option;
   placeholder: string;
   withTranslate?: boolean;
   selected: ISelectOption;
@@ -20,17 +19,15 @@ interface ICustomSelect {
   onChange: (option: ISelectOption) => void;
 }
 
-export const DynamicSelect = ({
+export const Select = ({
   options,
   selected,
   onChange,
-  optionType,
-  selectType,
   placeholder,
   withTranslate,
   classNameWrapper,
   classNameDropList,
-}: ICustomSelect) => {
+}: ISelect) => {
   const t = useTranslations('select');
   const [isOpen, setIsOpen] = useState(false);
   const [isActiveSelected, setIsActiveSelected] = useState<{ value: OptionValue } | null>(null);
@@ -40,9 +37,6 @@ export const DynamicSelect = ({
   const handleSelect = (value: OptionValue) => {
     setIsActiveSelected((prev) => (prev?.value === value ? null : { value }));
   };
-
-  const SelectComponent = SwitchSelect(selectType);
-  const OptionComponent = SwitchOption(optionType);
 
   return (
     <SelectLogicWrapper
@@ -54,12 +48,10 @@ export const DynamicSelect = ({
       classNameWrapper={classNameWrapper}
       classNameDropList={classNameDropList}
       renderOption={(option) => {
-        return (
-          <OptionComponent {...option} isActiveSelected={isActiveSelected} onSelect={handleSelect} t={translate} />
-        );
+        return <OptionSelect {...option} isActiveSelected={isActiveSelected} onSelect={handleSelect} t={translate} />;
       }}
       renderSelected={(selected) => {
-        return <SelectComponent isOpen={isOpen} placeholder={placeholder} {...selected} t={translate} />;
+        return <Selected isOpen={isOpen} placeholder={placeholder} {...selected} t={translate} />;
       }}
     />
   );
