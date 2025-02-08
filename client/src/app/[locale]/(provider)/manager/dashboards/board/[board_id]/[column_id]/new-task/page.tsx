@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 
 import { NewTask } from '@/components';
-import { TaskPageParamsProps } from '@/types';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -9,8 +8,8 @@ export async function generateMetadata(): Promise<Metadata> {
     description: `This is the new task page`,
   };
 }
-const New = ({ params }: TaskPageParamsProps) => {
-  return <NewTask params={params} />;
+const New = () => {
+  return <NewTask />;
 };
 
 export default New;

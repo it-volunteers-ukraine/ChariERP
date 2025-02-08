@@ -15,7 +15,7 @@
     "incremental": true,
     "noUnusedLocals": true,
     "paths": {
-      "react": [ "./node_modules/@types/react" ],
+      "react": ["./node_modules/@types/react"],
       "@/*": ["./src/*"]
     },
     "plugins": [
@@ -25,5 +25,5 @@
     ]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "jest.config.ts", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".next"]
 }

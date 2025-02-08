@@ -1,37 +1,34 @@
 'use client';
 
 import { useState } from 'react';
-import { redirect } from 'next/navigation';
+import { redirect, useParams } from 'next/navigation';
 
 import { routes } from '@/constants';
 import { useUserInfo } from '@/context';
-import { TaskPageParamsProps } from '@/types';
 
 import { Task } from '..';
 import { useAddTask } from '../api/use-add';
 
 const task = {
-  status: 'in_progress',
-  priority: 'high',
-  attachment: [],
   comments: [],
+  attachment: [],
+  priority: 'high',
   date_end: new Date(),
+  status: 'in_progress',
   date_start: new Date(),
   description: 'Task description',
 };
 
-export const NewTask = async ({ params }: TaskPageParamsProps) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+export const NewTask = () => {
+  const { board_id, column_id } = useParams<{ board_id: string; column_id: string }>();
+
   const { isManager, _id } = useUserInfo();
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [title, setTitle] = useState('');
 
   const id = _id ? String(_id) : undefined;
-  const { board_id, column_id } = await params;
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { addTask } = useAddTask({ userId: id!, boardId: board_id, columnId: column_id });
+  const { addTask } = useAddTask({ userId: id!, boardId: board_id!, columnId: column_id! });
 
   const onSubmit = async () => {
     await addTask({ ...task, title });
