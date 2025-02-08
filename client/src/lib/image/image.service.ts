@@ -30,10 +30,10 @@ export class ImageService {
   }
 
   async uploadAvatar(avatarUrl: File, organizationId: string) {
-    if (!avatarUrl && !organizationId) {
+    if (avatarUrl && organizationId) {
       return await uploadFileToBucket(organizationId, BucketFolders.Avatar, avatarUrl);
     }
- 
+
     return '';
   }
 }
