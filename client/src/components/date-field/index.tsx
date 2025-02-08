@@ -29,7 +29,7 @@ const DatePickerInput = forwardRef((props: InputProps & { isrequired?: string },
 
 DatePickerInput.displayName = 'DatePickerInput';
 
-export const DateField = ({ name, label, required, placeholder, wrapperClass, ...props }: DateFieldProps) => {
+export const DateField = ({ name, label, required, placeholder, wrapperClass, disabled, ...props }: DateFieldProps) => {
   const locale = useLocale();
   const pickerRef = useRef<DatePicker>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -42,7 +42,7 @@ export const DateField = ({ name, label, required, placeholder, wrapperClass, ..
     const currentWrapper = wrapperRef.current;
     const currentPicker = pickerRef.current;
 
-    if (currentPicker) {
+    if (currentPicker && !disabled) {
       await currentPicker.setOpen(true);
       currentWrapper?.blur();
     }
@@ -80,6 +80,7 @@ export const DateField = ({ name, label, required, placeholder, wrapperClass, ..
               locale={locale}
               showYearDropdown
               className="hidden"
+              disabled={disabled}
               maxDate={new Date()}
               portalId="DatePicker"
               scrollableYearDropdown

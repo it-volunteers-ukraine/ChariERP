@@ -40,10 +40,10 @@ export const Banner = ({ img = BannerHero, title }: IBanner) => {
             />
 
             <Button
-              styleType="icon-secondary"
               text={auth('login')}
-              className="!h-11 w-[122px] px-2 uppercase text-dark-blue"
+              styleType="icon-secondary"
               onClick={() => router.push(routes.login)}
+              className="!h-11 w-[122px] px-2 uppercase text-dark-blue hover:!bg-btn-outline-active"
             />
           </div>
         </div>
