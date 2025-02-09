@@ -7,7 +7,7 @@ interface Props {
 }
 
 const ColumnId = async ({ params }: Props) => {
-  const { board_id } = await params
+  const { board_id } = await params;
 
   return redirect(`${routes.managerDashboard}/${board_id}`);
 };

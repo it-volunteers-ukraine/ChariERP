@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
 class InMemoryMongoConfig {
-
   private mongo: MongoMemoryServer | undefined;
 
   public setUp = async () => {

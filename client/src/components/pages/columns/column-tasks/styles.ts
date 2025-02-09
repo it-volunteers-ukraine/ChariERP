@@ -5,7 +5,7 @@ export const getStyles = (isDisable: boolean, hasNextColumn: boolean) => {
     columnTask:
       'flex min-h-[254px] h-fit max-h-full w-[254px] flex-col rounded-md bg-whiteSecond pl-4 pr-1 py-5 shadow-boardColumn border border-transparent mr-6',
     columnDragging: cn(
-      'opacity-80 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.16)] border-lynch bg-whiteSecond',
+      'opacity-80 shadow-cardShadow border-lynch bg-whiteSecond',
       hasNextColumn && 'mr-6',
       !hasNextColumn && 'mr-0',
     ),

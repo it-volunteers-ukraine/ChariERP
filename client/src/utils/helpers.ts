@@ -142,21 +142,44 @@ export const onCopy = <T extends MouseEvent<HTMLElement | SVGElement> = MouseEve
   showMessage.success(messages, { autoClose: 500 });
 };
 
-export const lettersToColor = (firstName: string, lastName: string) => {
-  // Capitalize both first letters for consistency
-  const char1 = firstName[0].toUpperCase();
-  const char2 = lastName[0].toUpperCase();
+export const lettersToColor = (firstName: string, lastName: string): string => {
+  const char1 = firstName[0]?.toUpperCase() || 'A';
+  const char2 = lastName[0]?.toUpperCase() || 'A';
 
-  // Get ASCII codes for both letters
   const charCode1 = char1.charCodeAt(0);
   const charCode2 = char2.charCodeAt(0);
 
-  // Combining ASCII codes for RGB generation
-  const red = (charCode1 * 23 + charCode2 * 17) % 256;
-  const green = (charCode1 * 47 + charCode2 * 31) % 256;
-  const blue = (charCode1 * 71 + charCode2 * 29) % 256;
+  let red = (charCode1 * 23 + charCode2 * 17) % 256;
+  let green = (charCode1 * 47 + charCode2 * 31) % 256;
+  let blue = (charCode1 * 71 + charCode2 * 29) % 256;
 
-  // Convert RGB values to hex format
+  const isLightColor = (r: number, g: number, b: number) => {
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+    return brightness > 170;
+  };
+
+  const isBrownishColor = (r: number, g: number, b: number) => {
+    return Math.abs(r - g) < 30 && Math.abs(g - b) < 30 && r > g && g > b;
+  };
+
+  const adjustColor = (r: number, g: number, b: number) => {
+    if (isLightColor(r, g, b) || isBrownishColor(r, g, b)) {
+      r = (r + 50) % 256;
+      g = (g + 70) % 256;
+      b = (b + 90) % 256;
+
+      if (isLightColor(r, g, b) || isBrownishColor(r, g, b)) {
+        return adjustColor((r + 20) % 256, (g + 40) % 256, (b + 60) % 256);
+      }
+    }
+
+    return [r, g, b];
+  };
+
+  [red, green, blue] = adjustColor(red, green, blue);
+
   return `#${red.toString(16).padStart(2, '0')}${green.toString(16).padStart(2, '0')}${blue.toString(16).padStart(2, '0')}`;
 };
+
 export const cleanSpaces = (str: string) => str.trim().replace(/\s+/g, ' ');

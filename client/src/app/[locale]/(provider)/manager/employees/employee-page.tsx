@@ -23,7 +23,7 @@ function EmployeesPage() {
 
   const [page, setPage] = useState(1);
   const [totalItems, setTotalItems] = useState(1);
-  const [data, setData] = useState<IEmployeeCardProps[] | []>([]);
+  const [data, setData] = useState<IEmployeeCardProps[]>([]);
 
   const loadData = async () => {
     setIsLoading(true);
