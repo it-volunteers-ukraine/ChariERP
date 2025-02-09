@@ -21,6 +21,12 @@
     "newPassword": "New password",
     "passwordConfirmation": "Password confirmation"
   },
+  "attachments": {
+    "title": "INCLUSIONS",
+    "attachFile": "Attach a file",
+    "download": "Download",
+    "delete": "Delete"
+  },
   "sidebar": {
     "requests": "Requests",
     "declined": "Declined",
@@ -587,7 +593,7 @@
       ]
     },
     "joinUs": {
-      "contactMessage": "If you have any questions or would like to get involved, please contact us.",
+      "contactMessage": "If you have any questions or would like to join our collaboration, feel free to contact us.",
       "buttonContacts": "Contacts"
     },
     "sidebarButtonName": { "Organizations": "My organization", "Employees": "Employees", "Boards": "Boards" }
