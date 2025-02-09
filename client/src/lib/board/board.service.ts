@@ -1,4 +1,3 @@
-import { IBoardData } from '@/components';
 import {
   Roles,
   IUsers,
@@ -7,6 +6,7 @@ import {
   IApplyUserToBoardProps,
   IRevokeUserFromBoardProps,
 } from '@/types';
+import { IBoardData } from '@/components';
 
 import { Board, Users, UsersBoards } from '..';
 import { BaseService } from '../database/base.service';

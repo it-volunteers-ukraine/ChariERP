@@ -17,7 +17,7 @@ import { employeeEditInitialValues } from './config';
 const EmployeeId = () => {
   const router = useRouter();
   const { id } = useParams();
-  const { organizationId } = useUserInfo();
+  const { _id, getUser, organizationId } = useUserInfo();
   const { setIsLoading } = useLoaderAdminPage();
 
   const [data, setData] = useState<IEditUser>();
@@ -45,6 +45,10 @@ const EmployeeId = () => {
 
       if (res.success) {
         showMessage.success('User updated successfully');
+
+        if (res.user && JSON.parse(res.user)._id === _id) {
+          getUser();
+        }
       }
 
       if (!res.success) {
