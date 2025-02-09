@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { IBoardTaskColumn } from '@/types';
-import { getBoardColumnsAction } from '@/actions';
 import { boardColumnsNormalizer } from '@/utils';
-import { useRouter } from 'next/navigation';
+import { getBoardColumnsAction } from '@/actions';
 
 interface IColumnsProps {
   id: string;
@@ -13,6 +13,7 @@ interface IColumnsProps {
 
 export const useColumns = ({ boardColumns, boardId, id }: IColumnsProps) => {
   const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(true);
   const [columns, setColumns] = useState<IBoardTaskColumn[]>([]);
 
@@ -28,7 +29,6 @@ export const useColumns = ({ boardColumns, boardId, id }: IColumnsProps) => {
       }
 
       const parsedResponse = JSON.parse(response.data as string);
-
       const columns = boardColumnsNormalizer(parsedResponse?.boardColumns);
 
       setColumns(columns);

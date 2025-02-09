@@ -1,74 +1,72 @@
 'use client';
 
-import { useRef } from 'react';
+import { useState } from 'react';
 import { useTranslations } from 'use-intl';
 
-import { useOutsideClick } from '@/hooks';
 import { IUsersNormalizer } from '@/types';
 
-import { UserIcon } from './user-icon';
-import { DropdownList } from './dropdown';
+import { UserIcon } from '../user-icon';
+import { DropdownItem, DropdownList } from '../dropdown';
 
 import { getStyles } from './style';
-// import { useAddUser } from '../pages/wrapper-columns/participants-board/api';
 
 interface IParticipantsProps {
-  small?: boolean;
-  boardId?: string;
+  width?: number;
+  isTask?: boolean;
   users: IUsersNormalizer[];
-  isDropdownOpen?: boolean;
-  setIsDropdownOpen?: (bool: boolean) => void;
+  dropdownClassName?: string;
 }
 
 const maxUser = 5;
 
-export const Participants = ({ users, small, isDropdownOpen, setIsDropdownOpen, boardId }: IParticipantsProps) => {
-  const ref = useRef<HTMLDivElement>(null);
+export const Participants = ({ users, width, isTask, dropdownClassName }: IParticipantsProps) => {
   const translate = useTranslations('globalPronouns');
-
-  // const { addUsers } = useAddUser(boardId);
 
   const usersLength = users.length - maxUser;
 
-  // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  console.log({ boardId });
-
-  const styles = getStyles(small);
-
-  useOutsideClick(() => {
-    if (setIsDropdownOpen) {
-      setIsDropdownOpen(false);
-    }
-  }, ref);
+  const styles = getStyles(isTask);
 
   return (
     <div className={styles.participantsBox}>
       <div className={styles.iconBox}>
         {users.slice(0, maxUser).map((user) => (
           <UserIcon
-            small={small}
+            width={width}
             lastName={user.lastName}
-            avatarUrl={user.avatarUrl}
             firstName={user.firstName}
+            avatarUrl={user.avatarUrl}
             key={`userCount-${user.id}`}
           />
         ))}
       </div>
 
-      <div ref={ref} className={styles.counter}>
+      <div className={styles.counter}>
         {users.length > maxUser && <span className={styles.plus}>+</span>}
 
         <button
-          onClick={() => (!small && setIsDropdownOpen ? setIsDropdownOpen(!isDropdownOpen) : undefined)}
           className={styles.button}
+          onClick={() => (!isTask && setIsDropdownOpen ? setIsDropdownOpen(!isDropdownOpen) : undefined)}
         >
           {usersLength > 0 && usersLength < 100 && `${translate('more')} ${usersLength}`}
           {usersLength > 99 && `${translate('more')} 99 +`}
         </button>
 
         {isDropdownOpen && (
-          <DropdownList users={users} setIsDropdownOpen={() => setIsDropdownOpen && setIsDropdownOpen(false)} />
+          <DropdownList
+            boardUsers={users}
+            dropdownClassName={dropdownClassName}
+            setIsDropdownOpen={() => setIsDropdownOpen(false)}
+            renderBoardUsers={(user) => (
+              <DropdownItem
+                lastName={user.lastName}
+                firstName={user.firstName}
+                avatarUrl={user.avatarUrl}
+                key={`common-dropdown-${user.id}`}
+              />
+            )}
+          />
         )}
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { IBoardData } from '@/components';
+import { StateProps } from '@/types';
 
 export interface IMoveBoardsProps {
   boards: IBoardData[];
@@ -7,5 +8,5 @@ export interface IMoveBoardsProps {
 
 export interface IUseStateBoards {
   boards: IBoardData[];
-  setBoards: React.Dispatch<React.SetStateAction<IBoardData[]>>;
+  setBoards: StateProps<IBoardData[]>;
 }

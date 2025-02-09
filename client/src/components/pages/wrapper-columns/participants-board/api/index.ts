@@ -1,2 +1,2 @@
-export { useAddUser } from './useAdd';
-export { useParticipants } from './useParticipants';
+export { useAllParticipants } from './useAllParticipants';
+export { useBoardParticipants } from './useBoardParticipants';

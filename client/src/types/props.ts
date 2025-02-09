@@ -7,6 +7,7 @@ import { IAdmin, IBoardColumn, ICreateTask, ITask, IUsers } from './models';
 import { DownloadType, RequestOrganizationStatus, UserStatus } from './enums';
 
 export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
+export type StateProps<T = unknown> = React.Dispatch<React.SetStateAction<T>>;
 
 export interface IOrganization {
   id: string;

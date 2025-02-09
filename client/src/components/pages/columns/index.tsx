@@ -115,7 +115,7 @@ export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoard
   }, [id]);
 
   return (
-    <div className="scroll-blue scroll-column flex h-[calc(100%-62px)] overflow-x-auto bg-white px-5 py-5">
+    <div className="scroll-blue scroll-column flex h-[calc(100%-62px)] overflow-x-auto bg-white px-4 py-5 tablet:px-8">
       <DragDropContext onDragEnd={onMoveColumnAndTasks}>
         <Droppable droppableId="column-area" type="Columns" direction="horizontal">
           {(provided) => (

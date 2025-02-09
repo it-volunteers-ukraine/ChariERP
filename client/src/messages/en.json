@@ -283,7 +283,12 @@
     "limitExceeded": "You can create no more than {int} boards on this page.",
     "massageCopyTitle": "Link copied",
     "emptyBoard": "There is no board with your participation on this page yet",
-    "allParticipants": "all participants"
+    "allParticipants": "all participants",
+    "currentBoard": "Current board",
+    "allUsers": "All members of the organization",
+    "deleteYourSelf": "You cannot remove yourself from the board",
+    "deleteCantUser": "You cannot remove this user from the board because he is assigned to a task",
+    "addUser": "Add a member"
   },
   "copy": {
     "messages": "Copied to clipboard"

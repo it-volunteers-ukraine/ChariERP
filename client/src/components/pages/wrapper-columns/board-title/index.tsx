@@ -12,14 +12,15 @@ interface IBoardTitleProps {
   title: string;
   boardId: string;
   paramValue: string;
+  usersInTasks: string[];
   onChange: (name: string, value: string) => void;
 }
 
-export const BoardTitle = ({ title, paramValue, onChange, boardId }: IBoardTitleProps) => {
+export const BoardTitle = ({ title, paramValue, onChange, boardId, usersInTasks }: IBoardTitleProps) => {
   const massageCopyTranslations = useTranslations('board');
 
   return (
-    <div className="container-chari mb-[10px] flex flex-col gap-3 laptop:mb-7 laptop:gap-6">
+    <div className="mx-4 mb-[10px] flex flex-col gap-3 tablet:mx-8 laptop:mb-7 laptop:gap-6">
       <div className="flex justify-between gap-5 pt-3 laptop:pt-6 desktop:gap-[160px]">
         <EllipsisText content={title}>
           <h2 className="line-clamp-3 font-scada text-[20px] font-bold leading-[24px] text-lightBlue tablet:text-[26px] tablet:leading-[30px]">
@@ -34,20 +35,19 @@ export const BoardTitle = ({ title, paramValue, onChange, boardId }: IBoardTitle
           <Copy />
         </button>
       </div>
-      <div>
-        <div className="flex grow-0 gap-6">
-          <div className="max-w-[254px]">
-            <Input
-              type="search"
-              name="search"
-              label="Search"
-              value={paramValue}
-              onChange={(e) => onChange('search', e as string)}
-            />
-          </div>
 
-          <ParticipantsBoard boardId={boardId} />
+      <div className="flex flex-col gap-6 laptop:flex-row">
+        <div className="laptop:max-w-[254px]">
+          <Input
+            type="search"
+            name="search"
+            label="Search"
+            value={paramValue}
+            onChange={(e) => onChange('search', e as string)}
+          />
         </div>
+
+        <ParticipantsBoard boardId={boardId} usersInTasks={usersInTasks} />
       </div>
     </div>
   );
