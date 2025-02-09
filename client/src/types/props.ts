@@ -118,7 +118,7 @@ export interface IEditUser extends Omit<ICreateUser, 'password' | 'organizationI
 }
 
 export interface TaskPageParamsProps {
-  params: { task_id: string; column_id: string; board_id: string };
+  params: Promise<{ task_id: string; column_id: string; board_id: string }>;
 }
 
 export interface ICreateTaskProps {

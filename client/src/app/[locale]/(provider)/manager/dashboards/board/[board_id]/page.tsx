@@ -7,11 +7,11 @@ import { boardColumnsNormalizer } from '@/utils';
 import { getBoardColumnsAction } from '@/actions';
 
 interface Props {
-  params: { board_id: string };
+  params: Promise<{ board_id: string }>;
 }
 
 export const getData = async (boardId: string) => {
-  const cookiesStore = cookies();
+  const cookiesStore = await cookies();
   const userId = cookiesStore.get('id')?.value || '';
 
   try {
@@ -33,7 +33,7 @@ export const getData = async (boardId: string) => {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { board_id } = params;
+  const { board_id } = await params;
 
   let title = '';
   let order = '';
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const DashboardId = async ({ params }: Props) => {
-  const { board_id } = params;
+  const { board_id } = await params;
 
   const data = await getData(board_id);
 
