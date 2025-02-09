@@ -1,5 +1,5 @@
 export enum DateStyleType {
-  SKY_BLUE = 'DATE_INPUT_WITH_TITLE',
+  SKY_BLUE = 'SKY_BLUE',
 }
 
 export interface DateFieldProps {

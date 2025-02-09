@@ -1,7 +1,6 @@
 import { Input } from '../input';
-import { DateInputWithTitle } from '../date-input-with-title/index';
-
 import { DateStyleType } from './types';
+import { DateInputWithTitle } from '../date-input-with-title/index';
 
 export const CustomInputSwitch = (inputType?: DateStyleType) => {
   switch (inputType) {

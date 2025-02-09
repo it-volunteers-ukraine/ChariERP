@@ -3,6 +3,7 @@ import { forwardRef } from 'react';
 import { Calendar } from '@/assets/icons';
 
 import { InputProps } from '../input/types';
+
 import { getStyles } from './style';
 
 export const DateInputWithTitle = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
