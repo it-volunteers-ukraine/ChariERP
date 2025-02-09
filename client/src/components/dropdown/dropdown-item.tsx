@@ -10,7 +10,7 @@ interface IDropdownItemProps {
 export const DropdownItem = ({ lastName, firstName, avatarUrl, checkbox }: IDropdownItemProps) => {
   return (
     <label className="mb-2 flex cursor-pointer items-center gap-x-2 border-b border-arcticSky p-[6px_8px] hover:bg-superBlue">
-      {checkbox && checkbox}
+      {checkbox !== undefined && checkbox}
 
       <UserIcon withoutRing lastName={lastName} firstName={firstName} avatarUrl={avatarUrl} />
 
