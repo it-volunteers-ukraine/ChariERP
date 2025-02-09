@@ -38,6 +38,5 @@ export { TaskCard } from './task-card';
 export { Title } from './title';
 export { Toast, showMessage } from './toastify';
 export { ToolsDropMenu } from './tools-drop-menu';
-export { useSearch } from './use-search';
 export * from './formik-config';
 export * from './pages';

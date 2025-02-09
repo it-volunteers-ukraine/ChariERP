@@ -1,7 +1,8 @@
 'use client';
 
+import { useSearch } from '@/hooks';
 import { IBoardTaskColumn } from '@/types';
-import { BoardTitle, Columns, useSearch } from '@/components';
+import { BoardTitle, Columns } from '@/components';
 
 import { filterData } from './config';
 
