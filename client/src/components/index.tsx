@@ -32,6 +32,7 @@ export { Pagination } from './pagination';
 export { Participants } from './participants';
 export { RadioField } from './radio-field';
 export { ResponseWrapper } from './response';
+export { Select } from './select';
 export { SmallBtn } from './small-button';
 export { SocialIcon } from './socialIcon';
 export { TaskCard } from './task-card';
