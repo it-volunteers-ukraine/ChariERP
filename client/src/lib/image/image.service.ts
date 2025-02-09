@@ -1,4 +1,4 @@
-import { downloadFileFromBucket } from '@/services';
+import { BucketFolders, downloadFileFromBucket, uploadFileToBucket } from '@/services';
 import { getExtensionForBase64, streamToBase64 } from '@/utils';
 
 import { Readable } from 'stream';
@@ -27,6 +27,14 @@ export class ImageService {
     } catch (error) {
       return Promise.reject(error);
     }
+  }
+
+  async uploadAvatar(avatarUrl: File, organizationId: string) {
+    if (avatarUrl && organizationId) {
+      return await uploadFileToBucket(organizationId, BucketFolders.Avatar, avatarUrl);
+    }
+
+    return '';
   }
 }
 

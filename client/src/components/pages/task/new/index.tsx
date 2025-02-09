@@ -1,33 +1,34 @@
 'use client';
 
 import { useState } from 'react';
-import { redirect } from 'next/navigation';
+import { redirect, useParams } from 'next/navigation';
 
 import { routes } from '@/constants';
 import { useUserInfo } from '@/context';
-import { TaskPageParamsProps } from '@/types';
 
 import { Task } from '..';
 import { useAddTask } from '../api/use-add';
 
 const task = {
-  status: 'in_progress',
-  priority: 'high',
-  attachment: [],
   comments: [],
+  attachment: [],
+  priority: 'high',
   date_end: new Date(),
+  status: 'in_progress',
   date_start: new Date(),
   description: 'Task description',
 };
 
-export const NewTask = ({ params }: TaskPageParamsProps) => {
+export const NewTask = () => {
+  const { board_id, column_id } = useParams<{ board_id: string; column_id: string }>();
+
   const { isManager, _id } = useUserInfo();
 
   const [title, setTitle] = useState('');
 
   const id = _id ? String(_id) : undefined;
 
-  const { addTask } = useAddTask({ userId: id!, boardId: params.board_id, columnId: params.column_id });
+  const { addTask } = useAddTask({ userId: id!, boardId: board_id!, columnId: column_id! });
 
   const onSubmit = async () => {
     await addTask({ ...task, title });
@@ -38,7 +39,7 @@ export const NewTask = ({ params }: TaskPageParamsProps) => {
       {isManager ? (
         <Task title={title} setTitle={setTitle} isCreate onSubmit={onSubmit} />
       ) : (
-        redirect(`${routes.managerDashboard}/${params.board_id}`)
+        redirect(`${routes.managerDashboard}/${board_id}`)
       )}
     </>
   );
