@@ -16,8 +16,8 @@ interface IAddUserToBoard {
 
 export const useAllParticipants = (boardId: string, boardUsers: UserParticipants[]) => {
   const { _id, organizationId } = useUserInfo();
-  const [participants, setAllParticipants] = useState<UserParticipants[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [participants, setAllParticipants] = useState<UserParticipants[]>([]);
 
   const getParticipants = async () => {
     try {

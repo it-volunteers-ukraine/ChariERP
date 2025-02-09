@@ -9,6 +9,7 @@ import { TaskCard } from '@/components';
 import { useUserInfo } from '@/context';
 import { useOutsideClick } from '@/hooks';
 import { IBoardTaskColumn } from '@/types';
+import { applyUserToBoardAction, getBoardMembersAction } from '@/actions';
 
 import { ColumnTasks } from './column-tasks';
 import {
@@ -20,12 +21,11 @@ import {
   useDeleteColumn,
   useEditTitleColumn,
 } from './api';
-import { applyUserToBoardAction, getBoardMembersAction } from '@/actions';
 
 export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoardTaskColumn[] }) => {
   const { isManager, _id } = useUserInfo();
-  const refInput = useRef<HTMLInputElement>(null);
   const translateBtn = useTranslations('button');
+  const refInput = useRef<HTMLInputElement>(null);
 
   const [value, setValue] = useState('');
   const [createColumn, setCreateColumn] = useState(false);

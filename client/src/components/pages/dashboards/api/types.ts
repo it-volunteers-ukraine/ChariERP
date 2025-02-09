@@ -1,9 +1,9 @@
-import { IBoardData } from '@/components';
 import { StateProps } from '@/types';
+import { IBoardData } from '@/components';
 
 export interface IMoveBoardsProps {
-  boards: IBoardData[];
   userId: string;
+  boards: IBoardData[];
 }
 
 export interface IUseStateBoards {

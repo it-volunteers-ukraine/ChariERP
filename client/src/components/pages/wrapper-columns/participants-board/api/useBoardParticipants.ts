@@ -21,9 +21,9 @@ export const useBoardParticipants = ({ boardId, usersInTasks }: { boardId: strin
   const { _id } = useUserInfo();
   const boardText = useTranslations('board');
 
-  const [boardParticipants, setBoardParticipants] = useState<UserParticipants[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const id = _id ? String(_id) : '';
+  const [isLoading, setIsLoading] = useState(true);
+  const [boardParticipants, setBoardParticipants] = useState<UserParticipants[]>([]);
 
   const getParticipants = async () => {
     try {
