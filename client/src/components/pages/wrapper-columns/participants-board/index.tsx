@@ -66,8 +66,8 @@ export const ParticipantsBoard = ({ boardId, usersInTasks }: { boardId: string; 
       )}
 
       {isManager && isLoading && (
-        <div className="flex items-center gap-2">
-          <AddUsers className="cursor-pointer" onClick={() => setIsDropdownOpen(!isDropdownOpen)} />
+        <div className="flex cursor-pointer items-center gap-2" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+          <AddUsers />
           <span className="hidden text-base text-lightBlue tablet:inline desktop:hidden">{boardText('addUser')}</span>
         </div>
       )}

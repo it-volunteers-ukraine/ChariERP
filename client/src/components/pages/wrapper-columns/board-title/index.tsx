@@ -36,7 +36,7 @@ export const BoardTitle = ({ title, paramValue, onChange, boardId, usersInTasks 
         </button>
       </div>
 
-      <div className="flex flex-col gap-6 laptop:flex-row">
+      <div className="flex flex-col gap-4 laptop:flex-row">
         <div className="laptop:max-w-[254px]">
           <Input
             type="search"
