@@ -9,7 +9,8 @@ import {
   cloneElement,
   ReactElement,
   CSSProperties,
-  isValidElement, DOMAttributes,
+  isValidElement,
+  DOMAttributes,
 } from 'react';
 
 import { useOutsideClick } from '@/hooks';
@@ -177,18 +178,21 @@ export const EllipsisText = ({
 
   const updateChildren = Children.map(children, (child) => {
     if (isValidElement(child)) {
-      return cloneElement(child as ReactElement, {
-        ref: targetRef,
-        onMouseEnter: !isTouchDevice ? handleMouseEnter : undefined,
-        onMouseLeave: !isTouchDevice ? handleMouseLeave : undefined,
-        onClick: isTouchDevice
-          ? (e: React.MouseEvent) => {
-              e.stopPropagation();
-              checkTargetEllipsis();
-              setIsOpen(true);
-            }
-          : undefined,
-      } as DOMAttributes<never>);
+      return cloneElement(
+        child as ReactElement,
+        {
+          ref: targetRef,
+          onMouseEnter: !isTouchDevice ? handleMouseEnter : undefined,
+          onMouseLeave: !isTouchDevice ? handleMouseLeave : undefined,
+          onClick: isTouchDevice
+            ? (e: React.MouseEvent) => {
+                e.stopPropagation();
+                checkTargetEllipsis();
+                setIsOpen(true);
+              }
+            : undefined,
+        } as DOMAttributes<never>,
+      );
     }
 
     return child;

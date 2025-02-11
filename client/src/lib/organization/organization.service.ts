@@ -19,7 +19,8 @@ import {
   OrganizationUpdateValues,
   OrganizationCreateValues,
   RequestOrganizationStatus,
-  IUpdateOrganizationByManager, IUsers,
+  IUpdateOrganizationByManager,
+  IUsers,
 } from '@/types';
 
 import { Admin, Organizations, Users } from '..';

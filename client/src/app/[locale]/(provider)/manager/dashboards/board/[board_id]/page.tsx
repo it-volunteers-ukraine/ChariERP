@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const DashboardId = async ({ params }: Props) => {
-  const { board_id } = await params
+  const { board_id } = await params;
   const titleContent = `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam nam praesentium error natus voluptatum eos, explicabo quis incidunt quae delectus illo eius facere necessitatibus molestiae ipsam perspiciatis repellat eligendi vitae? ${board_id}`;
 
   return (

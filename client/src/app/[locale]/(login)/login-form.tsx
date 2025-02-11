@@ -22,14 +22,9 @@ const LoginForm = ({ onSubmit, isLoading }: ILoginFormProps) => {
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const onSubmitEmail = (email: string) => {
-    alert(email);
-    setIsOpenModal(false);
-  };
-
   return (
     <>
-      <ModalEnterEmail isOpen={isOpenModal} onClose={setIsOpenModal} onSubmit={onSubmitEmail} />
+      <ModalEnterEmail isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
 
       <Formik onSubmit={onSubmit} initialValues={initialValues} validationSchema={validationSchema}>
         {() => (
