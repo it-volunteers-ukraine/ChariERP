@@ -12,24 +12,41 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { controlError } from '@/utils';
 import { dateFormat } from '@/constants';
 
-import { Input } from '../input';
-import { DateFieldProps } from './types';
 import { InputProps } from '../input/types';
+import { CustomInputSwitch } from './helpers';
+import { DateFieldProps, DateStyleType } from './types';
 
 import './style.css';
 
 registerLocale('ua', uk);
 registerLocale('en', enGB);
 
-const DatePickerInput = forwardRef((props: InputProps & { isrequired?: string }, ref: React.Ref<HTMLInputElement>) => {
+export interface IDatePickerInput extends InputProps {
+  isrequired?: string;
+  styleType?: DateStyleType;
+}
+
+const DatePickerInput = forwardRef(({ styleType, ...props }: IDatePickerInput, ref: React.Ref<HTMLInputElement>) => {
   const required = props.isrequired === 'true';
+
+  const Input = CustomInputSwitch(styleType);
 
   return <Input {...props} required={required} ref={ref} />;
 });
 
 DatePickerInput.displayName = 'DatePickerInput';
 
-export const DateField = ({ name, label, required, placeholder, wrapperClass, disabled, ...props }: DateFieldProps) => {
+export const DateField = ({
+  name,
+  label,
+  disabled,
+  required,
+  styleType,
+  placeholder,
+  wrapperClass,
+  minDate = '1944-01-01',
+  ...props
+}: DateFieldProps) => {
   const locale = useLocale();
   const pickerRef = useRef<DatePicker>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -85,10 +102,10 @@ export const DateField = ({ name, label, required, placeholder, wrapperClass, di
               portalId="DatePicker"
               scrollableYearDropdown
               dateFormat={dateFormat}
+              minDate={new Date(minDate)}
               yearDropdownItemNumber={150}
               placeholderText={placeholder}
               onCalendarClose={handelClose}
-              minDate={new Date('1944-01-01')}
               onChange={(date) => onChange(date)}
               selected={value ? new Date(value) : null}
               customInput={
@@ -100,6 +117,7 @@ export const DateField = ({ name, label, required, placeholder, wrapperClass, di
                   name={name}
                   label={label}
                   error={error}
+                  styleType={styleType}
                   isrequired={`${required}`}
                 />
               }

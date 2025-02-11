@@ -286,6 +286,14 @@ const config: Config = {
           '0%': { opacity: 1 },
           '100%': { opacity: 0 },
         },
+        selectedOpen: {
+          '0%': { height: '0px', opacity: '0' },
+          '100%': { height: '160px', opacity: '1' },
+        },
+        selectedClose: {
+          '0%': { height: '160px', opacity: '1' },
+          '100%': { height: '0px', opacity: '0' },
+        },
       },
       animation: {
         portalOpen: 'appearanceOverlay ease-in-out forwards',
@@ -298,6 +306,8 @@ const config: Config = {
         notRotate: 'notRotate 30s linear infinite',
         startExpand: 'expandToolsMenu ease-in-out forwards',
         startCollapse: 'collapseToolsMenu ease-in-out forwards',
+        openSelectedMenu: 'selectedOpen 0.3s ease-in-out forwards',
+        closeSelectedMenu: 'selectedClose 0.2s ease-in-out forwards',
       },
     },
   },

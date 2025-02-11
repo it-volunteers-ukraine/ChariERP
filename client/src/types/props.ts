@@ -117,7 +117,7 @@ export interface IEditUser extends Omit<ICreateUser, 'password' | 'organizationI
 }
 
 export interface TaskPageParamsProps {
-  params: { task_id: string; column_id: string; board_id: string };
+  params: Promise<{ task_id: string; column_id: string; board_id: string }>;
 }
 
 export interface ICreateTaskProps {
@@ -203,4 +203,20 @@ export interface IUpdateOrganizationByManager {
   userId: string;
   formData: FormData;
   organizationId: string;
+}
+
+export interface IGetBoardMembersProps {
+  userId: string;
+  boardId: string;
+}
+export interface IApplyUserToBoardProps {
+  userId: string;
+  boardId: string;
+  applyUserId: string;
+}
+
+export interface IRevokeUserFromBoardProps {
+  userId: string;
+  boardId: string;
+  revokeUserId: string;
 }

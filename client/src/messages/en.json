@@ -31,6 +31,12 @@
     "notFound": "User not found",
     "error": "There was an error changing your password, please try again later"
   },
+  "attachments": {
+    "title": "INCLUSIONS",
+    "attachFile": "Attach a file",
+    "download": "Download",
+    "delete": "Delete"
+  },
   "sidebar": {
     "requests": "Requests",
     "declined": "Declined",
@@ -79,6 +85,8 @@
       "label": "Position",
       "information": "Enter the role of the employee (accountant, driver, etc.) or leave the field blank"
     },
+    "startDate": { "title": "Start date:" },
+    "endDate": { "title": "End date:" },
     "lastName": {
       "label": "Last name"
     },
@@ -596,7 +604,7 @@
       ]
     },
     "joinUs": {
-      "contactMessage": "If you have any questions or would like to get involved, please contact us.",
+      "contactMessage": "If you have any questions or would like to join our collaboration, feel free to contact us.",
       "buttonContacts": "Contacts"
     },
     "sidebarButtonName": { "Organizations": "My organization", "Employees": "Employees", "Boards": "Boards" }
