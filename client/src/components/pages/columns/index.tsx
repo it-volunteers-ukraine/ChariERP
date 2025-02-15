@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 
 import { cn } from '@/utils';
+import { routes } from '@/constants';
 import { TaskCard } from '@/components';
 import { useUserInfo } from '@/context';
 import { useOutsideClick } from '@/hooks';
@@ -19,8 +20,10 @@ import {
   useDeleteColumn,
   useEditTitleColumn,
 } from './api';
+import { useRouter } from 'next/navigation';
 
 export const Columns = ({ boardId }: { boardId: string }) => {
+  const router = useRouter();
   const { isManager, _id } = useUserInfo();
   const refInput = useRef<HTMLInputElement>(null);
   const translateBtn = useTranslations('button');
@@ -30,7 +33,11 @@ export const Columns = ({ boardId }: { boardId: string }) => {
 
   const id = _id ? String(_id) : undefined;
 
-  const { response, setColumns, isLoadingColumns } = useColumns({ boardId, userId: id! });
+  const { response, setColumns, isLoadingColumns } = useColumns({
+    boardId,
+    userId: id!,
+    onReject: () => router.push(routes.managerDashboardDenied),
+  });
   const { onAddColumn } = useAddColumn({ boardId, userId: id! });
   const { onEditTitleColumn } = useEditTitleColumn({ boardId, userId: id! });
   const { onDeleteColumn } = useDeleteColumn({ boardId, userId: id! });
