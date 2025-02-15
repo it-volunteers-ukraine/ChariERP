@@ -4,16 +4,16 @@ import { MockData } from './mock';
 import { Accordion } from '../../accordion';
 
 export const GeneralQuestions = () => {
-  const [active, setActive] = useState<number | null>(null);
+  const [active, setActive] = useState<number[]>([]);
 
   const toggleAccordion = (i: number) => {
-    if (active === i) {
-      setActive(null);
+    if (active.includes(i)) {
+      setActive(active.filter((item) => item !== i));
 
       return;
     }
 
-    setActive(i);
+    setActive([...active, i]);
   };
 
   return (
@@ -23,7 +23,7 @@ export const GeneralQuestions = () => {
           <Accordion
             text={item.text}
             title={item.title}
-            active={active === i}
+            active={active.includes(i)}
             key={i + 'acc' + item.title}
             onClick={() => toggleAccordion(i)}
           />
