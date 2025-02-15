@@ -12,7 +12,7 @@ export const MainTheme = () => {
         alt="bg"
         priority={true}
         src={MainThemeBg}
-        className="min-h-[248px] min-w-[490px] object-cover tablet:min-h-[323px] tablet:min-w-full laptop:min-h-[416px] desktop:min-h-[calc(100vh-64px)]"
+        className="min-h-[248px] tablet:min-h-[323px] tablet:min-w-full laptop:min-h-[416px] desktop:min-h-[calc(100vh-64px)]"
       />
 
       <div className="absolute inset-0 flex h-full items-center justify-center">
