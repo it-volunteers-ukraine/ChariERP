@@ -33,9 +33,9 @@ export const useAllParticipants = (boardId: string, boardUsers: UserParticipants
 
         const allUsers = normalizeUsers(users.results);
 
-        setAllParticipants(
-          sortedUsers(allUsers.filter((user) => !boardUsers.find((boardUser) => boardUser.id === user.id))),
-        );
+        const usersByBoard = allUsers.filter((user) => !boardUsers.find((boardUser) => boardUser.id === user.id));
+
+        setAllParticipants(sortedUsers(usersByBoard));
       }
     } catch (error) {
       console.log({ error });

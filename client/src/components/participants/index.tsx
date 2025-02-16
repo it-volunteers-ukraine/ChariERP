@@ -17,12 +17,12 @@ interface IParticipantsProps {
   dropdownClassName?: string;
 }
 
-const maxUser = 5;
+const maxVisibleUserInSelect = 5;
 
 export const Participants = ({ users, width, isTask, dropdownClassName }: IParticipantsProps) => {
   const translate = useTranslations('globalPronouns');
 
-  const usersLength = users.length - maxUser;
+  const usersLength = users.length - maxVisibleUserInSelect;
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -31,7 +31,7 @@ export const Participants = ({ users, width, isTask, dropdownClassName }: IParti
   return (
     <div className={styles.participantsBox}>
       <div className={styles.iconBox}>
-        {users.slice(0, maxUser).map((user) => (
+        {users.slice(0, maxVisibleUserInSelect).map((user) => (
           <UserIcon
             width={width}
             lastName={user.lastName}
@@ -43,7 +43,7 @@ export const Participants = ({ users, width, isTask, dropdownClassName }: IParti
       </div>
 
       <div className={styles.counter}>
-        {users.length > maxUser && <span className={styles.plus}>+</span>}
+        {users.length > maxVisibleUserInSelect && <span className={styles.plus}>+</span>}
 
         <button
           className={styles.button}
