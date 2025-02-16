@@ -136,6 +136,7 @@ export interface ICreateColumnProps {
 export interface IUseColumns {
   boardId: string;
   userId: string;
+  onReject?: () => void;
 }
 export interface IGetColumnsProps {
   boardId: string;

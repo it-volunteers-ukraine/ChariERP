@@ -7,7 +7,7 @@ import { IUseColumns, ResponseGetType } from '@/types';
 
 import { IBoardColumn } from './types';
 
-export const useColumns = ({ boardId, userId }: IUseColumns) => {
+export const useColumns = ({ boardId, userId, onReject }: IUseColumns) => {
   const [columns, setColumns] = useState<IBoardColumn[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -19,6 +19,10 @@ export const useColumns = ({ boardId, userId }: IUseColumns) => {
       })) as ResponseGetType;
 
       if (!response?.success && response?.message && !response?.data) {
+        if (onReject) {
+          onReject();
+        }
+
         showMessage.error(response.message);
 
         return;
