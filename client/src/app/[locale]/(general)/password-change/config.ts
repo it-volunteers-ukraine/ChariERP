@@ -1,6 +1,8 @@
 import * as Yup from 'yup';
 import { TranslationValues } from 'next-intl';
 
+import { getPasswordValidation } from '@/components';
+
 export const initialValues = {
   newPassword: '',
   passwordConfirmation: '',
@@ -8,14 +10,9 @@ export const initialValues = {
 
 export const getValidationSchema = (error: (key: string, params?: TranslationValues) => string) =>
   Yup.object().shape({
-    newPassword: Yup.string()
-      .trim()
-      .required(error('required'))
-      .min(8, error('minPlural', { int: 8 }))
-      .max(20, error('maxPlural', { int: 20 }))
-      .matches(/^[^\u0400-\u04FF]+$/, error('matches_english', { field: 'Password' })),
+    newPassword: getPasswordValidation(error),
     passwordConfirmation: Yup.string()
       .trim()
       .required(error('required'))
-      .oneOf([Yup.ref('newPassword')], error('passwordMismatch')),
+      .oneOf([Yup.ref('newPassword')], error('passwordsMustMatch')),
   });

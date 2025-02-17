@@ -19,7 +19,17 @@
   "password-change": {
     "title": "Change your password",
     "newPassword": "New password",
-    "passwordConfirmation": "Password confirmation"
+    "passwordConfirmation": "Password confirmation",
+    "successSend": "The message has been sent",
+    "tokenExists": "You have already requested a password change. A new link can only be sent 24 hours after the previous request",
+    "tokenExistsTime": "You have already requested a password change. A new link will be sent in {time} hours",
+    "errorSend": "Error sending a message",
+    "userNotFound": "The user with the following email was not found",
+    "successChange": "Password changed successfully",
+    "linkExpired": "This link is not valid or has expired",
+    "passwordRequired": "Password is required",
+    "notFound": "User not found",
+    "error": "There was an error changing your password, please try again later"
   },
   "attachments": {
     "title": "INCLUSIONS",
@@ -75,6 +85,8 @@
       "label": "Position",
       "information": "Enter the role of the employee (accountant, driver, etc.) or leave the field blank"
     },
+    "startDate": { "title": "Start date:" },
+    "endDate": { "title": "End date:" },
     "lastName": {
       "label": "Last name"
     },
@@ -226,7 +238,8 @@
     "maxSizeFile": "File size exceeds {maxSize}МБ",
     "passwordMismatch": "The entered passwords do not match",
     "validEmail": "Email must be a valid",
-    "spacesNotAllowed": "Leading and trailing spaces are not allowed"
+    "spacesNotAllowed": "Leading and trailing spaces are not allowed",
+    "passwordsMustMatch": "Passwords must be the same"
   },
   "header": {
     "about": "About Us",

@@ -13,6 +13,7 @@ export { Button } from './button';
 export { ButtonIcon } from './button-icon';
 export { CheckboxField } from './checkbox-field';
 export { CheckboxRadio } from './checkbox-radio';
+export { DateFieldWithTitle } from './date-field-with-title';
 export { DateField } from './date-field';
 export { DropdownList, DropdownItem, DropdownInput, IntermediateText } from './dropdown';
 export { EllipsisText } from './ellipsisText';
