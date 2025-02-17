@@ -1,3 +1,4 @@
+export { default as AddUsers } from './add-users.svg';
 export { default as ArrowLeft } from './arrowLeft.svg';
 export { default as ArrowUp } from './arrow-up.svg';
 export { default as Avatar } from './avatar.svg';
