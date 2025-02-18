@@ -1,50 +1,61 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { showMessage } from '@/components';
+import { IBoardTaskColumn } from '@/types';
 import { boardColumnsNormalizer } from '@/utils';
 import { getBoardColumnsAction } from '@/actions';
-import { IUseColumns, ResponseGetType } from '@/types';
 
-import { IBoardColumn } from './types';
+interface IColumnsProps {
+  id: string;
+  boardId: string;
+  onReject?: () => void;
+  boardColumns: IBoardTaskColumn[];
+}
 
-export const useColumns = ({ boardId, userId, onReject }: IUseColumns) => {
-  const [columns, setColumns] = useState<IBoardColumn[]>([]);
+export const useColumns = ({ boardColumns, boardId, id, onReject }: IColumnsProps) => {
+  const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(true);
+  const [columns, setColumns] = useState<IBoardTaskColumn[]>([]);
 
-  const getColumns = async () => {
+  const getData = async () => {
     try {
-      const response: ResponseGetType = (await getBoardColumnsAction({
+      const response = await getBoardColumnsAction({
         boardId,
-        userId,
-      })) as ResponseGetType;
+        userId: id,
+      });
 
-      if (!response?.success && response?.message && !response?.data) {
+      if (!response.success || !response.data) {
         if (onReject) {
           onReject();
         }
 
-        showMessage.error(response.message);
-
-        return;
+        throw new Error('Error data');
       }
 
-      if (response?.success && response.data) {
-        const parsedResponse = JSON.parse(response.data);
+      const parsedResponse = JSON.parse(response.data as string);
+      const columns = boardColumnsNormalizer(parsedResponse?.boardColumns);
 
-        setColumns(boardColumnsNormalizer(parsedResponse));
-      }
-    } catch (error) {
-      console.log(error);
+      setColumns(columns);
+    } catch (e) {
+      console.log({ e });
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (userId) {
-      getColumns();
+    if (boardColumns) {
+      setColumns(boardColumns);
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
     }
-  }, [userId]);
+  }, [boardColumns]);
 
-  return { response: columns, setColumns, isLoadingColumns: isLoading };
+  useEffect(() => {
+    getData();
+  }, [router]);
+
+  return { response: columns, setColumns, isLoading };
 };

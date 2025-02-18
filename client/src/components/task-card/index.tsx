@@ -96,7 +96,7 @@ export const TaskCard = ({
             )}
           </div>
 
-          <Participants users={users} small />
+          <Participants users={users} isTask />
         </Link>
       )}
     </Draggable>

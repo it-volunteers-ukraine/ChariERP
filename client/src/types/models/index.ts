@@ -1,6 +1,6 @@
 export { type IAdmin } from './admin';
 export { type IBoard } from './board';
-export { type IBoardColumn, type IBoardColumnTasks } from './board-column';
+export { type IBoardColumn, type IBoardColumnTasks, type IBoardServerColumns } from './board-column';
 export { type IEditTask, type ICreateTask, type ITask } from './task';
 export { type IResetToken } from './reset-token';
 export { type IUsers } from './users';

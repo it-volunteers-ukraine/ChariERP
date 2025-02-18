@@ -1,14 +1,15 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 
 import { cn } from '@/utils';
-import { routes } from '@/constants';
 import { TaskCard } from '@/components';
 import { useUserInfo } from '@/context';
 import { useOutsideClick } from '@/hooks';
+import { IBoardTaskColumn } from '@/types';
+import { applyUserToBoardAction, getBoardMembersAction } from '@/actions';
 
 import { ColumnTasks } from './column-tasks';
 import {
@@ -20,24 +21,18 @@ import {
   useDeleteColumn,
   useEditTitleColumn,
 } from './api';
-import { useRouter } from 'next/navigation';
 
-export const Columns = ({ boardId }: { boardId: string }) => {
-  const router = useRouter();
+export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoardTaskColumn[] }) => {
   const { isManager, _id } = useUserInfo();
-  const refInput = useRef<HTMLInputElement>(null);
   const translateBtn = useTranslations('button');
+  const refInput = useRef<HTMLInputElement>(null);
 
   const [value, setValue] = useState('');
   const [createColumn, setCreateColumn] = useState(false);
 
-  const id = _id ? String(_id) : undefined;
+  const id = _id ? String(_id) : '';
 
-  const { response, setColumns, isLoadingColumns } = useColumns({
-    boardId,
-    userId: id!,
-    onReject: () => router.push(routes.managerDashboardDenied),
-  });
+  const { response, setColumns, isLoading } = useColumns({ boardColumns: columns, boardId, id });
   const { onAddColumn } = useAddColumn({ boardId, userId: id! });
   const { onEditTitleColumn } = useEditTitleColumn({ boardId, userId: id! });
   const { onDeleteColumn } = useDeleteColumn({ boardId, userId: id! });
@@ -112,8 +107,15 @@ export const Columns = ({ boardId }: { boardId: string }) => {
     }
   };
 
+  useEffect(() => {
+    if (id) {
+      applyUserToBoardAction({ userId: id, boardId, applyUserId: '6794badec6af6311f152d91a' });
+      getBoardMembersAction({ userId: id, boardId });
+    }
+  }, [id]);
+
   return (
-    <div className="scroll-blue scroll-column flex h-[calc(100%-62px)] overflow-x-auto bg-white px-5 py-5">
+    <div className="scroll-blue scroll-column flex h-[calc(100%-62px)] overflow-x-auto bg-white px-4 py-5 tablet:px-8">
       <DragDropContext onDragEnd={onMoveColumnAndTasks}>
         <Droppable droppableId="column-area" type="Columns" direction="horizontal">
           {(provided) => (
@@ -166,7 +168,7 @@ export const Columns = ({ boardId }: { boardId: string }) => {
         </Droppable>
       </DragDropContext>
 
-      {!isLoadingColumns && (
+      {!isLoading && (
         <div className="flex h-full bg-white">
           {createColumn && (
             <div className="flex h-fit min-h-[254px] w-[254px] flex-col gap-y-3 rounded-md bg-whiteSecond px-4 py-5 shadow-boardColumn">

@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import { SortOrder } from 'mongoose';
 
-import { BucketFolders, deleteFileFromBucket, deleteFolderFromBucket, sendEmail, uploadFileToBucket } from '@/services';
 import {
   getPaginate,
   generatePassword,
@@ -12,6 +11,7 @@ import {
 } from '@/utils';
 import {
   Roles,
+  IUsers,
   UserStatus,
   IOrganizations,
   IOrganizationsUpdate,
@@ -20,8 +20,8 @@ import {
   OrganizationCreateValues,
   RequestOrganizationStatus,
   IUpdateOrganizationByManager,
-  IUsers,
 } from '@/types';
+import { BucketFolders, deleteFileFromBucket, deleteFolderFromBucket, sendEmail, uploadFileToBucket } from '@/services';
 
 import { Admin, Organizations, Users } from '..';
 import { BaseService } from '../database/base.service';
