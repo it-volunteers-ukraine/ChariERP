@@ -13,6 +13,7 @@ export { ButtonIcon } from './button-icon';
 export { CheckboxField } from './checkbox-field';
 export { CheckboxRadio } from './checkbox-radio';
 export { DateField } from './date-field';
+export { Editor } from './editor';
 export { EllipsisText } from './ellipsisText';
 export { EmployeeCard } from './employee-card';
 export { FileField } from './file-field';

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 
 import { GeneralQuestions, Tabs } from './components';
+import { ViewEditor } from '@/components/viewEditor';
 
 export const FaqPage = () => {
   const [active, setActive] = useState(0);
@@ -20,6 +21,7 @@ export const FaqPage = () => {
           {active === 2 && <GeneralQuestions />}
         </div>
       </div>
+      <ViewEditor />
     </div>
   );
 };

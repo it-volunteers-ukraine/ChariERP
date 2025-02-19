@@ -1,0 +1,77 @@
+.text-bold {
+  font-weight: bold;
+}
+
+.text-italic {
+  font-style: italic;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+.text-code {
+  background-color: #f0f2f5;
+  padding: 1px 0.25rem;
+  font-family: Menlo, Consolas, Monaco, monospace;
+  font-size: 94%;
+}
+
+.text-highlight {
+  margin: 0 5px;
+}
+
+.text-strikethrough {
+  text-decoration: line-through;
+}
+
+.text-subscript {
+  vertical-align: sub;
+}
+
+.text-superscript {
+  vertical-align: super;
+}
+
+.h1 {
+  font-size: 30px;
+}
+
+.h2 {
+  font-size: 26px;
+}
+
+.h3 {
+  font-size: 22px;
+}
+
+.h4 {
+  font-size: 18px;
+}
+
+.h5 {
+  font-size: 14px;
+}
+
+h1 span,
+h2 span,
+h3 span,
+h4 span,
+h5 span {
+  font-size: inherit;
+}
+
+.ol {
+  padding: 0;
+  margin: 0;
+  padding-left: 10px;
+  list-style-position: inside;
+  list-style-type: decimal;
+}
+.ul {
+  padding: 0;
+  margin: 0;
+  padding-left: 10px;
+  list-style-position: inside;
+  list-style-type: disc;
+}
