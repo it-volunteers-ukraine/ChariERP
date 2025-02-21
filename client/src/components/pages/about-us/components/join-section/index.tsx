@@ -88,9 +88,9 @@ export const JoinSection = () => {
                 <Button
                   type="submit"
                   styleType="primary"
-                  text={text('form.join')}
-                  isLoading={isLoading}
                   className="uppercase"
+                  isLoading={isLoading}
+                  text={text('form.join')}
                 />
               </Form>
             );
