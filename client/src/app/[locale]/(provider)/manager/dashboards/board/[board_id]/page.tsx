@@ -1,33 +1,64 @@
 import { Metadata } from 'next';
+import { cookies } from 'next/headers';
 
-import { Columns } from '@/components';
-
-import { BoardTitle } from './board-title';
+import { IBoardServerColumns } from '@/types';
+import { WrapperColumns } from '@/components';
+import { boardColumnsNormalizer } from '@/utils';
+import { getBoardColumnsAction } from '@/actions';
 
 interface Props {
   params: Promise<{ board_id: string }>;
 }
 
+export const getData = async (boardId: string) => {
+  const cookiesStore = await cookies();
+  const userId = cookiesStore.get('id')?.value || '';
+
+  try {
+    const response = await getBoardColumnsAction({
+      userId,
+      boardId,
+    });
+
+    if (!response.success || !response.data) {
+      throw new Error('Error data');
+    }
+
+    const parsedResponse = JSON.parse(response.data as string);
+
+    return parsedResponse as IBoardServerColumns;
+  } catch (e) {
+    console.log({ e });
+  }
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { board_id } = await params;
 
+  let title = '';
+  let order = '';
+
+  const response = await getData(board_id);
+
+  if (response) {
+    title = response.title || '';
+    order = String(response.order || '');
+  }
+
   return {
-    title: `Dashboard - ${board_id}`,
-    description: `This is the dashboard page for ${board_id}`,
+    title: title ? `Dashboard - #${order} ${title}` : 'Dashboard',
+    description: title ? `This is the dashboard page for #${order} ${title}` : 'This is the dashboard page.',
   };
 }
 
 const DashboardId = async ({ params }: Props) => {
   const { board_id } = await params;
-  const titleContent = `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam nam praesentium error natus voluptatum eos, explicabo quis incidunt quae delectus illo eius facere necessitatibus molestiae ipsam perspiciatis repellat eligendi vitae? ${board_id}`;
 
-  return (
-    <div className="relative flex h-[calc(100dvh-64px)] flex-col overflow-hidden bg-white desktop:h-[calc(100dvh-96px)]">
-      <BoardTitle titleText={titleContent} />
+  const data = await getData(board_id);
 
-      <Columns boardId={board_id} />
-    </div>
-  );
+  const columns = boardColumnsNormalizer(data?.boardColumns);
+
+  return <WrapperColumns id={board_id} columns={columns} title={`#${data?.order} ${data?.title}`} />;
 };
 
 export default DashboardId;

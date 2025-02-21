@@ -11,6 +11,7 @@ export const routes = {
   employeesCreate: '/manager/employees/create',
   managerDashboard: '/manager/dashboards/board',
   managerDashboards: '/manager/dashboards',
+  managerDashboardDenied: '/manager/dashboards/access-denied',
   managerHome: '/manager/home',
   managerOrganization: '/manager/organization',
   managerSettings: '/manager/settings',

@@ -9,8 +9,8 @@ import {
   cloneElement,
   ReactElement,
   CSSProperties,
-  isValidElement,
   DOMAttributes,
+  isValidElement,
 } from 'react';
 
 import { useOutsideClick } from '@/hooks';
