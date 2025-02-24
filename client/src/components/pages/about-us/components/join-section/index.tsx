@@ -1,27 +1,48 @@
+import { useState } from 'react';
 import Image from 'next/image';
 import { Form, Formik } from 'formik';
 import { useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
 import { bgJoin } from '@/assets/img';
+import { sendEmail } from '@/services';
 import { useWindowWidth } from '@/hooks';
 import { Title } from '@/components/title';
 import { Button } from '@/components/button';
+import { showMessage } from '@/components/toastify';
 import { InputField } from '@/components/input-field';
 import { CheckboxField } from '@/components/checkbox-field';
 
-import { IJoinFormValues, joinInitialValues, joinValidation } from './config';
+import { createEmailContent, IJoinFormValues, joinInitialValues, joinValidation } from './config';
 
 export const JoinSection = () => {
   const { isTablet } = useWindowWidth();
   const text = useTranslations('aboutUsPage');
   const error = useTranslations('validation');
   const privacyPolicy = useTranslations('inputs');
+  const [isLoading, setIsLoading] = useState(false);
 
   const validationSchema = joinValidation(error);
 
-  const onSubmit = (values: IJoinFormValues) => {
-    console.log(values);
+  const onSubmit = async (values: IJoinFormValues, { resetForm }: { resetForm: () => void }) => {
+    setIsLoading(true);
+
+    try {
+      await sendEmail({
+        to: 'it.volunteers.ukraine@gmail.com',
+        subject: 'Нове запитання для приєднання',
+        text: `Ім'я: ${values.name}\nEmail: ${values.email}\nTelegram: ${values.telegram}\nТелефон: ${values.phone}\nПовідомлення: ${values.message}`,
+        html: createEmailContent(values),
+      });
+      showMessage.success(text('successMessage'));
+      resetForm();
+    } catch (error) {
+      console.log(error);
+
+      showMessage.error(text('errorMessage'));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -67,7 +88,13 @@ export const JoinSection = () => {
                   className="mb-6 !items-start laptop:mx-auto laptop:!items-center"
                 />
 
-                <Button type="submit" styleType="primary" text={text('form.join')} className="uppercase" />
+                <Button
+                  type="submit"
+                  styleType="primary"
+                  className="uppercase"
+                  isLoading={isLoading}
+                  text={text('form.join')}
+                />
               </Form>
             );
           }}

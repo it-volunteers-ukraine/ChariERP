@@ -48,3 +48,17 @@ export const joinValidation = (error: (key: string, params?: TranslationValues) 
       .max(2000, error('maxPlural', { int: 2000 })),
     agree: Yup.boolean().oneOf([true]).required(),
   });
+
+export const createEmailContent = (values: IJoinFormValues) => {
+  return `
+    <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; padding: 20px; max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-radius: 8px;">
+      <h2 style="color: #0056b3; text-align: center;">Нове запитання для приєднання</h2>
+      <p><strong>Ім'я:</strong> ${values.name}</p>
+      <p><strong>Електронна пошта:</strong> ${values.email}</p>
+      <p><strong>Телеграм:</strong> ${values.telegram}</p>
+      <p><strong>Номер телефону:</strong> ${values.phone}</p>
+      <p><strong>Повідомлення:</strong></p>
+      <p>${values.message}</p>
+    </div>
+  `;
+};
