@@ -38,10 +38,9 @@ export const joinValidation = (error: (key: string, params?: TranslationValues) 
       .required(error('required')),
     telegram: Yup.string()
       .trim()
-      .matches(regExp.https, error('siteStart'))
-      .matches(regExp.domainUpLevel, error('domain'))
       .min(10, error('minPlural', { int: 10 }))
-      .max(2000, error('maxPlural', { int: 2000 })),
+      .max(2000, error('maxPlural', { int: 2000 }))
+      .matches(regExp.telegramLink, error('telegram')),
     message: Yup.string()
       .trim()
       .min(10, error('minPlural', { int: 10 }))

@@ -233,6 +233,7 @@
     "enter9Digits": "Please enter 9 digits",
     "notValidEmail": "Invalid e-mail address",
     "siteStart": "Only https:// protocol is allowed",
+    "telegram": "Incorrect reference to Telegram. The correct format is https://t.me/username or tg://resolve?domain=username",
     "domain": "Domain must be correct format www.example.com",
     "extensionsFile": "Invalid file format. Available formats: {extensions}",
     "maxSizeFile": "File size exceeds {maxSize}МБ",
