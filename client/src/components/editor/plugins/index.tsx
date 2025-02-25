@@ -1,5 +1,6 @@
-export { OnChange } from './onChange';
-export { TreeViewPlugin } from './treeViewPlugin';
-export { Heading } from './heading';
-export { RestoreState } from './restoreState';
-export { SetIsEditing } from './setIsEditing';
+export { Heading } from './Heading';
+export { ImagePlugin } from './Image';
+export { OnChange } from './OnChange';
+export { RestoreState } from './RestoreState';
+export { SetIsEditing } from './SetIsEditing';
+export { TreeViewPlugin } from './TreeViewPlugin';

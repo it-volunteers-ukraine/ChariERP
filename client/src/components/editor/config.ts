@@ -1,5 +1,7 @@
 import { HeadingNode } from '@lexical/rich-text';
 import { ListItemNode, ListNode } from '@lexical/list';
+import { ImageNode } from './node';
+import { createCommand } from 'lexical';
 
 const theme = {
   text: {
@@ -25,13 +27,15 @@ const theme = {
   },
 };
 
+export const INSERT_IMAGE_COMMAND = createCommand<string>();
+
 export const initialConfig = (initialState?: string, isEditing: boolean = false) => {
   return {
     namespace: 'editor',
     theme,
     editable: isEditing,
     editorState: initialState,
-    nodes: [HeadingNode, ListNode, ListItemNode],
+    nodes: [HeadingNode, ListNode, ListItemNode, ImageNode],
     onError: (e: Error) => {
       console.log('ERROR:', e);
     },

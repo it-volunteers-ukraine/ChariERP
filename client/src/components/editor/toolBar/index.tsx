@@ -1,8 +1,10 @@
-import { Heading } from './heading';
-import { History } from './history';
-import { List } from './list';
-import { TextAlign } from './textAlign';
-import { TextDecoration } from './textDecoration';
+import { List } from './List';
+import { Heading } from './Heading';
+import { History } from './History';
+import { TextAlign } from './TextAlign';
+import { ImagePlugin } from '../plugins';
+import { TextDecoration } from './TextDecoration';
+import { ImageButton } from './Image';
 
 interface IToolBarProps {
   className?: string;
@@ -15,6 +17,8 @@ export const ToolBar = ({ className }: IToolBarProps) => {
       <TextAlign />
       <List />
       <Heading />
+      <ImageButton />
+      <ImagePlugin />
       <History />
     </div>
   );

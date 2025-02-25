@@ -15,9 +15,9 @@ import { Button } from '../button';
 import { getStyle } from './style';
 import { ToolBar } from './toolBar';
 import { initialConfig } from './config';
-import { Heading, OnChange, RestoreState, SetIsEditing } from './plugins';
 
 import './index.css';
+import { Heading, ImagePlugin, OnChange, RestoreState, SetIsEditing, TreeViewPlugin } from './plugins';
 
 interface IEditor {
   onSave: (state: string) => void;
@@ -98,6 +98,8 @@ export const Editor = ({ onSave, initialState, isEditing = false, cancelEditing,
       <SetIsEditing isEditing={initialState ? isOpen : true} />
       <ListPlugin />
       <CheckListPlugin />
+      <ImagePlugin />
+      <TreeViewPlugin />
     </LexicalComposer>
   );
 };

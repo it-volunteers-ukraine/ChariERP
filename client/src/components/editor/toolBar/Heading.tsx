@@ -1,5 +1,5 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { FORMAT_HEADING_COMMAND } from '../../plugins/heading';
+import { FORMAT_HEADING_COMMAND } from '../plugins/Heading';
 
 export const Heading = () => {
   const tags = ['h1', 'h2', 'h3', 'h4', 'h5'];
