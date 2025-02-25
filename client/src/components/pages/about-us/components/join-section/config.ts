@@ -1,8 +1,3 @@
-import * as Yup from 'yup';
-import { TranslationValues } from 'next-intl';
-
-import { regExp } from '@/constants';
-
 export interface IJoinFormValues {
   name: string;
   email: string;
@@ -12,7 +7,7 @@ export interface IJoinFormValues {
   telegram: string;
 }
 
-export const joinInitialValues: IJoinFormValues = {
+export const InitialValues = {
   name: '',
   email: '',
   phone: '',
@@ -21,43 +16,18 @@ export const joinInitialValues: IJoinFormValues = {
   agree: false,
 };
 
-export const joinValidation = (error: (key: string, params?: TranslationValues) => string) =>
-  Yup.object().shape({
-    name: Yup.string()
-      .trim()
-      .max(300, error('maxPlural', { int: 300 }))
-      .required(error('required')),
-    phone: Yup.string().test('is-valid-length', error('enter9Digits'), (value) => {
-      return value ? value.replace(/\D/g, '').length >= 12 : true;
-    }),
-    email: Yup.string()
-      .trim()
-      .min(6, error('minPlural', { int: 6 }))
-      .max(50, error('maxPlural', { int: 50 }))
-      .matches(regExp.email, error('notValidEmail'))
-      .required(error('required')),
-    telegram: Yup.string()
-      .trim()
-      .min(10, error('minPlural', { int: 10 }))
-      .max(2000, error('maxPlural', { int: 2000 }))
-      .matches(regExp.telegramLink, error('telegram')),
-    message: Yup.string()
-      .trim()
-      .min(10, error('minPlural', { int: 10 }))
-      .max(2000, error('maxPlural', { int: 2000 })),
-    agree: Yup.boolean().oneOf([true]).required(),
-  });
-
-export const createEmailContent = (values: IJoinFormValues) => {
-  return `
-    <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; padding: 20px; max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-radius: 8px;">
-      <h2 style="color: #0056b3; text-align: center;">Нове запитання для приєднання</h2>
-      <p><strong>Ім'я:</strong> ${values.name}</p>
-      <p><strong>Електронна пошта:</strong> ${values.email}</p>
-      <p><strong>Телеграм:</strong> ${values.telegram}</p>
-      <p><strong>Номер телефону:</strong> ${values.phone}</p>
-      <p><strong>Повідомлення:</strong></p>
-      <p>${values.message}</p>
-    </div>
-  `;
-};
+export const emailData = (values: IJoinFormValues) => ({
+  subject: `Зворотній зв'язок для ${values.name}`,
+  to: 'it.volunteers.ukraine@gmail.com',
+  text: `Ім'я: ${values.name}\nEmail: ${values.email}\nТелефон: ${values.phone}\nПовідомлення: ${values.message}`,
+  html: `
+    <h3>Зворотня Форма</h3>
+    <table>
+      <tr><td style="padding: 8px; border: 1px solid #000;">Ім'я:</td><td style="  border: 1px solid #000; padding-left: 8px; padding-right: 8px">${values.name}</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #000;">Email:</td><td style="  border: 1px solid #000; padding-left: 8px; padding-right: 8px">${values.email}</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #000;">Телефон:</td><td style="  border: 1px solid #000; padding-left: 8px; padding-right: 8px">${values.phone}</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #000;">Соц. мережа:</td><td style="  border: 1px solid #000; padding-left: 8px; padding-right: 8px">${values.telegram}</td></tr>
+      <tr><td style="padding: 8px; border: 1px solid #000;">Повідомлення:</td><td style="max-width:500px; word-wrap: break-word; word-break: break-word;  border: 1px solid #000; padding: 8px;">${values.message}</td></tr>
+    </table>
+  `,
+});

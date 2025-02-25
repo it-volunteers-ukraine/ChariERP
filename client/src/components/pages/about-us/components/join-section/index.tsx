@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
-import { Form, Formik } from 'formik';
 import { useTranslations } from 'next-intl';
+import { Form, Formik, FormikHelpers } from 'formik';
 
 import { routes } from '@/constants';
 import { bgJoin } from '@/assets/img';
@@ -13,33 +13,30 @@ import { showMessage } from '@/components/toastify';
 import { InputField } from '@/components/input-field';
 import { CheckboxField } from '@/components/checkbox-field';
 
-import { createEmailContent, IJoinFormValues, joinInitialValues, joinValidation } from './config';
+import { emailData } from './config';
+import { IJoinFormValues, joinInitialValues, joinValidation } from './validation-schema';
 
 export const JoinSection = () => {
   const { isTablet } = useWindowWidth();
   const text = useTranslations('aboutUsPage');
   const error = useTranslations('validation');
   const privacyPolicy = useTranslations('inputs');
+  const joinForm = useTranslations('contactPageTranslation.feedbackForm');
+
   const [isLoading, setIsLoading] = useState(false);
 
   const validationSchema = joinValidation(error);
 
-  const onSubmit = async (values: IJoinFormValues, { resetForm }: { resetForm: () => void }) => {
+  const onSubmit = async (values: IJoinFormValues, { resetForm }: FormikHelpers<IJoinFormValues>) => {
     setIsLoading(true);
 
     try {
-      await sendEmail({
-        to: 'it.volunteers.ukraine@gmail.com',
-        subject: 'Нове запитання для приєднання',
-        text: `Ім'я: ${values.name}\nEmail: ${values.email}\nTelegram: ${values.telegram}\nТелефон: ${values.phone}\nПовідомлення: ${values.message}`,
-        html: createEmailContent(values),
-      });
-      showMessage.success(text('successMessage'));
+      await sendEmail(emailData(values));
+      showMessage.success(joinForm('successfully'));
       resetForm();
     } catch (error) {
-      console.log(error);
-
-      showMessage.error(text('errorMessage'));
+      console.error(error);
+      showMessage.error(joinForm('error'));
     } finally {
       setIsLoading(false);
     }
