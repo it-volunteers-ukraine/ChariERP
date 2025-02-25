@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { routes } from '@/constants';
+import { clearUserCookies } from '@/utils';
 import { changePasswordAction } from '@/actions';
 import { Button, InputField, showMessage, Title } from '@/components';
 
@@ -41,6 +42,8 @@ const PasswordChange = () => {
 
       if (response.success) {
         showMessage.success(passwordChangeText('successChange'));
+        clearUserCookies();
+        router.push(routes.login);
       } else {
         showMessage.error(passwordChangeText(response.message));
       }
