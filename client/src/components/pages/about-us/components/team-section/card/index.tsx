@@ -23,12 +23,13 @@ interface ICard {
     role?: string;
     nameEn: string;
     location?: string;
+    locationEn?: string;
     social?: { [key: string]: string | undefined };
   };
 }
 
 export const Card = ({ teamsMember, setActiveCard, activeCard }: ICard) => {
-  const { name, nameEn, url, role = 'Member', location = 'Ukraine', social, id } = teamsMember;
+  const { name, nameEn, url, role = 'Member', location = 'Україна', locationEn = 'Ukraine', social, id } = teamsMember;
 
   const locale = useLocale();
   const styles = getStyles();
@@ -75,7 +76,7 @@ export const Card = ({ teamsMember, setActiveCard, activeCard }: ICard) => {
 
               <div className={styles.wrapperLocation}>
                 <Location className={styles.iconLocation} />
-                <p className={styles.description}>{location}</p>
+                <p className={styles.description}>{locale === 'ua' ? location : locationEn}</p>
               </div>
 
               <div className={styles.linkWrapper}>

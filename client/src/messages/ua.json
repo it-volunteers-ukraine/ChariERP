@@ -229,6 +229,7 @@
     "enter9Digits": "Будь ласка, введіть 9 цифр",
     "notValidEmail": "Неправильна адреса електронної пошти",
     "siteStart": "Тільки https:// протокол",
+    "telegram": "Некоректне посилання на Telegram. Правильний формат https://t.me/username або tg://resolve?domain=username",
     "domain": "Домен повинен бути вірним форматом www.example.com",
     "extensionsFile": "Невірний формат файлу. Доступні формати: {extensions}",
     "maxSizeFile": "Розмір файлу перевищує {maxSize}МБ",
