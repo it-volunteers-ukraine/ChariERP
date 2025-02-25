@@ -426,8 +426,6 @@
     "teamTitle": "team",
     "team": "Our team of volunteers came together to create Chary. We implement technology solutions to enable every organization to work more efficiently and focus on what really matters - helping people.",
     "joinTitle": "join us",
-    "successMessage": "Your message has been successfully sent! We will contact you shortly.",
-    "errorMessage": "Unfortunately, there was an error sending your message. Please try again later.",
     "form": {
       "name": "Name",
       "email": "Email",
