@@ -1,27 +1,45 @@
+import { useState } from 'react';
 import Image from 'next/image';
-import { Form, Formik } from 'formik';
 import { useTranslations } from 'next-intl';
+import { Form, Formik, FormikHelpers } from 'formik';
 
 import { routes } from '@/constants';
 import { bgJoin } from '@/assets/img';
+import { sendEmail } from '@/services';
 import { useWindowWidth } from '@/hooks';
 import { Title } from '@/components/title';
 import { Button } from '@/components/button';
+import { showMessage } from '@/components/toastify';
 import { InputField } from '@/components/input-field';
 import { CheckboxField } from '@/components/checkbox-field';
 
-import { IJoinFormValues, joinInitialValues, joinValidation } from './config';
+import { emailData } from './config';
+import { IJoinFormValues, joinInitialValues, joinValidation } from './validation-schema';
 
 export const JoinSection = () => {
   const { isTablet } = useWindowWidth();
   const text = useTranslations('aboutUsPage');
   const error = useTranslations('validation');
   const privacyPolicy = useTranslations('inputs');
+  const joinForm = useTranslations('contactPageTranslation.feedbackForm');
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const validationSchema = joinValidation(error);
 
-  const onSubmit = (values: IJoinFormValues) => {
-    console.log(values);
+  const onSubmit = async (values: IJoinFormValues, { resetForm }: FormikHelpers<IJoinFormValues>) => {
+    setIsLoading(true);
+
+    try {
+      await sendEmail(emailData(values));
+      showMessage.success(joinForm('successfully'));
+      resetForm();
+    } catch (error) {
+      console.error(error);
+      showMessage.error(joinForm('error'));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -67,7 +85,13 @@ export const JoinSection = () => {
                   className="mb-6 !items-start laptop:mx-auto laptop:!items-center"
                 />
 
-                <Button type="submit" styleType="primary" text={text('form.join')} className="uppercase" />
+                <Button
+                  type="submit"
+                  styleType="primary"
+                  className="uppercase"
+                  isLoading={isLoading}
+                  text={text('form.join')}
+                />
               </Form>
             );
           }}
