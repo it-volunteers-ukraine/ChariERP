@@ -1,15 +1,15 @@
 'use client';
 
-import Cookies from 'js-cookie';
 import { useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 
 import { Roles } from '@/types';
+import { routes } from '@/constants';
 import { Exit } from '@/assets/icons';
 import { useUserInfo } from '@/context';
 import { useWindowWidth } from '@/hooks';
+import { clearUserCookies } from '@/utils';
 import { LanguageSwitcher } from '@/components';
-import { boardState, idUser, routes } from '@/constants';
 
 import { Avatar } from '../avatar';
 import { getLinksByRole } from '../dashboard-aside/config';
@@ -24,8 +24,7 @@ export const DashboardHeader = () => {
   const links = getLinksByRole((key, params) => linkText(key, params), userInfo.role);
 
   const onExit = () => {
-    Cookies.remove(idUser);
-    Cookies.remove(boardState);
+    clearUserCookies();
     router.push(routes.home);
   };
 

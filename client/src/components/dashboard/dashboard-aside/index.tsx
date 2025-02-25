@@ -6,11 +6,11 @@ import { useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
 
-import { cn } from '@/utils';
+import { clearUserCookies, cn } from '@/utils';
 import { Exit, JamMenu } from '@/assets/icons';
+import { routes, boardState } from '@/constants';
 import { useBoards, useUserInfo } from '@/context';
 import { LanguageSwitcher, Logo } from '@/components';
-import { idUser, routes, boardState } from '@/constants';
 import { useOutsideClick, useWindowWidth } from '@/hooks';
 import { useMoveBoards } from '@/components/pages/dashboards/api';
 
@@ -58,8 +58,7 @@ export const DashboardAside = () => {
   const styles = getStyles(isOpenSidebar);
 
   const onExit = () => {
-    Cookies.remove(idUser);
-    Cookies.remove(boardState);
+    clearUserCookies();
     router.push(routes.home);
   };
 

@@ -60,7 +60,7 @@ export const ModalEnterEmail = ({ isOpen, onClose }: IModalEnterEmail) => {
             isOpen={isOpen}
             isLoading={isSendingEmail}
             btnCancelText={btn('cancel')}
-            onClose={() => onClose}
+            onClose={onClose}
             btnConfirmText={btn('confirm')}
             title={modal('enterPass.title')}
             classNameBtn="w-[136px] uppercase"
