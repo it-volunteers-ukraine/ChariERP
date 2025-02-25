@@ -2,7 +2,7 @@
   {
     "id": "1",
     "name": "Сергій Воронько",
-    "nameEn": "Serhii Voronko",
+    "nameEn": "Sergey Voronko",
     "location": "Харків",
     "locationEn": "Kharkiv",
     "social": {
@@ -37,13 +37,13 @@
       "linkedin": "https://www.linkedin.com/in/evgen-pavlov-916475171",
       "telegram": "https://t.me/evgeniy_x100"
     },
-    "role": "QA engineer",
+    "role": "QA Engineer",
     "url": "pavlovEvhen"
   },
   {
     "id": "4",
     "name": "Анастасія Дрогомирецька",
-    "nameEn": "Anastasiia Drohomyretska",
+    "nameEn": "Anastasia Drohomyretska",
     "location": "Івано-Франківськ / Краків",
     "locationEn": "Ivano-Frankivsk / Krakow",
     "social": {
@@ -51,7 +51,7 @@
       "behance": "https://www.behance.net/anastasdrogomy",
       "telegram": "https://t.me/Anastasiia_0793"
     },
-    "role": "Ux/Ui designer",
+    "role": "UI/UX Designer",
     "url": "drohomyretskaAnastasiia"
   },
   {
@@ -64,7 +64,7 @@
       "linkedin": "https://www.linkedin.com/in/vladyslav-tereshchenko-770bab270",
       "telegram": "https://t.me/Vlad_Tereshchenko"
     },
-    "role": "Project manager"
+    "role": "Project Manager"
   },
   {
     "id": "6",
@@ -77,7 +77,7 @@
       "telegram": "https://t.me/Alina_Ivani"
     },
     "url": "ivanishchevaAlina",
-    "role": "QA engineer"
+    "role": "QA Engineer"
   },
   {
     "id": "7",
@@ -103,7 +103,7 @@
       "github": "https://github.com/Kyslytsia",
       "linkedin": "https://www.linkedin.com/in/denys-kyslytsa-5b9790139/"
     },
-    "role": "Frontend",
+    "role": "Frontend Developer",
     "url": "kyslytsiaDenys"
   },
   {
@@ -116,24 +116,24 @@
       "linkedin": "https://www.linkedin.com/in/kateryna-pupkova",
       "telegram": "https://t.me/Kate_Pupkova"
     },
-    "role": "QA engineer",
+    "role": "QA Engineer",
     "url": "pupkovaKateryna"
   },
   {
     "id": "10",
     "name": "Анатолій Гладченко",
-    "nameEn": "Anatolii Hladchenko",
+    "nameEn": "Anatoly Hladchenko",
     "location": "Дніпро",
     "social": {
       "linkedin": "https://www.linkedin.com/in/anatolii-hladchenko-0a7778212/"
     },
-    "role": "Frontend Developer",
+    "role": "Software Developer",
     "url": "hladchenkoAnatolii"
   },
   {
     "id": "11",
     "name": "Лілія Строц",
-    "nameEn": "Liliia Strots",
+    "nameEn": "Lily Strots",
     "location": "Дніпро",
     "locationEn": "Dnipro",
     "social": {
@@ -171,8 +171,14 @@
     "id": "14",
     "name": "Андрій Тесленко",
     "nameEn": "Andriy Teslenko",
+    "location": "Харків",
+    "locationEn": "Kharkiv",
+    "social": {
+      "linkedin": "www.linkedin.com/in/andrey-teslenko-ua",
+      "telegram": "https://t.me/l_Dronishe_l"
+    },
     "url": "teslenkoAndriy",
-    "role": "Full Stack Developer"
+    "role": "Team Lead / Software Developer"
   },
   {
     "id": "15",
@@ -182,6 +188,7 @@
     "locationEn": "Pokrov / Kharkiv",
     "social": {
       "linkedin": "https://www.linkedin.com/in/davydiukdmytro",
+      "telegram": "https://t.me/davydiuk12",
       "github": "https://github.com/DavydiukDmytro"
     },
     "role": "Frontend Developer"
