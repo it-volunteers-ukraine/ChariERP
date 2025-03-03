@@ -233,6 +233,7 @@
     "enter9Digits": "Please enter 9 digits",
     "notValidEmail": "Invalid e-mail address",
     "siteStart": "Only https:// protocol is allowed",
+    "telegram": "Incorrect reference to Telegram. The correct format is https://t.me/username or tg://resolve?domain=username",
     "domain": "Domain must be correct format www.example.com",
     "extensionsFile": "Invalid file format. Available formats: {extensions}",
     "maxSizeFile": "File size exceeds {maxSize}МБ",
@@ -422,7 +423,7 @@
   "aboutUsPage": {
     "historyTitle": "History of creation",
     "history": "Write about us. Be sure to touch on the topic of IT volunteers... maybe the user has never heard of them, so let them hear) ala the text about the idea of creation. This is the story of the birth of the Chari project. Write about us. Be sure to touch on the topic of IT volunteers... maybe the user has never heard of them, so let them hear) ala the text about the idea of creation. This is the story of the birth of the Chari project. Be sure to touch on the topic of IT volunteers... maybe the user has never heard of them, so let them hear) ala the text about the idea of creation. This is the story of the birth of the Chari project. Be sure to touch on the topic of IT volunteers... maybe the user has never heard of",
-    "teamTitle": "команда",
+    "teamTitle": "team",
     "team": "Our team of volunteers came together to create Chary. We implement technology solutions to enable every organization to work more efficiently and focus on what really matters - helping people.",
     "joinTitle": "join us",
     "form": {
