@@ -34,7 +34,7 @@ class UserService extends BaseService {
     const newAdmin = new Admin({ email, password: hash });
     const response = await newAdmin.save();
 
-    return { success: true, data: response };
+    return { success: true, data: response._id.toString() };
   }
 
   async login(email: string, password: string) {
@@ -186,7 +186,7 @@ class UserService extends BaseService {
     await Organizations.findByIdAndUpdate(organizationId, { $push: { users: newUser._id } });
     console.info(`New user ${newUser.id} was created in organization '${organizationId}'`);
 
-    return { success: true, message: 'User created', userId: newUser._id };
+    return { success: true, message: 'User created', userId: newUser.id };
   }
 
   async updateMemberById(formData: FormData) {
