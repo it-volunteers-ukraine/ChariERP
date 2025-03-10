@@ -1,33 +1,30 @@
+import { ColorNode, ImageNode } from './node';
+
 import { HeadingNode } from '@lexical/rich-text';
 import { ListItemNode, ListNode } from '@lexical/list';
-import { ImageNode } from './node';
-import { createCommand } from 'lexical';
 
 const theme = {
   text: {
-    bold: 'text-bold',
-    italic: 'text-italic',
-    underline: 'text-underline',
-    code: 'text-code',
-    highlight: 'text-highlight',
-    strikethrough: 'text-strikethrough',
-    subscript: 'text-subscript',
-    superscript: 'text-superscript',
+    bold: 'bold',
+    italic: 'italic',
+    underline: 'underline',
+    code: 'bg-[#f0f2f5] py-[1px] px-1 font-mono text-[94%]',
+    strikethrough: 'line-through',
+    subscript: 'align-sub',
+    superscript: 'align-super',
   },
   list: {
-    ol: 'ol',
-    ul: 'ul',
+    ol: 'p-0 m-0 pl-2 list-inside list-disc',
+    ul: 'p-0 m-0 pl-2 list-inside list-disc',
   },
   heading: {
-    h1: 'h1',
-    h2: 'h2',
-    h3: 'h3',
-    h4: 'h4',
-    h5: 'h5',
+    h1: 'text-[26px]',
+    h2: 'text-[24px]',
+    h3: 'text-[22px]',
+    h4: 'text-[20px]',
+    h5: 'text-[18px]',
   },
 };
-
-export const INSERT_IMAGE_COMMAND = createCommand<string>();
 
 export const initialConfig = (initialState?: string, isEditing: boolean = false) => {
   return {
@@ -35,7 +32,7 @@ export const initialConfig = (initialState?: string, isEditing: boolean = false)
     theme,
     editable: isEditing,
     editorState: initialState,
-    nodes: [HeadingNode, ListNode, ListItemNode, ImageNode],
+    nodes: [HeadingNode, ListNode, ListItemNode, ImageNode, ColorNode],
     onError: (e: Error) => {
       console.log('ERROR:', e);
     },

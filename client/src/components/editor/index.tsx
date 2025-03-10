@@ -17,7 +17,7 @@ import { ToolBar } from './toolBar';
 import { initialConfig } from './config';
 
 import './index.css';
-import { Heading, ImagePlugin, OnChange, RestoreState, SetIsEditing, TreeViewPlugin } from './plugins';
+import { Color, Heading, ImagePlugin, OnChange, RestoreState, SetIsEditing, TreeViewPlugin } from './plugins';
 
 interface IEditor {
   onSave: (state: string) => void;
@@ -59,46 +59,49 @@ export const Editor = ({ onSave, initialState, isEditing = false, cancelEditing,
 
   return (
     <LexicalComposer initialConfig={initialConfig(initialState, initialState ? false : true)}>
-      <div className={styles.wrapperEditor}>
-        <ToolBar className={styles.toolBar} />
-        <div className="relative">
-          <RichTextPlugin
-            contentEditable={<ContentEditable onClick={handleClick} className={styles.editor} />}
-            placeholder={<div className={styles.placeholder}>Напишіть Ваш коментар</div>}
-            ErrorBoundary={LexicalErrorBoundary}
-          />
-        </div>
-
-        <div className={styles.wrapperButton}>
-          <Button
-            onClick={handleSubmit}
-            className={styles.button}
-            text="Зберегти"
-            type="button"
-            styleType="icon-primary"
-          />
-          <Button
-            className={styles.button}
-            text="Скасувати"
-            type="button"
-            styleType="outline-blue"
-            onClick={handleCancel}
-          />
-        </div>
+      <ToolBar className={styles.toolBar} />
+      <div className="relative">
+        <RichTextPlugin
+          contentEditable={<ContentEditable onClick={handleClick} className={styles.editor} />}
+          placeholder={<p className={styles.placeholder}>Напишіть Ваш коментар</p>}
+          ErrorBoundary={LexicalErrorBoundary}
+        />
       </div>
 
+      <div className={styles.wrapperButton}>
+        <Button
+          onClick={handleSubmit}
+          className={styles.button}
+          text="Зберегти"
+          type="button"
+          styleType="icon-primary"
+        />
+        <Button
+          className={styles.button}
+          text="Скасувати"
+          type="button"
+          styleType="outline-blue"
+          onClick={handleCancel}
+        />
+      </div>
+
+      <Color />
       <Heading />
+      <ListPlugin />
+      <ImagePlugin />
       <HistoryPlugin />
+      <CheckListPlugin />
+
       <RestoreState isOpen={isOpen} initialState={initialState} />
+
       <OnChange
         onChange={(editorState) => {
           editorStateRef.current = editorState;
         }}
       />
+
       <SetIsEditing isEditing={initialState ? isOpen : true} />
-      <ListPlugin />
-      <CheckListPlugin />
-      <ImagePlugin />
+
       <TreeViewPlugin />
     </LexicalComposer>
   );

@@ -1,3 +1,4 @@
+export { Color } from './Color';
 export { Heading } from './Heading';
 export { ImagePlugin } from './Image';
 export { OnChange } from './OnChange';

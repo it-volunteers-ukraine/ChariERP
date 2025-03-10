@@ -4,18 +4,11 @@ import { useState } from 'react';
 import { INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND, REMOVE_LIST_COMMAND } from '@lexical/list';
 import { NumberList, TextList } from '@/assets/icons';
 
-const blockTypeToBlockName = {
-  bullet: 'Bulleted List',
-  number: 'Numbered List',
-  paragraph: 'Normal',
-};
-
 export const List = () => {
   const [editor] = useLexicalComposerContext();
-  const [blockType, setBlockType] = useState<keyof typeof blockTypeToBlockName>('paragraph');
+  const [blockType, setBlockType] = useState('paragraph');
 
   const formatList = (listType: string) => {
-    console.log(blockType);
     if (listType === 'number' && blockType !== 'number') {
       editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
       setBlockType('number');
@@ -27,8 +20,6 @@ export const List = () => {
       setBlockType('paragraph');
     }
   };
-
-  console.log(blockTypeToBlockName);
 
   return (
     <>

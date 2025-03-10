@@ -1,8 +1,8 @@
-import { Undo } from '@/assets/icons';
+import { Img } from '@/assets/icons';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useState } from 'react';
-import { INSERT_IMAGE_COMMAND } from '../config';
 import { ImageModal } from '../Modal';
+import { INSERT_IMAGE_COMMAND } from '../node';
 
 export const ImageButton = () => {
   const [editor] = useLexicalComposerContext();
@@ -19,7 +19,7 @@ export const ImageButton = () => {
         type="button"
         onClick={() => setIsModalOpen(true)}
       >
-        <Undo className="h-full" />
+        <Img className="h-full" />
       </button>
 
       <ImageModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onInsert={insertImage} />

@@ -1,4 +1,4 @@
-import { DecoratorNode, LexicalNode } from 'lexical';
+import { createCommand, DecoratorNode, LexicalNode } from 'lexical';
 import { SerializedLexicalNode } from 'lexical';
 
 export class ImageNode extends DecoratorNode<JSX.Element> {
@@ -70,3 +70,5 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
     return <img src={this.__src} alt="Uploaded" className="w-200" />;
   }
 }
+
+export const INSERT_IMAGE_COMMAND = createCommand<string>('INSERT_IMAGE_COMMAND');

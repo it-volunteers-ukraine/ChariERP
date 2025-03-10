@@ -111,4 +111,4 @@ export { default as Redo } from './textRedo.svg';
 export { default as Undo } from './textUndo.svg';
 export { default as TextList } from './textList.svg';
 export { default as NumberList } from './textNumberList.svg';
-// export { default as Outdent } from './textOutdent.svg';
+export { default as Img } from './img.svg';
