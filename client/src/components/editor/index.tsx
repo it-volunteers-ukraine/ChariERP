@@ -3,13 +3,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { EditorState } from 'lexical';
 
+import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 
 import { Button } from '../button';
 import { getStyle } from './style';
@@ -17,7 +18,7 @@ import { ToolBar } from './toolBar';
 import { initialConfig } from './config';
 
 import './index.css';
-import { Color, Heading, ImagePlugin, OnChange, RestoreState, SetIsEditing, TreeViewPlugin } from './plugins';
+import { Color, Heading, ImagePlugin, OnChange, RestoreState, SetIsEditing } from './plugins';
 
 interface IEditor {
   onSave: (state: string) => void;
@@ -39,6 +40,7 @@ export const Editor = ({ onSave, initialState, isEditing = false, cancelEditing,
     if (editorStateRef.current) {
       onSave(JSON.stringify(editorStateRef.current.toJSON()));
     }
+    handleCancel();
   };
 
   const handleClick = () => {
@@ -91,6 +93,7 @@ export const Editor = ({ onSave, initialState, isEditing = false, cancelEditing,
       <ImagePlugin />
       <HistoryPlugin />
       <CheckListPlugin />
+      <LinkPlugin />
 
       <RestoreState isOpen={isOpen} initialState={initialState} />
 
@@ -101,8 +104,6 @@ export const Editor = ({ onSave, initialState, isEditing = false, cancelEditing,
       />
 
       <SetIsEditing isEditing={initialState ? isOpen : true} />
-
-      <TreeViewPlugin />
     </LexicalComposer>
   );
 };

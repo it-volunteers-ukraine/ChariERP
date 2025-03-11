@@ -1,5 +1,6 @@
 import { ImageNode } from './node';
 
+import { LinkNode } from '@lexical/link';
 import { HeadingNode } from '@lexical/rich-text';
 import { ListItemNode, ListNode } from '@lexical/list';
 
@@ -24,6 +25,7 @@ const theme = {
     h4: 'text-[20px]',
     h5: 'text-[18px]',
   },
+  link: 'text-blue-500 underline hover:text-blue-700',
 };
 
 export const initialConfig = (initialState?: string, isEditing: boolean = false) => {
@@ -32,7 +34,7 @@ export const initialConfig = (initialState?: string, isEditing: boolean = false)
     namespace: 'editor',
     editable: isEditing,
     editorState: initialState,
-    nodes: [HeadingNode, ListNode, ListItemNode, ImageNode],
+    nodes: [HeadingNode, ListNode, ListItemNode, ImageNode, LinkNode],
     onError: (e: Error) => {
       console.log('ERROR:', e);
     },

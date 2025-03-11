@@ -1,6 +1,7 @@
 'use client';
 
 import { List } from './List';
+import { Link } from './Link';
 import { Heading } from './Heading';
 import { History } from './History';
 import { ImageButton } from './Image';
@@ -19,9 +20,10 @@ export const ToolBar = ({ className, buttonClassName }: IToolBarProps) => {
       <TextDecoration className={buttonClassName} />
       <ColorButton className={buttonClassName} type="text" />
       <ColorButton className={buttonClassName} type="background" />
+      <Heading className={buttonClassName} />
       <TextAlign className={buttonClassName} />
       <List className={buttonClassName} />
-      <Heading className={buttonClassName} />
+      <Link className={buttonClassName} />
       <ImageButton className={buttonClassName} />
       <History className={buttonClassName} />
     </div>

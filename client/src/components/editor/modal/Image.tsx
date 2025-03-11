@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { Overlay } from '../overlay';
+import { Overlay } from '../../overlay';
 
 interface ImageModalProps {
   isOpen: boolean;

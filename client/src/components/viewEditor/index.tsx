@@ -26,7 +26,6 @@ export const ViewEditor = () => {
 
   return (
     <div className="px-[400px]">
-      Editor
       {comments.map((comment) => (
         <div key={comment.id} className="mb-5">
           <Editor

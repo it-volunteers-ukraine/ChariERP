@@ -18,6 +18,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.705.0",
     "@hello-pangea/dnd": "^17.0.0",
+    "@lexical/link": "^0.24.0",
     "@lexical/react": "^0.24.0",
     "@sendgrid/mail": "^8.1.4",
     "@types/bcrypt": "^5.0.2",

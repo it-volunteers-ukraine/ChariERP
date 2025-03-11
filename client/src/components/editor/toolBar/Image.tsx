@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Img } from '@/assets/icons';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
-import { ImageModal } from '../Modal';
+import { ImageModal } from '../modal/Image';
 import { INSERT_IMAGE_COMMAND } from '../node';
 
 export const ImageButton = ({ className }: { className?: string }) => {

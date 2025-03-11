@@ -113,3 +113,4 @@ export { default as TextList } from './textList.svg';
 export { default as NumberList } from './textNumberList.svg';
 export { default as Img } from './img.svg';
 export { default as ColorSelect } from './colorSelect.svg';
+export { default as LinkIcon } from './link.svg';
