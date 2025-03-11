@@ -16,4 +16,6 @@ export const getStyle = (isOpen: boolean, className?: string) => ({
     isOpen ? 'max-h-[100px] opacity-100 mt-4' : 'mt-0 max-h-0 opacity-0 overflow-hidden',
   ),
   button: 'h-[44px] w-[122px]',
+  buttonToolBar:
+    'hover:bg-gray-300 flex h-7 w-7 items-center justify-center rounded border-[1px] border-[#F0F0F0] p-[6px]',
 });

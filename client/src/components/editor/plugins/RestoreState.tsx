@@ -1,6 +1,9 @@
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { $getRoot } from 'lexical';
+'use client';
+
 import { useEffect } from 'react';
+import { $getRoot } from 'lexical';
+
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
 interface IDefaultState {
   isOpen: boolean;

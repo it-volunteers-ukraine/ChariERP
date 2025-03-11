@@ -1,4 +1,4 @@
-import { ColorNode, ImageNode } from './node';
+import { ImageNode } from './node';
 
 import { HeadingNode } from '@lexical/rich-text';
 import { ListItemNode, ListNode } from '@lexical/list';
@@ -28,11 +28,11 @@ const theme = {
 
 export const initialConfig = (initialState?: string, isEditing: boolean = false) => {
   return {
-    namespace: 'editor',
     theme,
+    namespace: 'editor',
     editable: isEditing,
     editorState: initialState,
-    nodes: [HeadingNode, ListNode, ListItemNode, ImageNode, ColorNode],
+    nodes: [HeadingNode, ListNode, ListItemNode, ImageNode],
     onError: (e: Error) => {
       console.log('ERROR:', e);
     },

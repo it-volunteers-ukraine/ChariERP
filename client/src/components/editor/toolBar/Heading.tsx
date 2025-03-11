@@ -1,7 +1,10 @@
+'use client';
+
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+
 import { FORMAT_HEADING_COMMAND } from '../plugins/Heading';
 
-export const Heading = () => {
+export const Heading = ({ className }: { className?: string }) => {
   const tags = ['h1', 'h2', 'h3', 'h4', 'h5'];
 
   const [editor] = useLexicalComposerContext();
@@ -10,7 +13,7 @@ export const Heading = () => {
     <>
       {tags.map((tag) => (
         <button
-          className="flex h-7 w-7 items-center justify-center rounded border-[1px] border-[#F0F0F0] p-[6px]"
+          className={className}
           key={tag}
           type="button"
           onClick={() => {

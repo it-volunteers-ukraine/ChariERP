@@ -59,7 +59,7 @@ export const Editor = ({ onSave, initialState, isEditing = false, cancelEditing,
 
   return (
     <LexicalComposer initialConfig={initialConfig(initialState, initialState ? false : true)}>
-      <ToolBar className={styles.toolBar} />
+      <ToolBar className={styles.toolBar} buttonClassName={styles.buttonToolBar} />
       <div className="relative">
         <RichTextPlugin
           contentEditable={<ContentEditable onClick={handleClick} className={styles.editor} />}

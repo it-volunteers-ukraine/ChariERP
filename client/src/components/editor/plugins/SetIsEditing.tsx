@@ -1,5 +1,8 @@
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+'use client';
+
 import { useEffect } from 'react';
+
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
 interface ISetIsEditing {
   isEditing: boolean;

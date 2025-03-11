@@ -1,8 +1,11 @@
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { $getSelection, $isRangeSelection, COMMAND_PRIORITY_NORMAL, createCommand } from 'lexical';
+'use client';
+
 import { useEffect } from 'react';
-import { HeadingTagType, $createHeadingNode } from '@lexical/rich-text';
+import { $getSelection, $isRangeSelection, COMMAND_PRIORITY_NORMAL, createCommand } from 'lexical';
+
 import { $setBlocksType } from '@lexical/selection';
+import { HeadingTagType, $createHeadingNode } from '@lexical/rich-text';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
 export const FORMAT_HEADING_COMMAND = createCommand('FORMAT_HEADING_COMMAND');
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+
 import { Overlay } from '../overlay';
 
 interface ImageModalProps {

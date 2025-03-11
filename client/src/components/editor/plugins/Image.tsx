@@ -1,9 +1,10 @@
 'use client';
 
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { useEffect } from 'react';
 import { $insertNodes } from 'lexical';
 
-import { useEffect } from 'react';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+
 import { ImageNode, INSERT_IMAGE_COMMAND } from '../node';
 
 export const ImagePlugin = () => {
