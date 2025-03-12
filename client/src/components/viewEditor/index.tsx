@@ -32,22 +32,13 @@ export const ViewEditor = () => {
     <div className="px-[400px]">
       {comments.map((comment) => (
         <div key={comment.id} className="mb-5">
-          <p>{`${isEditing}`}</p>
-          <p>{`${comment.id}`}</p>
-          <p>{`${isEditing === comment.id}`}</p>
-
           <Editor
             isEditing={isEditing === comment.id}
             initialState={comment.comment}
             onSave={setActiveComment}
             className="mb-2"
           />
-          {!isEditing && (
-            <button className="text-[15px] text-darkBlueFocus" type="button" onClick={() => setIsEditing(comment.id)}>
-              Редагувати
-            </button>
-          )}
-          {isEditing && (
+          {isEditing === comment.id ? (
             <div className="flex gap-2 transition-all duration-300 ease-in-out">
               <Button
                 onClick={onSave}
@@ -66,6 +57,10 @@ export const ViewEditor = () => {
                 }}
               />
             </div>
+          ) : (
+            <button className="text-[15px] text-darkBlueFocus" type="button" onClick={() => setIsEditing(comment.id)}>
+              Редагувати
+            </button>
           )}
         </div>
       ))}
