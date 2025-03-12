@@ -17,14 +17,15 @@ import './index.css';
 import { Color, Heading, ImagePlugin, OnChange, RestoreState, SetIsEditing } from './plugins';
 
 interface IEditor {
-  onSave: (state: string) => void;
-  initialState?: string;
   isEditing: boolean;
-  onOpen?: () => void;
   className?: string;
+  onOpen?: () => void;
+  placeholder?: string;
+  initialState?: string;
+  onSave: (state: string) => void;
 }
 
-export const Editor = ({ onSave, initialState, onOpen, isEditing = false, className }: IEditor) => {
+export const Editor = ({ onSave, initialState, onOpen, isEditing = false, className, placeholder = '' }: IEditor) => {
   const styles = getStyle(isEditing, className);
 
   const handleClick = () => {
@@ -39,7 +40,7 @@ export const Editor = ({ onSave, initialState, onOpen, isEditing = false, classN
       <div className="relative">
         <RichTextPlugin
           contentEditable={<ContentEditable onClick={handleClick} className={styles.editor} />}
-          placeholder={<p className={styles.placeholder}>Напишіть Ваш коментар</p>}
+          placeholder={<p className={styles.placeholder}>{placeholder}</p>}
           ErrorBoundary={LexicalErrorBoundary}
         />
       </div>

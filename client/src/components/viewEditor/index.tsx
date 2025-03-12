@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { cn } from '@/utils';
+
 import { Editor } from '../editor';
 import { Button } from '../button';
 
@@ -30,6 +32,36 @@ export const ViewEditor = () => {
 
   return (
     <div className="px-[400px]">
+      <Editor
+        className={cn(
+          'rounded border border-[#F0F0F0] px-4 py-3 outline-none focus:border-darkBlueFocus',
+          isEditing === null ? 'min-h-[100px]' : 'min-h-[48px]',
+        )}
+        onSave={setActiveComment}
+        placeholder="Додайте опис завдання"
+        isEditing={isEditing === null}
+        onOpen={() => setIsEditing(null)}
+      />
+      {isEditing === null && (
+        <div className="flex gap-2 transition-all duration-300 ease-in-out">
+          <Button
+            onClick={onSave}
+            className="h-[44px] w-[122px]"
+            text="Зберегти"
+            type="button"
+            styleType="icon-primary"
+          />
+          <Button
+            className="h-[44px] w-[122px]"
+            text="Скасувати"
+            type="button"
+            styleType="outline-blue"
+            onClick={() => {
+              setIsEditing(false);
+            }}
+          />
+        </div>
+      )}
       {comments.map((comment) => (
         <div key={comment.id} className="mb-5">
           <Editor
@@ -64,27 +96,6 @@ export const ViewEditor = () => {
           )}
         </div>
       ))}
-      <Editor onSave={setActiveComment} isEditing={isEditing === null} onOpen={() => setIsEditing(null)} />
-      {isEditing === null && (
-        <div className="flex gap-2 transition-all duration-300 ease-in-out">
-          <Button
-            onClick={onSave}
-            className="h-[44px] w-[122px]"
-            text="Зберегти"
-            type="button"
-            styleType="icon-primary"
-          />
-          <Button
-            className="h-[44px] w-[122px]"
-            text="Скасувати"
-            type="button"
-            styleType="outline-blue"
-            onClick={() => {
-              setIsEditing(false);
-            }}
-          />
-        </div>
-      )}
     </div>
   );
 };
