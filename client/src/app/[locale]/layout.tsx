@@ -35,8 +35,8 @@ export default function RootLayout({ children }: ChildrenProps<LocalizationProps
   const messages = useMessages();
 
   return (
-    <html lang={locale} className="scroll-smooth">
-      <body className={`${roboto.variable} ${robotoCondensed.variable} ${scada.variable}`}>
+    <html lang={locale} suppressHydrationWarning className="scroll-smooth">
+      <body suppressHydrationWarning className={`${roboto.variable} ${robotoCondensed.variable} ${scada.variable}`}>
         <NextIntlClientProvider messages={messages}>
           <WidthToast>{children}</WidthToast>
         </NextIntlClientProvider>

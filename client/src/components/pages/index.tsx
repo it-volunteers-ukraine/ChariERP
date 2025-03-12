@@ -11,3 +11,4 @@ export { NoAccess } from './no-access';
 export { TableOrganization } from './table-organization';
 export { TableRequests } from './table-requests';
 export { Task } from './task';
+export { WrapperColumns } from './wrapper-columns';

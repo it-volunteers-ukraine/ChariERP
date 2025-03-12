@@ -30,6 +30,10 @@ class BoardColumnService extends BaseService {
         path: 'boardColumns',
         populate: {
           path: 'task_ids',
+          populate: {
+            path: 'users',
+            model: 'Users',
+          },
         },
       },
     });
@@ -41,7 +45,7 @@ class BoardColumnService extends BaseService {
       };
     }
 
-    return { success: true, data: JSON.stringify(board.board_id.boardColumns) };
+    return { success: true, data: JSON.stringify(board.board_id) };
   }
 
   async createBoardColumn({ title, boardId, userId }: ICreateColumnProps) {

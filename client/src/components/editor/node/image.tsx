@@ -1,5 +1,6 @@
-import { createCommand, DecoratorNode, LexicalNode } from 'lexical';
+import { JSX } from 'react';
 import { SerializedLexicalNode } from 'lexical';
+import { createCommand, DecoratorNode, LexicalNode } from 'lexical';
 
 export class ImageNode extends DecoratorNode<JSX.Element> {
   __src: string;

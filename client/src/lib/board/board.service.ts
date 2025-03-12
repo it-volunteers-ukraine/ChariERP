@@ -1,4 +1,11 @@
-import { IUsersBoards, Roles } from '@/types';
+import {
+  Roles,
+  IUsers,
+  IUsersBoards,
+  IGetBoardMembersProps,
+  IApplyUserToBoardProps,
+  IRevokeUserFromBoardProps,
+} from '@/types';
 import { IBoardData } from '@/components';
 
 import { Board, Users, UsersBoards } from '..';
@@ -166,6 +173,116 @@ class BoardService extends BaseService {
     await Board.updateMany({ _id: { $in: boardIds }, order: { $gt: board.order } }, { $inc: { order: -1 } });
 
     return { success: true, message: 'Board deleted' };
+  }
+
+  async getBoardMembers({ userId, boardId }: IGetBoardMembersProps) {
+    await this.connect();
+
+    if (!userId || !boardId) {
+      return { success: false, message: 'userId and boardId are required' };
+    }
+
+    const userInBoard = await UsersBoards.findOne({
+      board_id: boardId,
+      user_id: userId,
+    });
+
+    if (!userInBoard) {
+      return { success: false, message: 'Board not found or access denied' };
+    }
+
+    const usersBoard = await UsersBoards.find({
+      board_id: boardId,
+    }).populate('user_id');
+
+    const users = usersBoard.map((userBoard) => userBoard.user_id);
+
+    return { success: true, data: JSON.stringify(users) };
+  }
+
+  async applyUserToBoard({ userId, boardId, applyUserId }: IApplyUserToBoardProps) {
+    await this.connect();
+    if (userId === applyUserId) {
+      return { success: false, message: 'You cannot add yourself to the board' };
+    }
+
+    if (!userId || !boardId || !applyUserId) {
+      return { success: false, message: 'userId and boardId and applyUserId are required' };
+    }
+
+    const requester = await Users.findOne({ _id: userId }).populate({ path: 'organizationId' });
+
+    if (!requester) {
+      return { success: false, message: 'Requester not found' };
+    }
+
+    const isManager = requester.role === Roles.MANAGER;
+
+    if (!isManager) {
+      return { success: false, message: 'Access denied' };
+    }
+
+    const applyUser = requester.organizationId.users.find((user: IUsers) => String(user._id) === applyUserId);
+
+    if (!applyUser) {
+      return { success: false, message: 'The user you`re adding doesn`t exist in your company. ' };
+    }
+
+    const usersBoards = await UsersBoards.find({
+      board_id: boardId,
+    }).populate('user_id');
+
+    const isApplyUserInBoard = usersBoards.find((userBoard) => String(userBoard.user_id._id) === applyUserId);
+
+    if (isApplyUserInBoard) {
+      return { success: false, message: 'User already in board' };
+    }
+
+    const userBoard = new UsersBoards({
+      user_id: applyUserId,
+      board_id: boardId,
+      organization_id: requester.organizationId._id,
+    });
+
+    await userBoard.save();
+
+    return { success: true, message: 'User added to board' };
+  }
+
+  async revokeUserFromBoard({ userId, boardId, revokeUserId }: IRevokeUserFromBoardProps) {
+    if (userId === revokeUserId) {
+      return { success: false, message: 'You cannot remove yourself from the board' };
+    }
+
+    if (!userId || !boardId || !revokeUserId) {
+      return { success: false, message: 'userId and boardId and revokeUserId are required' };
+    }
+
+    const requester = await Users.findOne({ _id: userId }).populate({ path: 'organizationId' });
+
+    if (!requester) {
+      return { success: false, message: 'Requester not found' };
+    }
+
+    const isManager = requester.role === Roles.MANAGER;
+
+    if (!isManager) {
+      return { success: false, message: 'Access denied' };
+    }
+
+    const usersBoards = await UsersBoards.find({
+      board_id: boardId,
+    }).populate('user_id');
+
+    const isRevokeUserInBoard = usersBoards.find((userBoard) => String(userBoard.user_id._id) === revokeUserId);
+
+    if (!isRevokeUserInBoard) {
+      return { success: false, message: 'User not in board' };
+    }
+
+    await UsersBoards.findOneAndDelete({ _id: isRevokeUserInBoard._id });
+
+    return { success: true, message: 'User revoked from board' };
   }
 }
 

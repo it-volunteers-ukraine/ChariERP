@@ -10,17 +10,18 @@ type CustomInput = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTML
 
 type CustomTextarea = DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>;
 
-type SearchValue = string | number | readonly string[] | undefined;
+export type SearchValue = string | number | readonly string[] | undefined;
 
 export interface InputProps extends Omit<CustomInput & CustomTextarea, 'ref'> {
   name: string;
-  label: string;
-  error?: string;
   rows?: number;
+  label?: string;
+  error?: string;
   cross?: boolean;
   isCopy?: boolean;
   required?: boolean;
   isMasked?: boolean;
+  inputClass?: string;
   isTextarea?: boolean;
   placeholder?: string;
   wrapperClass?: string;

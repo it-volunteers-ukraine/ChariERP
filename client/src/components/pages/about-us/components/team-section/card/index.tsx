@@ -23,17 +23,18 @@ interface ICard {
     role?: string;
     nameEn: string;
     location?: string;
+    locationEn?: string;
     social?: { [key: string]: string | undefined };
   };
 }
 
 export const Card = ({ teamsMember, setActiveCard, activeCard }: ICard) => {
-  const { name, nameEn, url, role = 'Member', location = 'Ukraine', social, id } = teamsMember;
+  const { name, nameEn, url, role = 'Member', location = 'Україна', locationEn = 'Ukraine', social, id } = teamsMember;
 
   const locale = useLocale();
   const styles = getStyles();
   const isLinkAllowed = id === activeCard;
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const socialKeys = Object.keys(social ?? {}).slice(0, 3);
   const images: { [key: string]: StaticImageData } = Images;
   const imageSrc = url && images[url] ? images[url] : images.default;
@@ -41,7 +42,7 @@ export const Card = ({ teamsMember, setActiveCard, activeCard }: ICard) => {
 
   const [firstName, lastName] = locale === 'ua' ? name.split(' ') : nameEn.split(' ');
 
-  useOutsideClick(() => isTouchDevice && handleToggler(), [wrapperRef]);
+  useOutsideClick(() => isTouchDevice && handleToggler(), wrapperRef);
 
   const handleToggler = (id?: string) => {
     setActiveCard(id || '');
@@ -75,7 +76,7 @@ export const Card = ({ teamsMember, setActiveCard, activeCard }: ICard) => {
 
               <div className={styles.wrapperLocation}>
                 <Location className={styles.iconLocation} />
-                <p className={styles.description}>{location}</p>
+                <p className={styles.description}>{locale === 'ua' ? location : locationEn}</p>
               </div>
 
               <div className={styles.linkWrapper}>

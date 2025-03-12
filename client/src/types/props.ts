@@ -7,6 +7,7 @@ import { IAdmin, IBoardColumn, ICreateTask, ITask, IUsers } from './models';
 import { DownloadType, RequestOrganizationStatus, UserStatus } from './enums';
 
 export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
+export type StateProps<T = unknown> = React.Dispatch<React.SetStateAction<T>>;
 
 export interface IOrganization {
   id: string;
@@ -117,7 +118,7 @@ export interface IEditUser extends Omit<ICreateUser, 'password' | 'organizationI
 }
 
 export interface TaskPageParamsProps {
-  params: { task_id: string; column_id: string; board_id: string };
+  params: Promise<{ task_id: string; column_id: string; board_id: string }>;
 }
 
 export interface ICreateTaskProps {
@@ -136,6 +137,7 @@ export interface ICreateColumnProps {
 export interface IUseColumns {
   boardId: string;
   userId: string;
+  onReject?: () => void;
 }
 export interface IGetColumnsProps {
   boardId: string;
@@ -203,4 +205,40 @@ export interface IUpdateOrganizationByManager {
   userId: string;
   formData: FormData;
   organizationId: string;
+}
+
+export interface IUserColumns {
+  id: string;
+  firstName: string;
+  lastName: string;
+  avatarUrl: string;
+}
+
+export interface ITaskColumns {
+  id: string;
+  title: string;
+  users: IUserColumns[];
+}
+
+export interface IBoardTaskColumn {
+  id: string;
+  title: string;
+  tasks: ITaskColumns[];
+}
+
+export interface IGetBoardMembersProps {
+  userId: string;
+  boardId: string;
+}
+
+export interface IApplyUserToBoardProps {
+  userId: string;
+  boardId: string;
+  applyUserId: string;
+}
+
+export interface IRevokeUserFromBoardProps {
+  userId: string;
+  boardId: string;
+  revokeUserId: string;
 }

@@ -36,14 +36,14 @@ export const ModalAdmin = ({
           <Button
             type="submit"
             styleType="green"
+            disabled={isError}
             onClick={onConfirm}
             text={btnConfirmText}
             isLoading={isLoading}
             className={classNameBtn}
-            disabled={isError}
           />
 
-          <Button styleType="red" className={classNameBtn} onClick={onClose} text={btnCancelText} />
+          <Button styleType="red" type="button" onClick={onClose} text={btnCancelText} className={classNameBtn} />
         </div>
       </div>
     </Overlay>

@@ -7,6 +7,7 @@ import { Form, Formik, FormikErrors, FormikValues } from 'formik';
 
 import {
   Button,
+  SmallBtn,
   Accordion,
   DateField,
   ButtonIcon,
@@ -15,8 +16,10 @@ import {
   AvatarField,
   showMessage,
   EmployeeCard,
+  ModalEnterEmail,
   employeeValidation,
 } from '@/components';
+import { cn } from '@/utils';
 import { useUserInfo } from '@/context';
 
 import { getStyles } from './styles';
@@ -33,6 +36,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
   const error = useTranslations('validation');
 
   const [isOpenSave, setIsOpenSave] = useState(false);
+  const [isOpenModalResetPassword, setIsOpenModalResetPassword] = useState(false);
 
   const changeLocale = locale === 'ua' ? 'uk' : locale;
 
@@ -151,7 +155,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                   classNameTitle="text-[20px] uppercase"
                   title={text('title.loginInformation')}
                 >
-                  <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
+                  <div className={cn('flex flex-col', { 'gap-4 laptop:flex-row laptop:gap-12': isCreate })}>
                     <InputField
                       required
                       name="email"
@@ -160,6 +164,21 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                     />
 
                     {isCreate && <InputField required name="password" type="password" label={text('password.label')} />}
+
+                    {!isCreate && (
+                      <>
+                        <SmallBtn
+                          type="changePass"
+                          text={btn('forgotPass')}
+                          className="mt-1 py-[14.5px]"
+                          onClick={() => setIsOpenModalResetPassword(true)}
+                        />
+                        <ModalEnterEmail
+                          isOpen={isOpenModalResetPassword}
+                          onClose={() => setIsOpenModalResetPassword(false)}
+                        />
+                      </>
+                    )}
                   </div>
                 </Accordion>
 

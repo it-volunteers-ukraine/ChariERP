@@ -8,12 +8,12 @@ export const OpportunityChariCircle = () => {
 
   return (
     <div className="overflow-hidden py-[15px]">
-      <Title text={text('title')} className="m-auto block max-w-[202px] pb-12 text-2xl tablet:hidden" />
+      <Title text={text('title')} className="m-auto block max-w-[202px] pb-12 text-2xl uppercase tablet:hidden" />
 
       <div className="relative m-auto flex w-fit items-center justify-center">
         <Title
           text={text('title')}
-          className="absolute z-20 hidden text-[32px] tablet:block tablet:max-w-[202px] laptop:text-4xl desktop:text-[50px]"
+          className="absolute z-20 hidden text-[32px] uppercase leading-[140%] tablet:block tablet:max-w-[202px] laptop:max-w-[225px] laptop:text-4xl laptop:text-[36px]"
         />
 
         <ButtonsCircle />

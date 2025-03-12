@@ -25,6 +25,7 @@ import {
   InputField,
   ModalAdmin,
   showMessage,
+  ModalEnterEmail,
   organizationValidation,
   getInitialDataOrganization,
 } from '@/components';
@@ -44,6 +45,7 @@ const OrganizationPage = () => {
   const [isLoadingModal, setIsLoadingModal] = useState(false);
   const [isOpenSave, setIsOpenSave] = useState<boolean>(false);
   const [data, setData] = useState<OrganizationEditValues | null>(null);
+  const [isOpenModalResetPassword, setIsOpenModalResetPassword] = useState(false);
 
   const onSubmit = async (values: FormikValues) => {
     try {
@@ -275,13 +277,29 @@ const OrganizationPage = () => {
                   classNameTitle="text-[20px] uppercase"
                   title={text('title.loginInformation')}
                 >
-                  <InputField
-                    required
-                    name="email"
-                    disabled={isUser}
-                    label={text('email.label')}
-                    wrapperClass="laptop:max-w-[calc(50%-24px)]"
-                  />
+                  <div>
+                    <InputField
+                      required
+                      name="email"
+                      disabled={isUser}
+                      label={text('email.label')}
+                      wrapperClass="laptop:max-w-[calc(50%-24px)]"
+                    />
+                    {isManager && (
+                      <>
+                        <SmallBtn
+                          type="changePass"
+                          text={btn('forgotPass')}
+                          className="mt-1 py-[14.5px]"
+                          onClick={() => setIsOpenModalResetPassword(true)}
+                        />
+                        <ModalEnterEmail
+                          isOpen={isOpenModalResetPassword}
+                          onClose={() => setIsOpenModalResetPassword(false)}
+                        />
+                      </>
+                    )}
+                  </div>
                 </Accordion>
 
                 <Accordion

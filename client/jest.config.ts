@@ -19,6 +19,7 @@ const config: Config = {
   coverageProvider: 'v8',
   collectCoverageFrom: ['src/**/*.{ts,tsx}'],
   coverageReporters: ['text-summary'],
+  preset: 'ts-jest',
   testEnvironment: 'node',
 
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],

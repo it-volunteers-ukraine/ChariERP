@@ -19,5 +19,5 @@
 }
 
 #DatePicker .react-datepicker__current-month.react-datepicker__current-month--hasYearDropdown {
-  @apply capitalize;
+  @apply capitalize text-dark-blue;
 }

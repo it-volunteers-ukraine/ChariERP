@@ -9,6 +9,7 @@ import {
   cloneElement,
   ReactElement,
   CSSProperties,
+  DOMAttributes,
   isValidElement,
 } from 'react';
 
@@ -45,7 +46,7 @@ export const EllipsisText = ({
   const checkTargetEllipsis = () => {
     if (!targetRef.current) return;
 
-    const element = targetRef.current as HTMLElement;
+    const element = targetRef.current;
 
     const offsetHeight = element.offsetHeight || 0;
     const scrollHeight = element.scrollHeight || 0;
@@ -177,18 +178,21 @@ export const EllipsisText = ({
 
   const updateChildren = Children.map(children, (child) => {
     if (isValidElement(child)) {
-      return cloneElement(child as ReactElement, {
-        ref: targetRef,
-        onMouseEnter: !isTouchDevice ? handleMouseEnter : undefined,
-        onMouseLeave: !isTouchDevice ? handleMouseLeave : undefined,
-        onClick: isTouchDevice
-          ? (e: React.MouseEvent) => {
-              e.stopPropagation();
-              checkTargetEllipsis();
-              setIsOpen(true);
-            }
-          : undefined,
-      });
+      return cloneElement(
+        child as ReactElement,
+        {
+          ref: targetRef,
+          onMouseEnter: !isTouchDevice ? handleMouseEnter : undefined,
+          onMouseLeave: !isTouchDevice ? handleMouseLeave : undefined,
+          onClick: isTouchDevice
+            ? (e: React.MouseEvent) => {
+                e.stopPropagation();
+                checkTargetEllipsis();
+                setIsOpen(true);
+              }
+            : undefined,
+        } as DOMAttributes<never>,
+      );
     }
 
     return child;

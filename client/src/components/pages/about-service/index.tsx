@@ -43,7 +43,7 @@ export const AboutServicePage = () => {
         <div className={style.planningSection}>
           {planning.map((card, idx) => (
             <AboutCardWithType
-              Icon={card.Icon}
+              img={card.img}
               type={AboutCardType.L}
               key={`${card.title}_${idx}`}
               title={cardTitle(card.title)}
@@ -60,7 +60,7 @@ export const AboutServicePage = () => {
         <div className={`${style.beneficiary}`}>
           {beneficiary.map((card, idx) => (
             <AboutCardWithType
-              Icon={card.Icon}
+              img={card.img}
               type={AboutCardType.XL}
               key={`${card.title}_${idx}`}
               title={cardTitle(card.title)}
