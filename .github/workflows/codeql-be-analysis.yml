@@ -1,21 +1,21 @@
-name: "CodeQL"
+name: "CodeQL - BE analysis"
 
 on:
   push:
     branches: [ main ]
     paths:
-      - 'client/**'
-      - '!client/.next'
-      - '!client/coverage'
-      - '!client/node_modules'
+      - 'server/**'
+      - '!server/.next'
+      - '!server/coverage'
+      - '!server/node_modules'
       - '!documentation'
   pull_request:
     branches: [ main ]
     paths:
-      - 'client/**'
-      - '!client/.next'
-      - '!client/coverage'
-      - '!client/node_modules'
+      - 'server/**'
+      - '!server/.next'
+      - '!server/coverage'
+      - '!server/node_modules'
       - '!documentation'
 
 jobs:
@@ -47,14 +47,14 @@ jobs:
       with:
         node-version: '22'
         cache: npm
-        cache-dependency-path: client
+        cache-dependency-path: server
 
     - name: Run build with NodeJS
       run: |
         npm ci
         npm run build
         npm run test
-      working-directory: client
+      working-directory: server
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
