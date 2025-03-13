@@ -1,6 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { Form, Formik } from 'formik';
+import { useTranslations } from 'next-intl';
+
+import { compressConvertImage } from '@/utils';
+import { showMessage } from '@/components/toastify';
+import { InputField } from '@/components/input-field';
+import { imageUrlValidation } from '@/components/formik-config';
 
 import { Overlay } from '../../overlay';
 
@@ -10,63 +16,86 @@ interface ImageModalProps {
   onInsert: (url: string) => void;
 }
 
-export const ImageModal = ({ isOpen, onClose, onInsert }: ImageModalProps) => {
-  const [imageUrl, setImageUrl] = useState('');
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+const MAX_FILE_SIZE = 5;
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+export const ImageModal = ({ isOpen, onClose, onInsert }: ImageModalProps) => {
+  const errorText = useTranslations('errors');
+  const text = useTranslations('editor.modalImg');
+  const validationText = useTranslations('validation');
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
     if (file) {
-      setSelectedFile(file);
-      setImageUrl(URL.createObjectURL(file));
+      const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg'];
+      const isValidFormat = allowedFormats.includes(file.type);
+
+      if (!isValidFormat) {
+        showMessage.error(errorText('fileDownload'));
+        event.target.value = '';
+
+        return;
+      }
+
+      if (file.size > MAX_FILE_SIZE * 1024 * 1024) {
+        showMessage.error(errorText('fileSizeExceeded', { mb: MAX_FILE_SIZE }));
+        event.target.value = '';
+
+        return;
+      }
+
+      try {
+        const result = await compressConvertImage({
+          file,
+        });
+
+        onInsert(result.url);
+
+        onClose();
+      } catch {
+        showMessage.error(errorText('errorDownload'));
+      }
     }
   };
 
-  const handleInsert = () => {
-    if (selectedFile) {
-      const reader = new FileReader();
+  const handleInsert = (values: { imageUrl: string }) => {
+    onInsert(values.imageUrl);
 
-      reader.onload = () => {
-        if (typeof reader.result === 'string') {
-          onInsert(reader.result);
-        }
-      };
-      reader.readAsDataURL(selectedFile);
-    } else if (imageUrl) {
-      onInsert(imageUrl);
-    }
     onClose();
   };
 
   if (!isOpen) return null;
 
   return (
-    <Overlay opened={isOpen} onClose={onClose}>
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="rounded-lg bg-white p-6 shadow-lg">
-          <h2 className="mb-4 text-lg font-semibold">Додати зображення</h2>
+    <Overlay opened={isOpen} onClose={onClose} classNameModal="flex flex-col rounded-lg bg-white p-6 shadow-lg">
+      <h2 className="mb-2 text-lg font-semibold">{text('title')}</h2>
+      <Formik
+        onSubmit={handleInsert}
+        initialValues={{ imageUrl: '' }}
+        validationSchema={imageUrlValidation(validationText)}
+      >
+        {() => (
+          <Form>
+            <InputField required type="text" label={text('inputUrl')} placeholder="https://" name="imageUrl" />
 
-          <input
-            type="text"
-            placeholder="Вставте URL зображення"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            className="mb-2 w-full rounded border p-2"
-          />
-
-          <input type="file" accept="image/*" onChange={handleFileChange} className="mb-2" />
-
-          <div className="flex justify-end gap-2">
-            <button onClick={onClose} className="rounded border p-2">
-              Скасувати
-            </button>
-            <button onClick={handleInsert} className="rounded bg-blue-500 p-2 text-white">
-              Додати
-            </button>
-          </div>
-        </div>
-      </div>
+            <div className="mt-4 flex items-center justify-between">
+              <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" id="file-upload" />
+              <label
+                htmlFor="file-upload"
+                className="box-border h-[40px] cursor-pointer rounded-lg border border-lightBlue bg-white px-4 py-2 text-sm text-lightBlue hover:bg-blue-50"
+              >
+                {text('inputFile')}
+              </label>
+              <button
+                type="submit"
+                className="align-center h-[40px] justify-center rounded-lg border border-lightBlue bg-white px-4 py-2 text-sm text-lightBlue hover:bg-blue-50"
+              >
+                {text('add')}
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </Overlay>
   );
 };
