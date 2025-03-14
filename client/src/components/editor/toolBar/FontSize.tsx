@@ -63,7 +63,11 @@ export const FontSize = ({ className, isEditing }: IFontSize) => {
         -
       </button>
 
-      <select className={cn(className, 'w-14 text-[14px]')} value={size ?? ''} onChange={handleSizeChange}>
+      <select
+        className={cn(className, 'border-bg-gray-300 w-14 border-[1px] px-2 text-[14px]')}
+        value={size ?? ''}
+        onChange={handleSizeChange}
+      >
         <option value="" hidden></option>
         {FONT_SIZES.map((fontSize) => (
           <option key={fontSize} value={fontSize}>
