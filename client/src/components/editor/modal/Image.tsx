@@ -9,6 +9,7 @@ import { InputField } from '@/components/input-field';
 import { imageUrlValidation } from '@/components/formik-config';
 
 import { Overlay } from '../../overlay';
+import { Button } from '@/components/button';
 
 interface ImageModalProps {
   isOpen: boolean;
@@ -82,16 +83,13 @@ export const ImageModal = ({ isOpen, onClose, onInsert }: ImageModalProps) => {
               <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" id="file-upload" />
               <label
                 htmlFor="file-upload"
-                className="box-border h-[40px] cursor-pointer rounded-lg border border-lightBlue bg-white px-4 py-2 text-sm text-lightBlue hover:bg-blue-50"
+                className="flex h-[42px] cursor-pointer items-center justify-center rounded-50 border-[1px] border-lightBlue px-5 font-scada text-[16px] leading-4 text-lightBlue transition-all duration-300 hover:border-[#0C6399] hover:text-[#0C6399]"
               >
                 {text('inputFile')}
               </label>
-              <button
-                type="submit"
-                className="align-center h-[40px] justify-center rounded-lg border border-lightBlue bg-white px-4 py-2 text-sm text-lightBlue hover:bg-blue-50"
-              >
+              <Button type="submit" styleType="primary">
                 {text('add')}
-              </button>
+              </Button>
             </div>
           </Form>
         )}
