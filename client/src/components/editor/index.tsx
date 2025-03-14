@@ -14,7 +14,7 @@ import { ToolBar } from './toolBar';
 import { initialConfig } from './config';
 
 import './index.css';
-import { Color, Heading, ImagePlugin, OnChange, RestoreState, SetIsEditing } from './plugins';
+import { Color, FontSize, Heading, ImagePlugin, OnChange, RestoreState, SetIsEditing } from './plugins';
 
 interface IEditor {
   isEditing: boolean;
@@ -36,7 +36,7 @@ export const Editor = ({ onSave, initialState, onOpen, isEditing = false, classN
 
   return (
     <LexicalComposer initialConfig={initialConfig(initialState, initialState ? false : true)}>
-      <ToolBar className={styles.toolBar} buttonClassName={styles.buttonToolBar} />
+      <ToolBar className={styles.toolBar} isEditing={isEditing} buttonClassName={styles.buttonToolBar} />
       <div className="relative">
         <RichTextPlugin
           contentEditable={<ContentEditable onClick={handleClick} className={styles.editor} />}
@@ -47,11 +47,12 @@ export const Editor = ({ onSave, initialState, onOpen, isEditing = false, classN
 
       <Color />
       <Heading />
+      <FontSize />
+      <LinkPlugin />
       <ListPlugin />
       <ImagePlugin />
       <HistoryPlugin />
       <CheckListPlugin />
-      <LinkPlugin />
 
       <RestoreState isOpen={isEditing} initialState={initialState} />
 
