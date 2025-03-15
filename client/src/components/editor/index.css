@@ -1,0 +1,10 @@
+h1 span,
+h2 span,
+h3 span,
+h4 span,
+h5 span,
+h6 span {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
