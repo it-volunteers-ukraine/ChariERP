@@ -52,6 +52,16 @@ export const Link = ({ className }: { className?: string }) => {
       if ($isRangeSelection(selection)) {
         const selectedText = selection.getTextContent();
 
+        const nodes = selection.getNodes();
+
+        nodes.forEach((node) => {
+          const parentNode = node.getParent();
+
+          if (parentNode && $isLinkNode(parentNode)) {
+            parentNode.remove();
+          }
+        });
+
         if (selectedText) {
           selection.insertText('');
         }

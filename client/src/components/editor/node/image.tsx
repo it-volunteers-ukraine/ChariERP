@@ -54,6 +54,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
     img.src = this.__src;
     img.alt = 'photo';
     img.className = 'img';
+    img.style.maxWidth = '300px';
     img.setAttribute('data-key', this.__key);
 
     return img;
@@ -68,7 +69,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
   }
 
   decorate(): JSX.Element {
-    return <img src={this.__src} alt="Uploaded" className="max-w-200" />;
+    return <img src={this.__src} alt="Uploaded" className="max-w-[300px]" />;
   }
 }
 
