@@ -1,12 +1,11 @@
-name: Deploy to Digital Ocean
+name: Deploy BE to Digital Ocean
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'client/**'
-      - '.github/workflows/**'
+      - 'server/**'
   workflow_dispatch:
     inputs:
       logLevel:
@@ -25,7 +24,7 @@ on:
 env:
   DO_REGISTRY: it-volunteers-ukraine
   DO_REPOSITORY: chari_erp_repository
-  CONTAINER_NAME: ChariERP
+  CONTAINER_NAME: ChariERP-BE
 
 permissions:
   id-token: write   # This is required for requesting the JWT
@@ -48,7 +47,7 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: Build container image
-        working-directory: ./client
+        working-directory: ./server
         run: docker build -t registry.digitalocean.com/$DO_REGISTRY/$DO_REPOSITORY .
 
       - name: Log in to DigitalOcean Container Registry with short-lived credentials
@@ -72,7 +71,7 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
             🤖 GitHub Actions 🤖 
-            🔗 Last merged changes' deploy is 🏁COMPLETED🏁 🎉
+            🔗 Last merged BE changes' deploy is 🏁COMPLETED🏁 🎉
 
             🛫 LAST DEPLOYED COMMIT 🛫
             👩‍💻 Author: ${{ github.event.commits[0].author.name }}
