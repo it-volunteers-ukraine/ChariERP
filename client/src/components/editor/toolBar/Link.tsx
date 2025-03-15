@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $createTextNode, $getSelection, $isRangeSelection } from 'lexical';
-import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
-import { LinkModal } from '../modal';
+
 import { LinkIcon } from '@/assets/icons';
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+
+import { LinkModal } from '../modal';
 
 export const Link = ({ className }: { className?: string }) => {
   const [editor] = useLexicalComposerContext();

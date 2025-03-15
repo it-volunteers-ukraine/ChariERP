@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { $getSelection, $isRangeSelection } from 'lexical';
 
 import { cn } from '@/utils';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $getSelectionStyleValueForProperty } from '@lexical/selection';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
 import { CHANGE_SIZE_COMMAND } from '../plugins/FontSize';
 

@@ -68,7 +68,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
   }
 
   decorate(): JSX.Element {
-    return <img src={this.__src} alt="Uploaded" className="w-200" />;
+    return <img src={this.__src} alt="Uploaded" className="max-w-200" />;
   }
 }
 
