@@ -270,6 +270,7 @@
       "emptyValue": "Будь ласка, оберіть одну причину"
     },
     "fileDownload": "Невірний формат файлу",
+    "errorDownload": "Помилка загрузки файла",
     "fileSizeExceeded": "Розмір файлу перевищує {mb} Мб",
     "employees": {
       "addUser": "Електронна пошта вже існує"
@@ -608,5 +609,14 @@
       "buttonContacts": "Контакти"
     },
     "sidebarButtonName": { "Organizations": "Моя організація", "Employees": "Співробітники", "Boards": "Дошки" }
+  },
+
+  "editor": {
+    "modalImg": {
+      "title": "Додати зображення",
+      "inputUrl": "Вставте URL зображення",
+      "inputFile": "Обрати фото",
+      "add": "Додати"
+    }
   }
 }
