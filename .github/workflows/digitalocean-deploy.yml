@@ -1,30 +1,16 @@
-name: Deploy BE to Digital Ocean
-
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'server/**'
-  workflow_dispatch:
+  workflow_call:
     inputs:
-      logLevel:
-        description: 'Log level'
+      working-directory:
         required: true
-        default: 'info'
-        type: choice
-        options:
-          - info
-          - debug
-      branch:
-        description: 'Branch to deploy'
+        type: string
+      container-name:
         required: true
-        default: 'main'
+        type: string
 
 env:
   DO_REGISTRY: it-volunteers-ukraine
-  DO_REPOSITORY: chari_erp_repository
-  CONTAINER_NAME: ChariERP-BE
+  CONTAINER_NAME: ${{ inputs.container-name }}
 
 permissions:
   id-token: write   # This is required for requesting the JWT
@@ -47,8 +33,8 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: Build container image
-        working-directory: ./server
-        run: docker build -t registry.digitalocean.com/$DO_REGISTRY/$DO_REPOSITORY .
+        working-directory: ${{ inputs.working-directory }}
+        run: docker build -t registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME .
 
       - name: Log in to DigitalOcean Container Registry with short-lived credentials
         run: doctl registry login --expiry-seconds 1200
@@ -56,8 +42,11 @@ jobs:
       - name: Run garbage collector for stale images
         run: doctl registry gc start -f --include-untagged-manifests
 
+      - name: Rename Docker image
+        run: docker tag $CONTAINER_NAME:${{github.sha}} registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME
+
       - name: Push image to DigitalOcean Container Registry
-        run: docker push registry.digitalocean.com/$DO_REGISTRY/$DO_REPOSITORY
+        run: docker push registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME
 
   inform:
     name: Inform
@@ -71,7 +60,7 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
             🤖 GitHub Actions 🤖 
-            🔗 Last merged BE changes' deploy is 🏁COMPLETED🏁 🎉
+            🔗 Last merged UI changes' deploy is 🏁COMPLETED🏁 🎉
 
             🛫 LAST DEPLOYED COMMIT 🛫
             👩‍💻 Author: ${{ github.event.commits[0].author.name }}
