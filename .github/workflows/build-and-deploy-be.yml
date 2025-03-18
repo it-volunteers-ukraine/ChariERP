@@ -1,0 +1,29 @@
+name: Deploy BE to Digital Ocean
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'server/**'
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'info'
+        type: choice
+        options:
+          - info
+          - debug
+      branch:
+        description: 'Branch to deploy'
+        required: true
+        default: 'main'
+
+jobs:
+  deploy-ui:
+    uses: it-volunteers-ukraine/ChariERP/.github/workflows/digitalocean-deploy.yml@main
+    with:
+      working-directory: ./server
+      container-name: chari_erp_be
