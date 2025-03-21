@@ -608,5 +608,11 @@
       "buttonContacts": "Контакти"
     },
     "sidebarButtonName": { "Organizations": "Моя організація", "Employees": "Співробітники", "Boards": "Дошки" }
+  },
+  "editor": {
+    "btnSave": "Зберегти",
+    "btnDelete": "Видалити",
+    "btnEdit": "Редагувати",
+    "btnRemove": "Скасувати"
   }
 }

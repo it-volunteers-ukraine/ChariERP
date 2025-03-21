@@ -614,5 +614,11 @@
       "buttonContacts": "Contacts"
     },
     "sidebarButtonName": { "Organizations": "My organization", "Employees": "Employees", "Boards": "Boards" }
+  },
+  "editor": {
+    "btnSave": "Save",
+    "btnDelete": "Delete",
+    "btnEdit": "Edit",
+    "btnRemove": "Remove"
   }
 }

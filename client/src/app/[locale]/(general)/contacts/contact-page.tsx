@@ -8,8 +8,6 @@ import { BannerContacts } from '@/assets/img';
 import { Messenger } from './messengers';
 import { MessengerMock } from './messengerMock';
 import { FeedbackForm } from './form/feedback-form';
-import { ViewEditor } from '@/components/viewEditor';
-// import { CommentEditor } from '@/components/comment';
 
 const ContactPage = () => {
   const contactPageTranslation = useTranslations('contactPageTranslation');
@@ -41,8 +39,6 @@ const ContactPage = () => {
             <FeedbackForm />
           </div>
         </div>
-        {/* <CommentEditor /> */}
-        <ViewEditor />
       </div>
     </div>
   );
