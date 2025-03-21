@@ -20,7 +20,7 @@ on:
 
 jobs:
   deploy-ui:
-    uses: it-volunteers-ukraine/ChariERP/.github/workflows/codeql-analysis.yml@main
+    uses: ./.github/workflows/codeql-analysis.yml
     with:
       working-directory: ./client
     permissions:
