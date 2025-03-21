@@ -27,3 +27,6 @@ jobs:
     with:
       working-directory: ./client
       container-name: chari_erp_ui
+    permissions:
+      id-token: write
+      contents: read

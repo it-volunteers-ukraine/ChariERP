@@ -27,3 +27,6 @@ jobs:
     with:
       working-directory: ./server
       container-name: chari_erp_be
+    permissions:
+      id-token: write
+      contents: read
