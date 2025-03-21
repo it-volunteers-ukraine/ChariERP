@@ -274,6 +274,7 @@
       "emptyValue": "Please, pick one reason"
     },
     "fileDownload": "Invalid file format",
+    "errorDownload": "File upload error",
     "fileSizeExceeded": "File size exceeds {mb} MB",
     "employees": {
       "addUser": "Email already exists"
@@ -619,6 +620,12 @@
     "btnSave": "Save",
     "btnDelete": "Delete",
     "btnEdit": "Edit",
-    "btnRemove": "Remove"
+    "btnRemove": "Remove",
+    "modalImg": {
+      "title": "Add an image",
+      "inputUrl": "Insert image URL",
+      "inputFile": "Select photo",
+      "add": "Add"
+    }
   }
 }

@@ -1,8 +1,8 @@
-import { ImageNode } from './node';
-
 import { LinkNode } from '@lexical/link';
 import { HeadingNode } from '@lexical/rich-text';
 import { ListItemNode, ListNode } from '@lexical/list';
+
+import { ImageNode } from './node';
 
 const theme = {
   text: {
@@ -15,7 +15,7 @@ const theme = {
     superscript: 'align-super',
   },
   list: {
-    ol: 'p-0 m-0 pl-2 list-inside list-disc',
+    ol: 'p-0 m-0 pl-2 list-inside list-decimal',
     ul: 'p-0 m-0 pl-2 list-inside list-disc',
   },
   heading: {

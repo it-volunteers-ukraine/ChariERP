@@ -1,9 +1,11 @@
 'use client';
 
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { FORMAT_HEADING_COMMAND } from '../plugins/Heading';
 import { useRef, useState } from 'react';
+
 import { useOutsideClick } from '@/hooks';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+
+import { FORMAT_HEADING_COMMAND } from '../plugins/Heading';
 
 export const Heading = ({ className }: { className?: string }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -28,9 +30,9 @@ export const Heading = ({ className }: { className?: string }) => {
         >
           {tags.map((tag, index) => (
             <button
-              className={className}
               key={tag}
               type="button"
+              className={className}
               onClick={() => {
                 editor.dispatchCommand(FORMAT_HEADING_COMMAND, tag);
                 setIsDropdownOpen(false);

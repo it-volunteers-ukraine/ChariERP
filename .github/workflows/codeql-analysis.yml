@@ -1,22 +1,9 @@
-name: "CodeQL"
-
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - 'client/**'
-      - '!client/.next'
-      - '!client/coverage'
-      - '!client/node_modules'
-      - '!documentation'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'client/**'
-      - '!client/.next'
-      - '!client/coverage'
-      - '!client/node_modules'
-      - '!documentation'
+  workflow_call:
+    inputs:
+      working-directory:
+        required: true
+        type: string
 
 jobs:
   analyze:
@@ -33,30 +20,30 @@ jobs:
         language: [ 'javascript-typescript' ]
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        queries: security-and-quality
-        languages: ${{ matrix.language }}
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          queries: security-and-quality
+          languages: ${{ matrix.language }}
 
-    - name: Set up NodeJS
-      uses: actions/setup-node@v4
-      with:
-        node-version: '22'
-        cache: npm
-        cache-dependency-path: client
+      - name: Set up NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: ${{ inputs.working-directory }}
 
-    - name: Run build with NodeJS
-      run: |
-        npm ci
-        npm run build
-        npm run test
-      working-directory: client
+      - name: Run build with NodeJS
+        run: |
+          npm ci
+          npm run build
+          npm run test
+        working-directory: ${{ inputs.working-directory }}
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
-      with:
-        category: "/language:${{matrix.language}}"
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{matrix.language}}"

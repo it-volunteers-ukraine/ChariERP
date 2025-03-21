@@ -1,0 +1,25 @@
+name: "CodeQL - BE analysis"
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'server/**'
+      - '!server/.next'
+      - '!server/coverage'
+      - '!server/node_modules'
+      - '!documentation'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'server/**'
+      - '!server/.next'
+      - '!server/coverage'
+      - '!server/node_modules'
+      - '!documentation'
+
+jobs:
+  deploy-ui:
+    uses: it-volunteers-ukraine/ChariERP/.github/workflows/codeql-analysis.yml@main
+    with:
+      working-directory: ./server

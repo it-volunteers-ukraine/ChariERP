@@ -6,5 +6,6 @@ export { enterEmailInitialValues } from './initial-values/enterEmailInitialValue
 export { enterEmailValidation } from './validation/enterEmailValidation';
 export { getInitialDataOrganization } from './initial-values/organizationInitialValues';
 export { getPasswordValidation } from './validation/passwordValidation';
+export { imageUrlValidation, linkValidation } from './validation/editorValidation';
 export { organizationInitialValues } from './initial-values/organizationInitialValues';
 export { organizationValidation } from './validation/organizationValidation';

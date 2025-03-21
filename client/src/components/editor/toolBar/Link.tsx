@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $createTextNode, $getSelection, $isRangeSelection } from 'lexical';
-import { TOGGLE_LINK_COMMAND } from '@lexical/link';
-import { LinkModal } from '../modal';
+
 import { LinkIcon } from '@/assets/icons';
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+
+import { LinkModal } from '../modal';
 
 export const Link = ({ className }: { className?: string }) => {
   const [editor] = useLexicalComposerContext();
@@ -18,13 +20,27 @@ export const Link = ({ className }: { className?: string }) => {
       const selection = $getSelection();
 
       if ($isRangeSelection(selection)) {
-        const text = selection.getTextContent();
+        let text = selection.getTextContent();
+        const nodes = selection.getNodes();
+
+        let linkUrl = '';
+
+        nodes.forEach((node) => {
+          const parentNode = node.getParent();
+
+          if (parentNode && $isLinkNode(parentNode)) {
+            linkUrl = parentNode.getURL();
+            text = parentNode.getTextContent();
+          }
+        });
 
         setSelectedText(text);
+        setSelectedUrl(linkUrl);
       } else {
         setSelectedText('');
+        setSelectedUrl('');
       }
-      setSelectedUrl('');
+
       setIsOpen(true);
     });
   };
@@ -35,6 +51,16 @@ export const Link = ({ className }: { className?: string }) => {
 
       if ($isRangeSelection(selection)) {
         const selectedText = selection.getTextContent();
+
+        const nodes = selection.getNodes();
+
+        nodes.forEach((node) => {
+          const parentNode = node.getParent();
+
+          if (parentNode && $isLinkNode(parentNode)) {
+            parentNode.remove();
+          }
+        });
 
         if (selectedText) {
           selection.insertText('');

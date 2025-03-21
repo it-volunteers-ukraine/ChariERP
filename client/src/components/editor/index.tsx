@@ -12,9 +12,9 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { getStyle } from './style';
 import { ToolBar } from './toolBar';
 import { initialConfig } from './config';
+import { Color, FontSize, Heading, ImagePlugin, OnChange, RestoreState, SetIsEditing } from './plugins';
 
 import './index.css';
-import { Color, Heading, ImagePlugin, OnChange, RestoreState, SetIsEditing } from './plugins';
 
 interface IEditor {
   isEditing: boolean;
@@ -26,7 +26,7 @@ interface IEditor {
 }
 
 export const Editor = ({ onSave, initialState, onOpen, isEditing = false, className, placeholder = '' }: IEditor) => {
-  const styles = getStyle(isEditing, className);
+  const styles = getStyle({ isClick: !isEditing && !!onOpen, className });
 
   const handleClick = () => {
     if (onOpen && !isEditing) {
@@ -35,8 +35,8 @@ export const Editor = ({ onSave, initialState, onOpen, isEditing = false, classN
   };
 
   return (
-    <LexicalComposer initialConfig={initialConfig(initialState, initialState ? false : true)}>
-      <ToolBar className={styles.toolBar} buttonClassName={styles.buttonToolBar} />
+    <LexicalComposer initialConfig={initialConfig(initialState, !initialState)}>
+      <ToolBar isEditing={isEditing} />
       <div className="relative">
         <RichTextPlugin
           contentEditable={<ContentEditable onClick={handleClick} className={styles.editor} />}
@@ -47,11 +47,12 @@ export const Editor = ({ onSave, initialState, onOpen, isEditing = false, classN
 
       <Color />
       <Heading />
+      <FontSize />
+      <LinkPlugin />
       <ListPlugin />
       <ImagePlugin />
       <HistoryPlugin />
       <CheckListPlugin />
-      <LinkPlugin />
 
       <RestoreState isOpen={isEditing} initialState={initialState} />
 
@@ -61,7 +62,7 @@ export const Editor = ({ onSave, initialState, onOpen, isEditing = false, classN
         }}
       />
 
-      <SetIsEditing isEditing={initialState ? isEditing : true} />
+      <SetIsEditing isEditing={isEditing} />
     </LexicalComposer>
   );
 };

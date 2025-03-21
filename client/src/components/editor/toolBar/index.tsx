@@ -8,24 +8,33 @@ import { ImageButton } from './Image';
 import { ColorButton } from './Color';
 import { TextAlign } from './TextAlign';
 import { TextDecoration } from './TextDecoration';
+import { FontSize } from './FontSize';
+import { getStyle } from './style';
 
 interface IToolBarProps {
-  className?: string;
-  buttonClassName?: string;
+  isEditing: boolean;
 }
 
-export const ToolBar = ({ className, buttonClassName }: IToolBarProps) => {
+export const ToolBar = ({ isEditing }: IToolBarProps) => {
+  const styles = getStyle(isEditing);
+
   return (
-    <div className={className}>
-      <TextDecoration className={buttonClassName} />
-      <ColorButton className={buttonClassName} type="text" />
-      <ColorButton className={buttonClassName} type="background" />
-      <Heading className={buttonClassName} />
-      <TextAlign className={buttonClassName} />
-      <List className={buttonClassName} />
-      <Link className={buttonClassName} />
-      <ImageButton className={buttonClassName} />
-      <History className={buttonClassName} />
+    <div className={styles.wrapper}>
+      <FontSize className={styles.button} isEditing={isEditing} />
+      <div className={styles.decorateLine}></div>
+      <TextDecoration className={styles.button} />
+      <ColorButton className={styles.button} type="text" />
+      <ColorButton className={styles.button} type="background" />
+      <Heading className={styles.button} />
+      <div className={styles.decorateLine}></div>
+      <TextAlign className={styles.button} />
+      <div className={styles.decorateLine}></div>
+      <List className={styles.button} />
+      <div className={styles.decorateLine}></div>
+      <Link className={styles.button} />
+      <ImageButton className={styles.button} />
+      <div className={styles.decorateLine}></div>
+      <History className={styles.button} />
     </div>
   );
 };
