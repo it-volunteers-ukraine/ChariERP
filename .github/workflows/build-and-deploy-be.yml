@@ -23,7 +23,10 @@ on:
 
 jobs:
   deploy-ui:
-    uses: it-volunteers-ukraine/ChariERP/.github/workflows/digitalocean-deploy.yml@main
+    uses: ./.github/workflows/digitalocean-deploy.yml
     with:
       working-directory: ./server
       container-name: chari_erp_be
+    permissions:
+      id-token: write
+      contents: read

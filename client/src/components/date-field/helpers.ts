@@ -1,11 +1,11 @@
 import { Input } from '../input';
-import { DateStyleType } from './types';
-import { DateInputWithTitle } from '../date-input-with-title/index';
+import { InputTypeEnum } from './types';
+import { DateInput } from '../date-input/index';
 
-export const CustomInputSwitch = (inputType?: DateStyleType) => {
+export const CustomInputSwitch = (inputType?: InputTypeEnum) => {
   switch (inputType) {
-    case DateStyleType.SKY_BLUE:
-      return DateInputWithTitle;
+    case InputTypeEnum.DATE_WITH_LABEL:
+      return DateInput;
 
     default:
       return Input;

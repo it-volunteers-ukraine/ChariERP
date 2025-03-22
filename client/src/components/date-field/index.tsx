@@ -14,7 +14,7 @@ import { dateFormat } from '@/constants';
 
 import { InputProps } from '../input/types';
 import { CustomInputSwitch } from './helpers';
-import { DateFieldProps, DateStyleType } from './types';
+import { DateFieldProps, InputTypeEnum } from './types';
 
 import './style.css';
 
@@ -22,14 +22,14 @@ registerLocale('ua', uk);
 registerLocale('en', enGB);
 
 export interface IDatePickerInput extends InputProps {
-  isrequired?: string;
-  styleType?: DateStyleType;
+  isRequired?: string;
+  inputType?: InputTypeEnum;
 }
 
-const DatePickerInput = forwardRef(({ styleType, ...props }: IDatePickerInput, ref: React.Ref<HTMLInputElement>) => {
-  const required = props.isrequired === 'true';
+const DatePickerInput = forwardRef(({ inputType, ...props }: IDatePickerInput, ref: React.Ref<HTMLInputElement>) => {
+  const required = props.isRequired === 'true';
 
-  const Input = CustomInputSwitch(styleType);
+  const Input = CustomInputSwitch(inputType);
 
   return <Input {...props} required={required} ref={ref} />;
 });
@@ -41,7 +41,7 @@ export const DateField = ({
   label,
   disabled,
   required,
-  styleType,
+  inputType,
   placeholder,
   wrapperClass,
   minDate = '1944-01-01',
@@ -117,8 +117,8 @@ export const DateField = ({
                   name={name}
                   label={label}
                   error={error}
-                  styleType={styleType}
-                  isrequired={`${required}`}
+                  inputType={inputType}
+                  isRequired={`${required}`}
                 />
               }
             />

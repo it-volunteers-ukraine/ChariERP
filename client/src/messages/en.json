@@ -617,6 +617,10 @@
     "sidebarButtonName": { "Organizations": "My organization", "Employees": "Employees", "Boards": "Boards" }
   },
   "editor": {
+    "btnSave": "Save",
+    "btnDelete": "Delete",
+    "btnEdit": "Edit",
+    "btnRemove": "Remove",
     "modalImg": {
       "title": "Add an image",
       "inputUrl": "Insert image URL",

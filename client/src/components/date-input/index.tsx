@@ -6,7 +6,7 @@ import { InputProps } from '../input/types';
 
 import { getStyles } from './style';
 
-export const DateInputWithTitle = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
+export const DateInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps>(
   ({ value, onChange, placeholder, placeholderItalic, inputClass }, ref) => {
     const style = getStyles({ placeholder, value: value as string, placeholderItalic, inputClass });
 
@@ -28,4 +28,4 @@ export const DateInputWithTitle = forwardRef<HTMLInputElement | HTMLTextAreaElem
   },
 );
 
-DateInputWithTitle.displayName = 'DateInputWithTitle';
+DateInput.displayName = 'DateInputWithTitle';
