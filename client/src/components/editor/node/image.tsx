@@ -1,4 +1,5 @@
 import { JSX } from 'react';
+import Image from 'next/image';
 import { SerializedLexicalNode } from 'lexical';
 import { createCommand, DecoratorNode, LexicalNode } from 'lexical';
 
@@ -69,7 +70,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
   }
 
   decorate(): JSX.Element {
-    return <img src={this.__src} alt="Uploaded" className="max-w-[300px]" />;
+    return <Image src={this.__src} alt="Uploaded" className="w-200" />;
   }
 }
 
