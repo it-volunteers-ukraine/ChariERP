@@ -3,8 +3,8 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import { routes } from '@/constants';
-import { IBoardServerColumns } from '@/types';
 import { WrapperColumns } from '@/components';
+import { IBoardServerColumns } from '@/types';
 import { boardColumnsNormalizer } from '@/utils';
 import { getBoardColumnsAction } from '@/actions';
 
