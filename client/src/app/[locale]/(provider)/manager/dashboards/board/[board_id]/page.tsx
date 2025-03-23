@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
+import { routes } from '@/constants';
 import { IBoardServerColumns } from '@/types';
 import { WrapperColumns } from '@/components';
 import { boardColumnsNormalizer } from '@/utils';
 import { getBoardColumnsAction } from '@/actions';
-import { redirect } from 'next/navigation';
-import { routes } from '@/constants';
 
 interface Props {
   params: Promise<{ board_id: string }>;
@@ -30,7 +30,7 @@ export const getData = async (boardId: string) => {
 
     return parsedResponse as IBoardServerColumns;
   } catch (e) {
-    console.log({ e }, 'asdasdasd');
+    console.log({ e });
 
     return Promise.reject(e);
   }
