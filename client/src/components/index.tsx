@@ -16,6 +16,7 @@ export { CheckboxRadio } from './checkbox-radio';
 export { DateFieldWithTitle } from './date-field-with-title';
 export { DateField } from './date-field';
 export { DropdownList, DropdownItem, DropdownInput, IntermediateText } from './dropdown';
+export { Editor } from './editor';
 export { EllipsisText } from './ellipsisText';
 export { EmployeeCard } from './employee-card';
 export { FileField } from './file-field';

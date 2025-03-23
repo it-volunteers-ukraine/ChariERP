@@ -274,6 +274,7 @@
       "emptyValue": "Please, pick one reason"
     },
     "fileDownload": "Invalid file format",
+    "errorDownload": "File upload error",
     "fileSizeExceeded": "File size exceeds {mb} MB",
     "employees": {
       "addUser": "Email already exists"
@@ -372,7 +373,7 @@
       "title": "key benefits for each member of the organization",
       "accordions": {
         "firstAccordion": {
-          "title": "Director of a non-governmental organization",
+          "title": "Director of an NGO",
           "text": "The ERP system provides a complete overview of the organization's activities, helping the director to make strategic decisions based on up-to-date data. Control over resources and easy access to information about the budget, finances, and other resources allows you to optimize their use. The ability to monitor productivity, tools for assessing team performance and project efficiency help to achieve the set goals."
         },
         "secondAccordion": {
@@ -614,5 +615,13 @@
       "buttonContacts": "Contacts"
     },
     "sidebarButtonName": { "Organizations": "My organization", "Employees": "Employees", "Boards": "Boards" }
+  },
+  "editor": {
+    "modalImg": {
+      "title": "Add an image",
+      "inputUrl": "Insert image URL",
+      "inputFile": "Select photo",
+      "add": "Add"
+    }
   }
 }
