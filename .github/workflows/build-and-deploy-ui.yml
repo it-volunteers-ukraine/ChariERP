@@ -23,7 +23,13 @@ on:
 
 jobs:
   deploy-ui:
-    uses: it-volunteers-ukraine/ChariERP/.github/workflows/digitalocean-deploy.yml@main
+    uses: ./.github/workflows/digitalocean-deploy.yml
     with:
       working-directory: ./client
       container-name: chari_erp_ui
+      do-access-token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      telegram-to: ${{ secrets.TELEGRAM_TO }}
+      telegram-token: ${{ secrets.TELEGRAM_TOKEN }}
+    permissions:
+      id-token: write
+      contents: read

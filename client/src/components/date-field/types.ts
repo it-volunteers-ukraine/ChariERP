@@ -1,5 +1,6 @@
-export enum DateStyleType {
-  SKY_BLUE = 'SKY_BLUE',
+export enum InputTypeEnum {
+  DATE_LABEL = 'DATE_LABEL',
+  DATE_WITH_LABEL = 'DATE_WITH_LABEL',
 }
 
 export interface DateFieldProps {
@@ -13,7 +14,7 @@ export interface DateFieldProps {
   inputClass?: string;
   placeholder: string;
   wrapperClass?: string;
-  styleType?: DateStyleType;
+  inputType?: InputTypeEnum;
   placeholderItalic?: boolean;
   initialValue?: Date | string;
 }
