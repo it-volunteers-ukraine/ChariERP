@@ -151,7 +151,7 @@ export const DashboardAside = () => {
                                       isChildren
                                       href={href}
                                       Icon={icon}
-                                      title={title}
+                                      title={title.toUpperCase()}
                                       disabled={disabled}
                                       key={`${href}_${index}_${idx}`}
                                       onCloseSideBar={() => setIsOpenSidebar(false)}
