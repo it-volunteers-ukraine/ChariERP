@@ -5,6 +5,8 @@ import { IBoardServerColumns } from '@/types';
 import { WrapperColumns } from '@/components';
 import { boardColumnsNormalizer } from '@/utils';
 import { getBoardColumnsAction } from '@/actions';
+import { redirect } from 'next/navigation';
+import { routes } from '@/constants';
 
 interface Props {
   params: Promise<{ board_id: string }>;
@@ -58,7 +60,11 @@ const DashboardId = async ({ params }: Props) => {
 
   const columns = boardColumnsNormalizer(data?.boardColumns);
 
-  return <WrapperColumns id={board_id} columns={columns} title={`#${data?.order} ${data?.title}`} />;
+  if (data?.order === undefined && data?.title === undefined) {
+    redirect(routes.managerDashboardDenied);
+  }
+
+  return <WrapperColumns id={board_id} columns={columns} title={`#${data.order} ${data.title}`} />;
 };
 
 export default DashboardId;
