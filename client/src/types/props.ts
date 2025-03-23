@@ -3,7 +3,7 @@ import internal from 'stream';
 import { Schema } from 'mongoose';
 import { SdkStreamMixin } from '@aws-sdk/types';
 
-import { IAdmin, IBoardColumn, ICreateTask, ITask, IUsers } from './models';
+import { IAdmin, IBoardColumn, ITask, IUsers } from './models';
 import { DownloadType, RequestOrganizationStatus, UserStatus } from './enums';
 
 export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
@@ -121,11 +121,15 @@ export interface TaskPageParamsProps {
   params: Promise<{ task_id: string; column_id: string; board_id: string }>;
 }
 
+export interface IGetTaskProps extends Omit<ICreateTaskProps, 'userId'> {
+  taskId: string;
+  userId?: string;
+}
+
 export interface ICreateTaskProps {
   userId: string;
   boardId: string;
   columnId: string;
-  task: ICreateTask;
 }
 
 export interface ICreateColumnProps {

@@ -192,7 +192,7 @@ class UserService extends BaseService {
   async updateMemberById(formData: FormData) {
     await this.connect();
 
-    const avatarUrl = formData.get('avatarUrl') as File;
+    const avatarUrl = formData.get('avatarUrl') as File | string;
     const id = formData.get('id') as string;
     const data = JSON.parse(formData.get('data') as string) || '';
 
@@ -224,7 +224,7 @@ class UserService extends BaseService {
 
     body.avatarUrl = await this.updateUserAvatar(user.avatarUrl, avatarUrl, user.organizationId);
 
-    if (!body.avatarUrl) {
+    if (body.avatarUrl === false) {
       return { success: false, message: 'Image error update' };
     }
 
@@ -235,18 +235,28 @@ class UserService extends BaseService {
     return { success: true, message: 'User updated', user: JSON.stringify(response) };
   }
 
-  async updateUserAvatar(existingAvatarUrl: string | undefined, newAvatar: File | undefined, organizationId: ObjectId) {
-    let isPreviousOperationSuccessful = true;
+  async updateUserAvatar(
+    existingAvatarUrl: string | undefined,
+    newAvatar: File | string | undefined,
+    organizationId: ObjectId,
+  ) {
+    try {
+      if (existingAvatarUrl) {
+        await deleteFileFromBucket(existingAvatarUrl);
+      }
 
-    if (existingAvatarUrl) {
-      isPreviousOperationSuccessful = await deleteFileFromBucket(existingAvatarUrl);
+      if (typeof newAvatar === 'string') {
+        return '';
+      }
+
+      if (newAvatar) {
+        return await this.imageService.uploadAvatar(newAvatar, organizationId as unknown as string);
+      }
+
+      return false;
+    } catch {
+      return false;
     }
-
-    if (isPreviousOperationSuccessful && newAvatar) {
-      return await this.imageService.uploadAvatar(newAvatar, organizationId as unknown as string);
-    }
-
-    return false;
   }
 }
 

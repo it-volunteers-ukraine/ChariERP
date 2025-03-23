@@ -1,6 +1,6 @@
+import { IUseColumns } from '@/types';
 import { showMessage } from '@/components';
 import { changeColumnTitleAction } from '@/actions';
-import { IUseColumns, ResponseGetType } from '@/types';
 
 import { IUseStateBoardColumns } from './types';
 
@@ -24,7 +24,7 @@ export const useEditTitleColumn = ({ boardId, userId }: IUseColumns) => {
     );
 
     try {
-      const res: ResponseGetType = await changeColumnTitleAction({
+      const res = await changeColumnTitleAction({
         title,
         userId,
         boardId,

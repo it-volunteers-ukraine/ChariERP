@@ -34,7 +34,7 @@ export const useColumns = ({ boardColumns, boardId, id, onReject }: IColumnsProp
       }
 
       const parsedResponse = JSON.parse(response.data as string);
-      const columns = boardColumnsNormalizer(parsedResponse?.boardColumns);
+      const columns = await boardColumnsNormalizer(parsedResponse?.boardColumns);
 
       setColumns(columns);
     } catch (e) {

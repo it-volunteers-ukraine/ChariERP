@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
-import { normalizeUsers } from '@/utils';
+import { normalizeUsersWithoutAvatar } from '@/utils';
 import { useLoaderAdminPage, useUserInfo } from '@/context';
 import { getAllUsersByOrganizationIdActions } from '@/actions';
 import { IEmployeeCardProps } from '@/components/employee-card/types';
@@ -36,7 +36,9 @@ function EmployeesPage() {
 
       const users = JSON.parse(response.users);
 
-      setData(normalizeUsers(users.results));
+      const usersWithAvatar = normalizeUsersWithoutAvatar(users.results);
+
+      setData(usersWithAvatar);
       setTotalItems(users.totalItems);
     } catch (error) {
       console.log(error);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { Warning } from '@/assets/icons';
@@ -9,26 +9,15 @@ import { getStyles } from './style';
 import { ButtonIcon } from '../../button-icon';
 import { getValidationSchema } from './config';
 
-interface TaskProps {
-  title: string;
-  isCreate?: boolean;
-  onSubmit: () => void;
-  setTitle: React.Dispatch<React.SetStateAction<string>>;
-}
-
-export const Task = ({ title, setTitle, isCreate, onSubmit }: TaskProps) => {
+export const Task = () => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
-  const styles = getStyles(isCreate);
+  const [title, setTitle] = useState('');
+
+  const styles = getStyles(false);
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useEffect(() => {
-    if (isCreate && textareaRef.current) {
-      textareaRef.current.focus();
-    }
-  }, [isCreate]);
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTitle(e.target.value);
@@ -38,7 +27,6 @@ export const Task = ({ title, setTitle, isCreate, onSubmit }: TaskProps) => {
     try {
       await getValidationSchema().validate({ title });
       setError(null);
-      onSubmit();
     } catch (validationError) {
       setError((validationError as Error).message);
     }
@@ -54,7 +42,7 @@ export const Task = ({ title, setTitle, isCreate, onSubmit }: TaskProps) => {
         ref={textareaRef}
         className={styles.textarea}
         value={title}
-        disabled={!isCreate}
+        // disabled={!isCreate}
         onChange={onChange}
         onBlur={() => onHandleBlur()}
         placeholder={'Назва таски'}
