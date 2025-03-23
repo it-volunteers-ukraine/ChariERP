@@ -11,8 +11,8 @@ interface CommentListProps extends IComment {
   isDisabled: boolean;
   onDelete: (id: string) => void;
   isEditing: string | null | boolean;
-  setActiveComment: (comment: string) => void;
   setIsEditing: (id: string | null | false) => void;
+  setActiveComment: (comment: string | null) => void;
 }
 
 export const Comment = ({
