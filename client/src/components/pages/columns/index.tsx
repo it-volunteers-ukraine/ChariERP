@@ -116,8 +116,8 @@ export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoard
                 {response?.map((item, index) => (
                   <ColumnTasks
                     userId={id}
-                    key={item.id}
                     id={item.id}
+                    key={item.id}
                     index={index}
                     boardId={boardId}
                     title={item.title}
