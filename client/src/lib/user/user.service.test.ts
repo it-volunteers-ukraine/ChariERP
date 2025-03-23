@@ -99,7 +99,7 @@ function populateFormWithUserData() {
 async function createValidUserDataForUpdate() {
   const { formData, data } = populateFormWithUserData();
 
-  formData.append('avatarUrl', faker.image.avatar());
+  formData.append('avatarUrl', new File([faker.image.avatar()], 'avatar.jpeg'));
   formData.append('data', JSON.stringify(data));
 
   return formData;
