@@ -27,6 +27,7 @@ jobs:
     with:
       working-directory: ./server
       container-name: chari_erp_be
+    secrets:
       do-access-token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       telegram-to: ${{ secrets.TELEGRAM_TO }}
       telegram-token: ${{ secrets.TELEGRAM_TOKEN }}
