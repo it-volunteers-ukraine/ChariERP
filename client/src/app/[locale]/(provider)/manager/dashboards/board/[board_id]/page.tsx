@@ -23,14 +23,16 @@ export const getData = async (boardId: string) => {
     });
 
     if (!response.success || !response.data) {
-      throw new Error('Error data');
+      throw new Error(response.message);
     }
 
     const parsedResponse = JSON.parse(response.data as string);
 
     return parsedResponse as IBoardServerColumns;
   } catch (e) {
-    console.log({ e });
+    console.log({ e }, 'asdasdasd');
+
+    return Promise.reject(e);
   }
 };
 
@@ -56,13 +58,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const DashboardId = async ({ params }: Props) => {
   const { board_id } = await params;
 
-  const data = await getData(board_id);
+  const handelGetData = async () => {
+    try {
+      const data = await getData(board_id);
+
+      return data;
+    } catch {
+      redirect(routes.managerDashboardDenied);
+    }
+  };
+  const data = await handelGetData();
 
   const columns = boardColumnsNormalizer(data?.boardColumns);
-
-  if (data?.order === undefined && data?.title === undefined) {
-    redirect(routes.managerDashboardDenied);
-  }
 
   return <WrapperColumns id={board_id} columns={columns} title={`#${data.order} ${data.title}`} />;
 };
