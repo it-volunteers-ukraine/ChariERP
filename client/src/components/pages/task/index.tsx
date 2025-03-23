@@ -39,13 +39,13 @@ export const Task = () => {
       </div>
 
       <textarea
-        ref={textareaRef}
-        className={styles.textarea}
         value={title}
-        // disabled={!isCreate}
+        ref={textareaRef}
         onChange={onChange}
-        onBlur={() => onHandleBlur()}
+        // disabled={!isCreate}
+        className={styles.textarea}
         placeholder={'Назва таски'}
+        onBlur={() => onHandleBlur()}
       />
       {error && (
         <div className={styles.wrapperError}>
