@@ -617,15 +617,19 @@
     "sidebarButtonName": { "Organizations": "My organization", "Employees": "Employees", "Boards": "Boards" }
   },
   "editor": {
-    "btnSave": "Save",
-    "btnDelete": "Delete",
-    "btnEdit": "Edit",
-    "btnRemove": "Remove",
+    "button": {
+      "btnSave": "Save",
+      "btnDelete": "Delete",
+      "btnEdit": "Edit",
+      "btnCancel": "Cancel"
+    },
+
     "modalImg": {
       "title": "Add an image",
       "inputUrl": "Insert image URL",
       "inputFile": "Select photo",
       "add": "Add"
-    }
+    },
+    "placeholder": "Write your comment"
   }
 }

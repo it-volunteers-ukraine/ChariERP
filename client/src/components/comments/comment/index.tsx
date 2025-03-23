@@ -8,9 +8,9 @@ import { EditorBtnGroup } from '../btn-group';
 
 interface CommentListProps extends IComment {
   onSave: () => void;
+  isDisabled: boolean;
   onDelete: (id: string) => void;
   isEditing: string | null | boolean;
-  onDisabled: () => boolean | undefined;
   setActiveComment: (comment: string) => void;
   setIsEditing: (id: string | null | false) => void;
 }
@@ -27,11 +27,11 @@ export const Comment = ({
   lastName,
   firstName,
   isEditing,
-  onDisabled,
+  isDisabled,
   setIsEditing,
   setActiveComment,
 }: CommentListProps) => {
-  const btnEditor = useTranslations('editor');
+  const btnEditor = useTranslations('editor.button');
 
   const { _id } = useUserInfo();
 
@@ -58,7 +58,7 @@ export const Comment = ({
           className="mb-2 rounded-lg border border-[#65657526] px-4 py-3 shadow-md focus:border-darkBlueFocus"
         />
         {isEditing === id ? (
-          <EditorBtnGroup onDisabled={onDisabled} onSave={onSave} setIsEditing={setIsEditing} />
+          <EditorBtnGroup isDisabled={isDisabled} onSave={onSave} setIsEditing={setIsEditing} />
         ) : (
           authorId === userId && (
             <div className="flex gap-4">

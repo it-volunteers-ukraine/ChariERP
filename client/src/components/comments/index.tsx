@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 import { cn } from '@/utils';
 import { useUserInfo } from '@/context';
@@ -10,11 +11,9 @@ import { IComment } from './types';
 import { Comment } from './comment';
 import { EditorBtnGroup } from './btn-group';
 
-export interface ICommentEditor {
-  placeholder: string;
-}
+export const CommentEditor = () => {
+  const placeholder = useTranslations('editor');
 
-export const CommentEditor = ({ placeholder }: ICommentEditor) => {
   const [comments, setComments] = useState<IComment[]>([]);
   const [activeComment, setActiveComment] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<string | null | false>(false);
@@ -22,16 +21,6 @@ export const CommentEditor = ({ placeholder }: ICommentEditor) => {
   const { _id, firstName, lastName, avatarUrl } = useUserInfo();
 
   const authorId = _id ? String(_id) : undefined;
-
-  const onDisabled = () => {
-    const js = activeComment && JSON.parse(activeComment);
-
-    if (js.root.children[0]?.children.length > 0) {
-      return false;
-    }
-
-    return true;
-  };
 
   const onSave = () => {
     setIsEditing(false);
@@ -81,14 +70,14 @@ export const CommentEditor = ({ placeholder }: ICommentEditor) => {
               isEditing === null ? 'min-h-[100px]' : 'min-h-[48px]',
             )}
             onSave={setActiveComment}
-            placeholder={placeholder}
+            placeholder={placeholder('placeholder')}
             isEditing={isEditing === null}
             onOpen={() => setIsEditing(null)}
           />
 
           <div className="flex gap-4">
             {isEditing === null && (
-              <EditorBtnGroup onDisabled={onDisabled} onSave={onSave} setIsEditing={setIsEditing} />
+              <EditorBtnGroup isDisabled={!activeComment} onSave={onSave} setIsEditing={setIsEditing} />
             )}
           </div>
         </div>
@@ -100,7 +89,7 @@ export const CommentEditor = ({ placeholder }: ICommentEditor) => {
             onSave={onSave}
             onDelete={onDelete}
             isEditing={isEditing}
-            onDisabled={onDisabled}
+            isDisabled={!activeComment}
             setIsEditing={setIsEditing}
             key={`${comment.time}_${idx}`}
             setActiveComment={setActiveComment}
