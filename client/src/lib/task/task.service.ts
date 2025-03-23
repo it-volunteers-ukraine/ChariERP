@@ -1,12 +1,68 @@
+import { cookies } from 'next/headers';
+
 import { BoardColumn } from '@/lib';
-import { IBoardColumn, ICreateTaskProps, IDeleteTaskProps, IMoveTaskProps, Roles } from '@/types';
+import { IBoardColumn, ICreateTaskProps, IDeleteTaskProps, IGetTaskProps, IMoveTaskProps, Roles } from '@/types';
 
 import { Task, UsersBoards } from '..';
 import { BaseService } from '../database/base.service';
 
 class TaskService extends BaseService {
-  async createTask({ userId, boardId, columnId, task }: ICreateTaskProps) {
-    if (!columnId || !userId || !boardId || !task) {
+  async getTask({ userId, boardId, columnId, taskId }: IGetTaskProps) {
+    if (!columnId || !userId || !boardId || !taskId) {
+      return {
+        success: false,
+        message: 'User ID, Board ID, Column ID, and Task ID must be entered to retrieve a task',
+      };
+    }
+    await this.connect();
+
+    const userBoard = await UsersBoards.findOne({
+      user_id: userId,
+      board_id: boardId,
+    }).populate([
+      {
+        path: 'board_id',
+        populate: {
+          path: 'boardColumns',
+        },
+      },
+      {
+        path: 'user_id',
+      },
+    ]);
+
+    if (!userBoard) {
+      return {
+        success: false,
+        message: 'The board is missing or the user does not have access.',
+      };
+    }
+
+    const columns = userBoard.board_id.boardColumns;
+
+    const boardColumn = columns.find((el: IBoardColumn) => String(el._id) === columnId);
+
+    if (!boardColumn) {
+      return {
+        success: false,
+        message: 'Column does not exist.',
+      };
+    }
+
+    const task = await Task.findById(taskId).populate('users');
+
+    if (!task) {
+      return {
+        success: false,
+        message: 'Task does not exist.',
+      };
+    }
+
+    return { success: true, data: JSON.stringify(task) };
+  }
+
+  async createTask({ userId, boardId, columnId }: ICreateTaskProps) {
+    if (!columnId || !userId || !boardId) {
       return {
         success: false,
         message: 'user Id , board Id, column Id, object task and boardId are required for create a task',
@@ -14,6 +70,9 @@ class TaskService extends BaseService {
     }
     // TODO Validation of object task when we know all func of task
     await this.connect();
+
+    const cookieStore = await cookies();
+    const language = cookieStore.get('NEXT_LOCALE')?.value;
 
     const userBoard = await UsersBoards.findOne({
       user_id: userId,
@@ -55,15 +114,25 @@ class TaskService extends BaseService {
         message: 'Column does not exist.',
       };
     }
-    const taskUsers = task.users || [];
 
-    const preparedTask = { ...task, users: taskUsers, boardColumn_id: columnId };
+    const newTask = {
+      comments: [],
+      attachment: [],
+      description: '',
+      priority: 'high',
+      date_end: new Date(),
+      status: 'in_progress',
+      date_start: new Date(),
+      title: language === 'en' ? 'New task' : 'Новая задача',
+    };
 
-    const newTask = await Task.create(preparedTask);
+    const preparedTask = { ...newTask, boardColumn_id: columnId };
 
-    await BoardColumn.findByIdAndUpdate(columnId, { $push: { task_ids: newTask._id } });
+    const createdTask = await Task.create(preparedTask);
 
-    return { success: true, data: JSON.stringify(newTask) };
+    await BoardColumn.findByIdAndUpdate(columnId, { $push: { task_ids: createdTask._id } });
+
+    return { success: true, data: JSON.stringify(createdTask) };
   }
 
   async deleteTask({ boardId, userId, taskId }: IDeleteTaskProps) {

@@ -1,24 +1,29 @@
 import { IBoardColumnTasks } from '@/types';
+import { fetchAvatarUrl } from './fetch-avatar-url';
 
-export const oneBoardColumnNormalizer = (data: IBoardColumnTasks) => {
+export const oneBoardColumnNormalizer = async (data: IBoardColumnTasks) => {
   return {
     id: data._id!.toString(),
     title: data.title,
-    tasks: data.task_ids.map((task) => ({
-      id: task._id!.toString(),
-      title: task.title,
-      users: task.users.map((user) => ({
-        id: user._id!.toString(),
-        firstName: user.firstName,
-        lastName: user.lastName,
-        avatarUrl: user.avatarUrl || '',
+    tasks: await Promise.all(
+      data.task_ids.map(async (task) => ({
+        id: task._id!.toString(),
+        title: task.title,
+        users: await Promise.all(
+          task.users.map(async (user) => ({
+            id: user._id!.toString(),
+            firstName: user.firstName,
+            lastName: user.lastName,
+            avatarUrl: await fetchAvatarUrl(user._id!.toString(), user.avatarUrl || ''),
+          })),
+        ),
       })),
-    })),
+    ),
   };
 };
 
-export const boardColumnsNormalizer = (data?: IBoardColumnTasks[]) => {
+export const boardColumnsNormalizer = async (data?: IBoardColumnTasks[]) => {
   if (!data) return [];
 
-  return data.map(oneBoardColumnNormalizer);
+  return await Promise.all(data.map(oneBoardColumnNormalizer));
 };

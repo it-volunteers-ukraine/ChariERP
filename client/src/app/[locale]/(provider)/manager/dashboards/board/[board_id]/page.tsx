@@ -56,7 +56,7 @@ const DashboardId = async ({ params }: Props) => {
 
   const data = await getData(board_id);
 
-  const columns = boardColumnsNormalizer(data?.boardColumns);
+  const columns = await boardColumnsNormalizer(data?.boardColumns);
 
   return <WrapperColumns id={board_id} columns={columns} title={`#${data?.order} ${data?.title}`} />;
 };

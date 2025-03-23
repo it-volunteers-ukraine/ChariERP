@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Draggable } from '@hello-pangea/dnd';
 
@@ -13,11 +13,13 @@ import { ToolsDropMenu } from '@/components';
 import { Delete, DotsSettings, Edit } from '@/assets/icons';
 
 import { getStyles } from './styles';
+import { useAddTask } from '../../task/api';
 
 interface IColumnTasks {
   id: string;
   index: number;
   title: string;
+  userId: string;
   boardId: string;
   isManager: boolean;
   hasNextColumn: boolean;
@@ -31,6 +33,7 @@ export const ColumnTasks = ({
   id,
   index,
   title,
+  userId,
   boardId,
   children,
   isManager,
@@ -40,12 +43,15 @@ export const ColumnTasks = ({
 }: ChildrenProps<IColumnTasks>) => {
   const refInput = useRef<HTMLInputElement>(null);
   const translateBtn = useTranslations('button');
+  const router = useRouter();
 
   const [value, setValue] = useState(title);
   const [isDisable, setIsDisable] = useState(true);
   const [isToolsMenu, setIsToolsMenu] = useState(false);
 
   const style = getStyles(isDisable, hasNextColumn);
+
+  const { addTask } = useAddTask({ userId, boardId, columnId: id });
 
   const handleEdit = () => {
     setIsDisable(false);
@@ -74,6 +80,17 @@ export const ColumnTasks = ({
       onChangeTitle({ columnId: id, title: value });
     }
     setIsDisable(true);
+  };
+
+  const createTask = async () => {
+    try {
+      const task = await addTask();
+      const taskId = task._id.toString();
+
+      router.push(`${routes.managerDashboard}/${boardId}/${id}/${taskId}`);
+    } catch (error) {
+      console.log('error created Task', error);
+    }
   };
 
   useOutsideClick(() => setIsToolsMenu(false), refInput);
@@ -114,6 +131,7 @@ export const ColumnTasks = ({
                 <button className="rounded hover:bg-arcticSky" onClick={() => setIsToolsMenu(true)}>
                   <DotsSettings className="h-6 w-6" />
                 </button>
+
                 <ToolsDropMenu
                   animation="fade"
                   className="top-full"
@@ -139,11 +157,11 @@ export const ColumnTasks = ({
           </div>
 
           <div className="pr-3">
-            <Link href={`${routes.managerDashboard}/${boardId}/${id}/new-task`} className={style.addTask}>
+            <div onClick={createTask} className={style.addTask}>
               <span className="text-2xl font-bold leading-none">+</span>
 
               <span className="text-sm leading-5">{translateBtn('addTask')}</span>
-            </Link>
+            </div>
           </div>
         </div>
       )}

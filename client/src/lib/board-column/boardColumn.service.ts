@@ -216,7 +216,7 @@ class BoardColumnService extends BaseService {
       };
     }
 
-    const updatedColumn = await BoardColumn.findByIdAndUpdate(columnId, { $set: { title } });
+    const updatedColumn = await BoardColumn.findByIdAndUpdate(columnId, { $set: { title } }).lean();
 
     return { success: true, data: updatedColumn };
   }

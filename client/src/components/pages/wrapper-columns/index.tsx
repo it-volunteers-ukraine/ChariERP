@@ -19,7 +19,7 @@ export const WrapperColumns = ({ id, title, columns }: IWrapperColumnsProps) => 
 
   const filteredColumns = filterData(columns, search);
 
-  const userIds = columns.flatMap((item) => item.tasks.flatMap((task) => task.users.map((user) => user.id)));
+  const userIds = columns.flatMap((item) => item.tasks.flatMap((task) => task?.users?.map((user) => user.id)));
 
   return (
     <div className="relative flex h-[calc(100dvh-64px)] flex-col overflow-hidden bg-white desktop:h-[calc(100dvh-96px)]">

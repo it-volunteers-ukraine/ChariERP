@@ -7,7 +7,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { IEditUser } from '@/types';
 import { routes } from '@/constants';
 import { showMessage } from '@/components';
-import { updateUserSerializer } from '@/utils';
+import { createFile, updateUserSerializer } from '@/utils';
 import { useLoaderAdminPage, useUserInfo } from '@/context';
 import { getMemberByIdAction, updateMemberByIdAction } from '@/actions';
 
@@ -25,13 +25,23 @@ const EmployeeId = () => {
 
   const onSubmit = async (values: FormikValues) => {
     const formData = new FormData();
+    const newValue = { ...values };
 
-    const { avatarUrl, data } = updateUserSerializer(values as IEditUser);
+    delete newValue?.isImgChange;
+    delete newValue?.avatarInitial;
+
+    const { avatarUrl, data } = updateUserSerializer(newValue as IEditUser);
 
     const { isImgChange } = values;
 
-    if (isImgChange) {
+    if (isImgChange && avatarUrl !== '') {
       formData.append('avatarUrl', avatarUrl);
+    }
+
+    if (!isImgChange) {
+      const file = createFile('original', 'jpg');
+
+      formData.append('avatarUrl', file);
     }
 
     formData.append('data', JSON.stringify(data));
