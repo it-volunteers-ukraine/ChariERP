@@ -30,7 +30,7 @@ const EmployeeId = () => {
 
     const { isImgChange } = values;
 
-    if (isImgChange) {
+    if (isImgChange && avatarUrl !== '') {
       formData.append('avatarUrl', avatarUrl);
     }
 
