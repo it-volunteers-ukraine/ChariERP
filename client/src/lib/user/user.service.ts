@@ -221,7 +221,9 @@ class UserService extends BaseService {
       avatarUrl: user.avatarUrl,
     };
 
-    body.avatarUrl = await this.updateUserAvatar(user.avatarUrl, avatarUrl, user.organizationId);
+    if (!avatarUrl || avatarUrl?.size > 1) {
+      body.avatarUrl = await this.updateUserAvatar(user.avatarUrl, avatarUrl, user.organizationId);
+    }
 
     if (body.avatarUrl === false) {
       return { success: false, message: 'Image error update' };

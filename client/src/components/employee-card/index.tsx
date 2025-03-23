@@ -80,9 +80,7 @@ export const EmployeeCard = ({
     <div className={styles.wrapper} onClick={() => (isParamsId ? '' : router.push(`${routes.employeesEdit}/${id}`))}>
       <div className={`flex w-full items-start gap-4 ${itemClass}`}>
         {!inById && <AvatarEmployee src={img} name={firstName} surname={lastName} isLoading={isPending} />}
-
         {inById && <AvatarField name="avatarUrl" lastName={lastName} firstName={firstName} />}
-
         <div className="flex w-[calc(100%-102px)] flex-col gap-1">
           <EllipsisText delay={0} content={lastName}>
             <p className={styles.abbName}>{lastName}</p>
