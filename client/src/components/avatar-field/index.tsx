@@ -47,6 +47,8 @@ export const AvatarField = ({ name, info, isSubmit, lastName, firstName, classNa
             await form.setFieldValue(`isImgChange`, true);
             form.setFieldTouched(name);
           }
+
+          e.target.value = '';
         };
 
         const removeAvatar = async () => {
