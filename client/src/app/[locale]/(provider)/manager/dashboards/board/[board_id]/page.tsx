@@ -69,7 +69,7 @@ const DashboardId = async ({ params }: Props) => {
   };
   const data = await handelGetData();
 
-  const columns = boardColumnsNormalizer(data?.boardColumns);
+  const columns = await boardColumnsNormalizer(data?.boardColumns);
 
   return <WrapperColumns id={board_id} columns={columns} title={`#${data.order} ${data.title}`} />;
 };

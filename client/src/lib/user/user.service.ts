@@ -31,10 +31,9 @@ class UserService extends BaseService {
 
     const hash = await bcrypt.hash(password, 10);
 
-    const newAdmin = new Admin({ email, password: hash });
-    const response = await newAdmin.save();
+    await new Admin({ email, password: hash }).save();
 
-    return { success: true, data: response };
+    return { success: true };
   }
 
   async login(email: string, password: string) {
@@ -186,7 +185,7 @@ class UserService extends BaseService {
     await Organizations.findByIdAndUpdate(organizationId, { $push: { users: newUser._id } });
     console.info(`New user ${newUser.id} was created in organization '${organizationId}'`);
 
-    return { success: true, message: 'User created', userId: newUser._id };
+    return { success: true, message: 'User created', userId: newUser.id };
   }
 
   async updateMemberById(formData: FormData) {
@@ -222,9 +221,11 @@ class UserService extends BaseService {
       avatarUrl: user.avatarUrl,
     };
 
-    body.avatarUrl = await this.updateUserAvatar(user.avatarUrl, avatarUrl, user.organizationId);
+    if (!avatarUrl || avatarUrl?.size > 1) {
+      body.avatarUrl = await this.updateUserAvatar(user.avatarUrl, avatarUrl, user.organizationId);
+    }
 
-    if (!body.avatarUrl) {
+    if (body.avatarUrl === false) {
       return { success: false, message: 'Image error update' };
     }
 
@@ -242,7 +243,7 @@ class UserService extends BaseService {
       isPreviousOperationSuccessful = await deleteFileFromBucket(existingAvatarUrl);
     }
 
-    if (isPreviousOperationSuccessful && newAvatar) {
+    if (isPreviousOperationSuccessful) {
       return await this.imageService.uploadAvatar(newAvatar, organizationId as unknown as string);
     }
 

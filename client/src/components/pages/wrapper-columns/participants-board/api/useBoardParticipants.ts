@@ -37,7 +37,7 @@ export const useBoardParticipants = ({ boardId, usersInTasks }: { boardId: strin
       if (response && response?.success && response?.data) {
         const parsed = JSON.parse(response.data);
 
-        const users = normalizeUsers(parsed);
+        const users = await normalizeUsers(parsed);
 
         setBoardParticipants(sortedUsers(users));
       }

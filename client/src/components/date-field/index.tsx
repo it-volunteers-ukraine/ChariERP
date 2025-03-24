@@ -26,13 +26,13 @@ export interface IDatePickerInput extends InputProps {
   inputType?: InputTypeEnum;
 }
 
-const DatePickerInput = forwardRef(({ inputType, ...props }: IDatePickerInput, ref: React.Ref<HTMLInputElement>) => {
-  const required = props.isRequired === 'true';
+const DatePickerInput = forwardRef(
+  ({ inputType, isRequired, ...props }: IDatePickerInput, ref: React.Ref<HTMLInputElement>) => {
+    const Input = CustomInputSwitch(inputType);
 
-  const Input = CustomInputSwitch(inputType);
-
-  return <Input {...props} required={required} ref={ref} />;
-});
+    return <Input {...props} required={Boolean(isRequired)} ref={ref} />;
+  },
+);
 
 DatePickerInput.displayName = 'DatePickerInput';
 

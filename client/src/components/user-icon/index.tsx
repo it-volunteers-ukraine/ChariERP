@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 
 import { lettersToColor } from '@/utils';
@@ -20,16 +22,16 @@ export const UserIcon = ({ firstName, lastName, avatarUrl, width = 24, withoutRi
 
   const styles = getStyles({ width, withoutRing });
 
-  const isAvatar = avatarUrl?.length === 0;
+  const isNotAvatar = avatarUrl?.length === 0;
 
   return (
     <div
       className={styles.wrapper}
       style={{
-        backgroundColor: isAvatar ? `${color}` : '',
+        backgroundColor: isNotAvatar ? `${color}` : '',
       }}
     >
-      {isAvatar ? (
+      {isNotAvatar ? (
         <span>{`${firstName?.[0]}${lastName?.[0]}`}</span>
       ) : (
         <Image src={avatarUrl} alt="avatar" className={styles.avatar} width={size} height={size} />

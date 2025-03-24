@@ -36,7 +36,10 @@ const CreatePage = () => {
 
       if (resp.success) {
         showMessage.success(addUserSuccess('addUser'));
-        router.push(routes.employees);
+
+        setTimeout(() => {
+          router.push(routes.employees);
+        }, 100);
       }
 
       if (!resp.success) {
