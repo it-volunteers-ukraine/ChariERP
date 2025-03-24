@@ -1,4 +1,4 @@
-import { ITask, IUsers } from '@/types';
+import { ITask, ITaskResponse, IUsers } from '@/types';
 
 interface ITaskNormalizer extends Omit<ITask, 'users'> {
   id: string;
@@ -6,8 +6,8 @@ interface ITaskNormalizer extends Omit<ITask, 'users'> {
   users: IUsers[];
 }
 
-export const taskNormalizer = (data?: ITaskNormalizer) => {
-  if (!data) return {};
+export const taskNormalizer = (data?: ITaskNormalizer): ITaskResponse | null => {
+  if (!data) return null;
 
   return {
     id: data._id!.toString(),

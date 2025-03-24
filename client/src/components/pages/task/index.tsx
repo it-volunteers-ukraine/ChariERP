@@ -8,12 +8,18 @@ import { Warning } from '@/assets/icons';
 import { getStyles } from './style';
 import { ButtonIcon } from '../../button-icon';
 import { getValidationSchema } from './config';
+import { DescriptionSection } from './components';
+import { ITaskResponse } from '@/types';
 
-export const Task = () => {
+interface ITaskProps {
+  task: ITaskResponse;
+}
+
+export const Task = ({ task }: ITaskProps) => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(task.title);
 
   const styles = getStyles(false);
 
@@ -42,9 +48,8 @@ export const Task = () => {
         value={title}
         ref={textareaRef}
         onChange={onChange}
-        // disabled={!isCreate}
         className={styles.textarea}
-        placeholder={'Назва таски'}
+        placeholder={title}
         onBlur={() => onHandleBlur()}
       />
       {error && (
@@ -54,6 +59,7 @@ export const Task = () => {
           <span className={styles.errorText}>{error}</span>
         </div>
       )}
+      <DescriptionSection />
     </section>
   );
 };

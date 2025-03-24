@@ -44,9 +44,11 @@ const TaskId = async ({ params }: TaskPageParamsProps) => {
 
   const task = taskNormalizer(response);
 
-  console.log({ task });
+  if (!task) {
+    return;
+  }
 
-  return <Task />;
+  return <Task task={task} />;
 };
 
 export default TaskId;

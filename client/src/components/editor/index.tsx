@@ -21,7 +21,7 @@ interface IEditor {
   className?: string;
   onOpen?: () => void;
   placeholder?: string;
-  initialState?: string;
+  initialState?: string | undefined;
   onSave: (state: string | null) => void;
 }
 
