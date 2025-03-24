@@ -610,13 +610,20 @@
     },
     "sidebarButtonName": { "Organizations": "Моя організація", "Employees": "Співробітники", "Boards": "Дошки" }
   },
-
   "editor": {
+    "button": {
+      "btnSave": "Зберегти",
+      "btnDelete": "Видалити",
+      "btnEdit": "Редагувати",
+      "btnCancel": "Скасувати"
+    },
+
     "modalImg": {
       "title": "Додати зображення",
       "inputUrl": "Вставте URL зображення",
       "inputFile": "Обрати фото",
       "add": "Додати"
-    }
+    },
+    "placeholder": "Напишіть Ваш коментар"
   }
 }

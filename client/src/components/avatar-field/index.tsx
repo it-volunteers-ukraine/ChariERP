@@ -18,9 +18,10 @@ export const AvatarField = ({ name, info, isSubmit, lastName, firstName, classNa
       {({ meta, form, field: { value } }: FieldProps) => {
         const error = (meta.touched && meta.error && meta.error) || '';
 
-        const { avatarInitial } = form.values;
+        const { avatarInitial, isImgChange } = form.values;
 
-        const previewUrl = value ? URL.createObjectURL(value) : meta.touched && !value ? value : avatarInitial;
+        const urlObject = value ? URL.createObjectURL(value) : value;
+        const previewUrl = !isImgChange ? avatarInitial : urlObject;
 
         const onChange = async (e: ChangeEvent<HTMLInputElement>) => {
           const file = e.target.files?.[0];
@@ -44,7 +45,7 @@ export const AvatarField = ({ name, info, isSubmit, lastName, firstName, classNa
             }
 
             await form.setFieldValue(name, file);
-            await form.setFieldValue(`isImgChange`, true);
+            await form.setFieldValue('isImgChange', true);
             form.setFieldTouched(name);
           }
 

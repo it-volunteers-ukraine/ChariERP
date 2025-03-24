@@ -7,6 +7,13 @@ on:
       container-name:
         required: true
         type: string
+    secrets:
+      do-access-token:
+        required: true
+      telegram-to:
+        required: true
+      telegram-token:
+        required: true
 
 env:
   DO_REGISTRY: it-volunteers-ukraine
@@ -30,7 +37,7 @@ jobs:
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          token: ${{ secrets.do-access-token }}
 
       - name: Build container image
         working-directory: ${{ inputs.working-directory }}
@@ -56,8 +63,8 @@ jobs:
       - name: send telegram message on push
         uses: appleboy/telegram-action@master
         with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
+          to: ${{ secrets.telegram-to }}
+          token: ${{ secrets.telegram-token }}
           message: |
             🤖 GitHub Actions 🤖 
             🔗 Last merged UI changes' deploy is 🏁COMPLETED🏁 🎉

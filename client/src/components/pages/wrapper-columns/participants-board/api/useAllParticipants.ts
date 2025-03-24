@@ -31,7 +31,7 @@ export const useAllParticipants = (boardId: string, boardUsers: UserParticipants
       if (response && response?.success && response?.users) {
         const users = JSON.parse(response.users);
 
-        const allUsers = normalizeUsers(users.results);
+        const allUsers = await normalizeUsers(users.results);
 
         const usersByBoard = allUsers.filter((user) => !boardUsers.find((boardUser) => boardUser.id === user.id));
 

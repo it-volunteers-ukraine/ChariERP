@@ -22,7 +22,7 @@ interface IEditor {
   onOpen?: () => void;
   placeholder?: string;
   initialState?: string;
-  onSave: (state: string) => void;
+  onSave: (state: string | null) => void;
 }
 
 export const Editor = ({ onSave, initialState, onOpen, isEditing = false, className, placeholder = '' }: IEditor) => {
@@ -57,8 +57,9 @@ export const Editor = ({ onSave, initialState, onOpen, isEditing = false, classN
       <RestoreState isOpen={isEditing} initialState={initialState} />
 
       <OnChange
+        isEditing={isEditing}
         onChange={(editorState) => {
-          onSave(JSON.stringify(editorState.toJSON()));
+          onSave(editorState);
         }}
       />
 

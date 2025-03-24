@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 
@@ -9,7 +9,6 @@ import { TaskCard } from '@/components';
 import { useUserInfo } from '@/context';
 import { useOutsideClick } from '@/hooks';
 import { IBoardTaskColumn } from '@/types';
-import { applyUserToBoardAction, getBoardMembersAction } from '@/actions';
 
 import { ColumnTasks } from './column-tasks';
 import {
@@ -107,13 +106,6 @@ export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoard
     }
   };
 
-  useEffect(() => {
-    if (id) {
-      applyUserToBoardAction({ userId: id, boardId, applyUserId: '6794badec6af6311f152d91a' });
-      getBoardMembersAction({ userId: id, boardId });
-    }
-  }, [id]);
-
   return (
     <div className="scroll-blue scroll-column flex h-[calc(100%-62px)] overflow-x-auto bg-white px-4 py-5 tablet:px-8">
       <DragDropContext onDragEnd={onMoveColumnAndTasks}>
@@ -123,8 +115,9 @@ export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoard
               <div className="flex">
                 {response?.map((item, index) => (
                   <ColumnTasks
-                    key={item.id}
+                    userId={id}
                     id={item.id}
+                    key={item.id}
                     index={index}
                     boardId={boardId}
                     title={item.title}
