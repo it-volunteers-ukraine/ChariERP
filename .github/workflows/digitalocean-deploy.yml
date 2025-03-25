@@ -41,7 +41,7 @@ jobs:
 
       - name: Build container image
         working-directory: ${{ inputs.working-directory }}
-        run: docker build -t registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME .
+        run: docker build -t registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:${{ github.sha }} .
 
       - name: Log in to DigitalOcean Container Registry with short-lived credentials
         run: doctl registry login --expiry-seconds 1200
@@ -49,18 +49,20 @@ jobs:
       - name: Run garbage collector for stale images
         run: doctl registry gc start -f --include-untagged-manifests
 
-      - name: Rename Docker image
-        run: docker tag $CONTAINER_NAME:${{github.sha}} registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME
+      - name: Tag Docker image as ':latest' for convenience
+        run: docker tag registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:${{ github.sha }} registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:latest
 
       - name: Push image to DigitalOcean Container Registry
-        run: docker push registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME
+        run: |
+          docker push registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:${{ github.sha }}
+          docker push registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:latest
 
   inform:
     name: Inform
     runs-on: ubuntu-latest
     needs: [ deploy ]
     steps:
-      - name: send telegram message on push
+      - name: Send Telegram message on deployment
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.telegram-to }}
