@@ -47,9 +47,6 @@ jobs:
       - name: Log in to DigitalOcean Container Registry with short-lived credentials
         run: doctl registry login --expiry-seconds 1200
 
-      - name: Run garbage collector for stale images
-        run: doctl registry gc start -f --include-untagged-manifests
-
       - name: Push image with module-specific tag
         run: docker push registry.digitalocean.com/$DO_REGISTRY/$DO_REPOSITORY:$CONTAINER_NAME
 
