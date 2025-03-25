@@ -31,7 +31,6 @@ jobs:
     with:
       working-directory: ./client
       container-name: chari_erp_ui
-      module-name: client
     secrets:
       do-access-token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       telegram-to: ${{ secrets.TELEGRAM_TO }}
