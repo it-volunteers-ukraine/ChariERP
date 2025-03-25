@@ -17,6 +17,7 @@ on:
 
 env:
   DO_REGISTRY: it-volunteers-ukraine
+  DO_REPOSITORY: chari_erp_repository
   CONTAINER_NAME: ${{ inputs.container-name }}
 
 permissions:
@@ -41,21 +42,13 @@ jobs:
 
       - name: Build container image
         working-directory: ${{ inputs.working-directory }}
-        run: docker build -t registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:${{ github.sha }} .
+        run: docker build -t registry.digitalocean.com/$DO_REGISTRY/$DO_REPOSITORY:$CONTAINER_NAME .
 
       - name: Log in to DigitalOcean Container Registry with short-lived credentials
         run: doctl registry login --expiry-seconds 1200
 
-      - name: Run garbage collector for stale images
-        run: doctl registry gc start -f --include-untagged-manifests
-
-      - name: Tag Docker image as ':latest' for convenience
-        run: docker tag registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:${{ github.sha }} registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:latest
-
-      - name: Push image to DigitalOcean Container Registry
-        run: |
-          docker push registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:${{ github.sha }}
-          docker push registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:latest
+      - name: Push image with module-specific tag
+        run: docker push registry.digitalocean.com/$DO_REGISTRY/$DO_REPOSITORY:$CONTAINER_NAME
 
   inform:
     name: Inform
