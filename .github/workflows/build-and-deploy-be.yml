@@ -20,6 +20,10 @@ on:
         description: 'Branch to deploy'
         required: true
         default: 'main'
+      environment:
+        description: 'Environment to deploy to (e.g., production, staging)'
+        required: true
+        default: 'production'
 
 jobs:
   deploy-ui:
@@ -27,6 +31,7 @@ jobs:
     with:
       working-directory: ./server
       container-name: chari_erp_be
+      module-name: server
     secrets:
       do-access-token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       telegram-to: ${{ secrets.TELEGRAM_TO }}

@@ -7,6 +7,9 @@ on:
       container-name:
         required: true
         type: string
+      module-name:
+        required: true
+        type: string
     secrets:
       do-access-token:
         required: true
@@ -18,6 +21,7 @@ on:
 env:
   DO_REGISTRY: it-volunteers-ukraine
   CONTAINER_NAME: ${{ inputs.container-name }}
+  MODULE_NAME: ${{ inputs.module-name }}
 
 permissions:
   id-token: write   # This is required for requesting the JWT
@@ -41,7 +45,7 @@ jobs:
 
       - name: Build container image
         working-directory: ${{ inputs.working-directory }}
-        run: docker build -t registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:${{ github.sha }} .
+        run: docker build -t registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:$MODULE_NAME .
 
       - name: Log in to DigitalOcean Container Registry with short-lived credentials
         run: doctl registry login --expiry-seconds 1200
@@ -49,13 +53,8 @@ jobs:
       - name: Run garbage collector for stale images
         run: doctl registry gc start -f --include-untagged-manifests
 
-      - name: Tag Docker image as ':latest' for convenience
-        run: docker tag registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:${{ github.sha }} registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:latest
-
-      - name: Push image to DigitalOcean Container Registry
-        run: |
-          docker push registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:${{ github.sha }}
-          docker push registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:latest
+      - name: Push image with module-specific tag
+        run: docker push registry.digitalocean.com/$DO_REGISTRY/$CONTAINER_NAME:$MODULE_NAME
 
   inform:
     name: Inform
