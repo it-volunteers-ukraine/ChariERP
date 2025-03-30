@@ -21,6 +21,7 @@ export const taskNormalizer = (data?: ITaskNormalizer): ITaskResponse | null => 
     description: data.description,
     createdAt: data.created_at,
     boardColumn_id: data.boardColumn_id,
+    boardTitle: data.boardTitle,
     users: data.users?.map((user) => ({
       id: user._id!.toString(),
       avatarUrl: user.avatarUrl || '',

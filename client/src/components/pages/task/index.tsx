@@ -7,8 +7,7 @@ import { Warning } from '@/assets/icons';
 
 import { getStyles } from './style';
 import { getValidationSchema } from './config';
-import { DescriptionSection } from './components';
-import { ButtonBack } from './components/buttonBack';
+import { ButtonBack, DescriptionSection } from './components';
 
 interface ITaskProps {
   task: ITaskResponse;
@@ -38,7 +37,7 @@ export const Task = ({ task }: ITaskProps) => {
 
   return (
     <section className={styles.section}>
-      <ButtonBack title={task.boardColumn_id.toString()} />
+      <ButtonBack title={task.boardTitle} />
 
       <textarea
         value={title}

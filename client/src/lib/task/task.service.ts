@@ -58,7 +58,7 @@ class TaskService extends BaseService {
       };
     }
 
-    return { success: true, data: JSON.stringify(task) };
+    return { success: true, data: JSON.stringify({ ...task.toObject(), boardTitle: userBoard.board_id.title }) };
   }
 
   async createTask({ userId, boardId, columnId }: ICreateTaskProps) {

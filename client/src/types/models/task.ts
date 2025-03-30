@@ -11,6 +11,7 @@ export interface ITask {
   attachment: File[];
   comments: string[];
   description: string;
+  boardTitle: string;
   _id: Schema.Types.ObjectId;
   users?: Schema.Types.ObjectId[];
   boardColumn_id: Schema.Types.ObjectId;
@@ -25,6 +26,7 @@ export interface ITaskResponse {
   createdAt: Date;
   attachment?: File[];
   comments?: string[];
+  boardTitle: string;
   description?: string;
   id: string;
   users?: {
