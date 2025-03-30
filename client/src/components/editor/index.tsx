@@ -21,12 +21,21 @@ interface IEditor {
   className?: string;
   onOpen?: () => void;
   placeholder?: string;
+  classNamePlaceholder?: string;
   initialState?: string | undefined;
   onSave: (state: string | null) => void;
 }
 
-export const Editor = ({ onSave, initialState, onOpen, isEditing = false, className, placeholder = '' }: IEditor) => {
-  const styles = getStyle({ isClick: !isEditing && !!onOpen, className });
+export const Editor = ({
+  onSave,
+  onOpen,
+  className,
+  initialState,
+  placeholder = '',
+  isEditing = false,
+  classNamePlaceholder,
+}: IEditor) => {
+  const styles = getStyle({ isClick: !isEditing && !!onOpen, className, classNamePlaceholder });
 
   const handleClick = () => {
     if (onOpen && !isEditing) {

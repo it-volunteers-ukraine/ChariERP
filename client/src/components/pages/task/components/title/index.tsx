@@ -1,17 +1,20 @@
-import { cn } from '@/utils';
 import React from 'react';
 
+import { getStyles } from './styles';
+
 interface ITitle {
-  icon?: React.ElementType;
   title?: string;
   className?: string;
+  icon?: React.ElementType;
 }
 
 export const Title = ({ icon: Icon, title = '', className = '' }: ITitle) => {
+  const styles = getStyles(className);
+
   return (
-    <div className={cn('mb-3 flex items-center gap-2 text-lightBlue', className)}>
-      {Icon && <Icon className="h-6 w-6 text-inherit" />}
-      <p className="font-scada text-[20px] font-bold uppercase leading-[120%] tracking-normal text-inherit">{title}</p>
+    <div className={styles.wrapper}>
+      {Icon && <Icon className={styles.icon} />}
+      <p className={styles.title}>{title}</p>
     </div>
   );
 };

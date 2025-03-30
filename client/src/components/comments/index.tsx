@@ -24,9 +24,11 @@ export const CommentEditor = () => {
 
   const onSave = () => {
     setIsEditing(false);
+
     if (!authorId) {
       return;
     }
+
     if (activeComment) {
       const currentDate = new Date();
       const formattedDate = currentDate.toLocaleDateString();
@@ -60,15 +62,16 @@ export const CommentEditor = () => {
   };
 
   return (
-    <div className="m-auto max-w-[1024px] p-1">
+    <div className="p-1">
       <div className="flex items-center gap-3 [&>:first-child]:min-w-6">
         <UserIcon avatarUrl={avatarUrl as string} firstName={firstName as string} lastName={lastName as string} />
-        <div className="flex flex-col gap-y-3">
+        <div className="flex w-full flex-col gap-y-3">
           <Editor
             className={cn(
               'rounded-lg border border-[#65657526] px-4 py-3 shadow-md outline-none focus:border-darkBlueFocus',
               isEditing === null ? 'min-h-[100px]' : 'min-h-[48px]',
             )}
+            classNamePlaceholder="top-[13px] left-[20px]"
             onSave={setActiveComment}
             placeholder={placeholder('placeholder')}
             isEditing={isEditing === null}

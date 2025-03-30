@@ -1,12 +1,15 @@
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
+import { cn } from '@/utils';
 import { Editor } from '@/components/editor';
 import { EditorBtnGroup } from '@/components/comments/btn-group';
-import { cn } from '@/utils';
 
 export const EditorTask = ({ taskDescription = null }: { taskDescription?: string | null }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [description, setDescription] = useState<string | null>(taskDescription);
+
+  const placeholder = useTranslations('taskPage.taskDescription');
 
   const save = () => {
     console.log(description);
@@ -17,12 +20,21 @@ export const EditorTask = ({ taskDescription = null }: { taskDescription?: strin
       <Editor
         isEditing={isEditing}
         onSave={setDescription}
-        className={cn('min-h-[26px]', isEditing && 'mb-2')}
         onOpen={() => setIsEditing(true)}
-        placeholder="Додайте опис завдання"
         initialState={description || undefined}
+        placeholder={placeholder('placeholder')}
+        className={cn('min-h-[26px]', isEditing && 'mb-2')}
       />
-      {isEditing && <EditorBtnGroup isDisabled={!description} onSave={save} setIsEditing={() => setIsEditing(false)} />}
+      {isEditing && (
+        <EditorBtnGroup
+          onSave={save}
+          isDisabled={!description}
+          setIsEditing={() => {
+            setIsEditing(false);
+            setDescription(null);
+          }}
+        />
+      )}
     </>
   );
 };

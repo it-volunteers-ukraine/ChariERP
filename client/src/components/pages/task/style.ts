@@ -2,7 +2,7 @@ import { cn } from '@/utils';
 
 export const getStyles = (isCreate?: boolean) => ({
   wrapperError: 'flex gap-1',
-  section: 'min-h-full bg-white px-8 pt-6',
+  section: 'min-h-full bg-white px-4 pt-6 tablet:px-8 desktopXl:px-[272px]',
   errorText: 'text-[12px]/[14px] text-input-error',
   wrapperBack: 'mb-4 flex items-center justify-start border-b-2 border-lightBlue pb-6',
   textarea: cn(
