@@ -64,7 +64,7 @@ export const FontSize = ({ className, isEditing }: IFontSize) => {
       </button>
 
       <select
-        className={cn(className, 'border-bg-gray-300 w-14 border-[1px] px-2 text-[14px]')}
+        className={cn(className, 'border-bg-gray-300 w-14 cursor-pointer border-[1px] px-2 text-[14px]')}
         value={size ?? ''}
         onChange={handleSizeChange}
       >

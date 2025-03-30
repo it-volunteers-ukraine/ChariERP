@@ -1,22 +1,20 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
+import { ITaskResponse } from '@/types';
 import { Warning } from '@/assets/icons';
 
 import { getStyles } from './style';
-import { ButtonIcon } from '../../button-icon';
 import { getValidationSchema } from './config';
 import { DescriptionSection } from './components';
-import { ITaskResponse } from '@/types';
+import { ButtonBack } from './components/buttonBack';
 
 interface ITaskProps {
   task: ITaskResponse;
 }
 
 export const Task = ({ task }: ITaskProps) => {
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
   const [title, setTitle] = useState(task.title);
@@ -40,9 +38,7 @@ export const Task = ({ task }: ITaskProps) => {
 
   return (
     <section className={styles.section}>
-      <div className={styles.wrapperBack}>
-        <ButtonIcon type="button" icon="back" iconType="primary" onClick={() => router.back()} />
-      </div>
+      <ButtonBack title={task.boardColumn_id.toString()} />
 
       <textarea
         value={title}
@@ -59,6 +55,7 @@ export const Task = ({ task }: ITaskProps) => {
           <span className={styles.errorText}>{error}</span>
         </div>
       )}
+
       <DescriptionSection />
     </section>
   );

@@ -40,9 +40,9 @@ export const Comment = ({
   return (
     <div className="mt-6 flex gap-4 [&>:first-child]:min-w-6">
       <UserIcon avatarUrl={avatar} firstName={firstName} lastName={lastName} />
-      <div className="flex w-fit flex-col gap-y-2">
+      <div className="flex w-full flex-col gap-y-2">
         <div className="flex gap-4">
-          <p className="text-sm">
+          <p className="text-sm text-lightBlue">
             {firstName} {lastName}
           </p>
 
