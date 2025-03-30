@@ -20,6 +20,10 @@ on:
         description: 'Branch to deploy'
         required: true
         default: 'main'
+      environment:
+        description: 'Environment to deploy to (e.g., production, staging)'
+        required: true
+        default: 'production'
 
 jobs:
   deploy-ui:

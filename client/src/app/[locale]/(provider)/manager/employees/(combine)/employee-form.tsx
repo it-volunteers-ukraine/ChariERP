@@ -50,6 +50,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
     } else {
       handleSubmit();
       showMessage.success('Save');
+      setIsOpenSave(false);
     }
   };
 
