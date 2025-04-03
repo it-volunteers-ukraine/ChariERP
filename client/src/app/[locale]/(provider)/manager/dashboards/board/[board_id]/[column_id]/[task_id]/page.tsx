@@ -44,10 +44,6 @@ const TaskId = async ({ params }: TaskPageParamsProps) => {
 
   const task = taskNormalizer(response);
 
-  if (!task) {
-    return;
-  }
-
   return <Task task={task} />;
 };
 

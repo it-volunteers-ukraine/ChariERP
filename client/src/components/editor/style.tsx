@@ -1,12 +1,12 @@
 import { cn } from '@/utils';
 
-interface IColorButton {
+interface IGetStyle {
   isClick?: boolean;
   className?: string;
   classNamePlaceholder?: string;
 }
 
-export const getStyle = ({ className, classNamePlaceholder, isClick }: IColorButton) => ({
+export const getStyle = ({ className, classNamePlaceholder, isClick }: IGetStyle) => ({
   editor: cn(
     className,
     isClick && 'cursor-pointer',

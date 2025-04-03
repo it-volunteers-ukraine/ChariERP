@@ -3,12 +3,12 @@ import React from 'react';
 import { getStyles } from './styles';
 
 interface ITitle {
-  title?: string;
+  title: string;
   className?: string;
   icon?: React.ElementType;
 }
 
-export const Title = ({ icon: Icon, title = '', className = '' }: ITitle) => {
+export const TitleTaskSection = ({ icon: Icon, title, className }: ITitle) => {
   const styles = getStyles(className);
 
   return (

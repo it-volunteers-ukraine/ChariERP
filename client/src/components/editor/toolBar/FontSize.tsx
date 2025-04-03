@@ -15,8 +15,8 @@ interface IFontSize {
 }
 
 export const FontSize = ({ className, isEditing }: IFontSize) => {
-  const [size, setSize] = useState<number | null>(null);
   const [editor] = useLexicalComposerContext();
+  const [size, setSize] = useState<number | null>(null);
 
   const updateSize = () => {
     editor.update(() => {
@@ -64,9 +64,9 @@ export const FontSize = ({ className, isEditing }: IFontSize) => {
       </button>
 
       <select
-        className={cn(className, 'border-bg-gray-300 w-14 cursor-pointer border-[1px] px-2 text-[14px]')}
         value={size ?? ''}
         onChange={handleSizeChange}
+        className={cn(className, 'border-bg-gray-300 w-14 cursor-pointer border-[1px] px-2 text-[14px]')}
       >
         <option value="" hidden></option>
         {FONT_SIZES.map((fontSize) => (

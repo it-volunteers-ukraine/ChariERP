@@ -67,15 +67,15 @@ export const CommentEditor = () => {
         <UserIcon avatarUrl={avatarUrl as string} firstName={firstName as string} lastName={lastName as string} />
         <div className="flex w-full flex-col gap-y-3">
           <Editor
+            onSave={setActiveComment}
+            isEditing={isEditing === null}
+            onOpen={() => setIsEditing(null)}
+            placeholder={placeholder('placeholder')}
+            classNamePlaceholder="top-[13px] left-[20px]"
             className={cn(
               'rounded-lg border border-[#65657526] px-4 py-3 shadow-md outline-none focus:border-darkBlueFocus',
               isEditing === null ? 'min-h-[100px]' : 'min-h-[48px]',
             )}
-            classNamePlaceholder="top-[13px] left-[20px]"
-            onSave={setActiveComment}
-            placeholder={placeholder('placeholder')}
-            isEditing={isEditing === null}
-            onOpen={() => setIsEditing(null)}
           />
 
           <div className="flex gap-4">

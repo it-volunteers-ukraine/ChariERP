@@ -1,11 +1,12 @@
+'use client';
+
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { cn } from '@/utils';
-import { Editor } from '@/components/editor';
-import { EditorBtnGroup } from '@/components/comments/btn-group';
+import { Editor, EditorBtnGroup } from '@/components';
 
-export const EditorTask = ({ taskDescription = null }: { taskDescription?: string | null }) => {
+export const EditorTask = ({ taskDescription }: { taskDescription: string | null }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [description, setDescription] = useState<string | null>(taskDescription);
 

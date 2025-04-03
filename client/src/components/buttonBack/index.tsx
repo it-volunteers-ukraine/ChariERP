@@ -1,6 +1,8 @@
+'use client';
+
 import { useRouter } from 'next/navigation';
 
-import { ButtonIcon } from '@/components/button-icon';
+import { ButtonIcon } from '@/components';
 
 export const ButtonBack = ({ title }: { title: string }) => {
   const router = useRouter();

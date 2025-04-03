@@ -6,22 +6,28 @@ interface ITaskNormalizer extends Omit<ITask, 'users'> {
   users: IUsers[];
 }
 
-export const taskNormalizer = (data?: ITaskNormalizer): ITaskResponse | null => {
-  if (!data) return null;
-
+export const taskNormalizer = (data: ITaskNormalizer): ITaskResponse => {
   return {
-    id: data._id!.toString(),
-    title: data.title,
-    status: data.status,
-    dateEnd: data.date_end,
-    priority: data.priority,
-    dateStart: data.date_start,
-    attachment: data.attachment,
-    comments: data.comments,
-    description: data.description,
+    id: data._id.toString(),
+    title: data.title || 'Task',
+    status: data.status || null,
+    dateEnd: data.date_end || null,
+    priority: data.priority || null,
+    dateStart: data.date_start || null,
+    attachment: data.attachment || [],
+    comments:
+      data.comments.map((comment) => ({
+        editAt: comment.edit_at,
+        comment: comment.comment,
+        id: comment._id.toString(),
+        createdAt: comment.created_at,
+        authorId: comment.authorId.toString(),
+      })) || [],
+    description: data.description || '',
     createdAt: data.created_at,
-    boardColumn_id: data.boardColumn_id,
-    boardTitle: data.boardTitle,
+    boardColumnId: data.boardColumn_id,
+    boardTitle: data.boardTitle || '',
+    columnsList: data.columnsList || [],
     users: data.users?.map((user) => ({
       id: user._id!.toString(),
       avatarUrl: user.avatarUrl || '',

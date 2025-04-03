@@ -1,4 +1,5 @@
 import { Schema } from 'mongoose';
+
 import { IUsers } from './users';
 
 export interface ITask {
@@ -9,27 +10,40 @@ export interface ITask {
   date_start: Date;
   created_at: Date;
   attachment: File[];
-  comments: string[];
+  comments: {
+    comment: string;
+    created_at: Date;
+    edit_at: Date | null;
+    _id: Schema.Types.ObjectId;
+    authorId: Schema.Types.ObjectId;
+  }[];
   description: string;
   boardTitle: string;
   _id: Schema.Types.ObjectId;
   users?: Schema.Types.ObjectId[];
   boardColumn_id: Schema.Types.ObjectId;
+  columnsList: { title: string; _id: string }[];
 }
 
 export interface ITaskResponse {
-  title?: string;
-  status?: string;
-  dateEnd: Date;
-  priority?: string;
-  dateStart: Date;
+  title: string;
+  status: string | null;
+  dateEnd: Date | null;
+  priority: string | null;
+  dateStart: Date | null;
   createdAt: Date;
-  attachment?: File[];
-  comments?: string[];
+  attachment: File[];
+  comments: {
+    id: string;
+    comment: string;
+    createdAt: Date;
+    authorId: string;
+    editAt: Date | null;
+  }[];
   boardTitle: string;
-  description?: string;
+  description: string;
   id: string;
-  users?: {
+  users: {
     id: string;
     avatarUrl?: string;
     firstName?: string;
@@ -45,7 +59,8 @@ export interface ITaskResponse {
     notes?: string;
     lastLogin?: Date;
   }[];
-  boardColumn_id: Schema.Types.ObjectId;
+  boardColumnId: Schema.Types.ObjectId;
+  columnsList: { title: string; _id: string }[];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type

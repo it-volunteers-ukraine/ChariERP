@@ -1,4 +1,4 @@
-import { Schema, model, models } from 'mongoose';
+import mongoose, { Schema, model, models } from 'mongoose';
 
 import { ITask } from '@/types';
 
@@ -10,7 +10,18 @@ const TaskSchema = new Schema<ITask>({
   date_start: { type: Date, required: true },
   created_at: { type: Date, default: Date.now },
   attachment: { type: [String], default: [] },
-  comments: { type: [String], default: [] },
+  comments: {
+    type: [
+      new Schema({
+        edit_at: { type: Date, default: null },
+        comment: { type: String, required: true },
+        created_at: { type: Date, default: Date.now },
+        authorId: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
+        _id: { type: Schema.Types.ObjectId, default: () => new mongoose.Types.ObjectId() },
+      }),
+    ],
+    default: [],
+  },
   description: { type: String },
   users: [
     {

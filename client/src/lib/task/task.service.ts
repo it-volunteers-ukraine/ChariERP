@@ -42,6 +42,11 @@ class TaskService extends BaseService {
 
     const boardColumn = columns.find((el: IBoardColumn) => String(el._id) === columnId);
 
+    const columnsList = userBoard.board_id.boardColumns.map((column: IBoardColumn) => ({
+      title: column.title,
+      id: column._id.toString(),
+    }));
+
     if (!boardColumn) {
       return {
         success: false,
@@ -58,7 +63,10 @@ class TaskService extends BaseService {
       };
     }
 
-    return { success: true, data: JSON.stringify({ ...task.toObject(), boardTitle: userBoard.board_id.title }) };
+    return {
+      success: true,
+      data: JSON.stringify({ ...task.toObject(), boardTitle: userBoard.board_id.title, columnsList }),
+    };
   }
 
   async createTask({ userId, boardId, columnId }: ICreateTaskProps) {
