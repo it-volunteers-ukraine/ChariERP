@@ -132,6 +132,17 @@ export interface ICreateTaskProps {
   columnId: string;
 }
 
+export interface IAddCommentProps {
+  text: string;
+  userId: string;
+  taskId: string;
+}
+
+export interface IAddCommentActionProps {
+  text: string;
+  taskId: string;
+}
+
 export interface ICreateColumnProps {
   title: string;
   boardId: string;

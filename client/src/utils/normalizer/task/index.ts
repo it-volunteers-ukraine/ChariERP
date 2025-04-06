@@ -1,4 +1,4 @@
-import { ITask, ITaskResponse, IUsers } from '@/types';
+import { IComment, ICommentResponse, ITask, ITaskResponse, IUsers } from '@/types';
 
 interface ITaskNormalizer extends Omit<ITask, 'users'> {
   id: string;
@@ -15,14 +15,7 @@ export const taskNormalizer = (data: ITaskNormalizer): ITaskResponse => {
     priority: data.priority || null,
     dateStart: data.date_start || null,
     attachment: data.attachment || [],
-    comments:
-      data.comments.map((comment) => ({
-        editAt: comment.edit_at,
-        comment: comment.comment,
-        id: comment._id.toString(),
-        createdAt: comment.created_at,
-        authorId: comment.authorId.toString(),
-      })) || [],
+    comments: data.comments.map((comment) => commentNormalizer(comment)) || [],
     description: data.description || '',
     createdAt: data.created_at,
     boardColumnId: data.boardColumn_id,
@@ -44,5 +37,20 @@ export const taskNormalizer = (data: ITaskNormalizer): ITaskResponse => {
       notes: user.notes,
       lastLogin: user.lastLogin,
     })),
+  };
+};
+
+export const commentNormalizer = (comment: IComment): ICommentResponse => {
+  return {
+    comment: comment.comment,
+    id: comment._id.toString(),
+    updatedAt: comment.updated_at,
+    createdAt: comment.created_at,
+    author: {
+      id: comment.author._id.toString(),
+      lastName: comment.author.lastName,
+      firstName: comment.author.firstName,
+      avatarUrl: comment.author.avatarUrl || '',
+    },
   };
 };

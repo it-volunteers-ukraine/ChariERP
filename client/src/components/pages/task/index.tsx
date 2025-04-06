@@ -63,7 +63,7 @@ export const Task = ({ task }: ITaskProps) => {
         <TitleTaskSection icon={Clip} title={text('attachments.title')} className={styles.subTitle} />
         <Attachments />
         <TitleTaskSection icon={Comment} title={text('comments.title')} className={styles.subTitle} />
-        <CommentEditor />
+        <CommentEditor taskId={task.id} taskComments={task.comments} />
       </section>
     </section>
   );

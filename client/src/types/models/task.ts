@@ -10,19 +10,25 @@ export interface ITask {
   date_start: Date;
   created_at: Date;
   attachment: File[];
-  comments: {
-    comment: string;
-    created_at: Date;
-    edit_at: Date | null;
-    _id: Schema.Types.ObjectId;
-    authorId: Schema.Types.ObjectId;
-  }[];
+  comments: IComment[];
   description: string;
   boardTitle: string;
   _id: Schema.Types.ObjectId;
   users?: Schema.Types.ObjectId[];
   boardColumn_id: Schema.Types.ObjectId;
   columnsList: { title: string; _id: string }[];
+}
+export interface IComment {
+  comment: string;
+  created_at: Date;
+  updated_at: Date;
+  _id: Schema.Types.ObjectId;
+  author: {
+    _id: Schema.Types.ObjectId;
+    firstName: string;
+    lastName: string;
+    avatarUrl: string;
+  };
 }
 
 export interface ITaskResponse {
@@ -33,13 +39,7 @@ export interface ITaskResponse {
   dateStart: Date | null;
   createdAt: Date;
   attachment: File[];
-  comments: {
-    id: string;
-    comment: string;
-    createdAt: Date;
-    authorId: string;
-    editAt: Date | null;
-  }[];
+  comments: ICommentResponse[];
   boardTitle: string;
   description: string;
   id: string;
@@ -61,6 +61,19 @@ export interface ITaskResponse {
   }[];
   boardColumnId: Schema.Types.ObjectId;
   columnsList: { title: string; _id: string }[];
+}
+
+export interface ICommentResponse {
+  id: string;
+  updatedAt: Date;
+  comment: string;
+  createdAt: Date;
+  author: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    avatarUrl: string;
+  };
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type

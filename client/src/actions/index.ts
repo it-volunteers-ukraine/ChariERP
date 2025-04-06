@@ -1,3 +1,4 @@
+export { addCommentAction } from './tasks/add-comment';
 export { applyUserToBoardAction } from './boards/apply-user-to-board';
 export { changeColumnTitleAction } from './columns/change-column-title';
 export { changePasswordAction } from './reset-token/change-password';

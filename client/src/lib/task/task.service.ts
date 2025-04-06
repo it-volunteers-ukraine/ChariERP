@@ -1,7 +1,15 @@
 import { cookies } from 'next/headers';
 
 import { BoardColumn } from '@/lib';
-import { IBoardColumn, ICreateTaskProps, IDeleteTaskProps, IGetTaskProps, IMoveTaskProps, Roles } from '@/types';
+import {
+  Roles,
+  IBoardColumn,
+  IGetTaskProps,
+  IMoveTaskProps,
+  IAddCommentProps,
+  ICreateTaskProps,
+  IDeleteTaskProps,
+} from '@/types';
 
 import { Task, UsersBoards } from '..';
 import { BaseService } from '../database/base.service';
@@ -54,7 +62,9 @@ class TaskService extends BaseService {
       };
     }
 
-    const task = await Task.findById(taskId).populate('users');
+    const task = await Task.findById(taskId)
+      .populate('users')
+      .populate('comments.author', 'lastName firstName avatarUrl');
 
     if (!task) {
       return {
@@ -291,6 +301,47 @@ class TaskService extends BaseService {
     return {
       success: true,
       message: 'Task successfully moved',
+    };
+  }
+
+  async addComment({ taskId, userId, text }: IAddCommentProps) {
+    if (!taskId || !userId || !text) {
+      return {
+        success: false,
+        message: 'Task ID, User ID, and comment text are required',
+      };
+    }
+
+    await this.connect();
+
+    const task = await Task.findById(taskId);
+
+    if (!task) {
+      return {
+        success: false,
+        message: 'Task not found',
+      };
+    }
+
+    task.comments.push({ author: userId, comment: text });
+    await task.save();
+
+    const newComment = await Task.findOne({ _id: taskId })
+      .select('comments')
+      .populate('comments.author', 'firstName lastName avatarUrl')
+      .then((t) => t?.comments.at(-1));
+
+    if (!newComment) {
+      return {
+        success: false,
+        message: 'Could not create a new comment',
+      };
+    }
+
+    return {
+      success: true,
+      data: JSON.stringify(newComment),
+      message: 'Comment added successfully',
     };
   }
 }

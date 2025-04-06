@@ -5,54 +5,34 @@ import { useTranslations } from 'next-intl';
 
 import { cn } from '@/utils';
 import { useUserInfo } from '@/context';
+import { ICommentResponse } from '@/types';
 import { UserIcon, Editor } from '@/components';
 
-import { IComment } from './types';
 import { Comment } from './comment';
 import { EditorBtnGroup } from './btn-group';
+import { useAddComment } from '../pages/task/api';
 
-export const CommentEditor = () => {
+interface ICommentEditor {
+  taskId: string;
+  taskComments: ICommentResponse[];
+}
+
+export const CommentEditor = ({ taskId, taskComments }: ICommentEditor) => {
   const placeholder = useTranslations('editor');
 
-  const [comments, setComments] = useState<IComment[]>([]);
+  const [comments, setComments] = useState<ICommentResponse[]>(taskComments);
   const [activeComment, setActiveComment] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<string | null | false>(false);
 
-  const { _id, firstName, lastName, avatarUrl } = useUserInfo();
+  const { onAddComment } = useAddComment(taskId);
 
-  const authorId = _id ? String(_id) : undefined;
+  const { firstName, lastName, avatarUrl } = useUserInfo();
 
   const onSave = () => {
     setIsEditing(false);
 
-    if (!authorId) {
-      return;
-    }
-
     if (activeComment) {
-      const currentDate = new Date();
-      const formattedDate = currentDate.toLocaleDateString();
-      const formattedTime = currentDate.toLocaleTimeString();
-
-      if (typeof isEditing === 'string') {
-        setComments((prevComments) =>
-          prevComments.map((comment) => (comment.id === isEditing ? { ...comment, comment: activeComment } : comment)),
-        );
-      } else {
-        setComments((prevComments) => [
-          {
-            authorId,
-            date: formattedDate,
-            time: formattedTime,
-            comment: activeComment,
-            avatar: avatarUrl as string,
-            lastName: lastName as string,
-            id: authorId + formattedTime,
-            firstName: firstName as string,
-          },
-          ...prevComments,
-        ]);
-      }
+      onAddComment({ text: activeComment, setComments });
       setActiveComment(null);
     }
   };
@@ -88,13 +68,13 @@ export const CommentEditor = () => {
       {comments.map((comment, idx) => {
         return (
           <Comment
-            {...comment}
             onSave={onSave}
+            comment={comment}
             onDelete={onDelete}
             isEditing={isEditing}
             isDisabled={!activeComment}
             setIsEditing={setIsEditing}
-            key={`${comment.time}_${idx}`}
+            key={`${comment.createdAt}_${idx}`}
             setActiveComment={setActiveComment}
           />
         );
