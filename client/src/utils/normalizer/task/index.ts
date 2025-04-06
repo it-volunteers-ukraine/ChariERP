@@ -15,7 +15,7 @@ export const taskNormalizer = (data: ITaskNormalizer): ITaskResponse => {
     priority: data.priority || null,
     dateStart: data.date_start || null,
     attachment: data.attachment || [],
-    comments: data.comments.map((comment) => commentNormalizer(comment)) || [],
+    comments: commentsNormalizer(data.comments || []),
     description: data.description || '',
     createdAt: data.created_at,
     boardColumnId: data.boardColumn_id,
@@ -40,8 +40,8 @@ export const taskNormalizer = (data: ITaskNormalizer): ITaskResponse => {
   };
 };
 
-export const commentNormalizer = (comment: IComment): ICommentResponse => {
-  return {
+export const commentsNormalizer = (comments: IComment[]): ICommentResponse[] => {
+  return comments.map((comment) => ({
     comment: comment.comment,
     id: comment._id.toString(),
     updatedAt: comment.updated_at,
@@ -52,5 +52,5 @@ export const commentNormalizer = (comment: IComment): ICommentResponse => {
       firstName: comment.author.firstName,
       avatarUrl: comment.author.avatarUrl || '',
     },
-  };
+  }));
 };

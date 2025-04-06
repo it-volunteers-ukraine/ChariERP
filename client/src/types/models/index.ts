@@ -8,6 +8,7 @@ export {
   type ICreateTask,
   type ITaskResponse,
   type ICommentResponse,
+  type LeanTaskComments,
 } from './task';
 export { type IResetToken } from './reset-token';
 export { type IUsers } from './users';

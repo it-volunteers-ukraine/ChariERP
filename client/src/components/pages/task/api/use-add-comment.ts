@@ -1,4 +1,4 @@
-import { commentNormalizer } from '@/utils';
+import { commentsNormalizer } from '@/utils';
 import { addCommentAction } from '@/actions';
 import { showMessage } from '@/components/toastify';
 import { ICommentResponse, ResponseGetType } from '@/types';
@@ -16,9 +16,9 @@ export const useAddComment = (taskId: string) => {
       if (res.success && res.data) {
         const parsedResponse = JSON.parse(res.data);
 
-        const normalizeComment = commentNormalizer(parsedResponse);
+        const normalizeComments = commentsNormalizer(parsedResponse);
 
-        setComments((prev) => [...prev, normalizeComment]);
+        setComments(normalizeComments);
 
         return;
       }

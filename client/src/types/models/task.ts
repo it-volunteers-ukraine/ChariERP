@@ -85,3 +85,20 @@ export interface IEditTask extends Partial<Omit<ITask, 'boardColumn_id' | 'users
 export interface ITaskUsers extends Omit<ITask, 'users'> {
   users: IUsers[];
 }
+
+type LeanComment = {
+  comment: string;
+  author: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    avatarUrl?: string;
+  };
+  created_at: Date;
+  updated_at: Date;
+};
+
+export type LeanTaskComments = {
+  _id: string;
+  comments: LeanComment[];
+};

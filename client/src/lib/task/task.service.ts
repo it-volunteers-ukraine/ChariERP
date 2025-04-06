@@ -9,6 +9,7 @@ import {
   IAddCommentProps,
   ICreateTaskProps,
   IDeleteTaskProps,
+  LeanTaskComments,
 } from '@/types';
 
 import { Task, UsersBoards } from '..';
@@ -326,12 +327,12 @@ class TaskService extends BaseService {
     task.comments.push({ author: userId, comment: text });
     await task.save();
 
-    const newComment = await Task.findOne({ _id: taskId })
+    const newComments = await Task.findOne({ _id: taskId })
       .select('comments')
       .populate('comments.author', 'firstName lastName avatarUrl')
-      .then((t) => t?.comments.at(-1));
+      .lean<LeanTaskComments>();
 
-    if (!newComment) {
+    if (!newComments) {
       return {
         success: false,
         message: 'Could not create a new comment',
@@ -340,7 +341,7 @@ class TaskService extends BaseService {
 
     return {
       success: true,
-      data: JSON.stringify(newComment),
+      data: JSON.stringify(newComments.comments),
       message: 'Comment added successfully',
     };
   }
