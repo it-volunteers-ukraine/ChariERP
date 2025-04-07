@@ -1,21 +1,26 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
-import { Warning } from '@/assets/icons';
+import { ITaskResponse } from '@/types';
+import { Clip, Comment, SubMenu, Warning } from '@/assets/icons';
+import { Attachments, ButtonBack, CommentEditor, EditorTask, TitleTaskSection } from '@/components';
 
 import { getStyles } from './style';
-import { ButtonIcon } from '../../button-icon';
 import { getValidationSchema } from './config';
 
-export const Task = () => {
-  const router = useRouter();
+interface ITaskProps {
+  task: ITaskResponse;
+}
+
+export const Task = ({ task }: ITaskProps) => {
+  const styles = getStyles();
+
+  const text = useTranslations('taskPage');
+
+  const [title, setTitle] = useState(task.title);
   const [error, setError] = useState<string | null>(null);
-
-  const [title, setTitle] = useState('');
-
-  const styles = getStyles(false);
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -34,17 +39,14 @@ export const Task = () => {
 
   return (
     <section className={styles.section}>
-      <div className={styles.wrapperBack}>
-        <ButtonIcon type="button" icon="back" iconType="primary" onClick={() => router.back()} />
-      </div>
+      <ButtonBack title={task.boardTitle} />
 
       <textarea
         value={title}
         ref={textareaRef}
         onChange={onChange}
-        // disabled={!isCreate}
+        placeholder={title}
         className={styles.textarea}
-        placeholder={'Назва таски'}
         onBlur={() => onHandleBlur()}
       />
       {error && (
@@ -54,6 +56,15 @@ export const Task = () => {
           <span className={styles.errorText}>{error}</span>
         </div>
       )}
+
+      <section className={styles.subSection}>
+        <TitleTaskSection icon={SubMenu} title={text('taskDescription.title')} />
+        <EditorTask taskDescription={task.description} />
+        <TitleTaskSection icon={Clip} title={text('attachments.title')} className={styles.subTitle} />
+        <Attachments />
+        <TitleTaskSection icon={Comment} title={text('comments.title')} className={styles.subTitle} />
+        <CommentEditor taskId={task.id} taskComments={task.comments} />
+      </section>
     </section>
   );
 };

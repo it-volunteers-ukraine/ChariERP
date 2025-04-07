@@ -1,0 +1,29 @@
+name: DigitalOcean Garbage Collection
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Runs nightly
+  workflow_dispatch:
+
+jobs:
+  garbage-collection:
+    name: Run Garbage Collection
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Check for active garbage collection
+        run: |
+          ACTIVE_GC=$(doctl registry gc list --format "Active" --no-header)
+          if [[ "$ACTIVE_GC" == "true" ]]; then
+            echo "Skipping garbage collection: An active GC process exists."
+            exit 0
+          else
+            echo "No active GC found. Proceeding..."
+          fi
+
+      - name: Run garbage collection
+        run: doctl registry gc start -f --include-untagged-manifests

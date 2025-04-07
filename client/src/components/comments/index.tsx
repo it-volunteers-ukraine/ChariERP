@@ -5,74 +5,54 @@ import { useTranslations } from 'next-intl';
 
 import { cn } from '@/utils';
 import { useUserInfo } from '@/context';
+import { ICommentResponse } from '@/types';
 import { UserIcon, Editor } from '@/components';
 
-import { IComment } from './types';
 import { Comment } from './comment';
 import { EditorBtnGroup } from './btn-group';
+import { useAddComment, useDeleteComment } from '../pages/task/api';
 
-export const CommentEditor = () => {
+interface ICommentEditor {
+  taskId: string;
+  taskComments: ICommentResponse[];
+}
+
+export const CommentEditor = ({ taskId, taskComments }: ICommentEditor) => {
   const placeholder = useTranslations('editor');
 
-  const [comments, setComments] = useState<IComment[]>([]);
+  const [comments, setComments] = useState<ICommentResponse[]>(taskComments);
   const [activeComment, setActiveComment] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<string | null | false>(false);
 
-  const { _id, firstName, lastName, avatarUrl } = useUserInfo();
+  const { onAddComment } = useAddComment({ taskId, setComments });
+  const { onDeleteComment } = useDeleteComment({ taskId, setComments });
 
-  const authorId = _id ? String(_id) : undefined;
+  const { firstName, lastName, avatarUrl } = useUserInfo();
 
   const onSave = () => {
     setIsEditing(false);
-    if (!authorId) {
-      return;
-    }
-    if (activeComment) {
-      const currentDate = new Date();
-      const formattedDate = currentDate.toLocaleDateString();
-      const formattedTime = currentDate.toLocaleTimeString();
 
-      if (typeof isEditing === 'string') {
-        setComments((prevComments) =>
-          prevComments.map((comment) => (comment.id === isEditing ? { ...comment, comment: activeComment } : comment)),
-        );
-      } else {
-        setComments((prevComments) => [
-          {
-            authorId,
-            date: formattedDate,
-            time: formattedTime,
-            comment: activeComment,
-            avatar: avatarUrl as string,
-            lastName: lastName as string,
-            id: authorId + formattedTime,
-            firstName: firstName as string,
-          },
-          ...prevComments,
-        ]);
-      }
+    if (activeComment) {
+      onAddComment(activeComment);
       setActiveComment(null);
     }
   };
 
-  const onDelete = (id: string) => {
-    setComments((prevComments) => prevComments.filter((comment) => comment.id !== id));
-  };
-
   return (
-    <div className="m-auto max-w-[1024px] p-1">
+    <div className="p-1">
       <div className="flex items-center gap-3 [&>:first-child]:min-w-6">
         <UserIcon avatarUrl={avatarUrl as string} firstName={firstName as string} lastName={lastName as string} />
-        <div className="flex flex-col gap-y-3">
+        <div className="flex w-full flex-col gap-y-3">
           <Editor
+            onSave={setActiveComment}
+            isEditing={isEditing === null}
+            onOpen={() => setIsEditing(null)}
+            placeholder={placeholder('placeholder')}
+            classNamePlaceholder="top-[13px] left-[20px]"
             className={cn(
               'rounded-lg border border-[#65657526] px-4 py-3 shadow-md outline-none focus:border-darkBlueFocus',
               isEditing === null ? 'min-h-[100px]' : 'min-h-[48px]',
             )}
-            onSave={setActiveComment}
-            placeholder={placeholder('placeholder')}
-            isEditing={isEditing === null}
-            onOpen={() => setIsEditing(null)}
           />
 
           <div className="flex gap-4">
@@ -85,13 +65,13 @@ export const CommentEditor = () => {
       {comments.map((comment, idx) => {
         return (
           <Comment
-            {...comment}
             onSave={onSave}
-            onDelete={onDelete}
+            comment={comment}
             isEditing={isEditing}
+            onDelete={onDeleteComment}
             isDisabled={!activeComment}
             setIsEditing={setIsEditing}
-            key={`${comment.time}_${idx}`}
+            key={`${comment.createdAt}_${idx}`}
             setActiveComment={setActiveComment}
           />
         );

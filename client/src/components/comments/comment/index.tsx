@@ -1,14 +1,15 @@
 import { useTranslations } from 'next-intl';
 
 import { useUserInfo } from '@/context';
+import { ICommentResponse } from '@/types';
 import { Editor, UserIcon } from '@/components';
 
-import { IComment } from '../types';
 import { EditorBtnGroup } from '../btn-group';
 
-interface CommentListProps extends IComment {
+interface CommentListProps {
   onSave: () => void;
   isDisabled: boolean;
+  comment: ICommentResponse;
   onDelete: (id: string) => void;
   isEditing: string | null | boolean;
   setIsEditing: (id: string | null | false) => void;
@@ -16,16 +17,9 @@ interface CommentListProps extends IComment {
 }
 
 export const Comment = ({
-  id,
-  date,
-  time,
-  avatar,
   onSave,
   comment,
-  authorId,
   onDelete,
-  lastName,
-  firstName,
   isEditing,
   isDisabled,
   setIsEditing,
@@ -39,34 +33,44 @@ export const Comment = ({
 
   return (
     <div className="mt-6 flex gap-4 [&>:first-child]:min-w-6">
-      <UserIcon avatarUrl={avatar} firstName={firstName} lastName={lastName} />
-      <div className="flex w-fit flex-col gap-y-2">
+      <UserIcon
+        lastName={comment.author.lastName}
+        avatarUrl={comment.author.avatarUrl}
+        firstName={comment.author.firstName}
+      />
+      <div className="flex w-full flex-col gap-y-2">
         <div className="flex gap-4">
-          <p className="text-sm">
-            {firstName} {lastName}
+          <p className="text-sm text-lightBlue">
+            {comment.author.firstName} {comment.author.lastName}
           </p>
 
           <p className="text-sm text-gray-500">
-            {date}, {time}
+            {new Date(comment.createdAt).toLocaleString('uk-UA', {
+              day: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              month: '2-digit',
+              minute: '2-digit',
+            })}
           </p>
         </div>
 
         <Editor
-          initialState={comment}
           onSave={setActiveComment}
-          isEditing={isEditing === id}
+          initialState={comment.comment}
+          isEditing={isEditing === comment.id}
           className="mb-2 rounded-lg border border-[#65657526] px-4 py-3 shadow-md focus:border-darkBlueFocus"
         />
-        {isEditing === id ? (
+        {isEditing === comment.id ? (
           <EditorBtnGroup isDisabled={isDisabled} onSave={onSave} setIsEditing={setIsEditing} />
         ) : (
-          authorId === userId && (
+          comment.author.id === userId && (
             <div className="flex gap-4">
-              <button className="text-[15px] text-lightBlue" type="button" onClick={() => setIsEditing(id)}>
+              <button className="text-[15px] text-lightBlue" type="button" onClick={() => setIsEditing(comment.id)}>
                 {btnEditor('btnEdit')}
               </button>
 
-              <button className="text-[15px] text-lightBlue" type="button" onClick={() => onDelete(id)}>
+              <button className="text-[15px] text-lightBlue" type="button" onClick={() => onDelete(comment.id)}>
                 {btnEditor('btnDelete')}
               </button>
             </div>
