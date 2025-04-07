@@ -10,7 +10,7 @@ import { UserIcon, Editor } from '@/components';
 
 import { Comment } from './comment';
 import { EditorBtnGroup } from './btn-group';
-import { useAddComment } from '../pages/task/api';
+import { useAddComment, useDeleteComment } from '../pages/task/api';
 
 interface ICommentEditor {
   taskId: string;
@@ -24,7 +24,8 @@ export const CommentEditor = ({ taskId, taskComments }: ICommentEditor) => {
   const [activeComment, setActiveComment] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<string | null | false>(false);
 
-  const { onAddComment } = useAddComment(taskId);
+  const { onAddComment } = useAddComment({ taskId, setComments });
+  const { onDeleteComment } = useDeleteComment({ taskId, setComments });
 
   const { firstName, lastName, avatarUrl } = useUserInfo();
 
@@ -32,13 +33,9 @@ export const CommentEditor = ({ taskId, taskComments }: ICommentEditor) => {
     setIsEditing(false);
 
     if (activeComment) {
-      onAddComment({ text: activeComment, setComments });
+      onAddComment(activeComment);
       setActiveComment(null);
     }
-  };
-
-  const onDelete = (id: string) => {
-    setComments((prevComments) => prevComments.filter((comment) => comment.id !== id));
   };
 
   return (
@@ -70,8 +67,8 @@ export const CommentEditor = ({ taskId, taskComments }: ICommentEditor) => {
           <Comment
             onSave={onSave}
             comment={comment}
-            onDelete={onDelete}
             isEditing={isEditing}
+            onDelete={onDeleteComment}
             isDisabled={!activeComment}
             setIsEditing={setIsEditing}
             key={`${comment.createdAt}_${idx}`}

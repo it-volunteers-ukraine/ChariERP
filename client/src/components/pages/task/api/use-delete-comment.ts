@@ -1,17 +1,17 @@
 import { commentsNormalizer } from '@/utils';
-import { addCommentAction } from '@/actions';
+import { deleteCommentAction } from '@/actions';
 import { showMessage } from '@/components/toastify';
 import { ICommentResponse, ResponseGetType } from '@/types';
 
-interface IAddComment {
+interface IDeleteComment {
   taskId: string;
   setComments: React.Dispatch<React.SetStateAction<ICommentResponse[]>>;
 }
 
-export const useAddComment = ({ taskId, setComments }: IAddComment) => {
-  const onAddComment = async (text: string) => {
+export const useDeleteComment = ({ taskId, setComments }: IDeleteComment) => {
+  const onDeleteComment = async (commentId: string) => {
     try {
-      const res: ResponseGetType = await addCommentAction({ taskId, text });
+      const res: ResponseGetType = await deleteCommentAction({ taskId, commentId });
 
       if (res.success && res.data) {
         const parsedResponse = JSON.parse(res.data);
@@ -31,5 +31,5 @@ export const useAddComment = ({ taskId, setComments }: IAddComment) => {
     }
   };
 
-  return { onAddComment };
+  return { onDeleteComment };
 };

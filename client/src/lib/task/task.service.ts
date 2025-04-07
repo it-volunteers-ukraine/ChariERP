@@ -6,6 +6,7 @@ import {
   IBoardColumn,
   IGetTaskProps,
   IMoveTaskProps,
+  IDeleteComment,
   IAddCommentProps,
   ICreateTaskProps,
   IDeleteTaskProps,
@@ -305,6 +306,15 @@ class TaskService extends BaseService {
     };
   }
 
+  async getComments(taskId: string) {
+    const task = await Task.findById(taskId)
+      .select('comments')
+      .populate('comments.author', 'firstName lastName avatarUrl')
+      .lean<LeanTaskComments>();
+
+    return task?.comments ? task.comments : [];
+  }
+
   async addComment({ taskId, userId, text }: IAddCommentProps) {
     if (!taskId || !userId || !text) {
       return {
@@ -327,10 +337,7 @@ class TaskService extends BaseService {
     task.comments.push({ author: userId, comment: text });
     await task.save();
 
-    const newComments = await Task.findOne({ _id: taskId })
-      .select('comments')
-      .populate('comments.author', 'firstName lastName avatarUrl')
-      .lean<LeanTaskComments>();
+    const newComments = await this.getComments(taskId);
 
     if (!newComments) {
       return {
@@ -341,8 +348,55 @@ class TaskService extends BaseService {
 
     return {
       success: true,
-      data: JSON.stringify(newComments.comments),
+      data: JSON.stringify(newComments),
       message: 'Comment added successfully',
+    };
+  }
+
+  async deleteComment({ taskId, commentId, userId }: IDeleteComment) {
+    if (!taskId || !userId || !commentId) {
+      return {
+        success: false,
+        message: 'Task ID, User ID, and Comment ID are required',
+      };
+    }
+
+    await this.connect();
+
+    const task = await Task.findById(taskId);
+
+    if (!task) {
+      return {
+        success: false,
+        message: 'Task not found',
+      };
+    }
+
+    const comment = task.comments.id(commentId);
+
+    if (!comment) {
+      return {
+        success: false,
+        message: 'Comment not found',
+      };
+    }
+
+    if (comment.author.toString() !== userId) {
+      return {
+        success: false,
+        message: 'You are not allowed to delete this comment',
+      };
+    }
+
+    comment.deleteOne();
+    await task.save();
+
+    const updatedComments = await this.getComments(taskId);
+
+    return {
+      success: true,
+      data: JSON.stringify(updatedComments),
+      message: 'Comment deleted successfully',
     };
   }
 }

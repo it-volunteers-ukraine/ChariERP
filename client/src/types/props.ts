@@ -143,6 +143,17 @@ export interface IAddCommentActionProps {
   taskId: string;
 }
 
+export interface IDeleteComment {
+  taskId: string;
+  userId: string;
+  commentId: string;
+}
+
+export interface IDeleteCommentActionProps {
+  taskId: string;
+  commentId: string;
+}
+
 export interface ICreateColumnProps {
   title: string;
   boardId: string;

@@ -11,6 +11,7 @@ export { createUserByCompanyIdAction } from './user/create-user-by-company-id';
 export { declineOrganizationAction } from './admin/decline-organization';
 export { deleteBoardAction } from './boards/delete-board';
 export { deleteColumnAction } from './columns/delete-columns';
+export { deleteCommentAction } from './tasks/delete-comment';
 export { deleteOrganizationAction } from './admin/delete-organization';
 export { deleteTaskAction } from './tasks/delete-task';
 export { editBoardAction } from './boards/edit-board';
