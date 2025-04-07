@@ -193,6 +193,7 @@ const config: Config = {
         cardShadow: '0px 8px 24px 0px rgba(0,0,0,0.16)',
         faqShadow: '0px 0px 10px 5px rgba(0, 0, 0, 0.05)',
         faqAccShadow: '0px 0px 3px 1px rgba(101, 101, 117, 0.25)',
+        task: '0px 0px 4px 0px rgba(0, 0, 0, 0.28)',
       },
       backgroundSize: {
         200: '201%',

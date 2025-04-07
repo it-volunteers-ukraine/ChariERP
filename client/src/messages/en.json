@@ -631,5 +631,17 @@
       "add": "Add"
     },
     "placeholder": "Write your comment"
+  },
+  "taskPage": {
+    "taskDescription": {
+      "title": "Description",
+      "placeholder": "Add a task description"
+    },
+    "attachments": {
+      "title": "Attachments"
+    },
+    "comments": {
+      "title": "Comments"
+    }
   }
 }

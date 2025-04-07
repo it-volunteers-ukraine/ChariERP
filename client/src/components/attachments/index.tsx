@@ -1,17 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
-
-import { PaperClip } from '@/assets/icons';
 
 import { AddCard } from './add-card';
 import { FileCard } from './file-card';
 
 export const Attachments = () => {
   const [files, setFiles] = useState<{ file: File; preview: string | undefined }[]>([]);
-
-  const text = useTranslations('attachments');
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files;
@@ -32,20 +27,12 @@ export const Attachments = () => {
   };
 
   return (
-    <div className="flex flex-col gap-3 p-[10px_28px]">
-      <div className="flex items-center gap-2">
-        <PaperClip />
+    <div className="flex flex-wrap gap-x-[7px] gap-y-[20px] tablet:gap-x-[20px]">
+      <AddCard addFile={handleFileChange} />
 
-        <h1 className="font-scada text-xl font-bold text-lightBlue">{text('title')}</h1>
-      </div>
-
-      <div className="flex flex-wrap gap-x-[7px] gap-y-[20px] tablet:gap-x-[20px]">
-        <AddCard addFile={handleFileChange} />
-
-        {files.map(({ file, preview }, index) => (
-          <FileCard file={file} preview={preview} key={index} removeFile={() => handleRemoveFile(index)} />
-        ))}
-      </div>
+      {files.map(({ file, preview }, index) => (
+        <FileCard file={file} preview={preview} key={index} removeFile={() => handleRemoveFile(index)} />
+      ))}
     </div>
   );
 };

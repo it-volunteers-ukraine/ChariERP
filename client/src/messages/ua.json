@@ -625,5 +625,17 @@
       "add": "Додати"
     },
     "placeholder": "Напишіть Ваш коментар"
+  },
+  "taskPage": {
+    "taskDescription": {
+      "title": "Опис",
+      "placeholder": "Додайте опис завдання"
+    },
+    "attachments": {
+      "title": "Вкладення"
+    },
+    "comments": {
+      "title": "Коментарі"
+    }
   }
 }

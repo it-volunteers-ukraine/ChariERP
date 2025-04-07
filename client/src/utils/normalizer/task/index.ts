@@ -1,4 +1,4 @@
-import { ITask, IUsers } from '@/types';
+import { IComment, ICommentResponse, ITask, ITaskResponse, IUsers } from '@/types';
 
 interface ITaskNormalizer extends Omit<ITask, 'users'> {
   id: string;
@@ -6,21 +6,21 @@ interface ITaskNormalizer extends Omit<ITask, 'users'> {
   users: IUsers[];
 }
 
-export const taskNormalizer = (data?: ITaskNormalizer) => {
-  if (!data) return {};
-
+export const taskNormalizer = (data: ITaskNormalizer): ITaskResponse => {
   return {
-    id: data._id!.toString(),
-    title: data.title,
-    status: data.status,
-    dateEnd: data.date_end,
-    priority: data.priority,
-    dateStart: data.date_start,
-    attachment: data.attachment,
-    comments: data.comments,
-    description: data.description,
+    id: data._id.toString(),
+    title: data.title || 'Task',
+    status: data.status || null,
+    dateEnd: data.date_end || null,
+    priority: data.priority || null,
+    dateStart: data.date_start || null,
+    attachment: data.attachment || [],
+    comments: commentsNormalizer(data.comments || []),
+    description: data.description || '',
     createdAt: data.created_at,
-    boardColumn_id: data.boardColumn_id,
+    boardColumnId: data.boardColumn_id,
+    boardTitle: data.boardTitle || '',
+    columnsList: data.columnsList || [],
     users: data.users?.map((user) => ({
       id: user._id!.toString(),
       avatarUrl: user.avatarUrl || '',
@@ -38,4 +38,19 @@ export const taskNormalizer = (data?: ITaskNormalizer) => {
       lastLogin: user.lastLogin,
     })),
   };
+};
+
+export const commentsNormalizer = (comments: IComment[]): ICommentResponse[] => {
+  return comments.map((comment) => ({
+    comment: comment.comment,
+    id: comment._id.toString(),
+    updatedAt: comment.updated_at,
+    createdAt: comment.created_at,
+    author: {
+      id: comment.author._id.toString(),
+      lastName: comment.author.lastName,
+      firstName: comment.author.firstName,
+      avatarUrl: comment.author.avatarUrl || '',
+    },
+  }));
 };
