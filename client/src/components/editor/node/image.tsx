@@ -70,7 +70,11 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
   }
 
   decorate(): JSX.Element {
-    return <Image src={this.__src} alt="Uploaded" className="w-200" />;
+    return (
+      <div style={{ position: 'relative' }}>
+        <Image src={this.__src} alt="Description" fill />
+      </div>
+    );
   }
 }
 

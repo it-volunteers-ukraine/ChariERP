@@ -5,7 +5,7 @@ import { Schema } from 'mongoose';
 import { SdkStreamMixin } from '@aws-sdk/types';
 
 import { DownloadType, RequestOrganizationStatus, UserStatus } from './enums';
-import { IAdmin, IBoardColumn, ICommentResponse, ITask, IUsers } from './models';
+import { IAdmin, IBoardColumn, ITask, IUsers } from './models';
 
 export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
 export type StateProps<T = unknown> = React.Dispatch<React.SetStateAction<T>>;
@@ -131,11 +131,6 @@ export interface ICreateTaskProps {
   userId: string;
   boardId: string;
   columnId: string;
-}
-
-export interface IUseCommentProps {
-  taskId: string;
-  setComments: React.Dispatch<React.SetStateAction<ICommentResponse[]>>;
 }
 
 export interface IAddCommentProps {

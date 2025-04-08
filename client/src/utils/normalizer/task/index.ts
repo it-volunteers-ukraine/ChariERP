@@ -1,4 +1,5 @@
-import { IComment, ICommentResponse, ITask, ITaskResponse, IUsers } from '@/types';
+import { IComment, ITask, IUsers } from '@/types';
+import { fetchAvatarUrl } from '../columns/fetch-avatar-url';
 
 interface ITaskNormalizer extends Omit<ITask, 'users'> {
   id: string;
@@ -6,7 +7,7 @@ interface ITaskNormalizer extends Omit<ITask, 'users'> {
   users: IUsers[];
 }
 
-export const taskNormalizer = (data: ITaskNormalizer): ITaskResponse => {
+export const taskNormalizer = async (data: ITaskNormalizer) => {
   return {
     id: data._id.toString(),
     title: data.title || 'Task',
@@ -15,7 +16,7 @@ export const taskNormalizer = (data: ITaskNormalizer): ITaskResponse => {
     priority: data.priority || null,
     dateStart: data.date_start || null,
     attachment: data.attachment || [],
-    comments: commentsNormalizer(data.comments || []),
+    comments: await commentsNormalizer(data.comments || []),
     description: data.description || '',
     createdAt: data.created_at,
     boardColumnId: data.boardColumn_id,
@@ -40,17 +41,19 @@ export const taskNormalizer = (data: ITaskNormalizer): ITaskResponse => {
   };
 };
 
-export const commentsNormalizer = (comments: IComment[]): ICommentResponse[] => {
-  return comments.map((comment) => ({
-    comment: comment.comment,
-    id: comment._id.toString(),
-    updatedAt: comment.updated_at,
-    createdAt: comment.created_at,
-    author: {
-      id: comment.author._id.toString(),
-      lastName: comment.author.lastName,
-      firstName: comment.author.firstName,
-      avatarUrl: comment.author.avatarUrl || '',
-    },
-  }));
+export const commentsNormalizer = async (comments: IComment[]) => {
+  return await Promise.all(
+    comments.map(async (comment) => ({
+      comment: comment.comment,
+      id: comment._id.toString(),
+      updatedAt: comment.updated_at,
+      createdAt: comment.created_at,
+      author: {
+        id: comment.author._id.toString(),
+        lastName: comment.author.lastName,
+        firstName: comment.author.firstName,
+        avatarUrl: await fetchAvatarUrl(comment.author._id.toString(), comment.author.avatarUrl || ''),
+      },
+    })),
+  );
 };

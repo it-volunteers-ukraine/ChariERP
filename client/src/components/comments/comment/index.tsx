@@ -2,18 +2,17 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { useUserInfo } from '@/context';
+import { ICommentResponse } from '@/types';
 import { Editor, UserIcon } from '@/components';
-import { ICommentResponse, IUseUpdateComments } from '@/types';
+import { useComments } from '@/components/pages/task/model';
 
 import { EditorBtnGroup } from '../btn-group';
 
 interface CommentListProps {
   comment: ICommentResponse;
-  onDelete: (id: string) => void;
-  onUpdateComment: (data: IUseUpdateComments) => void;
 }
 
-export const Comment = ({ comment, onDelete, onUpdateComment }: CommentListProps) => {
+export const Comment = ({ comment }: CommentListProps) => {
   const { _id } = useUserInfo();
   const userId = _id ? String(_id) : undefined;
 
@@ -22,9 +21,11 @@ export const Comment = ({ comment, onDelete, onUpdateComment }: CommentListProps
   const [isEditing, setIsEditing] = useState(false);
   const [commentText, setCommentText] = useState<string | null>(comment.comment);
 
+  const { deleteComment, updateComment, isPending } = useComments();
+
   const handleUpdateComment = () => {
     if (commentText) {
-      onUpdateComment({ text: commentText, commentId: comment.id });
+      updateComment({ text: commentText, commentId: comment.id });
     }
     setIsEditing(false);
   };
@@ -60,7 +61,11 @@ export const Comment = ({ comment, onDelete, onUpdateComment }: CommentListProps
           className="mb-2 rounded-lg border border-[#65657526] px-4 py-3 shadow-md focus:border-darkBlueFocus"
         />
         {isEditing ? (
-          <EditorBtnGroup isDisabled={!commentText} onSave={handleUpdateComment} onCancel={() => setIsEditing(false)} />
+          <EditorBtnGroup
+            onSave={handleUpdateComment}
+            onCancel={() => setIsEditing(false)}
+            isDisabled={!commentText || isPending}
+          />
         ) : (
           comment.author.id === userId && (
             <div className="flex gap-4">
@@ -68,7 +73,12 @@ export const Comment = ({ comment, onDelete, onUpdateComment }: CommentListProps
                 {btnEditor('btnEdit')}
               </button>
 
-              <button className="text-[15px] text-lightBlue" type="button" onClick={() => onDelete(comment.id)}>
+              <button
+                type="button"
+                disabled={isPending}
+                className="text-[15px] text-lightBlue"
+                onClick={() => deleteComment(comment.id)}
+              >
                 {btnEditor('btnDelete')}
               </button>
             </div>

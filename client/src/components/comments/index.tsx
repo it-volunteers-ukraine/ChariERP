@@ -1,39 +1,47 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { cn } from '@/utils';
 import { useUserInfo } from '@/context';
-import { ICommentResponse } from '@/types';
 import { UserIcon, Editor } from '@/components';
+import { fetchAvatarUrl } from '@/utils/normalizer/columns/fetch-avatar-url';
 
 import { Comment } from './comment';
 import { EditorBtnGroup } from './btn-group';
-import { useAddComment, useDeleteComment } from '../pages/task/api';
-import { useUpdateComment } from '../pages/task/api/use-update-comment';
+import { useComments } from '../pages/task/model';
 
-interface ICommentEditor {
-  taskId: string;
-  taskComments: ICommentResponse[];
-}
-
-export const CommentEditor = ({ taskId, taskComments }: ICommentEditor) => {
+export const CommentEditor = () => {
   const placeholder = useTranslations('editor');
 
+  const { firstName, lastName, avatarUrl, _id } = useUserInfo();
+
+  const [img, setImg] = useState<string>('');
   const [isCreating, setIsCreating] = useState(false);
   const [newComment, setNewComment] = useState<string | null>(null);
-  const [comments, setComments] = useState<ICommentResponse[]>(taskComments);
 
-  const { onAddComment } = useAddComment({ taskId, setComments });
-  const { onDeleteComment } = useDeleteComment({ taskId, setComments });
-  const { onUpdateComment } = useUpdateComment({ taskId, setComments });
+  const { comments, addComment, isPending } = useComments();
 
-  const { firstName, lastName, avatarUrl } = useUserInfo();
+  useEffect(() => {
+    loadAvatar();
+  }, [_id, avatarUrl]);
+
+  const loadAvatar = async () => {
+    try {
+      if (_id && avatarUrl) {
+        const avatar = await fetchAvatarUrl(_id.toString(), avatarUrl || '');
+
+        setImg(avatar);
+      }
+    } catch (error) {
+      console.error('Failed to load avatar', error);
+    }
+  };
 
   const handleAddComment = () => {
     if (newComment) {
-      onAddComment(newComment);
+      addComment(newComment);
     }
     setIsCreating(false);
     setNewComment(null);
@@ -42,7 +50,7 @@ export const CommentEditor = ({ taskId, taskComments }: ICommentEditor) => {
   return (
     <div className="p-1">
       <div className="flex items-center gap-3 [&>:first-child]:min-w-6">
-        <UserIcon avatarUrl={avatarUrl as string} firstName={firstName as string} lastName={lastName as string} />
+        <UserIcon avatarUrl={img} firstName={firstName as string} lastName={lastName as string} />
         <div className="flex w-full flex-col gap-y-3">
           <Editor
             onSave={setNewComment}
@@ -59,21 +67,16 @@ export const CommentEditor = ({ taskId, taskComments }: ICommentEditor) => {
           <div className="flex gap-4">
             {isCreating && (
               <EditorBtnGroup
-                isDisabled={!newComment}
                 onSave={handleAddComment}
                 onCancel={() => setIsCreating(false)}
+                isDisabled={!newComment || isPending}
               />
             )}
           </div>
         </div>
       </div>
       {comments.map((comment, idx) => (
-        <Comment
-          comment={comment}
-          onDelete={onDeleteComment}
-          onUpdateComment={onUpdateComment}
-          key={`${comment.createdAt}_${idx}`}
-        />
+        <Comment comment={comment} key={`${comment.createdAt}_${idx}`} />
       ))}
     </div>
   );

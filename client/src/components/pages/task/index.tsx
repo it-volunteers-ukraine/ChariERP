@@ -8,7 +8,9 @@ import { Clip, Comment, SubMenu, Warning } from '@/assets/icons';
 import { Attachments, ButtonBack, CommentEditor, EditorTask, TitleTaskSection } from '@/components';
 
 import { getStyles } from './style';
+
 import { getValidationSchema } from './config';
+import { CommentsProvider } from './model';
 
 interface ITaskProps {
   task: ITaskResponse;
@@ -63,7 +65,9 @@ export const Task = ({ task }: ITaskProps) => {
         <TitleTaskSection icon={Clip} title={text('attachments.title')} className={styles.subTitle} />
         <Attachments />
         <TitleTaskSection icon={Comment} title={text('comments.title')} className={styles.subTitle} />
-        <CommentEditor taskId={task.id} taskComments={task.comments} />
+        <CommentsProvider taskId={task.id} initialComments={task.comments}>
+          <CommentEditor />
+        </CommentsProvider>
       </section>
     </section>
   );

@@ -34,3 +34,4 @@ export { sendResetEmail } from './reset-token/send-reset-email';
 export { updateMemberByIdAction } from './user/update-member-by-id';
 export { updateOrganizationAction } from './admin/update-organization';
 export { updateOrganizationByManagerAction } from './user/updateOrganization';
+export { updateCommentAction } from './tasks/update-comment';
