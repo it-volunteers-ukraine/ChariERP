@@ -11,6 +11,7 @@ import { UserIcon, Editor } from '@/components';
 import { Comment } from './comment';
 import { EditorBtnGroup } from './btn-group';
 import { useAddComment, useDeleteComment } from '../pages/task/api';
+import { useUpdateComment } from '../pages/task/api/use-update-comment';
 
 interface ICommentEditor {
   taskId: string;
@@ -20,22 +21,22 @@ interface ICommentEditor {
 export const CommentEditor = ({ taskId, taskComments }: ICommentEditor) => {
   const placeholder = useTranslations('editor');
 
+  const [isCreating, setIsCreating] = useState(false);
+  const [newComment, setNewComment] = useState<string | null>(null);
   const [comments, setComments] = useState<ICommentResponse[]>(taskComments);
-  const [activeComment, setActiveComment] = useState<string | null>(null);
-  const [isEditing, setIsEditing] = useState<string | null | false>(false);
 
   const { onAddComment } = useAddComment({ taskId, setComments });
   const { onDeleteComment } = useDeleteComment({ taskId, setComments });
+  const { onUpdateComment } = useUpdateComment({ taskId, setComments });
 
   const { firstName, lastName, avatarUrl } = useUserInfo();
 
-  const onSave = () => {
-    setIsEditing(false);
-
-    if (activeComment) {
-      onAddComment(activeComment);
-      setActiveComment(null);
+  const handleAddComment = () => {
+    if (newComment) {
+      onAddComment(newComment);
     }
+    setIsCreating(false);
+    setNewComment(null);
   };
 
   return (
@@ -44,38 +45,36 @@ export const CommentEditor = ({ taskId, taskComments }: ICommentEditor) => {
         <UserIcon avatarUrl={avatarUrl as string} firstName={firstName as string} lastName={lastName as string} />
         <div className="flex w-full flex-col gap-y-3">
           <Editor
-            onSave={setActiveComment}
-            isEditing={isEditing === null}
-            onOpen={() => setIsEditing(null)}
+            onSave={setNewComment}
+            isEditing={isCreating}
+            onOpen={() => setIsCreating(true)}
             placeholder={placeholder('placeholder')}
             classNamePlaceholder="top-[13px] left-[20px]"
             className={cn(
               'rounded-lg border border-[#65657526] px-4 py-3 shadow-md outline-none focus:border-darkBlueFocus',
-              isEditing === null ? 'min-h-[100px]' : 'min-h-[48px]',
+              isCreating ? 'min-h-[100px]' : 'min-h-[48px]',
             )}
           />
 
           <div className="flex gap-4">
-            {isEditing === null && (
-              <EditorBtnGroup isDisabled={!activeComment} onSave={onSave} setIsEditing={setIsEditing} />
+            {isCreating && (
+              <EditorBtnGroup
+                isDisabled={!newComment}
+                onSave={handleAddComment}
+                onCancel={() => setIsCreating(false)}
+              />
             )}
           </div>
         </div>
       </div>
-      {comments.map((comment, idx) => {
-        return (
-          <Comment
-            onSave={onSave}
-            comment={comment}
-            isEditing={isEditing}
-            onDelete={onDeleteComment}
-            isDisabled={!activeComment}
-            setIsEditing={setIsEditing}
-            key={`${comment.createdAt}_${idx}`}
-            setActiveComment={setActiveComment}
-          />
-        );
-      })}
+      {comments.map((comment, idx) => (
+        <Comment
+          comment={comment}
+          onDelete={onDeleteComment}
+          onUpdateComment={onUpdateComment}
+          key={`${comment.createdAt}_${idx}`}
+        />
+      ))}
     </div>
   );
 };

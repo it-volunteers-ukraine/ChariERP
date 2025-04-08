@@ -1,13 +1,14 @@
-import { Button } from '@/components/button';
 import { useTranslations } from 'next-intl';
+
+import { Button } from '@/components/button';
 
 interface IEditorBtnGroup {
   onSave: () => void;
   isDisabled: boolean;
-  setIsEditing: (id: string | null | false) => void;
+  onCancel: () => void;
 }
 
-export const EditorBtnGroup = ({ onSave, isDisabled, setIsEditing }: IEditorBtnGroup) => {
+export const EditorBtnGroup = ({ onSave, isDisabled, onCancel }: IEditorBtnGroup) => {
   const btnEditor = useTranslations('editor.button');
 
   return (
@@ -22,12 +23,10 @@ export const EditorBtnGroup = ({ onSave, isDisabled, setIsEditing }: IEditorBtnG
       />
       <Button
         type="button"
+        onClick={onCancel}
         className="w-[112px]"
         styleType="outline-blue"
         text={btnEditor('btnCancel')}
-        onClick={() => {
-          setIsEditing(false);
-        }}
       />
     </div>
   );

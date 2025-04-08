@@ -1,10 +1,11 @@
 import { PropsWithChildren } from 'react';
 import internal from 'stream';
 import { Schema } from 'mongoose';
+
 import { SdkStreamMixin } from '@aws-sdk/types';
 
-import { IAdmin, IBoardColumn, ITask, IUsers } from './models';
 import { DownloadType, RequestOrganizationStatus, UserStatus } from './enums';
+import { IAdmin, IBoardColumn, ICommentResponse, ITask, IUsers } from './models';
 
 export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
 export type StateProps<T = unknown> = React.Dispatch<React.SetStateAction<T>>;
@@ -132,6 +133,11 @@ export interface ICreateTaskProps {
   columnId: string;
 }
 
+export interface IUseCommentProps {
+  taskId: string;
+  setComments: React.Dispatch<React.SetStateAction<ICommentResponse[]>>;
+}
+
 export interface IAddCommentProps {
   text: string;
   userId: string;
@@ -143,7 +149,7 @@ export interface IAddCommentActionProps {
   taskId: string;
 }
 
-export interface IDeleteComment {
+export interface IDeleteCommentProps {
   taskId: string;
   userId: string;
   commentId: string;
@@ -151,6 +157,24 @@ export interface IDeleteComment {
 
 export interface IDeleteCommentActionProps {
   taskId: string;
+  commentId: string;
+}
+
+export interface IUpdateCommentProps {
+  text: string;
+  taskId: string;
+  userId: string;
+  commentId: string;
+}
+
+export interface IUpdateCommentActionProps {
+  text: string;
+  taskId: string;
+  commentId: string;
+}
+
+export interface IUseUpdateComments {
+  text: string;
   commentId: string;
 }
 
