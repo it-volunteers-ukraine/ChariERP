@@ -52,10 +52,12 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
   createDOM(): HTMLElement {
     const img = document.createElement('img');
 
+    img.alt = 'Photo';
     img.src = this.__src;
-    img.alt = 'photo';
-    img.className = 'img';
-    img.style.maxWidth = '300px';
+    img.style.height = 'auto';
+    img.style.maxWidth = '100%';
+    img.style.borderRadius = '4px';
+
     img.setAttribute('data-key', this.__key);
 
     return img;
@@ -72,7 +74,19 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
   decorate(): JSX.Element {
     return (
       <div style={{ position: 'relative' }}>
-        <Image src={this.__src} alt="Description" fill />
+        <Image
+          width={0}
+          height={0}
+          alt="Photo"
+          src={this.__src}
+          style={{
+            width: '100%',
+            height: 'auto',
+            maxWidth: '100%',
+            borderRadius: '4px',
+            objectFit: 'contain',
+          }}
+        />
       </div>
     );
   }

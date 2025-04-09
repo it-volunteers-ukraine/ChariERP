@@ -4,15 +4,15 @@ export type FormatType = 'image/webp' | 'image/jpeg' | 'image/png' | 'image/jpg'
 
 export interface ICompressConvertImage {
   file: File;
-  format?: FormatType;
   quality?: number;
+  format?: FormatType;
 }
 
 export const compressConvertImage = ({
   file,
-  format = 'image/webp',
   quality = 0.8,
-}: ICompressConvertImage): Promise<{ url: string; file: File; blob: Blob }> => {
+  format = 'image/webp',
+}: ICompressConvertImage): Promise<{ url: string; file: File; blob: Blob; base64: string }> => {
   return new Promise((resolve, reject) => {
     if (!file) return reject('File not found');
     if (!availableConvertFormats.includes(format)) return reject('Invalid format');
@@ -56,11 +56,13 @@ export const compressConvertImage = ({
               });
 
               const previewUrl = URL.createObjectURL(newFile);
+              const base64 = canvas.toDataURL(format, quality);
 
               resolve({
+                blob,
+                base64,
                 file: newFile,
                 url: previewUrl,
-                blob,
               });
             } else {
               reject(new Error('Error creating Blob'));
