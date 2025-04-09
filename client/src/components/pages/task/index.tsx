@@ -8,9 +8,8 @@ import { Clip, Comment, SubMenu, Warning } from '@/assets/icons';
 import { Attachments, ButtonBack, CommentEditor, EditorTask, TitleTaskSection } from '@/components';
 
 import { getStyles } from './style';
-
-import { getValidationSchema } from './config';
 import { CommentsProvider } from './model';
+import { getValidationSchema } from './config';
 
 interface ITaskProps {
   task: ITaskResponse;

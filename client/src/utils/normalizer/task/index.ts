@@ -1,4 +1,5 @@
 import { IComment, ITask, IUsers } from '@/types';
+
 import { fetchAvatarUrl } from '../columns/fetch-avatar-url';
 
 interface ITaskNormalizer extends Omit<ITask, 'users'> {

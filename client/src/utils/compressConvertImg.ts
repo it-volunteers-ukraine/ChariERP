@@ -1,6 +1,6 @@
-const availableConvertFormats = ['image/webp', 'image/jpeg', 'image/png', 'image/jpg'];
-
 export type FormatType = 'image/webp' | 'image/jpeg' | 'image/png' | 'image/jpg';
+
+const availableConvertFormats = ['image/webp', 'image/jpeg', 'image/png', 'image/jpg'];
 
 export interface ICompressConvertImage {
   file: File;
