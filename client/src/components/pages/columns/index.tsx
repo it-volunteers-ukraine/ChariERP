@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 
@@ -24,6 +24,7 @@ import {
 export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoardTaskColumn[] }) => {
   const { isManager, _id } = useUserInfo();
   const translateBtn = useTranslations('button');
+  const scrollRef = useRef<HTMLDivElement>(null);
   const refInput = useRef<HTMLInputElement>(null);
 
   const [value, setValue] = useState('');
@@ -106,8 +107,28 @@ export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoard
     }
   };
 
+  useEffect(() => {
+    const container = scrollRef.current;
+    const savedScroll = sessionStorage.getItem(`scroll-${boardId}`);
+
+    if (!container) return;
+
+    if (savedScroll) {
+      setTimeout(() => (container.scrollLeft = parseInt(savedScroll, 10)), 0);
+    }
+
+    const saveScroll = () => sessionStorage.setItem(`scroll-${boardId}`, container.scrollLeft.toString());
+
+    container.addEventListener('scroll', saveScroll);
+
+    return () => container.removeEventListener('scroll', saveScroll);
+  }, []);
+
   return (
-    <div className="scroll-blue scroll-column flex h-[calc(100%-62px)] overflow-x-auto bg-white px-4 py-5 tablet:px-8">
+    <div
+      ref={scrollRef}
+      className="scroll-blue scroll-column flex h-[calc(100%-62px)] overflow-x-auto bg-white px-4 py-5 tablet:px-8"
+    >
       <DragDropContext onDragEnd={onMoveColumnAndTasks}>
         <Droppable droppableId="column-area" type="Columns" direction="horizontal">
           {(provided) => (
