@@ -30,7 +30,7 @@ export const EditorTask = ({ taskDescription }: { taskDescription: string | null
         <EditorBtnGroup
           onSave={save}
           isDisabled={!description}
-          setIsEditing={() => {
+          onCancel={() => {
             setIsEditing(false);
             setDescription(null);
           }}

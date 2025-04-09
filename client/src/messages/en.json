@@ -623,13 +623,6 @@
       "btnEdit": "Edit",
       "btnCancel": "Cancel"
     },
-
-    "modalImg": {
-      "title": "Add an image",
-      "inputUrl": "Insert image URL",
-      "inputFile": "Select photo",
-      "add": "Add"
-    },
     "placeholder": "Write your comment"
   },
   "taskPage": {

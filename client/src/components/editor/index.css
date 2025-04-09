@@ -11,11 +11,7 @@ h6 span {
 
 .lexical {
   img {
-    width: 200px;
-    height: 200px;
     object-fit: cover;
-    margin-bottom: 8px;
-    margin-right: 8px;
     display: inline-block;
   }
 }

@@ -27,7 +27,7 @@ export const RestoreState = ({ isOpen, initialState }: IDefaultState) => {
         });
       }
     }
-  }, [isOpen]);
+  }, [isOpen, initialState]);
 
   return null;
 };
