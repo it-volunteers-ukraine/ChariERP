@@ -335,7 +335,7 @@ class TaskService extends BaseService {
       };
     }
 
-    task.comments.push({ author: userId, comment: text });
+    task.comments.push({ author: userId, text: text });
     await task.save();
 
     const newComments = await this.getComments(taskId);
@@ -436,7 +436,7 @@ class TaskService extends BaseService {
       };
     }
 
-    comment.comment = text;
+    comment.text = text;
     await task.save();
 
     const updatedComments = await this.getComments(taskId);

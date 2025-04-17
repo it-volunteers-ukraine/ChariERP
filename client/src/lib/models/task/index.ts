@@ -14,7 +14,7 @@ const TaskSchema = new Schema<ITask>(
       type: [
         new Schema(
           {
-            comment: { type: String, required: true },
+            text: { type: String, required: true },
             author: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
           },
           { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } },

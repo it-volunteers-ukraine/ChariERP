@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 
-import { Button } from '@/components/button';
+import { Button } from '@/components';
 
 interface IEditorBtnGroup {
   onSave: () => void;

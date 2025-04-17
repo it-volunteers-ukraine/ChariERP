@@ -19,7 +19,7 @@ export const Comment = ({ comment }: CommentListProps) => {
   const btnEditor = useTranslations('editor.button');
 
   const [isEditing, setIsEditing] = useState(false);
-  const [commentText, setCommentText] = useState<string | null>(comment.comment);
+  const [commentText, setCommentText] = useState<string | null>(comment.text);
 
   const { deleteComment, updateComment, isPending } = useComments();
 
@@ -57,32 +57,33 @@ export const Comment = ({ comment }: CommentListProps) => {
         <Editor
           isEditing={isEditing}
           onSave={setCommentText}
-          initialState={comment.comment}
+          initialState={comment.text}
           className="mb-2 rounded-lg border border-[#65657526] px-4 py-3 shadow-md focus:border-darkBlueFocus"
         />
-        {isEditing ? (
+
+        {isEditing && (
           <EditorBtnGroup
             onSave={handleUpdateComment}
             onCancel={() => setIsEditing(false)}
             isDisabled={!commentText || isPending}
           />
-        ) : (
-          comment.author.id === userId && (
-            <div className="flex gap-4">
-              <button className="text-[15px] text-lightBlue" type="button" onClick={() => setIsEditing(true)}>
-                {btnEditor('btnEdit')}
-              </button>
+        )}
 
-              <button
-                type="button"
-                disabled={isPending}
-                className="text-[15px] text-lightBlue"
-                onClick={() => deleteComment(comment.id)}
-              >
-                {btnEditor('btnDelete')}
-              </button>
-            </div>
-          )
+        {!isEditing && comment.author.id === userId && (
+          <div className="flex gap-4">
+            <button className="text-[15px] text-lightBlue" type="button" onClick={() => setIsEditing(true)}>
+              {btnEditor('btnEdit')}
+            </button>
+
+            <button
+              type="button"
+              disabled={isPending}
+              className="text-[15px] text-lightBlue"
+              onClick={() => deleteComment(comment.id)}
+            >
+              {btnEditor('btnDelete')}
+            </button>
+          </div>
         )}
       </div>
     </div>

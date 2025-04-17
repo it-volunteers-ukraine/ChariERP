@@ -1,13 +1,13 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 
+import { showMessage } from '@/components';
 import { commentsNormalizer } from '@/utils';
-import { showMessage } from '@/components/toastify';
 import { ICommentResponse, IUseUpdateComments, ResponseGetType } from '@/types';
 import { addCommentAction, deleteCommentAction, updateCommentAction } from '@/actions';
 
 interface CommentContextType {
-  comments: ICommentResponse[];
   isPending: boolean;
+  comments: ICommentResponse[];
   addComment: (text: string) => Promise<void>;
   deleteComment: (commentId: string) => Promise<void>;
   updateComment: ({ text, commentId }: IUseUpdateComments) => Promise<void>;
@@ -22,8 +22,8 @@ interface CommentProviderProps {
 const CommentsContext = createContext<CommentContextType | undefined>(undefined);
 
 export const CommentsProvider = ({ children, initialComments, taskId }: CommentProviderProps) => {
-  const [comments, setComments] = useState<ICommentResponse[]>(initialComments);
   const [isPending, setIsPending] = useState(false);
+  const [comments, setComments] = useState<ICommentResponse[]>(initialComments);
 
   const updateState = async (res: ResponseGetType) => {
     if (res.success && res.data) {

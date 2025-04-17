@@ -2,20 +2,20 @@
 
 import { useId } from 'react';
 import { useTranslations } from 'next-intl';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
 import { Img } from '@/assets/icons';
-import { compressConvertImage } from '@/utils';
-import { showMessage } from '@/components/toastify';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { showMessage } from '@/components';
+import { availableConvertFormats, compressConvertImage } from '@/utils';
 
 import { INSERT_IMAGE_COMMAND } from '../node';
 
 const MAX_FILE_SIZE = 5;
 
 export const ImageButton = ({ className }: { className?: string }) => {
-  const [editor] = useLexicalComposerContext();
   const inputId = useId();
   const errorText = useTranslations('errors');
+  const [editor] = useLexicalComposerContext();
 
   const insertImage = (url: string) => {
     editor.dispatchCommand(INSERT_IMAGE_COMMAND, url);
@@ -25,11 +25,11 @@ export const ImageButton = ({ className }: { className?: string }) => {
     const file = event.target.files?.[0];
 
     if (file) {
-      const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg'];
-      const isValidFormat = allowedFormats.includes(file.type);
+      const isValidFormat = availableConvertFormats.includes(file.type);
 
       if (!isValidFormat) {
         showMessage.error(errorText('fileDownload'));
+
         event.target.value = '';
 
         return;
@@ -56,7 +56,13 @@ export const ImageButton = ({ className }: { className?: string }) => {
 
   return (
     <>
-      <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" id={inputId} />
+      <input
+        type="file"
+        id={inputId}
+        className="hidden"
+        onChange={handleFileChange}
+        accept=".png, .jpeg, .jpg, .webp"
+      />
       <label htmlFor={inputId} className={className}>
         <Img className="h-full" />
       </label>

@@ -3,10 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
-import { cn } from '@/utils';
 import { useUserInfo } from '@/context';
+import { cn, fetchAvatarUrl } from '@/utils';
 import { UserIcon, Editor } from '@/components';
-import { fetchAvatarUrl } from '@/utils/normalizer/columns/fetch-avatar-url';
 
 import { Comment } from './comment';
 import { EditorBtnGroup } from './btn-group';
@@ -30,7 +29,7 @@ export const CommentEditor = () => {
   const loadAvatar = async () => {
     try {
       if (_id && avatarUrl) {
-        const avatar = await fetchAvatarUrl(_id.toString(), avatarUrl || '');
+        const avatar = await fetchAvatarUrl(_id.toString(), avatarUrl);
 
         setImg(avatar);
       }

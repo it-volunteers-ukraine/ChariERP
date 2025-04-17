@@ -19,7 +19,7 @@ export interface ITask {
   columnsList: { title: string; _id: string }[];
 }
 export interface IComment {
-  comment: string;
+  text: string;
   created_at: Date;
   updated_at: Date;
   _id: Schema.Types.ObjectId;
@@ -32,41 +32,41 @@ export interface IComment {
 }
 
 export interface ITaskResponse {
+  id: string;
   title: string;
-  status: string | null;
-  dateEnd: Date | null;
-  priority: string | null;
-  dateStart: Date | null;
   createdAt: Date;
   attachment: File[];
-  comments: ICommentResponse[];
   boardTitle: string;
   description: string;
-  id: string;
-  users: {
-    id: string;
-    avatarUrl?: string;
-    firstName?: string;
-    lastName?: string;
-    middleName?: string;
-    phone?: string;
-    position?: string;
-    email?: string;
-    status?: string;
-    role?: string;
-    dateOfBirth?: Date;
-    address?: string;
-    notes?: string;
-    lastLogin?: Date;
-  }[];
+  dateEnd: Date | null;
+  status: string | null;
+  dateStart: Date | null;
+  priority: string | null;
+  comments: ICommentResponse[];
   boardColumnId: Schema.Types.ObjectId;
   columnsList: { title: string; _id: string }[];
+  users: {
+    id: string;
+    role?: string;
+    phone?: string;
+    email?: string;
+    notes?: string;
+    status?: string;
+    address?: string;
+    lastLogin?: Date;
+    lastName?: string;
+    position?: string;
+    avatarUrl?: string;
+    firstName?: string;
+    dateOfBirth?: Date;
+    middleName?: string;
+  }[];
 }
 
 export interface ICommentResponse {
   id: string;
+  text: string;
   updatedAt: Date;
-  comment: string;
   createdAt: Date;
   author: {
     id: string;
@@ -88,14 +88,14 @@ export interface ITaskUsers extends Omit<ITask, 'users'> {
 
 type LeanComment = {
   comment: string;
-  author: {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    avatarUrl?: string;
-  };
   created_at: Date;
   updated_at: Date;
+  author: {
+    _id: string;
+    lastName: string;
+    firstName: string;
+    avatarUrl?: string;
+  };
 };
 
 export type LeanTaskComments = {

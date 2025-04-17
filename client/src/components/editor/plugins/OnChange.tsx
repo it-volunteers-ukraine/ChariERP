@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import { $getRoot, $nodesOfType } from 'lexical';
-
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
 import { ImageNode } from '../node';
