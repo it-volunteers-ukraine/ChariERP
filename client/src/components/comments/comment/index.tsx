@@ -19,7 +19,7 @@ export const Comment = ({ comment }: CommentListProps) => {
   const btnEditor = useTranslations('editor.button');
 
   const [isEditing, setIsEditing] = useState(false);
-  const [commentText, setCommentText] = useState<string | null>(comment.text);
+  const [commentText, setCommentText] = useState(comment.text);
 
   const { deleteComment, updateComment, isPending } = useComments();
 

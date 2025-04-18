@@ -8,7 +8,7 @@ import { ImageNode } from '../node';
 
 interface IOnChange {
   isEditing: boolean;
-  onChange: (editorState: string | null) => void;
+  onChange: (editorState: string) => void;
 }
 
 export const OnChange = ({ onChange, isEditing }: IOnChange) => {
@@ -28,7 +28,7 @@ export const OnChange = ({ onChange, isEditing }: IOnChange) => {
         if (isText || isImages) {
           onChange(JSON.stringify(editorState.toJSON()));
         } else {
-          onChange(null);
+          onChange('');
         }
       });
     });

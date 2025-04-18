@@ -1,8 +1,9 @@
 import { cookies } from 'next/headers';
 
-import { BoardColumn } from '@/lib';
+import { BoardColumn, Users } from '@/lib';
 import {
   Roles,
+  IUsers,
   IBoardColumn,
   IGetTaskProps,
   IMoveTaskProps,
@@ -12,6 +13,7 @@ import {
   LeanTaskComments,
   IDeleteCommentProps,
   IUpdateCommentProps,
+  IUpdateTaskDescription,
 } from '@/types';
 
 import { Task, UsersBoards } from '..';
@@ -444,6 +446,51 @@ class TaskService extends BaseService {
     return {
       success: true,
       data: JSON.stringify(updatedComments),
+      message: 'Comment updated successfully',
+    };
+  }
+
+  async updateDescription({ taskId, description, userId }: IUpdateTaskDescription) {
+    if (!taskId || !userId || !description) {
+      return {
+        success: false,
+        message: 'Task ID, User ID, and Description are required',
+      };
+    }
+
+    await this.connect();
+
+    const user = await Users.findById(userId).lean<IUsers>();
+
+    if (!user) {
+      return {
+        success: false,
+        message: 'User not found',
+      };
+    }
+
+    if (user.role !== Roles.MANAGER) {
+      return {
+        success: false,
+        message: 'This user does not have permission',
+      };
+    }
+
+    const task = await Task.findById(taskId);
+
+    if (!task) {
+      return {
+        success: false,
+        message: 'Task not found',
+      };
+    }
+
+    task.description = description;
+    await task.save();
+
+    return {
+      success: true,
+      data: JSON.stringify(task.description),
       message: 'Comment updated successfully',
     };
   }

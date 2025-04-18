@@ -173,6 +173,17 @@ export interface IUseUpdateComments {
   commentId: string;
 }
 
+export interface IUpdateTaskDescription {
+  taskId: string;
+  userId: string;
+  description: string;
+}
+
+export interface IUpdateTaskDescriptionActionProps {
+  taskId: string;
+  description: string;
+}
+
 export interface ICreateColumnProps {
   title: string;
   boardId: string;

@@ -4,35 +4,61 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { cn } from '@/utils';
+import { useUserInfo } from '@/context';
 import { Editor, EditorBtnGroup } from '@/components';
 
-export const EditorTask = ({ taskDescription }: { taskDescription: string | null }) => {
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [description, setDescription] = useState<string | null>(taskDescription);
+import { useUpdateDescription } from '../pages/task/api';
+
+interface EditorTaskProps {
+  taskId: string;
+  taskDescription: string;
+}
+
+export const EditorTask = ({ taskId, taskDescription }: EditorTaskProps) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [description, setDescription] = useState(taskDescription);
+  const [initialDescription, setInitialDescription] = useState(taskDescription);
+
+  const { isManager } = useUserInfo();
 
   const placeholder = useTranslations('taskPage.taskDescription');
 
-  const save = () => {
-    console.log(description);
+  const { isPending, updateDescription } = useUpdateDescription({ taskId });
+
+  const handleSave = async () => {
+    try {
+      const newDescription = await updateDescription(description);
+
+      setInitialDescription(newDescription);
+      setIsEditing(false);
+    } catch {
+      setDescription(initialDescription);
+    }
+  };
+
+  const handleOpen = () => {
+    if (isManager) {
+      setIsEditing(true);
+    }
   };
 
   return (
     <>
       <Editor
+        onOpen={handleOpen}
         isEditing={isEditing}
         onSave={setDescription}
-        onOpen={() => setIsEditing(true)}
-        initialState={description || undefined}
+        initialState={description}
         placeholder={placeholder('placeholder')}
-        className={cn('min-h-[26px]', isEditing && 'mb-2')}
+        className={cn('min-h-[26px]', isEditing && 'mb-2', !isManager && '!cursor-default')}
       />
-      {isEditing && (
+      {isEditing && isManager && (
         <EditorBtnGroup
-          onSave={save}
-          isDisabled={!description}
+          onSave={handleSave}
+          isDisabled={!description || isPending}
           onCancel={() => {
             setIsEditing(false);
-            setDescription(null);
+            setDescription(initialDescription);
           }}
         />
       )}

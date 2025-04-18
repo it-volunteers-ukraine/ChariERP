@@ -60,7 +60,7 @@ export const Task = ({ task }: ITaskProps) => {
 
       <section className={styles.subSection}>
         <TitleTaskSection icon={SubMenu} title={text('taskDescription.title')} />
-        <EditorTask taskDescription={task.description} />
+        <EditorTask taskId={task.id} taskDescription={task.description} />
         <TitleTaskSection icon={Clip} title={text('attachments.title')} className={styles.subTitle} />
         <Attachments />
         <TitleTaskSection icon={Comment} title={text('comments.title')} className={styles.subTitle} />
