@@ -28,7 +28,12 @@ const theme = {
   link: 'text-blue-500 underline hover:text-blue-700',
 };
 
-export const initialConfig = (initialState?: string, isEditing: boolean = false) => {
+interface IInitialConfig {
+  isEditing: boolean;
+  initialState?: string;
+}
+
+export const initialConfig = ({ initialState, isEditing = false }: IInitialConfig) => {
   return {
     theme,
     namespace: 'editor',
