@@ -27,3 +27,5 @@ export const boardColumnsNormalizer = async (data?: IBoardColumnTasks[]) => {
 
   return await Promise.all(data.map(oneBoardColumnNormalizer));
 };
+
+export { fetchAvatarUrl } from './fetch-avatar-url';

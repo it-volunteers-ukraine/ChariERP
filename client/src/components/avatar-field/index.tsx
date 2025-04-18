@@ -4,6 +4,8 @@ import { ChangeEvent } from 'react';
 import { Field, FieldProps } from 'formik';
 import { useTranslations } from 'next-intl';
 
+import { availableConvertFormats } from '@/utils';
+
 import { showMessage } from '../toastify';
 import { AvatarFieldProps } from './types';
 import { AvatarUploader } from '../avatar-uploader';
@@ -27,8 +29,7 @@ export const AvatarField = ({ name, info, isSubmit, lastName, firstName, classNa
           const file = e.target.files?.[0];
 
           if (file) {
-            const allowedFormats = ['image/png', 'image/jpeg', 'image/jpg'];
-            const isValidFormat = allowedFormats.includes(file.type);
+            const isValidFormat = availableConvertFormats.includes(file.type);
 
             if (!isValidFormat) {
               showMessage.error(errorText('fileDownload'));

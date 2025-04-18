@@ -1,35 +1,34 @@
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { useUserInfo } from '@/context';
 import { ICommentResponse } from '@/types';
 import { Editor, UserIcon } from '@/components';
+import { useComments } from '@/components/pages/task/model';
 
 import { EditorBtnGroup } from '../btn-group';
 
 interface CommentListProps {
-  onSave: () => void;
-  isDisabled: boolean;
   comment: ICommentResponse;
-  onDelete: (id: string) => void;
-  isEditing: string | null | boolean;
-  setIsEditing: (id: string | null | false) => void;
-  setActiveComment: (comment: string | null) => void;
 }
 
-export const Comment = ({
-  onSave,
-  comment,
-  onDelete,
-  isEditing,
-  isDisabled,
-  setIsEditing,
-  setActiveComment,
-}: CommentListProps) => {
+export const Comment = ({ comment }: CommentListProps) => {
+  const { _id } = useUserInfo();
+  const userId = _id ? String(_id) : undefined;
+
   const btnEditor = useTranslations('editor.button');
 
-  const { _id } = useUserInfo();
+  const [isEditing, setIsEditing] = useState(false);
+  const [commentText, setCommentText] = useState<string | null>(comment.text);
 
-  const userId = _id ? String(_id) : undefined;
+  const { deleteComment, updateComment, isPending } = useComments();
+
+  const handleUpdateComment = () => {
+    if (commentText) {
+      updateComment({ text: commentText, commentId: comment.id });
+    }
+    setIsEditing(false);
+  };
 
   return (
     <div className="mt-6 flex gap-4 [&>:first-child]:min-w-6">
@@ -56,25 +55,35 @@ export const Comment = ({
         </div>
 
         <Editor
-          onSave={setActiveComment}
-          initialState={comment.comment}
-          isEditing={isEditing === comment.id}
+          isEditing={isEditing}
+          onSave={setCommentText}
+          initialState={comment.text}
           className="mb-2 rounded-lg border border-[#65657526] px-4 py-3 shadow-md focus:border-darkBlueFocus"
         />
-        {isEditing === comment.id ? (
-          <EditorBtnGroup isDisabled={isDisabled} onSave={onSave} setIsEditing={setIsEditing} />
-        ) : (
-          comment.author.id === userId && (
-            <div className="flex gap-4">
-              <button className="text-[15px] text-lightBlue" type="button" onClick={() => setIsEditing(comment.id)}>
-                {btnEditor('btnEdit')}
-              </button>
 
-              <button className="text-[15px] text-lightBlue" type="button" onClick={() => onDelete(comment.id)}>
-                {btnEditor('btnDelete')}
-              </button>
-            </div>
-          )
+        {isEditing && (
+          <EditorBtnGroup
+            onSave={handleUpdateComment}
+            onCancel={() => setIsEditing(false)}
+            isDisabled={!commentText || isPending}
+          />
+        )}
+
+        {!isEditing && comment.author.id === userId && (
+          <div className="flex gap-4">
+            <button className="text-[15px] text-lightBlue" type="button" onClick={() => setIsEditing(true)}>
+              {btnEditor('btnEdit')}
+            </button>
+
+            <button
+              type="button"
+              disabled={isPending}
+              className="text-[15px] text-lightBlue"
+              onClick={() => deleteComment(comment.id)}
+            >
+              {btnEditor('btnDelete')}
+            </button>
+          </div>
         )}
       </div>
     </div>

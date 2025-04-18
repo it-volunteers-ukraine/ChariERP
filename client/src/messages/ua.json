@@ -617,13 +617,6 @@
       "btnEdit": "Редагувати",
       "btnCancel": "Скасувати"
     },
-
-    "modalImg": {
-      "title": "Додати зображення",
-      "inputUrl": "Вставте URL зображення",
-      "inputFile": "Обрати фото",
-      "add": "Додати"
-    },
     "placeholder": "Напишіть Ваш коментар"
   },
   "taskPage": {

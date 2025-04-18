@@ -42,7 +42,7 @@ const TaskId = async ({ params }: TaskPageParamsProps) => {
 
   const response = await getData({ columnId: column_id, boardId: board_id, taskId: task_id });
 
-  const task = taskNormalizer(response);
+  const task = await taskNormalizer(response);
 
   return <Task task={task} />;
 };

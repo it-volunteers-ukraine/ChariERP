@@ -6,11 +6,12 @@ import {
   IBoardColumn,
   IGetTaskProps,
   IMoveTaskProps,
-  IDeleteComment,
   IAddCommentProps,
   ICreateTaskProps,
   IDeleteTaskProps,
   LeanTaskComments,
+  IDeleteCommentProps,
+  IUpdateCommentProps,
 } from '@/types';
 
 import { Task, UsersBoards } from '..';
@@ -334,7 +335,7 @@ class TaskService extends BaseService {
       };
     }
 
-    task.comments.push({ author: userId, comment: text });
+    task.comments.push({ author: userId, text: text });
     await task.save();
 
     const newComments = await this.getComments(taskId);
@@ -353,7 +354,7 @@ class TaskService extends BaseService {
     };
   }
 
-  async deleteComment({ taskId, commentId, userId }: IDeleteComment) {
+  async deleteComment({ taskId, commentId, userId }: IDeleteCommentProps) {
     if (!taskId || !userId || !commentId) {
       return {
         success: false,
@@ -397,6 +398,53 @@ class TaskService extends BaseService {
       success: true,
       data: JSON.stringify(updatedComments),
       message: 'Comment deleted successfully',
+    };
+  }
+
+  async updateComment({ taskId, commentId, text, userId }: IUpdateCommentProps) {
+    if (!taskId || !userId || !commentId || !text) {
+      return {
+        success: false,
+        message: 'Task ID, User ID, Text, and Comment ID are required',
+      };
+    }
+
+    await this.connect();
+
+    const task = await Task.findById(taskId);
+
+    if (!task) {
+      return {
+        success: false,
+        message: 'Task not found',
+      };
+    }
+
+    const comment = task.comments.id(commentId);
+
+    if (!comment) {
+      return {
+        success: false,
+        message: 'Comment not found',
+      };
+    }
+
+    if (comment.author.toString() !== userId) {
+      return {
+        success: false,
+        message: 'You are not allowed to update this comment',
+      };
+    }
+
+    comment.text = text;
+    await task.save();
+
+    const updatedComments = await this.getComments(taskId);
+
+    return {
+      success: true,
+      data: JSON.stringify(updatedComments),
+      message: 'Comment updated successfully',
     };
   }
 }

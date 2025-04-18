@@ -1,6 +1,7 @@
 import { PropsWithChildren } from 'react';
 import internal from 'stream';
 import { Schema } from 'mongoose';
+
 import { SdkStreamMixin } from '@aws-sdk/types';
 
 import { IAdmin, IBoardColumn, ITask, IUsers } from './models';
@@ -143,7 +144,7 @@ export interface IAddCommentActionProps {
   taskId: string;
 }
 
-export interface IDeleteComment {
+export interface IDeleteCommentProps {
   taskId: string;
   userId: string;
   commentId: string;
@@ -151,6 +152,24 @@ export interface IDeleteComment {
 
 export interface IDeleteCommentActionProps {
   taskId: string;
+  commentId: string;
+}
+
+export interface IUpdateCommentProps {
+  text: string;
+  taskId: string;
+  userId: string;
+  commentId: string;
+}
+
+export interface IUpdateCommentActionProps {
+  text: string;
+  taskId: string;
+  commentId: string;
+}
+
+export interface IUseUpdateComments {
+  text: string;
   commentId: string;
 }
 
