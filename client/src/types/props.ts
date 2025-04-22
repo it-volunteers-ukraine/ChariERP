@@ -5,7 +5,7 @@ import { Schema } from 'mongoose';
 import { SdkStreamMixin } from '@aws-sdk/types';
 
 import { IAdmin, IBoardColumn, ITask, IUsers } from './models';
-import { DownloadType, RequestOrganizationStatus, UserStatus } from './enums';
+import { DownloadType, RequestOrganizationStatus, Roles, UserStatus } from './enums';
 
 export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
 export type StateProps<T = unknown> = React.Dispatch<React.SetStateAction<T>>;
@@ -131,6 +131,12 @@ export interface ICreateTaskProps {
   userId: string;
   boardId: string;
   columnId: string;
+}
+
+export interface IHasTaskAccess {
+  role?: Roles;
+  userId: string;
+  taskId: string;
 }
 
 export interface IAddCommentProps {
