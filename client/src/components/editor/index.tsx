@@ -21,9 +21,9 @@ interface IEditor {
   className?: string;
   onOpen?: () => void;
   placeholder?: string;
+  initialState?: string;
   classNamePlaceholder?: string;
-  initialState?: string | undefined;
-  onSave: (state: string | null) => void;
+  onSave: (state: string) => void;
 }
 
 export const Editor = ({
@@ -44,7 +44,7 @@ export const Editor = ({
   };
 
   return (
-    <LexicalComposer initialConfig={initialConfig(initialState, !initialState)}>
+    <LexicalComposer initialConfig={initialConfig({ initialState, isEditing })}>
       <ToolBar isEditing={isEditing} />
       <div className="relative">
         <RichTextPlugin

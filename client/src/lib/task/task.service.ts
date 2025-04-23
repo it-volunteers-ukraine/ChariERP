@@ -3,16 +3,18 @@ import { cookies } from 'next/headers';
 import { BoardColumn } from '@/lib';
 import {
   Roles,
+  IUsers,
   IBoardColumn,
   IGetTaskProps,
   IMoveTaskProps,
+  IHasTaskAccess,
   IAddCommentProps,
   ICreateTaskProps,
   IDeleteTaskProps,
   LeanTaskComments,
   IDeleteCommentProps,
   IUpdateCommentProps,
-  IUpdateDateProps,
+  IUpdateTaskDescription,
 } from '@/types';
 
 import { Task, UsersBoards } from '..';
@@ -141,6 +143,7 @@ class TaskService extends BaseService {
       comments: [],
       attachment: [],
       description: '',
+      users: [userId],
       priority: 'high',
       status: 'in_progress',
       title: language === 'en' ? 'New task' : 'Новая задача',
@@ -306,6 +309,43 @@ class TaskService extends BaseService {
     };
   }
 
+  async hasTaskAccess({ userId, taskId, role }: IHasTaskAccess) {
+    const task = await Task.findById(taskId).populate('users', 'role');
+
+    if (!task) {
+      return {
+        error: {
+          success: false,
+          message: 'Task not found',
+        },
+      };
+    }
+
+    const user = task.users.find((user: IUsers) => String(user._id) === userId);
+
+    if (!user) {
+      return {
+        error: {
+          success: false,
+          message: 'User not found',
+        },
+      };
+    }
+
+    if (role && user.role !== role) {
+      return {
+        error: {
+          success: false,
+          message: 'You are not allowed to add a comment to this task',
+        },
+      };
+    }
+
+    return {
+      task,
+    };
+  }
+
   async getComments(taskId: string) {
     const task = await Task.findById(taskId)
       .select('comments')
@@ -325,14 +365,13 @@ class TaskService extends BaseService {
 
     await this.connect();
 
-    const task = await Task.findById(taskId);
+    const access = await this.hasTaskAccess({ userId, taskId });
 
-    if (!task) {
-      return {
-        success: false,
-        message: 'Task not found',
-      };
+    if (access.error) {
+      return access.error;
     }
+
+    const { task } = access;
 
     task.comments.push({ author: userId, text: text });
     await task.save();
@@ -363,14 +402,13 @@ class TaskService extends BaseService {
 
     await this.connect();
 
-    const task = await Task.findById(taskId);
+    const access = await this.hasTaskAccess({ userId, taskId });
 
-    if (!task) {
-      return {
-        success: false,
-        message: 'Task not found',
-      };
+    if (access.error) {
+      return access.error;
     }
+
+    const { task } = access;
 
     const comment = task.comments.id(commentId);
 
@@ -410,14 +448,13 @@ class TaskService extends BaseService {
 
     await this.connect();
 
-    const task = await Task.findById(taskId);
+    const access = await this.hasTaskAccess({ userId, taskId });
 
-    if (!task) {
-      return {
-        success: false,
-        message: 'Task not found',
-      };
+    if (access.error) {
+      return access.error;
     }
+
+    const { task } = access;
 
     const comment = task.comments.id(commentId);
 
@@ -446,19 +483,33 @@ class TaskService extends BaseService {
       message: 'Comment updated successfully',
     };
   }
-  async updateDateStart({ taskId, date, userId }: IUpdateDateProps) {
-    if (!taskId || !userId || !date) {
+
+  async updateDescription({ taskId, description, userId }: IUpdateTaskDescription) {
+    if (!taskId || !userId || !description) {
       return {
         success: false,
-        message: 'Task ID, User ID, and Date are required',
+        message: 'Task ID, User ID, and Description are required',
       };
     }
 
     await this.connect();
 
-    const task = await Task.findById(taskId);
+    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
 
-    console.log(task);
+    if (access.error) {
+      return access.error;
+    }
+
+    const { task } = access;
+
+    task.description = description;
+    await task.save();
+
+    return {
+      success: true,
+      data: JSON.stringify(task.description),
+      message: 'Comment updated successfully',
+    };
   }
 }
 

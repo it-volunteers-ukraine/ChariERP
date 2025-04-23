@@ -17,8 +17,8 @@ export const CommentEditor = () => {
   const { firstName, lastName, avatarUrl, _id } = useUserInfo();
 
   const [img, setImg] = useState<string>('');
+  const [newComment, setNewComment] = useState('');
   const [isCreating, setIsCreating] = useState(false);
-  const [newComment, setNewComment] = useState<string | null>(null);
 
   const { comments, addComment, isPending } = useComments();
 
@@ -43,7 +43,7 @@ export const CommentEditor = () => {
       addComment(newComment);
     }
     setIsCreating(false);
-    setNewComment(null);
+    setNewComment('');
   };
 
   return (
