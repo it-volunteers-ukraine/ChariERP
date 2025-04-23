@@ -6,9 +6,9 @@ const TaskSchema = new Schema<ITask>(
   {
     title: { type: String },
     status: { type: String },
-    date_end: { type: Date, required: true },
+    date_end: { type: Date },
     priority: { type: String },
-    date_start: { type: Date, required: true },
+    date_start: { type: Date },
     attachment: { type: [String], default: [] },
     comments: {
       type: [

@@ -32,7 +32,7 @@ export const SelectLogicWrapper = ({
   return (
     <div className={style.wrapper}>
       <div ref={selectedRef} onClick={() => setIsOpen(!isOpen)}>
-        {renderSelected(selected)}
+        {selected ? renderSelected(selected) : renderSelected({ text: '', value: '' })}
       </div>
 
       {unmounted && (

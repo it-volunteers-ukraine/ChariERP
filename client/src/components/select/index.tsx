@@ -12,7 +12,7 @@ interface ISelect {
   name: string;
   placeholder: string;
   withTranslate?: boolean;
-  selected: ISelectOption;
+  selected: ISelectOption | undefined;
   options: ISelectOption[];
   classNameWrapper?: string;
   classNameDropList?: string;

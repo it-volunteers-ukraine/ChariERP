@@ -12,6 +12,7 @@ import {
   LeanTaskComments,
   IDeleteCommentProps,
   IUpdateCommentProps,
+  IUpdateDateProps,
 } from '@/types';
 
 import { Task, UsersBoards } from '..';
@@ -141,9 +142,7 @@ class TaskService extends BaseService {
       attachment: [],
       description: '',
       priority: 'high',
-      date_end: new Date(),
       status: 'in_progress',
-      date_start: new Date(),
       title: language === 'en' ? 'New task' : 'Новая задача',
     };
 
@@ -446,6 +445,20 @@ class TaskService extends BaseService {
       data: JSON.stringify(updatedComments),
       message: 'Comment updated successfully',
     };
+  }
+  async updateDateStart({ taskId, date, userId }: IUpdateDateProps) {
+    if (!taskId || !userId || !date) {
+      return {
+        success: false,
+        message: 'Task ID, User ID, and Date are required',
+      };
+    }
+
+    await this.connect();
+
+    const task = await Task.findById(taskId);
+
+    console.log(task);
   }
 }
 

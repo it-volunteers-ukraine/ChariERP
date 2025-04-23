@@ -179,6 +179,11 @@ export interface ICreateColumnProps {
   userId: string;
 }
 
+export interface IUpdateDateProps {
+  date: Date;
+  taskId: string;
+  userId: string;
+}
 export interface IUseColumns {
   boardId: string;
   userId: string;
