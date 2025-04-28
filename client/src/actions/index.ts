@@ -37,3 +37,4 @@ export { updateDescriptionAction } from './tasks/update-description';
 export { updateMemberByIdAction } from './user/update-member-by-id';
 export { updateOrganizationAction } from './admin/update-organization';
 export { updateOrganizationByManagerAction } from './user/updateOrganization';
+export { updateTaskTitleAction } from './tasks/update-title';

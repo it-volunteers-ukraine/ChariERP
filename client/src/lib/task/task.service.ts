@@ -16,6 +16,7 @@ import {
   IDeleteCommentProps,
   IUpdateCommentProps,
   IUpdateTaskDescription,
+  IUpdateTaskTitle,
 } from '@/types';
 
 import { Task, UsersBoards } from '..';
@@ -552,6 +553,33 @@ class TaskService extends BaseService {
       success: true,
       message: 'Task successfully deleted',
       data: JSON.stringify({ boardId: boardColumn.board_id }),
+    };
+  }
+
+  async updateTitle({ taskId, title, userId }: IUpdateTaskTitle) {
+    if (!taskId || !userId || !title) {
+      return {
+        success: false,
+        message: 'Task ID, User ID and Title are required',
+      };
+    }
+
+    await this.connect();
+
+    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
+
+    if (access.error) {
+      return access.error;
+    }
+
+    const { task } = access;
+
+    task.title = title;
+    await task.save();
+
+    return {
+      success: true,
+      message: 'Task title updated successfully',
     };
   }
 }
