@@ -6,8 +6,9 @@ import {
   IUsers,
   IBoardColumn,
   IGetTaskProps,
-  IMoveTaskProps,
   IHasTaskAccess,
+  IMoveTaskProps,
+  IDeleteTaskPage,
   IAddCommentProps,
   ICreateTaskProps,
   IDeleteTaskProps,
@@ -511,6 +512,46 @@ class TaskService extends BaseService {
       success: true,
       data: JSON.stringify(task.description),
       message: 'Comment updated successfully',
+    };
+  }
+
+  async deleteTaskPage({ taskId, userId }: IDeleteTaskPage) {
+    if (!taskId || !userId) {
+      return {
+        success: false,
+        message: 'Task ID abd User ID are required',
+      };
+    }
+
+    await this.connect();
+
+    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
+
+    if (access.error) {
+      return access.error;
+    }
+
+    const { task } = access;
+
+    const boardColumn = await BoardColumn.findByIdAndUpdate(
+      task.boardColumn_id,
+      { $pull: { task_ids: taskId } },
+      { new: true },
+    );
+
+    if (!boardColumn) {
+      return {
+        success: false,
+        message: 'Board column not found',
+      };
+    }
+
+    await task.deleteOne();
+
+    return {
+      success: true,
+      message: 'Task successfully deleted',
+      data: JSON.stringify({ boardId: boardColumn.board_id }),
     };
   }
 }
