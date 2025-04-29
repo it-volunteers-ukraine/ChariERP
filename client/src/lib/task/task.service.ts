@@ -13,10 +13,10 @@ import {
   ICreateTaskProps,
   IDeleteTaskProps,
   LeanTaskComments,
+  IUpdateTaskTitle,
   IDeleteCommentProps,
   IUpdateCommentProps,
   IUpdateTaskDescription,
-  IUpdateTaskTitle,
 } from '@/types';
 
 import { Task, UsersBoards } from '..';
