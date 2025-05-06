@@ -43,7 +43,7 @@ export const Task = ({ task }: ITaskProps) => {
       <ButtonBack title={task.boardTitle} />
       <TitleTask error={error} onChange={onChange} onHandleBlur={onHandleBlur} title={title} />
       <section className={styles.subSection}>
-        <TitleTaskSection icon={Info} title={text('taskDescription.title')} />
+        <TitleTaskSection icon={Info} title={text('details.title')} className="tablet:mb-6" />
         <TaskDetails task={task} />
       </section>
       <section className={styles.subSection}>

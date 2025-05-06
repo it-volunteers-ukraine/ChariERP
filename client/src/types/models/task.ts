@@ -4,19 +4,18 @@ import { IUsers } from './users';
 
 export interface ITask {
   title: string;
-  status: string;
   date_end: Date;
   priority: string;
   date_start: Date;
   created_at: Date;
   attachment: File[];
-  comments: IComment[];
-  description: string;
   boardTitle: string;
+  description: string;
+  comments: IComment[];
   _id: Schema.Types.ObjectId;
   users?: Schema.Types.ObjectId[];
-  boardColumn_id: Schema.Types.ObjectId;
   columnsList: { title: string; _id: string }[];
+  boardColumn_id: { _id: Schema.Types.ObjectId; title: string };
 }
 export interface IComment {
   text: string;
@@ -39,12 +38,11 @@ export interface ITaskResponse {
   boardTitle: string;
   description: string;
   dateEnd: Date | null;
-  status: string | null;
   dateStart: Date | null;
   priority: string | null;
   comments: ICommentResponse[];
-  boardColumnId: Schema.Types.ObjectId;
-  columnsList: { title: string; _id: string }[];
+  boardColumnId: { title: string; id: string };
+  columnsList: { title: string; id: string }[];
   users: {
     id: string;
     role?: string;

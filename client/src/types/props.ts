@@ -173,6 +173,18 @@ export interface IUpdateCommentActionProps {
   taskId: string;
   commentId: string;
 }
+export interface IUpdateDateActionProps {
+  date: Date;
+  taskId: string;
+}
+export interface IUpdateTaskPriorityProps {
+  taskId: string;
+  priority: string;
+}
+export interface IUpdateStatusActionProps {
+  taskId: string;
+  newColumnId: string;
+}
 
 export interface IUseUpdateComments {
   text: string;
@@ -201,6 +213,17 @@ export interface IUpdateDateProps {
   taskId: string;
   userId: string;
 }
+export interface IUpdateBoardColumnIdProps {
+  taskId: string;
+  userId: string;
+  newColumnId: string;
+}
+export interface IUpdatePriorityProps {
+  taskId: string;
+  userId: string;
+  priority: string;
+}
+
 export interface IUseColumns {
   boardId: string;
   userId: string;

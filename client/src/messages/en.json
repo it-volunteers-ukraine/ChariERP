@@ -626,6 +626,20 @@
     "placeholder": "Write your comment"
   },
   "taskPage": {
+    "details": {
+      "title": "Details",
+      "status": "Status:",
+      "priority": "Priority:",
+      "implementers": "Implementers:",
+      "startDate": "Start Date:",
+      "endDate": "End Date:",
+      "placeholder": "NOT SPECIFIED",
+      "priorityTypes": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      }
+    },
     "taskDescription": {
       "title": "Description",
       "placeholder": "Add a task description"

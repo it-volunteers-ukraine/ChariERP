@@ -12,9 +12,12 @@ import {
   ICreateTaskProps,
   IDeleteTaskProps,
   LeanTaskComments,
+  IUpdateDateProps,
   IDeleteCommentProps,
   IUpdateCommentProps,
+  IUpdatePriorityProps,
   IUpdateTaskDescription,
+  IUpdateBoardColumnIdProps,
 } from '@/types';
 
 import { Task, UsersBoards } from '..';
@@ -70,6 +73,7 @@ class TaskService extends BaseService {
 
     const task = await Task.findById(taskId)
       .populate('users')
+      .populate('boardColumn_id', 'title')
       .populate('comments.author', 'lastName firstName avatarUrl');
 
     if (!task) {
@@ -81,7 +85,11 @@ class TaskService extends BaseService {
 
     return {
       success: true,
-      data: JSON.stringify({ ...task.toObject(), boardTitle: userBoard.board_id.title, columnsList }),
+      data: JSON.stringify({
+        ...task.toObject(),
+        boardTitle: userBoard.board_id.title,
+        columnsList,
+      }),
     };
   }
 
@@ -144,8 +152,7 @@ class TaskService extends BaseService {
       attachment: [],
       description: '',
       users: [userId],
-      priority: 'high',
-      status: 'in_progress',
+      priority: '',
       title: language === 'en' ? 'New task' : 'Новая задача',
     };
 
@@ -509,6 +516,141 @@ class TaskService extends BaseService {
       success: true,
       data: JSON.stringify(task.description),
       message: 'Comment updated successfully',
+    };
+  }
+  async updateDateStart({ taskId, userId, date }: IUpdateDateProps) {
+    if (!taskId || !userId || !date) {
+      return {
+        success: false,
+        message: 'Task ID, User ID, and Date are required',
+      };
+    }
+
+    await this.connect();
+
+    const access = await this.hasTaskAccess({ userId, taskId });
+
+    if (access.error) {
+      return access.error;
+    }
+
+    const { task } = access;
+
+    task.date_start = date;
+    await task.save();
+
+    return {
+      success: true,
+      data: JSON.stringify(date),
+      message: 'Task updated successfully',
+    };
+  }
+  async updateDateEnd({ taskId, userId, date }: IUpdateDateProps) {
+    if (!taskId || !userId || !date) {
+      return {
+        success: false,
+        message: 'Task ID, User ID, and Date are required',
+      };
+    }
+
+    await this.connect();
+
+    const access = await this.hasTaskAccess({ userId, taskId });
+
+    if (access.error) {
+      return access.error;
+    }
+
+    const { task } = access;
+
+    task.date_end = date;
+    await task.save();
+
+    return {
+      success: true,
+      data: JSON.stringify(date),
+      message: 'Task updated successfully',
+    };
+  }
+
+  async updateBoardColumnId({ taskId, userId, newColumnId }: IUpdateBoardColumnIdProps) {
+    if (!taskId || !userId || !newColumnId) {
+      return {
+        success: false,
+        message: 'Task ID, User ID, and newColumnId are required',
+      };
+    }
+
+    await this.connect();
+
+    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
+
+    if (access.error) {
+      return access.error;
+    }
+
+    const { task } = access;
+
+    const updateColumn = await BoardColumn.findByIdAndUpdate(
+      newColumnId,
+      {
+        $push: {
+          task_ids: taskId,
+        },
+      },
+      {
+        new: true,
+      },
+    );
+
+    if (!updateColumn) {
+      return {
+        success: false,
+        message: 'Column not found',
+      };
+    }
+
+    console.log('updateColumn', updateColumn);
+
+    await BoardColumn.findByIdAndUpdate(task.boardColumn_id, { $pull: { task_ids: taskId } });
+
+    task.boardColumn_id = newColumnId;
+
+    await task.save();
+
+    return {
+      success: true,
+      data: JSON.stringify({ id: updateColumn._id, title: updateColumn.title }),
+      message: 'Task updated successfully',
+    };
+  }
+  async updatePriority({ taskId, userId, priority }: IUpdatePriorityProps) {
+    if (!taskId || !userId || !priority) {
+      return {
+        success: false,
+        message: 'Task ID, User ID, and priority are required',
+      };
+    }
+
+    await this.connect();
+
+    const access = await this.hasTaskAccess({ userId, taskId });
+
+    if (access.error) {
+      return access.error;
+    }
+
+    const { task } = access;
+
+    task.priority = priority;
+    await task.save();
+
+    console.log('priority', priority);
+
+    return {
+      success: true,
+      data: JSON.stringify(priority),
+      message: 'Task updated successfully',
     };
   }
 }

@@ -2,6 +2,7 @@
 
 import React, { useRef } from 'react';
 
+import { Loader } from '@/assets/icons';
 import { useMounted, useOutsideClick } from '@/hooks';
 
 import { selectStyles } from './styles';
@@ -12,6 +13,7 @@ export const SelectLogicWrapper = ({
   options,
   selected,
   onChange,
+  isLoading,
   setIsOpen,
   renderOption,
   renderSelected,
@@ -27,18 +29,33 @@ export const SelectLogicWrapper = ({
 
   const { unmounted } = useMounted({ opened: isOpen, duration: 200 });
 
-  const style = selectStyles({ classNameDropList, classNameWrapper, isOpen });
+  const style = selectStyles({ classNameDropList, classNameWrapper, isOpen, isLoading });
 
   return (
     <div className={style.wrapper}>
-      <div ref={selectedRef} onClick={() => setIsOpen(!isOpen)}>
-        {selected ? renderSelected(selected) : renderSelected({ text: '', value: '' })}
-      </div>
+      {isLoading && (
+        <div className="flex justify-center">
+          <Loader className="w-6" />
+        </div>
+      )}
+
+      {!isLoading && (
+        <div ref={selectedRef} onClick={() => setIsOpen(!isOpen)}>
+          {selected ? renderSelected(selected) : renderSelected({ id: '', value: '' })}
+        </div>
+      )}
 
       {unmounted && (
         <div className={style.dropList} ref={listRef}>
           {options.map((option, idx) => (
-            <li key={idx} className="list-none" onClick={() => onChange(option)}>
+            <li
+              key={idx}
+              className="list-none"
+              onClick={() => {
+                onChange(option);
+                setIsOpen(false);
+              }}
+            >
               {renderOption(option)}
             </li>
           ))}
