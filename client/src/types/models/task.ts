@@ -14,7 +14,7 @@ export interface ITask {
   comments: IComment[];
   _id: Schema.Types.ObjectId;
   users?: Schema.Types.ObjectId[];
-  columnsList: { title: string; _id: string }[];
+  columnsList: { title: string; id: string }[];
   boardColumn_id: { _id: Schema.Types.ObjectId; title: string };
 }
 export interface IComment {

@@ -21,7 +21,7 @@ export const taskNormalizer = async (data: ITaskNormalizer) => {
     description: data.description || '',
     comments: await commentsNormalizer(data.comments || []),
     boardColumnId: { id: data.boardColumn_id._id.toString(), title: data.boardColumn_id.title },
-    columnsList: data.columnsList.map((column) => ({ id: column._id, title: column.title })) || [],
+    columnsList: data.columnsList.map((column) => ({ id: column.id, title: column.title })) || [],
     users: data.users?.map((user) => ({
       role: user.role,
       phone: user.phone,

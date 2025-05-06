@@ -43,6 +43,7 @@ export { SmallBtn } from './small-button';
 export { SocialIcon } from './socialIcon';
 export { TaskCard } from './task-card';
 export { Title } from './title';
+export { TitleTask } from './titleTask';
 export { TitleTaskSection } from './titleTaskSection';
 export { Toast, showMessage } from './toastify';
 export { ToolsDropMenu } from './tools-drop-menu';

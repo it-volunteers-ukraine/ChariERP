@@ -202,6 +202,26 @@ export interface IUpdateTaskDescriptionActionProps {
   description: string;
 }
 
+export interface IDeleteTaskPageActionProps {
+  taskId: string;
+}
+
+export interface IDeleteTaskPage {
+  taskId: string;
+  userId: string;
+}
+
+export interface IUpdateTaskTitle {
+  title: string;
+  taskId: string;
+  userId: string;
+}
+
+export interface IUpdateTaskTitleActionProps {
+  title: string;
+  taskId: string;
+}
+
 export interface ICreateColumnProps {
   title: string;
   boardId: string;

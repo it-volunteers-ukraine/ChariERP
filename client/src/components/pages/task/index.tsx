@@ -1,17 +1,16 @@
 'use client';
 
-import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
-import { ITaskResponse } from '@/types';
 import { Clip, Comment, Info, SubMenu } from '@/assets/icons';
-import { Attachments, ButtonBack, CommentEditor, EditorTask, TitleTaskSection } from '@/components';
+
+import { ITaskResponse } from '@/types';
+import { Attachments, ButtonBack, CommentEditor, EditorTask, TitleTask, TitleTaskSection } from '@/components';
 
 import { getStyles } from './style';
-import { TitleTask } from './title-task';
 import { CommentsProvider } from './model';
 import { TaskDetails } from './task-details';
-import { getValidationSchema } from './config';
+import { ToolsMenu } from './tools-drop-menu';
 
 interface ITaskProps {
   task: ITaskResponse;
@@ -22,26 +21,13 @@ export const Task = ({ task }: ITaskProps) => {
 
   const text = useTranslations('taskPage');
 
-  const [title, setTitle] = useState(task.title);
-  const [error, setError] = useState<string | null>(null);
-
-  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTitle(e.target.value);
-  };
-
-  const onHandleBlur = async () => {
-    try {
-      await getValidationSchema().validate({ title });
-      setError(null);
-    } catch (validationError) {
-      setError((validationError as Error).message);
-    }
-  };
-
   return (
     <section className={styles.section}>
       <ButtonBack title={task.boardTitle} />
-      <TitleTask error={error} onChange={onChange} onHandleBlur={onHandleBlur} title={title} />
+      <div className={styles.wrapperTitle}>
+        <TitleTask titleTask={task.title} taskId={task.id} />
+        <ToolsMenu taskId={task.id} />
+      </div>
       <section className={styles.subSection}>
         <TitleTaskSection icon={Info} title={text('details.title')} className="tablet:mb-6" />
         <TaskDetails task={task} />

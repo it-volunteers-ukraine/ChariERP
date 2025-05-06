@@ -6,13 +6,15 @@ import {
   IUsers,
   IBoardColumn,
   IGetTaskProps,
-  IMoveTaskProps,
   IHasTaskAccess,
+  IMoveTaskProps,
+  IDeleteTaskPage,
   IAddCommentProps,
   ICreateTaskProps,
   IDeleteTaskProps,
   LeanTaskComments,
   IUpdateDateProps,
+  IUpdateTaskTitle,
   IDeleteCommentProps,
   IUpdateCommentProps,
   IUpdatePriorityProps,
@@ -528,7 +530,7 @@ class TaskService extends BaseService {
 
     await this.connect();
 
-    const access = await this.hasTaskAccess({ userId, taskId });
+    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
 
     if (access.error) {
       return access.error;
@@ -555,7 +557,7 @@ class TaskService extends BaseService {
 
     await this.connect();
 
-    const access = await this.hasTaskAccess({ userId, taskId });
+    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
 
     if (access.error) {
       return access.error;
@@ -583,7 +585,7 @@ class TaskService extends BaseService {
 
     await this.connect();
 
-    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
+    const access = await this.hasTaskAccess({ userId, taskId });
 
     if (access.error) {
       return access.error;
@@ -610,8 +612,6 @@ class TaskService extends BaseService {
       };
     }
 
-    console.log('updateColumn', updateColumn);
-
     await BoardColumn.findByIdAndUpdate(task.boardColumn_id, { $pull: { task_ids: taskId } });
 
     task.boardColumn_id = newColumnId;
@@ -634,7 +634,7 @@ class TaskService extends BaseService {
 
     await this.connect();
 
-    const access = await this.hasTaskAccess({ userId, taskId });
+    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
 
     if (access.error) {
       return access.error;
@@ -651,6 +651,71 @@ class TaskService extends BaseService {
       success: true,
       data: JSON.stringify(priority),
       message: 'Task updated successfully',
+    };
+  }
+  async deleteTaskPage({ taskId, userId }: IDeleteTaskPage) {
+    if (!taskId || !userId) {
+      return {
+        success: false,
+        message: 'Task ID abd User ID are required',
+      };
+    }
+
+    await this.connect();
+
+    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
+
+    if (access.error) {
+      return access.error;
+    }
+
+    const { task } = access;
+
+    const boardColumn = await BoardColumn.findByIdAndUpdate(
+      task.boardColumn_id,
+      { $pull: { task_ids: taskId } },
+      { new: true },
+    );
+
+    if (!boardColumn) {
+      return {
+        success: false,
+        message: 'Board column not found',
+      };
+    }
+
+    await task.deleteOne();
+
+    return {
+      success: true,
+      message: 'Task successfully deleted',
+      data: JSON.stringify({ boardId: boardColumn.board_id }),
+    };
+  }
+  async updateTitle({ taskId, title, userId }: IUpdateTaskTitle) {
+    if (!taskId || !userId || !title) {
+      return {
+        success: false,
+        message: 'Task ID, User ID and Title are required',
+      };
+    }
+
+    await this.connect();
+
+    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
+
+    if (access.error) {
+      return access.error;
+    }
+
+    const { task } = access;
+
+    task.title = title;
+    await task.save();
+
+    return {
+      success: true,
+      message: 'Task title updated successfully',
     };
   }
 }

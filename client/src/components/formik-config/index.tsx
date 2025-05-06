@@ -9,3 +9,4 @@ export { getPasswordValidation } from './validation/passwordValidation';
 export { imageUrlValidation, linkValidation } from './validation/editorValidation';
 export { organizationInitialValues } from './initial-values/organizationInitialValues';
 export { organizationValidation } from './validation/organizationValidation';
+export { titleTaskValidation } from './validation/titleTaskValidation';
