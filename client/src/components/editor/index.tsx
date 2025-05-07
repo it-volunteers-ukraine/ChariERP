@@ -44,7 +44,7 @@ export const Editor = ({
   };
 
   return (
-    <LexicalComposer initialConfig={initialConfig({ initialState, isEditing: !initialState })}>
+    <LexicalComposer initialConfig={initialConfig({ initialState, isEditing })}>
       <ToolBar isEditing={isEditing} />
       <div className="relative">
         <RichTextPlugin

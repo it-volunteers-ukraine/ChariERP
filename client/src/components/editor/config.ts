@@ -38,7 +38,7 @@ export const initialConfig = ({ initialState, isEditing = false }: IInitialConfi
     theme,
     namespace: 'editor',
     editable: isEditing,
-    editorState: initialState,
+    editorState: initialState === '' ? undefined : initialState,
     nodes: [HeadingNode, ListNode, ListItemNode, ImageNode, LinkNode],
     onError: (e: Error) => {
       console.log('ERROR:', e);

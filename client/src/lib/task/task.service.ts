@@ -1,16 +1,19 @@
 import { cookies } from 'next/headers';
 
-import { BoardColumn, Users } from '@/lib';
+import { BoardColumn } from '@/lib';
 import {
   Roles,
   IUsers,
   IBoardColumn,
   IGetTaskProps,
+  IHasTaskAccess,
   IMoveTaskProps,
+  IDeleteTaskPage,
   IAddCommentProps,
   ICreateTaskProps,
   IDeleteTaskProps,
   LeanTaskComments,
+  IUpdateTaskTitle,
   IDeleteCommentProps,
   IUpdateCommentProps,
   IUpdateTaskDescription,
@@ -142,6 +145,7 @@ class TaskService extends BaseService {
       comments: [],
       attachment: [],
       description: '',
+      users: [userId],
       priority: 'high',
       date_end: new Date(),
       status: 'in_progress',
@@ -309,6 +313,43 @@ class TaskService extends BaseService {
     };
   }
 
+  async hasTaskAccess({ userId, taskId, role }: IHasTaskAccess) {
+    const task = await Task.findById(taskId).populate('users', 'role');
+
+    if (!task) {
+      return {
+        error: {
+          success: false,
+          message: 'Task not found',
+        },
+      };
+    }
+
+    const user = task.users.find((user: IUsers) => String(user._id) === userId);
+
+    if (!user) {
+      return {
+        error: {
+          success: false,
+          message: 'User not found',
+        },
+      };
+    }
+
+    if (role && user.role !== role) {
+      return {
+        error: {
+          success: false,
+          message: 'You are not allowed to add a comment to this task',
+        },
+      };
+    }
+
+    return {
+      task,
+    };
+  }
+
   async getComments(taskId: string) {
     const task = await Task.findById(taskId)
       .select('comments')
@@ -328,14 +369,13 @@ class TaskService extends BaseService {
 
     await this.connect();
 
-    const task = await Task.findById(taskId);
+    const access = await this.hasTaskAccess({ userId, taskId });
 
-    if (!task) {
-      return {
-        success: false,
-        message: 'Task not found',
-      };
+    if (access.error) {
+      return access.error;
     }
+
+    const { task } = access;
 
     task.comments.push({ author: userId, text: text });
     await task.save();
@@ -366,14 +406,13 @@ class TaskService extends BaseService {
 
     await this.connect();
 
-    const task = await Task.findById(taskId);
+    const access = await this.hasTaskAccess({ userId, taskId });
 
-    if (!task) {
-      return {
-        success: false,
-        message: 'Task not found',
-      };
+    if (access.error) {
+      return access.error;
     }
+
+    const { task } = access;
 
     const comment = task.comments.id(commentId);
 
@@ -413,14 +452,13 @@ class TaskService extends BaseService {
 
     await this.connect();
 
-    const task = await Task.findById(taskId);
+    const access = await this.hasTaskAccess({ userId, taskId });
 
-    if (!task) {
-      return {
-        success: false,
-        message: 'Task not found',
-      };
+    if (access.error) {
+      return access.error;
     }
+
+    const { task } = access;
 
     const comment = task.comments.id(commentId);
 
@@ -460,30 +498,13 @@ class TaskService extends BaseService {
 
     await this.connect();
 
-    const user = await Users.findById(userId).lean<IUsers>();
+    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
 
-    if (!user) {
-      return {
-        success: false,
-        message: 'User not found',
-      };
+    if (access.error) {
+      return access.error;
     }
 
-    if (user.role !== Roles.MANAGER) {
-      return {
-        success: false,
-        message: 'This user does not have permission',
-      };
-    }
-
-    const task = await Task.findById(taskId);
-
-    if (!task) {
-      return {
-        success: false,
-        message: 'Task not found',
-      };
-    }
+    const { task } = access;
 
     task.description = description;
     await task.save();
@@ -492,6 +513,73 @@ class TaskService extends BaseService {
       success: true,
       data: JSON.stringify(task.description),
       message: 'Comment updated successfully',
+    };
+  }
+
+  async deleteTaskPage({ taskId, userId }: IDeleteTaskPage) {
+    if (!taskId || !userId) {
+      return {
+        success: false,
+        message: 'Task ID abd User ID are required',
+      };
+    }
+
+    await this.connect();
+
+    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
+
+    if (access.error) {
+      return access.error;
+    }
+
+    const { task } = access;
+
+    const boardColumn = await BoardColumn.findByIdAndUpdate(
+      task.boardColumn_id,
+      { $pull: { task_ids: taskId } },
+      { new: true },
+    );
+
+    if (!boardColumn) {
+      return {
+        success: false,
+        message: 'Board column not found',
+      };
+    }
+
+    await task.deleteOne();
+
+    return {
+      success: true,
+      message: 'Task successfully deleted',
+      data: JSON.stringify({ boardId: boardColumn.board_id }),
+    };
+  }
+
+  async updateTitle({ taskId, title, userId }: IUpdateTaskTitle) {
+    if (!taskId || !userId || !title) {
+      return {
+        success: false,
+        message: 'Task ID, User ID and Title are required',
+      };
+    }
+
+    await this.connect();
+
+    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
+
+    if (access.error) {
+      return access.error;
+    }
+
+    const { task } = access;
+
+    task.title = title;
+    await task.save();
+
+    return {
+      success: true,
+      message: 'Task title updated successfully',
     };
   }
 }
