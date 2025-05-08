@@ -85,6 +85,7 @@ export const TitleTask = ({ titleTask, taskId }: ITitleTaskProps) => {
         onChange={formik.handleChange}
         disabled={!isManager || isPending}
       />
+
       {formik.errors.title && (
         <div className={styles.wrapperError}>
           <Warning width={14} height={14} />
