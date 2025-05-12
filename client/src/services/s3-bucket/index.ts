@@ -14,9 +14,10 @@ const region = 'fra1';
 const endpoint = `https://${region}.digitaloceanspaces.com`;
 
 enum BucketFolders {
+  Task = 'tasks',
+  Avatar = 'avatars',
   UserProfileImages = 'user-profile-images',
   CertificateOfRegister = 'registration-certificate',
-  Avatar = 'avatars',
 }
 
 const s3Client = new S3Client({

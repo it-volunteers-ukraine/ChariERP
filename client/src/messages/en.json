@@ -240,7 +240,14 @@
     "passwordMismatch": "The entered passwords do not match",
     "validEmail": "Email must be a valid",
     "spacesNotAllowed": "Leading and trailing spaces are not allowed",
-    "passwordsMustMatch": "Passwords must be the same"
+    "passwordsMustMatch": "Passwords must be the same",
+    "maxFiles": "Maximum {maxFiles} files",
+    "maxSizeOneFile": "The file {fileName} has an invalid size greater than {maxSize} MB.",
+    "maxSizeMoreFile": "These files have an invalid size greater than {maxSize} MB: ${fileName}",
+    "errorExtension": "This file has an invalid extension: {fileName}",
+    "errorExtensions": "These files have invalid extensions: {fileName}",
+    "duplicateFile": "This file is already attached: {fileName}",
+    "duplicateFiles": "These files are already attached: {fileName}"
   },
   "header": {
     "about": "About Us",

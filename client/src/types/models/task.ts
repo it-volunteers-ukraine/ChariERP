@@ -9,11 +9,11 @@ export interface ITask {
   priority: string;
   date_start: Date;
   created_at: Date;
-  attachment: File[];
-  comments: IComment[];
-  description: string;
   boardTitle: string;
+  description: string;
+  comments: IComment[];
   _id: Schema.Types.ObjectId;
+  attachment: IAttachmentFile[];
   users?: Schema.Types.ObjectId[];
   boardColumn_id: Schema.Types.ObjectId;
   columnsList: { title: string; _id: string }[];
@@ -31,11 +31,23 @@ export interface IComment {
   };
 }
 
+export interface IAttachmentFile {
+  name: string;
+  type: string;
+  keyFromBucket: string;
+  _id: Schema.Types.ObjectId;
+}
+
+export interface IAttachmentFileResponse {
+  id: string;
+  name: string;
+  type: string;
+}
+
 export interface ITaskResponse {
   id: string;
   title: string;
   createdAt: Date;
-  attachment: File[];
   boardTitle: string;
   description: string;
   dateEnd: Date | null;
@@ -44,6 +56,7 @@ export interface ITaskResponse {
   priority: string | null;
   comments: ICommentResponse[];
   boardColumnId: Schema.Types.ObjectId;
+  attachment: IAttachmentFileResponse[];
   columnsList: { title: string; _id: string }[];
   users: {
     id: string;
