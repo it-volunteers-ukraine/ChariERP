@@ -59,6 +59,14 @@ export const streamToBase64 = async (stream: Readable) => {
   });
 };
 
+export const base64ToBlob = (base64: string, type: string) => {
+  const byteCharacters = atob(base64);
+  const byteNumbers = Array.from(byteCharacters, (c) => c.charCodeAt(0));
+  const byteArray = new Uint8Array(byteNumbers);
+
+  return new Blob([byteArray], { type });
+};
+
 export function generatePassword(minLength: number = 8, maxLength: number = 20): string {
   const alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const passwordLength = randomInt(minLength, maxLength + 1);

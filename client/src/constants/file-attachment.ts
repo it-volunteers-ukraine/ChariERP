@@ -1,0 +1,23 @@
+export const fileConfigAttachment = {
+  size: 5 * 1024 * 1024,
+  limit: 5,
+  extensions: [
+    'jpg',
+    'png',
+    'svg',
+    'txt',
+    'csv',
+    'pdf',
+    'doc',
+    'xls',
+    'mp3',
+    'wav',
+    'mp4',
+    'zip',
+    'rar',
+    'jpeg',
+    'webp',
+    'docx',
+    'xlsx',
+  ],
+};

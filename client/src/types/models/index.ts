@@ -7,8 +7,10 @@ export {
   type IEditTask,
   type ICreateTask,
   type ITaskResponse,
+  type IAttachmentFile,
   type ICommentResponse,
   type LeanTaskComments,
+  type IAttachmentFileResponse,
 } from './task';
 export { type IResetToken } from './reset-token';
 export { type IUsers } from './users';
