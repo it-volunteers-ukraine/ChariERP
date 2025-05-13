@@ -15,13 +15,17 @@ export const taskNormalizer = async (data: ITaskNormalizer) => {
     title: data.title || 'Task',
     dateEnd: data.date_end || null,
     priority: data.priority || null,
-    attachment: data.attachment || [],
     boardTitle: data.boardTitle || '',
     dateStart: data.date_start || null,
     description: data.description || '',
     comments: await commentsNormalizer(data.comments || []),
     boardColumnId: { id: data.boardColumn_id._id.toString(), title: data.boardColumn_id.title },
     columnsList: data.columnsList.map((column) => ({ id: column.id, title: column.title })) || [],
+    attachment: data.attachment.map((file) => ({
+      name: file.name,
+      type: file.type,
+      id: file._id.toString(),
+    })),
     users: data.users?.map((user) => ({
       role: user.role,
       phone: user.phone,

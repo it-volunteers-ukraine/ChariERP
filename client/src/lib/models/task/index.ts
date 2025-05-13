@@ -7,8 +7,17 @@ const TaskSchema = new Schema<ITask>(
     title: { type: String },
     date_end: { type: Date },
     priority: { type: String },
-    date_start: { type: Date },
-    attachment: { type: [String], default: [] },
+    date_start: { type: Date, required: true },
+    attachment: {
+      type: [
+        new Schema({
+          name: { type: String, required: true },
+          type: { type: String, required: true },
+          keyFromBucket: { type: String, required: true },
+        }),
+      ],
+      default: [],
+    },
     comments: {
       type: [
         new Schema(

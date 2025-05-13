@@ -78,7 +78,7 @@ export const Task = ({ task }: ITaskProps) => {
         <TitleTaskSection icon={SubMenu} title={text('taskDescription.title')} />
         <EditorTask taskId={task.id} taskDescription={task.description} />
         <TitleTaskSection icon={Clip} title={text('attachments.title')} className={styles.subTitle} />
-        <Attachments />
+        <Attachments taskId={task.id} fileList={task.attachment} />
         <TitleTaskSection icon={Comment} title={text('comments.title')} className={styles.subTitle} />
         <CommentsProvider taskId={task.id} initialComments={task.comments}>
           <CommentEditor />

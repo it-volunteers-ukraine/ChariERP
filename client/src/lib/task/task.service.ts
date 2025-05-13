@@ -1,14 +1,21 @@
+import { Readable } from 'stream';
 import { cookies } from 'next/headers';
 
 import { BoardColumn } from '@/lib';
+import { streamToBase64 } from '@/utils';
+import { fileConfigAttachment } from '@/constants';
 import {
   Roles,
+  ITask,
   IUsers,
+  IUploadFile,
+  IDeleteFile,
   IBoardColumn,
   IGetTaskProps,
   IHasTaskAccess,
   IMoveTaskProps,
   IDeleteTaskPage,
+  IAttachmentFile,
   IAddCommentProps,
   ICreateTaskProps,
   IDeleteTaskProps,
@@ -21,6 +28,7 @@ import {
   IUpdateTaskDescription,
   IUpdateBoardColumnIdProps,
 } from '@/types';
+import { BucketFolders, deleteFileFromBucket, downloadFileFromBucket, uploadFileToBucket } from '@/services';
 
 import { Task, UsersBoards } from '..';
 import { BaseService } from '../database/base.service';
@@ -716,6 +724,233 @@ class TaskService extends BaseService {
     return {
       success: true,
       message: 'Task title updated successfully',
+    };
+  }
+
+  async uploadFile({ taskId, userId, formData }: IUploadFile) {
+    if (!taskId || !userId || !formData) {
+      return {
+        success: false,
+        message: 'Task ID, User ID and file are required',
+      };
+    }
+
+    const files = formData.getAll('files') as File[];
+
+    if (!files || files.length === 0) {
+      return {
+        success: false,
+        message: 'File is required',
+      };
+    }
+
+    let isLimit = files.length > fileConfigAttachment.limit;
+
+    if (isLimit) {
+      return {
+        success: false,
+        message: `You can upload only ${fileConfigAttachment.limit} files`,
+      };
+    }
+
+    const invalidFiles = files.reduce((acc: string[], file) => {
+      const extension = file.name.slice(file.name.lastIndexOf('.') + 1).toLowerCase();
+
+      const isTooLarge = file.size > fileConfigAttachment.size;
+      const isInvalidExtension = !fileConfigAttachment.extensions.includes(extension);
+
+      if (isTooLarge || isInvalidExtension) {
+        const reasons = [];
+
+        if (isTooLarge) reasons.push(`too large more ${fileConfigAttachment.size / (1024 * 1024)} MB,`);
+
+        if (isInvalidExtension) reasons.push(`invalid extension: .${extension}`);
+
+        acc.push(`"${file.name}" ${reasons.join(', ')}`);
+      }
+
+      return acc;
+    }, []);
+
+    if (invalidFiles.length > 0) {
+      const message =
+        invalidFiles.length === 1
+          ? `The file ${invalidFiles[0]} is not allowed.`
+          : `The following files are not allowed: ${invalidFiles.join('\n ')}`;
+
+      return {
+        success: false,
+        message,
+      };
+    }
+
+    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
+
+    if (access.error) {
+      return access.error;
+    }
+
+    const { task } = access;
+
+    isLimit = task.attachment.length + files.length > fileConfigAttachment.limit;
+
+    if (isLimit) {
+      return {
+        success: false,
+        message: `You can upload only ${fileConfigAttachment.limit} files`,
+      };
+    }
+
+    const filesExist = files.reduce((acc: IAttachmentFile[], newFile) => {
+      const isFileExist = task.attachment.find((file: IAttachmentFile) => file.name === newFile.name);
+
+      if (isFileExist) {
+        acc.push(isFileExist.name);
+      }
+
+      return acc;
+    }, []);
+
+    if (filesExist.length > 0) {
+      const fileList = filesExist.join(', ');
+
+      const message =
+        filesExist.length === 1
+          ? `The file "${fileList}" already exists.`
+          : `The following files already exist: ${fileList}.`;
+
+      return {
+        message,
+        success: false,
+      };
+    }
+
+    const uploadFiles = await Promise.all(
+      files.map(async (file) => {
+        const key = await uploadFileToBucket(taskId, BucketFolders.Task, file);
+
+        return { name: file.name, type: file.type, keyFromBucket: key };
+      }),
+    );
+
+    if (!uploadFiles.length) {
+      return {
+        success: false,
+        message: 'Error uploading file',
+      };
+    }
+
+    const updatedTask = await Task.findByIdAndUpdate(
+      taskId,
+      { $push: { attachment: { $each: uploadFiles } } },
+      { new: true },
+    ).lean<ITask>();
+
+    return {
+      success: true,
+      message: 'Files uploaded successfully',
+      data: JSON.stringify(
+        updatedTask?.attachment.map((file) => ({
+          id: file._id,
+          name: file.name,
+        })),
+      ),
+    };
+  }
+
+  async downloadFile({ taskId }: { taskId: string }) {
+    if (!taskId) {
+      return {
+        success: false,
+        message: 'Task ID is required',
+      };
+    }
+
+    const task = await Task.findById(taskId).lean<ITask>();
+
+    if (!task) {
+      return {
+        success: false,
+        message: 'Task not found',
+      };
+    }
+
+    if (task.attachment.length === 0) {
+      return {
+        success: true,
+        message: 'No files to download',
+      };
+    }
+
+    const filesStream = await Promise.all(
+      task.attachment.map(async (file) => {
+        const stream = await downloadFileFromBucket(file.keyFromBucket);
+        const fileBase64 = await streamToBase64(stream as Readable);
+
+        return {
+          name: file.name,
+          type: file.type,
+          body: fileBase64,
+          id: file._id.toString(),
+        };
+      }),
+    );
+
+    if (!filesStream || filesStream.length === 0) {
+      return {
+        success: false,
+        message: 'Error download file',
+      };
+    }
+
+    return {
+      success: true,
+      message: 'Files downloaded successfully',
+      data: JSON.stringify(filesStream),
+    };
+  }
+
+  async deleteFile({ taskId, userId, id }: IDeleteFile) {
+    if (!taskId || !id || !userId) {
+      return {
+        success: false,
+        message: 'Task ID, user Id and file Id are required',
+      };
+    }
+
+    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
+
+    if (access.error) {
+      return access.error;
+    }
+
+    const { task } = access;
+
+    const fileDelete = task.attachment.find((file: IAttachmentFile) => file._id.toString() === id);
+
+    if (!fileDelete) {
+      return {
+        success: false,
+        message: 'File not found in task',
+      };
+    }
+
+    const isDeleted = await deleteFileFromBucket(fileDelete.keyFromBucket);
+
+    if (!isDeleted) {
+      return {
+        success: false,
+        message: 'Error deleting file from storage',
+      };
+    }
+
+    task.attachment = task.attachment.filter((file: IAttachmentFile) => file._id.toString() !== id);
+
+    await task.save();
+
+    return {
+      success: true,
+      message: 'File deleted successfully',
     };
   }
 }

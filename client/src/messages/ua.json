@@ -236,7 +236,14 @@
     "passwordMismatch": "Введені паролі не співпадають",
     "validEmail": "Email повинен бути дійсним",
     "spacesNotAllowed": "Пробіли на початку та в кінці не допускаються",
-    "passwordsMustMatch": "Паролі повинні бути одинакові"
+    "passwordsMustMatch": "Паролі повинні бути одинакові",
+    "maxFiles": "Максимум {maxFiles} файлів",
+    "maxSizeOneFile": "Файл {fileName} має не допустимий розмір, більше {maxSize} MB.",
+    "maxSizeMoreFile": "Ці файли мають не допустимий розмір, більше {maxSize} MB: ${fileName}",
+    "errorExtension": "Цей файл має недопустиме розширення: {fileName}",
+    "errorExtensions": "Ці файли мають недопустимі розширення: {fileName}",
+    "duplicateFile": "Цей файл вже прикріплений: {fileName}",
+    "duplicateFiles": "Ці файли вже прикріплені: {fileName}"
   },
   "header": {
     "about": "Про нас",

@@ -222,6 +222,35 @@ export interface IUpdateTaskTitleActionProps {
   taskId: string;
 }
 
+export interface IUploadFile {
+  taskId: string;
+  userId: string;
+  formData: FormData;
+}
+
+export interface IUploadFileActionProps {
+  taskId: string;
+  formData: FormData;
+}
+
+export interface IDeleteFile {
+  id: string;
+  taskId: string;
+  userId: string;
+}
+
+export interface IDeleteFileActionProps {
+  id: string;
+  taskId: string;
+}
+
+export interface IFileResponse {
+  id: string;
+  name: string;
+  type: string;
+  body: string;
+}
+
 export interface ICreateColumnProps {
   title: string;
   boardId: string;

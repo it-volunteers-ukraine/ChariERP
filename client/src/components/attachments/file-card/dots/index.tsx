@@ -9,7 +9,7 @@ import { Delete, Dots, Download } from '@/assets/icons';
 import { getStyles } from './styles';
 import { DotsWrapperProps } from './types';
 
-export const DotsWrapper = ({ removeFile, preview, fileName }: DotsWrapperProps) => {
+export const DotsWrapper = ({ removeFile, preview, fileName, disabled }: DotsWrapperProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const text = useTranslations('attachments');
@@ -30,7 +30,14 @@ export const DotsWrapper = ({ removeFile, preview, fileName }: DotsWrapperProps)
 
   return (
     <>
-      <div onClick={() => setIsOpen(!isOpen)} className={styles.dotsWrapper}>
+      <div
+        className={styles.dotsWrapper}
+        onClick={() => {
+          if (!disabled) {
+            setIsOpen(!isOpen);
+          }
+        }}
+      >
         <Dots className={styles.icon} />
       </div>
 
