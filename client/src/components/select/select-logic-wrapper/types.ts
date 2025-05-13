@@ -10,6 +10,8 @@ export type ISelectOptionSelected = ISelectOption | ISelectOption[];
 export interface ISelectLogicWrapperProps {
   multi?: boolean;
   isOpen: boolean;
+  userRole?: string;
+  disabled?: boolean;
   isLoading: boolean;
   options: ISelectOption[];
   classNameWrapper?: string;

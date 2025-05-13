@@ -11,6 +11,7 @@ import { IAccordionProps } from './types';
 export const Accordion = ({
   title,
   children,
+  icon: Icon,
   classNameTitle,
   classNameWrapper,
   initialState = false,
@@ -60,7 +61,10 @@ export const Accordion = ({
   return (
     <div className={styles.wrapper}>
       <div onClick={toggleAccordion} className="flex w-fit cursor-pointer items-center justify-start">
-        <Title className={styles.title} title={title} />
+        <div className="flex items-center gap-2">
+          {Icon && <Icon className="h-6 w-6 text-inherit text-title-title" />}
+          <Title className={styles.title} title={title} />
+        </div>
 
         <div className={styles.arrow}>
           <ArrowUp width={24} height={24} className="text-lightBlue" />

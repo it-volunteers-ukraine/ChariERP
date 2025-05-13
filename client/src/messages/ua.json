@@ -620,6 +620,7 @@
     "placeholder": "Напишіть Ваш коментар"
   },
   "taskPage": {
+    "title": { "copy": "Копіювати посилання", "delete": "Видалити" },
     "details": {
       "title": "Деталі",
       "status": "Статус",

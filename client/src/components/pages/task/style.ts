@@ -1,6 +1,15 @@
-export const getStyles = () => ({
+import { cn } from '@/utils';
+
+interface IStyles {
+  height: number;
+}
+
+export const getStyles = ({ height }: IStyles) => ({
   section: 'min-h-full bg-white px-4 pt-3 tablet:px-8 desktopXl:px-[272px]',
-  wrapperTitle: 'mb-3 flex items-start justify-between',
+  wrapperTitle: 'mb-3 flex items-start justify-between relative',
   subSection: 'rounded-[8px] bg-white p-3 shadow-task tablet:px-8 tablet:py-6',
   subTitle: 'mt-6 laptop:mt-8 desktop:mt-10',
+  accordion: cn('gap-3 [&>div:first-child]:justify-between [&>div:first-child]:w-full laptop:hidden ', {
+    '[&>.child]:overflow-visible': height > 200,
+  }),
 });

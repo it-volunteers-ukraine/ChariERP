@@ -626,6 +626,7 @@
     "placeholder": "Write your comment"
   },
   "taskPage": {
+    "title": { "copy": "Copy the link", "delete": "Delete" },
     "details": {
       "title": "Details",
       "status": "Status:",

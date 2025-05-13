@@ -1,11 +1,13 @@
 import { useTranslations } from 'next-intl';
 
-import { ITaskResponse } from '@/types';
+import { useUserInfo } from '@/context';
 import { Select } from '@/components/select';
+import { ITaskResponse, Roles } from '@/types';
 import { DateComponent } from '@/components/date-picker';
 import { InputTypeEnum } from '@/components/date-field/types';
 import { DateInputWithLabel } from '@/components/date-input-with-label';
 
+import { getStyles } from './style';
 import { priorityMock } from './mock';
 import { useDateUpdateEnd, useDateUpdateStart, usePriorityUpdate, useStatusUpdate } from '../api';
 
@@ -46,8 +48,13 @@ export const TaskDetails = ({ task }: ITaskDetailsProps) => {
       updateDateEnd(date);
     }
   };
+  const { role } = useUserInfo();
+
+  const isManager = role === Roles.MANAGER;
 
   const selectedPriority = priorityMock.find((option) => option.value === newPriority) || null;
+
+  const styles = getStyles({ isManager });
 
   return (
     <div className="flex w-full flex-col justify-between gap-y-5 md:flex-row md:gap-10 desktop:justify-between">
@@ -56,9 +63,9 @@ export const TaskDetails = ({ task }: ITaskDetailsProps) => {
           <h4 className="mb-2 desktop:mb-0">{t('details.status')}</h4>
           <Select
             name="status"
-            placeholder={t('details.placeholder')}
             isLoading={isPendingStatus}
             classNameWrapper="desktop:w-[291px]"
+            placeholder={t('details.placeholder')}
             onChange={(value) => updateStatus(value.id)}
             selected={{ id: status.id, value: status.title }}
             options={task.columnsList.map((column) => ({ id: column.id, value: column.title }))}
@@ -68,6 +75,7 @@ export const TaskDetails = ({ task }: ITaskDetailsProps) => {
         <div className="desktop:flex desktop:justify-between">
           <h4 className="mb-2 desktop:mb-0">{t('details.priority')}</h4>
           <Select
+            role={role}
             withTranslate
             name="priority"
             isLoading={isPendingPriority}
@@ -86,10 +94,11 @@ export const TaskDetails = ({ task }: ITaskDetailsProps) => {
           <DateComponent
             name="dateStart"
             value={dateStart}
+            disabled={!isManager}
             placeholder="24.24.24"
             inputClass="rounded-lg"
             onChange={handleDateStartChange}
-            wrapperClass="w-full desktop:w-[291px]"
+            wrapperClass={styles.wrapperClassDate}
             inputType={InputTypeEnum.DATE_WITH_LABEL}
           />
         </DateInputWithLabel>
@@ -98,10 +107,11 @@ export const TaskDetails = ({ task }: ITaskDetailsProps) => {
           <DateComponent
             name="dateEnd"
             value={dateEnd}
+            disabled={!isManager}
             placeholder="24.24.24"
             inputClass="rounded-lg"
             onChange={handleDateEndChange}
-            wrapperClass="w-full desktop:w-[291px]"
+            wrapperClass={styles.wrapperClassDate}
             inputType={InputTypeEnum.DATE_WITH_LABEL}
           />
         </DateInputWithLabel>

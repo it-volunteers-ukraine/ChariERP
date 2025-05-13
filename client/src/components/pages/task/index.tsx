@@ -1,11 +1,20 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
-import { Clip, Comment, Info, SubMenu } from '@/assets/icons';
-
 import { ITaskResponse } from '@/types';
-import { Attachments, ButtonBack, CommentEditor, EditorTask, TitleTask, TitleTaskSection } from '@/components';
+import { useWindowWidth } from '@/hooks';
+import { Clip, Comment, Info, SubMenu } from '@/assets/icons';
+import {
+  Accordion,
+  TitleTask,
+  ButtonBack,
+  EditorTask,
+  Attachments,
+  CommentEditor,
+  TitleTaskSection,
+} from '@/components';
 
 import { getStyles } from './style';
 import { CommentsProvider } from './model';
@@ -17,21 +26,59 @@ interface ITaskProps {
 }
 
 export const Task = ({ task }: ITaskProps) => {
-  const styles = getStyles();
+  const accordionRef = useRef<HTMLDivElement>(null);
+
+  const [height, setHeight] = useState<number>(0);
 
   const text = useTranslations('taskPage');
 
+  const { isLaptop } = useWindowWidth();
+
+  useEffect(() => {
+    const accord = accordionRef.current;
+
+    if (!accord) return;
+
+    const resizeObserver = new ResizeObserver(([entry]) => {
+      if (entry) {
+        setHeight(entry.contentRect.height);
+      }
+    });
+
+    resizeObserver.observe(accord);
+
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  const styles = getStyles({ height });
+
   return (
-    <section className={styles.section}>
+    <div className={styles.section}>
       <ButtonBack title={task.boardTitle} />
-      <div className={styles.wrapperTitle}>
+      <section className={styles.wrapperTitle}>
         <TitleTask titleTask={task.title} taskId={task.id} />
         <ToolsMenu taskId={task.id} />
-      </div>
-      <section className={styles.subSection}>
-        <TitleTaskSection icon={Info} title={text('details.title')} className="tablet:mb-6" />
-        <TaskDetails task={task} />
       </section>
+
+      <section className={styles.subSection} ref={accordionRef}>
+        <Accordion
+          icon={Info}
+          initialState
+          title={text('details.title')}
+          classNameWrapper={styles.accordion}
+          classNameTitle="text-[20px] uppercase"
+        >
+          <TaskDetails task={task} />
+        </Accordion>
+        {isLaptop && (
+          <>
+            <TitleTaskSection icon={Info} title={text('details.title')} />
+
+            <TaskDetails task={task} />
+          </>
+        )}
+      </section>
+
       <section className={styles.subSection}>
         <TitleTaskSection icon={SubMenu} title={text('taskDescription.title')} />
         <EditorTask taskId={task.id} taskDescription={task.description} />
@@ -42,6 +89,6 @@ export const Task = ({ task }: ITaskProps) => {
           <CommentEditor />
         </CommentsProvider>
       </section>
-    </section>
+    </div>
   );
 };

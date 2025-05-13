@@ -10,6 +10,7 @@ import { ISelectOption, OptionValue } from './select-logic-wrapper/types';
 
 interface ISelect {
   name: string;
+  role?: string;
   isLoading: boolean;
   placeholder: string;
   translation?: string;
@@ -22,6 +23,7 @@ interface ISelect {
 }
 
 export const Select = ({
+  role,
   options,
   selected,
   onChange,
@@ -51,9 +53,10 @@ export const Select = ({
   return (
     <SelectLogicWrapper
       isOpen={isOpen}
+      userRole={role}
       options={options}
-      selected={selected}
       onChange={onChange}
+      selected={selected}
       isLoading={isLoading}
       setIsOpen={setIsOpen}
       classNameWrapper={classNameWrapper}
