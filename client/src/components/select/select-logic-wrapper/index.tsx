@@ -20,7 +20,7 @@ export const SelectLogicWrapper = ({
   renderSelected,
   classNameWrapper,
   classNameDropList,
-  userRole = 'manager',
+  userRole = Roles.MANAGER,
 }: ISelectLogicWrapperProps) => {
   const listRef = useRef<HTMLDivElement | null>(null);
   const selectedRef = useRef<HTMLDivElement | null>(null);

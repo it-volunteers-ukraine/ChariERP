@@ -11,6 +11,7 @@ import { IAccordionProps } from './types';
 export const Accordion = ({
   title,
   children,
+  setVisible,
   icon: Icon,
   classNameTitle,
   classNameWrapper,
@@ -24,6 +25,9 @@ export const Accordion = ({
 
   const toggleAccordion = useCallback(() => {
     setIsOpen((prev) => !prev);
+    if (setVisible) {
+      setVisible();
+    }
   }, []);
 
   const styles = getStyles({ isOpen, classNameTitle, classNameWrapper });
@@ -73,7 +77,10 @@ export const Accordion = ({
 
       <div
         className={styles.children}
-        style={{ maxHeight: accordionHeight, transition: isFirstRender.current ? 'none' : `max-height 0.3s ease` }}
+        style={{
+          maxHeight: accordionHeight,
+          transition: isFirstRender.current ? 'none' : `max-height 0.3s ease `,
+        }}
       >
         <div ref={childrenContainer}>{children}</div>
       </div>

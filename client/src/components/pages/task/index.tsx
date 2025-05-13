@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { ITaskResponse } from '@/types';
@@ -26,31 +26,25 @@ interface ITaskProps {
 }
 
 export const Task = ({ task }: ITaskProps) => {
-  const accordionRef = useRef<HTMLDivElement>(null);
-
-  const [height, setHeight] = useState<number>(0);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isVisible, setIsVisible] = useState<boolean>(true);
 
   const text = useTranslations('taskPage');
 
   const { isLaptop } = useWindowWidth();
 
   useEffect(() => {
-    const accord = accordionRef.current;
+    if (isOpen) {
+      setIsVisible(true);
+    }
+    if (!isOpen) {
+      setTimeout(() => {
+        setIsVisible(false);
+      }, 10);
+    }
+  }, [isOpen]);
 
-    if (!accord) return;
-
-    const resizeObserver = new ResizeObserver(([entry]) => {
-      if (entry) {
-        setHeight(entry.contentRect.height);
-      }
-    });
-
-    resizeObserver.observe(accord);
-
-    return () => resizeObserver.disconnect();
-  }, []);
-
-  const styles = getStyles({ height });
+  const styles = getStyles({ isVisible });
 
   return (
     <div className={styles.section}>
@@ -60,13 +54,14 @@ export const Task = ({ task }: ITaskProps) => {
         <ToolsMenu taskId={task.id} />
       </section>
 
-      <section className={styles.subSection} ref={accordionRef}>
+      <section className={styles.subSection}>
         <Accordion
           icon={Info}
-          initialState
+          initialState={isOpen}
           title={text('details.title')}
           classNameWrapper={styles.accordion}
           classNameTitle="text-[20px] uppercase"
+          setVisible={() => setIsOpen((prev) => !prev)}
         >
           <TaskDetails task={task} />
         </Accordion>
