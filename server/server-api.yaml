@@ -1,0 +1,339 @@
+openapi: 3.1.0
+info:
+  title: Chari ERP server API
+  description: General API of the back-end part of the project
+  version: 1.0.0
+servers:
+  - url: 'https://chari-erp-dev-5jqgv.ondigitalocean.app'
+    description: Production server API
+  - url: 'https://localhost:8080'
+    description: localhost
+security:
+  - Authorization: [ ]
+tags:
+  - name: Authorization API
+  - name: Organizations API
+    description: Operations with organizations' related data
+  - name: Image API
+paths:
+  /api/v1/auth/login:
+    description: The main sign in entrance point
+    post:
+      tags:
+        - Authorization API
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginRequest'
+      responses:
+        200:
+          description: 'User is successfully signed in the system'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLoginResponse'
+        400:
+          description: 'Invalid received data'
+
+  /api/v1/org/register:
+    post:
+      tags:
+        - Organizations API
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationRegistrationRequest'
+      responses:
+        200:
+          description: 'Request was successfully sent'
+        400:
+          description: 'Invalid incoming data'
+        409:
+          description: 'Conflict with an existing organization'
+
+  /api/v1/org/{organizationId}:
+    put:
+      description: Update organization by ID
+      tags:
+        - Organizations API
+      requestBody:
+        content:
+          application/json:
+            schema:
+#              todo: add request body here
+
+  /api/v1/org/{organizationId}/users:
+    description: Get paged users from an organization by its ID
+    get:
+      tags:
+        - Organizations API
+      parameters:
+        - $ref: '#/components/parameters/organizationId'
+      responses:
+        200:
+          description: 'Existed user was found and returned back'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageUsersResponse'
+        404:
+          description: 'Organization ID not found'
+
+  /api/v1/org/{organizationId}/user/{userId}:
+    description: Get an organization user by ID
+    get:
+      tags:
+        - Organizations API
+      parameters:
+        - $ref: '#/components/parameters/organizationId'
+        - $ref: '#/components/parameters/userId'
+      responses:
+        200:
+          description: 'Get detailed user info'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserLoginResponse"
+
+    put:
+      description: Update existing user inside an organization
+      tags:
+        - Organizations API
+      parameters:
+        - $ref: '#/components/parameters/organizationId'
+        - $ref: '#/components/parameters/userId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+
+  /api/v1/org/{organizationId}/user:
+    post:
+      description: Create new user inside an organization
+      tags:
+        - Organizations API
+      parameters:
+        - $ref: '#/components/parameters/organizationId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+      responses:
+        201:
+          description: 'User was successfully created'
+        400:
+          description: 'Invalid incoming data'
+        403:
+          description: 'Forbidden'
+        404:
+          description: 'Organization ID was not found'
+
+  /api/v1/avatar/{userId}:
+    post:
+      tags:
+        - Image API
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              properties:
+                avatarImage:
+                  type: string
+                  format: binary
+
+  /api/v1/user/{userId}/boards:
+    get:
+      tags:
+        - Boards API
+      responses:
+        200:
+          description: ''
+
+  /api/v1/user/board:
+    post:
+      tags:
+        - Boards API
+      responses:
+        201:
+          description: 'New user board was successfully created'
+
+  /api/v1/user/board/{boardId}:
+    put:
+      tags:
+        - Boards API
+      responses:
+        202:
+          description: 'The board was successfully updated'
+
+    delete:
+      tags:
+        - Board API
+      responses:
+        204:
+          description: 'The board was successfully removed'
+
+  /api/v1/user/board/{boardId}/members:
+    get:
+      tags:
+        - Board API
+      responses:
+        200:
+          description: 'The board members details were provided'
+
+    put:
+      tags:
+        - Board API
+      description: 'Add a user to the board'
+
+  /api/v1/admin/org/applications:
+    get:
+      tags:
+        - Admin API
+      responses:
+        200:
+          description: 'Paged organisations application response was provided'
+        404:
+          description: 'Organization ID was not found'
+
+  /api/v1/admin/org/{organizationId}:
+    get:
+      tags:
+        - Admin API
+      responses:
+        200:
+          description: 'Organization details'
+
+  /api/v1/admin/org/{organizationId}/outcome:
+    put:
+      tags:
+        - Admin API
+      responses:
+        200:
+          description: "An organization's application was successfully updated"
+
+
+components:
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    organizationId:
+      in: path
+      name: organizationId
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Organization Identifier
+    userId:
+      in: path
+      name: userId
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: User Identifier
+
+  schemas:
+    UserLoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: 'existing-user-email@mail.com'
+        password:
+          type: string
+          format: password
+
+    UserLoginResponse:
+      type: object
+      properties:
+        avatarUrl:
+          type: string
+        lastName:
+          type: string
+        firstName:
+          type: string
+        middleName:
+          type: string
+        phone:
+          type: string
+        position:
+          type: string
+        email:
+          type: string
+        status:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+        dateOfBirth:
+          type: date
+        dateOfEntry:
+          type: date
+        address:
+          type: string
+        notes:
+          type: string
+        lastLogin:
+          type: date
+        organizationId:
+          format: uuid
+          type: string
+
+    OrganizationRegistrationRequest:
+      type: object
+      properties:
+#        todo: add more parameters here
+
+    UserCreateRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        firstName:
+          type: string
+        lastName:
+          type: string
+        middleName:
+          type: string
+        phone:
+          type: string
+        position:
+          type: string
+        role:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        address:
+          type: string
+        notes:
+          type: string
+
+    PageUsersResponse:
+      type: object
+      properties:
+        totalPages:
+          type: number
+        totalItems:
+          type: number
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserLoginResponse'
