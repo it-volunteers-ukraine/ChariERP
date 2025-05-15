@@ -35,9 +35,11 @@ export const Task = ({ task }: ITaskProps) => {
 
   useEffect(() => {
     if (isOpen) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         setIsVisible(true);
       }, 300);
+
+      return () => clearTimeout(timer);
     } else {
       setIsVisible(false);
     }
@@ -53,7 +55,7 @@ export const Task = ({ task }: ITaskProps) => {
         <ToolsMenu taskId={task.id} />
       </section>
 
-      <section className={styles.subSection}>
+      <section className={`${styles.subSection} relative`}>
         <Accordion
           icon={Info}
           initialState={isOpen}
