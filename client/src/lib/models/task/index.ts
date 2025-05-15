@@ -7,7 +7,7 @@ const TaskSchema = new Schema<ITask>(
     title: { type: String },
     date_end: { type: Date },
     priority: { type: String },
-    date_start: { type: Date, required: true },
+    date_start: { type: Date },
     attachment: {
       type: [
         new Schema({

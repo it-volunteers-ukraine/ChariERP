@@ -30,8 +30,6 @@ export const Accordion = ({
     }
   }, []);
 
-  const styles = getStyles({ isOpen, classNameTitle, classNameWrapper });
-
   useEffect(() => {
     let resizeObserver: ResizeObserver | undefined;
 
@@ -57,6 +55,8 @@ export const Accordion = ({
   }, [childrenContainer]);
 
   const accordionHeight = isOpen ? `${maxHeight}px` : '0px';
+
+  const styles = getStyles({ isOpen, classNameTitle, classNameWrapper });
 
   if (React.Children.count(children) !== 1) {
     console.error('Children має бути лише один елемент.');

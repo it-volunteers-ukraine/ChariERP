@@ -35,12 +35,11 @@ export const Task = ({ task }: ITaskProps) => {
 
   useEffect(() => {
     if (isOpen) {
-      setIsVisible(true);
-    }
-    if (!isOpen) {
       setTimeout(() => {
-        setIsVisible(false);
-      }, 10);
+        setIsVisible(true);
+      }, 300);
+    } else {
+      setIsVisible(false);
     }
   }, [isOpen]);
 
