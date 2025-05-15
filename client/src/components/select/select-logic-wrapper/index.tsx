@@ -2,6 +2,8 @@
 
 import React, { useRef } from 'react';
 
+import { Roles } from '@/types';
+import { Loader } from '@/assets/icons';
 import { useMounted, useOutsideClick } from '@/hooks';
 
 import { selectStyles } from './styles';
@@ -12,11 +14,13 @@ export const SelectLogicWrapper = ({
   options,
   selected,
   onChange,
+  isLoading,
   setIsOpen,
   renderOption,
   renderSelected,
   classNameWrapper,
   classNameDropList,
+  userRole = Roles.MANAGER,
 }: ISelectLogicWrapperProps) => {
   const listRef = useRef<HTMLDivElement | null>(null);
   const selectedRef = useRef<HTMLDivElement | null>(null);
@@ -27,18 +31,41 @@ export const SelectLogicWrapper = ({
 
   const { unmounted } = useMounted({ opened: isOpen, duration: 200 });
 
-  const style = selectStyles({ classNameDropList, classNameWrapper, isOpen });
+  const handleSelectClick = (userRole: string | undefined) => {
+    if (userRole === Roles.MANAGER) {
+      setIsOpen(!isOpen);
+    }
+  };
+
+  const isManager = userRole === Roles.MANAGER;
+
+  const style = selectStyles({ classNameDropList, classNameWrapper, isOpen, isLoading, isManager });
 
   return (
     <div className={style.wrapper}>
-      <div ref={selectedRef} onClick={() => setIsOpen(!isOpen)}>
-        {renderSelected(selected)}
-      </div>
+      {isLoading && (
+        <div className="flex justify-center">
+          <Loader className="w-6" />
+        </div>
+      )}
+
+      {!isLoading && (
+        <div ref={selectedRef} onClick={() => handleSelectClick(userRole)}>
+          {selected ? renderSelected(selected) : renderSelected({ id: '', value: '' })}
+        </div>
+      )}
 
       {unmounted && (
         <div className={style.dropList} ref={listRef}>
           {options.map((option, idx) => (
-            <li key={idx} className="list-none" onClick={() => onChange(option)}>
+            <li
+              key={idx}
+              className="list-none"
+              onClick={() => {
+                onChange(option);
+                setIsOpen(false);
+              }}
+            >
               {renderOption(option)}
             </li>
           ))}

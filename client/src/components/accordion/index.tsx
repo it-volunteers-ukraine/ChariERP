@@ -11,6 +11,8 @@ import { IAccordionProps } from './types';
 export const Accordion = ({
   title,
   children,
+  setVisible,
+  icon: Icon,
   classNameTitle,
   classNameWrapper,
   initialState = false,
@@ -23,9 +25,10 @@ export const Accordion = ({
 
   const toggleAccordion = useCallback(() => {
     setIsOpen((prev) => !prev);
+    if (setVisible) {
+      setVisible();
+    }
   }, []);
-
-  const styles = getStyles({ isOpen, classNameTitle, classNameWrapper });
 
   useEffect(() => {
     let resizeObserver: ResizeObserver | undefined;
@@ -53,6 +56,8 @@ export const Accordion = ({
 
   const accordionHeight = isOpen ? `${maxHeight}px` : '0px';
 
+  const styles = getStyles({ isOpen, classNameTitle, classNameWrapper });
+
   if (React.Children.count(children) !== 1) {
     console.error('Children має бути лише один елемент.');
   }
@@ -60,7 +65,10 @@ export const Accordion = ({
   return (
     <div className={styles.wrapper}>
       <div onClick={toggleAccordion} className="flex w-fit cursor-pointer items-center justify-start">
-        <Title className={styles.title} title={title} />
+        <div className="flex items-center gap-2">
+          {Icon && <Icon className="h-6 w-6 text-inherit text-title-title" />}
+          <Title className={styles.title} title={title} />
+        </div>
 
         <div className={styles.arrow}>
           <ArrowUp width={24} height={24} className="text-lightBlue" />
@@ -69,7 +77,10 @@ export const Accordion = ({
 
       <div
         className={styles.children}
-        style={{ maxHeight: accordionHeight, transition: isFirstRender.current ? 'none' : `max-height 0.3s ease` }}
+        style={{
+          maxHeight: accordionHeight,
+          transition: isFirstRender.current ? 'none' : `max-height 0.3s ease `,
+        }}
       >
         <div ref={childrenContainer}>{children}</div>
       </div>

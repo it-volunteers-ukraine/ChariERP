@@ -22,7 +22,7 @@ export const DateInput = forwardRef<HTMLInputElement | HTMLTextAreaElement, Inpu
 
         <span className={style.text}>{value || placeholder}</span>
 
-        <Calendar width={24} height={24} className="absolute right-3 mb-3" />
+        <Calendar width={24} height={24} className={style.icon} />
       </div>
     );
   },
