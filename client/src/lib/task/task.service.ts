@@ -653,8 +653,6 @@ class TaskService extends BaseService {
     task.priority = priority;
     await task.save();
 
-    console.log('priority', priority);
-
     return {
       success: true,
       data: JSON.stringify(priority),
