@@ -633,6 +633,12 @@
     "placeholder": "Write your comment"
   },
   "taskPage": {
+    "performers": "Performers",
+    "participants": {
+      "userNotFound": "User not found",
+      "deleteYourSelf": "You can't remove yourself from the artists",
+      "alreadyAdded": "This user has already been added to the list of performers"
+    },
     "taskDescription": {
       "title": "Description",
       "placeholder": "Add a task description"

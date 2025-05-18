@@ -1,4 +1,5 @@
 export { addCommentAction } from './tasks/add-comment';
+export { addUserTaskAction } from './tasks/add-user';
 export { applyUserToBoardAction } from './boards/apply-user-to-board';
 export { changeColumnTitleAction } from './columns/change-column-title';
 export { changePasswordAction } from './reset-token/change-password';
@@ -16,6 +17,7 @@ export { deleteFileAction } from './tasks/delete-file';
 export { deleteOrganizationAction } from './admin/delete-organization';
 export { deleteTaskAction } from './tasks/delete-task';
 export { deleteTaskPageAction } from './tasks/delete-task-page';
+export { deleteUserTaskAction } from './tasks/delete-user';
 export { downloadFileAction } from './tasks/download-file';
 export { editBoardAction } from './boards/edit-board';
 export { getAdminOrganizationsAction } from './admin/get-admin-organization';

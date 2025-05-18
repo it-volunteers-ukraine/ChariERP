@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 
-import { IUsers } from './users';
+import { IUsers, IUsersNormalizeResponse } from './users';
 
 export interface ITask {
   title: string;
@@ -55,25 +55,10 @@ export interface ITaskResponse {
   dateStart: Date | null;
   priority: string | null;
   comments: ICommentResponse[];
+  users: IUsersNormalizeResponse[];
   boardColumnId: Schema.Types.ObjectId;
   attachment: IAttachmentFileResponse[];
   columnsList: { title: string; _id: string }[];
-  users: {
-    id: string;
-    role?: string;
-    phone?: string;
-    email?: string;
-    notes?: string;
-    status?: string;
-    address?: string;
-    lastLogin?: Date;
-    lastName?: string;
-    position?: string;
-    avatarUrl?: string;
-    firstName?: string;
-    dateOfBirth?: Date;
-    middleName?: string;
-  }[];
 }
 
 export interface ICommentResponse {
