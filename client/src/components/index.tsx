@@ -31,6 +31,7 @@ export { InputField } from './input-field';
 export { LanguageSwitcher } from './language-switcher';
 export { LoaderPage } from './loader-page';
 export { Logo } from './logo';
+export { MaterialReactTable } from './material-react-table';
 export { ModalAdmin, ModalContent, ModalDecline, ModalEnterEmail, ModalSuccessfulRegistration } from './modals';
 export { Navigation } from './navigation';
 export { Overlay } from './overlay';
