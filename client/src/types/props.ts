@@ -173,6 +173,18 @@ export interface IUpdateCommentActionProps {
   taskId: string;
   commentId: string;
 }
+export interface IUpdateDateActionProps {
+  date: Date;
+  taskId: string;
+}
+export interface IUpdateTaskPriorityProps {
+  taskId: string;
+  priority: string;
+}
+export interface IUpdateStatusActionProps {
+  taskId: string;
+  newColumnId: string;
+}
 
 export interface IUseUpdateComments {
   text: string;
@@ -227,6 +239,30 @@ export interface IDeleteFile {
   userId: string;
 }
 
+export interface IAddUserTask {
+  taskId: string;
+  userId: string;
+  boardId: string;
+  applyUserId: string;
+}
+
+export interface IAddUserTaskAction {
+  taskId: string;
+  boardId: string;
+  applyUserId: string;
+}
+
+export interface IDeleteUserTask {
+  taskId: string;
+  userId: string;
+  deleteUserId: string;
+}
+
+export interface IDeleteUserTaskAction {
+  taskId: string;
+  deleteUserId: string;
+}
+
 export interface IDeleteFileActionProps {
   id: string;
   taskId: string;
@@ -243,6 +279,22 @@ export interface ICreateColumnProps {
   title: string;
   boardId: string;
   userId: string;
+}
+
+export interface IUpdateDateProps {
+  date: Date;
+  taskId: string;
+  userId: string;
+}
+export interface IUpdateBoardColumnIdProps {
+  taskId: string;
+  userId: string;
+  newColumnId: string;
+}
+export interface IUpdatePriorityProps {
+  taskId: string;
+  userId: string;
+  priority: string;
 }
 
 export interface IUseColumns {
@@ -352,4 +404,16 @@ export interface IRevokeUserFromBoardProps {
   userId: string;
   boardId: string;
   revokeUserId: string;
+}
+
+export interface UserParticipants {
+  id: string;
+  email: string;
+  status: string;
+  lastName: string;
+  position: string;
+  firstName: string;
+  avatarUrl: string;
+  middleName: string;
+  lastLogin: string;
 }

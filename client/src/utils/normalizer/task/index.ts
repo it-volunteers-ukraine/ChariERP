@@ -1,10 +1,9 @@
 import { IComment, ITask, IUsers } from '@/types';
 
+import { normalizeUsers } from '../users';
 import { fetchAvatarUrl } from '../columns/fetch-avatar-url';
 
 interface ITaskNormalizer extends Omit<ITask, 'users'> {
-  id: string;
-  title: string;
   users: IUsers[];
 }
 
@@ -13,36 +12,20 @@ export const taskNormalizer = async (data: ITaskNormalizer) => {
     id: data._id.toString(),
     createdAt: data.created_at,
     title: data.title || 'Task',
-    status: data.status || null,
     dateEnd: data.date_end || null,
     priority: data.priority || null,
     boardTitle: data.boardTitle || '',
     dateStart: data.date_start || null,
-    boardColumnId: data.boardColumn_id,
     description: data.description || '',
-    columnsList: data.columnsList || [],
     comments: await commentsNormalizer(data.comments || []),
+    boardColumnId: { id: data.boardColumn_id._id.toString(), title: data.boardColumn_id.title },
+    columnsList: data.columnsList.map((column) => ({ id: column.id, title: column.title })) || [],
     attachment: data.attachment.map((file) => ({
       name: file.name,
       type: file.type,
       id: file._id.toString(),
     })),
-    users: data.users?.map((user) => ({
-      role: user.role,
-      phone: user.phone,
-      email: user.email,
-      notes: user.notes,
-      status: user.status,
-      address: user.address,
-      lastName: user.lastName,
-      position: user.position,
-      id: user._id!.toString(),
-      firstName: user.firstName,
-      lastLogin: user.lastLogin,
-      middleName: user.middleName,
-      dateOfBirth: user.dateOfBirth,
-      avatarUrl: user.avatarUrl || '',
-    })),
+    users: data.users ? await normalizeUsers(data.users) : [],
   };
 };
 

@@ -633,6 +633,27 @@
     "placeholder": "Write your comment"
   },
   "taskPage": {
+    "performers": "Performers",
+    "participants": {
+      "userNotFound": "User not found",
+      "deleteYourSelf": "You can't remove yourself from the artists",
+      "alreadyAdded": "This user has already been added to the list of performers"
+    },
+    "title": { "copy": "Copy the link", "delete": "Delete" },
+    "details": {
+      "title": "Details",
+      "status": "Status:",
+      "priority": "Priority:",
+      "implementers": "Implementers:",
+      "startDate": "Start Date:",
+      "endDate": "End Date:",
+      "placeholder": "NOT SPECIFIED",
+      "priorityTypes": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      }
+    },
     "taskDescription": {
       "title": "Description",
       "placeholder": "Add a task description"
