@@ -58,11 +58,45 @@ paths:
       description: Update organization by ID
       tags:
         - Organizations API
+      parameters:
+        - $ref: '#/components/parameters/organizationId'
       requestBody:
         content:
           application/json:
             schema:
-#              todo: add request body here
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Organization name
+                  example: "Tech Solutions Ltd"
+                address:
+                  type: string
+                  description: Organization physical address
+                  example: "25 Innovation Street, Kyiv, 01033"
+                phone:
+                  type: string
+                  description: Contact phone number
+                  example: "+380442345678"
+                email:
+                  type: string
+                  format: email
+                  description: Organization email address
+                  example: "contact@techsolutions.com"
+                website:
+                  type: string
+                  format: uri
+                  description: Organization website URL
+                  example: "https://techsolutions.com"
+              required:
+                - name
+      responses:
+        200:
+          description: 'Organization was successfully updated'
+        400:
+          description: 'Invalid incoming data'
+        404:
+          description: 'Organization not found'
 
   /api/v1/org/{organizationId}/users:
     description: Get paged users from an organization by its ID
@@ -146,77 +180,14 @@ paths:
                 avatarImage:
                   type: string
                   format: binary
-
-  /api/v1/user/{userId}/boards:
-    get:
-      tags:
-        - Boards API
+                  description: User avatar image file
       responses:
         200:
-          description: ''
-
-  /api/v1/user/board:
-    post:
-      tags:
-        - Boards API
-      responses:
-        201:
-          description: 'New user board was successfully created'
-
-  /api/v1/user/board/{boardId}:
-    put:
-      tags:
-        - Boards API
-      responses:
-        202:
-          description: 'The board was successfully updated'
-
-    delete:
-      tags:
-        - Board API
-      responses:
-        204:
-          description: 'The board was successfully removed'
-
-  /api/v1/user/board/{boardId}/members:
-    get:
-      tags:
-        - Board API
-      responses:
-        200:
-          description: 'The board members details were provided'
-
-    put:
-      tags:
-        - Board API
-      description: 'Add a user to the board'
-
-  /api/v1/admin/org/applications:
-    get:
-      tags:
-        - Admin API
-      responses:
-        200:
-          description: 'Paged organisations application response was provided'
+          description: 'Avatar was successfully uploaded'
+        400:
+          description: 'Invalid file format or size'
         404:
-          description: 'Organization ID was not found'
-
-  /api/v1/admin/org/{organizationId}:
-    get:
-      tags:
-        - Admin API
-      responses:
-        200:
-          description: 'Organization details'
-
-  /api/v1/admin/org/{organizationId}/outcome:
-    put:
-      tags:
-        - Admin API
-      responses:
-        200:
-          description: "An organization's application was successfully updated"
-
+          description: 'User not found'
 
 components:
   securitySchemes:
@@ -233,6 +204,7 @@ components:
       schema:
         type: string
         format: uuid
+        example: "550e8400-e29b-41d4-a716-446655440000"
       description: Organization Identifier
     userId:
       in: path
@@ -241,99 +213,201 @@ components:
       schema:
         type: string
         format: uuid
+        example: "7a1b3c9d-4e5f-6g7h-8i9j-0k1l2m3n4o5p"
       description: User Identifier
 
   schemas:
     UserLoginRequest:
       type: object
+      required:
+        - email
+        - password
       properties:
         email:
           type: string
           format: email
-          example: 'existing-user-email@mail.com'
+          example: 'john.doe@company.com'
         password:
           type: string
           format: password
+          example: 'SecurePass123!'
 
     UserLoginResponse:
       type: object
       properties:
         avatarUrl:
           type: string
+          example: 'https://storage.example.com/avatars/user123.jpg'
         lastName:
           type: string
+          example: 'Doe'
         firstName:
           type: string
+          example: 'John'
         middleName:
           type: string
+          example: 'Robert'
         phone:
           type: string
+          example: '+380501234567'
         position:
           type: string
+          example: 'Senior Manager'
         email:
           type: string
+          format: email
+          example: 'john.doe@company.com'
         status:
           type: string
-        password:
-          type: string
+          enum: ['ACTIVE', 'INACTIVE', 'PENDING']
+          example: 'ACTIVE'
         role:
           type: string
+          enum: ['ADMIN', 'MANAGER', 'EMPLOYEE']
+          example: 'MANAGER'
         dateOfBirth:
-          type: date
+          type: string
+          format: date
+          example: '1985-03-15'
         dateOfEntry:
-          type: date
+          type: string
+          format: date
+          example: '2023-01-10'
         address:
           type: string
+          example: '123 Business Ave, Kyiv, 01001'
         notes:
           type: string
+          example: 'Team lead for the Eastern region'
         lastLogin:
-          type: date
-        organizationId:
-          format: uuid
           type: string
+          format: date-time
+          example: '2024-03-21T14:30:00Z'
+        organizationId:
+          type: string
+          format: uuid
+          example: '550e8400-e29b-41d4-a716-446655440000'
 
     OrganizationRegistrationRequest:
       type: object
+      required:
+        - name
+        - email
+        - adminUser
       properties:
-#        todo: add more parameters here
+        name:
+          type: string
+          example: 'Tech Solutions Ltd'
+        address:
+          type: string
+          example: '25 Innovation Street, Kyiv, 01033'
+        phone:
+          type: string
+          example: '+380442345678'
+        email:
+          type: string
+          format: email
+          example: 'contact@techsolutions.com'
+        website:
+          type: string
+          format: uri
+          example: 'https://techsolutions.com'
+        edrpou:
+          type: string
+          example: '12345678'
+        adminUser:
+          type: object
+          required:
+            - email
+            - password
+            - firstName
+            - lastName
+          properties:
+            email:
+              type: string
+              format: email
+              example: 'admin@techsolutions.com'
+            password:
+              type: string
+              format: password
+              example: 'AdminPass123!'
+            firstName:
+              type: string
+              example: 'Alex'
+            lastName:
+              type: string
+              example: 'Smith'
+            phone:
+              type: string
+              example: '+380501234567'
 
     UserCreateRequest:
       type: object
+      required:
+        - email
+        - password
+        - firstName
+        - lastName
       properties:
         email:
           type: string
           format: email
+          example: 'new.user@company.com'
         password:
           type: string
           format: password
+          example: 'NewUser2024!'
         firstName:
           type: string
+          example: 'Jane'
         lastName:
           type: string
+          example: 'Wilson'
         middleName:
           type: string
+          example: 'Marie'
         phone:
           type: string
+          example: '+380507654321'
         position:
           type: string
+          example: 'Product Manager'
         role:
           type: string
+          enum: ['ADMIN', 'MANAGER', 'EMPLOYEE']
+          example: 'EMPLOYEE'
         dateOfBirth:
           type: string
           format: date
+          example: '1990-06-25'
         address:
           type: string
+          example: '45 Corporate Drive, Kyiv, 01021'
         notes:
           type: string
+          example: 'Experienced in Agile methodologies'
 
     PageUsersResponse:
       type: object
       properties:
         totalPages:
           type: number
+          example: 5
         totalItems:
           type: number
+          example: 48
         users:
           type: array
           items:
             $ref: '#/components/schemas/UserLoginResponse'
+          example:
+            - firstName: 'John'
+              lastName: 'Doe'
+              email: 'john.doe@company.com'
+              position: 'Senior Manager'
+              role: 'MANAGER'
+            - firstName: 'Jane'
+              lastName: 'Wilson'
+              email: 'jane.wilson@company.com'
+              position: 'Product Manager'
+              role: 'EMPLOYEE'
