@@ -21,3 +21,15 @@ export interface IUsers extends Document {
   _id: Schema.Types.ObjectId;
   organizationId: Schema.Types.ObjectId;
 }
+
+export interface IUsersNormalizeResponse {
+  id: string;
+  email: string;
+  status: string;
+  lastName: string;
+  position: string;
+  firstName: string;
+  lastLogin: string;
+  avatarUrl: string;
+  middleName: string;
+}

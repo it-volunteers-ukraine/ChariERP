@@ -1,10 +1,9 @@
 import { IComment, ITask, IUsers } from '@/types';
 
+import { normalizeUsers } from '../users';
 import { fetchAvatarUrl } from '../columns/fetch-avatar-url';
 
 interface ITaskNormalizer extends Omit<ITask, 'users'> {
-  id: string;
-  title: string;
   users: IUsers[];
 }
 
@@ -26,22 +25,7 @@ export const taskNormalizer = async (data: ITaskNormalizer) => {
       type: file.type,
       id: file._id.toString(),
     })),
-    users: data.users?.map((user) => ({
-      role: user.role,
-      phone: user.phone,
-      email: user.email,
-      notes: user.notes,
-      status: user.status,
-      address: user.address,
-      lastName: user.lastName,
-      position: user.position,
-      id: user._id!.toString(),
-      firstName: user.firstName,
-      lastLogin: user.lastLogin,
-      middleName: user.middleName,
-      dateOfBirth: user.dateOfBirth,
-      avatarUrl: user.avatarUrl || '',
-    })),
+    users: data.users ? await normalizeUsers(data.users) : [],
   };
 };
 

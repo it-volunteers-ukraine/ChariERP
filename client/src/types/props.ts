@@ -239,6 +239,30 @@ export interface IDeleteFile {
   userId: string;
 }
 
+export interface IAddUserTask {
+  taskId: string;
+  userId: string;
+  boardId: string;
+  applyUserId: string;
+}
+
+export interface IAddUserTaskAction {
+  taskId: string;
+  boardId: string;
+  applyUserId: string;
+}
+
+export interface IDeleteUserTask {
+  taskId: string;
+  userId: string;
+  deleteUserId: string;
+}
+
+export interface IDeleteUserTaskAction {
+  taskId: string;
+  deleteUserId: string;
+}
+
 export interface IDeleteFileActionProps {
   id: string;
   taskId: string;
@@ -380,4 +404,16 @@ export interface IRevokeUserFromBoardProps {
   userId: string;
   boardId: string;
   revokeUserId: string;
+}
+
+export interface UserParticipants {
+  id: string;
+  email: string;
+  status: string;
+  lastName: string;
+  position: string;
+  firstName: string;
+  avatarUrl: string;
+  middleName: string;
+  lastLogin: string;
 }

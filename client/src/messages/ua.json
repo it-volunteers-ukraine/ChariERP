@@ -627,6 +627,12 @@
     "placeholder": "Напишіть Ваш коментар"
   },
   "taskPage": {
+    "performers": "Виконавці",
+    "participants": {
+      "userNotFound": "Користувач не знайдений",
+      "deleteYourSelf": "Ви не можете видалити себе з виконавців",
+      "alreadyAdded": "Цей користувач вже доданий до списку виконавців"
+    },
     "title": { "copy": "Копіювати посилання", "delete": "Видалити" },
     "details": {
       "title": "Деталі",

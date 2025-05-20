@@ -1,8 +1,8 @@
 import { Readable } from 'stream';
 import { cookies } from 'next/headers';
 
-import { BoardColumn } from '@/lib';
 import { streamToBase64 } from '@/utils';
+import { BoardColumn, Users } from '@/lib';
 import { fileConfigAttachment } from '@/constants';
 import {
   Roles,
@@ -11,11 +11,14 @@ import {
   IUploadFile,
   IDeleteFile,
   IBoardColumn,
+  IAddUserTask,
   IGetTaskProps,
   IHasTaskAccess,
   IMoveTaskProps,
+  IOrganizations,
   IDeleteTaskPage,
   IAttachmentFile,
+  IDeleteUserTask,
   IAddCommentProps,
   ICreateTaskProps,
   IDeleteTaskProps,
@@ -949,6 +952,113 @@ class TaskService extends BaseService {
     return {
       success: true,
       message: 'File deleted successfully',
+    };
+  }
+
+  async addUser({ taskId, userId, applyUserId, boardId }: IAddUserTask) {
+    if (userId === applyUserId) {
+      return {
+        success: false,
+        message: 'You cannot add yourself to the task',
+      };
+    }
+
+    if (!taskId || !userId || !applyUserId || !boardId) {
+      return {
+        success: false,
+        message: 'Task ID, user Id, boardId and applyUserId are required',
+      };
+    }
+
+    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
+
+    if (access.error) {
+      return access.error;
+    }
+
+    const { task } = access;
+
+    const isApplyUserInTask = task.users.some((user: IUsers) => String(user._id) === applyUserId);
+
+    if (isApplyUserInTask) {
+      return { success: false, message: 'The user has already been added to the task' };
+    }
+
+    type IUserWithOrganization = Omit<IUsers, 'organizationId'> & {
+      organizationId: IOrganizations;
+    };
+
+    const requester = await Users.findById(applyUserId)
+      .populate({ path: 'organizationId' })
+      .lean<IUserWithOrganization>();
+
+    if (!requester || !requester.organizationId) {
+      return { success: false, message: 'User or organisation could not be found' };
+    }
+
+    const isApplyUserInOrganization = requester.organizationId.users.some((id) => String(id) === applyUserId);
+
+    if (!isApplyUserInOrganization) {
+      return { success: false, message: 'The user you`re adding doesn`t exist in your company. ' };
+    }
+
+    const isApplyUserInBoard = await UsersBoards.exists({
+      board_id: boardId,
+      user_id: applyUserId,
+    }).lean();
+
+    if (!isApplyUserInBoard) {
+      await UsersBoards.create({
+        board_id: boardId,
+        user_id: applyUserId,
+        organization_id: requester.organizationId._id,
+      });
+    }
+
+    task.users.push(applyUserId);
+    await task.save();
+
+    return {
+      success: true,
+      message: 'User added successfully',
+    };
+  }
+
+  async deleteUser({ taskId, userId, deleteUserId }: IDeleteUserTask) {
+    if (userId === deleteUserId) {
+      return {
+        success: false,
+        message: 'You cannot remove yourself from the task',
+      };
+    }
+
+    if (!taskId || !userId || !deleteUserId) {
+      return {
+        success: false,
+        message: 'Task ID, user Id and deleteUserId are required',
+      };
+    }
+
+    const access = await this.hasTaskAccess({ userId, taskId, role: Roles.MANAGER });
+
+    if (access.error) {
+      return access.error;
+    }
+
+    const { task } = access;
+
+    const isApplyUserInTask = task.users.some((user: IUsers) => String(user._id) === deleteUserId);
+
+    if (!isApplyUserInTask) {
+      return { success: false, message: 'The user has not been added to the task' };
+    }
+
+    task.users = task.users.filter((user: IUsers) => String(user._id) !== deleteUserId);
+    await task.save();
+
+    return {
+      success: true,
+      message: 'User deleted successfully',
     };
   }
 }

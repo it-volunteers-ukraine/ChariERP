@@ -4,7 +4,7 @@ import { randomInt } from 'crypto';
 import { TranslationValues } from 'next-intl';
 
 import { showMessage } from '@/components';
-import { Fields, IOrganizations } from '@/types';
+import { Fields, IOrganizations, UserParticipants } from '@/types';
 
 const switchExtension = (extension: string) => {
   if (extension === 'pdf') {
@@ -191,3 +191,5 @@ export const lettersToColor = (firstName: string, lastName: string): string => {
 };
 
 export const cleanSpaces = (str: string) => str.trim().replace(/\s+/g, ' ');
+
+export const sortedUsers = (users: UserParticipants[]) => users.sort((a, b) => a.firstName.localeCompare(b.firstName));
