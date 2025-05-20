@@ -5,10 +5,9 @@ import { ITask } from '@/types';
 const TaskSchema = new Schema<ITask>(
   {
     title: { type: String },
-    status: { type: String },
-    date_end: { type: Date, required: true },
+    date_end: { type: Date },
     priority: { type: String },
-    date_start: { type: Date, required: true },
+    date_start: { type: Date },
     attachment: {
       type: [
         new Schema({
@@ -41,7 +40,7 @@ const TaskSchema = new Schema<ITask>(
     ],
     boardColumn_id: {
       type: Schema.Types.ObjectId,
-      ref: 'BoardColumn',
+      ref: 'Board_Column',
       required: true,
     },
   },

@@ -4,7 +4,6 @@ import { IUsers, IUsersNormalizeResponse } from './users';
 
 export interface ITask {
   title: string;
-  status: string;
   date_end: Date;
   priority: string;
   date_start: Date;
@@ -15,8 +14,8 @@ export interface ITask {
   _id: Schema.Types.ObjectId;
   attachment: IAttachmentFile[];
   users?: Schema.Types.ObjectId[];
-  boardColumn_id: Schema.Types.ObjectId;
-  columnsList: { title: string; _id: string }[];
+  columnsList: { title: string; id: string }[];
+  boardColumn_id: { _id: Schema.Types.ObjectId; title: string };
 }
 export interface IComment {
   text: string;
@@ -51,14 +50,13 @@ export interface ITaskResponse {
   boardTitle: string;
   description: string;
   dateEnd: Date | null;
-  status: string | null;
   dateStart: Date | null;
   priority: string | null;
   comments: ICommentResponse[];
   users: IUsersNormalizeResponse[];
-  boardColumnId: Schema.Types.ObjectId;
   attachment: IAttachmentFileResponse[];
-  columnsList: { title: string; _id: string }[];
+  boardColumnId: { title: string; id: string };
+  columnsList: { title: string; id: string }[];
 }
 
 export interface ICommentResponse {

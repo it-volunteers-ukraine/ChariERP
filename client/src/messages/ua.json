@@ -633,6 +633,21 @@
       "deleteYourSelf": "Ви не можете видалити себе з виконавців",
       "alreadyAdded": "Цей користувач вже доданий до списку виконавців"
     },
+    "title": { "copy": "Копіювати посилання", "delete": "Видалити" },
+    "details": {
+      "title": "Деталі",
+      "status": "Статус",
+      "priority": "Пріоритет",
+      "implementers": "Виконавці",
+      "startDate": "Дата початку",
+      "endDate": "Дата початку",
+      "placeholder": "НЕ ВИЗНАЧЕНО ",
+      "priorityTypes": {
+        "low": "Низький",
+        "medium": "Середній",
+        "high": "Високий"
+      }
+    },
     "taskDescription": {
       "title": "Опис",
       "placeholder": "Додайте опис завдання"
