@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { ArrowUp, Loader } from '@/assets/icons';
@@ -11,10 +11,11 @@ import { useParticipants } from '../api';
 interface IParticipantsTaskProps {
   taskId: string;
   boardId: string;
+  isClosed?: boolean;
   taskUsersList: IUsersNormalizeResponse[];
 }
 
-export const ParticipantsTask = ({ taskId, boardId, taskUsersList }: IParticipantsTaskProps) => {
+export const ParticipantsTask = ({ taskId, boardId, taskUsersList, isClosed }: IParticipantsTaskProps) => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   const boardText = useTranslations('board');
@@ -32,7 +33,13 @@ export const ParticipantsTask = ({ taskId, boardId, taskUsersList }: IParticipan
     }
   };
 
-  const styles = getStyle(isOpenMenu);
+  useEffect(() => {
+    if (isClosed) {
+      setIsOpenMenu(false);
+    }
+  }, [isClosed]);
+
+  const styles = getStyle({ isOpenMenu, isLoading });
 
   return (
     <>
@@ -47,6 +54,7 @@ export const ParticipantsTask = ({ taskId, boardId, taskUsersList }: IParticipan
           <DropdownList
             allUsers={allUsers}
             boardUsers={boardUsers}
+            dropdownClassName="w-full"
             taskUsers={taskUsers as IUsersNormalizer[]}
             setIsDropdownOpen={() => setIsOpenMenu(false)}
             renderTaskUsers={(user, taskIdx) => (

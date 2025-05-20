@@ -44,7 +44,7 @@ const TaskId = async ({ params }: TaskPageParamsProps) => {
 
   const task = await taskNormalizer(response);
 
-  return <Task task={task} />;
+  return <Task task={task} boardId={board_id} />;
 };
 
 export default TaskId;

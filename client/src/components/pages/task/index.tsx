@@ -22,10 +22,11 @@ import { TaskDetails } from './task-details';
 import { ToolsMenu } from './tools-drop-menu';
 
 interface ITaskProps {
+  boardId: string;
   task: ITaskResponse;
 }
 
-export const Task = ({ task }: ITaskProps) => {
+export const Task = ({ task, boardId }: ITaskProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [isVisible, setIsVisible] = useState<boolean>(true);
 
@@ -64,13 +65,13 @@ export const Task = ({ task }: ITaskProps) => {
           classNameTitle="text-[20px] uppercase"
           setVisible={() => setIsOpen((prev) => !prev)}
         >
-          <TaskDetails task={task} />
+          <TaskDetails isClosed={!isOpen} task={task} boardId={boardId} />
         </Accordion>
         {isLaptop && (
           <>
             <TitleTaskSection icon={Info} title={text('details.title')} />
 
-            <TaskDetails task={task} />
+            <TaskDetails task={task} boardId={boardId} />
           </>
         )}
       </section>
