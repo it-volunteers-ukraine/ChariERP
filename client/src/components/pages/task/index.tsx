@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 import { ITaskResponse } from '@/types';
+import { useUserInfo } from '@/context';
 import { useWindowWidth } from '@/hooks';
 import { Clip, Comment, Info, SubMenu } from '@/assets/icons';
 import {
@@ -12,6 +14,7 @@ import {
   ButtonBack,
   EditorTask,
   Attachments,
+  showMessage,
   CommentEditor,
   TitleTaskSection,
 } from '@/components';
@@ -21,12 +24,19 @@ import { CommentsProvider } from './model';
 import { TaskDetails } from './task-details';
 import { ToolsMenu } from './tools-drop-menu';
 
+import { routes } from '@/constants';
+
 interface ITaskProps {
   boardId: string;
-  task: ITaskResponse;
+  error?: string | null;
+  task: ITaskResponse | null;
 }
 
-export const Task = ({ task, boardId }: ITaskProps) => {
+export const Task = ({ task, boardId, error }: ITaskProps) => {
+  const router = useRouter();
+
+  const { isManager } = useUserInfo();
+
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [isVisible, setIsVisible] = useState<boolean>(true);
 
@@ -47,6 +57,20 @@ export const Task = ({ task, boardId }: ITaskProps) => {
   }, [isOpen]);
 
   const styles = getStyles({ isVisible });
+
+  useEffect(() => {
+    if (!task) {
+      if (error) {
+        showMessage.error(error);
+      }
+
+      router.push(`${routes.managerDashboard}/${boardId}`);
+    }
+  }, [error, task, router]);
+
+  if (!task) {
+    return null;
+  }
 
   return (
     <div className={styles.section}>
@@ -79,8 +103,12 @@ export const Task = ({ task, boardId }: ITaskProps) => {
       <section className={styles.subSection}>
         <TitleTaskSection icon={SubMenu} title={text('taskDescription.title')} />
         <EditorTask taskId={task.id} taskDescription={task.description} />
-        <TitleTaskSection icon={Clip} title={text('attachments.title')} className={styles.subTitle} />
-        <Attachments taskId={task.id} fileList={task.attachment} />
+        {(task.attachment.length > 0 || isManager) && (
+          <>
+            <TitleTaskSection icon={Clip} title={text('attachments.title')} className={styles.subTitle} />
+            <Attachments taskId={task.id} fileList={task.attachment} />
+          </>
+        )}
         <TitleTaskSection icon={Comment} title={text('comments.title')} className={styles.subTitle} />
         <CommentsProvider taskId={task.id} initialComments={task.comments}>
           <CommentEditor />

@@ -135,7 +135,7 @@ export const TaskDetails = ({ task, boardId, isClosed }: ITaskDetailsProps) => {
       {!isMobile && (
         <div className="mt-5 flex w-full justify-between gap-10">
           <div className="w-full md:ml-8 laptop:ml-0 desktop:flex desktop:max-w-[451px] desktop:flex-row desktop:justify-between">
-            <h4 className="mb-2 desktop:mb-0">Виконавці:</h4>
+            <h4 className="mb-2 desktop:mb-0">{t('performers')}</h4>
             <ParticipantsTask taskId={task.id} isClosed={isClosed} taskUsersList={task.users} boardId={boardId} />
           </div>
           <div className="w-full"></div>

@@ -6,6 +6,7 @@ import { Copy, Delete, DotsSettings } from '@/assets/icons';
 import { ToolsDropMenu } from '@/components/tools-drop-menu';
 
 import { useDeleteTask } from '../api';
+import { useUserInfo } from '@/context';
 
 interface ITitleTask {
   taskId: string;
@@ -14,6 +15,7 @@ interface ITitleTask {
 const duration = 300;
 
 export const ToolsMenu = ({ taskId }: ITitleTask) => {
+  const { isManager } = useUserInfo();
   const [isActive, setIsActive] = useState(false);
 
   const task = useTranslations('taskPage');
@@ -63,16 +65,18 @@ export const ToolsMenu = ({ taskId }: ITitleTask) => {
           </div>
         </button>
 
-        <button
-          onClick={handlerDelete}
-          className="flex justify-between rounded p-2 font-robotoCondensed text-base capitalize text-comet transition hover:bg-arcticSky"
-        >
-          <p>{task('title.delete')}</p>
+        {isManager && (
+          <button
+            onClick={handlerDelete}
+            className="flex justify-between rounded p-2 font-robotoCondensed text-base capitalize text-comet transition hover:bg-arcticSky"
+          >
+            <p>{task('title.delete')}</p>
 
-          <div className="h-6 w-6 text-comet">
-            <Delete />
-          </div>
-        </button>
+            <div className="h-6 w-6 text-comet">
+              <Delete />
+            </div>
+          </button>
+        )}
       </ToolsDropMenu>
     </>
   );
