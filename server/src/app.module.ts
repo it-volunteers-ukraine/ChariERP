@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './api/app.controller';
-import { AppService } from './service/app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,8 +15,7 @@ import { ConfigModule } from '@nestjs/config';
         uri: process.env.MONGO_URI,
       }),
     }),
+    AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
