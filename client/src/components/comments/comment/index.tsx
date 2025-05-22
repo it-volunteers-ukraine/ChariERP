@@ -13,7 +13,7 @@ interface CommentListProps {
 }
 
 export const Comment = ({ comment }: CommentListProps) => {
-  const { _id } = useUserInfo();
+  const { _id, isManager } = useUserInfo();
   const userId = _id ? String(_id) : undefined;
 
   const btnEditor = useTranslations('editor.button');
@@ -29,6 +29,8 @@ export const Comment = ({ comment }: CommentListProps) => {
     }
     setIsEditing(false);
   };
+
+  const isUserAllowedToEdit = !isEditing && (comment.author.id === userId || isManager);
 
   return (
     <div className="mt-6 flex gap-4 [&>:first-child]:min-w-6">
@@ -69,7 +71,7 @@ export const Comment = ({ comment }: CommentListProps) => {
           />
         )}
 
-        {!isEditing && comment.author.id === userId && (
+        {isUserAllowedToEdit && (
           <div className="flex gap-4">
             <button className="text-[15px] text-lightBlue" type="button" onClick={() => setIsEditing(true)}>
               {btnEditor('btnEdit')}

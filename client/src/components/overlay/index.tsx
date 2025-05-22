@@ -10,6 +10,7 @@ import { Portal } from '../portal';
 import { getStyles } from './styles';
 
 interface IOverlayProps {
+  isImg?: boolean;
   opened: boolean;
   duration?: number;
   classNameModal?: string;
@@ -17,6 +18,7 @@ interface IOverlayProps {
 }
 
 export const Overlay = ({
+  isImg,
   opened,
   onClose,
   children,
@@ -26,7 +28,7 @@ export const Overlay = ({
   const modalRef = useRef<HTMLDivElement>(null);
   const { unmounted } = useMounted({ opened, duration });
 
-  const styles = getStyles({ opened, classNameModal });
+  const styles = getStyles({ opened, classNameModal, isImg });
 
   const handleKeyPressOnClose = (event: React.KeyboardEvent<SVGSVGElement>) => {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -88,15 +90,17 @@ export const Overlay = ({
       <div className="fixed inset-0 z-10 flex h-screen w-screen items-center justify-center py-10">
         <div onClick={onClose} className={styles.overlay} style={{ animationDuration: `${duration}ms` }} />
         <div ref={modalRef} className={styles.modal} style={{ animationDuration: `${duration - 20}ms` }} tabIndex={0}>
-          <Close
-            width={24}
-            height={24}
-            tabIndex={0}
-            role="button"
-            onClick={onClose}
-            className={styles.svg}
-            onKeyPress={handleKeyPressOnClose}
-          />
+          {!isImg && (
+            <Close
+              width={24}
+              height={24}
+              tabIndex={0}
+              role="button"
+              onClick={onClose}
+              className={styles.svg}
+              onKeyPress={handleKeyPressOnClose}
+            />
+          )}
           {children}
         </div>
       </div>

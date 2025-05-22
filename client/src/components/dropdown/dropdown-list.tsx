@@ -30,6 +30,7 @@ export const DropdownList = ({
   setIsDropdownOpen,
 }: IDropdownListProps) => {
   const translateBoard = useTranslations('board');
+  const translateTask = useTranslations('taskPage');
   const translateSearch = useTranslations('inputs.placeholder');
 
   const ref = useRef<HTMLDivElement>(null);
@@ -58,7 +59,9 @@ export const DropdownList = ({
   return (
     <div ref={ref} className={styles.wrapper}>
       <div className="flex items-center justify-between p-3 font-scada text-lg text-black">
-        <p className="font-scada uppercase">{translateBoard('allParticipants')}</p>
+        <p className="font-scada uppercase">
+          {taskUsers ? translateTask('performers') : translateBoard('allParticipants')}
+        </p>
 
         <button className="w-6" onClick={setIsDropdownOpen}>
           <Close />

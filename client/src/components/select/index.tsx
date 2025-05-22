@@ -12,6 +12,7 @@ interface ISelect {
   name: string;
   role?: string;
   isLoading: boolean;
+  isClosed?: boolean;
   placeholder: string;
   translation?: string;
   withTranslate?: boolean;
@@ -27,6 +28,7 @@ export const Select = ({
   options,
   selected,
   onChange,
+  isClosed,
   isLoading,
   placeholder,
   translation,
@@ -39,6 +41,12 @@ export const Select = ({
   const [isActiveSelected, setIsActiveSelected] = useState<ISelectOption | null>(selected);
 
   const translate = (label: OptionValue) => (withTranslate ? t(label) : label);
+
+  useEffect(() => {
+    if (isClosed) {
+      setIsOpen(false);
+    }
+  }, [isClosed]);
 
   useEffect(() => {
     setIsActiveSelected(selected);

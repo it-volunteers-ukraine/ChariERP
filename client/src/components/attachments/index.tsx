@@ -1,6 +1,7 @@
 'use client';
 
 import { Loader } from '@/assets/icons';
+import { useUserInfo } from '@/context';
 import { IAttachmentFileResponse } from '@/types';
 
 import { Wrapper } from './wrapper';
@@ -15,6 +16,8 @@ interface IAttachments {
 }
 
 export const Attachments = ({ taskId, fileList }: IAttachments) => {
+  const { isManager } = useUserInfo();
+
   const { uploadFile, files, deleteFile, isDownloading, isUploading, isDeleting } = useFile({ taskId, fileList });
 
   const handleRemoveFile = (id: string) => {
@@ -33,7 +36,7 @@ export const Attachments = ({ taskId, fileList }: IAttachments) => {
         </Wrapper>
       )}
 
-      {!isDownloading && <AddCard disabled={isDisabled} addFile={uploadFile} />}
+      {!isDownloading && isManager && <AddCard disabled={isDisabled} addFile={uploadFile} />}
 
       {!isDownloading &&
         files.map(({ body, preview, id }) => (

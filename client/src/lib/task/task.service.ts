@@ -96,6 +96,13 @@ class TaskService extends BaseService {
       };
     }
 
+    if (!task.users.some((user: IUsers) => String(user._id) === userId)) {
+      return {
+        success: false,
+        message: 'You do not have access to this task',
+      };
+    }
+
     return {
       success: true,
       data: JSON.stringify({
@@ -347,22 +354,25 @@ class TaskService extends BaseService {
       return {
         error: {
           success: false,
-          message: 'User not found',
+          message: 'You are not allowed to do this action in this task',
         },
       };
     }
+
+    const isManager = user.role === Roles.MANAGER;
 
     if (role && user.role !== role) {
       return {
         error: {
           success: false,
-          message: 'You are not allowed to add a comment to this task',
+          message: 'You are not allowed to do this action in this task',
         },
       };
     }
 
     return {
       task,
+      isManager,
     };
   }
 
@@ -428,7 +438,7 @@ class TaskService extends BaseService {
       return access.error;
     }
 
-    const { task } = access;
+    const { task, isManager } = access;
 
     const comment = task.comments.id(commentId);
 
@@ -439,7 +449,7 @@ class TaskService extends BaseService {
       };
     }
 
-    if (comment.author.toString() !== userId) {
+    if (comment.author.toString() !== userId && !isManager) {
       return {
         success: false,
         message: 'You are not allowed to delete this comment',
@@ -474,7 +484,7 @@ class TaskService extends BaseService {
       return access.error;
     }
 
-    const { task } = access;
+    const { task, isManager } = access;
 
     const comment = task.comments.id(commentId);
 
@@ -485,7 +495,7 @@ class TaskService extends BaseService {
       };
     }
 
-    if (comment.author.toString() !== userId) {
+    if (comment.author.toString() !== userId && !isManager) {
       return {
         success: false,
         message: 'You are not allowed to update this comment',
@@ -531,6 +541,7 @@ class TaskService extends BaseService {
       message: 'Comment updated successfully',
     };
   }
+
   async updateDateStart({ taskId, userId, date }: IUpdateDateProps) {
     if (!taskId || !userId || !date) {
       return {
@@ -558,6 +569,7 @@ class TaskService extends BaseService {
       message: 'Task updated successfully',
     };
   }
+
   async updateDateEnd({ taskId, userId, date }: IUpdateDateProps) {
     if (!taskId || !userId || !date) {
       return {
@@ -635,6 +647,7 @@ class TaskService extends BaseService {
       message: 'Task updated successfully',
     };
   }
+
   async updatePriority({ taskId, userId, priority }: IUpdatePriorityProps) {
     if (!taskId || !userId || !priority) {
       return {
@@ -662,6 +675,7 @@ class TaskService extends BaseService {
       message: 'Task updated successfully',
     };
   }
+
   async deleteTaskPage({ taskId, userId }: IDeleteTaskPage) {
     if (!taskId || !userId) {
       return {
@@ -701,6 +715,7 @@ class TaskService extends BaseService {
       data: JSON.stringify({ boardId: boardColumn.board_id }),
     };
   }
+
   async updateTitle({ taskId, title, userId }: IUpdateTaskTitle) {
     if (!taskId || !userId || !title) {
       return {
@@ -859,7 +874,7 @@ class TaskService extends BaseService {
     };
   }
 
-  async downloadFile({ taskId }: { taskId: string }) {
+  async downloadFile({ taskId, userId }: { taskId: string; userId: string }) {
     if (!taskId) {
       return {
         success: false,
@@ -867,14 +882,13 @@ class TaskService extends BaseService {
       };
     }
 
-    const task = await Task.findById(taskId).lean<ITask>();
+    const access = await this.hasTaskAccess({ userId, taskId });
 
-    if (!task) {
-      return {
-        success: false,
-        message: 'Task not found',
-      };
+    if (access.error) {
+      return access.error;
     }
+
+    const { task } = access;
 
     if (task.attachment.length === 0) {
       return {
@@ -884,7 +898,7 @@ class TaskService extends BaseService {
     }
 
     const filesStream = await Promise.all(
-      task.attachment.map(async (file) => {
+      task.attachment.map(async (file: IAttachmentFile) => {
         const stream = await downloadFileFromBucket(file.keyFromBucket);
         const fileBase64 = await streamToBase64(stream as Readable);
 

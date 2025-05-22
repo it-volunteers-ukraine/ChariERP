@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import { UserIcon } from '../user-icon';
 
 interface IDropdownItemProps {
@@ -9,7 +11,11 @@ interface IDropdownItemProps {
 
 export const DropdownItem = ({ lastName, firstName, avatarUrl, checkbox }: IDropdownItemProps) => {
   return (
-    <label className="mb-2 flex cursor-pointer items-center gap-x-2 border-b border-arcticSky p-[6px_8px] hover:bg-superBlue">
+    <label
+      className={clsx('mb-2 flex items-center gap-x-2 border-b border-arcticSky p-[6px_8px] hover:bg-superBlue', {
+        'cursor-pointer': checkbox !== undefined,
+      })}
+    >
       {checkbox !== undefined && checkbox}
 
       <UserIcon withoutRing lastName={lastName} firstName={firstName} avatarUrl={avatarUrl} />

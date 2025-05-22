@@ -158,7 +158,7 @@ export const useFile = ({ taskId, fileList }: { taskId: string; fileList: IAttac
     try {
       setIsDownloading(true);
 
-      const res = await downloadFileAction({ taskId });
+      const res: ResponseGetType = await downloadFileAction({ taskId });
 
       if (res.success && res.data) {
         const filesResponse: IFileResponse[] = JSON.parse(res.data);

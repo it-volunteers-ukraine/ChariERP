@@ -49,8 +49,8 @@ export const EditorTask = ({ taskId, taskDescription }: EditorTaskProps) => {
         isEditing={isEditing}
         onSave={setDescription}
         initialState={description}
-        placeholder={placeholder('placeholder')}
         className={cn('min-h-[26px]', isEditing && 'mb-2', !isManager && '!cursor-default')}
+        placeholder={isManager ? placeholder('placeholder') : placeholder('placeholderUser')}
       />
       {isEditing && isManager && (
         <EditorBtnGroup

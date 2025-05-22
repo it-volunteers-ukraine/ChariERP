@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
+import { useUserInfo } from '@/context';
 import { useOutsideClick } from '@/hooks';
 import { Delete, Dots, Download } from '@/assets/icons';
 
@@ -11,6 +12,8 @@ import { DotsWrapperProps } from './types';
 
 export const DotsWrapper = ({ removeFile, preview, fileName, disabled }: DotsWrapperProps) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { isManager } = useUserInfo();
 
   const text = useTranslations('attachments');
 
@@ -48,11 +51,13 @@ export const DotsWrapper = ({ removeFile, preview, fileName, disabled }: DotsWra
           <Download />
         </a>
 
-        <div onClick={deleteFile} className={styles.option}>
-          <span className={styles.optionText}>{text('delete')}</span>
+        {isManager && (
+          <div onClick={deleteFile} className={styles.option}>
+            <span className={styles.optionText}>{text('delete')}</span>
 
-          <Delete className={styles.icon} />
-        </div>
+            <Delete className={styles.icon} />
+          </div>
+        )}
       </div>
     </>
   );

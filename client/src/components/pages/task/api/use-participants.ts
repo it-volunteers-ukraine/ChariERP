@@ -24,6 +24,7 @@ export const useParticipants = ({ taskId, taskUsersList, boardId }: IUseParticip
   const [taskUsers, setTaskUsers] = useState<UserParticipants[]>(sortedUsers(taskUsersList));
 
   const [isLoading, setIsLoading] = useState(false);
+  const [idUserUpdatingStatus, setIdUserUpdatingStatus] = useState<string | null>(null);
 
   const taskText = useTranslations('taskPage.participants');
 
@@ -75,6 +76,8 @@ export const useParticipants = ({ taskId, taskUsersList, boardId }: IUseParticip
 
   const addUser = async (userId: string) => {
     try {
+      setIdUserUpdatingStatus(userId);
+
       const isExists = taskUsers.some((user) => user.id === userId);
 
       if (isExists) {
@@ -105,11 +108,15 @@ export const useParticipants = ({ taskId, taskUsersList, boardId }: IUseParticip
       }
     } catch (error) {
       return Promise.reject(error);
+    } finally {
+      setIdUserUpdatingStatus(null);
     }
   };
 
   const deleteUser = async (userId: string) => {
     try {
+      setIdUserUpdatingStatus(userId);
+
       if (userId === id) {
         showMessage.error(taskText('deleteYourSelf'));
 
@@ -133,6 +140,8 @@ export const useParticipants = ({ taskId, taskUsersList, boardId }: IUseParticip
       }
     } catch (error) {
       return Promise.reject(error);
+    } finally {
+      setIdUserUpdatingStatus(null);
     }
   };
 
@@ -142,10 +151,11 @@ export const useParticipants = ({ taskId, taskUsersList, boardId }: IUseParticip
 
   return {
     addUser,
+    allUsers,
     taskUsers,
     isLoading,
     boardUsers,
     deleteUser,
-    allUsers: allUsers,
+    idUserUpdatingStatus,
   };
 };
