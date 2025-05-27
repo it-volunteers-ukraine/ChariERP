@@ -1,30 +1,42 @@
-FROM node:22-alpine AS dependencis
+# Stage 1: Install dependencies
+ARG NODE_VERSION=22
+FROM node:${NODE_VERSION}-alpine AS deps
 WORKDIR /server
-COPY package.json package-lock.json ./
-RUN npm install
+COPY package*.json ./
+RUN npm ci --only=production
 
-FROM node:22-alpine AS builder
+# Stage 2: Build application
+FROM node:${NODE_VERSION}-alpine AS builder
 WORKDIR /server
-COPY --from=dependencis /server/node_modules ./node_modules
+COPY --from=deps /server/node_modules ./node_modules
 COPY . .
-
 RUN npm run build
 
-FROM node:22-alpine AS runner
+# Stage 3: Production runtime
+FROM node:${NODE_VERSION}-alpine AS production
 WORKDIR /server
 
-ENV NODE_ENV production
+# Set production environment
+ARG PORT=8080
+ENV NODE_ENV=production \
+    PORT=${PORT} \
+    HOSTNAME=0.0.0.0
 
-RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nestjs
+# Create user and setup permissions
+ARG USER=nestjs
+ARG GROUP=nodejs
+ARG UID=1001
+ARG GID=1001
+RUN addgroup --system --gid ${GID} ${GROUP} && \
+    adduser --system --uid ${UID} ${USER} && \
+    mkdir -p dist && \
+    chown ${USER}:${GROUP} dist
 
-# Set the correct permission for prerender cache
-RUN mkdir dist
-RUN chown nestjs:nodejs dist
+# Copy built application
+COPY --from=builder --chown=${USER}:${GROUP} /server/dist/ ./
 
-COPY --from=builder --chown=nestjs:nodejs /server/dist/ ./
+# Configure runtime
+USER ${USER}
+EXPOSE ${PORT}
 
-USER nestjs
-EXPOSE 8080
-ENV PORT 8080
-
-CMD HOSTNAME="0.0.0.0" node main.js
+CMD ["node", "main.js"]
