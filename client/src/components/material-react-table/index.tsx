@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { type MRT_ColumnDef, useMaterialReactTable, MaterialReactTable as Table } from 'material-react-table';
+import { type MRT_ColumnDef, useMaterialReactTable, MaterialReactTable, MRT_Row } from 'material-react-table';
 
 import { Delete } from '@/assets/icons';
 
@@ -26,7 +26,7 @@ export type Person = {
   description: string;
 };
 
-export const MaterialReactTable = () => {
+export const MaterialTable = () => {
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
       ...header,
@@ -36,7 +36,7 @@ export const MaterialReactTable = () => {
         size: 100,
         enableSorting: false,
         enableColumnActions: false,
-        Cell: ({ row }: { row: any }) => (
+        Cell: ({ row }: { row: MRT_Row<Person> }) => (
           <Delete onClick={() => console.log(row.index)} className="h-[20px] w-[20px] cursor-pointer text-[#61B6DB]" />
         ),
       },
@@ -49,14 +49,9 @@ export const MaterialReactTable = () => {
     columns,
     enableSorting: false,
     enableTopToolbar: true,
+    enablePagination: true,
     enableColumnActions: true,
     paginationDisplayMode: 'pages',
-    initialState: {
-      pagination: {
-        pageSize: 5,
-        pageIndex: 0,
-      },
-    },
     muiTablePaperProps: {
       sx: {
         backgroundColor: 'white !important',
@@ -133,7 +128,7 @@ export const MaterialReactTable = () => {
 
   return (
     <div className="m-[30px] overflow-hidden rounded-t-[14px]">
-      <Table table={table} />
+      <MaterialReactTable table={table} />
     </div>
   );
 };

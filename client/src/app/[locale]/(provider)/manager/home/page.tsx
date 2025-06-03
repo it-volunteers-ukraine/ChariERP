@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { MaterialReactTable } from '@/components';
+import { MaterialTable } from '@/components/material-react-table';
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const Home = () => {
   return (
     <div>
-      <MaterialReactTable />
+      <MaterialTable />
     </div>
   );
 };
