@@ -5,16 +5,24 @@ import { ITask } from '@/types';
 const TaskSchema = new Schema<ITask>(
   {
     title: { type: String },
-    status: { type: String },
-    date_end: { type: Date, required: true },
+    date_end: { type: Date },
     priority: { type: String },
-    date_start: { type: Date, required: true },
-    attachment: { type: [String], default: [] },
+    date_start: { type: Date },
+    attachment: {
+      type: [
+        new Schema({
+          name: { type: String, required: true },
+          type: { type: String, required: true },
+          keyFromBucket: { type: String, required: true },
+        }),
+      ],
+      default: [],
+    },
     comments: {
       type: [
         new Schema(
           {
-            comment: { type: String, required: true },
+            text: { type: String, required: true },
             author: { type: Schema.Types.ObjectId, ref: 'Users', required: true },
           },
           { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } },
@@ -32,7 +40,7 @@ const TaskSchema = new Schema<ITask>(
     ],
     boardColumn_id: {
       type: Schema.Types.ObjectId,
-      ref: 'BoardColumn',
+      ref: 'Board_Column',
       required: true,
     },
   },

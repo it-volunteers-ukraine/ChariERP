@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { $insertNodes } from 'lexical';
+import { $insertNodes, TextNode } from 'lexical';
 
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
@@ -15,9 +15,11 @@ export const ImagePlugin = () => {
       INSERT_IMAGE_COMMAND,
       (payload) => {
         const imageNode = new ImageNode(payload);
+        const textNode = new TextNode(' ');
 
         editor.update(() => {
           $insertNodes([imageNode]);
+          $insertNodes([textNode]);
         });
 
         return true;

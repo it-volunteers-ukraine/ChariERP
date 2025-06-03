@@ -1,10 +1,11 @@
 import { PropsWithChildren } from 'react';
 import internal from 'stream';
 import { Schema } from 'mongoose';
+
 import { SdkStreamMixin } from '@aws-sdk/types';
 
 import { IAdmin, IBoardColumn, ITask, IUsers } from './models';
-import { DownloadType, RequestOrganizationStatus, UserStatus } from './enums';
+import { DownloadType, RequestOrganizationStatus, Roles, UserStatus } from './enums';
 
 export type ChildrenProps<T = unknown> = PropsWithChildren<T>;
 export type StateProps<T = unknown> = React.Dispatch<React.SetStateAction<T>>;
@@ -132,6 +133,12 @@ export interface ICreateTaskProps {
   columnId: string;
 }
 
+export interface IHasTaskAccess {
+  role?: Roles;
+  userId: string;
+  taskId: string;
+}
+
 export interface IAddCommentProps {
   text: string;
   userId: string;
@@ -143,7 +150,7 @@ export interface IAddCommentActionProps {
   taskId: string;
 }
 
-export interface IDeleteComment {
+export interface IDeleteCommentProps {
   taskId: string;
   userId: string;
   commentId: string;
@@ -154,10 +161,140 @@ export interface IDeleteCommentActionProps {
   commentId: string;
 }
 
+export interface IUpdateCommentProps {
+  text: string;
+  taskId: string;
+  userId: string;
+  commentId: string;
+}
+
+export interface IUpdateCommentActionProps {
+  text: string;
+  taskId: string;
+  commentId: string;
+}
+export interface IUpdateDateActionProps {
+  date: Date;
+  taskId: string;
+}
+export interface IUpdateTaskPriorityProps {
+  taskId: string;
+  priority: string;
+}
+export interface IUpdateStatusActionProps {
+  taskId: string;
+  newColumnId: string;
+}
+
+export interface IUseUpdateComments {
+  text: string;
+  commentId: string;
+}
+
+export interface IUpdateTaskDescription {
+  taskId: string;
+  userId: string;
+  description: string;
+}
+
+export interface IUpdateTaskDescriptionActionProps {
+  taskId: string;
+  description: string;
+}
+
+export interface IDeleteTaskPageActionProps {
+  taskId: string;
+}
+
+export interface IDeleteTaskPage {
+  taskId: string;
+  userId: string;
+}
+
+export interface IUpdateTaskTitle {
+  title: string;
+  taskId: string;
+  userId: string;
+}
+
+export interface IUpdateTaskTitleActionProps {
+  title: string;
+  taskId: string;
+}
+
+export interface IUploadFile {
+  taskId: string;
+  userId: string;
+  formData: FormData;
+}
+
+export interface IUploadFileActionProps {
+  taskId: string;
+  formData: FormData;
+}
+
+export interface IDeleteFile {
+  id: string;
+  taskId: string;
+  userId: string;
+}
+
+export interface IAddUserTask {
+  taskId: string;
+  userId: string;
+  boardId: string;
+  applyUserId: string;
+}
+
+export interface IAddUserTaskAction {
+  taskId: string;
+  boardId: string;
+  applyUserId: string;
+}
+
+export interface IDeleteUserTask {
+  taskId: string;
+  userId: string;
+  deleteUserId: string;
+}
+
+export interface IDeleteUserTaskAction {
+  taskId: string;
+  deleteUserId: string;
+}
+
+export interface IDeleteFileActionProps {
+  id: string;
+  taskId: string;
+}
+
+export interface IFileResponse {
+  id: string;
+  name: string;
+  type: string;
+  body: string;
+}
+
 export interface ICreateColumnProps {
   title: string;
   boardId: string;
   userId: string;
+}
+
+export interface IUpdateDateProps {
+  date: Date;
+  taskId: string;
+  userId: string;
+}
+export interface IUpdateBoardColumnIdProps {
+  taskId: string;
+  userId: string;
+  newColumnId: string;
+}
+export interface IUpdatePriorityProps {
+  taskId: string;
+  userId: string;
+  priority: string;
 }
 
 export interface IUseColumns {
@@ -267,4 +404,16 @@ export interface IRevokeUserFromBoardProps {
   userId: string;
   boardId: string;
   revokeUserId: string;
+}
+
+export interface UserParticipants {
+  id: string;
+  email: string;
+  status: string;
+  lastName: string;
+  position: string;
+  firstName: string;
+  avatarUrl: string;
+  middleName: string;
+  lastLogin: string;
 }

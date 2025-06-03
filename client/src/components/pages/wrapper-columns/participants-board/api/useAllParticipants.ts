@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
 
-import { StateProps } from '@/types';
 import { useUserInfo } from '@/context';
-import { normalizeUsers } from '@/utils';
 import { showMessage } from '@/components';
+import { normalizeUsers, sortedUsers } from '@/utils';
+import { StateProps, UserParticipants } from '@/types';
 import { applyUserToBoardAction, getAllUsersByOrganizationIdActions } from '@/actions';
-
-import { sortedUsers } from './helper';
-import { UserParticipants } from './types';
 
 interface IAddUserToBoard {
   applyUserId: string;

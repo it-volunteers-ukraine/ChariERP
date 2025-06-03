@@ -1,81 +1,82 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
-import { cn } from '@/utils';
 import { useUserInfo } from '@/context';
-import { ICommentResponse } from '@/types';
+import { cn, fetchAvatarUrl } from '@/utils';
 import { UserIcon, Editor } from '@/components';
 
 import { Comment } from './comment';
 import { EditorBtnGroup } from './btn-group';
-import { useAddComment, useDeleteComment } from '../pages/task/api';
+import { useComments } from '../pages/task/model';
 
-interface ICommentEditor {
-  taskId: string;
-  taskComments: ICommentResponse[];
-}
-
-export const CommentEditor = ({ taskId, taskComments }: ICommentEditor) => {
+export const CommentEditor = () => {
   const placeholder = useTranslations('editor');
 
-  const [comments, setComments] = useState<ICommentResponse[]>(taskComments);
-  const [activeComment, setActiveComment] = useState<string | null>(null);
-  const [isEditing, setIsEditing] = useState<string | null | false>(false);
+  const { firstName, lastName, avatarUrl, _id } = useUserInfo();
 
-  const { onAddComment } = useAddComment({ taskId, setComments });
-  const { onDeleteComment } = useDeleteComment({ taskId, setComments });
+  const [img, setImg] = useState<string>('');
+  const [newComment, setNewComment] = useState('');
+  const [isCreating, setIsCreating] = useState(false);
 
-  const { firstName, lastName, avatarUrl } = useUserInfo();
+  const { comments, addComment, isPending } = useComments();
 
-  const onSave = () => {
-    setIsEditing(false);
+  useEffect(() => {
+    loadAvatar();
+  }, [_id, avatarUrl]);
 
-    if (activeComment) {
-      onAddComment(activeComment);
-      setActiveComment(null);
+  const loadAvatar = async () => {
+    try {
+      if (_id && avatarUrl) {
+        const avatar = await fetchAvatarUrl(_id.toString(), avatarUrl);
+
+        setImg(avatar);
+      }
+    } catch (error) {
+      console.error('Failed to load avatar', error);
     }
+  };
+
+  const handleAddComment = () => {
+    if (newComment) {
+      addComment(newComment);
+    }
+    setIsCreating(false);
+    setNewComment('');
   };
 
   return (
     <div className="p-1">
       <div className="flex items-center gap-3 [&>:first-child]:min-w-6">
-        <UserIcon avatarUrl={avatarUrl as string} firstName={firstName as string} lastName={lastName as string} />
+        <UserIcon avatarUrl={img} firstName={firstName as string} lastName={lastName as string} />
         <div className="flex w-full flex-col gap-y-3">
           <Editor
-            onSave={setActiveComment}
-            isEditing={isEditing === null}
-            onOpen={() => setIsEditing(null)}
+            onSave={setNewComment}
+            isEditing={isCreating}
+            onOpen={() => setIsCreating(true)}
             placeholder={placeholder('placeholder')}
             classNamePlaceholder="top-[13px] left-[20px]"
             className={cn(
               'rounded-lg border border-[#65657526] px-4 py-3 shadow-md outline-none focus:border-darkBlueFocus',
-              isEditing === null ? 'min-h-[100px]' : 'min-h-[48px]',
+              isCreating ? 'min-h-[100px]' : 'min-h-[48px]',
             )}
           />
 
           <div className="flex gap-4">
-            {isEditing === null && (
-              <EditorBtnGroup isDisabled={!activeComment} onSave={onSave} setIsEditing={setIsEditing} />
+            {isCreating && (
+              <EditorBtnGroup
+                onSave={handleAddComment}
+                onCancel={() => setIsCreating(false)}
+                isDisabled={!newComment || isPending}
+              />
             )}
           </div>
         </div>
       </div>
-      {comments.map((comment, idx) => {
-        return (
-          <Comment
-            onSave={onSave}
-            comment={comment}
-            isEditing={isEditing}
-            onDelete={onDeleteComment}
-            isDisabled={!activeComment}
-            setIsEditing={setIsEditing}
-            key={`${comment.createdAt}_${idx}`}
-            setActiveComment={setActiveComment}
-          />
-        );
-      })}
+      {comments.map((comment, idx) => (
+        <Comment comment={comment} key={`${comment.createdAt}_${idx}`} />
+      ))}
     </div>
   );
 };

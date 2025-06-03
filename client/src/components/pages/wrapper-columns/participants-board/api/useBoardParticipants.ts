@@ -4,13 +4,10 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { useUserInfo } from '@/context';
-import { normalizeUsers } from '@/utils';
 import { showMessage } from '@/components';
-import { ResponseGetType, StateProps } from '@/types';
+import { normalizeUsers, sortedUsers } from '@/utils';
+import { ResponseGetType, StateProps, UserParticipants } from '@/types';
 import { getBoardMembersAction, removeUserFromBoardAction } from '@/actions';
-
-import { sortedUsers } from './helper';
-import { UserParticipants } from './types';
 
 interface IDeleteUserFromBoard {
   deletedId: string;

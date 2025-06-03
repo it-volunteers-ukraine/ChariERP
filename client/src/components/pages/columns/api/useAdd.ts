@@ -22,7 +22,7 @@ export const useAddColumn = ({ boardId, userId }: IUseColumns) => {
       if (res?.success && res?.data) {
         const parsedResponse = JSON.parse(res.data);
 
-        const normalizeUsers = await oneBoardColumnNormalizer(parsedResponse.users);
+        const normalizeUsers = await oneBoardColumnNormalizer(parsedResponse);
 
         setColumns([...response, normalizeUsers]);
 

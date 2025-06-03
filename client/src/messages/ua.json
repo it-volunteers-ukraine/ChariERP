@@ -236,7 +236,14 @@
     "passwordMismatch": "Введені паролі не співпадають",
     "validEmail": "Email повинен бути дійсним",
     "spacesNotAllowed": "Пробіли на початку та в кінці не допускаються",
-    "passwordsMustMatch": "Паролі повинні бути одинакові"
+    "passwordsMustMatch": "Паролі повинні бути одинакові",
+    "maxFiles": "Максимум {maxFiles} файлів",
+    "maxSizeOneFile": "Файл {fileName} має не допустимий розмір, більше {maxSize} MB.",
+    "maxSizeMoreFile": "Ці файли мають не допустимий розмір, більше {maxSize} MB: ${fileName}",
+    "errorExtension": "Цей файл має недопустиме розширення: {fileName}",
+    "errorExtensions": "Ці файли мають недопустимі розширення: {fileName}",
+    "duplicateFile": "Цей файл вже прикріплений: {fileName}",
+    "duplicateFiles": "Ці файли вже прикріплені: {fileName}"
   },
   "header": {
     "about": "Про нас",
@@ -617,25 +624,41 @@
       "btnEdit": "Редагувати",
       "btnCancel": "Скасувати"
     },
-
-    "modalImg": {
-      "title": "Додати зображення",
-      "inputUrl": "Вставте URL зображення",
-      "inputFile": "Обрати фото",
-      "add": "Додати"
-    },
     "placeholder": "Напишіть Ваш коментар"
   },
   "taskPage": {
+    "performers": "Виконавці",
+    "participants": {
+      "userNotFound": "Користувач не знайдений",
+      "deleteYourSelf": "Ви не можете видалити себе з виконавців",
+      "alreadyAdded": "Цей користувач вже доданий до списку виконавців"
+    },
+    "title": { "copy": "Копіювати посилання", "delete": "Видалити" },
+    "details": {
+      "title": "Деталі",
+      "status": "Статус",
+      "priority": "Пріоритет",
+      "implementers": "Виконавці",
+      "startDate": "Дата початку",
+      "endDate": "Дата початку",
+      "placeholder": "НЕ ВИЗНАЧЕНО ",
+      "priorityTypes": {
+        "low": "Низький",
+        "medium": "Середній",
+        "high": "Високий"
+      }
+    },
     "taskDescription": {
       "title": "Опис",
-      "placeholder": "Додайте опис завдання"
+      "placeholder": "Додайте опис завдання",
+      "placeholderUser": "Опис завдання наразі відсутній. Зачекайте на оновлення від менеджера."
     },
     "attachments": {
       "title": "Вкладення"
     },
     "comments": {
       "title": "Коментарі"
-    }
+    },
+    "noAccessToTask": "У вас немає доступу до цієї задачі"
   }
 }

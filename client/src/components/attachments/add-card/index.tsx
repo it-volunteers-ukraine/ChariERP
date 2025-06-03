@@ -5,7 +5,12 @@ import { filesFormat } from '@/constants';
 
 import { Wrapper } from '../wrapper';
 
-export const AddCard = ({ addFile }: { addFile: (event: React.ChangeEvent<HTMLInputElement>) => void }) => {
+interface AddCardProps {
+  disabled: boolean;
+  addFile: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export const AddCard = ({ addFile, disabled }: AddCardProps) => {
   const text = useTranslations('attachments');
 
   return (
@@ -15,7 +20,7 @@ export const AddCard = ({ addFile }: { addFile: (event: React.ChangeEvent<HTMLIn
 
         <span className="text-lynch/50">{text('attachFile')}</span>
 
-        <input multiple type="file" className="hidden" onChange={addFile} accept={filesFormat} />
+        <input multiple type="file" className="hidden" disabled={disabled} onChange={addFile} accept={filesFormat} />
       </label>
     </Wrapper>
   );

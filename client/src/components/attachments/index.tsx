@@ -1,38 +1,59 @@
 'use client';
 
-import { useState } from 'react';
+import { Loader } from '@/assets/icons';
+import { useUserInfo } from '@/context';
+import { IAttachmentFileResponse } from '@/types';
 
+import { Wrapper } from './wrapper';
 import { AddCard } from './add-card';
+import { getStyles } from './styles';
 import { FileCard } from './file-card';
+import { useFile } from '../pages/task/api/use-file';
 
-export const Attachments = () => {
-  const [files, setFiles] = useState<{ file: File; preview: string | undefined }[]>([]);
+interface IAttachments {
+  taskId: string;
+  fileList: IAttachmentFileResponse[];
+}
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = event.target.files;
+export const Attachments = ({ taskId, fileList }: IAttachments) => {
+  const { isManager } = useUserInfo();
 
-    if (selectedFiles) {
-      const newFile = Array.from(selectedFiles).map((file) => ({
-        file,
-        preview: URL.createObjectURL(file),
-      }));
+  const { uploadFile, files, deleteFile, isDownloading, isUploading, isDeleting } = useFile({ taskId, fileList });
 
-      setFiles((prev) => [...prev, ...newFile]);
-      event.target.value = '';
-    }
+  const handleRemoveFile = (id: string) => {
+    deleteFile(id);
   };
 
-  const handleRemoveFile = (indexToRemove: number) => {
-    setFiles((prevFiles) => prevFiles.filter((_, index) => index !== indexToRemove));
-  };
+  const isDisabled = isDownloading || isUploading || !!isDeleting;
+
+  const styles = getStyles();
 
   return (
-    <div className="flex flex-wrap gap-x-[7px] gap-y-[20px] tablet:gap-x-[20px]">
-      <AddCard addFile={handleFileChange} />
+    <div className={styles.wrapper}>
+      {isDownloading && (
+        <Wrapper className={styles.wrapperLoader}>
+          <Loader className={styles.loader} />
+        </Wrapper>
+      )}
 
-      {files.map(({ file, preview }, index) => (
-        <FileCard file={file} preview={preview} key={index} removeFile={() => handleRemoveFile(index)} />
-      ))}
+      {!isDownloading && isManager && <AddCard disabled={isDisabled} addFile={uploadFile} />}
+
+      {!isDownloading &&
+        files.map(({ body, preview, id }) => (
+          <FileCard
+            key={id}
+            file={body}
+            preview={preview}
+            disabled={isDisabled}
+            isDeleting={isDeleting === id}
+            removeFile={() => handleRemoveFile(id)}
+          />
+        ))}
+      {isUploading && (
+        <Wrapper className={styles.wrapperLoader}>
+          <Loader className={styles.loader} />
+        </Wrapper>
+      )}
     </div>
   );
 };

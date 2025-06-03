@@ -240,7 +240,14 @@
     "passwordMismatch": "The entered passwords do not match",
     "validEmail": "Email must be a valid",
     "spacesNotAllowed": "Leading and trailing spaces are not allowed",
-    "passwordsMustMatch": "Passwords must be the same"
+    "passwordsMustMatch": "Passwords must be the same",
+    "maxFiles": "Maximum {maxFiles} files",
+    "maxSizeOneFile": "The file {fileName} has an invalid size greater than {maxSize} MB.",
+    "maxSizeMoreFile": "These files have an invalid size greater than {maxSize} MB: ${fileName}",
+    "errorExtension": "This file has an invalid extension: {fileName}",
+    "errorExtensions": "These files have invalid extensions: {fileName}",
+    "duplicateFile": "This file is already attached: {fileName}",
+    "duplicateFiles": "These files are already attached: {fileName}"
   },
   "header": {
     "about": "About Us",
@@ -623,25 +630,41 @@
       "btnEdit": "Edit",
       "btnCancel": "Cancel"
     },
-
-    "modalImg": {
-      "title": "Add an image",
-      "inputUrl": "Insert image URL",
-      "inputFile": "Select photo",
-      "add": "Add"
-    },
     "placeholder": "Write your comment"
   },
   "taskPage": {
+    "performers": "Performers",
+    "participants": {
+      "userNotFound": "User not found",
+      "deleteYourSelf": "You can't remove yourself from the artists",
+      "alreadyAdded": "This user has already been added to the list of performers"
+    },
+    "title": { "copy": "Copy the link", "delete": "Delete" },
+    "details": {
+      "title": "Details",
+      "status": "Status:",
+      "priority": "Priority:",
+      "implementers": "Implementers:",
+      "startDate": "Start Date:",
+      "endDate": "End Date:",
+      "placeholder": "NOT SPECIFIED",
+      "priorityTypes": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      }
+    },
     "taskDescription": {
       "title": "Description",
-      "placeholder": "Add a task description"
+      "placeholder": "Add a task description",
+      "placeholderUser": "The task description is currently missing. Wait for an update from the manager."
     },
     "attachments": {
       "title": "Attachments"
     },
     "comments": {
       "title": "Comments"
-    }
+    },
+    "noAccessToTask": "You do not have access to this task"
   }
 }

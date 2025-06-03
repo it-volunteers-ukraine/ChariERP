@@ -4,7 +4,7 @@ import { randomInt } from 'crypto';
 import { TranslationValues } from 'next-intl';
 
 import { showMessage } from '@/components';
-import { Fields, IOrganizations } from '@/types';
+import { Fields, IOrganizations, UserParticipants } from '@/types';
 
 const switchExtension = (extension: string) => {
   if (extension === 'pdf') {
@@ -57,6 +57,14 @@ export const streamToBase64 = async (stream: Readable) => {
 
     stream.on('error', reject);
   });
+};
+
+export const base64ToBlob = (base64: string, type: string) => {
+  const byteCharacters = atob(base64);
+  const byteNumbers = Array.from(byteCharacters, (c) => c.charCodeAt(0));
+  const byteArray = new Uint8Array(byteNumbers);
+
+  return new Blob([byteArray], { type });
 };
 
 export function generatePassword(minLength: number = 8, maxLength: number = 20): string {
@@ -183,3 +191,5 @@ export const lettersToColor = (firstName: string, lastName: string): string => {
 };
 
 export const cleanSpaces = (str: string) => str.trim().replace(/\s+/g, ' ');
+
+export const sortedUsers = (users: UserParticipants[]) => users.sort((a, b) => a.firstName.localeCompare(b.firstName));

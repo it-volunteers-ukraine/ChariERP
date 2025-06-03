@@ -7,12 +7,14 @@ export {
   type IEditTask,
   type ICreateTask,
   type ITaskResponse,
+  type IAttachmentFile,
   type ICommentResponse,
   type LeanTaskComments,
+  type IAttachmentFileResponse,
 } from './task';
 export { type IResetToken } from './reset-token';
-export { type IUsers } from './users';
 export { type IUsersBoards } from './users-boards';
+export { type IUsers, type IUsersNormalizeResponse } from './users';
 export * from './organization';
 
 export interface PaginationResult<T> {

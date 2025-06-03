@@ -1,7 +1,9 @@
 import { JSX } from 'react';
 import Image from 'next/image';
 import { SerializedLexicalNode } from 'lexical';
-import { createCommand, DecoratorNode, LexicalNode } from 'lexical';
+import { createCommand, DecoratorNode } from 'lexical';
+
+import { ModalImg } from '@/components/modalImg';
 
 export class ImageNode extends DecoratorNode<JSX.Element> {
   __src: string;
@@ -25,11 +27,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
     self.__src = src;
   }
 
-  static clone(node: LexicalNode): ImageNode {
-    if (!(node instanceof ImageNode)) {
-      throw new Error('Invalid node: expected ImageNode');
-    }
-
+  static clone(node: ImageNode): ImageNode {
     return new ImageNode(node.__src, node.__key);
   }
 
@@ -50,27 +48,37 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
   }
 
   createDOM(): HTMLElement {
-    const img = document.createElement('img');
+    const div = document.createElement('div');
 
-    img.src = this.__src;
-    img.alt = 'photo';
-    img.className = 'img';
-    img.style.maxWidth = '300px';
-    img.setAttribute('data-key', this.__key);
+    div.setAttribute('data-key', this.__key);
 
-    return img;
+    return div;
   }
 
-  updateDOM(prevNode: ImageNode, dom: HTMLElement): false {
-    if (prevNode.__src !== this.__src) {
-      dom.setAttribute('src', this.__src);
-    }
-
+  updateDOM(): false {
     return false;
   }
 
   decorate(): JSX.Element {
-    return <Image src={this.__src} alt="Uploaded" className="w-200" />;
+    return (
+      <div style={{ position: 'relative' }}>
+        <ModalImg url={this.__src}>
+          <Image
+            width={0}
+            height={0}
+            alt="Photo"
+            src={this.__src}
+            style={{
+              width: 'auto',
+              height: 'auto',
+              maxWidth: '100%',
+              borderRadius: '4px',
+              objectFit: 'contain',
+            }}
+          />
+        </ModalImg>
+      </div>
+    );
   }
 }
 
