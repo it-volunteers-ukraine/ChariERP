@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+
 import { type MRT_ColumnDef, useMaterialReactTable, MaterialReactTable, MRT_Row } from 'material-react-table';
 
 import { Delete } from '@/assets/icons';
@@ -8,22 +9,22 @@ import { Delete } from '@/assets/icons';
 import { data, header } from './mock';
 
 export type Person = {
-  number: number;
   id: number;
-  photo: string;
-  name: string;
-  category: string;
-  unit: string;
-  save: string;
-  save_place: string;
-  origin: string;
-  financing: string;
-  arrival_date: string;
-  price: number;
   sum: number;
+  name: string;
+  save: string;
+  unit: string;
+  photo: string;
+  price: number;
+  number: number;
+  origin: string;
+  category: string;
+  financing: string;
   created_at: string;
+  save_place: string;
   updated_at: string;
   description: string;
+  arrival_date: string;
 };
 
 export const MaterialTable = () => {

@@ -1,4 +1,5 @@
 import { MRT_Row } from 'material-react-table';
+
 import { Person } from '.';
 
 export const header = [
