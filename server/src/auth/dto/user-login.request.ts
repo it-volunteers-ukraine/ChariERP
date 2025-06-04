@@ -4,7 +4,7 @@ import { IUser } from '../interfaces/user.interface';
 import { Roles, UserStatus } from '../../schemas/enums';
 import { Types } from 'mongoose';
 
-export class UserLoginDto {
+export class UserLoginRequest {
   @ApiProperty({ required: true, example: 'john.doe@company.com' })
   @IsEmail({}, { message: 'Please enter a valid email address' })
   email: string;
@@ -16,7 +16,7 @@ export class UserLoginDto {
   password: string;
 }
 
-export class UserLoginResponseDto implements IUser {
+export class UserLoginResponse implements IUser {
   @ApiProperty({example: 'https://example.com/avatar.jpg'})
   avatarUrl: string;
   dateOfEntry: Date;

@@ -1,17 +1,17 @@
 import bcrypt from 'bcrypt';
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { UserLoginDto } from './dto/user-login.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from 'src/schemas/user.schema';
+import { User } from '../schemas/user.schema';
 import { IUser } from './interfaces/user.interface';
 import { Model } from 'mongoose';
 import { UserStatus } from '../schemas/enums';
+import { UserLoginRequest } from './dto/user-login.request';
 
 @Injectable()
 export class AuthService {
   constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {}
 
-  public async login(loginDto: UserLoginDto): Promise<IUser> {
+  public async login(loginDto: UserLoginRequest): Promise<IUser> {
     const user = await this.userModel.findOne({ email: loginDto.email }).exec();
 
     if (!user) {

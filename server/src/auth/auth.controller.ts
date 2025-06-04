@@ -1,5 +1,5 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { UserLoginDto, UserLoginResponseDto } from './dto/user-login.dto';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { UserLoginRequest, UserLoginResponse } from './dto/user-login.request';
 import { AuthService } from './auth.service';
 import { IUser } from './interfaces/user.interface';
 import { ApiBadRequestResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
@@ -12,7 +12,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Sign in' })
   @ApiOkResponse({
     description: 'Returns a user object',
-    type: UserLoginResponseDto,
+    type: UserLoginResponse,
   })
   @ApiBadRequestResponse({
     description: 'Invalid request',
@@ -21,7 +21,8 @@ export class AuthController {
     description: 'Invalid credentials',
   })
   @Post('login')
-  async login(@Body() loginRequest: UserLoginDto): Promise<IUser> {
+  @HttpCode(HttpStatus.OK)
+  async login(@Body() loginRequest: UserLoginRequest): Promise<IUser> {
     return this.authService.login(loginRequest);
   }
 }
