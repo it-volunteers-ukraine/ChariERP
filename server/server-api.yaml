@@ -129,7 +129,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserLoginResponse"
+                $ref: "#/components/schemas/TaskResponse"
 
     put:
       description: Update existing user inside an organization
@@ -189,6 +189,59 @@ paths:
         404:
           description: 'User not found'
 
+  /api/v1/task/{taskId}/user/{userId}:
+    get:
+      tags:
+        - Task API
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/taskId'
+      responses:
+        200:
+          description: Task was successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        400:
+          description: Bad incoming ID values
+        401:
+          description: User is non-authorized
+        403:
+          description: User is not allowed to fetch the task
+        404:
+          description: Task is not found
+  
+  /api/v1/board:
+    post:
+      tags:
+        - Board API
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+                  description: User Identifier
+                  example: "7a1b3c9d-4e5f-6g7h-8i9j-0k1l2m3n4o5p"
+                title:
+                  type: string
+                  example: "Project Board"
+      responses:
+        200:
+          description: Board was successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoardSchema'
+        401:
+          description: User is non-authorized
+        403:
+          description: User is not allowed to create board
+
 components:
   securitySchemes:
     Authorization:
@@ -215,8 +268,46 @@ components:
         format: uuid
         example: "7a1b3c9d-4e5f-6g7h-8i9j-0k1l2m3n4o5p"
       description: User Identifier
+    boardId:
+      in: path
+      name: boardId
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: "212afe83-8b2c-4e6b-a1f7-c9a2ceac8a01"
+      description: Board Identifier
+    taskId:
+      in: path
+      name: taskId
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: "b3118c3f-b41c-4968-8e78-63edbf630fef"
+      description: Task Identifier
+    columnId:
+      in: path
+      name: columnId
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: "05621cb5-283a-4595-98d3-d46541105ada"
+      description: Column Identifier
 
   schemas:
+    Status:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "In Progress"
+        id:
+          type: string
+          format: objectid
+          example: "65f1c7a4e52891827ad41234"
+
     UserLoginRequest:
       type: object
       required:
@@ -387,6 +478,153 @@ components:
           type: string
           example: 'Experienced in Agile methodologies'
 
+    TaskAttachment:
+      type: object
+      required:
+        - name
+        - type
+        - keyFromBucket
+      properties:
+        name:
+          type: string
+          example: "document.pdf"
+        type:
+          type: string
+          example: "application/pdf"
+        keyFromBucket:
+          type: string
+          example: "tasks/attachments/document-123.pdf"
+
+    TaskComment:
+      type: object
+      required:
+        - text
+        - author
+      properties:
+        text:
+          type: string
+          example: "This needs to be reviewed by Friday"
+        author:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              example: "7a1b3c9d-4e5f-6g7h-8i9j-0k1l2m3n4o5p"
+            firstName:
+              type: string
+              example: "John"
+            lastName:
+              type: string
+              example: "Doe"
+            avatarUrl:
+              type: string
+              example: "https://storage.example.com/avatars/user123.jpg"
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-03-21T14:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2024-03-21T14:30:00Z"
+
+    TaskResponse:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Implement new feature"
+        date_end:
+          type: string
+          format: date-time
+          example: "2024-04-01T23:59:59Z"
+        priority:
+          type: string
+          example: "HIGH"
+        date_start:
+          type: string
+          format: date-time
+          example: "2024-03-21T00:00:00Z"
+        attachment:
+          type: array
+          items:
+            $ref: "#/components/schemas/TaskAttachment"
+        comments:
+          type: array
+          items:
+            allOf:
+              - $ref: "#/components/schemas/TaskComment"
+              - type: object
+                properties:
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+        description:
+          type: string
+          example: "Detailed description of the task requirements"
+        column:
+          type: object
+          properties:
+            id:
+              type: string
+              format: objectid
+              example: "65f1c7a4e52891827ad41234"
+            title:
+              type: string
+              example: "In Progress"
+        board_title:
+          type: string
+          example: 'Board'
+        statuses:
+          type: array
+          items:
+            $ref: "#/components/schemas/Status"
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-03-21T14:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2024-03-21T14:30:00Z"
+
+    BoardSchema:
+      type: object
+      required:
+        - title
+        - order
+      properties:
+        title:
+          type: string
+          example: "Project Alpha Board"
+        order:
+          type: integer
+          example: 1
+        _id:
+          type: string
+          format: objectid
+          example: "65f1c7a4e52891827ad41234"
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-03-21T14:30:00Z"
+        columns:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+                format: objectid
+                example: "65f1c7a4e52891827ad41234"
+              title:
+                type: string
+                example: "To Do"
+    
     PageUsersResponse:
       type: object
       properties:
