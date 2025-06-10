@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { type MRT_ColumnDef, useMaterialReactTable, MaterialReactTable, MRT_Row } from 'material-react-table';
 
@@ -28,6 +28,8 @@ export type Person = {
 };
 
 export const MaterialTable = () => {
+  const [deleteItem, setDeleteItem] = useState<Person[]>(data);
+
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
       ...header,
@@ -38,7 +40,16 @@ export const MaterialTable = () => {
         enableSorting: false,
         enableColumnActions: false,
         Cell: ({ row }: { row: MRT_Row<Person> }) => (
-          <Delete onClick={() => console.log(row.index)} className="h-[20px] w-[20px] cursor-pointer text-[#61B6DB]" />
+          <Delete
+            onClick={() => {
+              if (window.confirm('Ви дійсно хочете видалити цей товар?')) {
+                const idToDelete = row.original.id;
+
+                setDeleteItem((prev) => prev.filter((item) => item.id !== idToDelete));
+              }
+            }}
+            className="h-[20px] w-[20px] cursor-pointer text-[#61B6DB]"
+          />
         ),
       },
     ],
@@ -46,7 +57,7 @@ export const MaterialTable = () => {
   );
 
   const table = useMaterialReactTable({
-    data,
+    data: deleteItem,
     columns,
     enableSorting: false,
     enableTopToolbar: true,
