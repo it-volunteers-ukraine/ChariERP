@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-
+import { useTranslations } from 'next-intl';
 import { type MRT_ColumnDef, useMaterialReactTable, MaterialReactTable, MRT_Row } from 'material-react-table';
 
 import { Delete } from '@/assets/icons';
@@ -28,6 +28,8 @@ export type Person = {
 };
 
 export const MaterialTable = () => {
+  const t = useTranslations('materialTable');
+
   const [deleteItem, setDeleteItem] = useState<Person[]>(data);
 
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
@@ -42,7 +44,7 @@ export const MaterialTable = () => {
         Cell: ({ row }: { row: MRT_Row<Person> }) => (
           <Delete
             onClick={() => {
-              if (window.confirm('Ви дійсно хочете видалити цей товар?')) {
+              if (window.confirm(t('delete'))) {
                 const idToDelete = row.original.id;
 
                 setDeleteItem((prev) => prev.filter((item) => item.id !== idToDelete));

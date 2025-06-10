@@ -666,5 +666,6 @@
       "title": "Comments"
     },
     "noAccessToTask": "You do not have access to this task"
-  }
+  },
+  "materialTable": { "delete": "Do you really want to delete this item?" }
 }
