@@ -48,9 +48,15 @@ class BoardService extends BaseService {
       };
     }
 
-    const boards = await UsersBoards.find({ organization_id: user.organizationId });
+    const uniqueBoardIds = await UsersBoards.aggregate([
+      { $match: { organization_id: user.organizationId } },
+      { $group: { _id: '$board_id' } },
+      { $project: { board_id: '$_id', _id: 0 } },
+    ]);
 
-    if (boards.length >= 5) {
+    const boardIds = uniqueBoardIds.map((b) => b.board_id);
+
+    if (boardIds.length >= 5) {
       return {
         success: false,
         message: 'Maximum number of boards (5) reached for this organization',
@@ -58,7 +64,7 @@ class BoardService extends BaseService {
     }
 
     const existingBoard = await Board.findOne({
-      _id: { $in: boards.map((b) => b.board_id) },
+      _id: { $in: boardIds },
       title: title,
     });
 
@@ -69,7 +75,7 @@ class BoardService extends BaseService {
       };
     }
 
-    const body = { title, order: boards.length + 1 };
+    const body = { title, order: boardIds.length + 1 };
 
     const newBoard = new Board(body);
 
