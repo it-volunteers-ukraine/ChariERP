@@ -7,4 +7,8 @@ import { Task } from 'src/schemas';
 @Injectable()
 export class TaskService {
   constructor(@InjectModel(Task.name) private readonly taskModel: Model<Task>) {}
+
+  public async getAll(): Promise<Task[]> {
+    return this.taskModel.find().exec();
+  }
 }
