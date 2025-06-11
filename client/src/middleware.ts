@@ -48,7 +48,7 @@ const shouldRedirectToRequests = (userId: string | undefined, pathname: string):
   return isValidObjectId(userId) && pathname === routes.login;
 };
 
-const isValidObjectId = (id?: string): boolean => {
+export const isValidObjectId = (id?: string): boolean => {
   if (!id) return false;
   const objectIdRegex = /^[0-9a-fA-F]{24}$/;
 
