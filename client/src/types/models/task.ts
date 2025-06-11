@@ -72,10 +72,8 @@ export interface ICommentResponse {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ICreateTask extends Omit<ITask, 'boardColumn_id' | '_id' | 'created_at'> {}
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface IEditTask extends Partial<Omit<ITask, 'boardColumn_id' | 'users' | '_id' | 'created_at'>> {}
 
 export interface ITaskUsers extends Omit<ITask, 'users'> {
