@@ -1,16 +1,17 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Draggable } from '@hello-pangea/dnd';
 
 import { cn } from '@/utils';
 import { routes } from '@/constants';
+import { useUserInfo } from '@/context';
 import { useOutsideClick } from '@/hooks';
 import { IUsersNormalizer } from '@/types';
 import { Delete, DotsSettings } from '@/assets/icons';
 
+import { showMessage } from '../toastify';
 import { Participants } from '../participants';
 import { ToolsDropMenu } from '../tools-drop-menu';
 
@@ -43,6 +44,11 @@ export const TaskCard = ({
 }: ITaskCard) => {
   const ref = useRef<HTMLDivElement>(null);
   const deleteMessage = useTranslations('button');
+  const taskMessage = useTranslations('taskPage');
+
+  const { _id } = useUserInfo();
+  const userId = _id ? String(_id) : undefined;
+  const isAccess = users.some((user) => user.id === userId);
 
   const [isActive, setIsActive] = useState(false);
 
@@ -65,14 +71,25 @@ export const TaskCard = ({
 
   useOutsideClick(() => setIsActive(false), ref);
 
+  const handleClick = (e: React.MouseEvent) => {
+    if (isAccess || isManager) {
+      window.location.href = `${routes.managerDashboard}/${boardId}/${columnId}/${id}`;
+    } else {
+      e.preventDefault();
+      e.stopPropagation();
+
+      showMessage.error(taskMessage('noAccessToTask'));
+    }
+  };
+
   return (
     <Draggable draggableId={`${id}-${idx}`} index={idx}>
       {(provided, snapshot) => (
-        <Link
+        <div
+          onClick={handleClick}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          href={`${routes.managerDashboard}/${boardId}/${columnId}/${id}`}
           className={cn(style.taskCard, snapshot.isDragging && style.taskCardDragging)}
         >
           <div className="flex items-start justify-between">
@@ -97,7 +114,7 @@ export const TaskCard = ({
           </div>
 
           <Participants users={users} isTask />
-        </Link>
+        </div>
       )}
     </Draggable>
   );

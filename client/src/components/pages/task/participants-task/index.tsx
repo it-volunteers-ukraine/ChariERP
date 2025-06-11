@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
+import { useUserInfo } from '@/context';
 import { ArrowUp, Loader } from '@/assets/icons';
 import { IUsersNormalizer, IUsersNormalizeResponse } from '@/types';
 import { DropdownInput, Participants, DropdownItem, DropdownList, IntermediateText } from '@/components';
@@ -11,16 +12,19 @@ import { useParticipants } from '../api';
 interface IParticipantsTaskProps {
   taskId: string;
   boardId: string;
+  isClosed?: boolean;
   taskUsersList: IUsersNormalizeResponse[];
 }
 
-export const ParticipantsTask = ({ taskId, boardId, taskUsersList }: IParticipantsTaskProps) => {
+export const ParticipantsTask = ({ taskId, boardId, taskUsersList, isClosed }: IParticipantsTaskProps) => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   const boardText = useTranslations('board');
   const taskText = useTranslations('taskPage');
 
-  const { allUsers, boardUsers, taskUsers, isLoading, addUser, deleteUser } = useParticipants({
+  const { isManager } = useUserInfo();
+
+  const { allUsers, boardUsers, taskUsers, isLoading, addUser, deleteUser, idUserUpdatingStatus } = useParticipants({
     taskId,
     boardId,
     taskUsersList,
@@ -32,7 +36,46 @@ export const ParticipantsTask = ({ taskId, boardId, taskUsersList }: IParticipan
     }
   };
 
-  const styles = getStyle(isOpenMenu);
+  useEffect(() => {
+    if (isClosed) {
+      setIsOpenMenu(false);
+    }
+  }, [isClosed]);
+
+  const styles = getStyle({ isOpenMenu, isLoading });
+
+  const checkBoxRender = ({ userId, action, checked }: { userId: string; action: () => void; checked?: boolean }) => {
+    if (idUserUpdatingStatus === userId) {
+      return <Loader className={styles.loader} />;
+    }
+
+    return <DropdownInput checked={checked} onChange={action} />;
+  };
+
+  const renderUsersTaskManager = (user: IUsersNormalizer, taskIdx: number) => (
+    <div key={`task-user-${user.id}`}>
+      {taskIdx === 0 && <IntermediateText text={taskText('performers')} />}
+
+      <DropdownItem
+        lastName={user.lastName}
+        firstName={user.firstName}
+        avatarUrl={user.avatarUrl}
+        checkbox={checkBoxRender({
+          checked: true,
+          userId: user.id,
+          action: () => {
+            deleteUser(user.id);
+          },
+        })}
+      />
+    </div>
+  );
+
+  const renderUsersTaskNotManager = (user: IUsersNormalizer) => (
+    <div key={`board-user-${user.id}`}>
+      <DropdownItem lastName={user.lastName} firstName={user.firstName} avatarUrl={user.avatarUrl} />
+    </div>
+  );
 
   return (
     <>
@@ -45,22 +88,12 @@ export const ParticipantsTask = ({ taskId, boardId, taskUsersList }: IParticipan
 
         {isOpenMenu && !isLoading && (
           <DropdownList
-            allUsers={allUsers}
-            boardUsers={boardUsers}
+            allUsers={isManager ? allUsers : undefined}
+            boardUsers={isManager ? boardUsers : undefined}
+            dropdownClassName="w-full"
             taskUsers={taskUsers as IUsersNormalizer[]}
             setIsDropdownOpen={() => setIsOpenMenu(false)}
-            renderTaskUsers={(user, taskIdx) => (
-              <div key={`task-user-${user.id}`}>
-                {taskIdx === 0 && <IntermediateText text={taskText('performers')} />}
-
-                <DropdownItem
-                  lastName={user.lastName}
-                  firstName={user.firstName}
-                  avatarUrl={user.avatarUrl}
-                  checkbox={<DropdownInput checked onChange={() => deleteUser(user.id)} />}
-                />
-              </div>
-            )}
+            renderTaskUsers={isManager ? renderUsersTaskManager : renderUsersTaskNotManager}
             renderBoardUsers={(user, boardIdx) => (
               <div key={`board-user-${user.id}`}>
                 {boardIdx === 0 && <IntermediateText text={boardText('currentBoard')} />}
@@ -69,7 +102,12 @@ export const ParticipantsTask = ({ taskId, boardId, taskUsersList }: IParticipan
                   lastName={user.lastName}
                   firstName={user.firstName}
                   avatarUrl={user.avatarUrl}
-                  checkbox={<DropdownInput onChange={() => addUser(user.id)} />}
+                  checkbox={checkBoxRender({
+                    userId: user.id,
+                    action: () => {
+                      addUser(user.id);
+                    },
+                  })}
                 />
               </div>
             )}
@@ -81,7 +119,12 @@ export const ParticipantsTask = ({ taskId, boardId, taskUsersList }: IParticipan
                   lastName={user.lastName}
                   firstName={user.firstName}
                   avatarUrl={user.avatarUrl}
-                  checkbox={<DropdownInput onChange={() => addUser(user.id)} />}
+                  checkbox={checkBoxRender({
+                    userId: user.id,
+                    action: () => {
+                      addUser(user.id);
+                    },
+                  })}
                 />
               </div>
             )}
