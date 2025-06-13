@@ -15,7 +15,7 @@ export const routes = {
   managerHome: '/manager/home',
   managerOrganization: '/manager/organization',
   managerSettings: '/manager/settings',
-  managerAccountingSystem: '/manager/accounting-system',
+  managerTmcCatalog: '/manager/tmc-catalog',
 
   // general
   aboutService: '/about_service',

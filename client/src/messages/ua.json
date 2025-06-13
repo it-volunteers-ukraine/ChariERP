@@ -47,7 +47,8 @@
     "employees": "Співробітники",
     "boards": "Дошки",
     "settings": "Налаштування",
-    "accountingSystem": "Система обліку"
+    "accountingSystem": "Система обліку",
+    "tmcCatalog": "Каталог ТМЦ"
   },
   "inputs": {
     "title": {

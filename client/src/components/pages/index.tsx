@@ -1,7 +1,7 @@
 export { AboutServicePage } from './about-service';
 export { AboutUsPage } from './about-us';
 export { AdminOrganizationById } from './admin-organization-by-id';
-export { AccountingSystemPage } from './accounting-system';
+export { TmcCatalogPage } from './tmc-catalog';
 export { Columns } from './columns';
 export { Dashboards } from './dashboards';
 export { FaqPage } from './faq';
