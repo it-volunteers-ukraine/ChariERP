@@ -1,8 +1,8 @@
 import { Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-import { timesTampOptions } from './schema.option';
 import { TaskPriority } from './enums';
+import { timesTampOptions } from './schema.option';
 
 @Schema()
 export class Attachments {
@@ -23,7 +23,7 @@ export class Comments {
 }
 
 @Schema(timesTampOptions)
-export class Task {
+export class Tasks {
   @Prop({ required: true })
   title: string;
   @Prop({ type: Date })
@@ -41,7 +41,7 @@ export class Task {
   @Prop({ type: [Types.ObjectId], ref: 'Users', required: true })
   users: Types.ObjectId[];
   @Prop({ type: Types.ObjectId, ref: 'Board_Column', required: true })
-  boardColumn_id: Types.ObjectId;
+  columnId: Types.ObjectId;
 }
 
-export const TaskSchema = SchemaFactory.createForClass(Task);
+export const TaskSchema = SchemaFactory.createForClass(Tasks);
