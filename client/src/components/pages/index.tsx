@@ -1,7 +1,6 @@
 export { AboutServicePage } from './about-service';
 export { AboutUsPage } from './about-us';
 export { AdminOrganizationById } from './admin-organization-by-id';
-export { TmcCatalogPage } from './tmc-catalog';
 export { Columns } from './columns';
 export { Dashboards } from './dashboards';
 export { FaqPage } from './faq';
@@ -10,4 +9,5 @@ export { NoAccess } from './no-access';
 export { TableOrganization } from './table-organization';
 export { TableRequests } from './table-requests';
 export { Task } from './task';
+export { TmcCatalogPage } from './tmc-catalog';
 export { WrapperColumns } from './wrapper-columns';
