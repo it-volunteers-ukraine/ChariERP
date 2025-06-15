@@ -1,14 +1,13 @@
 'use client';
 
-import { Fragment, useEffect, useRef, useState } from 'react';
-import Cookies from 'js-cookie';
+import { Fragment, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
 
 import { clearUserCookies, cn } from '@/utils';
 import { Exit, JamMenu } from '@/assets/icons';
-import { routes, boardState } from '@/constants';
+import { routes } from '@/constants';
 import { useBoards, useUserInfo } from '@/context';
 import { LanguageSwitcher, Logo } from '@/components';
 import { useOutsideClick, useWindowWidth } from '@/hooks';
@@ -16,14 +15,13 @@ import { useMoveBoards } from '@/components/pages/dashboards/api';
 
 import { NavItem } from './item';
 import { getStyles } from './styles';
-import { getBoolean } from './helper';
 import { getLinksByRole } from './config';
 
 const duration = 500;
 
 export const DashboardAside = () => {
   const ref = useRef(null);
-  const refChildrenLink = useRef<HTMLDivElement>(null);
+  const refs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const router = useRouter();
   const path = usePathname();
@@ -31,12 +29,8 @@ export const DashboardAside = () => {
   const { isDesktop } = useWindowWidth();
   const linkText = useTranslations('sidebar');
 
-  const boardsState = getBoolean(Cookies.get(boardState));
-
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
-  const [isOpenChildrenLinks, setIsOpenChildrenLinks] = useState(boardsState);
-  const [heightChildren, setHeightChildren] = useState(() => (isOpenChildrenLinks ? 'none' : '0px'));
-  const [opacityChildren, setOpacityChildren] = useState(() => (isOpenChildrenLinks ? '1' : '0'));
+  const [isOpenChildren, setIsOpenChildren] = useState<Record<string, boolean>>({});
 
   const id = _id ? String(_id) : undefined;
 
@@ -62,36 +56,21 @@ export const DashboardAside = () => {
     router.push(routes.home);
   };
 
-  const onAccordion = () => {
-    setIsOpenChildrenLinks((prev) => {
-      const newState = !prev;
+  const toggleDropdown = (idx: number) => {
+    const el = refs.current[idx];
 
-      if (newState) {
-        Cookies.set(boardState, 'true', { expires: 365 });
-      } else {
-        Cookies.set(boardState, 'false', { expires: 365 });
-      }
+    if (!el) return;
 
-      return newState;
-    });
+    const isOpen = !isOpenChildren[idx];
+
+    el.style.maxHeight = isOpen ? `${el.scrollHeight}px` : '0px';
+    el.style.opacity = isOpen ? '1' : '0';
+
+    setIsOpenChildren((prev) => ({
+      ...prev,
+      [idx]: isOpen,
+    }));
   };
-
-  useEffect(() => {
-    const element = refChildrenLink.current;
-
-    if (element && response) {
-      const currentHeight = isOpenChildrenLinks ? `${element.scrollHeight}px` : '0px';
-      const currentOpacity = isOpenChildrenLinks ? '1' : '0';
-
-      if (currentHeight !== heightChildren) {
-        setHeightChildren(currentHeight);
-      }
-
-      if (currentOpacity !== opacityChildren) {
-        setOpacityChildren(currentOpacity);
-      }
-    }
-  }, [isOpenChildrenLinks, heightChildren, refChildrenLink.current, response]);
 
   return (
     <aside className={styles.aside} ref={ref}>
@@ -110,18 +89,20 @@ export const DashboardAside = () => {
                   title={title}
                   disabled={disabled}
                   isParent={!!children}
-                  isOpen={children && isOpenChildrenLinks}
+                  isOpen={!!children && !!isOpenChildren[idx]}
                   onCloseSideBar={() => setIsOpenSidebar(false)}
-                  setIsOpen={() => (children ? onAccordion() : undefined)}
+                  setIsOpen={() => (children ? toggleDropdown(idx) : undefined)}
                 />
 
                 {children && (
                   <div
-                    ref={refChildrenLink}
+                    ref={(el) => {
+                      refs.current[idx] = el;
+                    }}
                     className={`-my-1 flex flex-col gap-2 overflow-hidden transition-all ease-in-out`}
                     style={{
-                      opacity: `${opacityChildren}`,
-                      maxHeight: `${heightChildren}`,
+                      maxHeight: '0px',
+                      opacity: '0',
                       transition: `max-height ${duration}ms ease, opacity ${duration + 100}ms ease`,
                     }}
                   >

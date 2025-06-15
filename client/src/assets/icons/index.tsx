@@ -5,6 +5,7 @@ export { default as Avatar } from './avatar.svg';
 export { default as AvatarIcon } from './avatar-icon.svg';
 export { default as Bold } from './textBold.svg';
 export { default as Calendar } from './calendar.svg';
+export { default as Calculator } from './calculator.svg';
 export { default as Camera } from './camera.svg';
 export { default as Check } from './check.svg';
 export { default as Clip } from './clip.svg';

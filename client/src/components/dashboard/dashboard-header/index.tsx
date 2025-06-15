@@ -28,7 +28,9 @@ export const DashboardHeader = () => {
     router.push(routes.home);
   };
 
-  const titleNav = links.find(({ href }) => path.includes(href));
+  const titleNav =
+    links.find((link) => path.includes(link.href)) ||
+    links.flatMap((link) => link.children || []).find((child) => path.includes(child.href));
 
   const getUserTitle = () => {
     if (userInfo.role === Roles.ADMIN) {

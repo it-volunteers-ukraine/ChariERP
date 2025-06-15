@@ -46,7 +46,9 @@
     "myOrganization": "My organization",
     "employees": "Employees",
     "boards": "Boards",
-    "settings": "Settings"
+    "settings": "Settings",
+    "accountingSystem": "Accounting",
+    "tmcCatalog": "TMC Catalog"
   },
   "inputs": {
     "title": {
