@@ -14,6 +14,6 @@ export class BoardService {
   }
 
   async findAll(): Promise<BoardDocument[]> {
-    return this.boardModel.find().exec();
+    return await this.boardModel.find().exec();
   }
 }
