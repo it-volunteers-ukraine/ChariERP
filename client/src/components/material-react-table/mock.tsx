@@ -7,11 +7,13 @@ export const header = [
     accessorKey: 'number',
     header: '№',
     size: 50,
+    enableSorting: false,
   },
   {
     accessorKey: 'id',
     header: 'Номер',
     size: 150,
+    enableSorting: false,
   },
   {
     accessorKey: 'photo',
@@ -20,6 +22,7 @@ export const header = [
     Cell: ({ row }: { row: MRT_Row<Person> }) => (
       <img src={row.original.photo} alt="Profile" style={{ width: '125px', height: '85px', objectFit: 'cover' }} />
     ),
+    enableSorting: false,
   },
   {
     enableHiding: false,
@@ -31,36 +34,43 @@ export const header = [
     accessorKey: 'category',
     header: 'Категорія',
     size: 200,
+    enableSorting: false,
   },
   {
     accessorKey: 'unit',
     header: 'Одиниця вимірювання',
     size: 250,
+    enableSorting: false,
   },
   {
     accessorKey: 'save',
     header: 'Поверх зберігання',
     size: 220,
+    enableSorting: false,
   },
   {
     accessorKey: 'save_place',
     header: 'Місце зберігання',
     size: 220,
+    enableSorting: false,
   },
   {
     accessorKey: 'origin',
     header: 'Походження',
     size: 180,
+    enableSorting: false,
   },
   {
     accessorKey: 'financing',
     header: 'Фінансування',
     size: 180,
+    enableSorting: false,
   },
   {
     accessorKey: 'arrival_date',
     header: 'Дата надходження',
     size: 220,
+    enableSorting: false,
   },
   {
     accessorKey: 'price',
@@ -71,21 +81,25 @@ export const header = [
     accessorKey: 'sum',
     header: 'Сума',
     size: 150,
+    enableSorting: false,
   },
   {
     accessorKey: 'created_at',
     header: 'Дата додавання',
     size: 220,
+    enableSorting: false,
   },
   {
     accessorKey: 'updated_at',
     header: 'Дата останньої зміни',
     size: 250,
+    enableSorting: false,
   },
   {
     accessorKey: 'description',
     header: 'Опис',
     size: 250,
+    enableSorting: false,
   },
 ];
 
