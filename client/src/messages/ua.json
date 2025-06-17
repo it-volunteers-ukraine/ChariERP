@@ -46,7 +46,9 @@
     "myOrganization": "Моя організація",
     "employees": "Співробітники",
     "boards": "Дошки",
-    "settings": "Налаштування"
+    "settings": "Налаштування",
+    "accountingSystem": "Система обліку",
+    "fixedAssets": "Основні засоби"
   },
   "inputs": {
     "title": {
