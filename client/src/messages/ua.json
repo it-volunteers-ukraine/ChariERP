@@ -48,7 +48,7 @@
     "boards": "Дошки",
     "settings": "Налаштування",
     "accountingSystem": "Система обліку",
-    "tmcCatalog": "Каталог ТМЦ"
+    "fixedAssets": "Основні засоби"
   },
   "inputs": {
     "title": {

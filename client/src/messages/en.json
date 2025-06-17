@@ -48,7 +48,7 @@
     "boards": "Boards",
     "settings": "Settings",
     "accountingSystem": "Accounting",
-    "tmcCatalog": "TMC Catalog"
+    "fixedAssets": "Fixed assets"
   },
   "inputs": {
     "title": {

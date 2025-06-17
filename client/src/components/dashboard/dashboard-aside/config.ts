@@ -18,7 +18,7 @@ export const getLinksByRole = (
   role?: Roles,
   children?: getLinksProps[],
 ): getLinksProps[] => {
-  const accountingSystemLinks = [{ title: text('tmcCatalog'), href: routes.managerTmcCatalog }];
+  const accountingSystemLinks = [{ title: text('fixedAssets'), href: routes.managerFixedAssets }];
 
   const commonLinks = [
     { title: text('home'), href: routes.managerHome, icon: Tablet },
