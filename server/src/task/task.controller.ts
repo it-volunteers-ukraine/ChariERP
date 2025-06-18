@@ -10,13 +10,18 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
+import { Roles } from 'src/schemas';
+import { UserService } from 'src/user';
 import { CreateTaskRequest } from './dto';
 import { TaskService } from './task.service';
 
 @ApiTags('Tasks')
 @Controller('tasks')
 export class TaskController {
-  constructor(private readonly taskService: TaskService) {}
+  constructor(
+    private readonly taskService: TaskService,
+    private readonly userService: UserService,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: 'Create new task' })
@@ -34,6 +39,12 @@ export class TaskController {
   @ApiForbiddenResponse({ description: 'Only managers can create task' })
   @ApiNotFoundResponse({ description: 'User not found' })
   async createTask(@Body() createTaskRequest: CreateTaskRequest): Promise<{ id: string }> {
+    await this.userService.assertHasRole({
+      role: Roles.MANAGER,
+      userId: createTaskRequest.userId,
+      message: 'Only managers can create tasks',
+    });
+
     return await this.taskService.createTask(createTaskRequest);
   }
 }

@@ -10,16 +10,10 @@ export class UserService {
   constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {}
 
   public async assertHasRole({ userId, role, message = 'Access denied' }: AssertHasRole) {
-    const user = await this.userModel.findById(userId).select('role').lean().exec();
+    const user = await this.userModel.findOne({ _id: userId, role }).select('_id').lean();
 
     if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
-    if (role) {
-      if (user.role !== role) {
-        throw new ForbiddenException(message);
-      }
+      throw new ForbiddenException(message);
     }
   }
 }
