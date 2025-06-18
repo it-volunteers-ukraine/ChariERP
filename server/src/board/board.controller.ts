@@ -1,12 +1,36 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Get,
+  Put,
+  Body,
+  Post,
+  Param,
+  Delete,
+  HttpCode,
+  Controller,
+  HttpStatus,
+  NotFoundException,
+} from '@nestjs/common';
 import { BoardService } from './board.service';
-import { BoardResponse, CreateBoard } from './dto/board-create.request';
+import { BoardResponse, CreateBoard, UpdateBoardDto } from './dto/board-create.request';
+import {
+  ApiBody,
+  ApiTags,
+  ApiParam,
+  ApiOperation,
+  ApiOkResponse,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiBadRequestResponse,
+} from '@nestjs/swagger';
 
+@ApiTags('Boards')
 @Controller('board')
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Get all boards' })
+  @ApiOkResponse({ type: [BoardResponse] })
   async findAll(): Promise<BoardResponse[]> {
     const boards = await this.boardService.findAll();
 
@@ -18,7 +42,26 @@ export class BoardController {
     }));
   }
 
+  @Get(':id')
+  @ApiOperation({ summary: 'Get a board by ID' })
+  @ApiParam({ name: 'id', description: 'ID board' })
+  @ApiOkResponse({ type: BoardResponse })
+  @ApiNotFoundResponse({ description: 'Board not found' })
+  async findOne(@Param('id') id: string): Promise<BoardResponse> {
+    const board = await this.boardService.findById(id);
+    if (!board) throw new NotFoundException('Board not found');
+    return {
+      id: board._id.toString(),
+      title: board.title,
+      createdAt: board.createdAt,
+      updatedAt: board.updatedAt,
+    };
+  }
+
   @Post()
+  @ApiOperation({ summary: 'Create new board' })
+  @ApiCreatedResponse({ type: BoardResponse })
+  @ApiBody({ type: CreateBoard })
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createBoardDto: CreateBoard): Promise<BoardResponse> {
     const board = await this.boardService.create(createBoardDto);
@@ -29,5 +72,34 @@ export class BoardController {
       createdAt: board.createdAt,
       updatedAt: board.updatedAt,
     };
+  }
+
+  @Put(':id')
+  @ApiOperation({ summary: 'Refresh your board' })
+  @ApiParam({ name: 'id', description: 'ID board' })
+  @ApiOkResponse({ type: BoardResponse })
+  @ApiBadRequestResponse({ description: 'Incorrect data' })
+  @ApiNotFoundResponse({ description: 'Board not found' })
+  async update(@Param('id') id: string, @Body() updateDto: UpdateBoardDto): Promise<BoardResponse> {
+    const board = await this.boardService.update(id, updateDto);
+    if (!board) throw new NotFoundException('Board not found');
+
+    return {
+      id: board._id.toString(),
+      title: board.title,
+      createdAt: board.createdAt,
+      updatedAt: board.updatedAt,
+    };
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete board' })
+  @ApiParam({ name: 'id', description: 'ID board' })
+  @ApiOkResponse({ description: 'Board deleted' })
+  @ApiNotFoundResponse({ description: 'Board not found' })
+  async delete(@Param('id') id: string): Promise<{ message: string }> {
+    const deleted = await this.boardService.delete(id);
+    if (!deleted) throw new NotFoundException('Board not found');
+    return { message: 'Board successfully deleted' };
   }
 }
