@@ -11,7 +11,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { BoardService } from './board.service';
-import { BoardResponse, CreateBoard, UpdateBoardDto } from './dto/board-create.request';
+import { BoardResponse, CreateBoardDto, UpdateBoardDto } from './dto/board-create.request';
 import {
   ApiBody,
   ApiTags,
@@ -22,11 +22,15 @@ import {
   ApiNotFoundResponse,
   ApiBadRequestResponse,
 } from '@nestjs/swagger';
+import { UserService } from 'src/user';
 
 @ApiTags('Boards')
 @Controller('board')
 export class BoardController {
-  constructor(private readonly boardService: BoardService) {}
+  constructor(
+    private readonly boardService: BoardService,
+    private readonly userService: UserService,
+  ) {}
 
   @Get()
   @ApiOperation({ summary: 'Get all boards' })
@@ -61,10 +65,11 @@ export class BoardController {
   @Post()
   @ApiOperation({ summary: 'Create new board' })
   @ApiCreatedResponse({ type: BoardResponse })
-  @ApiBody({ type: CreateBoard })
+  @ApiBody({ type: CreateBoardDto })
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createBoardDto: CreateBoard): Promise<BoardResponse> {
-    const board = await this.boardService.create(createBoardDto);
+  async create(@Body() createBoardDto: CreateBoardDto): Promise<BoardResponse> {
+    const organizationId = await this.userService.findOrgIdByUserId({ userId: createBoardDto.userId });
+    const board = await this.boardService.create({ organizationId, ...createBoardDto });
 
     return {
       id: board._id.toString(),

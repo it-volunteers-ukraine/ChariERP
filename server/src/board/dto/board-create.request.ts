@@ -1,12 +1,16 @@
 import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateBoard {
-  @ApiProperty({ example: 'new board', description: 'Board name' })
+export class CreateBoardDto {
+  @ApiProperty({ example: 'new board', description: 'Board name', required: true })
   @IsString()
   @MaxLength(50)
   @IsNotEmpty({ message: 'Board name cannot be empty' })
   title: string;
+
+  @ApiProperty({ example: '64a7f123e5d9f3a1b23cd456', description: 'User ID', required: true })
+  @IsString()
+  userId: string;
 }
 
 export class UpdateBoardDto {
