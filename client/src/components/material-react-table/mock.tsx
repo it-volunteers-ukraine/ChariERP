@@ -10,7 +10,7 @@ export const header = [
   },
   {
     accessorKey: 'id',
-    header: 'Номер',
+    header: 'ID номер',
     size: 150,
   },
   {
@@ -65,11 +65,6 @@ export const header = [
   {
     accessorKey: 'price',
     header: 'Вартість',
-    size: 150,
-  },
-  {
-    accessorKey: 'sum',
-    header: 'Сума',
     size: 150,
   },
   {
