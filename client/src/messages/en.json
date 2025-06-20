@@ -667,5 +667,12 @@
     },
     "noAccessToTask": "You do not have access to this task"
   },
-  "materialTable": { "delete": "Do you really want to delete this item?" }
+  "materialTable": {
+    "remove": {
+      "confirmDeleteTitle": "Delete Confirmation",
+      "confirmDeleteContent": "Are you sure you want to delete this item?",
+      "yes": "Yes",
+      "no": "Cancel"
+    }
+  }
 }

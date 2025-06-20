@@ -661,5 +661,12 @@
     },
     "noAccessToTask": "У вас немає доступу до цієї задачі"
   },
-  "materialTable": { "delete": "Ви дійсно хочете видалити цю позицію?" }
+  "materialTable": {
+    "remove": {
+      "confirmDeleteTitle": "Підтвердження видалення",
+      "confirmDeleteContent": "Ви впевнені, що хочете видалити цей елемент?",
+      "yes": "Так",
+      "no": "Скасувати"
+    }
+  }
 }
