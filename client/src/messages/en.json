@@ -675,6 +675,7 @@
       "confirmDeleteContent": "Are you sure you want to delete this item?",
       "yes": "Yes",
       "no": "Cancel"
-    }
+    },
+    "clearFilters": "Clean filters"
   }
 }
