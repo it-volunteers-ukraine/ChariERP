@@ -1,4 +1,5 @@
 import { MRT_Row } from 'material-react-table';
+import Image from 'next/image';
 
 import { Person } from '.';
 
@@ -18,7 +19,7 @@ export const header = [
     header: 'Фото',
     size: 150,
     Cell: ({ row }: { row: MRT_Row<Person> }) => (
-      <img src={row.original.photo} alt="Profile" style={{ width: '125px', height: '85px', objectFit: 'cover' }} />
+      <Image src={row.original.photo} alt="Profile" style={{ width: '125px', height: '85px', objectFit: 'cover' }} />
     ),
   },
   {

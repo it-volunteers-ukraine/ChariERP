@@ -1,35 +1,48 @@
-FROM node:22-alpine AS dependencis
-WORKDIR /client
-COPY package.json package-lock.json ./
-RUN npm install
+# Build-time node version configuration
+ARG NODE_VERSION=22
 
-FROM node:22-alpine AS builder
+# Stage 1: Install dependencies
+FROM node:${NODE_VERSION}-alpine AS dependencies
 WORKDIR /client
-COPY --from=dependencis /client/node_modules ./node_modules
+COPY package*.json ./
+RUN npm clean-install
+
+# Stage 2: Build application
+FROM node:${NODE_VERSION}-alpine AS builder
+WORKDIR /client
+COPY --from=dependencies /client/node_modules ./node_modules
 COPY . .
-
-ENV NEXT_TELEMETRY_DISABLED 1
-
+ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
-FROM node:22-alpine AS runner
+# Stage 3: Production environment
+FROM node:${NODE_VERSION}-alpine AS runner
 WORKDIR /client
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+# Configure port for the application
+ARG PORT=3000
+ENV NODE_ENV=production \
+    PORT=${PORT} \
+    NEXT_TELEMETRY_DISABLED=1 \
+    HOSTNAME=0.0.0.0
 
-RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
+# Define user and group for security
+ARG USER=nextjs
+ARG GROUP=nodejs
+ARG UID=1001
+ARG GID=1001
 
-# Set the correct permission for prerender cache
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
+# Setup security and permissions
+RUN addgroup --system --gid ${GID} ${GROUP} && \
+    adduser --system --uid ${UID} ${USER} && \
+    mkdir .next && \
+    chown ${USER}:${GROUP} .next
 
-COPY --from=builder --chown=nextjs:nodejs /client/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /client/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /client/public ./public
+# Copy built application with correct ownership
+COPY --from=builder --chown=${USER}:${GROUP} /client/.next/standalone ./
+COPY --from=builder --chown=${USER}:${GROUP} /client/.next/static ./.next/static
+COPY --from=builder --chown=${USER}:${GROUP} /client/public ./public
 
-USER nextjs
-EXPOSE 3000
-ENV PORT 3000
-
-CMD HOSTNAME="0.0.0.0" node server.js
+USER ${USER}
+EXPOSE ${PORT}
+CMD ["node", "server.js"]
