@@ -46,7 +46,9 @@
     "myOrganization": "My organization",
     "employees": "Employees",
     "boards": "Boards",
-    "settings": "Settings"
+    "settings": "Settings",
+    "accountingSystem": "Accounting",
+    "fixedAssets": "Fixed assets"
   },
   "inputs": {
     "title": {
