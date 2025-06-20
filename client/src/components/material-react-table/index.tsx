@@ -8,10 +8,10 @@ import { Delete } from '@/assets/icons';
 
 import { data, header } from './mock';
 import { ModalAdmin } from '../modals';
+import { Button } from '../button';
 
 export type Person = {
   id: number;
-  sum: number;
   name: string;
   save: string;
   unit: string;
@@ -29,7 +29,7 @@ export type Person = {
 };
 
 export const MaterialTable = () => {
-  const t = useTranslations('materialTable.remove');
+  const t = useTranslations('materialTable');
 
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteItem, setDeleteItem] = useState<Person[]>(data);
@@ -76,6 +76,19 @@ export const MaterialTable = () => {
     enablePagination: true,
     enableColumnActions: true,
     paginationDisplayMode: 'pages',
+    renderTopToolbarCustomActions: ({ table }) => {
+      const hasActiveFilters = table.getState().columnFilters.length > 0;
+
+      return hasActiveFilters ? (
+        <Button
+          type="button"
+          styleType="red"
+          text={t('clearFilters')}
+          className="min-w-[150px]"
+          onClick={() => table.resetColumnFilters()}
+        />
+      ) : null;
+    },
     muiTablePaperProps: {
       sx: {
         backgroundColor: 'white !important',
@@ -157,13 +170,13 @@ export const MaterialTable = () => {
         isError={false}
         isLoading={false}
         isOpen={modalOpen}
-        btnCancelText={t('no')}
-        btnConfirmText={t('yes')}
         classNameBtn="min-w-[120px]"
-        title={t('confirmDeleteTitle')}
+        btnCancelText={t('remove.no')}
         onConfirm={handleConfirmDelete}
-        content={t('confirmDeleteContent')}
+        btnConfirmText={t('remove.yes')}
         onClose={() => setModalOpen(false)}
+        title={t('remove.confirmDeleteTitle')}
+        content={t('remove.confirmDeleteContent')}
       />
     </div>
   );
