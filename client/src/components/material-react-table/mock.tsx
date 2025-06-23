@@ -1,31 +1,40 @@
+import Image from 'next/image';
+
 import { MRT_Row } from 'material-react-table';
 
 import { Person } from '.';
+import { EmptyPhoto } from '@/assets/img';
 
 export const header = [
   {
     accessorKey: 'number',
-    header: '№',
     size: 50,
+    header: '№',
     enableSorting: false,
     enableColumnFilter: false,
   },
   {
+    size: 150,
     accessorKey: 'id',
     header: 'ID номер',
-    size: 150,
     enableSorting: false,
     enableColumnFilter: false,
   },
   {
-    accessorKey: 'photo',
-    header: 'Фото',
     size: 150,
-    Cell: ({ row }: { row: MRT_Row<Person> }) => (
-      <img src={row.original.photo} alt="Profile" style={{ width: '125px', height: '85px', objectFit: 'cover' }} />
-    ),
-    enableSorting: false,
+    header: 'Фото',
+    accessorKey: 'photo',
     enableColumnFilter: false,
+    Cell: ({ row }: { row: MRT_Row<Person> }) =>
+      row.original.photo ? (
+        <img src={row.original.photo} alt="Profile" style={{ width: '125px', height: '85px', objectFit: 'cover' }} />
+      ) : (
+        <Image
+          src={EmptyPhoto}
+          alt="Profile"
+          style={{ width: '85px', height: '85px', objectFit: 'cover', margin: 'auto' }}
+        />
+      ),
   },
   {
     enableHiding: false,
@@ -38,7 +47,6 @@ export const header = [
     accessorKey: 'category',
     header: 'Категорія',
     size: 200,
-    enableSorting: false,
     filterVariant: 'select' as const,
     filterSelectOptions: [
       { text: 'Категорія 1', value: 'Категорія 1' },
@@ -101,12 +109,6 @@ export const header = [
     size: 150,
   },
   {
-    accessorKey: 'sum',
-    header: 'Сума',
-    size: 150,
-    enableSorting: false,
-  },
-  {
     accessorKey: 'created_at',
     header: 'Дата додавання',
     size: 220,
@@ -117,7 +119,6 @@ export const header = [
     accessorKey: 'updated_at',
     header: 'Дата останньої зміни',
     size: 250,
-    enableSorting: false,
   },
   {
     accessorKey: 'description',
@@ -234,7 +235,7 @@ export const data = [
   {
     number: 7,
     id: 598779,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: '',
     name: 'Назва 7',
     category: 'Категорія 1',
     unit: 'Одиниця вимірювання 7',
@@ -251,7 +252,7 @@ export const data = [
   {
     number: 8,
     id: 598779,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: '',
     name: 'Назва 8',
     category: 'Категорія 2',
     unit: 'Одиниця вимірювання 7',
