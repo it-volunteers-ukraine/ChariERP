@@ -3,7 +3,7 @@ import { TranslationValues } from 'next-intl';
 
 import { Roles } from '@/types';
 import { routes } from '@/constants';
-import { Organizations, Rejected, Settings, Tablet, Users } from '@/assets/icons';
+import { Organizations, Rejected, Settings, Tablet, Users, Calculator } from '@/assets/icons';
 
 interface getLinksProps {
   title: string;
@@ -18,6 +18,8 @@ export const getLinksByRole = (
   role?: Roles,
   children?: getLinksProps[],
 ): getLinksProps[] => {
+  const accountingSystemLinks = [{ title: text('fixedAssets'), href: routes.managerFixedAssets }];
+
   const commonLinks = [
     { title: text('home'), href: routes.managerHome, icon: Tablet },
     { title: text('myOrganization'), href: routes.managerOrganization, icon: Organizations },
@@ -28,6 +30,7 @@ export const getLinksByRole = (
       icon: Tablet,
       children,
     },
+    { title: text('accountingSystem'), href: '#', icon: Calculator, children: accountingSystemLinks },
     { title: text('settings'), href: routes.managerSettings, icon: Settings },
   ];
 
