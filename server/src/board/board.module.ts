@@ -5,9 +5,10 @@ import { Board, BoardSchema } from 'src/schemas/board.schemas';
 
 import { BoardService } from './board.service';
 import { BoardController } from './board.controller';
+import { UserModule } from 'src/user';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Board.name, schema: BoardSchema }])],
+  imports: [MongooseModule.forFeature([{ name: Board.name, schema: BoardSchema }]), UserModule],
   controllers: [BoardController],
   providers: [BoardService],
   exports: [],
