@@ -2,13 +2,22 @@
 
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { type MRT_ColumnDef, useMaterialReactTable, MaterialReactTable, MRT_Row } from 'material-react-table';
+import {
+  MRT_Row,
+  type MRT_ColumnDef,
+  MaterialReactTable,
+  useMaterialReactTable,
+  MRT_ShowHideColumnsButton,
+  MRT_ToggleFullScreenButton,
+  MRT_ToggleDensePaddingButton,
+  MRT_ToggleGlobalFilterButton,
+} from 'material-react-table';
 
 import { Delete } from '@/assets/icons';
 
 import { data, header } from './mock';
 import { ModalAdmin } from '../modals';
-import { Button } from '../button';
+import { CustomDownloadButton, CustomFiltersDeleteButton, CustomToggleFiltersButton } from './button';
 
 export type Person = {
   id: number;
@@ -79,16 +88,19 @@ export const MaterialTable = () => {
     renderTopToolbarCustomActions: ({ table }) => {
       const hasActiveFilters = table.getState().columnFilters.length > 0;
 
-      return hasActiveFilters ? (
-        <Button
-          type="button"
-          styleType="red"
-          text={t('clearFilters')}
-          className="min-w-[150px]"
-          onClick={() => table.resetColumnFilters()}
-        />
-      ) : null;
+      return hasActiveFilters ? <CustomFiltersDeleteButton table={table} /> : null;
     },
+
+    renderToolbarInternalActions: ({ table }) => (
+      <div className="flex items-center gap-3">
+        <MRT_ToggleGlobalFilterButton table={table} />
+        <CustomToggleFiltersButton table={table} />
+        <MRT_ToggleDensePaddingButton table={table} />
+        <MRT_ShowHideColumnsButton table={table} />
+        <MRT_ToggleFullScreenButton table={table} />
+        <CustomDownloadButton table={table} />
+      </div>
+    ),
     muiTablePaperProps: {
       sx: {
         backgroundColor: 'white !important',
