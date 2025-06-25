@@ -1,38 +1,94 @@
-import { middleware } from '@/middleware';
 import { NextRequest } from 'next/server';
-import { cookiesLocale, routes } from '@/constants';
-import { ActiveLanguage } from '@/types';
-import mongoose from 'mongoose';
+import { ActiveLanguage } from './types';
+import { cookiesLocale, routes } from './constants';
+import { middleware } from './middleware';
 
-describe('Middleware configuration test', () => {
-  it("should set default 'UA' locale into cookies once absent and init response with defaults", async () => {
-    const request = new NextRequest(URL.parse('http://localhost')!);
+describe('Middleware', () => {
+  const validId = '507f1f77bcf86cd799439011';
+  const invalidId = 'invalid-id';
 
-    expect(request.cookies.get(cookiesLocale)?.value).toBeUndefined();
+  const createRequest = (pathname: string = '/', cookies: Record<string, string> = {}) => {
+    const cookiesMap = new Map(Object.entries(cookies).map(([k, v]) => [k, { value: v }]));
+    
+    return {
+      cookies: {
+        get: (key: string) => cookiesMap.get(key),
+        set: jest.fn()
+      },
+      nextUrl: {
+        pathname,
+        clone: () => ({ pathname })
+      },
+      url: `http://localhost:3000${pathname}`
+    } as unknown as NextRequest;
+  };
 
-    const response = await middleware(request);
+  const expectRedirect = (response: Response, targetPath: string) => {
+    expect(response.headers.get('Location')).toBe(targetPath);
+    expect(response.status).toBe(307);
+  };
 
-    expect(request.cookies.get(cookiesLocale)?.value).toBe(ActiveLanguage.UA);
-    expect(response).toBeDefined();
+  const expectNoRedirect = (response: Response) => {
     expect(response.status).toBe(200);
+    expect(response.headers.get('Location')).toBeNull();
+  };
+
+  describe('Locale handling', () => {
+    test('sets default locale when not present', async () => {
+      const request = createRequest('/');
+      const response = await middleware(request);
+      
+      expect(request.cookies.set).toHaveBeenCalledWith(cookiesLocale, ActiveLanguage.UA);
+      expectNoRedirect(response);
+    });
+
+    test('preserves existing locale', async () => {
+      const request = createRequest('/', { [cookiesLocale]: ActiveLanguage.EN });
+      const response = await middleware(request);
+      
+      expect(request.cookies.set).not.toHaveBeenCalled();
+      expectNoRedirect(response);
+    });
   });
 
-  it.each([
-    { initialRoute: routes.login, id: new mongoose.Types.ObjectId().toHexString(), expectedRoute: routes.requests },
-    { initialRoute: routes.requests, id: '12345', expectedRoute: routes.login },
-  ])(
-    "should redirect to '$expectedRoute' once request contains ID '$id' and '$initialRoute' route",
-    async ({ initialRoute, id, expectedRoute }) => {
-      const request = new NextRequest(URL.parse(`http://localhost${initialRoute}`)!);
-
-      request.cookies.set('id', id);
-      request.cookies.set(cookiesLocale, ActiveLanguage.EN);
-
+  describe('Navigation handling', () => {
+    test.each([
+      { path: routes.requests, id: invalidId, target: routes.login },
+      { path: routes.login, id: validId, target: routes.requests }
+    ])('redirects from $path to $target', async ({ path, id, target }) => {
+      const request = createRequest(path, { id });
       const response = await middleware(request);
 
-      expect(request.cookies.get(cookiesLocale)?.value).toBe(ActiveLanguage.EN);
-      expect(response.status).toBe(307);
-      expect(response.headers.get('location')).toContain(expectedRoute);
-    },
-  );
+      expectRedirect(response, target);
+    });
+
+    test.each([
+      { path: routes.requests, id: validId },
+      { path: routes.login, id: invalidId }
+    ])('allows access to $path', async ({ path, id }) => {
+      const request = createRequest(path, { id });
+      const response = await middleware(request);
+
+      expectNoRedirect(response);
+    });
+  });
+
+  describe('ObjectId validation', () => {
+    const validIds = ['507f1f77bcf86cd799439011', '000000000000000000000000', 'ffffffffffffffffffffffff'];
+    const invalidIds = ['', 'invalid', '507f1f77bcf86cd7994390', '507f1f77bcf86cd79943901111', '507f1f77bcf86cd7994390xx'];
+
+    test.each(validIds)('valid ObjectId %s redirects from login to requests', async (id) => {
+      const request = createRequest(routes.login, { id });
+      const response = await middleware(request);
+
+      expectRedirect(response, routes.requests);
+    });
+
+    test.each(invalidIds)('invalid ObjectId %s redirects from requests to login', async (id) => {
+      const request = createRequest(routes.requests, { id });
+      const response = await middleware(request);
+
+      expectRedirect(response, routes.login);
+    });
+  });
 });

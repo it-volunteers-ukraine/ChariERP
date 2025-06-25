@@ -61,10 +61,10 @@ jobs:
           to: ${{ secrets.telegram-to }}
           token: ${{ secrets.telegram-token }}
           message: |
-            🤖 GitHub Actions 🤖 
-            🔗 Last merged UI changes' deploy is 🏁COMPLETED🏁 🎉
+            🤖 GitHub Actions 🚀 
+            ✨ ${{ inputs.container-name == 'chari_erp_ui' && '💻 UI' || '⚙️ Backend' }} deploy is ✅ COMPLETED ✅ 🎊
 
-            🛫 LAST DEPLOYED COMMIT 🛫
-            👩‍💻 Author: ${{ github.event.commits[0].author.name }}
-            🗨️ Message: ${{ github.event.commits[0].message }}
-            📃 Changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+            📦 LAST DEPLOYED COMMIT 📦
+            👨‍💻 Author: ${{ github.event.commits[0].author.name }}
+            💬 Message: ${{ github.event.commits[0].message }}
+            📎 Changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
