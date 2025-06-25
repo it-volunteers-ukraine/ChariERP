@@ -80,7 +80,6 @@ export const MaterialTable = () => {
   const table = useMaterialReactTable({
     data: deleteItem,
     columns,
-    enableSorting: false,
     enableTopToolbar: true,
     enablePagination: true,
     enableColumnActions: true,
@@ -164,6 +163,15 @@ export const MaterialTable = () => {
         justifyContent: 'space-between !important',
         '& .MuiSvgIcon-root': {
           color: '#ffffff !important',
+        },
+        '& .MuiTableSortLabel-root': {
+          color: '#ffffff !important',
+          '&.Mui-active': {
+            color: '#ffffff !important',
+          },
+          '& .MuiSvgIcon-root': {
+            color: '#ffffff !important',
+          },
         },
       },
     }),
