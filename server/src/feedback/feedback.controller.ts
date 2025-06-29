@@ -1,11 +1,11 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, HttpCode, HttpStatus, Body } from '@nestjs/common';
 import { FeedbackService } from './feedback.service';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
 import { FeedbackResponseDto } from './dto/feedback-response.dto';
 import {
   ApiTags,
   ApiOperation,
-  ApiCreatedResponse,
+  ApiOkResponse,
   ApiBadRequestResponse,
 } from '@nestjs/swagger';
 
@@ -14,13 +14,14 @@ import {
 export class FeedbackController {
   constructor(private readonly feedbackService: FeedbackService) {}
 
-  @ApiOperation({ summary: 'Create feedback message' })
-  @ApiCreatedResponse({
-    description: 'Feedback successfully created',
+  @ApiOperation({ summary: 'Send feedback message' })
+  @ApiOkResponse({
+    description: 'Feedback successfully sent',
     type: FeedbackResponseDto,
   })
   @ApiBadRequestResponse({ description: 'Bad request — validation failed' })
   @Post()
+  @HttpCode(HttpStatus.OK)
   create(@Body() createFeedbackDto: CreateFeedbackDto) {
     return this.feedbackService.create(createFeedbackDto);
   }
