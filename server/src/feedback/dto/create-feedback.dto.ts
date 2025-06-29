@@ -11,22 +11,22 @@ import { VALIDATION_MESSAGES } from '../../constants/validation-messages';
 import { UA_PHONE_REGEX } from '../../constants/regex.constants';
 
 export class CreateFeedbackDto implements IFeedback {
-  @ApiProperty({ required: true, example: 'Brody' })
+  @ApiProperty({ required: true, example: 'Doe' })
   @IsNotEmpty()
   @IsString()
   lastname: string;
 
-  @ApiProperty({ required: true, example: 'Adrien' })
+  @ApiProperty({ required: true, example: 'John' })
   @IsNotEmpty()
   @IsString()
   firstname: string;
 
-  @ApiProperty({ required: true, example: 'test@example.com' })
+  @ApiProperty({ required: true, example: 'john.doe@example.com' })
   @IsNotEmpty()
   @IsEmail({}, { message: VALIDATION_MESSAGES.EMAIL.INVALID })
   email: string;
 
-  @ApiProperty({ required: true, example: '+380991112233' })
+  @ApiProperty({ required: true, example: '+380991234567' })
   @IsNotEmpty()
   @IsString()
   @Matches(UA_PHONE_REGEX, {
