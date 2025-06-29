@@ -18,12 +18,12 @@ export class EmailService {
       this.logger.error(
         'SEND_GRID_API_KEY is not set in environment variables!',
       );
-      return;
+      throw new Error('Missing SEND_GRID_API_KEY');
     }
 
     if (!emailFrom) {
       this.logger.error('EMAIL_FROM is not set in environment variables!');
-      return;
+      throw new Error('Missing EMAIL_FROM');
     }
 
     this.emailFrom = emailFrom;
@@ -36,7 +36,7 @@ export class EmailService {
       this.logger.log(`Email successfully sent to ${payload.to}`);
     } catch (error) {
       this.logger.error('Failed to send email', error);
-      return;
+      throw error;
     }
   }
 
