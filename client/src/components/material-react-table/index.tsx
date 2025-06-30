@@ -40,8 +40,8 @@ export type Person = {
 export const MaterialTable = () => {
   const t = useTranslations('materialTable');
 
-  const [dataMock, setDataMock] = useState<Person[]>(data);
   const [modalOpen, setModalOpen] = useState(false);
+  const [deleteItem, setDeleteItem] = useState<Person[]>(data);
   const [selectedRowId, setSelectedRowId] = useState<number | null>(null);
 
   const openDeleteModal = (id: number) => {
@@ -52,7 +52,7 @@ export const MaterialTable = () => {
   const handleConfirmDelete = () => {
     if (selectedRowId === null) return;
 
-    setDataMock((prev) => prev.filter((item) => item.id !== selectedRowId));
+    setDeleteItem((prev) => prev.filter((item) => item.id !== selectedRowId));
     setModalOpen(false);
     setSelectedRowId(null);
   };
@@ -79,7 +79,7 @@ export const MaterialTable = () => {
   );
 
   const table = useMaterialReactTable({
-    data: dataMock,
+    data: deleteItem,
     columns,
     enableEditing: true,
     enableSorting: false,
