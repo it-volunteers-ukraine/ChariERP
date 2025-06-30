@@ -35,7 +35,7 @@ export class EmailService {
       await sgMail.send(payload);
       this.logger.log(`Email successfully sent to ${payload.to}`);
     } catch (error) {
-      this.logger.error('Failed to send email', error);
+      this.logger.error('Failed to send email');
       throw error;
     }
   }
