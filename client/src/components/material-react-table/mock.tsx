@@ -8,12 +8,14 @@ export const header = [
     header: '№',
     size: 50,
     enableColumnFilter: false,
+    enableEditing: false,
   },
   {
     accessorKey: 'id',
     header: 'ID номер',
     size: 150,
     enableColumnFilter: false,
+    enableEditing: false,
   },
   {
     accessorKey: 'photo',
@@ -84,6 +86,7 @@ export const header = [
     header: 'Дата надходження',
     size: 220,
     enableColumnFilter: false,
+    enableEditing: false,
   },
   {
     accessorKey: 'price',
@@ -95,11 +98,13 @@ export const header = [
     header: 'Дата додавання',
     size: 220,
     enableColumnFilter: false,
+    enableEditing: false,
   },
   {
     accessorKey: 'updated_at',
     header: 'Дата останньої зміни',
     size: 250,
+    enableEditing: false,
   },
   {
     accessorKey: 'description',
