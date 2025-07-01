@@ -12,6 +12,7 @@ export const header = [
     header: '№',
     enableSorting: false,
     enableColumnFilter: false,
+    enableEditing: false,
   },
   {
     size: 150,
@@ -19,6 +20,7 @@ export const header = [
     header: 'ID номер',
     enableSorting: false,
     enableColumnFilter: false,
+    enableEditing: false,
   },
   {
     size: 150,
@@ -98,6 +100,7 @@ export const header = [
     size: 220,
     enableSorting: false,
     enableColumnFilter: false,
+    enableEditing: false,
   },
   {
     accessorKey: 'price',
@@ -110,11 +113,13 @@ export const header = [
     size: 220,
     enableSorting: false,
     enableColumnFilter: false,
+    enableEditing: false,
   },
   {
     accessorKey: 'updated_at',
     header: 'Дата останньої зміни',
     size: 250,
+    enableEditing: false,
   },
   {
     accessorKey: 'description',
