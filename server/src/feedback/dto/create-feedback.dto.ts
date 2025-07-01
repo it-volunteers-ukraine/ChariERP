@@ -30,7 +30,7 @@ export class CreateFeedbackDto implements IFeedback {
   @IsNotEmpty()
   @IsString()
   @Matches(UA_PHONE_REGEX, {
-    message: 'phone number must be in the format +380XXXXXXXXX',
+    message: VALIDATION_MESSAGES.PHONE.INVALID,
   })
   phone: string;
 
@@ -38,8 +38,7 @@ export class CreateFeedbackDto implements IFeedback {
   @IsNotEmpty()
   @IsString()
   @MaxLength(400, {
-    message:
-      'feedback message is too long. Maximal length is $constraint1 characters',
+    message: VALIDATION_MESSAGES.FEEDBACK.MESSAGE_TOO_LONG,
   })
   message: string;
 }
