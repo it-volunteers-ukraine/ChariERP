@@ -46,7 +46,9 @@
     "myOrganization": "Моя організація",
     "employees": "Співробітники",
     "boards": "Дошки",
-    "settings": "Налаштування"
+    "settings": "Налаштування",
+    "accountingSystem": "Система обліку",
+    "fixedAssets": "Основні засоби"
   },
   "inputs": {
     "title": {
@@ -660,5 +662,14 @@
       "title": "Коментарі"
     },
     "noAccessToTask": "У вас немає доступу до цієї задачі"
+  },
+  "materialTable": {
+    "remove": {
+      "confirmDeleteTitle": "Підтвердження видалення",
+      "confirmDeleteContent": "Ви впевнені, що хочете видалити цей елемент?",
+      "yes": "Так",
+      "no": "Скасувати"
+    },
+    "clearFilters": "Очистити фільтри"
   }
 }

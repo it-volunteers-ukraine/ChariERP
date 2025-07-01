@@ -1,16 +1,26 @@
 'use client';
 
-import { useMemo } from 'react';
-
-import { type MRT_ColumnDef, useMaterialReactTable, MaterialReactTable, MRT_Row } from 'material-react-table';
+import { useMemo, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import {
+  MRT_Row,
+  type MRT_ColumnDef,
+  MaterialReactTable,
+  useMaterialReactTable,
+  MRT_ShowHideColumnsButton,
+  MRT_ToggleFullScreenButton,
+  MRT_ToggleDensePaddingButton,
+  MRT_ToggleGlobalFilterButton,
+} from 'material-react-table';
 
 import { Delete } from '@/assets/icons';
 
 import { data, header } from './mock';
+import { ModalAdmin } from '../modals';
+import { CustomDownloadButton, CustomFiltersDeleteButton, CustomToggleFiltersButton } from './button';
 
 export type Person = {
   id: number;
-  sum: number;
   name: string;
   save: string;
   unit: string;
@@ -28,17 +38,40 @@ export type Person = {
 };
 
 export const MaterialTable = () => {
+  const t = useTranslations('materialTable');
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [deleteItem, setDeleteItem] = useState<Person[]>(data);
+  const [selectedRowId, setSelectedRowId] = useState<number | null>(null);
+
+  const openDeleteModal = (id: number) => {
+    setSelectedRowId(id);
+    setModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (selectedRowId === null) return;
+
+    setDeleteItem((prev) => prev.filter((item) => item.id !== selectedRowId));
+    setModalOpen(false);
+    setSelectedRowId(null);
+  };
+
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
       ...header,
       {
-        id: 'delete',
         header: '',
         size: 100,
+        id: 'delete',
+        enableEditing: false,
         enableSorting: false,
         enableColumnActions: false,
         Cell: ({ row }: { row: MRT_Row<Person> }) => (
-          <Delete onClick={() => console.log(row.index)} className="h-[20px] w-[20px] cursor-pointer text-[#61B6DB]" />
+          <Delete
+            onClick={() => openDeleteModal(row.original.id)}
+            className="h-[20px] w-[20px] cursor-pointer text-[#61B6DB]"
+          />
         ),
       },
     ],
@@ -46,13 +79,31 @@ export const MaterialTable = () => {
   );
 
   const table = useMaterialReactTable({
-    data,
+    data: deleteItem,
     columns,
+    enableEditing: true,
     enableSorting: false,
     enableTopToolbar: true,
     enablePagination: true,
+    editDisplayMode: 'cell',
     enableColumnActions: true,
     paginationDisplayMode: 'pages',
+    renderTopToolbarCustomActions: ({ table }) => {
+      const hasActiveFilters = table.getState().columnFilters.length > 0;
+
+      return hasActiveFilters ? <CustomFiltersDeleteButton table={table} /> : null;
+    },
+
+    renderToolbarInternalActions: ({ table }) => (
+      <div className="flex items-center gap-3">
+        <MRT_ToggleGlobalFilterButton table={table} />
+        <CustomToggleFiltersButton table={table} />
+        <MRT_ToggleDensePaddingButton table={table} />
+        <MRT_ShowHideColumnsButton table={table} />
+        <MRT_ToggleFullScreenButton table={table} />
+        <CustomDownloadButton table={table} />
+      </div>
+    ),
     muiTablePaperProps: {
       sx: {
         backgroundColor: 'white !important',
@@ -67,10 +118,10 @@ export const MaterialTable = () => {
           },
           '&::-webkit-scrollbar-thumb': {
             background: '#61B6DB',
-            borderRadius: '8px',
             width: '8px',
             margin: '2px',
             maxWidth: '40px',
+            borderRadius: '8px',
             border: '3px solid #ffffff',
           },
           '&::-webkit-scrollbar-thumb:hover': {
@@ -93,12 +144,12 @@ export const MaterialTable = () => {
     muiTopToolbarProps: {
       sx: {
         height: '64px',
-        backgroundColor: '#61B6DB',
         color: '#fff',
         padding: '16px',
         maxWidth: '100%',
         borderTopLeftRadius: '12px',
         borderTopRightRadius: '12px',
+        backgroundColor: '#61B6DB',
         '& .MuiSvgIcon-root': {
           color: '#ffffff',
         },
@@ -130,6 +181,18 @@ export const MaterialTable = () => {
   return (
     <div className="m-[30px] overflow-hidden rounded-t-[14px]">
       <MaterialReactTable table={table} />
+      <ModalAdmin
+        isError={false}
+        isLoading={false}
+        isOpen={modalOpen}
+        classNameBtn="min-w-[120px]"
+        btnCancelText={t('remove.no')}
+        onConfirm={handleConfirmDelete}
+        btnConfirmText={t('remove.yes')}
+        onClose={() => setModalOpen(false)}
+        title={t('remove.confirmDeleteTitle')}
+        content={t('remove.confirmDeleteContent')}
+      />
     </div>
   );
 };
