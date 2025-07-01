@@ -64,6 +64,7 @@ export const MaterialTable = () => {
         header: '',
         size: 100,
         id: 'delete',
+        enableEditing: false,
         enableSorting: false,
         enableColumnActions: false,
         Cell: ({ row }: { row: MRT_Row<Person> }) => (
@@ -80,9 +81,11 @@ export const MaterialTable = () => {
   const table = useMaterialReactTable({
     data: deleteItem,
     columns,
+    enableEditing: true,
     enableSorting: false,
     enableTopToolbar: true,
     enablePagination: true,
+    editDisplayMode: 'cell',
     enableColumnActions: true,
     paginationDisplayMode: 'pages',
     renderTopToolbarCustomActions: ({ table }) => {
