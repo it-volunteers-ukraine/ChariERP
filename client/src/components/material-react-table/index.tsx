@@ -9,13 +9,14 @@ import { Delete } from '@/assets/icons';
 import { data, header } from './mock';
 import { ModalAdmin } from '../modals';
 import { Button } from '../button';
+import { StaticImageData } from 'next/image';
 
 export type Person = {
   id: number;
   name: string;
   save: string;
   unit: string;
-  photo: string;
+  photo: string | StaticImageData;
   price: number;
   number: number;
   origin: string;

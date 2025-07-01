@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { MRT_Row } from 'material-react-table';
 
 import { Person } from '.';
-import { EmptyPhoto } from '@/assets/img';
+import { BannerContacts, EmptyPhoto } from '@/assets/img';
 
 export const header = [
   {
@@ -27,13 +27,9 @@ export const header = [
     enableColumnFilter: false,
     Cell: ({ row }: { row: MRT_Row<Person> }) =>
       row.original.photo ? (
-        <img src={row.original.photo} alt="Profile" style={{ width: '125px', height: '85px', objectFit: 'cover' }} />
+        <Image src={row.original.photo} alt="Profile" width={125} height={85} style={{ objectFit: 'cover' }} />
       ) : (
-        <Image
-          src={EmptyPhoto}
-          alt="Profile"
-          style={{ width: '85px', height: '85px', objectFit: 'cover', margin: 'auto' }}
-        />
+        <Image src={EmptyPhoto} alt="Profile" width={85} height={85} style={{ objectFit: 'cover', margin: 'auto' }} />
       ),
   },
   {
@@ -133,7 +129,7 @@ export const data = [
   {
     number: 1,
     id: 1124,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 1',
     category: 'Категорія 1',
     unit: 'Одиниця вимірювання 1',
@@ -150,7 +146,7 @@ export const data = [
   {
     number: 2,
     id: 223534,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 2',
     category: 'Категорія 2',
     unit: 'Одиниця вимірювання 2',
@@ -167,7 +163,7 @@ export const data = [
   {
     number: 3,
     id: 343654,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 3',
     category: 'Категорія 3',
     unit: 'Одиниця вимірювання 3',
@@ -184,7 +180,7 @@ export const data = [
   {
     number: 4,
     id: 434343,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 4',
     category: 'Категорія 1',
     unit: 'Одиниця вимірювання 4',
@@ -201,7 +197,7 @@ export const data = [
   {
     number: 5,
     id: 598779,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 5',
     category: 'Категорія 2',
     unit: 'Одиниця вимірювання 5',
@@ -218,7 +214,7 @@ export const data = [
   {
     number: 6,
     id: 598779,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 6',
     category: 'Категорія 3',
     unit: 'Одиниця вимірювання 6',
@@ -269,7 +265,7 @@ export const data = [
   {
     number: 9,
     id: 598779,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 9',
     category: 'Категорія 2',
     unit: 'Одиниця вимірювання 7',
@@ -286,7 +282,7 @@ export const data = [
   {
     number: 10,
     id: 598779,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 10',
     category: 'Категорія 1',
     unit: 'Одиниця вимірювання 7',
@@ -303,7 +299,7 @@ export const data = [
   {
     number: 11,
     id: 598779,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 11',
     category: 'Категорія 1',
     unit: 'Одиниця вимірювання 7',
@@ -320,7 +316,7 @@ export const data = [
   {
     number: 12,
     id: 598779,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 12',
     category: 'Категорія 3',
     unit: 'Одиниця вимірювання 7',
