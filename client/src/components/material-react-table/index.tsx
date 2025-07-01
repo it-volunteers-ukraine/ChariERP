@@ -15,7 +15,7 @@ import {
 
 import { Delete } from '@/assets/icons';
 
-import { data, header } from './mock';
+import { data, getHeader } from './mock';
 import { ModalAdmin } from '../modals';
 import { CustomDownloadButton, CustomFiltersDeleteButton, CustomToggleFiltersButton } from './button';
 
@@ -24,7 +24,7 @@ export type Person = {
   name: string;
   save: string;
   unit: string;
-  photo: string;
+  photos: string[];
   price: number;
   number: number;
   origin: string;
@@ -57,9 +57,17 @@ export const MaterialTable = () => {
     setSelectedRowId(null);
   };
 
+  const handleDeletePhoto = (id: number, url: string) => {
+    setDeleteItem((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, photos: item.photos.filter((photoUrl) => photoUrl !== url) } : item,
+      ),
+    );
+  };
+
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
-      ...header,
+      ...getHeader(handleDeletePhoto),
       {
         header: '',
         size: 100,
@@ -74,7 +82,7 @@ export const MaterialTable = () => {
         ),
       },
     ],
-    [header],
+    [handleDeletePhoto],
   );
 
   const table = useMaterialReactTable({

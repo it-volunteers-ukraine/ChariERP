@@ -121,3 +121,9 @@ body {
 .clip-angled {
   clip-path: polygon(0 0, calc(100% - 0px) 0, 100% 100%, 30px 100%);
 }
+
+.f-carousel__counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
