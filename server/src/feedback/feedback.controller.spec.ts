@@ -5,7 +5,8 @@ import { CreateFeedbackDto } from './dto/create-feedback.dto';
 
 describe('FeedbackController', () => {
   let controller: FeedbackController;
-  let feedbackService: FeedbackService;
+
+  const createFeedbackMock = jest.fn();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -14,14 +15,14 @@ describe('FeedbackController', () => {
         {
           provide: FeedbackService,
           useValue: {
-            create: jest.fn(),
+            create: createFeedbackMock,
           },
         },
       ],
     }).compile();
 
     controller = module.get<FeedbackController>(FeedbackController);
-    feedbackService = module.get<FeedbackService>(FeedbackService);
+    createFeedbackMock.mockReset();
   });
 
   it('should call feedbackService.create with the right data and return the result', async () => {
@@ -35,14 +36,11 @@ describe('FeedbackController', () => {
 
     const expectedResult = { message: 'Thanks for your feedback' };
 
-    (feedbackService.create as jest.Mock).mockResolvedValue(expectedResult);
+    createFeedbackMock.mockResolvedValue(expectedResult);
 
     const result = await controller.create(mockDto);
 
-    // ⚠️ ESLint попередження — бо це виклик методу класу без this
-    // Це безпечно, бо create тут замінено на jest.fn()
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(feedbackService.create).toHaveBeenCalledWith(mockDto);
+    expect(createFeedbackMock).toHaveBeenCalledWith(mockDto);
     expect(result).toEqual(expectedResult);
   });
 });
