@@ -2,7 +2,11 @@ import { EmailService } from './email.service';
 import sgMail from '@sendgrid/mail';
 import { IFeedback } from '../feedback/interfaces/feedback.interface';
 
-jest.mock('@sendgrid/mail');
+const setApiKeyMock = jest.fn();
+const sendMock = jest.fn();
+
+sgMail.setApiKey = setApiKeyMock;
+sgMail.send = sendMock;
 
 describe('EmailService', () => {
   let emailService: EmailService;
@@ -25,10 +29,7 @@ describe('EmailService', () => {
   });
 
   it('should initialize with valid variables', () => {
-    // ⚠️ ESLint попередження: метод використовується без привʼязки до контексту (`this`)
-    // Безпечний випадок, бо `sgMail.setApiKey` замоканий
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(sgMail.setApiKey).toHaveBeenCalledWith('fake-key');
+    expect(setApiKeyMock).toHaveBeenCalledWith('fake-key');
   });
 
   it('should send email automatically', async () => {
@@ -40,18 +41,13 @@ describe('EmailService', () => {
       html: '<p>Test</p>',
     };
 
-    (sgMail.send as jest.Mock).mockResolvedValueOnce({});
+    sendMock.mockResolvedValueOnce({});
     await expect(emailService.send(mockPayload)).resolves.toBeUndefined();
-    // ⚠️ ESLint попередження: метод використовується без привʼязки до контексту (`this`)
-    // Безпечний випадок, бо `sgMail.send` замоканий
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(sgMail.send).toHaveBeenCalledWith(mockPayload);
+    expect(sendMock).toHaveBeenCalledWith(mockPayload);
   });
 
   it('should throw error when sending email fails', async () => {
-    (sgMail.send as jest.Mock).mockRejectedValueOnce(
-      new Error('Failed to send email'),
-    );
+    sendMock.mockRejectedValueOnce(new Error('Failed to send email'));
     await expect(
       emailService.send({
         to: 'org@example.com',
@@ -63,7 +59,7 @@ describe('EmailService', () => {
     ).rejects.toThrow('Failed to send email');
   });
 
-  it('should generate and send feeback email', async () => {
+  it('should generate and send feedback email', async () => {
     const feedback: IFeedback = {
       firstname: 'John',
       lastname: 'Doe',
@@ -72,12 +68,12 @@ describe('EmailService', () => {
       message: 'Thank you for the great service!',
     };
 
-    emailService.send = jest.fn();
+    const emailServiceSendMock = jest.fn();
+    emailService.send = emailServiceSendMock;
+
     await emailService.sendFeedback(feedback);
-    // ⚠️ ESLint попередження: метод використовується без привʼязки до контексту (`this`)
-    // Безпечний випадок, бо `emailService.send` замоканий
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(emailService.send).toHaveBeenCalledWith(
+
+    expect(emailServiceSendMock).toHaveBeenCalledWith(
       expect.objectContaining({
         subject: 'New feedback submitted',
         to: 'org@example.com',
