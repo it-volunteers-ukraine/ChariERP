@@ -1,128 +1,107 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { getModelToken } from '@nestjs/mongoose';
 import { AuthService } from './auth.service';
-import { NotFoundException, UnauthorizedException } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
-import { Model } from 'mongoose';
+import { getModelToken } from '@nestjs/mongoose';
 import { User } from '../schemas/user.schema';
 import { UserLoginRequest } from './dto/user-login.request';
+import { NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { UserStatus } from '../schemas/enums';
+import * as bcrypt from 'bcrypt';
 
 describe('AuthService', () => {
   let authService: AuthService;
-  let userModel: Model<User>;
+  let userModel: any;
+
+  const mockUser = {
+    _id: 'userId1',
+    email: 'test@example.com',
+    password: 'hashedPassword',
+    status: UserStatus.ACTIVE,
+  };
 
   beforeEach(async () => {
+    const mockUserModel = {
+      findOne: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockReturnThis(),
+      exec: jest.fn(),
+      findByIdAndUpdate: jest.fn(),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
         {
           provide: getModelToken(User.name),
-          useValue: {
-            findOne: jest.fn(),
-            findByIdAndUpdate: jest.fn(),
-            exec: jest.fn(),
-          },
+          useValue: mockUserModel,
         },
       ],
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
-    userModel = module.get<Model<User>>(getModelToken(User.name));
+    userModel = module.get(getModelToken(User.name));
   });
 
-  const createMockUser = async (email: string, password: string, status: UserStatus = UserStatus.ACTIVE) => {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    return {
-      _id: 'userId1',
-      email,
-      password: hashedPassword,
-      status,
-      toObject: jest.fn().mockReturnValue({
-        _id: 'userId1',
-        email,
-        status,
-      }),
-    };
-  };
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-  const setupUserModelMocks = (mockUser: any = null) => {
-    jest.spyOn(userModel, 'findOne').mockReturnValue({
-      exec: jest.fn().mockResolvedValue(mockUser),
-    } as any);
-      jest.spyOn(userModel, 'findByIdAndUpdate').mockResolvedValue(mockUser);
-  };
-
-  const setupBcryptMock = (shouldMatch: boolean) => {
-    jest.spyOn(bcrypt, 'compare').mockImplementation(() => Promise.resolve(shouldMatch));
-  };
+  it('should be defined', () => {
+    expect(authService).toBeDefined();
+  });
 
   it('should log in a user with valid credentials', async () => {
-    // given
     const loginDto: UserLoginRequest = {
-      email: 'valid.user@example.com',
-      password: 'SecurePass123!',
+      email: 'test@example.com',
+      password: 'password',
     };
-    const mockUser = await createMockUser(loginDto.email, loginDto.password);
 
-    setupUserModelMocks(mockUser);
-    setupBcryptMock(true);
+    userModel.exec.mockResolvedValue(mockUser);
+    jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
+    userModel.findByIdAndUpdate.mockResolvedValue({});
 
-    // when
     const result = await authService.login(loginDto);
 
-    // then
-    expect(result).toEqual({
-      _id: 'userId1',
-      email: loginDto.email,
-      status: UserStatus.ACTIVE,
-    });
+    expect(userModel.findOne).toHaveBeenCalledWith({ email: { $eq: loginDto.email } });
+    expect(userModel.lean).toHaveBeenCalled();
+    expect(userModel.exec).toHaveBeenCalled();
+    expect(bcrypt.compare).toHaveBeenCalledWith(loginDto.password, mockUser.password);
+    expect(userModel.findByIdAndUpdate).toHaveBeenCalledWith(mockUser._id, { lastLogin: expect.any(Date) });
+    expect(result).toEqual({ ...mockUser, lastLogin: expect.any(Date) });
   });
 
   it('should throw NotFoundException if the user does not exist', async () => {
-    // given
     const loginDto: UserLoginRequest = {
-      email: 'nonexistent.user@example.com',
-      password: 'WrongPass123!',
+      email: 'nonexistent@example.com',
+      password: 'password',
     };
-    setupUserModelMocks();
+
+    userModel.exec.mockResolvedValue(null);
 
     // when & then
     await expect(authService.login(loginDto)).rejects.toThrow(NotFoundException);
   });
 
   describe('should throw UnauthorizedException', () => {
-    const unauthorizedTestCases = [
+    test.each([
       {
         description: 'for invalid passwords',
-        loginDto: {
-          email: 'valid.user@example.com',
-          password: 'WrongPass123!',
-        },
-        userPassword: 'ValidPass123!',
-        status: UserStatus.ACTIVE,
-        shouldPasswordMatch: false,
+        user: mockUser,
+        bcryptResult: false,
       },
       {
         description: 'for blocked accounts',
-        loginDto: {
-          email: 'blocked.user@example.com',
-          password: 'SecurePass123!',
-        },
-        userPassword: 'SecurePass123!',
-        status: UserStatus.BLOCKED,
-        shouldPasswordMatch: true,
+        user: { ...mockUser, status: UserStatus.BLOCKED },
+        bcryptResult: true,
       },
-    ];
-
-    test.each(unauthorizedTestCases)(
+    ])(
       '$description',
-      async ({ loginDto, userPassword, status, shouldPasswordMatch }) => {
-        // given
-        const mockUser = await createMockUser(loginDto.email, userPassword, status);
+      async ({ user, bcryptResult }) => {
+        const loginDto: UserLoginRequest = {
+          email: 'test@example.com',
+          password: 'password',
+        };
 
-        setupUserModelMocks(mockUser);
-        setupBcryptMock(shouldPasswordMatch);
+        userModel.exec.mockResolvedValue(user);
+        jest.spyOn(bcrypt, 'compare').mockResolvedValue(bcryptResult as never);
 
         // when & then
         await expect(authService.login(loginDto)).rejects.toThrow(UnauthorizedException);

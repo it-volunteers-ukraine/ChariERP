@@ -63,6 +63,13 @@ entity board {
     _id: objectid
     name: string
     organizationId: objectid
+    columns: list
+    __v: int32
+}
+
+entity column {
+    _id: objectid
+    name: string
     tasks: list
     __v: int32
 }
@@ -70,8 +77,8 @@ entity board {
 entity task {
     _id: objectid
     title: string
-    boardId: objectid
-    userId: objectid
+    columnId: objectid
+    users: list
     __v: int32
 }
 
@@ -80,7 +87,8 @@ organization o-- organizationData: contains
 organization o-- mediaData: contains
 organization "1" *-- "many" user : "organisationId"
 organization "1" *-- "many" board : "organisationId"
-board "1" *-- "many" task : "boardId"
+board "1" *-- "many" column : "boardId"
+column "1" *-- "many" task : "taskId"
 user "1" *-- "many" task: ""
 
 @enduml

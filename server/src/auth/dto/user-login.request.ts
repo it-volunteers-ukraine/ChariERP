@@ -4,6 +4,7 @@ import { IUser } from '../interfaces/user.interface';
 import { Roles, UserStatus } from '../../schemas/enums';
 import { Types } from 'mongoose';
 import { VALIDATION_MESSAGES } from '../../constants/validation-messages';
+import { Exclude } from 'class-transformer';
 
 export class UserLoginRequest {
   @ApiProperty({ required: true, example: 'john.doe@company.com' })
@@ -18,18 +19,23 @@ export class UserLoginRequest {
 }
 
 export class UserLoginResponse implements IUser {
-  @ApiProperty({example: 'https://example.com/avatar.jpg'})
+  @ApiProperty({ example: 'https://example.com/avatar.jpg' })
   avatarUrl: string;
   dateOfEntry: Date;
+
   @ApiProperty({ example: 'john.doe@company.com' })
   email: string;
   firstName: string;
   lastLogin: Date;
   lastName: string;
-  @ApiProperty({type: String, format: 'binary'})
-  organizationId: Types.ObjectId;
   phone: string;
   position: string;
   role: Roles;
   status: UserStatus;
+
+  @ApiProperty({ type: String, format: 'binary' })
+  organizationId: Types.ObjectId;
+
+  @Exclude()
+  password?: string;
 }
