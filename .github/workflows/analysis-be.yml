@@ -19,7 +19,7 @@ on:
       - '!documentation'
 
 jobs:
-  deploy-ui:
+  deploy-be:
     uses: ./.github/workflows/codeql-analysis.yml
     with:
       working-directory: ./server
