@@ -8,3 +8,9 @@ export enum UserStatus {
   ACTIVE = 'active',
   BLOCKED = 'blocked',
 }
+
+export enum TaskPriority {
+  LOW = 'low',
+  HIGH = 'high',
+  MEDIUM = 'medium',
+}
