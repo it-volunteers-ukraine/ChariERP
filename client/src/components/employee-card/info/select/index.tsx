@@ -32,7 +32,9 @@ export const Select = ({ status, fieldName, setFieldValue }: ISelect) => {
   };
 
   useEffect(() => {
-    setSelected(cardTranslate(status));
+    if (status) {
+      setSelected(cardTranslate(status));
+    }
   }, [status]);
 
   return (

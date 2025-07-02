@@ -40,7 +40,7 @@ export const Select = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isActiveSelected, setIsActiveSelected] = useState<ISelectOption | null>(selected);
 
-  const translate = (label: OptionValue) => (withTranslate ? t(label) : label);
+  const translate = (label: OptionValue) => (withTranslate ? t(String(label)) : label);
 
   useEffect(() => {
     if (isClosed) {
