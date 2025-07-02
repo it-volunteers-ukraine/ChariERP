@@ -1,4 +1,4 @@
-import { Roles } from 'src/schemas';
+import { Roles } from 'src/schemas/enums';
 
 export interface AssertHasRole {
   role?: Roles;

@@ -2,8 +2,8 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 
-import { User } from 'src/schemas';
 import { AssertHasRole } from './types';
+import { User } from '../schemas/user.schema';
 
 @Injectable()
 export class UserService {

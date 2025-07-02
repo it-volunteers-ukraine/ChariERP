@@ -2,8 +2,8 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 
-import { Tasks } from 'src/schemas';
-import { CreateTaskRequest } from './dto';
+import { CreateTaskRequest } from './dto/create-task.request';
+import { Tasks } from '../schemas/task.schema';
 
 @Injectable()
 export class TaskService {

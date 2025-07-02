@@ -10,10 +10,10 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
-import { Roles } from 'src/schemas';
-import { UserService } from 'src/user';
-import { CreateTaskRequest } from './dto';
+import { Roles } from '../schemas/enums';
 import { TaskService } from './task.service';
+import { UserService } from '../user/user.service';
+import { CreateTaskRequest } from './dto/create-task.request';
 
 @ApiTags('Tasks')
 @Controller('tasks')
