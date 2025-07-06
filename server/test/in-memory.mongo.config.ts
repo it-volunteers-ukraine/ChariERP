@@ -7,7 +7,7 @@ class InMemoryMongoConfig {
   public setUp = async () => {
     this.mongo = await MongoMemoryServer.create();
     const url = this.mongo.getUri();
-    
+
     process.env.MONGO_URI = url;
 
     await mongoose.connect(url);

@@ -12,7 +12,10 @@ export class AuthService {
   constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {}
 
   public async login(loginDto: UserLoginRequest): Promise<IUser> {
-    const user = await this.userModel.findOne({ email: { $eq: loginDto.email } }).lean().exec();
+    const user = await this.userModel
+      .findOne({ email: { $eq: loginDto.email } })
+      .lean()
+      .exec();
 
     if (!user) {
       throw new NotFoundException('User not found');
