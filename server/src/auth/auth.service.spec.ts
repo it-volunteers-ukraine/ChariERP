@@ -92,20 +92,17 @@ describe('AuthService', () => {
         user: { ...mockUser, status: UserStatus.BLOCKED },
         bcryptResult: true,
       },
-    ])(
-      '$description',
-      async ({ user, bcryptResult }) => {
-        const loginDto: UserLoginRequest = {
-          email: 'test@example.com',
-          password: 'password',
-        };
+    ])('$description', async ({ user, bcryptResult }) => {
+      const loginDto: UserLoginRequest = {
+        email: 'test@example.com',
+        password: 'password',
+      };
 
-        userModel.exec.mockResolvedValue(user);
-        jest.spyOn(bcrypt, 'compare').mockResolvedValue(bcryptResult as never);
+      userModel.exec.mockResolvedValue(user);
+      jest.spyOn(bcrypt, 'compare').mockResolvedValue(bcryptResult as never);
 
-        // when & then
-        await expect(authService.login(loginDto)).rejects.toThrow(UnauthorizedException);
-      }
-    );
+      // when & then
+      await expect(authService.login(loginDto)).rejects.toThrow(UnauthorizedException);
+    });
   });
 });
