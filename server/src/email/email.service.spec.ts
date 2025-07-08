@@ -31,24 +31,6 @@ describe('EmailService', () => {
     jest.clearAllMocks();
   });
 
-  it('should initialize with valid variables', () => {
-    expect(setApiKeyMock).toHaveBeenCalledWith('fake-key');
-  });
-
-   it('should throw error if SEND_GRID_API_KEY is missing', () => {
-    delete process.env.SEND_GRID_API_KEY;
-    process.env.EMAIL_FROM = 'org@example.com';
-
-    expect(() => new EmailService()).toThrow('Missing SEND_GRID_API_KEY');
-  });
-
-  it('should throw error if EMAIL_FROM is missing', () => {
-    process.env.SEND_GRID_API_KEY = 'fake-key';
-    delete process.env.EMAIL_FROM;
-
-    expect(() => new EmailService()).toThrow('Missing EMAIL_FROM');
-  });
-
   it('should send email automatically', async () => {
     const mockPayload = {
       to: 'org@example.com',
@@ -59,8 +41,26 @@ describe('EmailService', () => {
     };
 
     sendMock.mockResolvedValueOnce({});
+
     await expect(emailService.send(mockPayload)).resolves.toBeUndefined();
+
+    expect(setApiKeyMock).toHaveBeenCalledWith('fake-key');
     expect(sendMock).toHaveBeenCalledWith(mockPayload);
+  });
+
+  it('should throw error if SEND_GRID_API_KEY is missing', async () => {
+    delete process.env.SEND_GRID_API_KEY;
+
+    const mockPayload = {
+      to: 'org@example.com',
+      from: 'org@example.com',
+      subject: 'Missing key',
+      text: 'Test text',
+      html: '<p>Test</p>',
+    };
+
+    await expect(emailService.send(mockPayload)).rejects.toThrow('Missing SEND_GRID_API_KEY');
+    expect(sendMock).not.toHaveBeenCalled();
   });
 
   it('should throw error when sending email fails', async () => {
@@ -69,11 +69,27 @@ describe('EmailService', () => {
       emailService.send({
         to: 'org@example.com',
         from: 'org@example.com',
-        subject: 'fail',
+        subject: 'Failure case',
         text: 'fail',
         html: '<p>fail</p>',
       }),
     ).rejects.toThrow('Failed to send email');
+  });
+
+  it('should throw error if EMAIL_FROM is not set in sendFeeback', async () => {
+    delete process.env.EMAIL_FROM;
+
+    emailService = new EmailService();
+
+    const feedback: IFeedback = {
+      firstname: 'John',
+      lastname: 'Doe',
+      email: 'john@example.com',
+      phone: '+380991234567',
+      message: 'Thank you for the great service!',
+    };
+
+    await expect(emailService.sendFeedback(feedback)).rejects.toThrow('Missing EMAIL_FROM');
   });
 
   it('should generate and send feedback email', async () => {

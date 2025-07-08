@@ -2,23 +2,35 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe, HttpStatus } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
+import { EmailService } from '../src/email/email.service';
+import { testMongoConfig } from './in-memory.mongo.config';
 import { VALIDATION_MESSAGES } from '../src/constants/validation-messages';
 
 describe('FeedbackController (e2e)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
+    await testMongoConfig.setUp();
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(EmailService)
+      .useValue({ sendFeedback: jest.fn() })
+      .compile();
 
     app = moduleFixture.createNestApplication();
-    app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalPipes(new ValidationPipe({ transform: true }));
     await app.init();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   afterAll(async () => {
     await app.close();
+    await testMongoConfig.dropDatabase();
   });
 
   it('/feedback (POST) 200', async () => {
@@ -77,10 +89,7 @@ describe('FeedbackController (e2e)', () => {
     ];
 
     test.each(validationTestCases)('$description', async ({ payload, expectedMessage }) => {
-      const res = await request(app.getHttpServer())
-        .post('/feedback')
-        .send(payload)
-        .expect(HttpStatus.BAD_REQUEST);
+      const res = await request(app.getHttpServer()).post('/feedback').send(payload).expect(HttpStatus.BAD_REQUEST);
 
       const { message } = res.body;
       expect(message).toContain(expectedMessage);
