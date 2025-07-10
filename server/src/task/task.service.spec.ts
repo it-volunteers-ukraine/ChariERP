@@ -2,7 +2,7 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { TaskService } from './task.service';
-import { Tasks } from '../schemas/task.schema';
+import { Task } from '../schemas/task.schema';
 
 describe('TaskService', () => {
   let taskService: TaskService;
@@ -17,14 +17,14 @@ describe('TaskService', () => {
       providers: [
         TaskService,
         {
-          provide: getModelToken(Tasks.name),
+          provide: getModelToken(Task.name),
           useValue: mockTaskModel,
         },
       ],
     }).compile();
 
     taskService = module.get<TaskService>(TaskService);
-    taskModel = module.get(getModelToken(Tasks.name));
+    taskModel = module.get(getModelToken(Task.name));
   });
 
   it('should create a task and return its id', async () => {
@@ -45,8 +45,8 @@ describe('TaskService', () => {
 
     expect(taskModel.create).toHaveBeenCalledWith({
       title: 'New Task',
-      users: [dto.userId],
-      columnId: dto.columnId,
+      assignees: [dto.userId],
+      activeColumn: dto.columnId,
     });
 
     expect(result).toEqual({ id: 'mocked-id' });

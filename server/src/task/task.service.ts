@@ -3,20 +3,19 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 
 import { CreateTaskRequest } from './dto/create-task.request';
-import { Tasks } from '../schemas/task.schema';
+import { Task } from '../schemas/task.schema';
 
 @Injectable()
 export class TaskService {
-  constructor(@InjectModel(Tasks.name) private readonly taskModel: Model<Tasks>) {}
+  constructor(@InjectModel(Task.name) private readonly taskModel: Model<Task>) {}
 
   public async createTask(createTaskDto: CreateTaskRequest): Promise<{ id: string }> {
     const task = await this.taskModel.create({
       title: 'New Task',
-      users: [createTaskDto.userId],
-      columnId: createTaskDto.columnId,
+      assignees: [createTaskDto.userId],
+      activeColumn: createTaskDto.columnId,
+      //TODO: add board ID
     });
-
-    //TODO: add task id to column
 
     return { id: task._id.toString() };
   }
