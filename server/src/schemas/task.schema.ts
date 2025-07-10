@@ -26,18 +26,18 @@ export class Comments {
 export class Task {
   @Prop({ required: true })
   title: string;
-  @Prop({ type: Date })
-  endDate: Date;
+  @Prop({ type: String })
+  description: string;
   @Prop({ type: String, enum: Object.values(TaskPriority) })
   priority: TaskPriority;
+  @Prop({ type: Date })
+  endDate: Date;
   @Prop({ type: Date })
   startDate: Date;
   @Prop({ type: [Attachments], default: [] })
   attachments: Attachments[];
   @Prop({ type: [Comments], default: [] })
   comments: Comments[];
-  @Prop({ type: String })
-  description: string;
   @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }], default: [] })
   assignees: Types.ObjectId[];
   @Prop({ type: Types.ObjectId, ref: 'Column' })

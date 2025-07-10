@@ -10,10 +10,6 @@ export class UserService {
   constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {}
 
   public async assertHasRole({ userId, role, message = 'Access denied' }: AssertHasRole) {
-    if (typeof userId !== 'string') {
-      throw new ForbiddenException('Invalid user ID');
-    }
-
     const user = await this.userModel
       .findOne({ _id: { $eq: userId }, role })
       .select('_id')
