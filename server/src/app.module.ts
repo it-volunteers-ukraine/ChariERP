@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { TaskModule } from './task/task.module';
 import { FeedbackModule } from './feedback/feedback.module';
+import { S3BucketModule } from './s3-bucket/s3-bucket.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { FeedbackModule } from './feedback/feedback.module';
     AuthModule,
     UserModule,
     TaskModule,
+    S3BucketModule,
     FeedbackModule,
   ],
 })
