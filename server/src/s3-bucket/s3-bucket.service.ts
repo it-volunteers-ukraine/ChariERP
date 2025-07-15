@@ -1,13 +1,12 @@
 import {
-  DeleteObjectCommand,
-  DeleteObjectCommandInput,
-  DeleteObjectCommandOutput,
-  GetObjectCommand,
-  GetObjectCommandInput,
-  ListObjectsCommand,
-  PutObjectCommand,
-  PutObjectCommandInput,
   S3Client,
+  GetObjectCommand,
+  PutObjectCommand,
+  ListObjectsCommand,
+  DeleteObjectCommand,
+  GetObjectCommandInput,
+  PutObjectCommandInput,
+  DeleteObjectCommandInput,
 } from '@aws-sdk/client-s3';
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { BucketFolders } from './bucket-folders.enum';
