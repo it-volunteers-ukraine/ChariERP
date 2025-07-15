@@ -1,9 +1,9 @@
-import { Controller, Get, Query, Res } from '@nestjs/common';
-import { S3BucketService } from './s3-bucket.service';
-import { Response } from 'express';
 import { Readable } from 'stream';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
+import { S3BucketService } from './s3-bucket.service';
 import { DownloadFileDto } from './dto/download-file.dto';
+import { Controller, Get, Query, Res } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('S3 Bucket')
 @Controller('s3')
