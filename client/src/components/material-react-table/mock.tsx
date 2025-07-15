@@ -1,7 +1,8 @@
 import { MRT_ColumnDef, MRT_Row } from 'material-react-table';
 
-import { Person } from '.';
 import { GalleryImageCell } from './imgGallery';
+
+import { Person } from '.';
 
 export const getHeader = (
   onDeletePhotos: (id: number, photoId: string) => void,
@@ -9,15 +10,19 @@ export const getHeader = (
 ): MRT_ColumnDef<Person>[] => [
   {
     accessorKey: 'number',
-    header: '№',
     size: 50,
+    header: '№',
+    enableSorting: false,
     enableColumnFilter: false,
+    enableEditing: false,
   },
   {
+    size: 150,
     accessorKey: 'id',
     header: 'ID номер',
-    size: 150,
+    enableSorting: false,
     enableColumnFilter: false,
+    enableEditing: false,
   },
   {
     accessorKey: 'photos',
@@ -56,17 +61,20 @@ export const getHeader = (
     accessorKey: 'unit',
     header: 'Одиниця вимірювання',
     size: 250,
+    enableSorting: false,
     enableColumnFilter: false,
   },
   {
     accessorKey: 'save',
     header: 'Поверх зберігання',
     size: 220,
+    enableSorting: false,
   },
   {
     accessorKey: 'save_place',
     header: 'Місце зберігання',
     size: 220,
+    enableSorting: false,
     filterVariant: 'select' as const,
     filterSelectOptions: [
       { label: '	Місце зберігання 1', value: '	Місце зберігання 1' },
@@ -80,19 +88,23 @@ export const getHeader = (
     accessorKey: 'origin',
     header: 'Походження',
     size: 180,
+    enableSorting: false,
     enableColumnFilter: false,
   },
   {
     accessorKey: 'financing',
     header: 'Фінансування',
     size: 180,
+    enableSorting: false,
     enableColumnFilter: false,
   },
   {
     accessorKey: 'arrival_date',
     header: 'Дата надходження',
     size: 220,
+    enableSorting: false,
     enableColumnFilter: false,
+    enableEditing: false,
   },
   {
     accessorKey: 'price',
@@ -103,17 +115,21 @@ export const getHeader = (
     accessorKey: 'created_at',
     header: 'Дата додавання',
     size: 220,
+    enableSorting: false,
     enableColumnFilter: false,
+    enableEditing: false,
   },
   {
     accessorKey: 'updated_at',
     header: 'Дата останньої зміни',
     size: 250,
+    enableEditing: false,
   },
   {
     accessorKey: 'description',
     header: 'Опис',
     size: 250,
+    enableSorting: false,
     enableColumnFilter: false,
   },
 ];

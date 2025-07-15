@@ -181,7 +181,7 @@ const AdminOrganizationById = () => {
         return;
       }
 
-      showMessage.success(success('sentEmail', { email: data?.email }));
+      showMessage.success(success('sentEmail', { email: data?.email || '' }));
       router.push(backPath);
     } catch (error) {
       // TODO Connect error message
