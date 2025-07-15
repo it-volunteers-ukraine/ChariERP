@@ -3,7 +3,10 @@ import { MRT_ColumnDef, MRT_Row } from 'material-react-table';
 import { Person } from '.';
 import { GalleryImageCell } from './imgGallery';
 
-export const getHeader = (onDeletePhotos: (id: number, url: string) => void): MRT_ColumnDef<Person>[] => [
+export const getHeader = (
+  onDeletePhotos: (id: number, photoId: string) => void,
+  onAddPhoto: (id: number, photo: { id: string; url: string }) => void,
+): MRT_ColumnDef<Person>[] => [
   {
     accessorKey: 'number',
     header: '№',
@@ -22,9 +25,10 @@ export const getHeader = (onDeletePhotos: (id: number, url: string) => void): MR
     size: 150,
     Cell: ({ row }: { row: MRT_Row<Person> }) => (
       <GalleryImageCell
-        imageUrls={row.original.photos}
-        galleryId={`${row.id}`}
-        onDeletePhoto={(url) => onDeletePhotos(row.original.id, url)}
+        onAddPhoto={onAddPhoto}
+        itemId={row.original.id}
+        photos={row.original.photos}
+        onDeletePhoto={onDeletePhotos}
       />
     ),
     enableColumnFilter: false,
@@ -119,8 +123,18 @@ export const data = [
     number: 1,
     id: 1124,
     photos: [
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo1',
+      },
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo2',
+      },
+      {
+        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fya.ru%2Fimages%2Ftouch%2F&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAE',
+        id: 'photo3',
+      },
     ],
     name: 'Назва 1',
     category: 'Категорія 1',
@@ -139,11 +153,18 @@ export const data = [
     number: 2,
     id: 223534,
     photos: [
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
-      'https://www.google.com/url?sa=i&url=https%3A%2F%2Fya.ru%2Fimages%2Ftouch%2F&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAE',
-      'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fru%2F%25D1%2584%25D0%25BE%25D1%2582%25D0%25BE%25D0%25B3%25D1%2580%25D0%25B0%25D1%2584%25D0%25B8%25D0%25B8%2F%25D1%2581%25D0%25BF%25D0%25BE%25D0%25BA%25D0%25BE%25D0%25B9%25D1%2581%25D1%2582%25D0%25B2%25D0%25B8%25D0%25B5&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAL',
-      'https://cakeshop.com.ua/images/AcpSe7kFpmzMfgJUwhyXbNbja_gwkleunua5ZVM9jTQ/h:5000/bG9jYWw/6Ly8vY2FrZXNob3AuY29tLnVhL3B1YmxpY19odG1sL3N0b3JhZ2UvYXBwL3B1YmxpYy9pbWcvcHJvZHVjdC81NzEzXzEuanBn',
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo1',
+      },
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo2',
+      },
+      {
+        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fya.ru%2Fimages%2Ftouch%2F&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAE',
+        id: 'photo3',
+      },
     ],
     name: 'Назва 2',
     category: 'Категорія 2',
@@ -158,12 +179,28 @@ export const data = [
     updated_at: '2023-01-01',
     description: 'Опис 2',
   },
+  /*  'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+      'https://www.google.com/url?sa=i&url=https%3A%2F%2Fya.ru%2Fimages%2Ftouch%2F&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAE',
+      'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fru%2F%25D1%2584%25D0%25BE%25D1%2582%25D0%25BE%25D0%25B3%25D1%2580%25D0%25B0%25D1%2584%25D0%25B8%25D0%25B8%2F%25D1%2581%25D0%25BF%25D0%25BE%25D0%25BA%25D0%25BE%25D0%25B9%25D1%2581%25D1%2582%25D0%25B2%25D0%25B8%25D0%25B5&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAL',
+      'https://cakeshop.com.ua/images/AcpSe7kFpmzMfgJUwhyXbNbja_gwkleunua5ZVM9jTQ/h:5000/bG9jYWw/6Ly8vY2FrZXNob3AuY29tLnVhL3B1YmxpY19odG1sL3N0b3JhZ2UvYXBwL3B1YmxpYy9pbWcvcHJvZHVjdC81NzEzXzEuanBn',
+  */
   {
     number: 3,
     id: 343654,
     photos: [
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo1',
+      },
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo2',
+      },
+      {
+        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fya.ru%2Fimages%2Ftouch%2F&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAE',
+        id: 'photo3',
+      },
     ],
     name: 'Назва 3',
     category: 'Категорія 3',
@@ -182,8 +219,18 @@ export const data = [
     number: 4,
     id: 434343,
     photos: [
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo1',
+      },
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo2',
+      },
+      {
+        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fya.ru%2Fimages%2Ftouch%2F&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAE',
+        id: 'photo3',
+      },
     ],
     name: 'Назва 4',
     category: 'Категорія 1',
@@ -202,8 +249,18 @@ export const data = [
     number: 5,
     id: 598779,
     photos: [
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo1',
+      },
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo2',
+      },
+      {
+        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fya.ru%2Fimages%2Ftouch%2F&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAE',
+        id: 'photo3',
+      },
     ],
     name: 'Назва 5',
     category: 'Категорія 2',
@@ -222,8 +279,18 @@ export const data = [
     number: 6,
     id: 598779,
     photos: [
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo1',
+      },
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo2',
+      },
+      {
+        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fya.ru%2Fimages%2Ftouch%2F&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAE',
+        id: 'photo3',
+      },
     ],
     name: 'Назва 6',
     category: 'Категорія 3',
@@ -242,8 +309,18 @@ export const data = [
     number: 7,
     id: 598779,
     photos: [
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo1',
+      },
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo2',
+      },
+      {
+        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fya.ru%2Fimages%2Ftouch%2F&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAE',
+        id: 'photo3',
+      },
     ],
     name: 'Назва 7',
     category: 'Категорія 1',
@@ -262,8 +339,18 @@ export const data = [
     number: 8,
     id: 598779,
     photos: [
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo1',
+      },
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo2',
+      },
+      {
+        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fya.ru%2Fimages%2Ftouch%2F&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAE',
+        id: 'photo3',
+      },
     ],
     name: 'Назва 8',
     category: 'Категорія 2',
@@ -282,8 +369,18 @@ export const data = [
     number: 9,
     id: 598779,
     photos: [
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo1',
+      },
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo2',
+      },
+      {
+        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fya.ru%2Fimages%2Ftouch%2F&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAE',
+        id: 'photo3',
+      },
     ],
     name: 'Назва 9',
     category: 'Категорія 2',
@@ -302,8 +399,18 @@ export const data = [
     number: 10,
     id: 598779,
     photos: [
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo1',
+      },
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo2',
+      },
+      {
+        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fya.ru%2Fimages%2Ftouch%2F&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAE',
+        id: 'photo3',
+      },
     ],
     name: 'Назва 10',
     category: 'Категорія 1',
@@ -322,8 +429,18 @@ export const data = [
     number: 11,
     id: 598779,
     photos: [
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo1',
+      },
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo2',
+      },
+      {
+        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fya.ru%2Fimages%2Ftouch%2F&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAE',
+        id: 'photo3',
+      },
     ],
     name: 'Назва 11',
     category: 'Категорія 1',
@@ -342,8 +459,18 @@ export const data = [
     number: 12,
     id: 598779,
     photos: [
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo1',
+      },
+      {
+        url: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+        id: 'photo2',
+      },
+      {
+        url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fya.ru%2Fimages%2Ftouch%2F&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAE',
+        id: 'photo3',
+      },
     ],
     name: 'Назва 12',
     category: 'Категорія 3',

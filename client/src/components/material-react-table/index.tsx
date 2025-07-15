@@ -15,8 +15,8 @@ import {
 
 import { Delete } from '@/assets/icons';
 
-import { data, getHeader } from './mock';
 import { ModalAdmin } from '../modals';
+import { data, getHeader } from './mock';
 import { CustomDownloadButton, CustomFiltersDeleteButton, CustomToggleFiltersButton } from './button';
 
 export type Person = {
@@ -24,7 +24,6 @@ export type Person = {
   name: string;
   save: string;
   unit: string;
-  photos: string[];
   price: number;
   number: number;
   origin: string;
@@ -35,6 +34,7 @@ export type Person = {
   updated_at: string;
   description: string;
   arrival_date: string;
+  photos: { url: string; id: string }[];
 };
 
 export const MaterialTable = () => {
@@ -57,17 +57,23 @@ export const MaterialTable = () => {
     setSelectedRowId(null);
   };
 
-  const handleDeletePhoto = (id: number, url: string) => {
+  const handleDeletePhoto = (id: number, photoId: string) => {
     setDeleteItem((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, photos: item.photos.filter((photoUrl) => photoUrl !== url) } : item,
+        item.id === id ? { ...item, photos: item.photos.filter((photo) => photo.id !== photoId) } : item,
       ),
+    );
+  };
+
+  const handleAddPhoto = (personId: number, newPhoto: { id: string; url: string }) => {
+    setDeleteItem((prev) =>
+      prev.map((item) => (item.id === personId ? { ...item, photos: [...item.photos, newPhoto] } : item)),
     );
   };
 
   const columns = useMemo<MRT_ColumnDef<Person>[]>(
     () => [
-      ...getHeader(handleDeletePhoto),
+      ...getHeader(handleDeletePhoto, handleAddPhoto),
       {
         header: '',
         size: 100,
@@ -82,7 +88,7 @@ export const MaterialTable = () => {
         ),
       },
     ],
-    [handleDeletePhoto],
+    [handleDeletePhoto, deleteItem, handleAddPhoto],
   );
 
   const table = useMaterialReactTable({
