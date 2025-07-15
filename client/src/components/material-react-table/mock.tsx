@@ -1,5 +1,4 @@
 import Image from 'next/image';
-
 import { MRT_Row } from 'material-react-table';
 
 import { Person } from '.';
