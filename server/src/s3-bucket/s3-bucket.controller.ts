@@ -2,7 +2,7 @@ import { Controller, Get, Query, Res } from '@nestjs/common';
 import { S3BucketService } from './s3-bucket.service';
 import { Response } from 'express';
 import { Readable } from 'stream';
-import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DownloadFileDto } from './dto/download-file.dto';
 
 @ApiTags('S3 Bucket')
