@@ -179,12 +179,6 @@ export const data = [
     updated_at: '2023-01-01',
     description: 'Опис 2',
   },
-  /*  'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
-      'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
-      'https://www.google.com/url?sa=i&url=https%3A%2F%2Fya.ru%2Fimages%2Ftouch%2F&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAE',
-      'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fru%2F%25D1%2584%25D0%25BE%25D1%2582%25D0%25BE%25D0%25B3%25D1%2580%25D0%25B0%25D1%2584%25D0%25B8%25D0%25B8%2F%25D1%2581%25D0%25BF%25D0%25BE%25D0%25BA%25D0%25BE%25D0%25B9%25D1%2581%25D1%2582%25D0%25B2%25D0%25B8%25D0%25B5&psig=AOvVaw2YsIPUciY6IwMCJHV2xql3&ust=1751462082860000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDn9uvem44DFQAAAAAdAAAAABAL',
-      'https://cakeshop.com.ua/images/AcpSe7kFpmzMfgJUwhyXbNbja_gwkleunua5ZVM9jTQ/h:5000/bG9jYWw/6Ly8vY2FrZXNob3AuY29tLnVhL3B1YmxpY19odG1sL3N0b3JhZ2UvYXBwL3B1YmxpYy9pbWcvcHJvZHVjdC81NzEzXzEuanBn',
-  */
   {
     number: 3,
     id: 343654,
