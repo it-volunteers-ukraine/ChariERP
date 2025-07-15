@@ -23,10 +23,7 @@ const config: Config = {
   testEnvironmentOptions: {
     url: 'http://localhost:3000',
   },
-  transformIgnorePatterns: [
-    '/node_modules/',
-    '^.+\\.module\\.(css|sass|scss)$',
-  ],
+  transformIgnorePatterns: ['/node_modules/', '^.+\\.module\\.(css|sass|scss)$'],
   errorOnDeprecated: false,
 };
 

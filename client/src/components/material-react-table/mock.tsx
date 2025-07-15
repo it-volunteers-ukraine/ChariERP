@@ -1,31 +1,37 @@
-import { MRT_Row } from 'material-react-table';
 import Image from 'next/image';
+import { MRT_Row } from 'material-react-table';
 
 import { Person } from '.';
+import { BannerContacts, EmptyPhoto } from '@/assets/img';
 
 export const header = [
   {
     accessorKey: 'number',
-    header: '№',
     size: 50,
+    header: '№',
+    enableSorting: false,
     enableColumnFilter: false,
     enableEditing: false,
   },
   {
+    size: 150,
     accessorKey: 'id',
     header: 'ID номер',
-    size: 150,
+    enableSorting: false,
     enableColumnFilter: false,
     enableEditing: false,
   },
   {
-    accessorKey: 'photo',
-    header: 'Фото',
     size: 150,
-    Cell: ({ row }: { row: MRT_Row<Person> }) => (
-      <Image src={row.original.photo} alt="Profile" style={{ width: '125px', height: '85px', objectFit: 'cover' }} />
-    ),
+    header: 'Фото',
+    accessorKey: 'photo',
     enableColumnFilter: false,
+    Cell: ({ row }: { row: MRT_Row<Person> }) =>
+      row.original.photo ? (
+        <Image src={row.original.photo} alt="Profile" width={125} height={85} style={{ objectFit: 'cover' }} />
+      ) : (
+        <Image src={EmptyPhoto} alt="Profile" width={85} height={85} style={{ objectFit: 'cover', margin: 'auto' }} />
+      ),
   },
   {
     enableHiding: false,
@@ -50,17 +56,20 @@ export const header = [
     accessorKey: 'unit',
     header: 'Одиниця вимірювання',
     size: 250,
+    enableSorting: false,
     enableColumnFilter: false,
   },
   {
     accessorKey: 'save',
     header: 'Поверх зберігання',
     size: 220,
+    enableSorting: false,
   },
   {
     accessorKey: 'save_place',
     header: 'Місце зберігання',
     size: 220,
+    enableSorting: false,
     filterVariant: 'select' as const,
     filterSelectOptions: [
       { text: '	Місце зберігання 1', value: '	Місце зберігання 1' },
@@ -74,18 +83,21 @@ export const header = [
     accessorKey: 'origin',
     header: 'Походження',
     size: 180,
+    enableSorting: false,
     enableColumnFilter: false,
   },
   {
     accessorKey: 'financing',
     header: 'Фінансування',
     size: 180,
+    enableSorting: false,
     enableColumnFilter: false,
   },
   {
     accessorKey: 'arrival_date',
     header: 'Дата надходження',
     size: 220,
+    enableSorting: false,
     enableColumnFilter: false,
     enableEditing: false,
   },
@@ -98,6 +110,7 @@ export const header = [
     accessorKey: 'created_at',
     header: 'Дата додавання',
     size: 220,
+    enableSorting: false,
     enableColumnFilter: false,
     enableEditing: false,
   },
@@ -111,6 +124,7 @@ export const header = [
     accessorKey: 'description',
     header: 'Опис',
     size: 250,
+    enableSorting: false,
     enableColumnFilter: false,
   },
 ];
@@ -119,7 +133,7 @@ export const data = [
   {
     number: 1,
     id: 1124,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 1',
     category: 'Категорія 1',
     unit: 'Одиниця вимірювання 1',
@@ -136,7 +150,7 @@ export const data = [
   {
     number: 2,
     id: 223534,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 2',
     category: 'Категорія 2',
     unit: 'Одиниця вимірювання 2',
@@ -153,7 +167,7 @@ export const data = [
   {
     number: 3,
     id: 343654,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 3',
     category: 'Категорія 3',
     unit: 'Одиниця вимірювання 3',
@@ -170,7 +184,7 @@ export const data = [
   {
     number: 4,
     id: 434343,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 4',
     category: 'Категорія 1',
     unit: 'Одиниця вимірювання 4',
@@ -187,7 +201,7 @@ export const data = [
   {
     number: 5,
     id: 598779,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 5',
     category: 'Категорія 2',
     unit: 'Одиниця вимірювання 5',
@@ -204,7 +218,7 @@ export const data = [
   {
     number: 6,
     id: 598779,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 6',
     category: 'Категорія 3',
     unit: 'Одиниця вимірювання 6',
@@ -221,7 +235,7 @@ export const data = [
   {
     number: 7,
     id: 598779,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: '',
     name: 'Назва 7',
     category: 'Категорія 1',
     unit: 'Одиниця вимірювання 7',
@@ -238,7 +252,7 @@ export const data = [
   {
     number: 8,
     id: 598779,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: '',
     name: 'Назва 8',
     category: 'Категорія 2',
     unit: 'Одиниця вимірювання 7',
@@ -255,7 +269,7 @@ export const data = [
   {
     number: 9,
     id: 598779,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 9',
     category: 'Категорія 2',
     unit: 'Одиниця вимірювання 7',
@@ -272,7 +286,7 @@ export const data = [
   {
     number: 10,
     id: 598779,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 10',
     category: 'Категорія 1',
     unit: 'Одиниця вимірювання 7',
@@ -289,7 +303,7 @@ export const data = [
   {
     number: 11,
     id: 598779,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 11',
     category: 'Категорія 1',
     unit: 'Одиниця вимірювання 7',
@@ -306,7 +320,7 @@ export const data = [
   {
     number: 12,
     id: 598779,
-    photo: 'https://static.tildacdn.com/tild6633-3263-4233-a232-386661353037/koFbRdMq-00dQLEWtdJw.png',
+    photo: BannerContacts,
     name: 'Назва 12',
     category: 'Категорія 3',
     unit: 'Одиниця вимірювання 7',
