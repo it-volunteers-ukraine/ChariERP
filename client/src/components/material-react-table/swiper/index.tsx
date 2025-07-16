@@ -1,17 +1,19 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import Image from 'next/image';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 
+import { EmptyPhoto } from '@/assets/img';
 import { Overlay } from '@/components/overlay';
+import { ModalAdmin } from '@/components/modals';
 import { Close, Delete, Plus } from '@/assets/icons';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { ModalAdmin } from '@/components/modals';
 
 type Photo = {
   id: string;
@@ -94,23 +96,33 @@ export const GalleryModal = ({ photos, isOpen, setIsOpen, onAddPhoto, onDeletePh
         slidesPerView={1}
         className="max-h-[70vh] px-4 sm:px-12"
       >
-        {photos.map((photo) => (
-          <SwiperSlide key={photo.id} className="flex items-center justify-center px-2 lg:px-0">
-            <div className="flex h-full w-full items-center justify-center">
-              <div className="relative">
-                <img src={photo.url} alt={`galleryPhoto_${photo.id}`} className="w-full rounded-lg object-contain" />
+        {photos.length > 0 ? (
+          photos.map((photo) => (
+            <SwiperSlide key={photo.id} className="flex items-center justify-center px-2 lg:px-0">
+              <div className="flex h-full w-full items-center justify-center">
+                <div className="relative">
+                  <Image
+                    width={700}
+                    height={500}
+                    src={photo.url}
+                    alt={`galleryPhoto_${photo.id}`}
+                    className="w-full rounded-lg object-contain"
+                  />
 
-                <button
-                  onClick={() => handleDelete(photo.id)}
-                  className="absolute right-2 top-2 rounded p-2 text-white transition hover:scale-110 hover:text-red"
-                  aria-label="Delete photo"
-                >
-                  <Delete className="mx-auto h-6 w-6" />
-                </button>
+                  <button
+                    onClick={() => handleDelete(photo.id)}
+                    className="absolute right-2 top-2 rounded p-2 text-white transition hover:scale-110 hover:text-red"
+                    aria-label="Delete photo"
+                  >
+                    <Delete className="mx-auto h-6 w-6" />
+                  </button>
+                </div>
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
+            </SwiperSlide>
+          ))
+        ) : (
+          <Image src={EmptyPhoto} alt="Profile" width={85} height={85} className="m-auto object-cover" />
+        )}
 
         <SwiperSlide className="flex h-full w-full items-center justify-center px-2 lg:px-0">
           <div className="flex h-full w-full items-center justify-center">

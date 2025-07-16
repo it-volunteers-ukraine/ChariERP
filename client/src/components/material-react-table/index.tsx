@@ -96,7 +96,6 @@ export const MaterialTable = () => {
     data: deleteItem,
     columns,
     enableEditing: true,
-    enableSorting: false,
     enableTopToolbar: true,
     enablePagination: true,
     editDisplayMode: 'cell',

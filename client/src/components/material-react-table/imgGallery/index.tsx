@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import Image from 'next/image';
+
+import { EmptyPhoto } from '@/assets/img';
 
 import { GalleryModal } from '../swiper';
 
@@ -12,15 +15,17 @@ type Props = {
 export const GalleryImageCell = ({ photos, itemId, onDeletePhoto, onAddPhoto }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  if (photos.length === 0) return <div>Фото відсутнє</div>;
+  const hasPhotos = photos.length > 0;
 
   return (
     <>
-      <img
-        src={photos[0].url}
+      <Image
+        width={125}
+        height={85}
         onClick={() => setIsOpen(true)}
-        alt={`galleryPhoto_${photos[0].id}`}
-        style={{ width: 125, height: 85, objectFit: 'cover', borderRadius: 4, cursor: 'pointer' }}
+        src={hasPhotos ? photos[0].url : EmptyPhoto}
+        className="cursor-pointer rounded-lg object-cover"
+        alt={hasPhotos ? `galleryPhoto_${photos[0].id}` : 'Empty Photo'}
       />
 
       {isOpen && (
