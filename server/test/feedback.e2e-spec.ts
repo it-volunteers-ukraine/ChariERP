@@ -84,7 +84,7 @@ describe('FeedbackController (e2e)', () => {
           phone: '+380991234567',
           message: 'a'.repeat(401),
         },
-        expectedMessage: VALIDATION_MESSAGES.FEEDBACK.MESSAGE_TOO_LONG,
+        expectedMessage: VALIDATION_MESSAGES.FEEDBACK.MESSAGE_MAX_LENGTH,
       },
     ];
 
