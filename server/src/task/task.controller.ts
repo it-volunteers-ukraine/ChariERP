@@ -10,10 +10,10 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
-import { Roles } from 'src/schemas';
-import { UserService } from 'src/user';
-import { CreateTaskRequest } from './dto';
+import { Roles } from '../schemas/enums';
 import { TaskService } from './task.service';
+import { UserService } from '../user/user.service';
+import { CreateTaskRequest } from './dto/create-task.request';
 
 @ApiTags('Tasks')
 @Controller('tasks')
@@ -45,6 +45,12 @@ export class TaskController {
       message: 'Only managers can create tasks',
     });
 
-    return await this.taskService.createTask(createTaskRequest);
+    //TODO: check if there is a column and get the board ID
+
+    const result = await this.taskService.createTask(createTaskRequest);
+
+    //TODO: add task id to column
+
+    return result;
   }
 }

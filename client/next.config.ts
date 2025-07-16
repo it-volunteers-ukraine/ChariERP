@@ -14,6 +14,16 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'static.tildacdn.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
   experimental: {
     serverActions: {
       bodySizeLimit: '5mb',

@@ -46,7 +46,9 @@
     "myOrganization": "My organization",
     "employees": "Employees",
     "boards": "Boards",
-    "settings": "Settings"
+    "settings": "Settings",
+    "accountingSystem": "Accounting",
+    "fixedAssets": "Fixed assets"
   },
   "inputs": {
     "title": {
@@ -656,13 +658,24 @@
     },
     "taskDescription": {
       "title": "Description",
-      "placeholder": "Add a task description"
+      "placeholder": "Add a task description",
+      "placeholderUser": "The task description is currently missing. Wait for an update from the manager."
     },
     "attachments": {
       "title": "Attachments"
     },
     "comments": {
       "title": "Comments"
-    }
+    },
+    "noAccessToTask": "You do not have access to this task"
+  },
+  "materialTable": {
+    "remove": {
+      "confirmDeleteTitle": "Delete Confirmation",
+      "confirmDeleteContent": "Are you sure you want to delete this item?",
+      "yes": "Yes",
+      "no": "Cancel"
+    },
+    "clearFilters": "Clean filters"
   }
 }

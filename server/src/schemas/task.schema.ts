@@ -18,30 +18,30 @@ export class Attachments {
 export class Comments {
   @Prop({ required: true })
   text: string;
-  @Prop({ type: Types.ObjectId, ref: 'Users', required: true })
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   author: Types.ObjectId;
 }
 
 @Schema(timesTampOptions)
-export class Tasks {
+export class Task {
   @Prop({ required: true })
   title: string;
-  @Prop({ type: Date })
-  date_end: Date;
+  @Prop({ type: String })
+  description: string;
   @Prop({ type: String, enum: Object.values(TaskPriority) })
   priority: TaskPriority;
   @Prop({ type: Date })
-  date_start: Date;
+  endDate: Date;
+  @Prop({ type: Date })
+  startDate: Date;
   @Prop({ type: [Attachments], default: [] })
-  attachment: Attachments[];
+  attachments: Attachments[];
   @Prop({ type: [Comments], default: [] })
   comments: Comments[];
-  @Prop({ type: String })
-  description: string;
-  @Prop({ type: [Types.ObjectId], ref: 'Users', required: true })
-  users: Types.ObjectId[];
-  @Prop({ type: Types.ObjectId, ref: 'Board_Column', required: true })
-  columnId: Types.ObjectId;
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }], default: [] })
+  assignees: Types.ObjectId[];
+  @Prop({ type: Types.ObjectId, ref: 'Column' })
+  activeColumn: Types.ObjectId;
 }
 
-export const TaskSchema = SchemaFactory.createForClass(Tasks);
+export const TaskSchema = SchemaFactory.createForClass(Task);

@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { IUser } from './interfaces/user.interface';
+import { UserLoginResponse } from './dto/user-login.request';
+import { plainToInstance } from 'class-transformer';
 
 describe('AuthController', () => {
   let authController: AuthController;
@@ -42,7 +44,12 @@ describe('AuthController', () => {
       jest.spyOn(authService, 'login').mockResolvedValue(existingUser as unknown as IUser);
 
       const result = await authController.login(loginRequest);
-      expect(result).toBe(existingUser);
+
+      const expectedResponse = plainToInstance(UserLoginResponse, existingUser, {
+        excludeExtraneousValues: false,
+      });
+
+      expect(result).toEqual(expectedResponse);
       expect(authService.login).toHaveBeenCalledWith(loginRequest);
     });
   });

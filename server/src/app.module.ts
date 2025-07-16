@@ -2,10 +2,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { TaskModule } from './task';
-import { UserModule } from './user';
 import { AuthModule } from './auth/auth.module';
 import { BoardModule } from './board/board.module';
+import { UserModule } from './user/user.module';
+import { TaskModule } from './task/task.module';
+import { FeedbackModule } from './feedback/feedback.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { BoardModule } from './board/board.module';
     BoardModule,
     UserModule,
     TaskModule,
+    FeedbackModule,
   ],
 })
 export class AppModule {}

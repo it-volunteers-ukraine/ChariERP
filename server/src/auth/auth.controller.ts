@@ -1,8 +1,8 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { UserLoginRequest, UserLoginResponse } from './dto/user-login.request';
-import { AuthService } from './auth.service';
-import { IUser } from './interfaces/user.interface';
 import { ApiBadRequestResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { AuthService } from './auth.service';
+import { UserLoginRequest, UserLoginResponse } from './dto/user-login.request';
+import { plainToInstance } from 'class-transformer';
 
 @ApiTags('Authorization')
 @Controller('auth')
@@ -22,7 +22,11 @@ export class AuthController {
   })
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  async login(@Body() loginRequest: UserLoginRequest): Promise<IUser> {
-    return this.authService.login(loginRequest);
+  async login(@Body() loginRequest: UserLoginRequest): Promise<UserLoginResponse> {
+    const user = await this.authService.login(loginRequest);
+
+    return plainToInstance(UserLoginResponse, user, {
+      excludeExtraneousValues: false,
+    });
   }
 }

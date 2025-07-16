@@ -3,13 +3,14 @@ ARG NODE_VERSION=22
 FROM node:${NODE_VERSION}-alpine AS deps
 WORKDIR /server
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm ci
 
 # Stage 2: Build application
 FROM node:${NODE_VERSION}-alpine AS builder
 WORKDIR /server
 COPY --from=deps /server/node_modules ./node_modules
 COPY . .
+RUN chmod +x node_modules/.bin/* || true
 RUN npm run build
 
 # Stage 3: Production runtime
@@ -33,10 +34,12 @@ RUN addgroup --system --gid ${GID} ${GROUP} && \
     chown ${USER}:${GROUP} dist
 
 # Copy built application
-COPY --from=builder --chown=${USER}:${GROUP} /server/dist/ ./
+COPY package*.json ./
+RUN npm ci --omit=dev && npm cache clean --force
 
-# Configure runtime
+COPY --from=builder --chown=${USER}:${GROUP} /server/dist/ ./dist/
+
 USER ${USER}
 EXPOSE ${PORT}
 
-CMD ["node", "main.js"]
+CMD ["node", "dist/src/main.js"]
