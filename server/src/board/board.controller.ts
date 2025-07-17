@@ -22,7 +22,7 @@ import {
   ApiNotFoundResponse,
   ApiBadRequestResponse,
 } from '@nestjs/swagger';
-import { UserService } from 'src/user';
+import { UserService } from 'src/user/user.service';
 
 @ApiTags('Boards')
 @Controller('board')

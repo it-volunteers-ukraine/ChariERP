@@ -1,9 +1,9 @@
+import { convert } from 'html-to-text';
 import { Injectable, Logger } from '@nestjs/common';
 import * as sgMail from '@sendgrid/mail';
 import { ISendEmailPayload } from './interfaces/send-email-payload.interface';
 import { IFeedback } from '../feedback/interfaces/feedback.interface';
 import { generateFeedbackEmailTemplate } from './templates/feedback.template';
-import { convert } from 'html-to-text';
 
 @Injectable()
 export class EmailService {
