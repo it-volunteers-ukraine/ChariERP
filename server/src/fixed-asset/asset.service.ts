@@ -11,7 +11,7 @@ export class AssetService {
   async create(createAssetDto: CreateAssetDto): Promise<Asset> {
     const { name } = createAssetDto;
 
-    const existing = await this.assetModel.findOne({ name }).lean().exec();
+    const existing = await this.assetModel.findOne({ name: { $eq: name } }).lean().exec();
 
     if (existing) {
       throw new ConflictException('Asset with this name already exists');
