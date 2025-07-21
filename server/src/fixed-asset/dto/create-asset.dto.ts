@@ -1,8 +1,8 @@
 import { IAsset } from '../interfaces/asset.interface';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MinLength, MaxLength, Matches, IsOptional, IsNumber, IsPositive } from 'class-validator';
-import { Transform, Type } from 'class-transformer';
-import { ASSET_NAME_REGEX, ASSET_DATE_REGEX, ASSET_VALUE_REGEX } from '../../constants/regex.constants';
+import { Transform } from 'class-transformer';
+import { ASSET_NAME_REGEX, ASSET_DATE_REGEX } from '../../constants/regex.constants';
 import { VALIDATION_MESSAGES } from '../../constants/validation-messages';
 
 export class CreateAssetDto implements IAsset {
@@ -47,9 +47,7 @@ export class CreateAssetDto implements IAsset {
 
   @ApiPropertyOptional({ example: 3000.50 })
   @IsOptional()
-  @Matches(ASSET_VALUE_REGEX, { message: VALIDATION_MESSAGES.ASSET.VALUE_DECIMAL })
-  @Type(() => Number)
-  @IsNumber()
+  @IsNumber({ maxDecimalPlaces: 2 })
   @IsPositive()
   value?: number;
 
