@@ -17,7 +17,8 @@ import { Delete } from '@/assets/icons';
 
 import { ModalAdmin } from '../modals';
 import { data, getHeader } from './mock';
-import { CustomDownloadButton, CustomFiltersDeleteButton, CustomToggleFiltersButton } from './button';
+import { CustomDownloadButton } from './export-table';
+import { CustomFiltersDeleteButton, CustomToggleFiltersButton } from './button';
 
 export type Person = {
   id: number;
@@ -92,6 +93,8 @@ export const MaterialTable = () => {
     [handleDeletePhoto, deleteItem, handleAddPhoto],
   );
 
+  const filteredColumns = columns.filter((col) => col.accessorKey);
+
   const table = useMaterialReactTable({
     data: deleteItem,
     columns,
@@ -114,7 +117,7 @@ export const MaterialTable = () => {
         <MRT_ToggleDensePaddingButton table={table} />
         <MRT_ShowHideColumnsButton table={table} />
         <MRT_ToggleFullScreenButton table={table} />
-        <CustomDownloadButton table={table} />
+        <CustomDownloadButton table={table} columns={filteredColumns} data={data} />
       </div>
     ),
     muiTablePaperProps: {

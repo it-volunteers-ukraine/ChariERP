@@ -27,6 +27,7 @@ export { default as Edit } from './edit.svg';
 export { default as Email } from './email.svg';
 export { default as EmailSocial } from './email-social.svg';
 export { default as EN } from './en.svg';
+export { default as Excel } from './excel.svg';
 export { default as Exit } from './exit.svg';
 export { default as Eye } from './eye.svg';
 export { default as EyeOff } from './eye-off.svg';

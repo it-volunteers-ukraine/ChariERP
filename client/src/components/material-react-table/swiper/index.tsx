@@ -95,6 +95,12 @@ export const GalleryModal = ({ photos, isOpen, setIsOpen, onAddPhoto, onDeletePh
         spaceBetween={10}
         slidesPerView={1}
         className="max-h-[70vh] px-4 sm:px-12"
+        style={
+          {
+            '--swiper-navigation-color': '#fff',
+            '--swiper-pagination-color': '#fff',
+          } as React.CSSProperties
+        }
       >
         {photos.length > 0 ? (
           photos.map((photo) => (
@@ -111,7 +117,7 @@ export const GalleryModal = ({ photos, isOpen, setIsOpen, onAddPhoto, onDeletePh
 
                   <button
                     onClick={() => handleDelete(photo.id)}
-                    className="absolute right-2 top-2 rounded p-2 text-white transition hover:scale-110 hover:text-red"
+                    className="absolute right-0 top-[-32px] rounded p-1 text-white transition hover:scale-110 hover:text-red"
                     aria-label="Delete photo"
                   >
                     <Delete className="mx-auto h-6 w-6" />

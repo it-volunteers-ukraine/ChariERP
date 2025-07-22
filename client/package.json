@@ -21,6 +21,7 @@
     "@hello-pangea/dnd": "^18.0.1",
     "@lexical/link": "^0.32.1",
     "@lexical/react": "^0.32.1",
+    "@react-pdf/renderer": "^4.3.0",
     "@sendgrid/mail": "^8.1.5",
     "@types/bcrypt": "^5.0.2",
     "aws4": "^1.13.2",
@@ -49,6 +50,7 @@
     "swiper": "^11.2.10",
     "tailwind-merge": "^3.3.1",
     "ts-node": "^10.9.2",
+    "xlsx": "^0.18.5",
     "yup": "^1.6.1"
   },
   "devDependencies": {
