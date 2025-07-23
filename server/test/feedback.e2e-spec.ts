@@ -1,13 +1,41 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe, HttpStatus } from '@nestjs/common';
 import * as request from 'supertest';
+import * as bcrypt from 'bcrypt';
+import { faker } from '@faker-js/faker';
 import { AppModule } from '../src/app.module';
 import { EmailService } from '../src/email/email.service';
 import { testMongoConfig } from './in-memory.mongo.config';
 import { VALIDATION_MESSAGES } from '../src/constants/validation-messages';
+import { Model } from 'mongoose';
+import { User } from '../src/schemas/user.schema';
+import { getModelToken } from '@nestjs/mongoose';
+import { Roles, UserStatus } from '../src/schemas/enums';
+
+const createTestUser = () => ({
+  firstName: faker.person.firstName(),
+  lastName: faker.person.lastName(),
+  phone: `+${faker.string.numeric(12)}`,
+  email: faker.internet.email(),
+  password: faker.internet.password({ length: 12 }),
+  role: Roles.USER,
+  status: UserStatus.ACTIVE,
+  organizationId: faker.database.mongodbObjectId(),
+});
+
+const createValidFeedbackPayload = () => ({
+  lastname: faker.person.lastName(),
+  firstname: faker.person.firstName(),
+  email: faker.internet.email(),
+  phone: `+380${faker.string.numeric(9)}`,
+  message: faker.lorem.sentence(),
+});
 
 describe('FeedbackController (e2e)', () => {
   let app: INestApplication;
+  let userModel: Model<User>;
+  let accessToken: string;
+  let testUser: ReturnType<typeof createTestUser>;
 
   beforeAll(async () => {
     await testMongoConfig.setUp();
@@ -22,9 +50,25 @@ describe('FeedbackController (e2e)', () => {
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe({ transform: true }));
     await app.init();
+
+    userModel = moduleFixture.get<Model<User>>(getModelToken(User.name));
+    
+    testUser = createTestUser();
+    const hashedPassword = await bcrypt.hash(testUser.password, 10);
+    await userModel.create({
+      ...testUser,
+      password: hashedPassword,
+    });
+
+    const loginResponse = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ email: testUser.email, password: testUser.password })
+      .expect(HttpStatus.OK);
+
+    accessToken = loginResponse.body.access_token;
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     jest.clearAllMocks();
   });
 
@@ -34,21 +78,31 @@ describe('FeedbackController (e2e)', () => {
   });
 
   it('/feedback (POST) 200', async () => {
-    const validPayload = {
-      lastname: 'Doe',
-      firstname: 'John',
-      email: 'john.doe@example.com',
-      phone: '+380991234567',
-      message: 'Thank you for the great service!',
-    };
+    const validPayload = createValidFeedbackPayload();
 
     const res = await request(app.getHttpServer())
       .post('/feedback')
       .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${accessToken}`)
       .send(validPayload)
       .expect(HttpStatus.OK);
 
     expect(res.body).toEqual({ message: 'Thanks for your feedback' });
+  });
+
+  it('/feedback (POST) 401 - Unauthorized without token', async () => {
+    const validPayload = createValidFeedbackPayload();
+
+    const response = await request(app.getHttpServer())
+      .post('/feedback')
+      .set('Accept', 'application/json')
+      .send(validPayload)
+      .expect(HttpStatus.UNAUTHORIZED);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.body.message).toBe('Unauthorized');
+    expect(response.body).toHaveProperty('statusCode', HttpStatus.UNAUTHORIZED);
+    expect(response.body).not.toHaveProperty('message', 'Thanks for your feedback');
   });
 
   describe('/feedback (POST) 400', () => {
@@ -56,32 +110,23 @@ describe('FeedbackController (e2e)', () => {
       {
         description: 'should fail with invalid email',
         payload: {
-          lastname: 'Doe',
-          firstname: 'John',
+          ...createValidFeedbackPayload(),
           email: 'invalid-email',
-          phone: '+380991234567',
-          message: 'Test message',
         },
         expectedMessage: VALIDATION_MESSAGES.EMAIL.INVALID,
       },
       {
         description: 'should fail with invalid phone',
         payload: {
-          lastname: 'Doe',
-          firstname: 'John',
-          email: 'john.doe@example.com',
+          ...createValidFeedbackPayload(),
           phone: '0991234567',
-          message: 'Test message',
         },
         expectedMessage: VALIDATION_MESSAGES.PHONE.INVALID,
       },
       {
         description: 'should fail with too long message',
         payload: {
-          lastname: 'Doe',
-          firstname: 'John',
-          email: 'john.doe@example.com',
-          phone: '+380991234567',
+          ...createValidFeedbackPayload(),
           message: 'a'.repeat(401),
         },
         expectedMessage: VALIDATION_MESSAGES.FEEDBACK.MESSAGE_TOO_LONG,
@@ -89,7 +134,11 @@ describe('FeedbackController (e2e)', () => {
     ];
 
     test.each(validationTestCases)('$description', async ({ payload, expectedMessage }) => {
-      const res = await request(app.getHttpServer()).post('/feedback').send(payload).expect(HttpStatus.BAD_REQUEST);
+      const res = await request(app.getHttpServer())
+        .post('/feedback')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(payload)
+        .expect(HttpStatus.BAD_REQUEST);
 
       const { message } = res.body;
       expect(message).toContain(expectedMessage);

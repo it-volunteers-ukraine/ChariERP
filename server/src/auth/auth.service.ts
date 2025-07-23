@@ -1,17 +1,22 @@
 import * as bcrypt from 'bcrypt';
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../schemas/user.schema';
-import { IUser } from './interfaces/user.interface';
 import { Model } from 'mongoose';
 import { UserStatus } from '../schemas/enums';
 import { UserLoginRequest } from './dto/user-login.request';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {}
+  private readonly logger = new Logger(AuthService.name);
 
-  public async login(loginDto: UserLoginRequest): Promise<IUser> {
+  constructor(
+    private readonly jwtService: JwtService,
+    @InjectModel(User.name) private readonly userModel: Model<User>,
+  ) {}
+
+  public async login(loginDto: UserLoginRequest): Promise<{ access_token: string }> {
     const user = await this.userModel
       .findOne({ email: { $eq: loginDto.email } })
       .lean()
@@ -28,13 +33,23 @@ export class AuthService {
     }
 
     if (user.status === UserStatus.BLOCKED) {
-      console.warn(`Attempt to sign in with blocked account for user: ${user._id}`);
+      this.logger.warn(`Attempt to sign in with blocked account for user: ${user._id}`);
       throw new UnauthorizedException('Account is blocked');
     }
 
     await this.userModel.findByIdAndUpdate(user._id, { lastLogin: new Date() });
 
-    console.info(`User '${user._id}' successfully signed in`);
-    return { ...user, lastLogin: new Date() };
+    this.logger.log(`User '${user._id}' successfully signed in`);
+    const payload = {
+      sub: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      avatar: user.avatarUrl,
+      lastLogin: user.lastLogin,
+      role: user.role,
+    };
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
   }
 }
