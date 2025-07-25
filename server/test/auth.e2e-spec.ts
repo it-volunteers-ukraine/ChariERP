@@ -5,15 +5,13 @@ import * as bcrypt from 'bcrypt';
 import { AppModule } from '../src/app.module';
 import { VALIDATION_MESSAGES } from '../src/constants/validation-messages';
 import { testMongoConfig } from './in-memory.mongo.config';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { User } from '../src/schemas/user.schema';
 import { getModelToken } from '@nestjs/mongoose';
 import { Roles, UserStatus } from '../src/schemas/enums';
+import { faker } from '@faker-js/faker';
 
 describe('AuthController (e2e)', () => {
-  const email = 'john.doe@company.com';
-  const password = 'SecurePass123!';
-
   let app: INestApplication;
   let userModel: Model<User>;
 
@@ -45,28 +43,34 @@ describe('AuthController (e2e)', () => {
     await testMongoConfig.dropDatabase();
   });
 
-  async function createUser(): Promise<User> {
-    const hashedPassword = await bcrypt.hash('SecurePass123!', 10);
-    const user = await userModel.create({
-      firstName: 'John',
-      lastName: 'Doe',
-      phone: '+1234567890',
-      email: email,
-      password: hashedPassword,
+  function createUserData(overrides: Partial<User> = {}) {
+    return {
+      email: faker.internet.email(),
+      password: faker.internet.password({ length: 12 }),
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
+      phone: faker.phone.number(),
       role: Roles.USER,
       status: UserStatus.ACTIVE,
-      organizationId: '507f1f77bcf86cd799439011', // Mock ObjectId
-    });
+      organizationId: new mongoose.Types.ObjectId(),
+      ...overrides,
+    };
+  }
 
-    expect(await userModel.countDocuments()).toEqual(1);
-
-    return user;
+  async function createUser(overrides: Partial<User> = {}): Promise<User> {
+    const userData = createUserData(overrides);
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
+    return await userModel.create({ ...userData, password: hashedPassword });
   }
 
   it('/auth/login (POST) 200', async () => {
-    const existingUser = await createUser();
+    const userData = createUserData();
+    await createUser(userData);
 
-    const loginPayload = { email, password };
+    const loginPayload = {
+      email: userData.email,
+      password: userData.password,
+    };
 
     const response = await request(app.getHttpServer())
       .post('/auth/login')
@@ -74,40 +78,34 @@ describe('AuthController (e2e)', () => {
       .send(loginPayload)
       .expect(HttpStatus.OK);
 
-    const userObject = JSON.parse(JSON.stringify(existingUser));
-    const expectedResponse = {
-      ...userObject,
-      lastLogin: expect.any(String), // lastLogin is updated during login
-      password: undefined, // Override password to undefined since it should be excluded
-    };
-
-    expect(response.body).toEqual(expectedResponse);
-    expect(response.body.password).toBeUndefined(); // Password should not be returned
+    expect(response.body).toHaveProperty('access_token');
+    expect(typeof response.body.access_token).toBe('string');
+    expect(response.body.access_token).toBeTruthy();
   });
 
-  describe('/auth/login (POST) 400', () => {
+  describe('/auth/login (POST) 400 - Validation errors', () => {
     const validationTestCases = [
       {
         description: 'should return validation error for invalid email',
         payload: {
-          email: 'invalid-email',
-          password: 'SecurePass123!',
+          email: faker.lorem.word(),
+          password: faker.internet.password({ length: 12 }),
         },
         expectedMessage: VALIDATION_MESSAGES.EMAIL.INVALID,
       },
       {
         description: 'should return validation error for short password',
         payload: {
-          email: 'test@example.com',
-          password: '123',
+          email: faker.internet.email(),
+          password: faker.internet.password({ length: 3 }),
         },
         expectedMessage: VALIDATION_MESSAGES.PASSWORD.MIN_LENGTH,
       },
       {
         description: 'should return validation error for long password',
         payload: {
-          email: 'test@example.com',
-          password: 'a'.repeat(25),
+          email: faker.internet.email(),
+          password: faker.string.alphanumeric(25),
         },
         expectedMessage: VALIDATION_MESSAGES.PASSWORD.MAX_LENGTH,
       },
@@ -122,5 +120,59 @@ describe('AuthController (e2e)', () => {
           expect(res.body.message).toContain(expectedMessage);
         });
     });
+  });
+
+  it('/auth/login (POST) 404 - User not found', async () => {
+    const loginPayload = {
+      email: faker.internet.email(),
+      password: faker.internet.password({ length: 12 }),
+    };
+
+    const response = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send(loginPayload)
+      .expect(HttpStatus.NOT_FOUND);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.body.message).toBe('User not found');
+    expect(response.body).not.toHaveProperty('access_token');
+  });
+
+  it('/auth/login (POST) 401 - Wrong password', async () => {
+    const userData = createUserData();
+    await createUser(userData);
+
+    const loginPayload = {
+      email: userData.email,
+      password: faker.internet.password({ length: 12 }),
+    };
+
+    const response = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send(loginPayload)
+      .expect(HttpStatus.UNAUTHORIZED);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.body.message).toBe('Invalid credentials');
+    expect(response.body).not.toHaveProperty('access_token');
+  });
+
+  it('/auth/login (POST) 401 - Blocked user', async () => {
+    const userData = createUserData({ status: UserStatus.BLOCKED });
+    await createUser(userData);
+
+    const loginPayload = {
+      email: userData.email,
+      password: userData.password,
+    };
+
+    const response = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send(loginPayload)
+      .expect(HttpStatus.UNAUTHORIZED);
+
+    expect(response.body).toHaveProperty('message');
+    expect(response.body.message).toBe('Account is blocked');
+    expect(response.body).not.toHaveProperty('access_token');
   });
 });

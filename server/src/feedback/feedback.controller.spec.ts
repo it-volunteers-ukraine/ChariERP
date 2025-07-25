@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { FeedbackController } from './feedback.controller';
 import { FeedbackService } from './feedback.service';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
+import { AuthGuard } from '../auth/auth.guard';
 
 describe('FeedbackController', () => {
   let controller: FeedbackController;
@@ -19,7 +20,10 @@ describe('FeedbackController', () => {
           },
         },
       ],
-    }).compile();
+    })
+      .overrideGuard(AuthGuard)
+      .useValue({ canActivate: () => true })
+      .compile();
 
     controller = module.get<FeedbackController>(FeedbackController);
     createFeedbackMock.mockReset();
