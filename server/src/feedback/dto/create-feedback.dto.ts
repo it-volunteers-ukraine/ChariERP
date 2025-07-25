@@ -38,7 +38,7 @@ export class CreateFeedbackDto implements IFeedback {
   @IsString()
   @Transform(({ value }: { value: string }) => value.trim())
   @MaxLength(400, {
-    message: VALIDATION_MESSAGES.FEEDBACK.MESSAGE_TOO_LONG,
+    message: VALIDATION_MESSAGES.FEEDBACK.MESSAGE_MAX_LENGTH,
   })
   message: string;
 }
