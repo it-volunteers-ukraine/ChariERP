@@ -6,6 +6,7 @@ import { TaskService } from './task.service';
 import { TaskController } from './task.controller';
 import { UserService } from '../user/user.service';
 import { CreateTaskRequest } from './dto/create-task.request';
+import { AuthGuard } from '../auth/auth.guard';
 
 describe('TaskController', () => {
   let taskController: TaskController;
@@ -29,7 +30,10 @@ describe('TaskController', () => {
           },
         },
       ],
-    }).compile();
+    })
+      .overrideGuard(AuthGuard)
+      .useValue({ canActivate: () => true })
+      .compile();
 
     taskController = module.get<TaskController>(TaskController);
     taskService = module.get<TaskService>(TaskService);

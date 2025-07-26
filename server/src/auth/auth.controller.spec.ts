@@ -1,9 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { IUser } from './interfaces/user.interface';
-import { UserLoginResponse } from './dto/user-login.request';
-import { plainToInstance } from 'class-transformer';
 
 describe('AuthController', () => {
   let authController: AuthController;
@@ -27,27 +24,13 @@ describe('AuthController', () => {
   });
 
   describe('login', () => {
-    it('should return existing user', async () => {
+    it('should return access token', async () => {
       const loginRequest = { email: 'john.doe@company.com', password: 'SecurePass123!' };
-      const existingUser = {
-        _id: '507f1f77bcf86cd799439011',
-        email: 'john.doe@company.com',
-        password: 'hashedPassword',
-        firstName: 'John',
-        lastName: 'Doe',
-        status: 'ACTIVE',
-        lastLogin: new Date(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
+      const expectedResponse = { access_token: 'mock-jwt-token' };
 
-      jest.spyOn(authService, 'login').mockResolvedValue(existingUser as unknown as IUser);
+      jest.spyOn(authService, 'login').mockResolvedValue(expectedResponse);
 
       const result = await authController.login(loginRequest);
-
-      const expectedResponse = plainToInstance(UserLoginResponse, existingUser, {
-        excludeExtraneousValues: false,
-      });
 
       expect(result).toEqual(expectedResponse);
       expect(authService.login).toHaveBeenCalledWith(loginRequest);

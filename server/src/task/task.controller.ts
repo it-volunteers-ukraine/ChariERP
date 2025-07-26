@@ -7,7 +7,7 @@ import {
   ApiNotFoundResponse,
   ApiForbiddenResponse,
   ApiBadRequestResponse,
-  ApiUnauthorizedResponse,
+  ApiUnauthorizedResponse, ApiBearerAuth,
 } from '@nestjs/swagger';
 
 import { Roles } from '../schemas/enums';
@@ -17,6 +17,7 @@ import { CreateTaskRequest } from './dto/create-task.request';
 
 @ApiTags('Tasks')
 @Controller('tasks')
+@ApiBearerAuth()
 export class TaskController {
   constructor(
     private readonly taskService: TaskService,

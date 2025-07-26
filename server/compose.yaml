@@ -1,15 +1,15 @@
 services:
-  server:
+  client:
     build:
       context: .
       target: runner
     restart: unless-stopped
     env_file: .env.development.local
     volumes:
-      - .:/server
-    command: npm run start:dev
+      - .:/client
+    command: npm run dev
     ports:
-      - '8090:8080'
+      - '3001:3000'
     environment:
       MONGO_USERNAME: $MONGO_USER
       MONGO_PASSWORD: $MONGO_PASS

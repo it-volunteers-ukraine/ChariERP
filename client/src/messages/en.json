@@ -45,7 +45,7 @@
     "home": "Home",
     "myOrganization": "My organization",
     "employees": "Employees",
-    "boards": "Boards",
+    "boards": "Projects",
     "settings": "Settings",
     "accountingSystem": "Accounting",
     "fixedAssets": "Fixed assets"
@@ -160,7 +160,7 @@
       "text": "and send an email with the password to "
     },
     "modalUserWithoutAccess": {
-      "text": "Sorry, You don't have access to this board."
+      "text": "Sorry, You don't have access to this project."
     },
     "successfulRegistration": {
       "title": "Thank you for registering!",
@@ -211,7 +211,7 @@
     "confirm": "confirm",
     "understood": "understood",
     "contact": "contact",
-    "goToAllBoards": "go to all boards",
+    "goToAllBoards": "go to all projects",
     "learnMore": "learn more",
     "yes": "YES",
     "no": "NO",
@@ -309,15 +309,15 @@
     "blocked": "Blocked"
   },
   "board": {
-    "newBoard": "add board",
-    "limitExceeded": "You can create no more than {int} boards on this page.",
+    "newBoard": "add projects",
+    "limitExceeded": "You can create no more than {int} projects on this page.",
     "massageCopyTitle": "Link copied",
-    "emptyBoard": "There is no board with your participation on this page yet",
+    "emptyBoard": "There is no project with your participation on this page yet",
     "allParticipants": "all participants",
-    "currentBoard": "Current board",
+    "currentBoard": "Current project",
     "allUsers": "All members of the organization",
-    "deleteYourSelf": "You cannot remove yourself from the board",
-    "deleteCantUser": "You cannot remove this user from the board because he is assigned to a task",
+    "deleteYourSelf": "You cannot remove yourself from the project",
+    "deleteCantUser": "You cannot remove this user from the project because he is assigned to a task",
     "addUser": "Add a member"
   },
   "copy": {
@@ -623,7 +623,7 @@
       "contactMessage": "If you have any questions or would like to join our collaboration, feel free to contact us.",
       "buttonContacts": "Contacts"
     },
-    "sidebarButtonName": { "Organizations": "My organization", "Employees": "Employees", "Boards": "Boards" }
+    "sidebarButtonName": { "Organizations": "My organization", "Employees": "Employees", "Boards": "Projects" }
   },
   "editor": {
     "button": {
