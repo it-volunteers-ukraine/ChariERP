@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { FeedbackService } from './feedback.service';
 import { EmailService } from '../email/email.service';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
+import { faker } from '@faker-js/faker';
 
 describe('FeedbackService', () => {
   let feedbackService: FeedbackService;
@@ -27,11 +28,11 @@ describe('FeedbackService', () => {
 
   it('should call emailService.sendFeedback with correct data and return success message', async () => {
     const mockDto: CreateFeedbackDto = {
-      lastname: 'Doe',
-      firstname: 'John',
-      email: 'john.doe@example.com',
-      phone: '+380991234567',
-      message: 'Thank you for the great service!',
+      lastname: faker.person.lastName(),
+      firstname: faker.person.firstName(),
+      email: faker.internet.email(),
+      phone: `+380${faker.string.numeric(9)}`,
+      message: faker.lorem.sentence(),
     };
 
     const result = await feedbackService.create(mockDto);

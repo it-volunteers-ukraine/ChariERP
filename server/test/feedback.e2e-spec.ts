@@ -129,7 +129,7 @@ describe('FeedbackController (e2e)', () => {
           ...createValidFeedbackPayload(),
           message: 'a'.repeat(401),
         },
-        expectedMessage: VALIDATION_MESSAGES.FEEDBACK.MESSAGE_TOO_LONG,
+        expectedMessage: VALIDATION_MESSAGES.FEEDBACK.MESSAGE_MAX_LENGTH,
       },
     ];
 
