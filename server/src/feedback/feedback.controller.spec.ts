@@ -3,6 +3,7 @@ import { FeedbackController } from './feedback.controller';
 import { FeedbackService } from './feedback.service';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { faker } from '@faker-js/faker';
 
 describe('FeedbackController', () => {
   let controller: FeedbackController;
@@ -31,11 +32,11 @@ describe('FeedbackController', () => {
 
   it('should call feedbackService.create with the right data and return the result', async () => {
     const mockDto: CreateFeedbackDto = {
-      lastname: 'Doe',
-      firstname: 'John',
-      email: 'john.doe@example.com',
-      phone: '+380991234567',
-      message: 'Thank you for the great service!',
+      lastname: faker.person.lastName(),
+      firstname: faker.person.firstName(),
+      email: faker.internet.email(),
+      phone: `+380${faker.string.numeric(9)}`,
+      message: faker.lorem.sentence(),
     };
 
     const expectedResult = { message: 'Thanks for your feedback' };
