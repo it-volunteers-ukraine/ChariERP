@@ -23,9 +23,10 @@ export class AssetService {
     const createdAsset = await this.assetModel.create({
       ...createAssetDto,
       createdBy: userId,
+      createdAt: new Date(),
     });
 
-    this.logger.log(`Fixed asset '${name}' successfully created by user '${userId}'`)
+    this.logger.log(`Fixed asset '${name}' (ID: ${createdAsset._id}) successfully created by user '${userId}'`)
 
     return createdAsset.toObject();
   }

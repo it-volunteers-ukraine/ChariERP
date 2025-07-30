@@ -3,7 +3,7 @@ import mongoose, { HydratedDocument } from 'mongoose'
 
 export type AssetDocument = HydratedDocument<Asset>;
 
-@Schema({ timestamps: true, versionKey: false })
+@Schema({ versionKey: false })
 export class Asset {
   @Prop({ required: true, unique: true})
   name: string;
@@ -35,6 +35,8 @@ export class Asset {
     ref: 'User'
   })
   createdBy: mongoose.Types.ObjectId;
+  @Prop()
+  createdAt: Date;
 }
 
 export const AssetSchema = SchemaFactory.createForClass(Asset);

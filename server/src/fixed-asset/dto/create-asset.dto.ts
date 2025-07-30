@@ -1,5 +1,5 @@
 import { IAsset } from '../interfaces/asset.interface';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MinLength, MaxLength, Matches, IsOptional, IsNumber, IsPositive } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { ASSET_NAME_REGEX, ASSET_DATE_REGEX } from '../../constants/regex.constants';
@@ -15,59 +15,65 @@ export class CreateAssetDto implements IAsset {
   @Matches(ASSET_NAME_REGEX, { message: VALIDATION_MESSAGES.ASSET.NAME_INVALID_CHARACTERS})
   name: string;
 
-  @ApiPropertyOptional({ example: 'Склад 2'})
+  @ApiProperty({ example: 'Склад 2'})
   @IsOptional()
   @IsString()
   location?: string;
 
-  @ApiPropertyOptional({ example: '2'})
+  @ApiProperty({ example: '2'})
   @IsOptional()
   @IsString()
   storageFloor?: string;
 
-  @ApiPropertyOptional({ example: 'Меблі'})
+  @ApiProperty({ example: 'Меблі'})
   @IsOptional()
   @IsString()
   category?: string;
 
-  @ApiPropertyOptional({ example: 'Подарунок'})
+  @ApiProperty({ example: 'Подарунок'})
   @IsOptional()
   @IsString()
   origin?: string;
 
-  @ApiPropertyOptional({ example: 'Voice'})
+  @ApiProperty({ example: 'Voice'})
   @IsOptional()
   @IsString()
   financing?: string;
 
-  @ApiPropertyOptional({ example: '15.07.2025', type: String})
+  @ApiProperty({ example: '15.07.2025', type: String})
   @IsOptional()
   @Matches(ASSET_DATE_REGEX, { message: VALIDATION_MESSAGES.ASSET.DATE_INVALID})
   dateReceived?: string;
 
-  @ApiPropertyOptional({ example: 3000.50 })
+  @ApiProperty({ example: 3000.52 })
   @IsOptional()
+  @IsNotEmpty()
   @IsNumber({ maxDecimalPlaces: 2 })
   @IsPositive()
   value?: number;
 
-  @ApiPropertyOptional({ example: 'грн' })
+  @ApiProperty({ example: 'грн' })
   @IsOptional()
   @IsString()
   currency?: string;
 
-  @ApiPropertyOptional({ example: 'шт' })
+  @ApiProperty({ example: 'шт' })
   @IsOptional()
   @IsString()
   unit?: string;
 
-  @ApiPropertyOptional({ example: 'https://chari-erp-bucket.fra1.digitaloceanspaces.com/kyiv/fixed-assets/table.jpg' })
+  @ApiProperty({
+    example: 'https://chari-erp-bucket.fra1.digitaloceanspaces.com/kyiv/fixed-assets/table.jpg',
+    description: 'Valid image URL (.jpg, .jpeg, .png, .webp), max size 5MB',
+  })
   @IsOptional()
+  @IsNotEmpty()
   @IsString()
   photo?: string;
 
-  @ApiPropertyOptional({ example: 'примітка' })
+  @ApiProperty({ example: 'примітка' })
   @IsOptional()
+  @IsNotEmpty()
   @IsString()
   @Transform(({ value }: { value: string }) => value.trim())
   @MaxLength(500, { message: VALIDATION_MESSAGES.ASSET.DESC_MAX_LENGTH})

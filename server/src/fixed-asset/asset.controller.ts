@@ -29,8 +29,6 @@ export class AssetController {
     
     const asset = await this.assetService.create(createAssetDto, userId);
 
-    return plainToInstance(AssetResponseDto, asset, {
-      excludeExtraneousValues: false,
-    });
+    return plainToInstance(AssetResponseDto, asset);
   }
 }
