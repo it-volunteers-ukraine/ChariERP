@@ -4,18 +4,25 @@ import { getModelToken } from '@nestjs/mongoose';
 import { User } from '../schemas/user.schema';
 import { UserLoginRequest } from './dto/user-login.request';
 import { NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { UserStatus } from '../schemas/enums';
+import { Roles, UserStatus } from '../schemas/enums';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { faker } from '@faker-js/faker';
 
 describe('AuthService', () => {
   let authService: AuthService;
   let userModel: any;
+  let jwtService: JwtService;
 
   const mockUser = {
-    _id: 'userId1',
-    email: 'test@example.com',
-    password: 'hashedPassword',
+    _id: faker.string.uuid(),
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    avatarUrl: faker.image.avatar(),
+    password: faker.internet.password(),
+    lastLogin: faker.date.past(),
     status: UserStatus.ACTIVE,
+    role: Roles.USER,
   };
 
   beforeEach(async () => {
@@ -26,6 +33,10 @@ describe('AuthService', () => {
       findByIdAndUpdate: jest.fn(),
     };
 
+    const mockJwtService = {
+      signAsync: jest.fn(),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
@@ -33,11 +44,16 @@ describe('AuthService', () => {
           provide: getModelToken(User.name),
           useValue: mockUserModel,
         },
+        {
+          provide: JwtService,
+          useValue: mockJwtService,
+        },
       ],
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
     userModel = module.get(getModelToken(User.name));
+    jwtService = module.get<JwtService>(JwtService);
   });
 
   afterEach(() => {
@@ -48,15 +64,17 @@ describe('AuthService', () => {
     expect(authService).toBeDefined();
   });
 
-  it('should log in a user with valid credentials', async () => {
+  it('should log in a user with valid credentials and return access token', async () => {
     const loginDto: UserLoginRequest = {
       email: 'test@example.com',
       password: 'password',
     };
 
+    const mockToken = faker.internet.jwt({ header: { alg: 'HS256' }});
     userModel.exec.mockResolvedValue(mockUser);
     jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
     userModel.findByIdAndUpdate.mockResolvedValue({});
+    jest.spyOn(jwtService, 'signAsync').mockResolvedValue(mockToken);
 
     const result = await authService.login(loginDto);
 
@@ -65,7 +83,15 @@ describe('AuthService', () => {
     expect(userModel.exec).toHaveBeenCalled();
     expect(bcrypt.compare).toHaveBeenCalledWith(loginDto.password, mockUser.password);
     expect(userModel.findByIdAndUpdate).toHaveBeenCalledWith(mockUser._id, { lastLogin: expect.any(Date) });
-    expect(result).toEqual({ ...mockUser, lastLogin: expect.any(Date) });
+    expect(jwtService.signAsync).toHaveBeenCalledWith({
+      sub: mockUser._id,
+      firstName: mockUser.firstName,
+      lastName: mockUser.lastName,
+      avatar: mockUser.avatarUrl,
+      lastLogin: mockUser.lastLogin,
+      role: mockUser.role,
+    });
+    expect(result).toEqual({ access_token: mockToken });
   });
 
   it('should throw NotFoundException if the user does not exist', async () => {
@@ -76,7 +102,6 @@ describe('AuthService', () => {
 
     userModel.exec.mockResolvedValue(null);
 
-    // when & then
     await expect(authService.login(loginDto)).rejects.toThrow(NotFoundException);
   });
 
@@ -101,7 +126,6 @@ describe('AuthService', () => {
       userModel.exec.mockResolvedValue(user);
       jest.spyOn(bcrypt, 'compare').mockResolvedValue(bcryptResult as never);
 
-      // when & then
       await expect(authService.login(loginDto)).rejects.toThrow(UnauthorizedException);
     });
   });
