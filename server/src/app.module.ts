@@ -7,6 +7,7 @@ import { BoardModule } from './board/board.module';
 import { UserModule } from './user/user.module';
 import { TaskModule } from './task/task.module';
 import { FeedbackModule } from './feedback/feedback.module';
+import { AssetModule } from './fixed-asset/asset.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { FeedbackModule } from './feedback/feedback.module';
     BoardModule,
     UserModule,
     TaskModule,
+    AssetModule,
     FeedbackModule,
   ],
 })
