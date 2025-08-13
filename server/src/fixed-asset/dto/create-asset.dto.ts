@@ -1,12 +1,13 @@
-import { IAsset } from '../interfaces/asset.interface';
+import { Asset } from '../interfaces/asset.interface';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, MinLength, MaxLength, Matches, IsOptional, IsNumber, IsPositive } from 'class-validator';
+import { IsDefined, IsNotEmpty, IsString, MinLength, MaxLength, Matches, IsOptional, IsNumber, IsPositive } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { ASSET_NAME_REGEX, ASSET_DATE_REGEX } from '../../constants/regex.constants';
 import { VALIDATION_MESSAGES } from '../../constants/validation-messages';
 
-export class CreateAssetDto implements IAsset {
+export class CreateAssetDto implements Asset {
   @ApiProperty({ required: true, example: 'Стіл' })
+  @IsDefined({ message: VALIDATION_MESSAGES.REQUIRED })
   @IsNotEmpty()
   @IsString()
   @Transform(({ value }: { value: string }) => value.trim())

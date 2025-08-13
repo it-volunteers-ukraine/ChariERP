@@ -35,8 +35,16 @@ export class Asset {
     ref: 'User'
   })
   createdBy: mongoose.Types.ObjectId;
+  @Prop({
+    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Organization',
+  })
+  organizationId: mongoose.Types.ObjectId;
   @Prop()
   createdAt: Date;
+  @Prop()
+  updatedAt?: Date;
 }
 
 export const AssetSchema = SchemaFactory.createForClass(Asset);

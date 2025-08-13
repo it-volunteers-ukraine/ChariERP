@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import mongoose from 'mongoose';
 
 export class AssetResponseDto {
   @ApiProperty({ example: '65f1c7a4e52891827ad41234' })
@@ -43,6 +44,12 @@ export class AssetResponseDto {
   @ApiProperty({ example: '67eaba1a60eb693f37977d88' })
   createdBy: string;
 
+  @ApiProperty({ description: '68933c43b1a8c178175d1869' })
+  organizationId: mongoose.Types.ObjectId;
+
   @ApiProperty({ example: '2025-07-21T16:16:43.246+00:00' })
   createdAt: Date;
+
+  @ApiProperty({ example: '2025-07-21T16:17:43.246+00:00' })
+  updatedAt?: Date;
 }
