@@ -28,8 +28,9 @@ export class AssetController {
   @UserRoles(Roles.MANAGER)
   async create(@Body() createAssetDto: CreateAssetDto, @Req() req: AuthenticatedRequest): Promise<AssetResponseDto> {
     const userId = req.user.sub;
+    const organizationId = req.user.organizationId;
     
-    const asset = await this.assetService.create(createAssetDto, userId);
+    const asset = await this.assetService.create(createAssetDto, userId, organizationId);
 
     return plainToInstance(AssetResponseDto, asset);
   }
@@ -45,9 +46,9 @@ export class AssetController {
   @ApiNotFoundResponse({ description: 'No fixed assets found for this user in the organization'})
   @Get()
   async findAll(@Query() query: PaginationqQuery, @Req() req: AuthenticatedRequest): Promise<PaginatedAssetDto> {
-    const userId = req.user.sub;
+    const organizationId = req.user.organizationId;
 
-    const { total, assets } = await this.assetService.findAll(userId, query);
+    const { total, assets } = await this.assetService.findAll(organizationId, query);
 
     return { total, assets: plainToInstance(AssetResponseDto, assets) };
   }

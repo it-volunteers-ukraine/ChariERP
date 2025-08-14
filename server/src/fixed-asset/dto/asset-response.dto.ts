@@ -44,8 +44,8 @@ export class AssetResponseDto {
   @ApiProperty({ example: '67eaba1a60eb693f37977d88' })
   createdBy: string;
 
-  @ApiProperty({ description: '68933c43b1a8c178175d1869' })
-  organizationId: mongoose.Types.ObjectId;
+  @ApiProperty({ example: '68933c43b1a8c178175d1869' })
+  organizationId: string;
 
   @ApiProperty({ example: '2025-07-21T16:16:43.246+00:00' })
   createdAt: Date;

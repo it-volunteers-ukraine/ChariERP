@@ -5,7 +5,6 @@ import { Asset, AssetDocument } from '../schemas/asset.schema';
 import { User } from '../schemas/user.schema';
 import { CreateAssetDto } from './dto/create-asset.dto';
 import { PaginationqQuery } from './interfaces/pagination-query.interface';
-import { PaginatedAssetDto } from './dto/paginated-asset.dto';
 
 @Injectable()
 export class AssetService {
@@ -13,7 +12,7 @@ export class AssetService {
 
   constructor(@InjectModel(Asset.name) private assetModel: Model<AssetDocument>, @InjectModel(User.name) private userModel: Model<User>) {}
 
-  async create(createAssetDto: CreateAssetDto, userId: string): Promise<Asset> {
+  async create(createAssetDto: CreateAssetDto, userId: string, organizationId: string): Promise<Asset> {
     const { name } = createAssetDto;
 
     const existing = await this.assetModel.findOne({ name: { $eq: name } }).lean().exec();
@@ -22,14 +21,6 @@ export class AssetService {
       this.logger.warn(`Asset with name '${name}' already exists`)
       throw new ConflictException('Asset with this name already exists');
     }
-
-    const user = await this.userModel.findById(userId).lean().exec();
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
-    const { organizationId } = user;
 
     const createdAsset = await this.assetModel.create({
       ...createAssetDto,
@@ -43,35 +34,10 @@ export class AssetService {
     return createdAsset.toObject();
   }
 
-  async update(updateAssetDto: CreateAssetDto, assetId: string): Promise<Asset> {
-    const updatedAsset = await this.assetModel
-    .findByIdAndUpdate(
-      assetId,
-      { ...updateAssetDto, updatedAt: new Date() },
-      { lean: true, new: true })
-    .exec();
-
-    if(!updatedAsset) {
-      throw new NotFoundException(`Asset with ID ${assetId} not found`);
-    }
-
-    this.logger.log(`Fixed asset '${assetId}' successfully updated`);
-
-    return updatedAsset;
-  }
-
-  async findAll(userId: string, query: PaginationqQuery): Promise<{total: number, assets: Asset[]}> {
+  async findAll(organizationId: string, query: PaginationqQuery): Promise<{total: number, assets: Asset[]}> {
     const page = query.page ? +query.page : 1;
     const limit = query.limit ? +query.limit : 5;
     const docsToSkip = (page - 1) * limit;
-
-    const user = await this.userModel.findById(userId).lean().exec();
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
-    const { organizationId } = user;
 
     const filter = { organizationId: { $eq: organizationId } };
 
@@ -90,6 +56,23 @@ export class AssetService {
     }
 
     return { total, assets };
+  }
+
+  async update(updateAssetDto: CreateAssetDto, assetId: string): Promise<Asset> {
+    const updatedAsset = await this.assetModel
+    .findByIdAndUpdate(
+      assetId,
+      { ...updateAssetDto, updatedAt: new Date() },
+      { lean: true, new: true })
+    .exec();
+
+    if(!updatedAsset) {
+      throw new NotFoundException(`Asset with ID ${assetId} not found`);
+    }
+
+    this.logger.log(`Fixed asset '${assetId}' successfully updated`);
+
+    return updatedAsset;
   }
 
   async deleteOne(assetId: string): Promise<void> {
