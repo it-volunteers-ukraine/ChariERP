@@ -9,7 +9,8 @@ import { AuthenticatedRequest } from './interfaces/authenticated-request.interfa
 import { plainToInstance } from 'class-transformer';
 import { PaginationqQuery } from './interfaces/pagination-query.interface';
 import { PaginatedAssetDto } from './dto/paginated-asset.dto';
-
+import { ValidateObjectIdPipe } from '../pipes/validate-object-id.pipe';
+ 
 @ApiTags('Asset')
 @Controller('assets')
 @ApiBearerAuth()
@@ -64,7 +65,7 @@ export class AssetController {
   @ApiForbiddenResponse({ description: 'Forbidden — user role does not have access to this resource' })
   @Patch(':id')
   @UserRoles(Roles.MANAGER)
-  async update(@Param('id') assetId: string, @Body() updateAssetDto: Partial<CreateAssetDto>): Promise<AssetResponseDto> {
+  async update(@Param('id', ValidateObjectIdPipe) assetId: string, @Body() updateAssetDto: Partial<CreateAssetDto>): Promise<AssetResponseDto> {
     const updatedAsset = await this.assetService.update(updateAssetDto, assetId);
 
     return plainToInstance(AssetResponseDto, updatedAsset);
@@ -78,7 +79,7 @@ export class AssetController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @UserRoles(Roles.MANAGER)
-  async deleteOne(@Param('id') assetId: string): Promise<void> {
+  async deleteOne(@Param('id', ValidateObjectIdPipe) assetId: string): Promise<void> {
 
     await this.assetService.deleteOne(assetId);
   }
