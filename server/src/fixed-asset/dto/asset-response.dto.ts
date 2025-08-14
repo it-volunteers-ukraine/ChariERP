@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import mongoose from 'mongoose';
 
 export class AssetResponseDto {
   @ApiProperty({ example: '65f1c7a4e52891827ad41234' })

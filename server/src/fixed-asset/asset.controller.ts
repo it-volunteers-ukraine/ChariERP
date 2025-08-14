@@ -64,7 +64,7 @@ export class AssetController {
   @ApiForbiddenResponse({ description: 'Forbidden — user role does not have access to this resource' })
   @Patch(':id')
   @UserRoles(Roles.MANAGER)
-  async update(@Param('id') assetId: string, @Body() updateAssetDto: CreateAssetDto): Promise<AssetResponseDto> {
+  async update(@Param('id') assetId: string, @Body() updateAssetDto: Partial<CreateAssetDto>): Promise<AssetResponseDto> {
     const updatedAsset = await this.assetService.update(updateAssetDto, assetId);
 
     return plainToInstance(AssetResponseDto, updatedAsset);

@@ -58,11 +58,21 @@ export class AssetService {
     return { total, assets };
   }
 
-  async update(updateAssetDto: CreateAssetDto, assetId: string): Promise<Asset> {
+  async update(updateAssetDto: Partial<CreateAssetDto>, assetId: string): Promise<Asset> {
+
+    Object.keys(updateAssetDto).forEach(key => {
+      if (
+        updateAssetDto[key] === null ||
+        updateAssetDto[key] === undefined 
+      ) {
+        delete updateAssetDto[key];
+      }
+    });
+
     const updatedAsset = await this.assetModel
-    .findByIdAndUpdate(
-      assetId,
-      { ...updateAssetDto, updatedAt: new Date() },
+    .findOneAndUpdate(
+      { _id: { $eq: assetId } },
+      { $set:  updateAssetDto, $currentDate: { updatedAt: true } },
       { lean: true, new: true })
     .exec();
 
