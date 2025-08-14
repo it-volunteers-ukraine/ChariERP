@@ -2,15 +2,16 @@ import { Model } from 'mongoose';
 import { Injectable, Logger, ConflictException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Asset, AssetDocument } from '../schemas/asset.schema';
-import { User } from '../schemas/user.schema';
 import { CreateAssetDto } from './dto/create-asset.dto';
 import { PaginationqQuery } from './interfaces/pagination-query.interface';
+import { ASSET_ALLOWED_FIELDS } from '../constants/asset-fields';
+import type { AssetAllowedField } from '../constants/asset-fields';
 
 @Injectable()
 export class AssetService {
   private readonly logger = new Logger(AssetService.name);
 
-  constructor(@InjectModel(Asset.name) private assetModel: Model<AssetDocument>, @InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(@InjectModel(Asset.name) private assetModel: Model<AssetDocument>) {}
 
   async create(createAssetDto: CreateAssetDto, userId: string, organizationId: string): Promise<Asset> {
     const { name } = createAssetDto;
@@ -52,6 +53,7 @@ export class AssetService {
     ]);
 
     if (assets.length === 0) {
+      this.logger.error('No fixed assets found for this user in the organization');
       throw new NotFoundException('No fixed assets found for this user in the organization');
     }
 
@@ -59,25 +61,28 @@ export class AssetService {
   }
 
   async update(updateAssetDto: Partial<CreateAssetDto>, assetId: string): Promise<Asset> {
+    const sanitazeUpdate: Partial<Record<AssetAllowedField, CreateAssetDto[AssetAllowedField]>> = {};
 
-    Object.keys(updateAssetDto).forEach(key => {
+    for (const key of ASSET_ALLOWED_FIELDS) {
       if (
-        updateAssetDto[key] === null ||
-        updateAssetDto[key] === undefined 
+        Object.prototype.hasOwnProperty.call(updateAssetDto, key) &&
+        updateAssetDto[key] !== null &&
+        updateAssetDto[key] !== undefined
       ) {
-        delete updateAssetDto[key];
+        sanitazeUpdate[key] = updateAssetDto[key];
       }
-    });
+    }
 
     const updatedAsset = await this.assetModel
     .findOneAndUpdate(
       { _id: { $eq: assetId } },
-      { $set:  updateAssetDto, $currentDate: { updatedAt: true } },
+      { $set:  sanitazeUpdate, $currentDate: { updatedAt: true } },
       { lean: true, new: true })
     .exec();
 
-    if(!updatedAsset) {
-      throw new NotFoundException(`Asset with ID ${assetId} not found`);
+    if (!updatedAsset) {
+      this.logger.error(`Asset with ID '${assetId}' not found or update did not occur`);
+      throw new NotFoundException(`Asset with ID '${assetId}' not found or update did not occur`);
     }
 
     this.logger.log(`Fixed asset '${assetId}' successfully updated`);
