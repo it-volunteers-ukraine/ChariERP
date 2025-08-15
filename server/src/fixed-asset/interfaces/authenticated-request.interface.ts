@@ -9,5 +9,6 @@ export interface AuthenticatedRequest extends Request {
     avatar: string,
     lastLogin: string,
     role: Roles,
+    organizationId: string
   };
 }

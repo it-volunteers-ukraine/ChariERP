@@ -47,6 +47,7 @@ export class AuthService {
       avatar: user.avatarUrl,
       lastLogin: user.lastLogin,
       role: user.role,
+      organizationId: user.organizationId,
     };
     return {
       access_token: await this.jwtService.signAsync(payload),

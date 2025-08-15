@@ -1,6 +1,6 @@
 import { SetMetadata } from '@nestjs/common';
 import { Roles } from '../schemas/enums';
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
 export const USER_ROLES_KEY = 'roles';
@@ -19,6 +19,11 @@ export class RolesGuard implements CanActivate {
       return true;
     }
     const { user } = context.switchToHttp().getRequest();
-    return requiredRoles.some((role) => user.role === role);
+
+    if (!requiredRoles.some((role) => user.role === role)) {
+      throw new ForbiddenException('Forbidden — user role does not have access to this resource');
+    }
+
+    return true;
   }
 }
