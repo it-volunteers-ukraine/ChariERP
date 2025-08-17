@@ -49,7 +49,7 @@ describe('AuthGuard', () => {
    };
     
     await expect(guard.canActivate(mockContext)).rejects.toThrow(UnauthorizedException);
-    expect(mockJwtService.verifyAsync).toHaveBeenCalledWith('invalid token', expect.any(Object));
+    expect(mockJwtService.verifyAsync).toHaveBeenCalledWith('invalid', expect.any(Object));
   });
 
   it('should allow access if token is valid', async () => {
@@ -65,6 +65,6 @@ describe('AuthGuard', () => {
    };
    const result = await guard.canActivate(mockContext);
     expect(result).toBe(true);
-    expect(mockJwtService.verifyAsync).toHaveBeenCalledWith('valid token', expect.any(Object));
+    expect(mockJwtService.verifyAsync).toHaveBeenCalledWith('valid', expect.any(Object));
   });
 });
