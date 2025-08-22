@@ -4,6 +4,9 @@ export class AssetResponseDto {
   @ApiProperty({ example: '65f1c7a4e52891827ad41234' })
   _id: string;
 
+  @ApiProperty({ example: '68933c43b1a8c178175d1869' })
+  organizationId: string;
+
   @ApiProperty({ example: 'Стіл' })
   name: string;
 
@@ -45,4 +48,7 @@ export class AssetResponseDto {
 
   @ApiProperty({ example: '2025-07-21T16:16:43.246+00:00' })
   createdAt: Date;
+
+  @ApiProperty({ example: '2025-07-21T16:17:43.246+00:00' })
+  updatedAt: Date;
 }
