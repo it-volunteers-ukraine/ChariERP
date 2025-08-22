@@ -6,6 +6,9 @@ describe('AuthGuard', () => {
   let mockJwtService: {verifyAsync: jest.Mock};
   let mockReflector: {getAllAndOverride: jest.Mock};
 
+  const VALID_TOKEN = 'valid';
+  const INVALID_TOKEN = 'invalid';
+
   const commonContextMethods = {
     getHandler: () => ({}),
     getClass: () => ({})
@@ -16,8 +19,9 @@ describe('AuthGuard', () => {
     mockReflector = {getAllAndOverride: jest.fn()};
     guard = new AuthGuard(mockJwtService as any, mockReflector as any);
   });
-
-
+   function expectJwtNotCalled () {
+      expect(mockJwtService.verifyAsync).not.toHaveBeenCalled();
+    }
   it('should allow access if route is public', async () => {
    mockReflector.getAllAndOverride.mockReturnValue(true);
    const mockContext: any = {
@@ -25,6 +29,7 @@ describe('AuthGuard', () => {
    };
     const result = await guard.canActivate(mockContext);
     expect(result).toBe(true);
+    expectJwtNotCalled();
   });
 
   it('should throw UnauthorizedException if token is missing', async () => {
@@ -36,6 +41,7 @@ describe('AuthGuard', () => {
       }),
    };
     await expect(guard.canActivate(mockContext)).rejects.toThrow(UnauthorizedException);
+    expectJwtNotCalled();
   });
 
   it('should throw UnauthorizedException if token is invalid', async () => {
@@ -44,12 +50,12 @@ describe('AuthGuard', () => {
     const mockContext: any = {
       ...commonContextMethods,
       switchToHttp: () => ({
-        getRequest: () => ({headers: {authorization: 'Bearer invalid token'}}),
+        getRequest: () => ({headers: {authorization: `Bearer ${INVALID_TOKEN} token`}}),
       }),
    };
     
     await expect(guard.canActivate(mockContext)).rejects.toThrow(UnauthorizedException);
-    expect(mockJwtService.verifyAsync).toHaveBeenCalledWith('invalid', expect.any(Object));
+    expect(mockJwtService.verifyAsync).toHaveBeenCalledWith(INVALID_TOKEN, expect.any(Object));
   });
 
   it('should allow access if token is valid', async () => {
@@ -60,11 +66,11 @@ describe('AuthGuard', () => {
     const mockContext: any = {
       ...commonContextMethods,
       switchToHttp: () => ({
-        getRequest: () => ({headers: {authorization: 'Bearer valid token'}}),
+        getRequest: () => ({headers: {authorization: `Bearer ${VALID_TOKEN} token`}}),
       }),
    };
    const result = await guard.canActivate(mockContext);
     expect(result).toBe(true);
-    expect(mockJwtService.verifyAsync).toHaveBeenCalledWith('valid', expect.any(Object));
+    expect(mockJwtService.verifyAsync).toHaveBeenCalledWith(VALID_TOKEN, expect.any(Object));
   });
 });
