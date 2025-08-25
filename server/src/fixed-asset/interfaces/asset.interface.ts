@@ -1,4 +1,4 @@
-export interface IAsset {
+export interface Asset {
   name: string;
   location?: string;
   storageFloor?: string;
