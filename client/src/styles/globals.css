@@ -110,6 +110,19 @@ body {
   @apply border-2 border-solid border-superBlue;
 }
 
+.scroll-lightBlue::-webkit-scrollbar {
+  @apply w-[6px] bg-transparent;
+}
+
+.scroll-lightBlue::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.scroll-lightBlue::-webkit-scrollbar-thumb {
+  @apply w-[4px] rounded-full bg-arcticSky;
+  border: 2px solid transparent;
+}
+
 .scroll-textarea::-webkit-scrollbar {
   @apply w-[6px];
 }

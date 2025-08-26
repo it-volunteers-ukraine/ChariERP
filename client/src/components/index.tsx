@@ -43,6 +43,7 @@ export { ResponseWrapper } from './response';
 export { Select } from './select';
 export { SmallBtn } from './small-button';
 export { SocialIcon } from './socialIcon';
+export { TableSelect } from './table-select';
 export { TaskCard } from './task-card';
 export { Title } from './title';
 export { TitleTask } from './titleTask';
