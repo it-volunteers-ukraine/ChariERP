@@ -9,6 +9,7 @@ interface IStylesInput {
   isMasked?: boolean;
   disabled?: boolean;
   inputClass?: string;
+  borderClass?: string;
   isTextarea?: boolean;
   placeholder?: string;
   wrapperClass?: string;
@@ -25,6 +26,7 @@ export const getStyles = ({
   value,
   disabled,
   isTextarea,
+  borderClass,
   placeholder,
   wrapperClass,
   textAreaClass,
@@ -47,6 +49,7 @@ export const getStyles = ({
       'cursor-pointer': type === 'file',
       'rounded-[28px] pl-[19px] pr-[14px] py-[10px] h-[44px] items-center': type === 'search',
       'h-auto': isTextarea,
+      [`${borderClass} p-0`]: !!borderClass,
     },
   ),
   star: cn('text-[14px]/[13px] tracking-[0.4px]', {
