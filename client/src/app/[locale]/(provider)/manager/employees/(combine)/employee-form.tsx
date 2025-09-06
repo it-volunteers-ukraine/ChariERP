@@ -90,7 +90,13 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                     <div className="flex w-fit items-center gap-4">
                       <ButtonIcon type="button" icon="back" iconType="primary" onClick={() => router.back()} />
 
-                      <ButtonIcon type="button" icon="save" iconType="primary" onClick={() => setIsOpenSave(true)} />
+                      <ButtonIcon
+                        icon="save"
+                        type="button"
+                        iconType="primary"
+                        disabled={!isManager}
+                        onClick={() => setIsOpenSave(true)}
+                      />
                     </div>
                   </div>
 
@@ -226,7 +232,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                   {!isCreate && (
                     <Button
                       type="button"
-                      disabled={isManager}
+                      disabled={!isManager}
                       className={styles.btn}
                       styleType="outline-blue"
                       text={btn('deleteEmployee')}
@@ -237,6 +243,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                       type="submit"
                       styleType="green"
                       isLoading={isLoading}
+                      disabled={!isManager}
                       className={styles.btn}
                       text={isCreate ? btn('add') : btn('saveChanges')}
                     />
