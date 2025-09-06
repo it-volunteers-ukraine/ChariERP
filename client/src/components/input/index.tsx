@@ -27,6 +27,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
       onSearch,
       isMasked,
       isTextarea,
+      borderClass,
       wrapperClass,
       textAreaClass,
       type = 'text',
@@ -45,6 +46,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
       cross,
       disabled,
       isTextarea,
+      borderClass,
       wrapperClass,
       textAreaClass,
       label: !!label,
@@ -72,7 +74,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
       <div className={styles.wrapper}>
         <label className="flex w-full flex-col gap-1">
           <fieldset className={styles.fieldset}>
-            {type !== 'search' && (
+            {type !== 'search' && label && (
               <legend className="ml-[10px] px-1 pb-1">
                 {required && <span className={styles.star}>*</span>}
                 <span className={styles.label}>{label}</span>

@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useParams, useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
+import { useUserInfo } from '@/context';
 import { getImageAction } from '@/actions';
 import { EllipsisText } from '@/components';
 
@@ -35,12 +36,13 @@ export const EmployeeCard = ({
 }: IEmployeeCardProps) => {
   const router = useRouter();
   const params = useParams();
+  const { isManager } = useUserInfo();
 
   const [img, setImg] = useState('');
   const [isPending, startTransition] = useTransition();
 
   const isParamsId = params?.id;
-  const styles = getStyles({ className });
+  const styles = getStyles({ className, isManager });
 
   const cardTranslate = useTranslations('employeeCard');
   const lastLoginTranslate = useTranslations('errors.employee');
@@ -48,6 +50,12 @@ export const EmployeeCard = ({
   const itemClass = clsx({
     'tablet:!max-w-[calc(50%-48px)]': inById,
   });
+
+  const handleClick = () => {
+    if (!isManager) return;
+    if (isParamsId) return;
+    router.push(`${routes.employeesEdit}/${id}`);
+  };
 
   const loadImg = async () => {
     if (avatarUrl) {
@@ -77,7 +85,7 @@ export const EmployeeCard = ({
   const loginTranslate = lastLogin === 'lastLogin' ? lastLoginTranslate(lastLogin) : lastLogin;
 
   return (
-    <div className={styles.wrapper} onClick={() => (isParamsId ? '' : router.push(`${routes.employeesEdit}/${id}`))}>
+    <div className={styles.wrapper} onClick={handleClick}>
       <div className={`flex w-full items-start gap-4 ${itemClass}`}>
         {!inById && <AvatarEmployee src={img} name={firstName} surname={lastName} isLoading={isPending} />}
         {inById && <AvatarField name="avatarUrl" lastName={lastName} firstName={firstName} />}

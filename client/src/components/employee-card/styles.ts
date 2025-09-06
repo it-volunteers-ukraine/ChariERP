@@ -1,8 +1,14 @@
 import clsx from 'clsx';
 
-export const getStyles = ({ className }: { className?: string }) => ({
+interface IStyles {
+  className?: string;
+  isManager?: boolean;
+}
+
+export const getStyles = ({ className, isManager }: IStyles) => ({
   wrapper: clsx(
-    'w-full h-[226px] flex flex-col justify-between p-[20px_20px_22px] rounded-[8px] bg-whiteSecond shadow-employeeCard cursor-pointer',
+    'w-full h-[226px] flex flex-col justify-between p-[20px_20px_22px] rounded-[8px] bg-whiteSecond shadow-employeeCard',
+    isManager && 'cursor-pointer hover:shadow-employeeCardHover',
     className,
   ),
   abbName:
