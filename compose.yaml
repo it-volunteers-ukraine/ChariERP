@@ -11,8 +11,11 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
+    env_file:
+      - .env
     depends_on:
-      - database
+      database:
+        condition: service_started
 
   server:
     image: node:22-alpine
@@ -25,9 +28,12 @@ services:
     ports:
       - "8080:8080"
     environment:
-      NODE_ENV: development
+      - NODE_ENV=development
+    env_file:
+      - .env
     depends_on:
-      - database
+      database:
+        condition: service_started
 
   database:
     image: mongo:latest
@@ -37,6 +43,8 @@ services:
       - ./mongo-init:/docker-entrypoint-initdb.d:ro
     ports:
       - "27017:27017"
+    env_file:
+      - .env
 
 volumes:
   mongo_data:

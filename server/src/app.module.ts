@@ -13,7 +13,7 @@ import { AssetModule } from './fixed-asset/asset.module';
     ConfigModule.forRoot({
       isGlobal: true,
       expandVariables: true,
-      envFilePath: ['.env', '.env.production.local', '.env.development.local'],
+      envFilePath: ['.env.development.local', '.env.production.local', '.env'],
     }),
     MongooseModule.forRootAsync({
       useFactory: () => ({

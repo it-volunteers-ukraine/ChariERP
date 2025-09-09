@@ -17,18 +17,23 @@ export class AuthService {
   ) {}
 
   public async login(loginDto: UserLoginRequest): Promise<{ access_token: string }> {
+    const maskedEmail = (loginDto.email || '').replace(/(^[^@]?)[^@]*(@.*$)/, '$1***$2');
+    this.logger.log(`Login attempt for email: ${maskedEmail}`);
+
     const user = await this.userModel
       .findOne({ email: { $eq: loginDto.email } })
       .lean()
       .exec();
 
     if (!user) {
+      this.logger.warn(`Login failed: user not found for email: ${maskedEmail}`);
       throw new NotFoundException('User not found');
     }
 
     const compare = await bcrypt.compare(loginDto.password, user.password);
 
     if (!compare) {
+      this.logger.warn(`Login failed: invalid credentials for email: ${maskedEmail}`);
       throw new UnauthorizedException('Invalid credentials');
     }
 

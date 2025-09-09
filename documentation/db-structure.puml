@@ -1,94 +1,231 @@
+
 @startuml
 !theme plain
 top to bottom direction
 skinparam linetype ortho
 
-entity organization {
+entity organizations {
    _id: objectid
+   name: string
+   requestDate: date
+   declinedDate: date
+   approvalDate: date
+   declineReason: string
+   request: enum("pending", "approved", "declined")
+   organizationData: object
    contactData: object
    mediaData: object
-   organizationData: object
-   request: string
-   users: list
-   boards: list
-   __v: int32
-
+   users: array
+   created_at: date
+   updated_at: date
 }
 
-class contactData {
-    email: string
-    firstName: string
-    lastName: string
-    middleName: string
-    phone: string
-    position: string
-}
-
-class organizationData {
-   certificate: string
-   dateOfRegistration: isodate
+class OrganizationData {
    edrpou: string
+   certificate: string
    organizationName: string
+   dateOfRegistration: date
 }
 
-class mediaData {
+class ContactData {
+   phone: string
+   email: string
+   position: string
+   lastName: string
+   firstName: string
+   middleName: string
+}
+
+class MediaData {
    site: string
    social: array
 }
 
-entity superadmin {
+entity admins {
    _id: objectid
+   role: enum("admin")
    email: string
    password: string
-   role: string
-   __v: int32
 }
 
-entity user {
+entity users {
    _id: objectid
-   email: string
-   middleName: string
-   organizationId: objectid
-   password: string
-   role: string
    firstName: string
-   phone: string
-   status: string
+   middleName: string
    lastName: string
+   dateOfBirth: date
+   phone: string
+   email: string
+   address: string
+   password: string
+   notes: string
+   avatarUrl: string
    position: string
-   __v: int32
+   dateOfEntry: date
+   lastLogin: date
+   role: enum("admin", "manager", "user")
+   status: enum("active", "blocked")
+   organizationId: objectid
 }
 
-entity board {
-    _id: objectid
-    name: string
-    organizationId: objectid
-    columns: list
-    __v: int32
+entity boards {
+   _id: objectid
+   title: string
+   order: number
+   organizationId: objectid
+   boardColumns: array
+   created_at: date
+   updated_at: date
 }
 
-entity column {
-    _id: objectid
-    name: string
-    tasks: list
-    __v: int32
+entity boardcolumns {
+   _id: objectid
+   title: string
+   order: number
+   board_id: objectid
+   task_ids: array
+   created_at: date
+   updated_at: date
 }
 
-entity task {
-    _id: objectid
-    title: string
-    columnId: objectid
-    users: list
-    __v: int32
+entity tasks {
+   _id: objectid
+   title: string
+   description: string
+   priority: enum("low", "medium", "high")
+   endDate: date
+   startDate: date
+   attachments: array
+   comments: array
+   assignees: array
+   activeColumn: objectid
+   created_at: date
+   updated_at: date
 }
 
-organization o-- contactData: contains
-organization o-- organizationData: contains
-organization o-- mediaData: contains
-organization "1" *-- "many" user : "organisationId"
-organization "1" *-- "many" board : "organisationId"
-board "1" *-- "many" column : "boardId"
-column "1" *-- "many" task : "taskId"
-user "1" *-- "many" task: ""
+class TaskAttachments {
+   name: string
+   type: string
+   keyFromBucket: string
+}
+
+class TaskComments {
+   text: string
+   author: objectid
+   created_at: date
+   updated_at: date
+}
+
+entity assets {
+   _id: objectid
+   name: string
+   location: string
+   storageFloor: string
+   category: string
+   origin: string
+   financing: string
+   dateReceived: string
+   value: number
+   currency: string
+   unit: string
+   photo: string
+   description: string
+   createdBy: objectid
+   organizationId: objectid
+   createdAt: date
+   updatedAt: date
+}
+
+entity usersboards {
+   _id: objectid
+   user_id: objectid
+   board_id: objectid
+   organization_id: objectid
+}
+
+entity resettokens {
+   _id: objectid
+   token: string
+   createdAt: date
+   expiresAt: date
+   userId: objectid
+}
+
+' Embedded document relationships
+organizations ||--|| OrganizationData : contains
+organizations ||--|| ContactData : contains
+organizations ||--|| MediaData : contains
+tasks ||--o{ TaskAttachments : contains
+tasks ||--o{ TaskComments : contains
+
+' Primary relationships
+organizations "1" ||--o{ "many" users : organizationId
+organizations "1" ||--o{ "many" boards : organizationId
+organizations "1" ||--o{ "many" assets : organizationId
+boards "1" ||--o{ "many" boardcolumns : board_id
+boardcolumns "1" ||--o{ "many" tasks : activeColumn
+users "1" ||--o{ "many" assets : createdBy
+users "many" }o--|| "many" tasks : assignees
+users "1" ||--o{ "many" resettokens : userId
+
+' Many-to-many relationships
+users "many" }o--|| "many" boards : usersboards
+usersboards }|--|| users : user_id
+usersboards }|--|| boards : board_id
+usersboards }|--|| organizations : organization_id
+
+' Comment author relationships
+TaskComments }o--|| users : author
+
+note right of organizations
+  Main organization entity
+  Can be simple (name + dates) or complex
+  (with full registration data)
+  Status: pending, approved, declined
+end note
+
+note right of users
+  Application users
+  Roles: admin, manager, user
+  Status: active, blocked
+  Email field has unique index
+end note
+
+note right of admins
+  System administrators
+  Separate from regular users
+  Only admin role allowed
+end note
+
+note right of boards
+  Project/task boards
+  Belongs to organization
+  Contains columns with tasks
+end note
+
+note right of tasks
+  Task management
+  Priority levels: low, medium, high
+  Can have attachments and comments
+  Assigned to multiple users
+end note
+
+note right of assets
+  Fixed asset management
+  Name field has unique index
+  Tracks equipment/resources
+end note
+
+note right of usersboards
+  Many-to-many relationship
+  Links users to boards within organization
+  Access control mechanism
+end note
+
+note right of resettokens
+  Password reset functionality
+  Auto-expires after 24 hours
+  One-time use tokens
+end note
 
 @enduml
