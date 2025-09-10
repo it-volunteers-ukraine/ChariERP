@@ -11,6 +11,7 @@ export { default as ContactDatabase } from './contact-database.png';
 export { default as Cube } from './cube.png';
 export { default as Donations } from './donations.png';
 export { default as EmployeesGeneral } from './about-service-employees-general.png';
+export { default as EmptyPhoto } from './empty-photo.png';
 export { default as InvoicePaper } from './invoice-paper.png';
 export { default as MainThemeBg } from './home-main-theme-bg.png';
 export { default as Manager } from './manager.png';

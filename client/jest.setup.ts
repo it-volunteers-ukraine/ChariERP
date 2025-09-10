@@ -8,14 +8,14 @@ Object.assign(global, { TextDecoder, TextEncoder });
 jest.mock('next-intl/middleware', () => {
   const mockMiddleware = () => ({
     headers: new Headers(),
-    status: 200
+    status: 200,
   });
 
   return {
     __esModule: true,
     default: function createMiddleware() {
       return mockMiddleware;
-    }
+    },
   };
 });
 
@@ -24,7 +24,7 @@ jest.mock('next/server', () => ({
   NextResponse: {
     redirect: (url: NextURL) => ({
       headers: new Headers([['Location', url.pathname]]),
-      status: 307
-    })
-  }
+      status: 307,
+    }),
+  },
 }));

@@ -17,6 +17,7 @@ import { Delete } from '@/assets/icons';
 
 import { data, header } from './mock';
 import { ModalAdmin } from '../modals';
+import { StaticImageData } from 'next/image';
 import { CustomDownloadButton, CustomFiltersDeleteButton, CustomToggleFiltersButton } from './button';
 
 export type Person = {
@@ -24,7 +25,7 @@ export type Person = {
   name: string;
   save: string;
   unit: string;
-  photo: string;
+  photo: string | StaticImageData;
   price: number;
   number: number;
   origin: string;
@@ -167,6 +168,15 @@ export const MaterialTable = () => {
         justifyContent: 'space-between !important',
         '& .MuiSvgIcon-root': {
           color: '#ffffff !important',
+        },
+        '& .MuiTableSortLabel-root': {
+          color: '#ffffff !important',
+          '&.Mui-active': {
+            color: '#ffffff !important',
+          },
+          '& .MuiSvgIcon-root': {
+            color: '#ffffff !important',
+          },
         },
       },
     }),

@@ -1,4 +1,4 @@
-import { MaterialTable } from '@/components/material-react-table';
+import { MaterialTable } from '@/components';
 
 export const FixedAssetsPage = () => {
   return (

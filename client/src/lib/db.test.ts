@@ -1,5 +1,6 @@
 import connectDB from '@/lib/db';
 import mongoose, { ConnectionStates } from 'mongoose';
+import { faker } from '@faker-js/faker';
 
 jest.mock('mongoose');
 
@@ -9,11 +10,9 @@ describe('Database connection test', () => {
   });
 
   const okState = { ok: 1 };
-  // Mock the admin command function
   const mockAdminCommand: jest.Mock<Document, never[], Promise<Document>> = jest.fn().mockResolvedValue(okState);
 
   const mockMongooseConnection = (connectionState: ConnectionStates) => {
-    // Mock the connection object
     Object.defineProperty(mongoose, 'connection', {
       get: () => ({
         readyState: connectionState,
@@ -36,7 +35,7 @@ describe('Database connection test', () => {
   });
 
   it('should return Promise.resolve({success: true}) when Mongoose is already connected', async () => {
-    process.env.MONGO_URI = 'mongodb://test-connection-string/';
+    process.env.MONGO_URI = `mongodb://${faker.internet.domainName()}:${faker.internet.port()}/test-db`;
     mockMongooseConnection(ConnectionStates.connected);
 
     const actual = connectDB();
@@ -46,7 +45,7 @@ describe('Database connection test', () => {
   });
 
   it('should provide "success" status and new connection when it was disconnected', async () => {
-    process.env.MONGO_URI = 'mongodb://test-connection-string/';
+    process.env.MONGO_URI = `mongodb://${faker.internet.domainName()}:${faker.internet.port()}/test-db`;
     mockMongooseConnection(ConnectionStates.disconnected);
 
     const actual = await connectDB();
@@ -56,7 +55,7 @@ describe('Database connection test', () => {
   });
 
   it('should log and wrap error when connection cannot be established', async () => {
-    process.env.MONGO_URI = 'wrong-connection-string';
+    process.env.MONGO_URI = faker.lorem.word(); // Invalid connection string
 
     Object.defineProperty(mongoose, 'connection', {
       get: () => ({
@@ -64,7 +63,7 @@ describe('Database connection test', () => {
       }),
     });
 
-    const mockError = new Error('Connection failed');
+    const mockError = new Error(faker.lorem.sentence());
 
     (mongoose.connect as jest.Mock).mockImplementationOnce(() => {
       throw mockError;
