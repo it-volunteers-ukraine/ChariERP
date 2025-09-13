@@ -9,7 +9,9 @@ import {
   DeleteObjectCommandInput,
 } from '@aws-sdk/client-s3';
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
-import { BucketFolders } from './bucket-folders.enum';
+import { BucketFolders } from '../schemas/enums';
+
+import { Readable } from 'stream';
 
 interface UploadedFile {
   buffer: Buffer;
@@ -31,6 +33,28 @@ export class S3BucketService {
       secretAccessKey: process.env.SPACES_SECRET!,
     },
   });
+
+  async prepareFileStream(downloadedFile: any): Promise<Readable> {
+    const { Body } = downloadedFile;
+
+    if (!Body) {
+      throw new InternalServerErrorException('File body is empty or undefined');
+    }
+
+    if (Body instanceof Readable) {
+      return Body;
+    } else if (Buffer.isBuffer(Body)) {
+      return Readable.from(Body);
+    } else if (typeof Body.transformToByteArray === 'function') {
+      const byteArray = await Body.transformToByteArray();
+      return Readable.from(Buffer.from(byteArray));
+    } else if (typeof Body.arrayBuffer === 'function') {
+      const buffer = Buffer.from(await Body.arrayBuffer());
+      return Readable.from(buffer);
+    } else {
+      throw new InternalServerErrorException('Unsupported file body type');
+    }
+  }
 
   async uploadFile(organizationName: string, folder: BucketFolders, file: UploadedFile): Promise<string> {
     if (!Object.values(BucketFolders).includes(folder)) {
@@ -55,6 +79,27 @@ export class S3BucketService {
     }
   }
 
+  async uploadMultipleFiles(
+    organizationName: string,
+    folder: BucketFolders,
+    files: Express.Multer.File[] | Express.Multer.File,
+  ): Promise<string[]> {
+    if (!files) {
+      throw new BadRequestException('No files provided');
+    }
+
+    const fileArray = Array.isArray(files) ? files : [files];
+
+    const uploadResults = await Promise.all(
+      fileArray.map(async (file) => {
+        const uploadedKey = await this.uploadFile(organizationName, folder, file);
+        return uploadedKey;
+      }),
+    );
+
+    return uploadResults;
+  }
+
   async downloadFile(fileName: string) {
     const params: GetObjectCommandInput = {
       Key: fileName,
@@ -63,7 +108,10 @@ export class S3BucketService {
     try {
       const file = await this.s3Client.send(new GetObjectCommand(params));
 
-      return file;
+      return {
+        stream: await this.prepareFileStream(file),
+        contentType: file.ContentType,
+      };
     } catch {
       throw new InternalServerErrorException('Error downloading a file from the server');
     }
@@ -83,11 +131,17 @@ export class S3BucketService {
     }
   }
 
-  async deleteFolder(folder: string): Promise<boolean> {
+  async deleteFolder({
+    folder,
+    organizationName,
+  }: {
+    folder: BucketFolders;
+    organizationName: string;
+  }): Promise<boolean> {
     try {
       const { Contents } = await this.s3Client.send(
         new ListObjectsCommand({
-          Prefix: folder,
+          Prefix: `${organizationName}/${folder}/`,
           Bucket: this.bucket,
         }),
       );

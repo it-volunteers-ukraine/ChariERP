@@ -14,3 +14,10 @@ export enum TaskPriority {
   HIGH = 'high',
   MEDIUM = 'medium',
 }
+
+export enum BucketFolders {
+  Task = 'tasks',
+  Avatar = 'avatars',
+  UserProfileImages = 'user-profile-images',
+  CertificateOfRegister = 'registration-certificate',
+}
