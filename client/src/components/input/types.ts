@@ -22,6 +22,7 @@ export interface InputProps extends Omit<CustomInput & CustomTextarea, 'ref'> {
   required?: boolean;
   isMasked?: boolean;
   inputClass?: string;
+  borderClass?: string;
   isTextarea?: boolean;
   placeholder?: string;
   wrapperClass?: string;
