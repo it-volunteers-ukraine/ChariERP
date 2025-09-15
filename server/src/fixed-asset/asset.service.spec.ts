@@ -59,7 +59,7 @@ describe('AssetService', () => {
 
       const mockCreatedAsset = {
         _id: faker.database.mongodbObjectId(),
-        ...createAssetDto,
+         ...createAssetDto,
         createdBy: userId,
         organizationId,
         createdAt: new Date(),
@@ -107,10 +107,11 @@ describe('AssetService', () => {
 
       const mockAssets = Array.from({ length: limit }, () => ({
         _id: faker.database.mongodbObjectId(),
+        organizationId,
         name: faker.commerce.product(),
         location: faker.location.buildingNumber(),
         storageFloor: faker.string.numeric(),
-        organizationId,
+        createdBy: faker.database.mongodbObjectId(),
         createdAt,
         updatedAt: faker.date.between({ from: createdAt, to: new Date() }),
       }));
@@ -154,8 +155,9 @@ describe('AssetService', () => {
 
       const mockUpdatedAsset = {
         _id: assetId,
-        ...updateAssetDto,
         organizationId: faker.database.mongodbObjectId(),
+        ...updateAssetDto,
+        createdBy: faker.database.mongodbObjectId(),
         createdAt: faker.date.past(),
         updatedAt: new Date(),
       };
