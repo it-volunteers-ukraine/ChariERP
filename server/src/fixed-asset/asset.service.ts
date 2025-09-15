@@ -14,10 +14,7 @@ export class AssetService {
   async create(createAssetDto: CreateAssetDto, userId: string, organizationId: string): Promise<Asset> {
     const { name } = createAssetDto;
 
-    const existing = await this.assetModel
-      .findOne({ name: { $eq: name } })
-      .lean()
-      .exec();
+    const existing = await this.assetModel.countDocuments({ name: { $eq: name } });
 
     if (existing) {
       this.logger.warn(`Asset with name '${name}' already exists`);
