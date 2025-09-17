@@ -88,7 +88,7 @@ describe('AssetController', () => {
   });
 
   describe('findAll', () => {
-    it('should call assetService.findAll with correct arguments and return paginated assets', async () => {
+    it('should call assetService.findAll with correct arguments and return paginated fixed assets', async () => {
       mockReq.user!.role = Roles.USER;
 
       const organizationId = mockReq.user!.organizationId;

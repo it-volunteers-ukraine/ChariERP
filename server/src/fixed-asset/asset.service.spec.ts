@@ -18,6 +18,8 @@ describe('AssetService', () => {
       create: jest.fn(),
       paginate: jest.fn(),
       findOneAndUpdate: jest.fn().mockReturnThis(),
+      findByIdAndDelete: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockReturnThis(),
       exec: jest.fn(),
       deleteOne: jest.fn(),
     };
@@ -59,7 +61,7 @@ describe('AssetService', () => {
 
       const mockCreatedAsset = {
         _id: faker.database.mongodbObjectId(),
-         ...createAssetDto,
+        ...createAssetDto,
         createdBy: userId,
         organizationId,
         createdAt: new Date(),
@@ -85,7 +87,7 @@ describe('AssetService', () => {
       expect(result).toEqual(mockCreatedAsset);
     });
 
-    it('should throw ConflictException if asset with same name exists', async () => {
+    it('should throw ConflictException if fixed asset with same name exists', async () => {
       assetModel.countDocuments.mockResolvedValue(1);
 
       const dto: CreateAssetDto = { name: 'Duplicate name' };
@@ -99,7 +101,7 @@ describe('AssetService', () => {
   });
 
   describe('findAll', () => {
-    it('should return paginated assets', async () => {
+    it('should return paginated fixed assets', async () => {
       const organizationId = faker.database.mongodbObjectId();
       const page = DEFAULT_PAGE;
       const limit = DEFAULT_LIMIT;
@@ -143,6 +145,32 @@ describe('AssetService', () => {
         totalPages: Math.ceil(totalDocs / limit),
       });
     });
+
+    it('should throw NotFoundException if fixed assets not found in organization', async () => {
+      const organizationId = faker.database.mongodbObjectId();
+      const page = DEFAULT_PAGE;
+      const limit = DEFAULT_LIMIT;
+
+      const mockAssets = [];
+      const totalDocs = 0;
+
+      const mockPaginateResult = {
+        docs: mockAssets,
+        totalDocs,
+        limit,
+        page,
+        totalPages: 1,
+      };
+
+      assetModel.paginate.mockResolvedValue(mockPaginateResult);
+
+      await expect(assetService.findAll(organizationId, page, limit)).rejects.toThrow(NotFoundException);
+
+      expect(assetModel.paginate).toHaveBeenCalledWith(
+        { organizationId: { $eq: organizationId } },
+        { page, limit, lean: true },
+      );
+    });
   });
 
   describe('update', () => {
@@ -176,7 +204,7 @@ describe('AssetService', () => {
       expect(result).toEqual(mockUpdatedAsset);
     });
 
-    it('should throw NotFoundException if asset not found or update did not occur', async () => {
+    it('should throw NotFoundException if fixed asset not found', async () => {
       const updateAssetDto: UpdateAssetDto = {
         name: faker.commerce.productName(),
       };
@@ -201,12 +229,27 @@ describe('AssetService', () => {
     it('should delete fixed asset by id', async () => {
       const assetId = faker.database.mongodbObjectId();
 
-      assetModel.deleteOne.mockResolvedValue({ deletedCount: 1 });
+      const mockDeletedAsset = { _id: assetId };
+
+      assetModel.exec.mockResolvedValue(mockDeletedAsset);
 
       const result = await assetService.deleteOne(assetId);
 
-      expect(assetModel.deleteOne).toHaveBeenCalledWith({ _id: { $eq: assetId } });
+      expect(assetModel.findByIdAndDelete).toHaveBeenCalledWith(assetId);
+      expect(assetModel.lean).toHaveBeenCalled();
+      expect(assetModel.exec).toHaveBeenCalled();
       expect(result).toBeUndefined();
+    });
+
+    it('should throw NotFoundException if fixed asset not found', async () => {
+      const assetId = faker.database.mongodbObjectId();
+
+      assetModel.exec.mockResolvedValue(null);
+
+      await expect(assetService.deleteOne(assetId)).rejects.toThrow(NotFoundException);
+
+      expect(assetModel.findByIdAndDelete).toHaveBeenCalledWith(assetId);
+      expect(assetModel.exec).toHaveBeenCalled();
     });
   });
 });
