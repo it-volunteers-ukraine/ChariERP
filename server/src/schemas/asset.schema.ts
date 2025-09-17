@@ -45,7 +45,7 @@ export class Asset {
   @Prop()
   createdAt: Date;
   @Prop()
-  updatedAt?: Date;
+  updatedAt: Date;
 }
 
 export const AssetSchema = SchemaFactory.createForClass(Asset);

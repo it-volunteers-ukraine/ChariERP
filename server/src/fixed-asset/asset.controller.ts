@@ -72,7 +72,7 @@ export class AssetController {
     description: 'Get all fixed assets',
   })
   @ApiUnauthorizedResponse({ description: 'Invalid credentials' })
-  @ApiNotFoundResponse({ description: 'No fixed assets found for this user in the organization' })
+  @ApiNotFoundResponse({ description: 'No fixed assets found in organization' })
   @Get()
   async findAll(
     @Query('page') page: number = DEFAULT_PAGE,
@@ -99,6 +99,7 @@ export class AssetController {
   @ApiBadRequestResponse({ description: 'Bad request — validation failed' })
   @ApiUnauthorizedResponse({ description: 'Invalid credentials' })
   @ApiForbiddenResponse({ description: 'Forbidden — user role does not have access to this resource' })
+  @ApiNotFoundResponse({ description: 'Fixed asset not found' })
   @Patch(':id')
   @UserRoles(Roles.MANAGER)
   async update(
