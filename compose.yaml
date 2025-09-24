@@ -1,52 +1,56 @@
 services:
-  client:
-    image: node:22-alpine
-    working_dir: /client
-    restart: unless-stopped
-    volumes:
-      - ./client:/client
-      - client_node_modules:/client/node_modules
-    command: sh -c "npm ci && npm run dev"
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=development
-    env_file:
-      - .env
-    depends_on:
-      database:
-        condition: service_started
+    client:
+        image: node:22-alpine
+        working_dir: /client
+        restart: unless-stopped
+        volumes:
+            - ./client:/client
+            - client_node_modules:/client/node_modules
+        command: sh -c "npm ci && npm run dev"
+        ports:
+            - "3000:3000"
+        environment:
+            - NODE_ENV=development
+        env_file:
+            - .env
+        depends_on:
+            database:
+                condition: service_started
 
-  server:
-    image: node:22-alpine
-    working_dir: /server
-    restart: unless-stopped
-    volumes:
-      - ./server:/server
-      - server_node_modules:/server/node_modules
-    command: sh -c "npm ci && npm run start:dev"
-    ports:
-      - "8080:8080"
-    environment:
-      - NODE_ENV=development
-    env_file:
-      - .env
-    depends_on:
-      database:
-        condition: service_started
+    server:
+        image: node:22-alpine
+        working_dir: /server
+        restart: unless-stopped
+        volumes:
+            - ./server:/server
+            - server_node_modules:/server/node_modules
+        command: sh -c "npm ci && npm run start:dev"
+        ports:
+            - "8080:8080"
+        environment:
+            - NODE_ENV=development
+        env_file:
+            - .env
+        depends_on:
+            database:
+                condition: service_started
 
-  database:
-    image: mongo:latest
-    restart: unless-stopped
-    volumes:
-      - mongo_data:/data/db
-      - ./mongo-init:/docker-entrypoint-initdb.d:ro
-    ports:
-      - "27017:27017"
-    env_file:
-      - .env
+    database:
+        image: mongo:latest
+        restart: unless-stopped
+        volumes:
+            - mongo_data:/data/db
+            - ./mongo-init:/docker-entrypoint-initdb.d:ro
+        ports:
+            - "27017:27017"
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=root
+            - MONGO_INITDB_ROOT_PASSWORD=123456
+            - MONGO_INITDB_DATABASE=mydatabase
+        env_file:
+            - .env
 
 volumes:
-  mongo_data:
-  client_node_modules:
-  server_node_modules:
+    mongo_data:
+    client_node_modules:
+    server_node_modules:

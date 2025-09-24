@@ -99,12 +99,11 @@ export const CustomDownloadButton = ({ table, data, columns }: Props) => {
       </Tooltip>
 
       <ModalExport
-        title="Експорт таблиці"
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onExportExcel={handleExportExcel}
+        title="Експорт таблиці"
         onExportPdf={handleExportPdf}
-        classNameBtn="w-[140px] h-[70px] rounded-lg [&>span]:text-2xl"
+        onExportExcel={handleExportExcel}
+        onClose={() => setIsModalOpen(false)}
       />
     </>
   );
