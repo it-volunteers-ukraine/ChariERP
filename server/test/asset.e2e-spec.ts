@@ -86,10 +86,6 @@ describe('AssetController (e2e)', () => {
     await testMongoConfig.dropDatabase();
   });
 
-  it('setup should work', () => {
-    expect(managerToken).toBeDefined();
-  });
-
   describe('/assets (POST)', () => {
     describe('201 CREATED', () => {
       it(`should create fixed asset successfully for user with role '${Roles.MANAGER}'`, async () => {

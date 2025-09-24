@@ -18,7 +18,7 @@ export class AssetService {
 
     if (existing) {
       this.logger.warn(`Fixed asset with name '${name}' already exists`);
-      throw new ConflictException('Fixed asset with this name already exists');
+      throw new ConflictException('Fixed asset with current name already exists');
     }
 
     const createdAsset = await this.assetModel.create({

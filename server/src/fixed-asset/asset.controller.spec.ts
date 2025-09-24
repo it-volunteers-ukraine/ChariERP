@@ -53,11 +53,6 @@ describe('AssetController', () => {
     jest.clearAllMocks();
   });
 
-  it('should be defined', () => {
-    expect(assetController).toBeDefined();
-  });
-
-  describe('create', () => {
     it('should call assetService.create with correct arguments and return created fixed asset', async () => {
       const createAssetDto: CreateAssetDto = {
         name: faker.commerce.product(),
@@ -85,19 +80,14 @@ describe('AssetController', () => {
 
       expect(result).toEqual(plainToInstance(AssetResponseDto, mockCreatedAsset));
     });
-  });
 
-  describe('findAll', () => {
     it('should call assetService.findAll with correct arguments and return paginated fixed assets', async () => {
       mockReq.user!.role = Roles.USER;
 
       const organizationId = mockReq.user!.organizationId;
-
-      const page = DEFAULT_PAGE;
-      const limit = DEFAULT_LIMIT;
       const createdAt = faker.date.past();
 
-      const mockAssets = Array.from({ length: limit }, () => ({
+      const mockAssets = Array.from({ length: DEFAULT_LIMIT }, () => ({
         _id: faker.database.mongodbObjectId(),
         name: faker.commerce.product(),
         location: faker.location.buildingNumber(),
@@ -112,22 +102,20 @@ describe('AssetController', () => {
       const mockPaginateResult = {
         assets: mockAssets,
         totalDocs,
-        perPage: limit,
-        currentPage: page,
-        totalPages: Math.ceil(totalDocs / limit),
+        perPage: DEFAULT_LIMIT,
+        currentPage: DEFAULT_PAGE,
+        totalPages: Math.ceil(totalDocs / DEFAULT_LIMIT),
       };
 
       (assetService.findAll as jest.Mock).mockResolvedValue(mockPaginateResult);
 
-      const result = await assetController.findAll(page, limit, mockReq as AuthenticatedRequest);
+      const result = await assetController.findAll(DEFAULT_PAGE, DEFAULT_LIMIT, mockReq as AuthenticatedRequest);
 
-      expect(assetService.findAll).toHaveBeenCalledWith(organizationId, page, limit);
+      expect(assetService.findAll).toHaveBeenCalledWith(organizationId, DEFAULT_PAGE, DEFAULT_LIMIT);
 
       expect(result).toEqual(mockPaginateResult as PaginatedAssetResponseDto);
     });
-  });
 
-  describe('update', () => {
     it('should call assetService.update with correct arguments and return updated fixed asset', async () => {
       const updateAssetDto: UpdateAssetDto = {
         name: faker.commerce.product(),
@@ -150,9 +138,7 @@ describe('AssetController', () => {
       expect(assetService.update).toHaveBeenCalledWith(updateAssetDto, assetId);
       expect(result).toEqual(plainToInstance(AssetResponseDto, mockUpdatedAsset));
     });
-  });
 
-  describe('deleteOne', () => {
     it('should call assetService.deleteOne with correct id', async () => {
       const assetId = faker.database.mongodbObjectId();
 
@@ -164,4 +150,3 @@ describe('AssetController', () => {
       expect(result).toBeUndefined();
     });
   });
-});

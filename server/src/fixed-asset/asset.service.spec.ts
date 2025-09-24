@@ -42,10 +42,6 @@ describe('AssetService', () => {
     jest.clearAllMocks();
   });
 
-  it('should be defined', () => {
-    expect(assetService).toBeDefined();
-  });
-
   describe('create', () => {
     it('should create a fixed asset if it does not exist', async () => {
       assetModel.countDocuments.mockResolvedValue(0);
@@ -103,11 +99,9 @@ describe('AssetService', () => {
   describe('findAll', () => {
     it('should return paginated fixed assets', async () => {
       const organizationId = faker.database.mongodbObjectId();
-      const page = DEFAULT_PAGE;
-      const limit = DEFAULT_LIMIT;
       const createdAt = faker.date.past();
 
-      const mockAssets = Array.from({ length: limit }, () => ({
+      const mockAssets = Array.from({ length: DEFAULT_LIMIT }, () => ({
         _id: faker.database.mongodbObjectId(),
         organizationId,
         name: faker.commerce.product(),
@@ -123,33 +117,31 @@ describe('AssetService', () => {
       const mockPaginateResult = {
         docs: mockAssets,
         totalDocs,
-        limit,
-        page,
-        totalPages: Math.ceil(totalDocs / limit),
+        limit: DEFAULT_LIMIT,
+        page: DEFAULT_PAGE,
+        totalPages: Math.ceil(totalDocs / DEFAULT_LIMIT),
       };
 
       assetModel.paginate.mockResolvedValue(mockPaginateResult);
 
-      const result = await assetService.findAll(organizationId, page, limit);
+      const result = await assetService.findAll(organizationId, DEFAULT_PAGE, DEFAULT_LIMIT);
 
       expect(assetModel.paginate).toHaveBeenCalledWith(
         { organizationId: { $eq: organizationId } },
-        { page, limit, lean: true },
+        { page: DEFAULT_PAGE, limit: DEFAULT_LIMIT, lean: true },
       );
 
       expect(result).toEqual({
         assets: mockAssets,
         totalDocs,
-        perPage: limit,
-        currentPage: page,
-        totalPages: Math.ceil(totalDocs / limit),
+        perPage: DEFAULT_LIMIT,
+        currentPage: DEFAULT_PAGE,
+        totalPages: Math.ceil(totalDocs / DEFAULT_LIMIT),
       });
     });
 
     it('should throw NotFoundException if fixed assets not found in organization', async () => {
       const organizationId = faker.database.mongodbObjectId();
-      const page = DEFAULT_PAGE;
-      const limit = DEFAULT_LIMIT;
 
       const mockAssets = [];
       const totalDocs = 0;
@@ -157,18 +149,18 @@ describe('AssetService', () => {
       const mockPaginateResult = {
         docs: mockAssets,
         totalDocs,
-        limit,
-        page,
+        limit: DEFAULT_LIMIT,
+        page: DEFAULT_PAGE,
         totalPages: 1,
       };
 
       assetModel.paginate.mockResolvedValue(mockPaginateResult);
 
-      await expect(assetService.findAll(organizationId, page, limit)).rejects.toThrow(NotFoundException);
+      await expect(assetService.findAll(organizationId, DEFAULT_PAGE, DEFAULT_LIMIT)).rejects.toThrow(NotFoundException);
 
       expect(assetModel.paginate).toHaveBeenCalledWith(
         { organizationId: { $eq: organizationId } },
-        { page, limit, lean: true },
+        { page: DEFAULT_PAGE, limit: DEFAULT_LIMIT, lean: true },
       );
     });
   });
