@@ -8,8 +8,8 @@ interface IModalExportProps {
   title: string;
   isOpen: boolean;
   onClose: () => void;
-  onExportPdf?: () => void;
   onExportExcel?: () => void;
+  onExportPdf?: () => Promise<void>;
 }
 
 const formats = [
@@ -20,9 +20,25 @@ const formats = [
 export const ModalExport = ({ title, isOpen, onClose, onExportPdf, onExportExcel }: IModalExportProps) => {
   const [selectedFormat, setSelectedFormat] = useState<string | null>(null);
 
-  const handleExport = () => {
-    if (selectedFormat === 'pdf') onExportPdf?.();
-    if (selectedFormat === 'excel') onExportExcel?.();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleExport = async () => {
+    if (!selectedFormat) return;
+
+    setIsLoading(true);
+
+    try {
+      if (selectedFormat === 'pdf') {
+        await onExportPdf?.();
+      }
+
+      if (selectedFormat === 'excel') {
+        onExportExcel?.();
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -46,6 +62,7 @@ export const ModalExport = ({ title, isOpen, onClose, onExportPdf, onExportExcel
           type="button"
           text="ЗАВАНТАЖИТИ"
           onClick={handleExport}
+          disabled={!selectedFormat || isLoading}
           className="m-auto w-[148px] rounded-2xl text-lg"
         />
       </div>

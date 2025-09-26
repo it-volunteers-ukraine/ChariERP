@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
   page: { padding: 10 },
   row: { flexDirection: 'row' },
   baseCell: {
-    width: '100%',
     fontFamily: 'Roboto',
     flexShrink: 0,
     borderWidth: 1,
@@ -25,14 +24,25 @@ const styles = StyleSheet.create({
   },
   headerCell: {
     fontSize: 8,
-    backgroundColor: '#eee',
     fontWeight: 'bold',
+    backgroundColor: '#eee',
   },
 });
 
 type PdfDocumentProps = {
   data: Person[];
+  hiddenColumns?: string[];
   columns: MRT_ColumnDef<Person>[];
+};
+
+const columnWidths: Record<string, number> = {
+  id: 0.5,
+  price: 0.7,
+  number: 0.4,
+  currency: 0.5,
+  description: 2,
+  created_at: 0.8,
+  updated_at: 0.8,
 };
 
 const formatValue = (value: unknown): string => {
@@ -44,31 +54,44 @@ const formatValue = (value: unknown): string => {
   return '';
 };
 
-export const PdfDocument = ({ data, columns }: PdfDocumentProps) => (
-  <Document>
-    <Page size="A4" orientation="landscape" style={styles.page}>
-      <View style={styles.row}>
-        {columns.map((col) => (
-          <Text key={col.header} style={[styles.baseCell, styles.headerCell]}>
-            {col.header}
-          </Text>
-        ))}
-      </View>
+export const PdfDocument = ({ data, columns, hiddenColumns = [] }: PdfDocumentProps) => {
+  const visibleColumns = columns.filter((col) => col.accessorKey && !hiddenColumns.includes(col.accessorKey as string));
 
-      {data.map((row, idx) => (
-        <View key={`row-${idx}`} style={styles.row}>
-          {columns.map((col, idx) => {
-            const value = row[col.accessorKey as keyof Person];
-            const displayValue = formatValue(value);
+  return (
+    <Document>
+      <Page size="A4" orientation="landscape" style={styles.page}>
+        <View style={styles.row}>
+          {visibleColumns.map((col) => {
+            const cellStyle = [
+              styles.baseCell,
+              styles.headerCell,
+              { flex: columnWidths[col.accessorKey as string] || 1 },
+            ];
 
             return (
-              <Text key={`col-${idx}`} style={[styles.baseCell, styles.cell]}>
-                {displayValue}
+              <Text key={col.header} style={cellStyle}>
+                {col.header}
               </Text>
             );
           })}
         </View>
-      ))}
-    </Page>
-  </Document>
-);
+
+        {data.map((row, idx) => (
+          <View key={`row-${idx}`} style={styles.row}>
+            {visibleColumns.map((col, idx) => {
+              const value = row[col.accessorKey as keyof Person];
+              const displayValue = formatValue(value);
+              const cellStyle = [styles.baseCell, styles.cell, { flex: columnWidths[col.accessorKey as string] || 1 }];
+
+              return (
+                <Text key={`col-${idx}`} style={cellStyle}>
+                  {displayValue}
+                </Text>
+              );
+            })}
+          </View>
+        ))}
+      </Page>
+    </Document>
+  );
+};

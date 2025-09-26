@@ -35,7 +35,7 @@ export const CustomDownloadButton = ({ table, data, columns }: Props) => {
   };
 
   const handleExportExcel = (): void => {
-    const exportColumns = columns.filter((col) => col.accessorKey && col.header);
+    const exportColumns = columns.filter((col) => col.accessorKey && col.header && col.accessorKey !== 'photos');
 
     const exportData: Record<string, ExportableValue>[] = table.getRowModel().rows.map((row) => {
       const obj: Record<string, ExportableValue> = {};
@@ -80,7 +80,7 @@ export const CustomDownloadButton = ({ table, data, columns }: Props) => {
   };
 
   const handleExportPdf = async () => {
-    const blob = await pdf(<PdfDocument columns={columns} data={data} />).toBlob();
+    const blob = await pdf(<PdfDocument columns={columns} data={data} hiddenColumns={['photos']} />).toBlob();
     const url = URL.createObjectURL(blob);
 
     const link = document.createElement('a');
@@ -99,8 +99,8 @@ export const CustomDownloadButton = ({ table, data, columns }: Props) => {
       </Tooltip>
 
       <ModalExport
-        isOpen={isModalOpen}
         title="Експорт таблиці"
+        isOpen={isModalOpen}
         onExportPdf={handleExportPdf}
         onExportExcel={handleExportExcel}
         onClose={() => setIsModalOpen(false)}

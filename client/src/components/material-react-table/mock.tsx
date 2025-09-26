@@ -99,7 +99,6 @@ export const getHeader = (
     enableSorting: false,
     enableColumnFilter: false,
   },
-  //TODO при експорті таблиці прибрати стовбець картинок
   {
     accessorKey: 'arrival_date',
     header: 'Дата надходження',
@@ -293,7 +292,8 @@ export const data = [
     currency: 'грн',
     created_at: '2023-01-01',
     updated_at: '2023-01-01',
-    description: 'Опис 5',
+    description:
+      'Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5 Опис 5',
   },
   {
     number: 7,
