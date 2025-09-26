@@ -15,7 +15,7 @@ export enum TaskPriority {
   MEDIUM = 'medium',
 }
 
-export enum BucketFolders {
+export enum FileStoreFolders {
   Task = 'tasks',
   Avatar = 'avatars',
   UserProfileImages = 'user-profile-images',
