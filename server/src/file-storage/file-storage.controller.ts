@@ -79,6 +79,7 @@ export class FileStorageController {
     try {
       const downloadedFile = await this.fileStorageService.downloadFile(key);
       if (!downloadedFile) {
+        this.logger.warn(`File not found: ${key}`);
         throw new NotFoundException('File not found');
       }
 
@@ -94,9 +95,7 @@ export class FileStorageController {
       return new StreamableFile(stream);
     } catch (error) {
       this.logger.error(`Error downloading file with key ${key}: ${error.message}`, error.stack);
-      throw error instanceof NotFoundException
-        ? error
-        : new InternalServerErrorException('An error occurred while downloading the file');
+      throw new InternalServerErrorException(error.message || 'Failed to download file');
     }
   }
 
@@ -152,10 +151,6 @@ export class FileStorageController {
     const user = req.user;
     const organizationName = user.organizationId;
 
-    if (!files || files.length === 0) {
-      throw new BadRequestException('No files provided');
-    }
-
     this.logger.log(`Uploading files for organization: ${organizationName}`);
 
     try {
@@ -169,7 +164,7 @@ export class FileStorageController {
       };
     } catch (error) {
       this.logger.error(`Error uploading files: ${error.message}`, error.stack);
-      throw new InternalServerErrorException('Failed to upload files');
+      throw new InternalServerErrorException(error.message || 'Failed to upload files');
     }
   }
 
@@ -202,10 +197,7 @@ export class FileStorageController {
       };
     } catch (error) {
       this.logger.error(`Error deleting file with key ${key}: ${error.message}.`);
-      if (error instanceof NotFoundException) {
-        throw error;
-      }
-      throw new InternalServerErrorException('Failed to delete file');
+      throw new InternalServerErrorException(error.message || 'Failed to delete file');
     }
   }
 
@@ -245,10 +237,7 @@ export class FileStorageController {
       };
     } catch (error) {
       this.logger.error(`Error deleting folder ${folder}: ${error.message}.`);
-      if (error instanceof BadRequestException) {
-        throw error;
-      }
-      throw new InternalServerErrorException('Failed to delete folder');
+      throw new InternalServerErrorException(error.message || 'Failed to delete folder');
     }
   }
 }
