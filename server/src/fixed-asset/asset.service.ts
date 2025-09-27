@@ -14,14 +14,11 @@ export class AssetService {
   async create(createAssetDto: CreateAssetDto, userId: string, organizationId: string): Promise<Asset> {
     const { name } = createAssetDto;
 
-    const existing = await this.assetModel
-      .findOne({ name: { $eq: name } })
-      .lean()
-      .exec();
+    const existing = await this.assetModel.countDocuments({ name: { $eq: name } });
 
     if (existing) {
-      this.logger.warn(`Asset with name '${name}' already exists`);
-      throw new ConflictException('Asset with this name already exists');
+      this.logger.warn(`Fixed asset with name '${name}' already exists`);
+      throw new ConflictException('Fixed asset with current name already exists');
     }
 
     const createdAsset = await this.assetModel.create({
@@ -50,6 +47,11 @@ export class AssetService {
       lean: true,
     });
 
+    if (!result.totalDocs) {
+      this.logger.error(`No fixed assets found in organization '${organizationId}'`);
+      throw new NotFoundException(`No fixed assets found in organization '${organizationId}'`);
+    }
+
     return {
       assets: result.docs,
       totalDocs: result.totalDocs,
@@ -69,8 +71,8 @@ export class AssetService {
       .exec();
 
     if (!updatedAsset) {
-      this.logger.error(`Asset with ID '${assetId}' not found or update did not occur`);
-      throw new NotFoundException(`Asset with ID '${assetId}' not found or update did not occur`);
+      this.logger.error(`Fixed asset with ID '${assetId}' not found`);
+      throw new NotFoundException(`Fixed asset with ID '${assetId}' not found`);
     }
 
     this.logger.log(`Fixed asset '${assetId}' successfully updated`);
@@ -79,7 +81,12 @@ export class AssetService {
   }
 
   async deleteOne(assetId: string): Promise<void> {
-    await this.assetModel.deleteOne({ _id: { $eq: assetId } });
+    const deletedAsset = await this.assetModel.findByIdAndDelete(assetId).lean().exec();
+
+    if (!deletedAsset) {
+      this.logger.error(`Fixed asset with ID '${assetId}' not found`);
+      throw new NotFoundException(`Fixed asset with ID '${assetId}' not found`);
+    }
 
     this.logger.log(`Fixed asset '${assetId}' successfully deleted`);
   }
