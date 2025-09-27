@@ -6,7 +6,9 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { TaskModule } from './task/task.module';
 import { FeedbackModule } from './feedback/feedback.module';
+
 import { AssetModule } from './fixed-asset/asset.module';
+import { FileStorageModule } from './file-storage/file-storage.module';
 
 @Module({
   imports: [
@@ -23,6 +25,7 @@ import { AssetModule } from './fixed-asset/asset.module';
     AuthModule,
     UserModule,
     TaskModule,
+    FileStorageModule,
     AssetModule,
     FeedbackModule,
   ],
