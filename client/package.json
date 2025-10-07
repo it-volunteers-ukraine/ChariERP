@@ -21,7 +21,6 @@
     "@hello-pangea/dnd": "^18.0.1",
     "@lexical/link": "^0.32.1",
     "@lexical/react": "^0.32.1",
-    "@sendgrid/mail": "^8.1.5",
     "@types/bcrypt": "^5.0.2",
     "aws4": "^1.13.2",
     "bcrypt": "^6.0.0",
@@ -46,6 +45,7 @@
     "react-number-format": "^5.4.4",
     "react-phone-number-input": "^3.4.12",
     "react-toastify": "^11.0.5",
+    "resend": "^4.0.0",
     "tailwind-merge": "^3.3.1",
     "ts-node": "^10.9.2",
     "yup": "^1.6.1"
