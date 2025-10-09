@@ -14,15 +14,12 @@
     "jsx": "preserve",
     "incremental": true,
     "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "paths": {
       "react": ["./node_modules/@types/react"],
       "@/*": ["./src/*"]
     },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+    "plugins": [{ "name": "next" }]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "jest.config.ts", ".next/types/**/*.ts"],
   "exclude": ["node_modules", ".next"]

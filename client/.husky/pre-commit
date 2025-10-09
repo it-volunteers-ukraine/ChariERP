@@ -1,6 +1,2 @@
 #!/bin/sh
-
-
-npx lint-staged --debug
-
-
+npx lint-staged
