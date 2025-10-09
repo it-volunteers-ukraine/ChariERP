@@ -28,3 +28,16 @@ jest.mock('next/server', () => ({
     }),
   },
 }));
+
+jest.mock('resend', () => {
+  return {
+    Resend: jest.fn().mockImplementation(() => ({
+      emails: {
+        send: jest.fn().mockResolvedValue({
+          data: { success: true },
+          error: null,
+        }),
+      },
+    })),
+  };
+});
