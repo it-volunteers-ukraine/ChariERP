@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe, HttpStatus } from '@nestjs/common';
-import * as request from 'supertest';
+import request from 'supertest';
 import * as bcrypt from 'bcrypt';
 import { faker } from '@faker-js/faker';
 import { AppModule } from '../src/app.module';

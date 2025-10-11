@@ -66,7 +66,7 @@ describe('EmailService', () => {
 
     expect(mockResendSend).toHaveBeenCalledWith({
       from: mockPayload.from,
-      to: [mockPayload.to], // Note: Resend expects array
+      to: mockPayload.to,
       subject: mockPayload.subject,
       text: mockPayload.text,
       html: mockPayload.html,

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe, HttpStatus } from '@nestjs/common';
-import * as request from 'supertest';
+import request from 'supertest';
 import * as bcrypt from 'bcrypt';
 import { faker } from '@faker-js/faker';
 import { AppModule } from '../src/app.module';
@@ -52,7 +52,7 @@ describe('FeedbackController (e2e)', () => {
     await app.init();
 
     userModel = moduleFixture.get<Model<User>>(getModelToken(User.name));
-    
+
     testUser = createTestUser();
     const hashedPassword = await bcrypt.hash(testUser.password, 10);
     await userModel.create({

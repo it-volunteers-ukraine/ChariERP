@@ -156,7 +156,9 @@ describe('AssetService', () => {
 
       assetModel.paginate.mockResolvedValue(mockPaginateResult);
 
-      await expect(assetService.findAll(organizationId, DEFAULT_PAGE, DEFAULT_LIMIT)).rejects.toThrow(NotFoundException);
+      await expect(assetService.findAll(organizationId, DEFAULT_PAGE, DEFAULT_LIMIT)).rejects.toThrow(
+        NotFoundException,
+      );
 
       expect(assetModel.paginate).toHaveBeenCalledWith(
         { organizationId: { $eq: organizationId } },

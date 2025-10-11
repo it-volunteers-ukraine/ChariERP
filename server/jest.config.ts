@@ -1,5 +1,4 @@
-
-module.exports = {
+export default {
   clearMocks: true,
   collectCoverage: true,
   coverageDirectory: 'coverage',
@@ -7,13 +6,12 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
 
-  // Collect coverage from these files
   collectCoverageFrom: [
     'src/**/*.ts',
-    '!src/main.ts',           // Exclude main.ts
-    '!src/**/*.spec.ts',      // Exclude test files
-    '!src/**/*.e2e-spec.ts',  // Exclude e2e test files
-    '!src/**/*.interface.ts', // Exclude interface files (optional)
+    '!src/main.ts',
+    '!src/**/*.spec.ts',
+    '!src/**/*.e2e-spec.ts',
+    '!src/**/*.interface.ts',
   ],
 
   moduleNameMapper: {
