@@ -37,7 +37,7 @@ import {
 import { FileStorageService } from './file-storage.service';
 import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
 import { FileValidationPipe } from '../pipes/file-validation.pipe';
-import { FolderValidationPipe } from 'src/pipes/folder-validation.pipe';
+import { FolderValidationPipe } from '../pipes/folder-validation.pipe';
 import { CreateFilesResponseDto } from './dto/create-files-response.dto';
 
 @ApiTags('File')
