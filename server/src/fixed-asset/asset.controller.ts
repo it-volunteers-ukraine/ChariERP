@@ -20,10 +20,10 @@ import {
 } from '@nestjs/swagger';
 import { UserRoles } from '../auth/roles.guard';
 import { Roles } from '../schemas/enums';
-import { AuthenticatedRequest } from './interfaces/authenticated-request.interface';
+import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
 import { plainToInstance } from 'class-transformer';
 import { PaginatedAssetResponseDto } from './dto/paginated-asset-response.dto';
-import { ValidateObjectIdPipe } from '../pipes/validate-object-id.pipe';
+import { ObjectIdValidationPipe } from '../pipes/object-id-validation.pipe';
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../constants/pagination.constants';
 
 @ApiTags('Asset')
@@ -39,7 +39,7 @@ export class AssetController {
   })
   @ApiBadRequestResponse({ description: 'Bad request — validation failed' })
   @ApiUnauthorizedResponse({ description: 'Invalid credentials' })
-  @ApiForbiddenResponse({ description: 'Forbidden — user role does not have access to this resource' })
+  @ApiForbiddenResponse({ description: 'User role does not have access to this resource' })
   @ApiConflictResponse({ description: 'Fixed asset with current name already exists' })
   @Post()
   @UserRoles(Roles.MANAGER)
@@ -100,12 +100,12 @@ export class AssetController {
   })
   @ApiBadRequestResponse({ description: 'Bad request — validation failed' })
   @ApiUnauthorizedResponse({ description: 'Invalid credentials' })
-  @ApiForbiddenResponse({ description: 'Forbidden — user role does not have access to this resource' })
+  @ApiForbiddenResponse({ description: 'User role does not have access to this resource' })
   @ApiNotFoundResponse({ description: 'Fixed asset not found' })
   @Patch(':id')
   @UserRoles(Roles.MANAGER)
   async update(
-    @Param('id', ValidateObjectIdPipe) assetId: string,
+    @Param('id', ObjectIdValidationPipe) assetId: string,
     @Body() updateAssetDto: UpdateAssetDto,
   ): Promise<AssetResponseDto> {
     const updatedAsset = await this.assetService.update(updateAssetDto, assetId);
@@ -117,11 +117,12 @@ export class AssetController {
   @ApiParam({ name: 'id', description: 'Id of the fixed asset to delete', example: '688a2892b0efd21aba86ff39' })
   @ApiNoContentResponse({ description: 'Fixed asset successfully deleted' })
   @ApiUnauthorizedResponse({ description: 'Invalid credentials' })
-  @ApiForbiddenResponse({ description: 'Forbidden — user role does not have access to this resource' })
+  @ApiNotFoundResponse({ description: 'Fixed asset not found' })
+  @ApiForbiddenResponse({ description: 'User role does not have access to this resource' })
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @UserRoles(Roles.MANAGER)
-  async deleteOne(@Param('id', ValidateObjectIdPipe) assetId: string): Promise<void> {
+  async deleteOne(@Param('id', ObjectIdValidationPipe) assetId: string): Promise<void> {
     await this.assetService.deleteOne(assetId);
   }
 }

@@ -48,8 +48,8 @@ export class AssetService {
     });
 
     if (!result.totalDocs) {
-      this.logger.error(`No fixed assets found in organization '${organizationId}'`);
-      throw new NotFoundException(`No fixed assets found in organization '${organizationId}'`);
+      this.logger.warn(`No fixed assets found in organization '${organizationId}'`);
+      throw new NotFoundException('No fixed assets found in organization');
     }
 
     return {
@@ -72,7 +72,7 @@ export class AssetService {
 
     if (!updatedAsset) {
       this.logger.error(`Fixed asset with ID '${assetId}' not found`);
-      throw new NotFoundException(`Fixed asset with ID '${assetId}' not found`);
+      throw new NotFoundException('Fixed asset not found');
     }
 
     this.logger.log(`Fixed asset '${assetId}' successfully updated`);
@@ -85,7 +85,7 @@ export class AssetService {
 
     if (!deletedAsset) {
       this.logger.error(`Fixed asset with ID '${assetId}' not found`);
-      throw new NotFoundException(`Fixed asset with ID '${assetId}' not found`);
+      throw new NotFoundException('Fixed asset not found');
     }
 
     this.logger.log(`Fixed asset '${assetId}' successfully deleted`);

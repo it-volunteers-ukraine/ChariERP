@@ -70,7 +70,7 @@ describe('AuthService', () => {
       password: 'password',
     };
 
-    const mockToken = faker.internet.jwt({ header: { alg: 'HS256' }});
+    const mockToken = faker.internet.jwt({ header: { alg: 'HS256' } });
     userModel.exec.mockResolvedValue(mockUser);
     jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
     userModel.findByIdAndUpdate.mockResolvedValue({});
