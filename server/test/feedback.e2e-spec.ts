@@ -11,6 +11,8 @@ import { Model } from 'mongoose';
 import { User } from '../src/schemas/user.schema';
 import { getModelToken } from '@nestjs/mongoose';
 import { Roles, UserStatus } from '../src/schemas/enums';
+import { mockConfigService } from './config.mock';
+import { ConfigService } from '@nestjs/config';
 
 const createTestUser = () => ({
   firstName: faker.person.firstName(),
@@ -45,6 +47,8 @@ describe('FeedbackController (e2e)', () => {
     })
       .overrideProvider(EmailService)
       .useValue({ sendFeedback: jest.fn() })
+      .overrideProvider(ConfigService)
+      .useValue(mockConfigService)
       .compile();
 
     app = moduleFixture.createNestApplication();

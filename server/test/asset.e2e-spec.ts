@@ -14,6 +14,8 @@ import { VALIDATION_MESSAGES } from '../src/constants/validation-messages';
 import { Asset } from '../src/schemas/asset.schema';
 import { DEFAULT_LIMIT, DEFAULT_PAGE } from '../src/constants/pagination.constants';
 import { UpdateAssetDto } from '../src/fixed-asset/dto/update-asset.dto';
+import { mockConfigService } from './config.mock';
+import { ConfigService } from '@nestjs/config';
 
 const createTestUser = (role: Roles) => ({
   firstName: faker.person.firstName(),
@@ -53,7 +55,10 @@ describe('AssetController (e2e)', () => {
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(ConfigService)
+      .useValue(mockConfigService)
+      .compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe({ transform: true }));

@@ -21,33 +21,25 @@ import { FileStoreFolders } from '../schemas/enums';
 import { Readable } from 'stream';
 import { ConfigService } from '@nestjs/config';
 import { RetrievedFile } from './interfaces/retrieved-file.interface';
+import { S3ClientService } from '../s3/s3-client.service';
 
 @Injectable()
 export class FileStorageService {
   private readonly logger = new Logger(FileStorageService.name);
 
   private readonly bucketName: string;
-  private readonly region: string;
-  private readonly endpoint: string;
   private readonly envPrefix: string;
-  private readonly fileClient: S3Client;
 
-  constructor(private readonly configService: ConfigService) {
-    this.region = this.configService.get<string>('S3_REGION', 'fra1');
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly s3: S3ClientService,
+  ) {
     this.bucketName = this.configService.getOrThrow<string>('S3_BUCKET_ID');
-    this.endpoint = `https://${this.region}.digitaloceanspaces.com`;
-    this.envPrefix = this.configService.get<string>('FILE_STORAGE_FOLDER') || 'DEV';
+    this.envPrefix = this.configService.get<string>('FILE_STORAGE_FOLDER', 'DEV');
+  }
 
-    this.fileClient = new S3Client({
-      region: this.region,
-      endpoint: this.endpoint,
-      forcePathStyle: false,
-      credentials: {
-        accessKeyId: this.configService.getOrThrow<string>('SPACES_KEY'),
-        secretAccessKey: this.configService.getOrThrow<string>('SPACES_SECRET'),
-      },
-      maxAttempts: 2,
-    });
+  private get fileClient() {
+    return this.s3.client;
   }
 
   private buildKey(organizationRef: string, folder: FileStoreFolders, fileName?: string): string {

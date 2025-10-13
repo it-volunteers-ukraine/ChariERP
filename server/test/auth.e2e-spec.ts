@@ -10,6 +10,8 @@ import { User } from '../src/schemas/user.schema';
 import { getModelToken } from '@nestjs/mongoose';
 import { Roles, UserStatus } from '../src/schemas/enums';
 import { faker } from '@faker-js/faker';
+import { mockConfigService } from './config.mock';
+import { ConfigService } from '@nestjs/config';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
@@ -22,7 +24,10 @@ describe('AuthController (e2e)', () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(ConfigService)
+      .useValue(mockConfigService)
+      .compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
