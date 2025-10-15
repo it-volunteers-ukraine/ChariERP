@@ -1,7 +1,7 @@
-import { Readable } from 'stream';
+import stream from 'node:stream';
 
 export interface RetrievedFile {
-  stream: Readable;
+  stream: stream.Readable;
   contentType: string;
   contentLength: number;
 }

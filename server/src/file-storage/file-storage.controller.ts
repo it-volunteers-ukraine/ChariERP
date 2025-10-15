@@ -3,20 +3,20 @@ import { FileStoreFolders, Roles } from '../schemas/enums';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UserRoles } from '../auth/roles.guard';
 import {
+  ApiTags,
   ApiBearerAuth,
-  ApiBody,
+  ApiOperation,
   ApiConsumes,
   ApiHeader,
-  ApiOperation,
+  ApiBody,
   ApiQuery,
   ApiOkResponse,
-  ApiCreatedResponse,
+  ApiAcceptedResponse,
   ApiNoContentResponse,
   ApiUnauthorizedResponse,
   ApiForbiddenResponse,
   ApiBadRequestResponse,
   ApiNotFoundResponse,
-  ApiTags,
   ApiInternalServerErrorResponse,
 } from '@nestjs/swagger';
 import {
@@ -38,7 +38,7 @@ import { FileStorageService } from './file-storage.service';
 import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
 import { FileValidationPipe } from '../pipes/file-validation.pipe';
 import { FolderValidationPipe } from '../pipes/folder-validation.pipe';
-import { CreateFilesResponseDto } from './dto/create-files-response.dto';
+import { UploadFilesResponseDto } from './dto/upload-files-response.dto';
 
 @ApiTags('File')
 @Controller('files')
@@ -51,11 +51,12 @@ export class FileStorageController {
   constructor(private readonly fileStorageService: FileStorageService) {}
 
   @Post()
+  @HttpCode(HttpStatus.ACCEPTED)
   @UseInterceptors(FilesInterceptor('files'))
-  @ApiOperation({ summary: 'Create (upload) file(s) in storage' })
+  @ApiOperation({ summary: 'Upload file(s) in storage' })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
-    description: 'Folder and file(s) to create',
+    description: 'Folder and file(s) to upload',
     schema: {
       type: 'object',
       properties: {
@@ -68,24 +69,22 @@ export class FileStorageController {
       required: ['folder', 'files'],
     },
   })
-  @ApiCreatedResponse({
-    description: 'File(s) created successfully',
-    type: CreateFilesResponseDto,
+  @ApiAcceptedResponse({
+    description: 'File(s) uploaded successfully',
+    type: UploadFilesResponseDto,
   })
   @ApiBadRequestResponse({ description: 'Invalid file' })
-  @ApiInternalServerErrorResponse({ description: 'Failed to create file(s)' })
-  async createFiles(
-    @UploadedFiles(FileValidationPipe)
-    files: Express.Multer.File[],
+  @ApiInternalServerErrorResponse({ description: 'Failed to upload file(s)' })
+  async uploadFiles(@UploadedFiles(FileValidationPipe) files: Express.Multer.File[],
     @Body('folder', FolderValidationPipe) folder: FileStoreFolders,
     @Req() req: AuthenticatedRequest,
-  ): Promise<CreateFilesResponseDto> {
-    const { organizationId: organizationRef } = req.user;
+  ): Promise<UploadFilesResponseDto> {
+    const { organizationId } = req.user;
 
-    const createdFiles = await this.fileStorageService.createFiles(organizationRef, folder, files);
+    const createdFiles = await this.fileStorageService.uploadFiles(organizationId, folder, files);
 
     return {
-      message: `${createdFiles.length} file(s) created successfully`,
+      message: `${createdFiles.length} file(s) uploaded successfully`,
       files: createdFiles,
     };
   }
@@ -142,8 +141,8 @@ export class FileStorageController {
     @Query('folder', FolderValidationPipe) folder: FileStoreFolders,
     @Req() req: AuthenticatedRequest,
   ): Promise<void> {
-    const { organizationId: organizationRef } = req.user;
+    const { organizationId } = req.user;
 
-    await this.fileStorageService.deleteFolder(organizationRef, folder);
+    await this.fileStorageService.deleteFolder(organizationId, folder);
   }
 }

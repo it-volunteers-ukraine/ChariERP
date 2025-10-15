@@ -4,7 +4,6 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { INestApplication } from '@nestjs/common';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import { mockConfigService } from '../test/config.mock';
 
 describe('AppModule', () => {
   let app: INestApplication;
@@ -19,10 +18,7 @@ describe('AppModule', () => {
   beforeEach(async () => {
     module = await Test.createTestingModule({
       imports: [AppModule],
-    })
-      .overrideProvider(ConfigService)
-      .useValue(mockConfigService)
-      .compile();
+    }).compile();
 
     app = module.createNestApplication();
     await app.init();

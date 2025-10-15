@@ -17,10 +17,10 @@ import {
 } from '@aws-sdk/client-s3';
 import { Injectable, Logger, NotFoundException, InternalServerErrorException } from '@nestjs/common';
 import { FileStoreFolders } from '../schemas/enums';
-import { Readable } from 'stream';
+import stream from 'node:stream';
 import { ConfigService } from '@nestjs/config';
 import { RetrievedFile } from './interfaces/retrieved-file.interface';
-import { S3ClientService } from '../s3/s3-client.service';
+import { ObjectStorageService } from '../s3/object-storage.service';
 
 @Injectable()
 export class FileStorageService {
@@ -31,7 +31,7 @@ export class FileStorageService {
 
   constructor(
     private readonly configService: ConfigService,
-    private readonly s3: S3ClientService,
+    private readonly s3: ObjectStorageService,
   ) {
     this.bucketName = this.configService.getOrThrow<string>('S3_BUCKET_ID');
     this.envPrefix = this.configService.get<string>('FILE_STORAGE_FOLDER', 'DEV');
@@ -41,16 +41,16 @@ export class FileStorageService {
     return this.s3.client;
   }
 
-  private buildKey(organizationRef: string, folder: FileStoreFolders, fileName?: string): string {
-    return `${this.envPrefix}/${encodeURIComponent(organizationRef)}/${folder}/${fileName || ''}`;
+  private buildKey(organizationId: string, folder: FileStoreFolders, fileName?: string): string {
+    return `${this.envPrefix}/${encodeURIComponent(organizationId)}/${folder}/${fileName || ''}`;
   }
 
-  private async createFile(
-    organizationRef: string,
+  private async uploadFile(
+    organizationId: string,
     folder: FileStoreFolders,
     file: Express.Multer.File,
   ): Promise<string> {
-    const key = this.buildKey(organizationRef, folder, file.originalname);
+    const key = this.buildKey(organizationId, folder, file.originalname);
 
     const input: PutObjectCommandInput = {
       Bucket: this.bucketName,
@@ -64,31 +64,31 @@ export class FileStorageService {
 
     try {
       await this.fileClient.send(putObjectCommand);
-      this.logger.log(`File created successfully: ${key}`);
+      this.logger.log(`File uploaded successfully: ${key}`);
       return key;
     } catch (error) {
       if (error instanceof S3ServiceException) {
         this.logger.error(`Error from S3 while uploading file to ${this.bucketName}.  ${error.name}: ${error.message}`);
-        throw new InternalServerErrorException('Failed to create file(s)');
+      } else {
+        this.logger.error(`Error uploading file '${file.originalname}'`, error);
       }
-
-      this.logger.error(`Error creating file '${file.originalname}'`, error);
-      throw new InternalServerErrorException('Failed to create file');
+      
+      throw new InternalServerErrorException('Failed to upload file');
     }
   }
 
-  async createFiles(
-    organizationRef: string,
+  async uploadFiles(
+    organizationId: string,
     folder: FileStoreFolders,
     files: Express.Multer.File[],
   ): Promise<string[]> {
-    this.logger.log(`Creating ${files.length} file(s) for organization '${organizationRef}'`);
+    this.logger.log(`Uploading ${files.length} file(s) for organization '${organizationId}'`);
 
     try {
-      return await Promise.all(files.map((file) => this.createFile(organizationRef, folder, file)));
+      return await Promise.all(files.map((file) => this.uploadFile(organizationId, folder, file)));
     } catch (error) {
-      this.logger.error(`Unexpected server error while creating file(s) for organization '${organizationRef}'`, error);
-      throw new InternalServerErrorException('Failed to create file(s)');
+      this.logger.error(`Unexpected server error while uploading file(s) for organization '${organizationId}'`, error);
+      throw new InternalServerErrorException('Failed to upload file(s)');
     }
   }
 
@@ -111,13 +111,11 @@ export class FileStorageService {
 
       this.logger.log(`File retrieved successfully: ${key}`);
 
-      const file: RetrievedFile = {
-        stream: response.Body as Readable,
+      return {
+        stream: response.Body as stream.Readable,
         contentType: response.ContentType ?? 'application/octet-stream',
         contentLength: response.ContentLength ?? 0,
       };
-
-      return file;
     } catch (error) {
       if (error instanceof NoSuchKey) {
         this.logger.error(`Error from S3 while getting file '${key}' from '${this.bucketName}'. No such key exists.`);
@@ -126,11 +124,11 @@ export class FileStorageService {
         this.logger.error(
           `Error from S3 while getting file '${key}' from '${this.bucketName}'. ${error.name}: ${error.message}`,
         );
-        throw new InternalServerErrorException('Failed to retrieve file');
       } else {
         this.logger.error(`Unexpected server error while retrieving file '${key}' from '${this.bucketName}'`, error);
-        throw new InternalServerErrorException('Failed to retrieve file');
       }
+
+      throw new InternalServerErrorException('Failed to retrieve file');
     }
   }
 
@@ -162,10 +160,10 @@ export class FileStorageService {
     }
   }
 
-  async deleteFolder(organizationRef: string, folder: FileStoreFolders): Promise<void> {
-    this.logger.log(`Deleting all files from the folder '${folder}' for organization '${organizationRef}'`);
+  async deleteFolder(organizationId: string, folder: FileStoreFolders): Promise<void> {
+    this.logger.log(`Deleting all files from the folder '${folder}' for organization '${organizationId}'`);
 
-    const prefix = this.buildKey(organizationRef, folder);
+    const prefix = this.buildKey(organizationId, folder);
 
     const listInput: ListObjectsCommandInput = {
       Bucket: this.bucketName,
@@ -211,12 +209,10 @@ export class FileStorageService {
         this.logger.error(
           `Error from S3 while listing/deleting file from '${this.bucketName}'.  ${error.name}: ${error.message}`,
         );
-        throw new InternalServerErrorException('Failed to delete files within a folder');
+      } else {
+        this.logger.error(`Unexpected server error while deleting files within the '${folder}'. ${error.message}`);
       }
 
-      if (error instanceof NotFoundException) throw error; // rethrow to prevent double logging of expected errors
-
-      this.logger.error(`Unexpected server error while deleting files within the '${folder}'`, error);
       throw new InternalServerErrorException('Failed to delete files within a folder');
     }
   }

@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { S3Client } from '@aws-sdk/client-s3';
 
 @Injectable()
-export class S3ClientService {
+export class ObjectStorageService {
   private readonly s3Client: S3Client;
 
   constructor(private readonly config: ConfigService) {
