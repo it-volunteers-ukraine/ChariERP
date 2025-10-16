@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UploadFilesResponseDto {
+export class UploadFilesResponse {
   @ApiProperty({ example: '1 file(s) uploaded successfully' })
   message: string;
 

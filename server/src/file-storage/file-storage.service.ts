@@ -15,7 +15,13 @@ import {
   NoSuchKey,
   S3ServiceException,
 } from '@aws-sdk/client-s3';
-import { Injectable, Logger, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  InternalServerErrorException,
+  BadRequestException,
+} from '@nestjs/common';
 import { FileStoreFolders } from '../schemas/enums';
 import stream from 'node:stream';
 import { ConfigService } from '@nestjs/config';
@@ -72,16 +78,12 @@ export class FileStorageService {
       } else {
         this.logger.error(`Error uploading file '${file.originalname}'`, error);
       }
-      
+
       throw new InternalServerErrorException('Failed to upload file');
     }
   }
 
-  async uploadFiles(
-    organizationId: string,
-    folder: FileStoreFolders,
-    files: Express.Multer.File[],
-  ): Promise<string[]> {
+  async uploadFiles(organizationId: string, folder: FileStoreFolders, files: Express.Multer.File[]): Promise<string[]> {
     this.logger.log(`Uploading ${files.length} file(s) for organization '${organizationId}'`);
 
     try {
@@ -152,12 +154,38 @@ export class FileStorageService {
         this.logger.error(
           `Error from S3 while deleting file from '${this.bucketName}'.  ${error.name}: ${error.message}`,
         );
-        throw new InternalServerErrorException('Failed to delete file');
+      } else {
+        this.logger.error(`Unexpected server error while deleting file '${key}'`, error);
       }
 
-      this.logger.error(`Unexpected server error while deleting file '${key}'`, error);
       throw new InternalServerErrorException('Failed to delete file');
     }
+  }
+
+  private async listFiles(prefix: string, folder: FileStoreFolders): Promise<string[]> {
+    const input: ListObjectsCommandInput = {
+      Bucket: this.bucketName,
+      Prefix: prefix,
+    };
+
+    const response: ListObjectsCommandOutput = await this.fileClient.send(new ListObjectsCommand(input));
+
+    const { Contents } = response;
+
+    if (!Contents || Contents.length === 0) {
+      this.logger.warn(`No files found in the folder '${folder}'`);
+      throw new BadRequestException('No files found in a folder');
+    }
+
+    const fileKeys = Contents
+      .filter((item): item is { Key: string } => typeof item.Key === 'string')
+      .map((item) => item.Key);
+
+    this.logger.log(
+      `Found ${fileKeys.length} file(s) in the '${folder}':\n` + fileKeys.map((k) => ` - ${k}`).join('\n'),
+    );
+
+    return fileKeys;
   }
 
   async deleteFolder(organizationId: string, folder: FileStoreFolders): Promise<void> {
@@ -165,35 +193,16 @@ export class FileStorageService {
 
     const prefix = this.buildKey(organizationId, folder);
 
-    const listInput: ListObjectsCommandInput = {
+    const fileKeys = await this.listFiles(prefix, folder);
+
+    const input: DeleteObjectsCommandInput = {
       Bucket: this.bucketName,
-      Prefix: prefix,
+      Delete: { Objects: fileKeys.map((key) => ({ Key: key })) },
     };
 
-    const listObjectsCommand = new ListObjectsCommand(listInput);
+    const deleteObjectsCommand = new DeleteObjectsCommand(input);
 
     try {
-      const response: ListObjectsCommandOutput = await this.fileClient.send(listObjectsCommand);
-
-      const { Contents } = response;
-
-      if (!Contents || Contents.length === 0) {
-        this.logger.warn(`No files found in the folder '${folder}'`);
-        throw new NotFoundException('No files found in a folder');
-      }
-
-      const fileKeys = Contents.filter((item) => item.Key).map((item) => item.Key);
-      this.logger.log(
-        `Found ${fileKeys.length} file(s) in the '${folder}':\n` + fileKeys.map((k) => ` - ${k}`).join('\n'),
-      );
-
-      const deleteInput: DeleteObjectsCommandInput = {
-        Bucket: this.bucketName,
-        Delete: { Objects: fileKeys.map((key) => ({ Key: key })) },
-      };
-
-      const deleteObjectsCommand = new DeleteObjectsCommand(deleteInput);
-
       const { Deleted }: DeleteObjectsCommandOutput = await this.fileClient.send(deleteObjectsCommand);
 
       if (Deleted) {
@@ -207,10 +216,10 @@ export class FileStorageService {
     } catch (error) {
       if (error instanceof S3ServiceException) {
         this.logger.error(
-          `Error from S3 while listing/deleting file from '${this.bucketName}'.  ${error.name}: ${error.message}`,
+          `Error from S3 while deleting files within the folder '${folder}' from '${this.bucketName}'.  ${error.name}: ${error.message}`,
         );
       } else {
-        this.logger.error(`Unexpected server error while deleting files within the '${folder}'. ${error.message}`);
+        this.logger.error(`Unexpected server error while deleting files within the folder '${folder}'`, error);
       }
 
       throw new InternalServerErrorException('Failed to delete files within a folder');

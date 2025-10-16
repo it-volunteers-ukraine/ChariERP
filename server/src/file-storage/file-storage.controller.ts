@@ -38,7 +38,7 @@ import { FileStorageService } from './file-storage.service';
 import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
 import { FileValidationPipe } from '../pipes/file-validation.pipe';
 import { FolderValidationPipe } from '../pipes/folder-validation.pipe';
-import { UploadFilesResponseDto } from './dto/upload-files-response.dto';
+import { UploadFilesResponse } from './dto/upload-files-response';
 
 @ApiTags('File')
 @Controller('files')
@@ -71,14 +71,14 @@ export class FileStorageController {
   })
   @ApiAcceptedResponse({
     description: 'File(s) uploaded successfully',
-    type: UploadFilesResponseDto,
+    type: UploadFilesResponse,
   })
   @ApiBadRequestResponse({ description: 'Invalid file' })
   @ApiInternalServerErrorResponse({ description: 'Failed to upload file(s)' })
   async uploadFiles(@UploadedFiles(FileValidationPipe) files: Express.Multer.File[],
     @Body('folder', FolderValidationPipe) folder: FileStoreFolders,
     @Req() req: AuthenticatedRequest,
-  ): Promise<UploadFilesResponseDto> {
+  ): Promise<UploadFilesResponse> {
     const { organizationId } = req.user;
 
     const createdFiles = await this.fileStorageService.uploadFiles(organizationId, folder, files);

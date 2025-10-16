@@ -10,7 +10,7 @@ const mockEnvs: Record<string, string> = {
 
 beforeAll(() => {
   const getMock = (key: string) => mockEnvs[key] ?? null;
-  
+
   const getOrThrowMock = (key: string) => {
     const value = mockEnvs[key];
 
@@ -21,4 +21,12 @@ beforeAll(() => {
 
   jest.spyOn(ConfigService.prototype, 'get').mockImplementation(getMock);
   jest.spyOn(ConfigService.prototype, 'getOrThrow').mockImplementation(getOrThrowMock);
+});
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
+afterAll(() => {
+  jest.restoreAllMocks();
 });
