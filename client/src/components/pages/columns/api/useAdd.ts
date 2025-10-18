@@ -4,6 +4,7 @@ import { showMessage } from '@/components';
 import { oneBoardColumnNormalizer } from '@/utils';
 import { createBoardColumnAction } from '@/actions';
 import { IUseColumns, ResponseGetType } from '@/types';
+import logger from '@/utils/logger/logger';
 
 import { IUseStateBoardColumns } from './types';
 interface ICreateColumnProps extends IUseStateBoardColumns {
@@ -34,7 +35,7 @@ export const useAddColumn = ({ boardId, userId }: IUseColumns) => {
         setColumns(response);
       }
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     }
   };
 

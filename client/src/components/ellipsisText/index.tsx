@@ -44,7 +44,9 @@ export const EllipsisText = ({
   }, tooltipWrapperRef);
 
   const checkTargetEllipsis = () => {
-    if (!targetRef.current) return;
+    if (!targetRef.current) {
+      return;
+    }
 
     const element = targetRef.current;
 
@@ -57,7 +59,9 @@ export const EllipsisText = ({
   };
 
   const checkTooltipEllipsis = () => {
-    if (!tooltipTextRef.current) return;
+    if (!tooltipTextRef.current) {
+      return;
+    }
 
     const element = tooltipTextRef.current as HTMLElement;
 

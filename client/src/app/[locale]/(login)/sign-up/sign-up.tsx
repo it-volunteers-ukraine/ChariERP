@@ -3,6 +3,7 @@
 import { KeyboardEvent, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikHelpers } from 'formik';
+import logger from '@/utils/logger/logger';
 
 import { routes } from '@/constants';
 import { OrganizationFormValues } from '@/types';
@@ -63,7 +64,7 @@ const SignUp = () => {
 
       handleFormik.resetForm();
     } catch (error) {
-      console.log(error);
+      logger.error(error);
 
       showMessage.error(errorText('login.somethingWrong'), { autoClose: 2000 });
     } finally {

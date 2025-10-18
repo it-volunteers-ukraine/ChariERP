@@ -4,19 +4,18 @@ import { useEffect, useState, useTransition } from 'react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { useParams, useRouter } from 'next/navigation';
+import logger from '@/utils/logger/logger';
 
 import { routes } from '@/constants';
 import { useUserInfo } from '@/context';
 import { getImageAction } from '@/actions';
-import { EllipsisText } from '@/components';
+import { AvatarEmployee, AvatarField, EllipsisText } from '@/components';
 
 import { Info } from './info';
 import { getStyles } from './styles';
 import { JobTitle } from './job-title';
 import { showMessage } from '../toastify';
 import { IEmployeeCardProps } from './types';
-import { AvatarField } from '../avatar-field';
-import { AvatarEmployee } from '../avatar-employee';
 
 export const EmployeeCard = ({
   id,
@@ -52,8 +51,12 @@ export const EmployeeCard = ({
   });
 
   const handleClick = () => {
-    if (!isManager) return;
-    if (isParamsId) return;
+    if (!isManager) {
+      return;
+    }
+    if (isParamsId) {
+      return;
+    }
     router.push(`${routes.employeesEdit}/${id}`);
   };
 
@@ -71,7 +74,7 @@ export const EmployeeCard = ({
         setImg('');
         showMessage.error('Error loading image');
       } catch (error) {
-        console.log(error);
+        logger.error(error);
       }
     }
   };

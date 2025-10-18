@@ -13,7 +13,9 @@ const doesTaskMatch = (task: ITaskColumns, search: string) =>
   doesTitleMatch(task, search) || doesUserMatch(task, search);
 
 export function filterData(data: IBoardTaskColumn[], search: string) {
-  if (!search) return data;
+  if (!search) {
+    return data;
+  }
 
   const searchLower = search.toLowerCase();
 

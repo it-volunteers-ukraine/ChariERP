@@ -30,7 +30,9 @@ export const useFile = ({ taskId, fileList }: { taskId: string; fileList: IAttac
 
       const selectedFiles = event.target.files;
 
-      if (!selectedFiles) return;
+      if (!selectedFiles) {
+        return;
+      }
 
       const newFiles = Array.from(selectedFiles);
 
@@ -108,7 +110,9 @@ export const useFile = ({ taskId, fileList }: { taskId: string; fileList: IAttac
         showMessage.error(message.trim());
       }
 
-      if (validFiles.length === 0) return;
+      if (validFiles.length === 0) {
+        return;
+      }
 
       const formData = new FormData();
 
@@ -129,7 +133,9 @@ export const useFile = ({ taskId, fileList }: { taskId: string; fileList: IAttac
         const resultFiles = validFiles.reduce<FileState[]>((acc, file) => {
           const match = uploadFiles.find((uploaded) => uploaded.name === file.name);
 
-          if (!match) return acc;
+          if (!match) {
+            return acc;
+          }
 
           acc.push({
             body: file,

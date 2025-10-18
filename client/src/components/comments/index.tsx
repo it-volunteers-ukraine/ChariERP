@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import logger from '@/utils/logger/logger';
 
 import { useUserInfo } from '@/context';
 import { cn, fetchAvatarUrl } from '@/utils';
-import { UserIcon, Editor } from '@/components';
+import { Editor, UserIcon } from '@/components';
 
 import { Comment } from './comment';
 import { EditorBtnGroup } from './btn-group';
@@ -34,7 +35,7 @@ export const CommentEditor = () => {
         setImg(avatar);
       }
     } catch (error) {
-      console.error('Failed to load avatar', error);
+      logger.error('Error loading avatar', error);
     }
   };
 

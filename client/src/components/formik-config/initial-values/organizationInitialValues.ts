@@ -17,7 +17,9 @@ export const organizationInitialValues = (data?: OrganizationFormValues) => ({
 });
 
 export const getInitialDataOrganization = (data: OrganizationEditValues | null) => {
-  if (!data) return emptyState;
+  if (!data) {
+    return emptyState;
+  }
 
   return {
     site: data?.site || '',

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
+import logger from '@/utils/logger/logger';
 
 import { Info } from '@/assets/icons';
 import { OrganizationEditValues } from '@/types';
@@ -16,18 +17,18 @@ import {
   showErrorMessageOfOrganizationExist,
 } from '@/utils';
 import {
-  Button,
-  SmallBtn,
   Accordion,
+  Button,
+  ButtonIcon,
   DateField,
   FileField,
-  ButtonIcon,
+  getInitialDataOrganization,
   InputField,
   ModalAdmin,
-  showMessage,
   ModalEnterEmail,
   organizationValidation,
-  getInitialDataOrganization,
+  showMessage,
+  SmallBtn,
 } from '@/components';
 
 import { adapterUpdateAction } from './adapter';
@@ -58,7 +59,9 @@ const OrganizationPage = () => {
       formData.append(`certificate`, file);
       formData.append(`data`, JSON.stringify(data));
 
-      if (!organizationId || !_id) return;
+      if (!organizationId || !_id) {
+        return;
+      }
 
       const sendData = {
         formData,
@@ -85,8 +88,7 @@ const OrganizationPage = () => {
         setData(oneOrganizationNormalizer(parsedOrganization));
       }
     } catch (error) {
-      // TODO Connect error message
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoadingModal(false);
       setIsOpenSave(false);
@@ -118,7 +120,7 @@ const OrganizationPage = () => {
 
       setData(oneOrganizationNormalizer(parsedOrganization));
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoading(false);
     }

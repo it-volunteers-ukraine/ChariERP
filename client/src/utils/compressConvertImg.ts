@@ -14,8 +14,12 @@ export const compressConvertImage = ({
   format = 'image/webp',
 }: ICompressConvertImage): Promise<{ url: string; file: File; blob: Blob; base64: string }> => {
   return new Promise((resolve, reject) => {
-    if (!file) return reject('File not found');
-    if (!availableConvertFormats.includes(format)) return reject('Invalid format');
+    if (!file) {
+      return reject('File not found');
+    }
+    if (!availableConvertFormats.includes(format)) {
+      return reject('Invalid format');
+    }
 
     const reader = new FileReader();
 

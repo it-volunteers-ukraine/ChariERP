@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Form, Formik, FormikHelpers } from 'formik';
+import logger from '@/utils/logger/logger';
 
 import { routes } from '@/constants';
 import { bgJoin } from '@/assets/img';
@@ -35,7 +36,7 @@ export const JoinSection = () => {
       showMessage.success(joinForm('successfully'));
       resetForm();
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       showMessage.error(joinForm('error'));
     } finally {
       setIsLoading(false);

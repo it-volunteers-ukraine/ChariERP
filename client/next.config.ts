@@ -29,32 +29,37 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '5mb',
     },
   },
-  webpack(config) {
-    // Grab the existing rule that handles SVG imports
+  webpack(config, { isServer }) {
+    // Basic Node.js fallbacks for client-side
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        os: false,
+        path: false,
+      };
+    }
+
+    // Modify SVG handling to use @svgr/webpack
     const fileLoaderRule = config.module.rules.find((rule: { test: { test: (arg0: string) => never } }) =>
       rule.test?.test?.('.svg'),
     );
 
     config.module.rules.push(
-      // Reapply the existing rule, but only for svg imports ending in ?url
       {
         ...fileLoaderRule,
         test: /\.svg$/i,
-        resourceQuery: /url/, // *.svg?url
+        resourceQuery: /url/,
       },
-      // Convert all other *.svg imports to React components
       {
         test: /\.svg$/i,
         issuer: fileLoaderRule.issuer,
-        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
+        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] },
         use: ['@svgr/webpack'],
       },
     );
 
-    // Modify the file loader rule to ignore *.svg, since we have it handled now.
     fileLoaderRule.exclude = /\.svg$/i;
-
-    console.log(`SERVER DATE: ${new Date()}`);
 
     return config;
   },

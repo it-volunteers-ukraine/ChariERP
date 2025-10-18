@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Draggable } from '@hello-pangea/dnd';
+import logger from '@/utils/logger/logger';
 
 import { cn } from '@/utils';
 import { routes } from '@/constants';
@@ -89,7 +90,7 @@ export const ColumnTasks = ({
 
       router.push(`${routes.managerDashboard}/${boardId}/${id}/${taskId}`);
     } catch (error) {
-      console.log('error created Task', error);
+      logger.error('Error while a new task creation', error);
     }
   };
 

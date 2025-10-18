@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import logger from '@/utils/logger/logger';
 
 const connectDB = async () => {
   const MONGO_URI = process.env.MONGO_URI as string;
@@ -28,7 +29,7 @@ const connectDB = async () => {
 
     const document = await mongoose.connection.db.admin().command({ ping: 1 });
 
-    console.log('Connected to MongoDB');
+    logger.info('Connected to MongoDB');
 
     return { success: true, document };
   } catch (error) {

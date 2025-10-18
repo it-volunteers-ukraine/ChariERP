@@ -1,5 +1,5 @@
 import { IBoardColumnTasks } from '@/types';
-import { fetchAvatarUrl } from './fetch-avatar-url';
+import { fetchAvatarUrl } from '@/utils';
 
 export const oneBoardColumnNormalizer = async (data: IBoardColumnTasks) => {
   return {
@@ -23,7 +23,9 @@ export const oneBoardColumnNormalizer = async (data: IBoardColumnTasks) => {
 };
 
 export const boardColumnsNormalizer = async (data?: IBoardColumnTasks[]) => {
-  if (!data) return [];
+  if (!data) {
+    return [];
+  }
 
   return await Promise.all(data.map(oneBoardColumnNormalizer));
 };
