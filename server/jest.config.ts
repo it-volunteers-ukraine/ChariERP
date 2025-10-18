@@ -1,25 +1,23 @@
-export default {
-  clearMocks: true,
-  collectCoverage: true,
-  coverageDirectory: 'coverage',
-  coverageProvider: 'v8',
-  preset: 'ts-jest',
-  testEnvironment: 'node',
 
-  collectCoverageFrom: [
-    'src/**/*.ts',
-    '!src/main.ts',
-    '!src/**/*.spec.ts',
-    '!src/**/*.e2e-spec.ts',
-    '!src/**/*.interface.ts',
-  ],
+import type { Config } from 'jest';
 
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
+const config: Config = {
+  moduleFileExtensions: ['js', 'json', 'ts'],
+  rootDir: 'src',
+  testRegex: '.*\\.spec\\.ts$',
+  transform: {
+    '^.+\\.(t|j)s$': 'ts-jest',
   },
-
-  testMatch: [
-    '**/*.spec.ts',
-    '**/*.e2e-spec.ts'
+  collectCoverageFrom: [
+    '**/*.(t|j)s',
   ],
+  coverageDirectory: '../coverage',
+  testEnvironment: 'node',
+  preset: 'ts-jest',
+  setupFilesAfterEnv: ['<rootDir>/../jest.setup.ts'],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/$1',
+  },
 };
+
+export default config;
