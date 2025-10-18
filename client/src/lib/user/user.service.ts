@@ -25,7 +25,8 @@ class UserService extends BaseService {
     const adminsNumber = await Admin.countDocuments();
 
     if (adminsNumber > 0) {
-      logger.info(`An attempt to create an admin with email: ${email}`);
+      const sanitizedEmail = email.replace(/[\r\n]/g, "");
+      logger.info(`An attempt to create an admin with email: '${sanitizedEmail}'`);
 
       return { message: 'Admin already exists', success: false };
     }
