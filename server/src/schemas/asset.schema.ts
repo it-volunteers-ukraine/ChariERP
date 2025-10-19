@@ -1,12 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose'
+import mongoose, { HydratedDocument } from 'mongoose';
 import * as paginate from 'mongoose-paginate-v2';
 
 export type AssetDocument = HydratedDocument<Asset>;
 
 @Schema({ versionKey: false })
 export class Asset {
-  @Prop({ required: true, unique: true})
+  @Prop({ required: true, unique: true })
   name: string;
   @Prop()
   location?: string;
@@ -27,13 +27,13 @@ export class Asset {
   @Prop()
   unit?: string;
   @Prop()
-  photo?: string; 
+  photo?: string;
   @Prop()
   description?: string;
   @Prop({
     required: true,
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
   })
   createdBy: mongoose.Types.ObjectId;
   @Prop({

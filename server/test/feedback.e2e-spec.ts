@@ -52,7 +52,7 @@ describe('FeedbackController (e2e)', () => {
     await app.init();
 
     userModel = moduleFixture.get<Model<User>>(getModelToken(User.name));
-    
+
     testUser = createTestUser();
     const hashedPassword = await bcrypt.hash(testUser.password, 10);
     await userModel.create({

@@ -24,4 +24,7 @@ module.exports = {
     '**/*.spec.ts',
     '**/*.e2e-spec.ts'
   ],
+
+  // Setup mockConfigService
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 };
