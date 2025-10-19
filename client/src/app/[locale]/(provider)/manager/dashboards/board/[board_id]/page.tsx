@@ -1,8 +1,10 @@
 import { Metadata } from 'next';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
-import { IBoardServerColumns } from '@/types';
+import { routes } from '@/constants';
 import { WrapperColumns } from '@/components';
+import { IBoardServerColumns } from '@/types';
 import { boardColumnsNormalizer } from '@/utils';
 import { getBoardColumnsAction } from '@/actions';
 
@@ -21,7 +23,7 @@ export const getData = async (boardId: string) => {
     });
 
     if (!response.success || !response.data) {
-      throw new Error('Error data');
+      throw new Error(response.message);
     }
 
     const parsedResponse = JSON.parse(response.data as string);
@@ -29,6 +31,8 @@ export const getData = async (boardId: string) => {
     return parsedResponse as IBoardServerColumns;
   } catch (e) {
     console.log({ e });
+
+    return Promise.reject(e);
   }
 };
 
@@ -54,11 +58,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const DashboardId = async ({ params }: Props) => {
   const { board_id } = await params;
 
-  const data = await getData(board_id);
+  const handelGetData = async () => {
+    try {
+      const data = await getData(board_id);
+
+      return data;
+    } catch {
+      redirect(routes.managerDashboardDenied);
+    }
+  };
+  const data = await handelGetData();
 
   const columns = await boardColumnsNormalizer(data?.boardColumns);
 
-  return <WrapperColumns id={board_id} columns={columns} title={`#${data?.order} ${data?.title}`} />;
+  return <WrapperColumns id={board_id} columns={columns} title={`#${data.order} ${data.title}`} />;
 };
 
 export default DashboardId;
