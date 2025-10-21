@@ -1,5 +1,5 @@
 import { Injectable, PipeTransform } from '@nestjs/common';
-import { FileValidator } from './interfaces/file-validator.interface';
+import { FileValidator, MulterFile } from './interfaces/file-validator.interface';
 import { FilePresenceValidator } from './validators/file-presence.validator';
 import { FileCountValidator } from './validators/file-count.validator';
 import { FileTypeValidator } from './validators/file-type.validator';
@@ -18,7 +18,7 @@ export class FileValidationPipe implements PipeTransform {
     ];
   }
 
-  transform(files: Express.Multer.File[]): Express.Multer.File[] {
+  transform(files: MulterFile[]): MulterFile[] {
     for (const validator of this.validators) {
       validator.validate(files);
     }

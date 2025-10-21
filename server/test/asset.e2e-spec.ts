@@ -1,19 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, ValidationPipe, HttpStatus } from '@nestjs/common';
+import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
 import * as bcrypt from 'bcrypt';
 import { faker } from '@faker-js/faker';
-import { AppModule } from '../src/app.module';
-import { testMongoConfig } from './in-memory.mongo.config';
+import { AppModule } from '@/app.module';
 import { getModelToken } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User } from '../src/schemas/user.schema';
-import { Roles, UserStatus } from '../src/schemas/enums';
-import { CreateAssetDto } from '../src/fixed-asset/dto/create-asset.dto';
-import { VALIDATION_MESSAGES } from '../src/constants/validation-messages';
-import { Asset } from '../src/schemas/asset.schema';
-import { DEFAULT_LIMIT, DEFAULT_PAGE } from '../src/constants/pagination.constants';
-import { UpdateAssetDto } from '../src/fixed-asset/dto/update-asset.dto';
+import { User } from '@/schemas/user.schema';
+import { Roles, UserStatus } from '@/schemas/enums';
+import { CreateAssetDto } from '@/fixed-asset/dto/create-asset.dto';
+import { VALIDATION_MESSAGES } from '@/constants/validation-messages';
+import { Asset } from '@/schemas/asset.schema';
+import { DEFAULT_LIMIT, DEFAULT_PAGE } from '@/constants/pagination.constants';
+import { UpdateAssetDto } from '@/fixed-asset/dto/update-asset.dto';
 
 const createTestUser = (role: Roles) => ({
   firstName: faker.person.firstName(),
@@ -49,8 +48,6 @@ describe('AssetController (e2e)', () => {
   let managerToken: string;
 
   beforeAll(async () => {
-    await testMongoConfig.setUp();
-
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
@@ -83,7 +80,6 @@ describe('AssetController (e2e)', () => {
 
   afterAll(async () => {
     await app.close();
-    await testMongoConfig.dropDatabase();
   });
 
   describe('/assets (POST)', () => {

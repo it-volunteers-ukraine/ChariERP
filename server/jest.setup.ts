@@ -32,12 +32,13 @@ beforeAll(async () => {
   jest.spyOn(ConfigService.prototype, 'getOrThrow').mockImplementation(getOrThrowMock);
 });
 
-afterEach(() => {
+afterEach(async () => {
+  await testMongoConfig.dropCollections();
   jest.clearAllMocks();
 });
 
 
 afterAll(async () => {
-  await testMongoConfig.setUp();
+  await testMongoConfig.dropDatabase();
   jest.restoreAllMocks();
 });

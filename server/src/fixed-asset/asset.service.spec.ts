@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AssetService } from './asset.service';
 import { getModelToken } from '@nestjs/mongoose';
-import { Asset } from '../schemas/asset.schema';
+import { Asset } from '@/schemas/asset.schema';
 import { CreateAssetDto } from './dto/create-asset.dto';
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import { faker } from '@faker-js/faker';
-import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../constants/pagination.constants';
+import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@/constants/pagination.constants';
 import { UpdateAssetDto } from './dto/update-asset.dto';
 
 describe('AssetService', () => {
@@ -156,8 +156,9 @@ describe('AssetService', () => {
 
       assetModel.paginate.mockResolvedValue(mockPaginateResult);
 
-      await expect(assetService.findAll(organizationId, DEFAULT_PAGE, DEFAULT_LIMIT))
-        .rejects.toThrow(NotFoundException);
+      await expect(assetService.findAll(organizationId, DEFAULT_PAGE, DEFAULT_LIMIT)).rejects.toThrow(
+        NotFoundException,
+      );
 
       expect(assetModel.paginate).toHaveBeenCalledWith(
         { organizationId: { $eq: organizationId } },
