@@ -3,7 +3,7 @@ import { AssetController } from './asset.controller';
 import { AssetService } from './asset.service';
 import { faker } from '@faker-js/faker';
 import { CreateAssetDto } from './dto/create-asset.dto';
-import { AuthenticatedRequest } from './interfaces/authenticated-request.interface';
+import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
 import { Roles } from '../schemas/enums';
 import { plainToInstance } from 'class-transformer';
 import { AssetResponseDto } from './dto/asset-response.dto';

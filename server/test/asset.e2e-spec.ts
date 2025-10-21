@@ -13,7 +13,7 @@ import { CreateAssetDto } from '../src/fixed-asset/dto/create-asset.dto';
 import { VALIDATION_MESSAGES } from '../src/constants/validation-messages';
 import { Asset } from '../src/schemas/asset.schema';
 import { DEFAULT_LIMIT, DEFAULT_PAGE } from '../src/constants/pagination.constants';
-import { UpdateAssetDto } from 'src/fixed-asset/dto/update-asset.dto';
+import { UpdateAssetDto } from '../src/fixed-asset/dto/update-asset.dto';
 
 const createTestUser = (role: Roles) => ({
   firstName: faker.person.firstName(),
@@ -245,10 +245,7 @@ describe('AssetController (e2e)', () => {
           .expect(HttpStatus.NOT_FOUND);
 
         expect(res.body).toHaveProperty('statusCode', HttpStatus.NOT_FOUND);
-        expect(res.body).toHaveProperty(
-          'message',
-          `No fixed assets found in organization '${testUser.organizationId}'`,
-        );
+        expect(res.body).toHaveProperty('message', 'No fixed assets found in organization');
       });
     });
   });
@@ -293,7 +290,7 @@ describe('AssetController (e2e)', () => {
     });
 
     describe('400 BAD REQUEST', () => {
-      it('should return 400 if id is invalid (ValidateObjectIdPipe)', async () => {
+      it('should return 400 if id is invalid (ObjectIdValidationPipe)', async () => {
         const invalidId = 'Invalid id';
         const updateAssetDto: UpdateAssetDto = { name: faker.commerce.product() };
 
@@ -304,7 +301,7 @@ describe('AssetController (e2e)', () => {
           .expect(HttpStatus.BAD_REQUEST);
 
         expect(res.body).toHaveProperty('statusCode', HttpStatus.BAD_REQUEST);
-        expect(res.body.message).toBe(`Invalid ID format: ${invalidId}`);
+        expect(res.body.message).toBe('Invalid ID format');
       });
     });
 
@@ -362,7 +359,7 @@ describe('AssetController (e2e)', () => {
           .expect(HttpStatus.NOT_FOUND);
 
         expect(res.body).toHaveProperty('statusCode', HttpStatus.NOT_FOUND);
-        expect(res.body).toHaveProperty('message', `Fixed asset with ID '${assetId}' not found`);
+        expect(res.body).toHaveProperty('message', 'Fixed asset not found');
       });
     });
   });
@@ -374,7 +371,6 @@ describe('AssetController (e2e)', () => {
         const createdBy = faker.database.mongodbObjectId();
 
         const createdAsset = await assetModel.create(createValidAsset(organizationId, createdBy));
-        console.log(`Fixed asset '${createdAsset._id}' successfully deleted`);
 
         await request(app.getHttpServer())
           .delete(`/assets/${createdAsset._id}`)
@@ -387,7 +383,7 @@ describe('AssetController (e2e)', () => {
     });
 
     describe('400 BAD REQUEST', () => {
-      it('should return 400 if id is invalid (ValidateObjectIdPipe)', async () => {
+      it('should return 400 if id is invalid (ObjectIdValidationPipe)', async () => {
         const invalidId = 'Invalid id';
 
         const res = await request(app.getHttpServer())
@@ -396,7 +392,7 @@ describe('AssetController (e2e)', () => {
           .expect(HttpStatus.BAD_REQUEST);
 
         expect(res.body).toHaveProperty('statusCode', HttpStatus.BAD_REQUEST);
-        expect(res.body.message).toBe(`Invalid ID format: ${invalidId}`);
+        expect(res.body.message).toBe('Invalid ID format');
       });
     });
 
@@ -446,7 +442,7 @@ describe('AssetController (e2e)', () => {
           .expect(HttpStatus.NOT_FOUND);
 
         expect(res.body).toHaveProperty('statusCode', HttpStatus.NOT_FOUND);
-        expect(res.body).toHaveProperty('message', `Fixed asset with ID '${assetId}' not found`);
+        expect(res.body).toHaveProperty('message', 'Fixed asset not found');
       });
     });
   });
