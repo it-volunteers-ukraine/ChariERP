@@ -6,8 +6,12 @@ import { UserLoginRequest } from './dto/user-login.request';
 import { NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { Roles, UserStatus } from '../schemas/enums';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 import { faker } from '@faker-js/faker';
+
+jest.mock('bcrypt', () => ({
+  compare: jest.fn(),
+}));
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -72,9 +76,9 @@ describe('AuthService', () => {
 
     const mockToken = faker.internet.jwt({ header: { alg: 'HS256' } });
     userModel.exec.mockResolvedValue(mockUser);
-    jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
+    (bcrypt.compare as jest.Mock).mockResolvedValue(true);
     userModel.findByIdAndUpdate.mockResolvedValue({});
-    jest.spyOn(jwtService, 'signAsync').mockResolvedValue(mockToken);
+    (jwtService.signAsync as jest.Mock).mockResolvedValue(mockToken);
 
     const result = await authService.login(loginDto);
 
@@ -124,7 +128,7 @@ describe('AuthService', () => {
       };
 
       userModel.exec.mockResolvedValue(user);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(bcryptResult as never);
+      (bcrypt.compare as jest.Mock).mockResolvedValue(bcryptResult);
 
       await expect(authService.login(loginDto)).rejects.toThrow(UnauthorizedException);
     });

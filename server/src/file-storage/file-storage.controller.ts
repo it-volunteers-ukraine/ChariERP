@@ -1,7 +1,7 @@
 import { Response } from 'express';
-import { FileStoreFolders, Roles } from '../schemas/enums';
+import { FileStoreFolders, Roles } from '@/schemas/enums';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { UserRoles } from '../auth/roles.guard';
+import { UserRoles } from '@/auth/roles.guard';
 import {
   ApiTags,
   ApiBearerAuth,
@@ -35,10 +35,11 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { FileStorageService } from './file-storage.service';
-import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
-import { FileValidationPipe } from '../pipes/file-validation.pipe';
-import { FolderValidationPipe } from '../pipes/folder-validation.pipe';
+import { AuthenticatedRequest } from '@/auth/interfaces/authenticated-request.interface';
+import { FileValidationPipe } from '@/pipes/file-validation.pipe';
+import { FolderValidationPipe } from '@/pipes/folder-validation.pipe';
 import { UploadFilesResponse } from './dto/upload-files-response';
+import { MulterFile } from '@/pipes/interfaces/file-validator.interface';
 
 @ApiTags('File')
 @Controller('files')
@@ -75,7 +76,8 @@ export class FileStorageController {
   })
   @ApiBadRequestResponse({ description: 'Invalid file' })
   @ApiInternalServerErrorResponse({ description: 'Failed to upload file(s)' })
-  async uploadFiles(@UploadedFiles(FileValidationPipe) files: Express.Multer.File[],
+  async uploadFiles(
+    @UploadedFiles(FileValidationPipe) files: MulterFile[],
     @Body('folder', FolderValidationPipe) folder: FileStoreFolders,
     @Req() req: AuthenticatedRequest,
   ): Promise<UploadFilesResponse> {

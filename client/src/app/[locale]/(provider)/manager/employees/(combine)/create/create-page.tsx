@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { FormikValues } from 'formik';
 import { useRouter } from 'next/navigation';
+import logger from '@/utils/logger/logger';
 
 import { routes } from '@/constants';
 import { ICreateUser } from '@/types';
@@ -46,7 +47,7 @@ const CreatePage = () => {
         showMessage.error(addUserError('addUser'));
       }
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoading(false);
     }

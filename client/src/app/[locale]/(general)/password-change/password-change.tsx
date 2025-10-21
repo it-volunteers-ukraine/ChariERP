@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Form, Formik } from 'formik';
 import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
+import logger from '@/utils/logger/logger';
 
 import { routes } from '@/constants';
 import { clearUserCookies } from '@/utils';
@@ -48,7 +49,7 @@ const PasswordChange = () => {
         showMessage.error(passwordChangeText(response.message));
       }
     } catch (error) {
-      console.log(error);
+      logger.error(error);
 
       showMessage.error(passwordChangeText('error'));
     } finally {

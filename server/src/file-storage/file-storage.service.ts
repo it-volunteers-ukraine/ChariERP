@@ -22,11 +22,12 @@ import {
   InternalServerErrorException,
   BadRequestException,
 } from '@nestjs/common';
-import { FileStoreFolders } from '../schemas/enums';
+import { FileStoreFolders } from '@/schemas/enums';
 import stream from 'node:stream';
 import { ConfigService } from '@nestjs/config';
 import { RetrievedFile } from './interfaces/retrieved-file.interface';
-import { ObjectStorageService } from '../s3/object-storage.service';
+import { ObjectStorageService } from '@/s3/object-storage.service';
+import { MulterFile } from '@/pipes/interfaces/file-validator.interface';
 
 @Injectable()
 export class FileStorageService {
@@ -51,11 +52,7 @@ export class FileStorageService {
     return `${this.envPrefix}/${encodeURIComponent(organizationId)}/${folder}/${fileName || ''}`;
   }
 
-  private async uploadFile(
-    organizationId: string,
-    folder: FileStoreFolders,
-    file: Express.Multer.File,
-  ): Promise<string> {
+  private async uploadFile(organizationId: string, folder: FileStoreFolders, file: MulterFile): Promise<string> {
     const key = this.buildKey(organizationId, folder, file.originalname);
 
     const input: PutObjectCommandInput = {
@@ -83,7 +80,7 @@ export class FileStorageService {
     }
   }
 
-  async uploadFiles(organizationId: string, folder: FileStoreFolders, files: Express.Multer.File[]): Promise<string[]> {
+  async uploadFiles(organizationId: string, folder: FileStoreFolders, files: MulterFile[]): Promise<string[]> {
     this.logger.log(`Uploading ${files.length} file(s) for organization '${organizationId}'`);
 
     try {
@@ -177,9 +174,9 @@ export class FileStorageService {
       throw new BadRequestException('No files found in a folder');
     }
 
-    const fileKeys = Contents
-      .filter((item): item is { Key: string } => typeof item.Key === 'string')
-      .map((item) => item.Key);
+    const fileKeys = Contents.filter((item): item is { Key: string } => typeof item.Key === 'string').map(
+      (item) => item.Key,
+    );
 
     this.logger.log(
       `Found ${fileKeys.length} file(s) in the '${folder}':\n` + fileKeys.map((k) => ` - ${k}`).join('\n'),
@@ -216,7 +213,8 @@ export class FileStorageService {
     } catch (error) {
       if (error instanceof S3ServiceException) {
         this.logger.error(
-          `Error from S3 while deleting files within the folder '${folder}' from '${this.bucketName}'.  ${error.name}: ${error.message}`,
+          `Error from S3 while deleting files within the folder '${folder}'` +
+            `from '${this.bucketName}'. ${error.name}: ${error.message}`,
         );
       } else {
         this.logger.error(`Unexpected server error while deleting files within the folder '${folder}'`, error);

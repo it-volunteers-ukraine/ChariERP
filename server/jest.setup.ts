@@ -1,4 +1,12 @@
 import { ConfigService } from '@nestjs/config';
+import { testMongoConfig } from './test/in-memory.mongo.config';
+
+// Set up environment variables for testing
+process.env.NODE_ENV = 'test';
+process.env.RESEND_API_KEY = 'test-api-key';
+process.env.EMAIL_FROM = 'test@example.com';
+process.env.JWT_SECRET = 'test-jwt-secret';
+process.env.MONGO_URI = 'mongodb://localhost:27017/test';
 
 const mockEnvs: Record<string, string> = {
   S3_REGION: 'test-region',
@@ -8,7 +16,8 @@ const mockEnvs: Record<string, string> = {
   FILE_STORAGE_FOLDER: 'TEST',
 };
 
-beforeAll(() => {
+beforeAll(async () => {
+  await testMongoConfig.setUp();
   const getMock = (key: string) => mockEnvs[key] ?? null;
 
   const getOrThrowMock = (key: string) => {
@@ -23,10 +32,13 @@ beforeAll(() => {
   jest.spyOn(ConfigService.prototype, 'getOrThrow').mockImplementation(getOrThrowMock);
 });
 
-afterEach(() => {
+afterEach(async () => {
+  await testMongoConfig.dropCollections();
   jest.clearAllMocks();
 });
 
-afterAll(() => {
+
+afterAll(async () => {
+  await testMongoConfig.dropDatabase();
   jest.restoreAllMocks();
 });

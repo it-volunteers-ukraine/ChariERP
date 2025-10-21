@@ -1,5 +1,5 @@
 services:
-  client:
+  client-dev:
     image: node:22-alpine
     working_dir: /client
     restart: unless-stopped
@@ -16,8 +16,24 @@ services:
     depends_on:
       database:
         condition: service_started
+    profiles:
+      - dev
 
-  server:
+  client-prod:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      target: runner
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      database:
+        condition: service_started
+
+  server-dev:
     image: node:22-alpine
     working_dir: /server
     restart: unless-stopped
@@ -29,6 +45,22 @@ services:
       - "8080:8080"
     environment:
       - NODE_ENV=development
+    env_file:
+      - .env
+    depends_on:
+      database:
+        condition: service_started
+    profiles:
+      - dev
+
+  server-prod:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      target: production
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
     env_file:
       - .env
     depends_on:

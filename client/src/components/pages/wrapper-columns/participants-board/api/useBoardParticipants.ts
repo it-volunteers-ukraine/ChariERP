@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import logger from '@/utils/logger/logger';
 
 import { useUserInfo } from '@/context';
 import { showMessage } from '@/components';
@@ -39,7 +40,7 @@ export const useBoardParticipants = ({ boardId, usersInTasks }: { boardId: strin
         setBoardParticipants(sortedUsers(users));
       }
     } catch (error) {
-      console.log({ error });
+      logger.error({ error });
     } finally {
       setIsLoading(false);
     }
@@ -76,7 +77,7 @@ export const useBoardParticipants = ({ boardId, usersInTasks }: { boardId: strin
         setAllParticipants((users) => sortedUsers([...users, findUser]));
       }
     } catch (error) {
-      console.log({ error });
+      logger.error({ error });
     }
   };
 

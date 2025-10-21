@@ -1,10 +1,10 @@
-import { FileValidator } from '../interfaces/file-validator.interface';
+import { FileValidator, MulterFile } from '../interfaces/file-validator.interface';
 import { Logger, BadRequestException } from '@nestjs/common';
 
 export class FilePresenceValidator implements FileValidator {
-  private logger = new Logger(FilePresenceValidator.name);
+  private readonly logger = new Logger(FilePresenceValidator.name);
 
-  validate(files: Express.Multer.File[]): void {
+  validate(files: MulterFile[]): void {
     if (!files || files.length === 0) {
       this.logger.warn('No files provided');
       throw new BadRequestException('No files provided');

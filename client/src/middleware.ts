@@ -49,7 +49,9 @@ const shouldRedirectToRequests = (userId: string | undefined, pathname: string):
 };
 
 export const isValidObjectId = (id?: string): boolean => {
-  if (!id) return false;
+  if (!id) {
+    return false;
+  }
   const objectIdRegex = /^[0-9a-fA-F]{24}$/;
 
   return objectIdRegex.test(id);

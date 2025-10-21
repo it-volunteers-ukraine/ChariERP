@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import logger from '@/utils/logger/logger';
 import { useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
@@ -54,7 +55,7 @@ export const UserProvider = ({ children }: ChildrenProps) => {
         setUser(JSON.parse(response.user));
       }
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       router.push(routes.login);
     }
   };

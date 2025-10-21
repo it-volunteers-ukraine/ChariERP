@@ -2,32 +2,33 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useRouter, useParams, usePathname } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import { FieldArray, Form, Formik, FormikErrors, FormikValues } from 'formik';
+import logger from '@/utils/logger/logger';
 
 import { routes } from '@/constants';
 import { useLoaderAdminPage, useUserInfo } from '@/context';
 import { OrganizationEditValues, RequestOrganizationStatus } from '@/types';
 import { oneOrganizationNormalizer, serializeOrganizationsUpdate, showErrorMessageOfOrganizationExist } from '@/utils';
 import {
-  deleteOrganizationAction,
-  updateOrganizationAction,
   declineOrganizationAction,
+  deleteOrganizationAction,
   getOrganizationByIdAction,
+  updateOrganizationAction,
 } from '@/actions';
 import {
-  Button,
-  SmallBtn,
-  DateField,
   Accordion,
-  FileField,
-  InputField,
+  Button,
   ButtonIcon,
+  DateField,
+  FileField,
+  getInitialDataOrganization,
+  InputField,
   ModalAdmin,
-  showMessage,
   ModalDecline,
   organizationValidation,
-  getInitialDataOrganization,
+  showMessage,
+  SmallBtn,
 } from '@/components';
 
 const AdminOrganizationById = () => {
@@ -65,8 +66,7 @@ const AdminOrganizationById = () => {
 
       setData(oneOrganizationNormalizer(parsedOrganization));
     } catch (error) {
-      // TODO Connect error message
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -77,7 +77,9 @@ const AdminOrganizationById = () => {
 
     const { file, data } = serializeOrganizationsUpdate(values);
 
-    if (request) data.request = request;
+    if (request) {
+      data.request = request;
+    }
 
     formData.append(`certificate`, file);
     formData.append(`data`, JSON.stringify(data));
@@ -112,8 +114,7 @@ const AdminOrganizationById = () => {
       setIsLoadingRequest(true);
       await onSave(values);
     } catch (error) {
-      // TODO Connect error message
-      console.log(error);
+      logger.error(error);
       showMessage.error('Some error in form');
     } finally {
       setIsLoadingRequest(false);
@@ -133,7 +134,7 @@ const AdminOrganizationById = () => {
       showMessage.success(success('deleteOrganization'));
       router.push(backPath);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsOpenDelete(false);
       setIsLoadingRequest(false);
@@ -150,8 +151,7 @@ const AdminOrganizationById = () => {
         return;
       }
     } catch (error) {
-      // TODO Connect error message
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsOpenAccept(false);
       setIsLoadingRequest(false);
@@ -184,8 +184,7 @@ const AdminOrganizationById = () => {
       showMessage.success(success('sentEmail', { email: data?.email || '' }));
       router.push(backPath);
     } catch (error) {
-      // TODO Connect error message
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsOpenDecline(false);
       setIsLoadingRequest(false);

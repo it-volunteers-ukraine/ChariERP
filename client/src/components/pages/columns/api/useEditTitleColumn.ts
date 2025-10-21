@@ -1,6 +1,7 @@
 import { IUseColumns } from '@/types';
 import { showMessage } from '@/components';
 import { changeColumnTitleAction } from '@/actions';
+import logger from '@/utils/logger/logger';
 
 import { IUseStateBoardColumns } from './types';
 
@@ -40,7 +41,7 @@ export const useEditTitleColumn = ({ boardId, userId }: IUseColumns) => {
         setColumns(oldResponse);
       }
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       setColumns(oldResponse);
     }
   };

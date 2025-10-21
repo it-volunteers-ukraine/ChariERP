@@ -1,23 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
-import * as request from 'supertest';
+import request from 'supertest';
 import * as bcrypt from 'bcrypt';
-import { AppModule } from '../src/app.module';
-import { VALIDATION_MESSAGES } from '../src/constants/validation-messages';
-import { testMongoConfig } from './in-memory.mongo.config';
+import { AppModule } from '@/app.module';
+import { VALIDATION_MESSAGES } from '@/constants/validation-messages';
 import mongoose, { Model } from 'mongoose';
-import { User } from '../src/schemas/user.schema';
+import { User } from '@/schemas/user.schema';
 import { getModelToken } from '@nestjs/mongoose';
-import { Roles, UserStatus } from '../src/schemas/enums';
+import { Roles, UserStatus } from '@/schemas/enums';
 import { faker } from '@faker-js/faker';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
   let userModel: Model<User>;
-
-  beforeAll(async () => {
-    await testMongoConfig.setUp();
-  });
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -35,12 +30,7 @@ describe('AuthController (e2e)', () => {
     if (app) {
       await app.close();
     }
-    await testMongoConfig.dropCollections();
     jest.clearAllMocks();
-  });
-
-  afterAll(async () => {
-    await testMongoConfig.dropDatabase();
   });
 
   function createUserData(overrides: Partial<User> = {}) {

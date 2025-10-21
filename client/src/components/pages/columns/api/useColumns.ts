@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import logger from '@/utils/logger/logger';
 
 import { IBoardTaskColumn } from '@/types';
 import { boardColumnsNormalizer } from '@/utils';
@@ -38,7 +39,7 @@ export const useColumns = ({ boardColumns, boardId, id, onReject }: IColumnsProp
 
       setColumns(columns);
     } catch (e) {
-      console.log({ e });
+      logger.error({ e });
     } finally {
       setIsLoading(false);
     }

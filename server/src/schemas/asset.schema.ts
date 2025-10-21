@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import * as paginate from 'mongoose-paginate-v2';
+import paginate from 'mongoose-paginate-v2';
 
 export type AssetDocument = HydratedDocument<Asset>;
 

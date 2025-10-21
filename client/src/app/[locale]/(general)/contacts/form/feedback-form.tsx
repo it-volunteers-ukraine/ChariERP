@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import logger from '@/utils/logger/logger';
 
 import { Form, Formik, FormikHelpers } from 'formik';
 
@@ -28,7 +29,7 @@ export const FeedbackForm = () => {
       showMessage.success(feedbackForm('successfully'));
       resetForm();
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       showMessage.error(feedbackForm('error'));
     } finally {
       setIsLoading(false);

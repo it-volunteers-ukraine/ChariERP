@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { FormikHelpers, FormikValues } from 'formik';
+import logger from '@/utils/logger/logger';
 
 import { loginAction } from '@/actions';
 import { idUser, routes } from '@/constants';
@@ -35,7 +36,7 @@ const SignIn = () => {
         handleFormik?.setFieldError('password', errorText(result.message));
       }
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoading(false);
     }

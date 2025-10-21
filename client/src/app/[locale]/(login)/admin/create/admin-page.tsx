@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FormikHelpers, FormikValues } from 'formik';
+import logger from '@/utils/logger/logger';
 
 import { routes } from '@/constants';
 import { createAdminAction } from '@/actions';
@@ -25,7 +26,7 @@ const AdminPage = () => {
 
       router.push(routes.login);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoading(false);
     }

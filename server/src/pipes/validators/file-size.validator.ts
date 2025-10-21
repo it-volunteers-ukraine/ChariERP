@@ -1,11 +1,11 @@
-import { FileValidator } from '../interfaces/file-validator.interface';
+import { FileValidator, MulterFile } from '../interfaces/file-validator.interface';
 import { Logger, BadRequestException } from '@nestjs/common';
-import { FILE_VALIDATION } from '../../constants/file-storage.constants';
+import { FILE_VALIDATION } from '@/constants/file-storage.constants';
 
 export class FileSizeValidator implements FileValidator {
-  private logger = new Logger(FileSizeValidator.name);
+  private readonly logger = new Logger(FileSizeValidator.name);
 
-  validate(files: Express.Multer.File[]): void {
+  validate(files: MulterFile[]): void {
     for (const file of files) {
       if (file.size > FILE_VALIDATION.MAX_SIZE) {
         const maxSizeMB = Math.round(FILE_VALIDATION.MAX_SIZE / 1024 / 1024);

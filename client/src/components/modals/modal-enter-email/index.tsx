@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Formik, FormikValues } from 'formik';
+import logger from '@/utils/logger/logger';
 
 import { sendResetEmail } from '@/actions';
 import { InputField, ModalAdmin, enterEmailInitialValues, enterEmailValidation, showMessage } from '@/components';
@@ -40,7 +41,7 @@ export const ModalEnterEmail = ({ isOpen, onClose }: IModalEnterEmail) => {
         showMessage.error(errorMessage);
       }
     } catch (error) {
-      console.log(error);
+      logger.error(error);
 
       showMessage.error(messagePasswordReset('errorSend'));
     } finally {

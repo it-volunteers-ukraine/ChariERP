@@ -1,16 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, ValidationPipe, HttpStatus } from '@nestjs/common';
-import * as request from 'supertest';
+import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
+import request from 'supertest';
 import * as bcrypt from 'bcrypt';
 import { faker } from '@faker-js/faker';
-import { AppModule } from '../src/app.module';
-import { EmailService } from '../src/email/email.service';
-import { testMongoConfig } from './in-memory.mongo.config';
-import { VALIDATION_MESSAGES } from '../src/constants/validation-messages';
+import { AppModule } from '@/app.module';
+import { EmailService } from '@/email/email.service';
+import { VALIDATION_MESSAGES } from '@/constants/validation-messages';
 import { Model } from 'mongoose';
-import { User } from '../src/schemas/user.schema';
+import { User } from '@/schemas/user.schema';
 import { getModelToken } from '@nestjs/mongoose';
-import { Roles, UserStatus } from '../src/schemas/enums';
+import { Roles, UserStatus } from '@/schemas/enums';
 
 const createTestUser = () => ({
   firstName: faker.person.firstName(),
@@ -38,8 +37,6 @@ describe('FeedbackController (e2e)', () => {
   let testUser: ReturnType<typeof createTestUser>;
 
   beforeAll(async () => {
-    await testMongoConfig.setUp();
-
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     })
@@ -74,7 +71,6 @@ describe('FeedbackController (e2e)', () => {
 
   afterAll(async () => {
     await app.close();
-    await testMongoConfig.dropDatabase();
   });
 
   it('/feedback (POST) 200', async () => {

@@ -44,7 +44,9 @@ export const DashboardAside = () => {
     })) || [];
 
   useOutsideClick(() => {
-    if (!isDesktop) setIsOpenSidebar(false);
+    if (!isDesktop) {
+      setIsOpenSidebar(false);
+    }
   }, ref);
 
   const links = getLinksByRole(linkText, role, boards);
@@ -59,7 +61,9 @@ export const DashboardAside = () => {
   const toggleDropdown = (idx: number) => {
     const el = refs.current[idx];
 
-    if (!el) return;
+    if (!el) {
+      return;
+    }
 
     const isOpen = !isOpenChildren[idx];
 
@@ -89,7 +93,7 @@ export const DashboardAside = () => {
                   title={title}
                   disabled={disabled}
                   isParent={!!children}
-                  isOpen={!!children && !!isOpenChildren[idx]}
+                  isOpen={!!children && isOpenChildren[idx]}
                   onCloseSideBar={() => setIsOpenSidebar(false)}
                   setIsOpen={() => (children ? toggleDropdown(idx) : undefined)}
                 />

@@ -1,11 +1,11 @@
-import { FileValidator } from '../interfaces/file-validator.interface';
+import { FileValidator, MulterFile } from '../interfaces/file-validator.interface';
 import { Logger, BadRequestException } from '@nestjs/common';
-import { FILE_VALIDATION } from '../../constants/file-storage.constants';
+import { FILE_VALIDATION } from '@/constants/file-storage.constants';
 
 export class FileTypeValidator implements FileValidator {
-  private logger = new Logger(FileTypeValidator.name);
+  private readonly logger = new Logger(FileTypeValidator.name);
 
-  validate(files: Express.Multer.File[]): void {
+  validate(files: MulterFile[]): void {
     for (const file of files) {
       if (!FILE_VALIDATION.ALLOWED_TYPES.includes(file.mimetype)) {
         this.logger.warn(
