@@ -1,1 +1,1 @@
-export { BaseSelect } from './base-variant';
+export { BaseSelectWithTranslate } from './base-variant';

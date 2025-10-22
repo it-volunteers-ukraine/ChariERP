@@ -32,11 +32,11 @@ export function CoreSelect<T>({
   const isManager = userRole === Roles.MANAGER;
 
   const style = selectStyles({
-    classNameDropList,
-    classNameWrapper,
     isOpen,
     isLoading,
     isManager,
+    classNameWrapper,
+    classNameDropList,
   });
 
   return (

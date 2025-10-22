@@ -1,15 +1,17 @@
 import { ISelectOption, OptionValue } from '@/components/select/select-logic-wrapper/types';
 import { getStyle } from '../styles';
 
-interface IBaseOption extends ISelectOption {
+interface IBaseOption {
   classNameOption?: string;
   onSelect: (id: ISelectOption) => void;
-  t?: (value: OptionValue) => OptionValue;
+  t: (value: OptionValue) => OptionValue;
   isActiveSelected: ISelectOption | null;
   setIsOpen: (value: boolean) => void;
+  id: string;
+  value: OptionValue;
 }
 
-export const BaseOption = ({ id, value, classNameOption, isActiveSelected, onSelect, setIsOpen }: IBaseOption) => {
+export const BaseOption = ({ id, value, classNameOption, isActiveSelected, onSelect, setIsOpen, t }: IBaseOption) => {
   const isActive = isActiveSelected?.id === id;
 
   const style = getStyle({ classNameOption });
@@ -27,7 +29,7 @@ export const BaseOption = ({ id, value, classNameOption, isActiveSelected, onSel
         {isActive && <div className="h-[10px] w-[10px] rounded-full bg-lightBlue" />}
       </div>
 
-      <span className="text-dark-blue">{value}</span>
+      <span className="text-dark-blue">{t(value)}</span>
     </div>
   );
 };

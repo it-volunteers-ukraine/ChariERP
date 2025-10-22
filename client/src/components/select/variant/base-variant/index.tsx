@@ -1,31 +1,40 @@
 import { useState } from 'react';
 
-import { ISelectOption } from '../../select-logic-wrapper/types';
+import { ISelectOption, OptionValue } from '../../select-logic-wrapper/types';
 import { BaseTrigger } from '../../triggers';
 import { BaseList } from '../../lists';
 import { CoreSelect } from '../../core';
 import { Roles } from '@/types';
+import { useTranslations } from 'next-intl';
 
-interface IBaseSelect {
-  userRole?: string;
+interface IBaseSelectWithTranslate {
+  role?: string;
   isLoading?: boolean;
   selected: ISelectOption;
   options: ISelectOption[];
+  translation?: string;
+  withTranslate?: boolean;
+  placeholder: string;
+  name: string;
   classNameWrapper?: string;
   classNameDropList?: string;
   onChange: (option: ISelectOption) => void;
 }
 
-export const BaseSelect = ({
+export const BaseSelectWithTranslate = ({
   options,
   selected,
   onChange,
   classNameWrapper,
   classNameDropList,
   isLoading = false,
-  userRole = Roles.MANAGER,
-}: IBaseSelect) => {
+  translation,
+  placeholder,
+  withTranslate = false,
+  role = Roles.MANAGER,
+}: IBaseSelectWithTranslate) => {
   const [isActiveSelected, setIsActiveSelected] = useState<ISelectOption>(selected);
+  const t = useTranslations(translation);
 
   const handleSelect = (value: ISelectOption) => {
     if (isActiveSelected?.id !== value.id) {
@@ -33,20 +42,28 @@ export const BaseSelect = ({
     }
   };
 
+  const translate = (label: OptionValue) => (withTranslate ? t(String(label)) : label);
+
   return (
     <CoreSelect
       options={options}
+      userRole={role}
       onChange={onChange}
-      userRole={userRole}
       selected={selected}
       isLoading={isLoading}
       classNameWrapper={classNameWrapper}
       classNameDropList={classNameDropList}
-      renderTrigger={({ selected, isOpen, setIsOpen }) => (
-        <BaseTrigger selected={selected} isOpen={isOpen} setIsOpen={setIsOpen} />
+      renderTrigger={({ selected, isOpen }) => (
+        <BaseTrigger {...selected} isOpen={isOpen} t={translate} placeholder={placeholder} />
       )}
-      renderList={({ options, selected, setIsOpen }) => (
-        <BaseList options={options} selected={selected} onChange={handleSelect} setIsOpen={setIsOpen} />
+      renderList={({ options, setIsOpen }) => (
+        <BaseList
+          options={options}
+          isActiveSelected={isActiveSelected}
+          onChange={handleSelect}
+          setIsOpen={setIsOpen}
+          t={translate}
+        />
       )}
     />
   );

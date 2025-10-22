@@ -1,21 +1,21 @@
 import { ArrowUp } from '@/assets/icons';
-import { ISelectOption } from '../../select-logic-wrapper/types';
+import { OptionValue } from '../../select-logic-wrapper/types';
 import { getStyle } from './styles';
 
-interface BaseTriggerProps {
-  selected: ISelectOption | null;
+interface IBaseTriggerProps {
   isOpen: boolean;
-  setIsOpen: (v: boolean) => void;
-  placeholder?: string;
+  placeholder: string;
   classNameSelected?: string;
+  t: (value: OptionValue) => OptionValue;
+  value?: OptionValue;
 }
 
-export const BaseTrigger = ({ selected, isOpen, placeholder = 'Select...', classNameSelected }: BaseTriggerProps) => {
-  const style = getStyle({ classNameSelected, placeholder, isOpen, value: selected?.value });
+export const BaseTrigger = ({ value, isOpen, placeholder, classNameSelected, t }: IBaseTriggerProps) => {
+  const style = getStyle({ classNameSelected, placeholder, isOpen, value });
 
   return (
     <div className={style.wrapper}>
-      {selected?.value || placeholder}
+      {!value ? placeholder : t(value)}
       <ArrowUp className={style.arrow} width={20} height={20} />
     </div>
   );
