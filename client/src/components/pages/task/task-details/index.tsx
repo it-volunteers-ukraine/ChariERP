@@ -70,13 +70,13 @@ export const TaskDetails = ({ task, boardId, isClosed }: ITaskDetailsProps) => {
           <div className="desktop:flex desktop:justify-between">
             <h4 className="mb-2 desktop:mb-0">{t('details.status')}</h4>
             <BaseSelectWithTranslate
-              isLoading={isPendingStatus}
-              name="status"
-              placeholder={t('details.placeholder')}
               role={role}
+              name="status"
               withTranslate
+              isLoading={isPendingStatus}
               translation="taskPage.details"
               classNameWrapper="desktop:w-[291px]"
+              placeholder={t('details.placeholder')}
               onChange={(value) => updateStatus(value.id)}
               selected={{ id: status.id, value: status.title }}
               options={task.columnsList.map((column) => ({ id: column.id, value: column.title }))}
