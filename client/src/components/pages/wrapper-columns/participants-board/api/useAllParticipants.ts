@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import logger from '@/utils/logger/logger';
 
 import { useUserInfo } from '@/context';
 import { showMessage } from '@/components';
@@ -35,7 +36,7 @@ export const useAllParticipants = (boardId: string, boardUsers: UserParticipants
         setAllParticipants(sortedUsers(usersByBoard));
       }
     } catch (error) {
-      console.log({ error });
+      logger.error({ error });
     } finally {
       setIsLoading(false);
     }
@@ -62,7 +63,7 @@ export const useAllParticipants = (boardId: string, boardUsers: UserParticipants
         setBoardUser((users) => sortedUsers([...users, findUser]));
       }
     } catch (error) {
-      console.log({ error });
+      logger.error({ error });
     }
   };
 

@@ -1,6 +1,7 @@
 import { LinkNode } from '@lexical/link';
 import { HeadingNode } from '@lexical/rich-text';
 import { ListItemNode, ListNode } from '@lexical/list';
+import logger from '@/utils/logger/logger';
 
 import { ImageNode } from './node';
 
@@ -41,7 +42,7 @@ export const initialConfig = ({ initialState, isEditing = false }: IInitialConfi
     editorState: initialState === '' ? undefined : initialState,
     nodes: [HeadingNode, ListNode, ListItemNode, ImageNode, LinkNode],
     onError: (e: Error) => {
-      console.log('ERROR:', e);
+      logger.error(e);
     },
   };
 };

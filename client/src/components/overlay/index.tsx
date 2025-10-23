@@ -59,7 +59,9 @@ export const Overlay = ({
           'a[href], label, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])',
         );
 
-        if (focusableElements.length === 0) return;
+        if (focusableElements.length === 0) {
+          return;
+        }
 
         const firstElement = focusableElements[0];
         const lastElement = focusableElements[focusableElements.length - 1];
@@ -83,7 +85,9 @@ export const Overlay = ({
     };
   }, [opened, onClose, modalRef, unmounted]);
 
-  if (!unmounted) return null;
+  if (!unmounted) {
+    return null;
+  }
 
   return (
     <Portal opened={unmounted}>

@@ -82,7 +82,9 @@ export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoard
   };
 
   const onMoveColumnAndTasks = async (result: DropResult) => {
-    if (!result.destination) return;
+    if (!result.destination) {
+      return;
+    }
 
     const { source, destination, type } = result;
 
@@ -91,7 +93,9 @@ export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoard
     }
 
     if (type === 'Tasks') {
-      if (!response) return;
+      if (!response) {
+        return;
+      }
 
       const columnStartIndex = Number(source.droppableId.split('-')[0]);
       const columnFinishIndex = Number(destination.droppableId.split('-')[0]);
@@ -111,7 +115,9 @@ export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoard
     const container = scrollRef.current;
     const savedScroll = sessionStorage.getItem(`scroll-${boardId}`);
 
-    if (!container) return;
+    if (!container) {
+      return;
+    }
 
     if (savedScroll) {
       setTimeout(() => (container.scrollLeft = parseInt(savedScroll, 10)), 0);

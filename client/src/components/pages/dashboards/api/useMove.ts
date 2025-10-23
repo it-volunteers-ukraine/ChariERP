@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { DropResult } from '@hello-pangea/dnd';
+import logger from '@/utils/logger/logger';
 
 import { moveBoardsAction } from '@/actions';
 import { IBoardData, showMessage } from '@/components';
@@ -17,7 +18,9 @@ export const useMoveBoards = (id: string | undefined) => {
   const [isLoadingMove, setIsLoadingMove] = useState(false);
 
   const onMoveDragEndSmall = async ({ result, boards, setBoards }: IMoveBoardsProps) => {
-    if (!result.destination) return;
+    if (!result.destination) {
+      return;
+    }
 
     const oldBoards = [...boards];
 
@@ -40,7 +43,7 @@ export const useMoveBoards = (id: string | undefined) => {
       }
     } catch (error) {
       setBoards(oldBoards);
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoadingMove(false);
     }
@@ -49,7 +52,9 @@ export const useMoveBoards = (id: string | undefined) => {
   const onMoveDragEndLarge = async ({ result, boards, setBoards }: IMoveBoardsProps) => {
     const { source, destination } = result;
 
-    if (!destination) return;
+    if (!destination) {
+      return;
+    }
 
     const oldBoards = [...boards];
 
@@ -85,7 +90,7 @@ export const useMoveBoards = (id: string | undefined) => {
       }
     } catch (error) {
       setBoards(oldBoards);
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoadingMove(false);
     }

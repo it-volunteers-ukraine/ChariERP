@@ -4,17 +4,18 @@ import { MouseEvent, useState } from 'react';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import logger from '@/utils/logger/logger';
 
 import { Copy, Doc } from '@/assets/icons';
 import { dateFormat, routes } from '@/constants';
 import { RequestOrganizationStatus, RowItemProps } from '@/types';
-import { Button, ModalAdmin, showMessage, ModalDecline, EllipsisText } from '@/components';
+import { Button, EllipsisText, ModalAdmin, ModalDecline, showMessage } from '@/components';
 import { onCopy, openNewWindowForCertificate, showErrorMessageOfOrganizationExist } from '@/utils';
 import {
-  getImageAction,
-  deleteOrganizationAction,
-  updateOrganizationAction,
   declineOrganizationAction,
+  deleteOrganizationAction,
+  getImageAction,
+  updateOrganizationAction,
 } from '@/actions';
 import { useUserInfo } from '@/context';
 
@@ -60,7 +61,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
 
       showMessage.success(success('sentEmail', { email: item.email }));
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsOpenRegister(false);
       setIsLoading(false);
@@ -80,7 +81,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
 
       showMessage.success(success('sentEmail', { email: item.email }));
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoading(false);
       setIsOpenReject(false);
@@ -99,7 +100,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
 
       showMessage.success(success('deleteOrganization'));
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsOpenRemove(false);
       setIsLoading(false);
@@ -122,14 +123,14 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
       const downloadedFile = await getImageAction(item.certificate);
 
       if (!downloadedFile) {
-        console.error('Failed to upload file: no body');
+        logger.error('Failed to upload file: no body');
 
         return;
       }
 
       openNewWindowForCertificate(downloadedFile.image as string);
     } catch (error) {
-      console.error('Error when loading a certificate:', error);
+      logger.error('Error when loading a certificate', error);
     }
   }
 

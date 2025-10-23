@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
+import logger from '@/utils/logger/logger';
 
 import { showMessage } from '@/components';
 import { commentsNormalizer } from '@/utils';
@@ -42,7 +43,7 @@ export const CommentsProvider = ({ children, initialComments, taskId }: CommentP
 
       updateState(res);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
     } finally {
       setIsPending(false);
     }
@@ -55,7 +56,7 @@ export const CommentsProvider = ({ children, initialComments, taskId }: CommentP
 
       updateState(res);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
     } finally {
       setIsPending(false);
     }
@@ -68,7 +69,7 @@ export const CommentsProvider = ({ children, initialComments, taskId }: CommentP
 
       updateState(res);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
     } finally {
       setIsPending(false);
     }

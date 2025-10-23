@@ -3,23 +3,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AssetService } from './asset.service';
 import { AssetController } from './asset.controller';
 import { Asset, AssetSchema } from '../schemas/asset.schema';
-import { AuthGuard } from '../auth/auth.guard';
-import { RolesGuard } from '../auth/roles.guard';
-import { APP_GUARD } from '@nestjs/core';
+import { PipesModule } from '../pipes/pipes.module';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Asset.name, schema: AssetSchema }])],
+  imports: [MongooseModule.forFeature([{ name: Asset.name, schema: AssetSchema }]), PipesModule],
   controllers: [AssetController],
-  providers: [
-    AssetService,
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
-  ],
+  providers: [AssetService],
 })
 export class AssetModule {}

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
+import logger from '@/utils/logger/logger';
 
 import { ArrowUp } from '@/assets/icons';
 
@@ -59,7 +60,7 @@ export const Accordion = ({
   const styles = getStyles({ isOpen, classNameTitle, classNameWrapper });
 
   if (React.Children.count(children) !== 1) {
-    console.error('Children має бути лише один елемент.');
+    logger.error('Children має бути лише один елемент.');
   }
 
   return (

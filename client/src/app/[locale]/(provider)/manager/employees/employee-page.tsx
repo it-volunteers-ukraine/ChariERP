@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import logger from '@/utils/logger/logger';
 
 import { routes } from '@/constants';
 import { normalizeUsersWithoutAvatar } from '@/utils';
@@ -41,7 +42,7 @@ function EmployeesPage() {
       setData(usersWithAvatar);
       setTotalItems(users.totalItems);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoading(false);
     }

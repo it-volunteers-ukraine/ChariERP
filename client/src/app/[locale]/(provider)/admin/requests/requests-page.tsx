@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import logger from '@/utils/logger/logger';
 
 import { useLoaderAdminPage } from '@/context';
 import { getAdminOrganizationsAction } from '@/actions';
@@ -30,7 +31,7 @@ export const RequestsPage = () => {
       setOrganizations(data.results as IOrganization[]);
       setTotalRecords(data.totalItems);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoading(false);
     }

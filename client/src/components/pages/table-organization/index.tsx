@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import logger from '@/utils/logger/logger';
 
 import { useSortableData } from '@/hooks';
 import { useLoaderAdminPage } from '@/context';
@@ -51,7 +52,7 @@ export const TableOrganization = () => {
       setOrganizations(data.results as IOrganizationPageProps[]);
       setTotalRecords(data.totalItems);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoading(false);
     }
