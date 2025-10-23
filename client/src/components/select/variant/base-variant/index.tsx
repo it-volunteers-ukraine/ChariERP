@@ -58,11 +58,11 @@ export const BaseSelectWithTranslate = ({
       )}
       renderList={({ options, setIsOpen }) => (
         <BaseList
-          options={options}
-          isActiveSelected={isActiveSelected}
-          onChange={handleSelect}
-          setIsOpen={setIsOpen}
           t={translate}
+          options={options}
+          setIsOpen={setIsOpen}
+          onChange={handleSelect}
+          isActiveSelected={isActiveSelected}
         />
       )}
     />
