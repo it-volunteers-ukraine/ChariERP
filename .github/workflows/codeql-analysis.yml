@@ -38,12 +38,16 @@ jobs:
             package-lock.json
             ${{ inputs.working-directory }}/package-lock.json
 
-      - name: Install root dependencies (with optional deps for Linux)
+      - name: Install deps (root)
         run: npm ci --include=optional
 
-      - name: Rebuild sharp for Linux (client only)
+      - name: Ensure Sharp works in client
         if: endsWith(inputs.working-directory, 'client')
-        run: npm rebuild sharp --workspace client
+        run: npm install --workspace client --include=optional sharp --force
+
+      - name: No Sharp fix needed for server
+        if: endsWith(inputs.working-directory, 'server')
+        run: echo "Sharp fix skipped for server workspace"
 
       - name: Run build with NodeJS
         run: |
