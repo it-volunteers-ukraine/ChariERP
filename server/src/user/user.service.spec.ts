@@ -1,15 +1,13 @@
-import { Model } from 'mongoose';
 import { getModelToken } from '@nestjs/mongoose';
 import { ForbiddenException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { Roles } from '../schemas/enums';
+import { Roles } from '@/schemas/enums';
 import { UserService } from './user.service';
-import { User } from '../schemas/user.schema';
+import { User } from '@/schemas/user.schema';
 
 describe('UserService', () => {
   let userService: UserService;
-  let userModel: Model<User>;
 
   const mockUserModel = {
     findOne: jest.fn(),
@@ -27,7 +25,6 @@ describe('UserService', () => {
     }).compile();
 
     userService = module.get<UserService>(UserService);
-    userModel = module.get<Model<User>>(getModelToken(User.name));
   });
 
   afterEach(() => {

@@ -1,0 +1,11 @@
+#!/bin/sh
+echo "🎨 Formatting code..."
+npm run format
+
+echo "🔍 Linting code..."
+npm run lint -- --fix
+
+# Add formatted files back to staging
+git add .
+
+echo "✅ Pre-commit checks passed!"

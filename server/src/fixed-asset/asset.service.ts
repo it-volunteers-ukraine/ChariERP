@@ -1,7 +1,7 @@
 import { PaginateModel, PaginateResult } from 'mongoose';
 import { Injectable, Logger, ConflictException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Asset, AssetDocument } from '../schemas/asset.schema';
+import { Asset, AssetDocument } from '@/schemas/asset.schema';
 import { CreateAssetDto } from './dto/create-asset.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
 
@@ -29,7 +29,7 @@ export class AssetService {
       updatedAt: new Date(),
     });
 
-    this.logger.log(`Fixed asset '${name}' (ID: ${createdAsset._id}) successfully created by user '${userId}'`);
+    this.logger.log(`Fixed asset '${name}' (ID: ${createdAsset.id}) successfully created by user '${userId}'`);
 
     return createdAsset.toObject();
   }
