@@ -1,20 +1,22 @@
 import { useState, useRef } from 'react';
-import { CoreSelectProps } from './types';
-import { useMounted, useOutsideClick } from '@/hooks';
-import { Loader } from '@/assets/icons';
-import { selectStyles } from './styles';
+
 import { Roles } from '@/types';
+import { Loader } from '@/assets/icons';
+import { useMounted, useOutsideClick } from '@/hooks';
+
+import { selectStyles } from './styles';
+import { CoreSelectProps } from './types';
 
 export function CoreSelect<T>({
-  selected,
   options,
+  selected,
   onChange,
-  renderTrigger,
   renderList,
-  isLoading = false,
-  userRole = Roles.MANAGER,
-  classNameDropList,
+  renderTrigger,
   classNameWrapper,
+  isLoading = false,
+  classNameDropList,
+  userRole = Roles.MANAGER,
 }: CoreSelectProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);

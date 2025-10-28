@@ -1,13 +1,15 @@
 import { ArrowUp } from '@/assets/icons';
-import { OptionValue } from '../../select-logic-wrapper/types';
+
+import { OptionValue } from '../../types';
+
 import { getStyle } from './styles';
 
 interface IBaseTriggerProps {
   isOpen: boolean;
-  placeholder: string;
+  value?: OptionValue;
+  placeholder?: string;
   classNameSelected?: string;
   t: (value: OptionValue) => OptionValue;
-  value?: OptionValue;
 }
 
 export const BaseTrigger = ({ value, isOpen, placeholder, classNameSelected, t }: IBaseTriggerProps) => {

@@ -1,24 +1,25 @@
-import { ISelectOption, OptionValue } from '@/components/select/select-logic-wrapper/types';
+import { ISelectOption, OptionValue } from '@/components/custom-select/types';
+
 import { getStyle } from '../styles';
 
 interface IBaseOption {
-  classNameOption?: string;
-  onSelect: (id: ISelectOption) => void;
-  t: (value: OptionValue) => OptionValue;
-  isActiveSelected: ISelectOption | null;
-  setIsOpen: (value: boolean) => void;
   id: string;
   value: OptionValue;
+  classNameOption?: string;
+  setIsOpen: (value: boolean) => void;
+  activeSelected: ISelectOption | null;
+  onSelect: (id: ISelectOption) => void;
+  t: (value: OptionValue) => OptionValue;
 }
 
-export const BaseOption = ({ id, value, classNameOption, isActiveSelected, onSelect, setIsOpen, t }: IBaseOption) => {
-  const isActive = isActiveSelected?.id === id;
+export const BaseOption = ({ id, value, classNameOption, activeSelected, onSelect, setIsOpen, t }: IBaseOption) => {
+  const isActive = activeSelected?.id === id;
 
   const style = getStyle({ classNameOption });
 
   const handleClick = () => {
     if (!isActive) {
-      onSelect({ id } as ISelectOption);
+      onSelect({ id, value } as ISelectOption);
     }
     setIsOpen(false);
   };

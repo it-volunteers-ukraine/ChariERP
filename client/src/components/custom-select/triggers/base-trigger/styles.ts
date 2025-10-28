@@ -2,7 +2,7 @@ import { cn } from '@/utils';
 
 interface IGetStyle {
   isOpen: boolean;
-  placeholder: string;
+  placeholder?: string;
   classNameSelected?: string;
   value?: string | number | boolean;
 }

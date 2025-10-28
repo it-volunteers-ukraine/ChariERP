@@ -1,21 +1,22 @@
 import { useState } from 'react';
-
-import { ISelectOption, OptionValue } from '../../select-logic-wrapper/types';
-import { BaseTrigger } from '../../triggers';
-import { BaseList } from '../../lists';
-import { CoreSelect } from '../../core';
-import { Roles } from '@/types';
 import { useTranslations } from 'next-intl';
 
+import { Roles } from '@/types';
+
+import { BaseList } from '../../lists';
+import { CoreSelect } from '../../core';
+import { BaseTrigger } from '../../triggers';
+import { ISelectOption, OptionValue } from '../../types';
+
 interface IBaseSelectWithTranslate {
+  name: string;
   role?: string;
   isLoading?: boolean;
-  selected: ISelectOption;
-  options: ISelectOption[];
   translation?: string;
+  placeholder?: string;
+  selected: ISelectOption;
   withTranslate?: boolean;
-  placeholder: string;
-  name: string;
+  options: ISelectOption[];
   classNameWrapper?: string;
   classNameDropList?: string;
   onChange: (option: ISelectOption) => void;
@@ -25,20 +26,20 @@ export const BaseSelectWithTranslate = ({
   options,
   selected,
   onChange,
+  translation,
+  placeholder,
   classNameWrapper,
   classNameDropList,
   isLoading = false,
-  translation,
-  placeholder,
-  withTranslate = false,
   role = Roles.MANAGER,
+  withTranslate = false,
 }: IBaseSelectWithTranslate) => {
-  const [isActiveSelected, setIsActiveSelected] = useState<ISelectOption>(selected);
+  const [activeSelected, setActiveSelected] = useState<ISelectOption>(selected);
   const t = useTranslations(translation);
 
-  const handleSelect = (value: ISelectOption) => {
-    if (isActiveSelected?.id !== value.id) {
-      setIsActiveSelected(value);
+  const handleSelect = (options: ISelectOption) => {
+    if (activeSelected?.id !== options.id) {
+      setActiveSelected(options);
     }
   };
 
@@ -46,11 +47,11 @@ export const BaseSelectWithTranslate = ({
 
   return (
     <CoreSelect
-      options={options}
       userRole={role}
+      options={options}
       onChange={onChange}
-      selected={selected}
       isLoading={isLoading}
+      selected={activeSelected}
       classNameWrapper={classNameWrapper}
       classNameDropList={classNameDropList}
       renderTrigger={({ selected, isOpen }) => (
@@ -62,7 +63,7 @@ export const BaseSelectWithTranslate = ({
           options={options}
           setIsOpen={setIsOpen}
           onChange={handleSelect}
-          isActiveSelected={isActiveSelected}
+          activeSelected={activeSelected}
         />
       )}
     />

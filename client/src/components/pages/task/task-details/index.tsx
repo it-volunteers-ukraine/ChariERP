@@ -12,7 +12,6 @@ import { getStyles } from './style';
 import { priorityMock } from './mock';
 import { ParticipantsTask } from '../participants-task';
 import { useDateUpdateEnd, useDateUpdateStart, usePriorityUpdate, useStatusUpdate } from '../api';
-import { BaseSelectWithTranslate } from '@/components/select/variant';
 
 interface ITaskDetailsProps {
   boardId: string;
@@ -69,19 +68,6 @@ export const TaskDetails = ({ task, boardId, isClosed }: ITaskDetailsProps) => {
         <div className="flex w-full flex-col gap-5 md:ml-8 laptop:ml-0 desktop:max-w-[451px]">
           <div className="desktop:flex desktop:justify-between">
             <h4 className="mb-2 desktop:mb-0">{t('details.status')}</h4>
-            <BaseSelectWithTranslate
-              role={role}
-              name="status"
-              withTranslate
-              isLoading={isPendingStatus}
-              translation="taskPage.details"
-              classNameWrapper="desktop:w-[291px]"
-              placeholder={t('details.placeholder')}
-              onChange={(value) => updateStatus(value.id)}
-              selected={{ id: status.id, value: status.title }}
-              options={task.columnsList.map((column) => ({ id: column.id, value: column.title }))}
-            />
-
             <Select
               name="status"
               isClosed={isClosed}

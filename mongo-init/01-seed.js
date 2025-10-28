@@ -7,105 +7,130 @@ const appDb = db.getSiblingDB(dbName);
 const appUser = process.env.MONGO_APP_USER || "chaierp_user";
 const appPassword = process.env.MONGO_APP_PASSWORD || "A123456!y";
 
-console.log(`Creating user '${appUser}' for database '${dbName}'`);
+print(`Creating user '${appUser}' for database '${dbName}'`);
 
-// Create a specific user for ChariERP database directly in ChariERP db
 appDb.createUser({
     user: appUser,
     pwd: appPassword,
-    roles: [
-        {
-            role: "readWrite",
-            db: dbName,
-        },
-    ],
+    roles: [{ role: "readWrite", db: dbName }],
 });
 
-console.log("Creating collections...");
-
-// Create collections explicitly (optional but clear)
+print("Creating collections...");
 appDb.createCollection("organizations");
 appDb.createCollection("users");
 appDb.createCollection("assets");
 appDb.createCollection("tasks");
+appDb.createCollection("boards");
+appDb.createCollection("boardColumns");
+appDb.createCollection("usersboards");
 
-// Helpful indexes to mirror Mongoose constraints
 appDb.users.createIndex({ email: 1 }, { unique: true });
 appDb.assets.createIndex({ name: 1 }, { unique: true });
 
-console.log("Seeding demo data...");
+print("Seeding demo data...");
 
-// Seed base Organization
+// === Organization ===
 const organizationId = new ObjectId();
 appDb.organizations.insertOne({
     _id: organizationId,
     name: "Demo Organization",
+    request: "approved",
+    organizationData: {
+        edrpou: "12345678",
+        certificate: "AB123456",
+        organizationName: "Demo Organization LLC",
+        dateOfRegistration: new Date("2020-01-01"),
+    },
+    contactData: {
+        phone: "+380501234567",
+        email: "info@demo.org",
+        position: "Manager",
+        lastName: "Demo",
+        firstName: "Organization",
+        middleName: "",
+    },
+    mediaData: {
+        site: "https://demo.org",
+        social: ["https://facebook.com/demoorg"],
+    },
     created_at: new Date(),
     updated_at: new Date(),
 });
 
-// Precomputed bcrypt hash for "Passw0rd!"
+// === Demo User ===
 const bcryptHash =
-    "$2a$12$MxFJ0uB1ogv4fWOJHVFlH.uK0ncppmPQ0jfXr7Y/YpdUx5CwiVaAy";
-
-// Insert a demo user (hardcoded for consistency in demo environment)
+    "$2a$12$MxFJ0uB1ogv4fWOJHVFlH.uK0ncppmPQ0jfXr7Y/YpdUx5CwiVaAy"; // "Passw0rd!"
 const userId = new ObjectId();
+
 appDb.users.insertOne({
     _id: userId,
     firstName: "Alice",
     lastName: "User",
     phone: "+10000000000",
     email: "alice.user@example.com",
-    password: bcryptHash, // Password: "Passw0rd!"
+    password: bcryptHash,
     role: "user",
     status: "active",
     organizationId: organizationId,
-    // optional fields
     dateOfBirth: new Date("1990-01-01"),
     address: "123 Main St",
     position: "Manager",
     dateOfEntry: new Date(),
     lastLogin: new Date(),
+    created_at: new Date(),
+    updated_at: new Date(),
 });
 
-// Створимо board
-const boardId = ObjectId("68efe9e9fcc25ddcc17ba30e");
+// === Board, BoardColumn, Task ===
+const boardId = new ObjectId();
+const boardColumnId = new ObjectId();
+const taskId = new ObjectId();
+
 appDb.boards.insertOne({
     _id: boardId,
-    title: "test board2",
-    order: 2,
+    title: "Test Board",
+    order: 1,
+    organizationId: organizationId,
     boardColumns: [boardColumnId],
-    created_at: new Date("2025-10-15T18:37:29.269Z"),
-    __v: 0,
+    created_at: new Date(),
+    updated_at: new Date(),
 });
-// Створимо boardColumn
-const boardColumnId = ObjectId("68efea06fcc25ddcc17ba32a");
+
 appDb.boardColumns.insertOne({
     _id: boardColumnId,
-    title: "test column2.0",
-    board_id: ObjectId("68efe9e9fcc25ddcc17ba30e"), // тут треба існуючий board._id
-    task_ids: [ObjectId("68efea08fcc25ddcc17ba331")],
-    created_at: new Date("2025-10-15T18:37:58.554Z"),
-    __v: 0,
+    title: "To Do",
+    order: 1,
+    board_id: boardId,
+    task_ids: [taskId],
+    created_at: new Date(),
+    updated_at: new Date(),
 });
 
-// Створимо task
-const taskId2 = ObjectId("68efea08fcc25ddcc17ba331");
 appDb.tasks.insertOne({
-    _id: taskId2,
-    title: "Новая задача2\n",
-    priority: "",
-    attachment: [],
+    _id: taskId,
+    title: "Перша задача",
+    description: "Тестова задача для перевірки seed",
+    priority: "medium",
+    startDate: new Date(),
+    endDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+    attachments: [],
     comments: [],
-    description: "",
-    users: [ObjectId("68640b9b8f8f056e832b1dd4")], // підставити userId або інший існуючий user._id
-    boardColumn_id: boardColumnId,
-    created_at: new Date("2025-10-15T18:38:00.454Z"),
-    updated_at: new Date("2025-10-15T18:38:19.155Z"),
-    __v: 0,
+    assignees: [userId],
+    activeColumn: boardColumnId,
+    created_at: new Date(),
+    updated_at: new Date(),
 });
 
-// Insert a demo asset
+// === UsersBoards (зв'язка користувача з дошкою) ===
+const usersBoardsId = new ObjectId();
+appDb.usersboards.insertOne({
+    _id: usersBoardsId,
+    user_id: userId,
+    board_id: boardId,
+    organization_id: organizationId,
+});
+
+// === Demo Asset ===
 const assetId = new ObjectId();
 appDb.assets.insertOne({
     _id: assetId,
@@ -120,23 +145,9 @@ appDb.assets.insertOne({
     updatedAt: new Date(),
 });
 
-// Insert a demo task
-const taskId = new ObjectId();
-appDb.tasks.insertOne({
-    _id: taskId,
-    title: "Prepare inventory report",
-    description: "Generate and review monthly inventory KPIs.",
-    priority: "high",
-    startDate: new Date(),
-    endDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-    attachments: [],
-    comments: [],
-    assignees: [userId],
-});
+// === Collection validation ===
+print("Setting up collection validation...");
 
-console.log("Setting up collection validation...");
-
-// Collection validation
 appDb.runCommand({
     collMod: "users",
     validator: {
@@ -163,7 +174,7 @@ appDb.runCommand({
     },
 });
 
-console.log("Database initialization completed successfully!");
-console.log("Demo user credentials:");
-console.log("  Email: alice.user@example.com");
-console.log("  Password: Passw0rd!");
+print("✅ Database initialization completed successfully!");
+print("Demo user credentials:");
+print("  Email: alice.user@example.com");
+print("  Password: Passw0rd!");

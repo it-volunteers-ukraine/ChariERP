@@ -1,27 +1,25 @@
-import { ISelectOption, OptionValue } from '../../select-logic-wrapper/types';
+import { ISelectOption, OptionValue } from '../../types';
 import { BaseOption } from './list';
 
 interface BaseListProps {
   options: ISelectOption[];
-  isActiveSelected: ISelectOption | null;
-  onChange: (value: ISelectOption) => void;
   setIsOpen: (value: boolean) => void;
+  activeSelected: ISelectOption | null;
   t: (value: OptionValue) => OptionValue;
+  onChange: (value: ISelectOption) => void;
 }
 
-export const BaseList = ({ options, isActiveSelected, onChange, setIsOpen, t }: BaseListProps) => {
-  console.log(isActiveSelected);
-
+export const BaseList = ({ options, activeSelected, onChange, setIsOpen, t }: BaseListProps) => {
   return (
     <ul className="flex flex-col gap-2 p-2">
       {options.map((option, idx) => (
         <BaseOption
-          {...option}
-          key={idx}
           t={t}
-          isActiveSelected={isActiveSelected}
+          key={idx}
+          {...option}
           onSelect={onChange}
           setIsOpen={setIsOpen}
+          activeSelected={activeSelected}
         />
       ))}
     </ul>
