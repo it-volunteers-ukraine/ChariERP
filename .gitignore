@@ -1,6 +1,5 @@
 # Root-level Node.js files
 /node_modules/
-/package-lock.json
 
 # Root-level environment files
 .env
@@ -36,3 +35,8 @@ mongo-init/
 
 # Project documentation builds
 documentation/build/
+
+# Child modules package-lock.json files
+client/package-lock.json
+server/package-lock.json
+

@@ -12,8 +12,7 @@
     "compile": "tsc -p ./tsconfig.json",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,md,json}\"",
     "test": "jest",
-    "normalize": "git add --renormalize .",
-    "clean": "rm -rf node_modules/ package-lock.json && npm install"
+    "normalize": "git add --renormalize ."
   },
   "dependencyNotes": {
     "faker": "Locked at 9.9.0 due to breaking changes in later versions.",
