@@ -1,0 +1,30 @@
+#!/bin/sh
+echo "🔍 Detecting changes in push..."
+
+# Check what's being pushed (more comprehensive than staged files)
+CLIENT_CHANGED=$(git diff origin/main...HEAD --name-only | grep -E "^client/" || true)
+SERVER_CHANGED=$(git diff origin/main...HEAD --name-only | grep -E "^server/" || true)
+
+if [ -n "$CLIENT_CHANGED" ]; then
+    echo "🚀 Client changes detected, running client pre-push checks..."
+    cd client
+    echo "📝 Type checking client..."
+    npm run compile
+    echo "🧪 Testing client..."
+    npm run test
+    cd ..
+fi
+
+if [ -n "$SERVER_CHANGED" ]; then
+    echo "🚀 Server changes detected, running server pre-push checks..."
+    cd server
+    echo "📝 Type checking server..."
+    npm run type-check
+    echo "🔍 Linting server..."
+    npm run lint
+    echo "🧪 Testing server..."
+    npm run test
+    cd ..
+fi
+
+echo "✅ All applicable checks passed!"

@@ -1,0 +1,26 @@
+#!/bin/sh
+echo "🔍 Detecting changes..."
+
+# Check if client files changed
+CLIENT_CHANGED=$(git diff --cached --name-only | grep -E "^client/" || true)
+# Check if server files changed
+SERVER_CHANGED=$(git diff --cached --name-only | grep -E "^server/" || true)
+
+if [ -n "$CLIENT_CHANGED" ]; then
+    echo "🎨 Client changes detected, running client pre-commit..."
+    cd client
+    npx lint-staged
+    cd ..
+fi
+
+if [ -n "$SERVER_CHANGED" ]; then
+    echo "🎨 Server changes detected, running server pre-commit..."
+    cd server
+    npm run format
+    npm run lint -- --fix
+    cd ..
+    # Add formatted files back to staging
+    git add server/
+fi
+
+echo "✅ Pre-commit checks completed!"

@@ -1,8 +1,0 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"  # This is husky’s loader
-
-echo "Running pre-push checks inside client..."
-cd client || exit 1
-
-npm run compile
-npm run test
