@@ -38,8 +38,8 @@ jobs:
             package-lock.json
             ${{ inputs.working-directory }}/package-lock.json
 
-      - name: Install root dependencies
-        run: npm ci
+      - name: Install root dependencies (with optional deps for Linux)
+        run: npm ci --include=optional
 
       - name: Run build with NodeJS
         run: |
