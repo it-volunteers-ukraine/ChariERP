@@ -41,11 +41,14 @@ jobs:
       - name: Install root dependencies (with optional deps for Linux)
         run: npm ci --include=optional
 
+      - name: Rebuild sharp for Linux (client only)
+        if: endsWith(inputs.working-directory, 'client')
+        run: npm rebuild sharp --workspace client
+
       - name: Run build with NodeJS
         run: |
-          npm run build
-          npm run test
-        working-directory: ${{ inputs.working-directory }}
+          npm run build --workspace $(basename "${{ inputs.working-directory }}")
+          npm run test --workspace $(basename "${{ inputs.working-directory }}")
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
