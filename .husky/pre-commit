@@ -1,25 +1,17 @@
 #!/bin/sh
 echo "🔍 Detecting changes..."
 
-# Check if client files changed
-CLIENT_CHANGED=$(git diff --cached --name-only | grep -E "^client/" || true)
-# Check if server files changed
-SERVER_CHANGED=$(git diff --cached --name-only | grep -E "^server/" || true)
+STAGED_FILES=$(git diff --cached --name-only)
 
-if [ -n "$CLIENT_CHANGED" ]; then
-    echo "🎨 Client changes detected, running client pre-commit..."
-    cd client
-    npx lint-staged
-    cd ..
+if echo "$STAGED_FILES" | grep -qE "^client/"; then
+    echo "🎨 Client changes detected, running pre-commit hook..."
+    npm exec --workspace client lint-staged
 fi
 
-if [ -n "$SERVER_CHANGED" ]; then
-    echo "🎨 Server changes detected, running server pre-commit..."
-    cd server
-    npm run format
-    npm run lint -- --fix
-    cd ..
-    # Add formatted files back to staging
+if echo "$STAGED_FILES" | grep -qE "^server/"; then
+    echo "🎨 Server changes detected, running pre-commit hook..."
+    npm run format --workspace server
+    npm run lint --workspace server -- --fix
     git add server/
 fi
 
