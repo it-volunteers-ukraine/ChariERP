@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript-typescript' ]
+        language: ['javascript-typescript']
 
     steps:
       - name: Checkout repository
@@ -38,18 +38,10 @@ jobs:
             package-lock.json
             ${{ inputs.working-directory }}/package-lock.json
 
-      - name: Install deps (root)
+      - name: Install dependencies (root, with optional deps)
         run: npm ci --include=optional
 
-      - name: Ensure Sharp works in client
-        if: endsWith(inputs.working-directory, 'client')
-        run: npm install --workspace client --include=optional sharp --force
-
-      - name: No Sharp fix needed for server
-        if: endsWith(inputs.working-directory, 'server')
-        run: echo "Sharp fix skipped for server workspace"
-
-      - name: Run build with NodeJS
+      - name: Build & test workspace
         run: |
           npm run build --workspace $(basename "${{ inputs.working-directory }}")
           npm run test --workspace $(basename "${{ inputs.working-directory }}")
@@ -57,4 +49,4 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
         with:
-          category: "/language:${{matrix.language}}"
+          category: "/language:${{ matrix.language }}"
