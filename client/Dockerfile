@@ -5,7 +5,7 @@ ARG NODE_VERSION=22
 FROM node:${NODE_VERSION}-alpine AS dependencies
 WORKDIR /client
 COPY package*.json ./
-RUN npm clean-install
+RUN npm ci --include=optional
 
 # Stage 2: Build application
 FROM node:${NODE_VERSION}-alpine AS builder

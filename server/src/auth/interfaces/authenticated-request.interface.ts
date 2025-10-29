@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { Roles } from '../../schemas/enums';
+import { Roles } from '@/schemas/enums';
 
 export interface AuthenticatedRequest extends Request {
   user: {

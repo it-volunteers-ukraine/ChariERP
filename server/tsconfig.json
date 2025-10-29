@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "target": "ES2023",
     "declaration": true,
@@ -21,7 +21,7 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "types": ["node", "jest"], // ✅ this is the key
-    "esModuleInterop": true,   // ✅ needed for default import from supertest
+    "types": ["node", "jest"],
+    "esModuleInterop": true
   }
 }
