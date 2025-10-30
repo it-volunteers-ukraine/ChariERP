@@ -1,12 +1,8 @@
 # Dependencies
 node_modules/
-**/node_modules/
-
 # Output builds
 dist/
-build/
 .next/
-out/
 
 # Local env files
 .env

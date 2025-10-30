@@ -32,8 +32,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
         with:
-          ref: ${{ github.event.inputs.branch }}
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-${{ inputs.container-name }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-${{ inputs.container-name }}-
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
@@ -42,20 +51,31 @@ jobs:
 
       - name: Build container image
         working-directory: ${{ inputs.working-directory }}
-        run: docker build -t registry.digitalocean.com/$DO_REGISTRY/$DO_REPOSITORY:$CONTAINER_NAME .
+        run: |
+          docker buildx build \
+            --cache-from=type=local,src=/tmp/.buildx-cache \
+            --cache-to=type=local,dest=/tmp/.buildx-cache-new,mode=max \
+            -t registry.digitalocean.com/$DO_REGISTRY/$DO_REPOSITORY:$CONTAINER_NAME \
+            .
 
-      - name: Log in to DigitalOcean Container Registry with short-lived credentials
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+      - name: Log in to DigitalOcean Registry
         run: doctl registry login --expiry-seconds 1200
 
-      - name: Push image with module-specific tag
-        run: docker push registry.digitalocean.com/$DO_REGISTRY/$DO_REPOSITORY:$CONTAINER_NAME
+      - name: Push image
+        run: |
+          docker push registry.digitalocean.com/$DO_REGISTRY/$DO_REPOSITORY:$CONTAINER_NAME
 
   inform:
     name: Inform
     runs-on: ubuntu-latest
     needs: [ deploy ]
     steps:
-      - name: Send Telegram message on deployment
+      - name: Send Telegram message
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.telegram-to }}
@@ -63,6 +83,7 @@ jobs:
           message: |
             🤖 GitHub Actions 🚀 
             ✨ ${{ inputs.container-name == 'chari_erp_ui' && '💻 UI' || '⚙️ Backend' }} deploy is ✅ COMPLETED ✅ 🎊
+            ✨ Commit: ${{ github.sha }}            
 
             📦 LAST DEPLOYED COMMIT 📦
             👨‍💻 Author: ${{ github.event.commits[0].author.name }}
