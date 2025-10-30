@@ -1,12 +1,12 @@
 services:
   client-dev:
     image: node:22-alpine
-    working_dir: /client
+    working_dir: /workspace/client
     restart: unless-stopped
     volumes:
-      - ./client:/client
-      - client_node_modules:/client/node_modules
-    command: sh -c "npm ci && npm run dev"
+      - .:/workspace
+      - workspace_node_modules:/workspace/node_modules
+    command: sh -c "npm run dev --workspace client"
     ports:
       - "3000:3000"
     environment:
@@ -14,15 +14,14 @@ services:
     env_file:
       - .env
     depends_on:
-      database:
-        condition: service_started
+      - database
     profiles:
       - dev
 
   client-prod:
     build:
-      context: ./client
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: client/Dockerfile
       target: runner
     restart: unless-stopped
     ports:
@@ -30,17 +29,16 @@ services:
     env_file:
       - .env
     depends_on:
-      database:
-        condition: service_started
+      - database
 
   server-dev:
     image: node:22-alpine
-    working_dir: /server
+    working_dir: /workspace/server
     restart: unless-stopped
     volumes:
-      - ./server:/server
-      - server_node_modules:/server/node_modules
-    command: sh -c "npm ci && npm run start:dev"
+      - .:/workspace
+      - workspace_node_modules:/workspace/node_modules
+    command: sh -c "npm run start:dev --workspace server"
     ports:
       - "8080:8080"
     environment:
@@ -48,15 +46,14 @@ services:
     env_file:
       - .env
     depends_on:
-      database:
-        condition: service_started
+      - database
     profiles:
       - dev
 
   server-prod:
     build:
-      context: ./server
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: server/Dockerfile
       target: production
     restart: unless-stopped
     ports:
@@ -64,8 +61,7 @@ services:
     env_file:
       - .env
     depends_on:
-      database:
-        condition: service_started
+      - database
 
   database:
     image: mongo:latest
@@ -80,5 +76,4 @@ services:
 
 volumes:
   mongo_data:
-  client_node_modules:
-  server_node_modules:
+  workspace_node_modules:
