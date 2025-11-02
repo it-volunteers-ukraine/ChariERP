@@ -1,0 +1,18 @@
+#!/bin/sh
+echo "🔍 Detecting changes..."
+
+STAGED_FILES=$(git diff --cached --name-only)
+
+if echo "$STAGED_FILES" | grep -qE "^client/"; then
+    echo "🎨 Client changes detected, running pre-commit hook..."
+    npm exec --workspace client lint-staged
+fi
+
+if echo "$STAGED_FILES" | grep -qE "^server/"; then
+    echo "🎨 Server changes detected, running pre-commit hook..."
+    npm run format --workspace server
+    npm run lint --workspace server -- --fix
+    git add server/
+fi
+
+echo "✅ Pre-commit checks completed!"

@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+# Output builds
+dist/
+.next/
+
+# Local env files
+.env
+.env.*
+!*.example
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+*.log
+
+# Editor junk
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Temporary files
+tmp/
+cache/
+.cache/
+
+# Docker
+Dockerfile*
+compose.yaml
+compose.yml
+
+# Git
+.git/
+.gitignore

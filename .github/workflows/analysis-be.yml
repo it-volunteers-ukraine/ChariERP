@@ -5,7 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'server/**'
-      - '!server/.next'
+      - '!server/dist'
       - '!server/coverage'
       - '!server/node_modules'
       - '!documentation'
@@ -13,7 +13,7 @@ on:
     branches: [ main ]
     paths:
       - 'server/**'
-      - '!server/.next'
+      - '!server/dist'
       - '!server/coverage'
       - '!server/node_modules'
       - '!documentation'

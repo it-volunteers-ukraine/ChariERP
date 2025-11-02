@@ -1,45 +1,34 @@
 # Stage 1: Install dependencies
 ARG NODE_VERSION=22
-FROM node:${NODE_VERSION}-alpine AS deps
-WORKDIR /server
-COPY package*.json ./
-RUN npm ci
+FROM node:${NODE_VERSION}-alpine AS dependencies
+WORKDIR /app
+RUN apk add --no-cache g++ make python3
+COPY package.json package-lock.json ./
+COPY client/package.json ./client/
+COPY server/package.json ./server/
+RUN npm ci --include=optional --workspace server --ignore-scripts
 
 # Stage 2: Build application
 FROM node:${NODE_VERSION}-alpine AS builder
-WORKDIR /server
-COPY --from=deps /server/node_modules ./node_modules
+WORKDIR /app
 COPY . .
+RUN npm ci --include=optional --workspace server --ignore-scripts
 RUN chmod +x node_modules/.bin/* || true
-RUN npm run build
+RUN npm run build --workspace server
 
 # Stage 3: Production runtime
-FROM node:${NODE_VERSION}-alpine AS production
-WORKDIR /server
+FROM node:${NODE_VERSION}-alpine AS runner
+WORKDIR /app/server
 
-# Set production environment
-ARG PORT=8080
 ENV NODE_ENV=production \
-    PORT=${PORT} \
-    HOSTNAME=0.0.0.0
+    PORT=8080 \
+    HOST=0.0.0.0
 
-# Create user and setup permissions
-ARG USER=nestjs
-ARG GROUP=nodejs
-ARG UID=1001
-ARG GID=1001
-RUN addgroup --system --gid ${GID} ${GROUP} && \
-    adduser --system --uid ${UID} ${USER} && \
-    mkdir -p dist && \
-    chown ${USER}:${GROUP} dist
+COPY --from=builder /app/server/package*.json ./
+COPY --from=builder /app/server/node_modules ./node_modules
+COPY --from=builder /app/server/dist ./dist
 
-# Copy built application
-COPY package*.json ./
-RUN npm ci --omit=dev && npm cache clean --force
-
-COPY --from=builder --chown=${USER}:${GROUP} /server/dist/ ./dist/
-
-USER ${USER}
-EXPOSE ${PORT}
+USER node
+EXPOSE 8080
 
 CMD ["node", "dist/src/main.js"]

@@ -17,14 +17,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript-typescript' ]
+        language: ['javascript-typescript']
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           queries: security-and-quality
           languages: ${{ matrix.language }}
@@ -34,16 +34,19 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-          cache-dependency-path: ${{ inputs.working-directory }}
+          cache-dependency-path: |
+            package-lock.json
+            ${{ inputs.working-directory }}/package-lock.json
 
-      - name: Run build with NodeJS
+      - name: Install dependencies (root, with optional deps)
+        run: npm ci --include=optional
+
+      - name: Build & test workspace
         run: |
-          npm ci
-          npm run build
-          npm run test
-        working-directory: ${{ inputs.working-directory }}
+          npm run build --workspace $(basename "${{ inputs.working-directory }}")
+          npm run test --workspace $(basename "${{ inputs.working-directory }}")
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
         with:
-          category: "/language:${{matrix.language}}"
+          category: "/language:${{ matrix.language }}"
