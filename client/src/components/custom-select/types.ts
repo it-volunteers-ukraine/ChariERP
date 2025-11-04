@@ -6,3 +6,20 @@ export interface ISelectOption {
 }
 
 export type ISelectOptionSelected = ISelectOption | ISelectOption[];
+
+type VariantKey = 'default' | 'with-add-options';
+
+export interface ISelectFactory {
+  name: string;
+  role?: string;
+  isLoading?: boolean;
+  variant?: VariantKey;
+  placeholder?: string;
+  translation?: string;
+  selected: ISelectOption;
+  withTranslate?: boolean;
+  options: ISelectOption[];
+  classNameWrapper?: string;
+  classNameDropList?: string;
+  onChange: (value: ISelectOption) => void;
+}
