@@ -94,12 +94,17 @@ jobs:
         with:
           images: registry.digitalocean.com/${{ env.DO_REGISTRY }}/${{ env.DO_REPOSITORY }}
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=sha,prefix={{branch}}-
+            # core static tags — must be first
+            type=raw,value=${{ env.CONTAINER_NAME }}
             type=raw,value=${{ env.CONTAINER_NAME }}-${{ env.ENVIRONMENT }}
             type=raw,value=${{ env.CONTAINER_NAME }}-latest,enable={{is_default_branch}}
-            type=raw,value=${{ env.CONTAINER_NAME }}
+
+            # branch tags
+            type=ref,event=branch
+            type=ref,event=pr
+            
+            # sha tag
+            type=sha,prefix={{branch}}-
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
