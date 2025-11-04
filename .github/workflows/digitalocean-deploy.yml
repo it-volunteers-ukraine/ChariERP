@@ -112,7 +112,9 @@ jobs:
           context: ${{ inputs.working-directory }}
           file: ${{ inputs.dockerfile-path }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            registry.digitalocean.com/${{ env.DO_REGISTRY }}/${{ env.DO_REPOSITORY }}:${{ env.CONTAINER_NAME }}
+            ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
