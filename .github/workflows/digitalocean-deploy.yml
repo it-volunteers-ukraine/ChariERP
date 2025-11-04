@@ -150,19 +150,20 @@ jobs:
         with:
           to: ${{ secrets.telegram-to }}
           token: ${{ secrets.telegram-token }}
+          format: html
           message: |
-            🚀 **CharieRP Deployment Success** 🎉
-            
-            ${{ inputs.container-name == 'chari_erp_ui' && '💻 **Frontend**' || '⚙️ **Backend**' }} deployed to **${{ inputs.environment }}**
-            
-            📋 **Details:**
-            • 🌿 Branch: `${{ github.ref_name }}`
-            • 📦 Commit: `${{ github.sha }}`
-            • 👨‍💻 Author: ${{ steps.commit.outputs.author }}
-            • 💬 Message: ${{ steps.commit.outputs.message }}
-            • 🏷️ Container: `${{ inputs.container-name }}-${{ inputs.environment }}`
-            
-            🔗 [View Changes](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            🚀 <b>ChariERP Deployment Success</b> 🎉
+
+            ${{ inputs.container-name == 'chari_erp_ui' && '💻 <b>Frontend</b>' || '⚙️ <b>Backend</b>' }} deployed to <b>${{ inputs.environment }}</b>
+
+            <b>Details</b>:
+            • 🌿 Branch: <code>${{ github.ref_name }}</code>
+            • 📦 Commit: <code>${{ github.sha }}</code>
+            • 👨‍💻 Author: <code>${{ steps.commit.outputs.author }}</code>
+            • 💬 Message: <code>${{ steps.commit.outputs.message }}</code>
+            • 🏷️ Container: <code>${{ inputs.container-name }}-${{ inputs.environment }}</code>
+
+            🔗 <a href="https://github.com/${{ github.repository }}/commit/${{ github.sha }}">View Changes</a>
 
       - name: Send failure notification
         if: needs.build-and-deploy.result == 'failure'
@@ -170,15 +171,16 @@ jobs:
         with:
           to: ${{ secrets.telegram-to }}
           token: ${{ secrets.telegram-token }}
+          format: html
           message: |
-            ❌ **CharieRP Deployment Failed** 💥
+            ❌ <b>ChariERP Deployment Failed</b> 💥
             
-            ${{ inputs.container-name == 'chari_erp_ui' && '💻 **Frontend**' || '⚙️ **Backend**' }} deployment to **${{ inputs.environment }}** failed
+            ${{ inputs.container-name == 'chari_erp_ui' && '💻 <b>Frontend</b>' || '⚙️ <b>Backend</b>' }} deployment to <b>${{ inputs.environment }}</b> failed
             
-            📋 **Details:**
-            • 🌿 Branch: `${{ github.ref_name }}`
-            • 📦 Commit: `${{ github.sha }}`
-            • 👨‍💻 Author: ${{ steps.commit.outputs.author }}
+            <b>Details</b>:
+            • 🌿 Branch: <code>${{ github.ref_name }}</code>
+            • 📦 Commit: <code>${{ github.sha }}</code>
+            • 👨‍💻 Author: <code>${{ steps.commit.outputs.author }}</code>
             
-            🔗 [View Logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
-            🔗 [View Changes](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            🔗 <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">View Logs</a>
+            🔗 <a href="https://github.com/${{ github.repository }}/commit/${{ github.sha }}">View Changes</a>
