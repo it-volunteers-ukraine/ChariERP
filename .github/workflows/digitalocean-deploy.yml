@@ -44,7 +44,7 @@ on:
 
 env:
   DO_REGISTRY: it-volunteers-ukraine
-  DO_REPOSITORY: charierp
+  DO_REPOSITORY: chari_erp_repository
   CONTAINER_NAME: ${{ inputs.container-name }}
   ENVIRONMENT: ${{ inputs.environment }}
 
@@ -106,7 +106,7 @@ jobs:
           context: ${{ inputs.working-directory }}
           file: ${{ inputs.dockerfile-path }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ inputs.container-name }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
