@@ -6,7 +6,7 @@ FROM node:${NODE_VERSION}-alpine AS dependencies
 WORKDIR /app
 RUN apk add --no-cache g++ make python3
 COPY package.json package-lock.json* ./
-RUN npm ci --include=optional --ignore-scripts
+RUN npm i --include=optional --ignore-scripts
 
 # Stage 2: Build
 FROM node:${NODE_VERSION}-alpine AS builder
@@ -23,7 +23,7 @@ RUN npm run build
 FROM node:${NODE_VERSION}-alpine AS prod-deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm ci --include=optional --omit=dev --ignore-scripts && \
+RUN npm i --include=optional --omit=dev --ignore-scripts && \
     npm cache clean --force
 
 # Stage 4: Minimal production runtime

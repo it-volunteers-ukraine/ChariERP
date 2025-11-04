@@ -1,6 +1,8 @@
 name: "Deploy Full Stack to Digital Ocean"
 
 on:
+  push:
+    branches: [ main ]
   workflow_dispatch:
     inputs:
       environment:
@@ -12,24 +14,46 @@ on:
           - production
           - staging
       deploy-backend:
-        description: 'Deploy backend'
-        required: true
-        default: true
+        description: 'Force deploy backend'
         type: boolean
+        default: false
       deploy-frontend:
-        description: 'Deploy frontend'
-        required: true
-        default: true
+        description: 'Force deploy frontend'
         type: boolean
+        default: false
 
 jobs:
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'server/**'
+            frontend:
+              - 'client/**'
+            ignore:
+              - '.github/**'
+              - '**/*.md'
+              - '**/*.txt'
+              - 'documentation/**'
+              - 'README*'
+
   deploy-backend:
-    if: ${{ inputs.deploy-backend }}
+    if: ${{ inputs.deploy-backend && steps.filter.outputs.backend == 'true' }}
     name: Deploy Backend
     uses: ./.github/workflows/digitalocean-deploy.yml
     with:
       working-directory: ./server
-      container-name: charierp-server
+      container-name: chari_erp_be
       dockerfile-path: ./server/Dockerfile
       workspace-name: server
       environment: ${{ inputs.environment }}
@@ -37,17 +61,14 @@ jobs:
       do-access-token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       telegram-to: ${{ secrets.TELEGRAM_TO }}
       telegram-token: ${{ secrets.TELEGRAM_TOKEN }}
-    permissions:
-      id-token: write
-      contents: read
 
   deploy-frontend:
-    if: ${{ inputs.deploy-frontend }}
+    if: ${{ inputs.deploy-frontend && steps.filter.outputs.frontend == 'true' }}
     name: Deploy Frontend
     uses: ./.github/workflows/digitalocean-deploy.yml
     with:
       working-directory: ./client
-      container-name: charierp-client
+      container-name: chari_erp_ui
       dockerfile-path: ./client/Dockerfile
       workspace-name: client
       environment: ${{ inputs.environment }}
@@ -55,6 +76,3 @@ jobs:
       do-access-token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       telegram-to: ${{ secrets.TELEGRAM_TO }}
       telegram-token: ${{ secrets.TELEGRAM_TOKEN }}
-    permissions:
-      id-token: write
-      contents: read

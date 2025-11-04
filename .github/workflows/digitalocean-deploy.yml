@@ -44,7 +44,7 @@ on:
 
 env:
   DO_REGISTRY: it-volunteers-ukraine
-  DO_REPOSITORY: charierp
+  DO_REPOSITORY: chari_erp_repository
   CONTAINER_NAME: ${{ inputs.container-name }}
   ENVIRONMENT: ${{ inputs.environment }}
 
@@ -94,25 +94,31 @@ jobs:
         with:
           images: registry.digitalocean.com/${{ env.DO_REGISTRY }}/${{ env.DO_REPOSITORY }}
           tags: |
+            type=raw,value=${{ env.CONTAINER_NAME }}
+            type=raw,value=${{ env.CONTAINER_NAME }}-${{ env.ENVIRONMENT }}
             type=ref,event=branch
             type=ref,event=pr
             type=sha,prefix={{branch}}-
-            type=raw,value=${{ env.CONTAINER_NAME }}-${{ env.ENVIRONMENT }}
             type=raw,value=${{ env.CONTAINER_NAME }}-latest,enable={{is_default_branch}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ${{ inputs.working-directory }}
           file: ${{ inputs.dockerfile-path }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            registry.digitalocean.com/${{ env.DO_REGISTRY }}/${{ env.DO_REPOSITORY }}:${{ env.CONTAINER_NAME }}
+            ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
           build-args: |
             NODE_VERSION=${{ inputs.node-version }}
             ENVIRONMENT=${{ inputs.environment }}
+
+      - name: Show image tags
+        run: echo "${{ steps.meta.outputs.tags }}"
 
       - name: Move cache
         run: |
@@ -144,19 +150,20 @@ jobs:
         with:
           to: ${{ secrets.telegram-to }}
           token: ${{ secrets.telegram-token }}
+          format: html
           message: |
-            🚀 **CharieRP Deployment Success** 🎉
-            
-            ${{ inputs.container-name == 'charierp-client' && '💻 **Frontend**' || '⚙️ **Backend**' }} deployed to **${{ inputs.environment }}**
-            
-            📋 **Details:**
-            • 🌿 Branch: `${{ github.ref_name }}`
-            • 📦 Commit: `${{ github.sha }}`
-            • 👨‍💻 Author: ${{ steps.commit.outputs.author }}
-            • 💬 Message: ${{ steps.commit.outputs.message }}
-            • 🏷️ Container: `${{ inputs.container-name }}-${{ inputs.environment }}`
-            
-            🔗 [View Changes](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            🚀 <b>ChariERP Deployment Success</b> 🎉
+
+            ${{ inputs.container-name == 'chari_erp_ui' && '💻 <b>Frontend</b>' || '⚙️ <b>Backend</b>' }} deployed to <b>${{ inputs.environment }}</b>
+
+            <b>Details</b>:
+            • 🌿 Branch: <code>${{ github.ref_name }}</code>
+            • 📦 Commit: <code>${{ github.sha }}</code>
+            • 👨‍💻 Author: <code>${{ steps.commit.outputs.author }}</code>
+            • 💬 Message: <code>${{ steps.commit.outputs.message }}</code>
+            • 🏷️ Container: <code>${{ inputs.container-name }}-${{ inputs.environment }}</code>
+
+            🔗 <a href="https://github.com/${{ github.repository }}/commit/${{ github.sha }}">View Changes</a>
 
       - name: Send failure notification
         if: needs.build-and-deploy.result == 'failure'
@@ -164,15 +171,16 @@ jobs:
         with:
           to: ${{ secrets.telegram-to }}
           token: ${{ secrets.telegram-token }}
+          format: html
           message: |
-            ❌ **CharieRP Deployment Failed** 💥
+            ❌ <b>ChariERP Deployment Failed</b> 💥
             
-            ${{ inputs.container-name == 'charierp-client' && '💻 **Frontend**' || '⚙️ **Backend**' }} deployment to **${{ inputs.environment }}** failed
+            ${{ inputs.container-name == 'chari_erp_ui' && '💻 <b>Frontend</b>' || '⚙️ <b>Backend</b>' }} deployment to <b>${{ inputs.environment }}</b> failed
             
-            📋 **Details:**
-            • 🌿 Branch: `${{ github.ref_name }}`
-            • 📦 Commit: `${{ github.sha }}`
-            • 👨‍💻 Author: ${{ steps.commit.outputs.author }}
+            <b>Details</b>:
+            • 🌿 Branch: <code>${{ github.ref_name }}</code>
+            • 📦 Commit: <code>${{ github.sha }}</code>
+            • 👨‍💻 Author: <code>${{ steps.commit.outputs.author }}</code>
             
-            🔗 [View Logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
-            🔗 [View Changes](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            🔗 <a href="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}">View Logs</a>
+            🔗 <a href="https://github.com/${{ github.repository }}/commit/${{ github.sha }}">View Changes</a>
