@@ -29,7 +29,7 @@ jobs:
     uses: ./.github/workflows/digitalocean-deploy.yml
     with:
       working-directory: ./server
-      container-name: charierp-server
+      container-name: chari_erp_be
       dockerfile-path: ./server/Dockerfile
       workspace-name: server
       environment: ${{ inputs.environment }}
@@ -47,7 +47,7 @@ jobs:
     uses: ./.github/workflows/digitalocean-deploy.yml
     with:
       working-directory: ./client
-      container-name: charierp-client
+      container-name: chari_erp_ui
       dockerfile-path: ./client/Dockerfile
       workspace-name: client
       environment: ${{ inputs.environment }}

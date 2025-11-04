@@ -6,7 +6,7 @@ FROM node:${NODE_VERSION}-alpine AS dependencies
 WORKDIR /app/client
 RUN apk add --no-cache g++ make python3
 COPY package.json package-lock.json* ./
-RUN npm ci --include=optional
+RUN npm i --include=optional --ignore-scripts
 
 # Stage 2: Build application
 FROM node:${NODE_VERSION}-alpine AS builder

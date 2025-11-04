@@ -103,7 +103,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ${{ inputs.working-directory }}
           file: ${{ inputs.dockerfile-path }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
@@ -147,7 +147,7 @@ jobs:
           message: |
             🚀 **CharieRP Deployment Success** 🎉
             
-            ${{ inputs.container-name == 'charierp-client' && '💻 **Frontend**' || '⚙️ **Backend**' }} deployed to **${{ inputs.environment }}**
+            ${{ inputs.container-name == 'chari_erp_ui' && '💻 **Frontend**' || '⚙️ **Backend**' }} deployed to **${{ inputs.environment }}**
             
             📋 **Details:**
             • 🌿 Branch: `${{ github.ref_name }}`
@@ -167,7 +167,7 @@ jobs:
           message: |
             ❌ **CharieRP Deployment Failed** 💥
             
-            ${{ inputs.container-name == 'charierp-client' && '💻 **Frontend**' || '⚙️ **Backend**' }} deployment to **${{ inputs.environment }}** failed
+            ${{ inputs.container-name == 'chari_erp_ui' && '💻 **Frontend**' || '⚙️ **Backend**' }} deployment to **${{ inputs.environment }}** failed
             
             📋 **Details:**
             • 🌿 Branch: `${{ github.ref_name }}`
