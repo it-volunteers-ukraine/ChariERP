@@ -1,6 +1,8 @@
 name: "Deploy Full Stack to Digital Ocean"
 
 on:
+  push:
+    branches: [ main ]
   workflow_dispatch:
     inputs:
       environment:
@@ -12,19 +14,36 @@ on:
           - production
           - staging
       deploy-backend:
-        description: 'Deploy backend'
-        required: true
-        default: true
+        description: 'Force deploy backend'
         type: boolean
+        default: false
       deploy-frontend:
-        description: 'Deploy frontend'
-        required: true
-        default: true
+        description: 'Force deploy frontend'
         type: boolean
+        default: false
 
 jobs:
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'server/**'
+            frontend:
+              - 'client/**'
+
   deploy-backend:
-    if: ${{ inputs.deploy-backend }}
+    needs: changes
+    if: ${{ needs.changes.outputs.backend == 'true' || inputs.deploy-backend }}
     name: Deploy Backend
     uses: ./.github/workflows/digitalocean-deploy.yml
     with:
@@ -37,12 +56,10 @@ jobs:
       do-access-token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       telegram-to: ${{ secrets.TELEGRAM_TO }}
       telegram-token: ${{ secrets.TELEGRAM_TOKEN }}
-    permissions:
-      id-token: write
-      contents: read
 
   deploy-frontend:
-    if: ${{ inputs.deploy-frontend }}
+    needs: changes
+    if: ${{ needs.changes.outputs.frontend == 'true' || inputs.deploy-frontend }}
     name: Deploy Frontend
     uses: ./.github/workflows/digitalocean-deploy.yml
     with:
@@ -55,6 +72,3 @@ jobs:
       do-access-token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       telegram-to: ${{ secrets.TELEGRAM_TO }}
       telegram-token: ${{ secrets.TELEGRAM_TOKEN }}
-    permissions:
-      id-token: write
-      contents: read
