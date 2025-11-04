@@ -9,7 +9,7 @@ const connectDB = async () => {
   }
 
   try {
-    if (mongoose.connection.readyState === mongoose.ConnectionStates.connected) {
+    if (mongoose.connection?.readyState === mongoose.ConnectionStates.connected) {
       return { success: true };
     }
 

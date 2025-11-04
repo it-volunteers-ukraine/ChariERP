@@ -27,6 +27,16 @@ describe('Database connection test', () => {
   };
 
   it('should throw Error when MONGO_URI is blank', async () => {
+    delete process.env.MONGO_URI;
+
+    Object.defineProperty(mongoose, 'connection', {
+      get: () => ({
+        readyState: mongoose.ConnectionStates.disconnected,
+        db: undefined,
+      }),
+      configurable: true,
+    });
+
     const expectedErrorMessage = 'Please define the MONGO_URI environment variable inside .env';
     const actual = async () => await connectDB();
 
