@@ -1,34 +1,54 @@
-# Stage 1: Install dependencies
+# Build-time node version configuration
 ARG NODE_VERSION=22
+
+# Stage 1: Dependencies
 FROM node:${NODE_VERSION}-alpine AS dependencies
 WORKDIR /app
 RUN apk add --no-cache g++ make python3
-COPY package.json package-lock.json ./
-COPY client/package.json ./client/
-COPY server/package.json ./server/
-RUN npm ci --include=optional --workspace server --ignore-scripts
+COPY package.json package-lock.json* ./
+RUN npm ci --include=optional --ignore-scripts
 
-# Stage 2: Build application
+# Stage 2: Build
 FROM node:${NODE_VERSION}-alpine AS builder
 WORKDIR /app
-COPY . .
-RUN npm ci --include=optional --workspace server --ignore-scripts
-RUN chmod +x node_modules/.bin/* || true
-RUN npm run build --workspace server
+RUN apk add --no-cache g++ make python3
 
-# Stage 3: Production runtime
+COPY --from=dependencies /app/node_modules ./node_modules
+COPY package.json package-lock.json* ./
+COPY . .
+
+RUN npm run build
+
+# Stage 3: Production dependencies only
+FROM node:${NODE_VERSION}-alpine AS prod-deps
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm ci --include=optional --omit=dev --ignore-scripts && \
+    npm cache clean --force
+
+# Stage 4: Minimal production runtime
 FROM node:${NODE_VERSION}-alpine AS runner
-WORKDIR /app/server
+WORKDIR /app
+
+# Install minimal runtime dependencies
+RUN apk add --no-cache dumb-init && \
+    addgroup -g 1001 -S nodejs && \
+    adduser -S nestjs -u 1001
 
 ENV NODE_ENV=production \
     PORT=8080 \
     HOST=0.0.0.0
 
-COPY --from=builder /app/server/package*.json ./
-COPY --from=builder /app/server/node_modules ./node_modules
-COPY --from=builder /app/server/dist ./dist
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package.json ./package.json
 
-USER node
+# Set ownership
+RUN chown -R nestjs:nodejs /app
+
+USER nestjs
+
 EXPOSE 8080
 
+ENTRYPOINT ["dumb-init", "--"]
 CMD ["node", "dist/src/main.js"]

@@ -1,0 +1,44 @@
+name: "CodeQL - Full Analysis"
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'server/**'
+      - 'client/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '!**/node_modules/**'
+      - '!**/dist/**'
+      - '!**/.next/**'
+      - '!**/coverage/**'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'server/**'
+      - 'client/**'
+      - 'package.json'
+      - 'package-lock.json'
+
+jobs:
+  analyze-backend:
+    name: Analyze Backend
+    uses: ./.github/workflows/codeql-analysis.yml
+    with:
+      working-directory: ./server
+      workspace-name: server
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+  analyze-frontend:
+    name: Analyze Frontend
+    uses: ./.github/workflows/codeql-analysis.yml
+    with:
+      working-directory: ./client
+      workspace-name: client
+    permissions:
+      actions: read
+      contents: read
+      security-events: write

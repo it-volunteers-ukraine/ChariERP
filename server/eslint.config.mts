@@ -5,6 +5,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import prettierPlugin from 'eslint-plugin-prettier';
 
+// @ts-ignore
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const prettierConfig = JSON.parse(
   fs.readFileSync(join(__dirname, '.prettierrc'), 'utf8')

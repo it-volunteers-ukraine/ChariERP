@@ -1,12 +1,39 @@
+name: "DigitalOcean Deployment"
+
 on:
   workflow_call:
     inputs:
       working-directory:
         required: true
         type: string
+        description: 'Working directory for the build'
       container-name:
         required: true
         type: string
+        description: 'Container name for the image'
+      dockerfile-path:
+        required: true
+        type: string
+        description: 'Path to the Dockerfile'
+      workspace-name:
+        required: true
+        type: string
+        description: 'NPM workspace name'
+      environment:
+        required: false
+        type: string
+        default: 'production'
+        description: 'Deployment environment'
+      log-level:
+        required: false
+        type: string
+        default: 'info'
+        description: 'Log level for deployment'
+      node-version:
+        required: false
+        type: string
+        default: '22'
+        description: 'Node.js version'
     secrets:
       do-access-token:
         required: true
@@ -17,31 +44,40 @@ on:
 
 env:
   DO_REGISTRY: it-volunteers-ukraine
-  DO_REPOSITORY: chari_erp_repository
+  DO_REPOSITORY: charierp
   CONTAINER_NAME: ${{ inputs.container-name }}
+  ENVIRONMENT: ${{ inputs.environment }}
 
 permissions:
-  id-token: write   # This is required for requesting the JWT
-  contents: read    # This is required for actions/checkout
+  id-token: write
+  contents: read
 
 jobs:
-  deploy:
-    name: Build & Push
+  build-and-deploy:
+    name: Build & Deploy
     runs-on: ubuntu-latest
-    environment: production
+    environment: ${{ inputs.environment }}
+    timeout-minutes: 30
+
+    
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: network=host
 
       - name: Cache Docker layers
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-${{ inputs.container-name }}-${{ github.sha }}
+          key: ${{ runner.os }}-${{ inputs.container-name }}-${{ inputs.environment }}-${{ github.sha }}
           restore-keys: |
+            ${{ runner.os }}-${{ inputs.container-name }}-${{ inputs.environment }}-
             ${{ runner.os }}-${{ inputs.container-name }}-
 
       - name: Install doctl
@@ -49,43 +85,94 @@ jobs:
         with:
           token: ${{ secrets.do-access-token }}
 
-      - name: Build container image
-        working-directory: ${{ inputs.working-directory }}
-        run: |
-          docker buildx build \
-            --cache-from=type=local,src=/tmp/.buildx-cache \
-            --cache-to=type=local,dest=/tmp/.buildx-cache-new,mode=max \
-            -t registry.digitalocean.com/$DO_REGISTRY/$DO_REPOSITORY:$CONTAINER_NAME \
-            .
+      - name: Log in to DigitalOcean Registry
+        run: doctl registry login --expiry-seconds 1200
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: registry.digitalocean.com/${{ env.DO_REGISTRY }}/${{ env.DO_REPOSITORY }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix={{branch}}-
+            type=raw,value=${{ env.CONTAINER_NAME }}-${{ env.ENVIRONMENT }}
+            type=raw,value=${{ env.CONTAINER_NAME }}-latest,enable={{is_default_branch}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ${{ inputs.dockerfile-path }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+          build-args: |
+            NODE_VERSION=${{ inputs.node-version }}
+            ENVIRONMENT=${{ inputs.environment }}
 
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
-      - name: Log in to DigitalOcean Registry
-        run: doctl registry login --expiry-seconds 1200
-
-      - name: Push image
+      - name: Verify deployment
         run: |
-          docker push registry.digitalocean.com/$DO_REGISTRY/$DO_REPOSITORY:$CONTAINER_NAME
+          echo "🚀 Deployment completed successfully!"
+          echo "📦 Image: registry.digitalocean.com/${{ env.DO_REGISTRY }}/${{ env.DO_REPOSITORY }}:${{ env.CONTAINER_NAME }}-${{ env.ENVIRONMENT }}"
+          echo "🏷️ Tags: ${{ steps.meta.outputs.tags }}"
 
-  inform:
-    name: Inform
+  notify:
+    name: Send Notification
     runs-on: ubuntu-latest
-    needs: [ deploy ]
+    needs: [ build-and-deploy ]
+    if: always()
+    
     steps:
-      - name: Send Telegram message
+      - name: Get commit info
+        id: commit
+        run: |
+          echo "author=${{ github.event.head_commit.author.name || github.actor }}" >> $GITHUB_OUTPUT
+          echo "message=${{ github.event.head_commit.message || 'Manual deployment' }}" >> $GITHUB_OUTPUT
+
+      - name: Send success notification
+        if: needs.build-and-deploy.result == 'success'
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.telegram-to }}
           token: ${{ secrets.telegram-token }}
           message: |
-            🤖 GitHub Actions 🚀 
-            ✨ ${{ inputs.container-name == 'chari_erp_ui' && '💻 UI' || '⚙️ Backend' }} deploy is ✅ COMPLETED ✅ 🎊
-            ✨ Commit: ${{ github.sha }}            
+            🚀 **CharieRP Deployment Success** 🎉
+            
+            ${{ inputs.container-name == 'charierp-client' && '💻 **Frontend**' || '⚙️ **Backend**' }} deployed to **${{ inputs.environment }}**
+            
+            📋 **Details:**
+            • 🌿 Branch: `${{ github.ref_name }}`
+            • 📦 Commit: `${{ github.sha }}`
+            • 👨‍💻 Author: ${{ steps.commit.outputs.author }}
+            • 💬 Message: ${{ steps.commit.outputs.message }}
+            • 🏷️ Container: `${{ inputs.container-name }}-${{ inputs.environment }}`
+            
+            🔗 [View Changes](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
 
-            📦 LAST DEPLOYED COMMIT 📦
-            👨‍💻 Author: ${{ github.event.commits[0].author.name }}
-            💬 Message: ${{ github.event.commits[0].message }}
-            📎 Changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+      - name: Send failure notification
+        if: needs.build-and-deploy.result == 'failure'
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.telegram-to }}
+          token: ${{ secrets.telegram-token }}
+          message: |
+            ❌ **CharieRP Deployment Failed** 💥
+            
+            ${{ inputs.container-name == 'charierp-client' && '💻 **Frontend**' || '⚙️ **Backend**' }} deployment to **${{ inputs.environment }}** failed
+            
+            📋 **Details:**
+            • 🌿 Branch: `${{ github.ref_name }}`
+            • 📦 Commit: `${{ github.sha }}`
+            • 👨‍💻 Author: ${{ steps.commit.outputs.author }}
+            
+            🔗 [View Logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            🔗 [View Changes](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
