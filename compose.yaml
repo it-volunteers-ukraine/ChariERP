@@ -1,48 +1,44 @@
 services:
+  # Development services
   client-dev:
     image: node:22-alpine
-    working_dir: /workspace/client
+    working_dir: /workspace
     restart: unless-stopped
     volumes:
       - .:/workspace
-      - workspace_node_modules:/workspace/node_modules
-    command: sh -c "npm run dev --workspace client"
+      - client_node_modules:/workspace/client/node_modules
+      - server_node_modules:/workspace/server/node_modules
+      - root_node_modules:/workspace/node_modules
+    command: sh -c "npm ci && npm run dev --workspace client"
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=development
+      - NEXT_TELEMETRY_DISABLED=1
+      - HOSTNAME=0.0.0.0
     env_file:
       - .env
     depends_on:
       - database
     profiles:
       - dev
-
-  client-prod:
-    build:
-      context: .
-      dockerfile: client/Dockerfile
-      target: runner
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-    env_file:
-      - .env
-    depends_on:
-      - database
 
   server-dev:
     image: node:22-alpine
-    working_dir: /workspace/server
+    working_dir: /workspace
     restart: unless-stopped
     volumes:
       - .:/workspace
-      - workspace_node_modules:/workspace/node_modules
-    command: sh -c "npm run start:dev --workspace server"
+      - client_node_modules:/workspace/client/node_modules
+      - server_node_modules:/workspace/server/node_modules
+      - root_node_modules:/workspace/node_modules
+    command: sh -c "npm ci && npm run start:dev --workspace server"
     ports:
       - "8080:8080"
     environment:
       - NODE_ENV=development
+      - HOST=0.0.0.0
+      - PORT=8080
     env_file:
       - .env
     depends_on:
@@ -50,30 +46,74 @@ services:
     profiles:
       - dev
 
-  server-prod:
+  # Production services
+  client-prod:
     build:
-      context: .
-      dockerfile: server/Dockerfile
-      target: production
+      context: ./client
+      dockerfile: Dockerfile
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - HOSTNAME=0.0.0.0
+      - PORT=3000
     env_file:
       - .env
     depends_on:
-      - database
+      database:
+        condition: service_healthy
 
+  server-prod:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      - HOST=0.0.0.0
+      - PORT=8080
+    env_file:
+      - .env
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - default
+
+  # Database service
   database:
-    image: mongo:latest
+    image: mongo:7-jammy
     restart: unless-stopped
     volumes:
       - mongo_data:/data/db
       - ./mongo-init:/docker-entrypoint-initdb.d:ro
     ports:
       - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME:-admin}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD:-password}
+      - MONGO_INITDB_DATABASE=${MONGO_DATABASE:-charierp}
     env_file:
       - .env
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - default
 
 volumes:
   mongo_data:
-  workspace_node_modules:
+  client_node_modules:
+  server_node_modules:
+  root_node_modules:
+
+networks:
+  default:
+    name: charierp-network
