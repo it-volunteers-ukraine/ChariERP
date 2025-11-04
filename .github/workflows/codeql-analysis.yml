@@ -85,7 +85,7 @@ jobs:
 
       - name: Install workspace dependencies
         working-directory: ${{ inputs.working-directory }}
-        run: npm ci --include=optional
+        run: npm ci --include=optional --ignore-scripts
         env:
           NODE_ENV: development
 
