@@ -99,6 +99,7 @@ jobs:
             type=sha,prefix={{branch}}-
             type=raw,value=${{ env.CONTAINER_NAME }}-${{ env.ENVIRONMENT }}
             type=raw,value=${{ env.CONTAINER_NAME }}-latest,enable={{is_default_branch}}
+            type=raw,value=${{ env.CONTAINER_NAME }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -106,13 +107,16 @@ jobs:
           context: ${{ inputs.working-directory }}
           file: ${{ inputs.dockerfile-path }}
           push: true
-          tags: ${{ inputs.container-name }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
           build-args: |
             NODE_VERSION=${{ inputs.node-version }}
             ENVIRONMENT=${{ inputs.environment }}
+
+      - name: Show image tags
+        run: echo "${{ steps.meta.outputs.tags }}"
 
       - name: Move cache
         run: |
