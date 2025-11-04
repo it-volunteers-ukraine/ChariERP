@@ -48,7 +48,8 @@ jobs:
               - 'README*'
 
   deploy-backend:
-    if: ${{ inputs.deploy-backend && steps.filter.outputs.backend == 'true' }}
+    needs: changes
+    if: ${{ inputs.deploy-backend || needs.changes.outputs.backend == 'true' }}
     name: Deploy Backend
     uses: ./.github/workflows/digitalocean-deploy.yml
     with:
@@ -63,7 +64,8 @@ jobs:
       telegram-token: ${{ secrets.TELEGRAM_TOKEN }}
 
   deploy-frontend:
-    if: ${{ inputs.deploy-frontend && steps.filter.outputs.frontend == 'true' }}
+    needs: changes
+    if: ${{ inputs.deploy-frontend || needs.changes.outputs.frontend == 'true' }}
     name: Deploy Frontend
     uses: ./.github/workflows/digitalocean-deploy.yml
     with:
