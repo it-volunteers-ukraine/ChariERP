@@ -26,4 +26,4 @@ jobs:
           fi
 
       - name: Run garbage collection
-        run: doctl registry gc start -f --retain-days 14
+        run: doctl registry gc start -f --include-untagged-manifests
