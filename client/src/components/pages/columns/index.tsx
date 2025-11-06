@@ -133,7 +133,7 @@ export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoard
   return (
     <div
       ref={scrollRef}
-      className="scroll-blue scroll-column flex h-[calc(100%-62px)] overflow-x-auto bg-white px-4 py-5 tablet:px-8"
+      className="scroll-blue scroll-column tablet:px-8 flex h-[calc(100%-62px)] overflow-x-auto bg-white px-4 py-5"
     >
       <DragDropContext onDragEnd={onMoveColumnAndTasks}>
         <Droppable droppableId="column-area" type="Columns" direction="horizontal">
@@ -174,7 +174,7 @@ export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoard
                               hasNextTask={idx < item.tasks.length - 1}
                             />
                           ))}
-                          <div className={cn('invisible', item.tasks?.length === 0 && 'h-[1px]')} aria-hidden="true" />
+                          <div className={cn('invisible', item.tasks?.length === 0 && 'h-px')} aria-hidden="true" />
                           {providedTask.placeholder}
                         </div>
                       )}
@@ -191,7 +191,7 @@ export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoard
       {!isLoading && (
         <div className="flex h-full bg-white">
           {createColumn && (
-            <div className="flex h-fit min-h-[254px] w-[254px] flex-col gap-y-3 rounded-md bg-whiteSecond px-4 py-5 shadow-boardColumn">
+            <div className="bg-white-second shadow-board-column flex h-fit min-h-[254px] w-[254px] flex-col gap-y-3 rounded-md px-4 py-5">
               <input
                 type="text"
                 value={value}
@@ -200,7 +200,7 @@ export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoard
                 onBlur={onBlurChangeCreate}
                 placeholder={translateBtn('addColumn')}
                 onChange={(e) => setValue(e.target.value)}
-                className="max-w-[222px] text-ellipsis text-nowrap break-all border-[1px] p-2 font-scada text-xl font-bold uppercase text-comet"
+                className="font-scada text-comet max-w-[222px] border p-2 text-xl font-bold text-nowrap break-all text-ellipsis uppercase"
               />
             </div>
           )}
@@ -208,12 +208,12 @@ export const Columns = ({ boardId, columns }: { boardId: string; columns: IBoard
           <button
             onClick={onClickCreateColumn}
             className={cn(
-              'flex h-[254px] w-[254px] flex-col items-center justify-center gap-y-3 rounded-md bg-white px-4 py-5 shadow-createColumn',
+              'shadow-create-column flex h-[254px] w-[254px] flex-col items-center justify-center gap-y-3 rounded-md bg-white px-4 py-5',
               createColumn && 'ml-6',
             )}
           >
-            <span className="font-scada text-5xl text-[rgba(104,122,149,0.5)]">+</span>
-            <p className="w-[222px] text-nowrap text-center font-scada text-[rgba(104,122,149,0.5)]">
+            <span className="font-scada text-btn-outline-disabled text-5xl">+</span>
+            <p className="font-scada text-btn-outline-disabled w-[222px] text-center text-nowrap">
               {translateBtn('addColumn')}
             </p>
           </button>

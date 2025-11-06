@@ -232,7 +232,7 @@ const AdminOrganizationById = () => {
                 onClose={() => setIsOpenAccept(false)}
                 onConfirm={async () => await submitHandle(validateForm, handleSubmit)}
                 content={
-                  <div className="lending-6 flex flex-col break-words text-center text-mobster">
+                  <div className="lending-6 text-mobster flex flex-col text-center wrap-break-word">
                     <span>{values?.organizationName}</span>
                     <span>
                       {modal('register.text')} {values?.email}
@@ -241,9 +241,9 @@ const AdminOrganizationById = () => {
                 }
               />
 
-              <div className="mb-20 flex justify-start rounded-lg bg-white px-4 pb-12 shadow-dashboard tablet:px-8">
+              <div className="shadow-dashboard tablet:px-8 mb-20 flex justify-start rounded-lg bg-white px-4 pb-12">
                 <div className="mx-auto w-full max-w-[1066px]">
-                  <div className="mb-4 flex items-center justify-between border-b-2 border-lightBlue py-6 pr-2">
+                  <div className="border-light-blue mb-4 flex items-center justify-between border-b-2 py-6 pr-2">
                     <div className="flex items-center gap-4">
                       <ButtonIcon icon="back" iconType="primary" onClick={() => router.back()} />
 
@@ -259,17 +259,17 @@ const AdminOrganizationById = () => {
                   {isDeclined && data?.declineReason && (
                     <Accordion
                       initialState
-                      classNameWrapper="mb-9 desktop:mb-12 !gap-2"
+                      classNameWrapper="mb-9 desktop:mb-12 gap-2!"
                       title={text('title.declineReason')}
                     >
-                      <p className="text-base=[0.5px] tracking-wide text-mobster">{data.declineReason}</p>
+                      <p className="text-base=[0.5px] text-mobster tracking-wide">{data.declineReason}</p>
                     </Accordion>
                   )}
 
-                  <Form className="flex flex-col gap-9 desktop:gap-12">
+                  <Form className="desktop:gap-12 flex flex-col gap-9">
                     <Accordion initialState classNameTitle="text-[20px]" title={text('title.basicInformation')}>
                       <div className="flex flex-col gap-4">
-                        <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-8">
+                        <div className="laptop:flex-row laptop:gap-8 flex flex-col items-start gap-4">
                           <InputField
                             isCopy
                             required
@@ -282,7 +282,7 @@ const AdminOrganizationById = () => {
                           <InputField isCopy required name="organizationName" label={text('organizationName.label')} />
                         </div>
 
-                        <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
+                        <div className="laptop:flex-row laptop:gap-12 flex flex-col items-start gap-4">
                           <FileField
                             required
                             placeholderItalic
@@ -305,19 +305,19 @@ const AdminOrganizationById = () => {
 
                     <Accordion initialState classNameTitle="text-[20px]" title={text('title.contactInformation')}>
                       <div className="flex flex-col gap-4">
-                        <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
+                        <div className="laptop:flex-row laptop:gap-12 flex flex-col items-start gap-4">
                           <InputField required name="position" label={text('positionOrganization.label')} />
 
                           <InputField required name="lastName" label={text('lastName.label')} />
                         </div>
 
-                        <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
+                        <div className="laptop:flex-row laptop:gap-12 flex flex-col items-start gap-4">
                           <InputField required name="firstName" label={text('name.label')} />
 
                           <InputField name="middleName" label={text('middleName.label')} />
                         </div>
 
-                        <div className="flex flex-col items-start gap-4 laptop:flex-row laptop:gap-12">
+                        <div className="laptop:flex-row laptop:gap-12 flex flex-col items-start gap-4">
                           <InputField
                             required
                             isMasked
@@ -364,7 +364,7 @@ const AdminOrganizationById = () => {
                                       label={text('socialNetworks.label')}
                                       wrapperClass="laptop:max-w-[calc(50%-24px)]"
                                     />
-                                    <div className="flex items-center justify-between laptop:max-w-[calc(50%-24px)]">
+                                    <div className="laptop:max-w-[calc(50%-24px)] flex items-center justify-between">
                                       {isRightLength && isLastIndex && (
                                         <SmallBtn
                                           type="add"
@@ -379,7 +379,7 @@ const AdminOrganizationById = () => {
                                           type="delete"
                                           text={btn('deleteField')}
                                           onClick={() => remove(index)}
-                                          className="ml-auto mt-3"
+                                          className="mt-3 ml-auto"
                                         />
                                       )}
                                     </div>
@@ -392,7 +392,7 @@ const AdminOrganizationById = () => {
                       </div>
                     </Accordion>
 
-                    <div className="flex w-full flex-col justify-end gap-3 tablet:flex-row tablet:gap-6">
+                    <div className="tablet:flex-row tablet:gap-6 flex w-full flex-col justify-end gap-3">
                       {(isRequests || isDeclined) && (
                         <Button
                           type="button"
@@ -400,7 +400,7 @@ const AdminOrganizationById = () => {
                           disabled={!isValid}
                           text={btn('accept')}
                           onClick={() => setIsOpenAccept(true)}
-                          className="w-full uppercase tablet:w-fit"
+                          className="tablet:w-fit w-full uppercase"
                         />
                       )}
 
@@ -410,7 +410,7 @@ const AdminOrganizationById = () => {
                           styleType="red"
                           text={btn('decline')}
                           onClick={() => setIsOpenDecline(true)}
-                          className="w-full uppercase tablet:w-fit"
+                          className="tablet:w-fit w-full uppercase"
                         />
                       )}
 
@@ -420,7 +420,7 @@ const AdminOrganizationById = () => {
                           styleType="red"
                           text={btn('delete')}
                           onClick={() => setIsOpenDelete(true)}
-                          className="w-full uppercase tablet:w-fit"
+                          className="tablet:w-fit w-full uppercase"
                         />
                       )}
                     </div>
@@ -453,7 +453,7 @@ const AdminOrganizationById = () => {
           title={modal('remove.title')}
           onClose={() => setIsOpenDelete(false)}
           content={
-            <div className="lending-6 flex flex-col gap-1 text-center text-mobster">
+            <div className="lending-6 text-mobster flex flex-col gap-1 text-center">
               <span>
                 {modal('remove.text')} {data?.organizationName}
               </span>

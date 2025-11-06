@@ -10,27 +10,27 @@ interface IGetStyles {
   organization: TableSortDirection | undefined;
 }
 
-const generalStyles = 'text-midGray transition-all duration-300';
+const generalStyles = 'text-mid-gray transition-all duration-300';
 
 export const getStyles = ({ organization, edrpou, date, user, email }: IGetStyles) => ({
   organization: clsx(generalStyles, {
-    'rotate-[180deg]': organization === 'ascending',
-    'rotate-[0deg]': organization === 'descending',
+    'rotate-180': organization === 'ascending',
+    'rotate-0': organization === 'descending',
   }),
   edrpou: clsx(generalStyles, {
-    'rotate-[180deg]': edrpou === 'ascending',
-    'rotate-[0deg]': edrpou === 'descending',
+    'rotate-180': edrpou === 'ascending',
+    'rotate-0': edrpou === 'descending',
   }),
   date: clsx(generalStyles, {
-    'rotate-[180deg]': date === 'ascending',
-    'rotate-[0deg]': date === 'descending',
+    'rotate-180': date === 'ascending',
+    'rotate-0': date === 'descending',
   }),
   user: clsx(generalStyles, {
-    'rotate-[180deg]': user === 'ascending',
-    'rotate-[0deg]': user === 'descending',
+    'rotate-180': user === 'ascending',
+    'rotate-0': user === 'descending',
   }),
   email: clsx(generalStyles, {
-    'rotate-[180deg]': email === 'ascending',
-    'rotate-[0deg]': email === 'descending',
+    'rotate-180': email === 'ascending',
+    'rotate-0': email === 'descending',
   }),
 });

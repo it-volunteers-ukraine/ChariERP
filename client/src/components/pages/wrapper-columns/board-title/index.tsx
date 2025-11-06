@@ -20,23 +20,23 @@ export const BoardTitle = ({ title, paramValue, onChange, boardId, usersInTasks 
   const massageCopyTranslations = useTranslations('board');
 
   return (
-    <div className="mx-4 mb-[10px] flex flex-col gap-3 tablet:mx-8 laptop:mb-7 laptop:gap-6">
-      <div className="flex justify-between gap-5 pt-3 laptop:pt-6 desktop:gap-[160px]">
+    <div className="tablet:mx-8 laptop:mb-7 laptop:gap-6 mx-4 mb-[10px] flex flex-col gap-3">
+      <div className="laptop:pt-6 desktop:gap-[160px] flex justify-between gap-5 pt-3">
         <EllipsisText content={title}>
-          <h2 className="line-clamp-3 font-scada text-[20px] font-bold leading-[24px] text-lightBlue tablet:text-[26px] tablet:leading-[30px]">
+          <h2 className="font-scada text-light-blue tablet:text-[26px] tablet:leading-[30px] line-clamp-3 text-[20px] leading-[24px] font-bold">
             {title}
           </h2>
         </EllipsisText>
 
         <button
-          className="flex min-w-10 cursor-pointer bg-transparent text-lightBlue transition-all duration-300 hover:text-dark-blue active:text-greenActive disabled:text-disabled"
+          className="text-light-blue hover:text-dark-blue active:text-green-active disabled:text-disabled flex min-w-10 cursor-pointer bg-transparent transition-all duration-300"
           onClick={(e) => onCopy(e, `${window.location.href}`, massageCopyTranslations('massageCopyTitle'))}
         >
           <Copy />
         </button>
       </div>
 
-      <div className="flex flex-col gap-4 laptop:flex-row">
+      <div className="laptop:flex-row flex flex-col gap-4">
         <div className="laptop:max-w-[254px]">
           <Input
             type="search"

@@ -141,7 +141,7 @@ const OrganizationPage = () => {
     >
       {({ values, validateForm, handleSubmit, setValues }) => (
         <div className="flex w-full grow justify-center bg-white">
-          <div className="w-full p-[0_16px_48px] tablet:p-[0_32px_48px] desktopXl:max-w-[1100px]">
+          <div className="tablet:p-[0_32px_48px] desktopXl:max-w-[1100px] w-full p-[0_16px_48px]">
             <ModalAdmin
               isOpen={isOpenSave}
               title={modal('title')}
@@ -167,12 +167,12 @@ const OrganizationPage = () => {
                 </div>
               )}
 
-              <div className="flex flex-col gap-9 desktop:gap-12">
+              <div className="desktop:gap-12 flex flex-col gap-9">
                 {!isUser && (
-                  <div className="flex items-start gap-x-3 border-t-[2px] border-lightBlue pt-[24px]">
+                  <div className="border-light-blue flex items-start gap-x-3 border-t-2 pt-[24px]">
                     <>
-                      <Info width="24px" height="24px" className="text-lightBlue" />
-                      <span className="text-[14px] text-input-info">{text('mainInformation')}</span>
+                      <Info width="24px" height="24px" className="text-light-blue" />
+                      <span className="text-input-info text-[14px]">{text('mainInformation')}</span>
                     </>
                   </div>
                 )}
@@ -181,10 +181,10 @@ const OrganizationPage = () => {
                   initialState
                   classNameTitle="text-[20px] uppercase"
                   title={text('title.basicInformation')}
-                  classNameWrapper={cn('!gap-3', { 'mt-6': isUser })}
+                  classNameWrapper={cn('gap-3!', { 'mt-6': isUser })}
                 >
                   <div className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
+                    <div className="laptop:flex-row laptop:gap-12 flex flex-col gap-4">
                       <InputField
                         required
                         disabled={isUser}
@@ -209,14 +209,14 @@ const OrganizationPage = () => {
                       accept={'.pdf, .jpg, .jpeg, .png'}
                       label={text('certificateOfRegister.label')}
                       placeholder={text('certificateOfRegister.downloadDoc')}
-                      wrapperClass={cn('laptop:!gap-12', {
+                      wrapperClass={cn('laptop:gap-12!', {
                         'laptop:max-w-[calc(50%-24px)] pointer-events-none': isUser,
                       })}
                       info={
                         !isUser && (
                           <div>
                             {text('certificateOfRegister.information')}
-                            <Link href="#" className="font-medium italic text-input-link underline">
+                            <Link href="#" className="text-input-link font-medium italic underline">
                               {text('certificateOfRegister.howDownloadFile')}
                             </Link>
                           </div>
@@ -238,12 +238,12 @@ const OrganizationPage = () => {
 
                 <Accordion
                   initialState
-                  classNameWrapper="!gap-3"
+                  classNameWrapper="gap-3!"
                   classNameTitle="text-[20px] uppercase"
                   title={text('title.contactInformation')}
                 >
                   <div className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
+                    <div className="laptop:flex-row laptop:gap-12 flex flex-col gap-4">
                       <InputField
                         required
                         name="position"
@@ -254,7 +254,7 @@ const OrganizationPage = () => {
                       <InputField required disabled={isUser} name="lastName" label={text('lastName.label')} />
                     </div>
 
-                    <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
+                    <div className="laptop:flex-row laptop:gap-12 flex flex-col gap-4">
                       <InputField required disabled={isUser} name="firstName" label={text('name.label')} />
 
                       <InputField disabled={isUser} name="middleName" label={text('middleName.label')} />
@@ -275,7 +275,7 @@ const OrganizationPage = () => {
 
                 <Accordion
                   initialState
-                  classNameWrapper="!gap-3"
+                  classNameWrapper="gap-3!"
                   classNameTitle="text-[20px] uppercase"
                   title={text('title.loginInformation')}
                 >
@@ -306,7 +306,7 @@ const OrganizationPage = () => {
 
                 <Accordion
                   initialState
-                  classNameWrapper="!gap-3"
+                  classNameWrapper="gap-3!"
                   title={text('title.media')}
                   classNameTitle="text-[20px] uppercase"
                 >
@@ -338,7 +338,7 @@ const OrganizationPage = () => {
                                   wrapperClass="laptop:max-w-[calc(50%-24px)]"
                                 />
                                 {isManager && (
-                                  <div className="flex items-center justify-between laptop:max-w-[calc(50%-24px)]">
+                                  <div className="laptop:max-w-[calc(50%-24px)] flex items-center justify-between">
                                     {isRightLength && isLastIndex && (
                                       <SmallBtn
                                         type="add"
@@ -353,7 +353,7 @@ const OrganizationPage = () => {
                                         type="delete"
                                         text={btn('deleteField')}
                                         onClick={() => remove(index)}
-                                        className="ml-auto mt-2"
+                                        className="mt-2 ml-auto"
                                       />
                                     )}
                                   </div>
@@ -368,20 +368,20 @@ const OrganizationPage = () => {
                 </Accordion>
 
                 {isManager && (
-                  <div className="flex flex-col items-center justify-center gap-3 tablet:flex-row tablet:gap-6">
+                  <div className="tablet:flex-row tablet:gap-6 flex flex-col items-center justify-center gap-3">
                     <Button
                       type="button"
                       styleType="green"
                       text={btn('saveChanges')}
                       onClick={() => setIsOpenSave(true)}
-                      className="w-full uppercase tablet:w-fit"
+                      className="tablet:w-fit w-full uppercase"
                     />
 
                     <Button
                       type="button"
                       styleType="red"
                       text={btn('cancelChanges')}
-                      className="w-full uppercase tablet:w-fit"
+                      className="tablet:w-fit w-full uppercase"
                       onClick={() => setValues(getInitialDataOrganization(data))}
                     />
                   </div>

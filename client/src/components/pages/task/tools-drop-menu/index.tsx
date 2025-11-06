@@ -43,7 +43,7 @@ export const ToolsMenu = ({ taskId }: ITitleTask) => {
 
   return (
     <>
-      <button className="place-self-start rounded hover:bg-arcticSky" onClick={handleDots}>
+      <button className="hover:bg-arctic-sky place-self-start rounded-sm" onClick={handleDots}>
         <DotsSettings />
       </button>
 
@@ -52,15 +52,15 @@ export const ToolsMenu = ({ taskId }: ITitleTask) => {
         opened={isActive}
         duration={duration}
         onClose={() => setIsActive(false)}
-        className="bottom-0 right-0 h-fit w-[250px]"
+        className="right-0 bottom-0 h-fit w-[250px]"
       >
         <button
-          className="flex min-w-10 cursor-pointer justify-between bg-transparent p-2 font-robotoCondensed text-base capitalize text-comet transition-all duration-300 hover:bg-arcticSky active:text-greenActive disabled:text-disabled"
+          className="font-roboto-condensed text-comet hover:bg-arctic-sky active:text-green-active disabled:text-disabled flex min-w-10 cursor-pointer justify-between bg-transparent p-2 text-base capitalize transition-all duration-300"
           onClick={handleCopy}
         >
           <p>{task('title.copy')}</p>
 
-          <div className="h-6 w-6 scale-150 text-comet">
+          <div className="text-comet h-6 w-6 scale-150">
             <Copy />
           </div>
         </button>
@@ -68,11 +68,11 @@ export const ToolsMenu = ({ taskId }: ITitleTask) => {
         {isManager && (
           <button
             onClick={handlerDelete}
-            className="flex justify-between rounded p-2 font-robotoCondensed text-base capitalize text-comet transition hover:bg-arcticSky"
+            className="font-roboto-condensed text-comet hover:bg-arctic-sky flex justify-between rounded-sm p-2 text-base capitalize transition"
           >
             <p>{task('title.delete')}</p>
 
-            <div className="h-6 w-6 text-comet">
+            <div className="text-comet h-6 w-6">
               <Delete />
             </div>
           </button>

@@ -9,7 +9,7 @@ export const getStyles = ({ isOpen, isSelected }: { isOpen?: boolean; isSelected
   ),
   btn: cn('flex h-[40px] w-full items-center justify-between p-2'),
   selected: cn(isOpen ? 'text-dark-blue' : 'text-[#BEC6D0]', isSelected ? 'text-dark-blue' : 'text-[#BEC6D0]'),
-  arrow: cn('h-[24px] w-[24px] text-dark-blue transition-all duration-300', isOpen ? 'rotate-[-180deg]' : 'rotate-0'),
+  arrow: cn('h-[24px] w-[24px] text-dark-blue transition-all duration-300', isOpen ? '-rotate-180' : 'rotate-0'),
   option: cn('flex gap-3 h-[40px] cursor-pointer items-center border-b px-3 py-2'),
   optionText: cn('text-comet'),
   addBtn: cn(

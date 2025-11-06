@@ -48,9 +48,9 @@ export const DashboardHeader = () => {
   };
 
   return (
-    <header className="w-full bg-whiteSecond px-[16px] pl-[60px] desktopXl:px-0">
-      <div className="flex h-[64px] items-center justify-between desktop:h-24 desktopXl:mx-8">
-        <span className="font-scada text-[20px] font-normal text-lightBlue">{titleNav?.title}</span>
+    <header className="bg-white-second desktopXl:px-0 w-full px-[16px] pl-[60px]">
+      <div className="desktop:h-24 desktopXl:mx-8 flex h-[64px] items-center justify-between">
+        <span className="font-scada text-light-blue text-[20px] font-normal">{titleNav?.title}</span>
 
         <div className="flex gap-6">
           <Avatar img={null} name={isLaptop ? getUserTitle() : ''} />
@@ -59,7 +59,7 @@ export const DashboardHeader = () => {
             <>
               <Exit
                 onClick={onExit}
-                className="h-6 w-6 cursor-pointer text-lightBlue transition-all duration-300 hover:scale-110 hover:drop-shadow-md"
+                className="text-light-blue h-6 w-6 cursor-pointer transition-all duration-300 hover:scale-110 hover:drop-shadow-md"
               />
 
               <LanguageSwitcher isNarrow />

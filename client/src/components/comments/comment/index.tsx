@@ -33,7 +33,7 @@ export const Comment = ({ comment }: CommentListProps) => {
   const isUserAllowedToEdit = !isEditing && (comment.author.id === userId || isManager);
 
   return (
-    <div className="mt-6 flex gap-4 [&>:first-child]:min-w-6">
+    <div className="mt-6 flex gap-4 *:first:min-w-6">
       <UserIcon
         lastName={comment.author.lastName}
         avatarUrl={comment.author.avatarUrl}
@@ -41,7 +41,7 @@ export const Comment = ({ comment }: CommentListProps) => {
       />
       <div className="flex w-full flex-col gap-y-2">
         <div className="flex gap-4">
-          <p className="text-sm text-lightBlue">
+          <p className="text-light-blue text-sm">
             {comment.author.firstName} {comment.author.lastName}
           </p>
 
@@ -60,7 +60,7 @@ export const Comment = ({ comment }: CommentListProps) => {
           isEditing={isEditing}
           onSave={setCommentText}
           initialState={comment.text}
-          className="mb-2 rounded-lg border border-[#65657526] px-4 py-3 shadow-md focus:border-darkBlueFocus"
+          className="focus:border-dark-blue-focus mb-2 rounded-lg border border-[#65657526] px-4 py-3 shadow-md"
         />
 
         {isEditing && (
@@ -73,14 +73,14 @@ export const Comment = ({ comment }: CommentListProps) => {
 
         {isUserAllowedToEdit && (
           <div className="flex gap-4">
-            <button className="text-[15px] text-lightBlue" type="button" onClick={() => setIsEditing(true)}>
+            <button className="text-light-blue text-[15px]" type="button" onClick={() => setIsEditing(true)}>
               {btnEditor('btnEdit')}
             </button>
 
             <button
               type="button"
               disabled={isPending}
-              className="text-[15px] text-lightBlue"
+              className="text-light-blue text-[15px]"
               onClick={() => deleteComment(comment.id)}
             >
               {btnEditor('btnDelete')}

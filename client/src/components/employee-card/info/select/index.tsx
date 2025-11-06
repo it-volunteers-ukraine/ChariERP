@@ -50,7 +50,7 @@ export const Select = ({ status, fieldName, setFieldValue }: ISelect) => {
 
         <div className={styles.optionsWrapper}>
           {!isActive ? (
-            <div className={`${styles.option} text-greenNormal`} onClick={() => handleSelect(UserStatus.ACTIVE)}>
+            <div className={`${styles.option} text-green-normal`} onClick={() => handleSelect(UserStatus.ACTIVE)}>
               {cardTranslate(UserStatus.ACTIVE)}
             </div>
           ) : (

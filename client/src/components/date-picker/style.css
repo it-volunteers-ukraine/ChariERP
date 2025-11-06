@@ -1,13 +1,15 @@
+@import 'tailwindcss' reference;
+
 #DatePicker .react-datepicker .react-datepicker__year-read-view--down-arrow {
   @apply top-1/2 -translate-y-[calc(50%+2px)] rotate-[135deg];
 }
 
 #DatePicker .react-datepicker__navigation.react-datepicker__navigation--previous {
-  @apply left-[30px] top-[20px];
+  @apply top-[20px] left-[30px];
 }
 
 #DatePicker .react-datepicker__navigation.react-datepicker__navigation--next {
-  @apply left-[inherit] right-[30px] top-[20px];
+  @apply top-[20px] right-[30px] left-[inherit];
 }
 
 #DatePicker .react-datepicker__header {
@@ -19,5 +21,6 @@
 }
 
 #DatePicker .react-datepicker__current-month.react-datepicker__current-month--hasYearDropdown {
-  @apply capitalize text-dark-blue;
+  @apply capitalize;
+  color: var(--color-dark-blue);
 }

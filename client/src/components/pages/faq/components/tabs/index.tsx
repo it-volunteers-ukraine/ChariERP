@@ -11,7 +11,7 @@ export const Tabs = ({ active, setActive }: TabsProps) => {
   return (
     <div className={styles.wrapper}>
       {tabs.map((tab, index) => {
-        const isActive = active === index ? 'bg-bgAuthLinks text-white' : 'text-lynch hover:text-dark-blue';
+        const isActive = active === index ? 'bg-bg-auth-links text-white' : 'text-lynch hover:text-dark-blue';
         const mobileTabs = active === 0 ? 'rounded-t-[32px]' : '';
 
         return (

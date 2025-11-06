@@ -47,7 +47,7 @@ export const EmployeeCard = ({
   const lastLoginTranslate = useTranslations('errors.employee');
 
   const itemClass = clsx({
-    'tablet:!max-w-[calc(50%-48px)]': inById,
+    'tablet:max-w-[calc(50%-48px)]!': inById,
   });
 
   const handleClick = () => {
