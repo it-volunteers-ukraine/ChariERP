@@ -27,8 +27,8 @@ ENV NODE_ENV=production \
 
 # Copy standalone build
 COPY --from=builder /app/client/.next/standalone ./
-COPY --from=builder /app/client/.next/static ./client/.next/static
-COPY --from=builder /app/client/public ./client/public
+COPY --from=builder /app/client/.next/static ./.next/static
+COPY --from=builder /app/client/public ./public
 
 # Run as non-root
 USER node
