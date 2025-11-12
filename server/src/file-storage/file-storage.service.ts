@@ -21,6 +21,7 @@ import {
   NotFoundException,
   InternalServerErrorException,
   BadRequestException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { FileStoreFolders } from '@/schemas/enums';
 import stream from 'node:stream';
@@ -50,6 +51,19 @@ export class FileStorageService {
 
   private buildKey(organizationId: string, folder: FileStoreFolders, fileName?: string): string {
     return `${this.envPrefix}/${encodeURIComponent(organizationId)}/${folder}/${fileName || ''}`;
+  }
+
+  private verifyFileAccess(key: string, organizationId: string): void {
+    const encodedOrgId = encodeURIComponent(organizationId);
+
+    const encodedOrgIdFromKey = key.split('/')[1];
+
+    if (encodedOrgId !== encodedOrgIdFromKey) {
+      this.logger.warn(
+        `Unauthorized access attempt. User '${organizationId}' tried to access file '${key}' belonging to another organization.`,
+      );
+      throw new ForbiddenException('User is not allowed to access this file');
+    }
   }
 
   private async uploadFile(organizationId: string, folder: FileStoreFolders, file: MulterFile): Promise<string> {
@@ -91,8 +105,10 @@ export class FileStorageService {
     }
   }
 
-  async getFile(key: string): Promise<RetrievedFile> {
+  async getFile(key: string, organizationId: string): Promise<RetrievedFile> {
     this.logger.log(`Retrieving file with the key: ${key}`);
+
+    this.verifyFileAccess(key, organizationId);
 
     const input: GetObjectCommandInput = {
       Bucket: this.bucketName,
@@ -131,8 +147,10 @@ export class FileStorageService {
     }
   }
 
-  async deleteFile(key: string): Promise<void> {
+  async deleteFile(key: string, organizationId: string): Promise<void> {
     this.logger.log(`Deleting file with the key: ${key}`);
+
+    this.verifyFileAccess(key, organizationId);
 
     const input: DeleteObjectCommandInput = {
       Bucket: this.bucketName,
