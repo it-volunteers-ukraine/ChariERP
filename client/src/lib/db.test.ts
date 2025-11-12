@@ -1,3 +1,4 @@
+/** @jest-environment node */
 import connectDB from '@/lib/db';
 import mongoose, { ConnectionStates } from 'mongoose';
 import { faker } from '@faker-js/faker';

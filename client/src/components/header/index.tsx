@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 
 import { routes } from '@/constants';
 import { Search } from '@/assets/icons';
-import { isValidObjectId } from '@/middleware';
+import { isValidObjectId } from '@/proxy';
 import { Logo, Burger, Button, Navigation, ResponseWrapper, LanguageSwitcher } from '@/components';
 
 export const Header = () => {

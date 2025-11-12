@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import { routes } from '@/constants';
-import { isValidObjectId } from '@/middleware';
+import { isValidObjectId } from '@/proxy';
 
 import { Logo } from '../logo';
 import { config } from './config';
