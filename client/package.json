@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "copy-resources": "@powershell copy .next/static .next/standalone/.next",
-    "start": "node .next/standalone/server.js",
+    "copy-resources": "@powershell copy .next/static .next/standalone/client/.next",
+    "start": "node .next/standalone/client/server.js",
     "update": "npm i -g npm-check-updates && ncu -u",
     "lint": "eslint .",
     "compile": "tsc -p ./tsconfig.json",
