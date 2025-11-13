@@ -60,7 +60,8 @@ export class FileStorageService {
 
     if (encodedOrgId !== encodedOrgIdFromKey) {
       this.logger.warn(
-        `Unauthorized access attempt. User '${organizationId}' tried to access file '${key}' belonging to another organization.`,
+        `Unauthorized access attempt.
+        User '${organizationId}' tried to access file '${key}' belonging to another organization.`,
       );
       throw new ForbiddenException('User is not allowed to access this file');
     }

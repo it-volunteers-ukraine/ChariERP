@@ -9,6 +9,5 @@ export interface Asset {
   value?: number;
   currency?: string;
   unit?: string;
-  photo?: string;
   description?: string;
 }

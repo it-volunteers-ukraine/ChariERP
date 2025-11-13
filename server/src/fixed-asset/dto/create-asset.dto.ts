@@ -11,7 +11,7 @@ import {
   IsNumber,
   IsPositive,
 } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { ASSET_NAME_REGEX, ASSET_DATE_REGEX } from '../../constants/regex.constants';
 import { VALIDATION_MESSAGES } from '../../constants/validation-messages';
 
@@ -59,6 +59,7 @@ export class CreateAssetDto implements Asset {
   @ApiProperty({ example: 3000.52 })
   @IsOptional()
   @IsNotEmpty()
+  @Type(() => Number)
   @IsNumber({ maxDecimalPlaces: 2 })
   @IsPositive()
   value?: number;
@@ -72,15 +73,6 @@ export class CreateAssetDto implements Asset {
   @IsOptional()
   @IsString()
   unit?: string;
-
-  @ApiProperty({
-    example: 'https://chari-erp-bucket.fra1.digitaloceanspaces.com/kyiv/fixed-assets/table.jpg',
-    description: 'Valid image URL (.jpg, .jpeg, .png, .webp), max size 5MB',
-  })
-  @IsOptional()
-  @IsNotEmpty()
-  @IsString()
-  photo?: string;
 
   @ApiProperty({ example: 'примітка' })
   @IsOptional()

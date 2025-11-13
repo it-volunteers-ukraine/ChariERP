@@ -6,9 +6,9 @@ import { CreateAssetDto } from './dto/create-asset.dto';
 import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
 import { Roles } from '../schemas/enums';
 import { plainToInstance } from 'class-transformer';
-import { AssetResponseDto } from './dto/asset-response.dto';
+import { AssetResponseDto } from './dto/asset-response';
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../constants/pagination.constants';
-import { PaginatedAssetResponseDto } from './dto/paginated-asset-response.dto';
+import { PaginatedAssetResponseDto } from './dto/paginated-asset-response';
 import { UpdateAssetDto } from './dto/update-asset.dto';
 
 describe('AssetController', () => {

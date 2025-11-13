@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AssetResponseDto } from './asset-response.dto';
+import { AssetResponse } from './asset-response';
 
-export class PaginatedAssetResponseDto {
+export class PaginatedAssetResponse {
   @ApiProperty()
-  assets: AssetResponseDto[];
+  assets: AssetResponse[];
 
   @ApiProperty({ example: 20, description: 'Total number of documents in collection that match a query' })
   totalDocs: number;
