@@ -9,7 +9,9 @@ import logger from '@/utils/logger/logger';
 import { routes } from '@/constants';
 import { useLoaderAdminPage, useUserInfo } from '@/context';
 import { OrganizationEditValues, RequestOrganizationStatus } from '@/types';
-import { oneOrganizationNormalizer, serializeOrganizationsUpdate, showErrorMessageOfOrganizationExist } from '@/utils';
+import { showErrorMessageOfOrganizationExist } from '@/utils/helpers';
+import { serializeOrganizationsUpdate } from '@/utils/serializer';
+import { oneOrganizationNormalizer } from '@/utils';
 import {
   declineOrganizationAction,
   deleteOrganizationAction,

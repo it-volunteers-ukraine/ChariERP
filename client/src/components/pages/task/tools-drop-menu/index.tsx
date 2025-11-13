@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
-import { onCopy } from '@/utils';
+import { onCopy } from '@/utils/helpers';
 import { Copy, Delete, DotsSettings } from '@/assets/icons';
 import { ToolsDropMenu } from '@/components/tools-drop-menu';
 

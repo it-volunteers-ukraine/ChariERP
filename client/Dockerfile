@@ -25,13 +25,23 @@ ENV NODE_ENV=production \
     HOSTNAME=0.0.0.0 \
     PORT=3000
 
-# Copy standalone build
-COPY --from=builder /app/client/.next/standalone ./
-COPY --from=builder /app/client/.next/static ./.next/static
-COPY --from=builder /app/client/public ./public
+# Define user and group for security
+ARG USER=nextjs
+ARG GROUP=nodejs
+ARG UID=1001
+ARG GID=1001
 
-# Run as non-root
-USER node
+# Setup security and permissions
+RUN addgroup --system --gid ${GID} ${GROUP} && \
+    adduser --system --uid ${UID} ${USER} && \
+    mkdir .next && \
+    chown ${USER}:${GROUP} .next
 
-EXPOSE 3000
+# Copy built application with correct ownership
+COPY --from=builder --chown=${USER}:${GROUP} /app/client/.next/standalone ./
+COPY --from=builder --chown=${USER}:${GROUP} /app/client/.next/static ./.next/static
+COPY --from=builder --chown=${USER}:${GROUP} /app/client/public ./public
+
+USER ${USER}
+EXPOSE ${PORT}
 CMD ["node", "server.js"]

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { TabsProps } from './types';
 import { getStyles } from './styles';
 

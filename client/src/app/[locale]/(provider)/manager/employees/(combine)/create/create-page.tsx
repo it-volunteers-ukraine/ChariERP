@@ -8,7 +8,7 @@ import logger from '@/utils/logger/logger';
 import { routes } from '@/constants';
 import { ICreateUser } from '@/types';
 import { useUserInfo } from '@/context';
-import { createUserSerializer } from '@/utils';
+import { createUserSerializer } from '@/utils/serializer';
 import { createUserByCompanyIdAction } from '@/actions';
 import { employeeCreateInitialValues, showMessage } from '@/components';
 

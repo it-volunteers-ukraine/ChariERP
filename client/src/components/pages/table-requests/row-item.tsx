@@ -10,7 +10,7 @@ import { Copy, Doc } from '@/assets/icons';
 import { dateFormat, routes } from '@/constants';
 import { RequestOrganizationStatus, RowItemProps } from '@/types';
 import { Button, EllipsisText, ModalAdmin, ModalDecline, showMessage } from '@/components';
-import { onCopy, openNewWindowForCertificate, showErrorMessageOfOrganizationExist } from '@/utils';
+import { onCopy, openNewWindowForCertificate, showErrorMessageOfOrganizationExist } from '@/utils/helpers';
 import {
   declineOrganizationAction,
   deleteOrganizationAction,

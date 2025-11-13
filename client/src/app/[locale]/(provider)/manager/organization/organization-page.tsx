@@ -10,12 +10,9 @@ import { Info } from '@/assets/icons';
 import { OrganizationEditValues } from '@/types';
 import { getOrganizationByIdAction } from '@/actions';
 import { useLoaderAdminPage, useUserInfo } from '@/context';
-import {
-  cn,
-  oneOrganizationNormalizer,
-  serializeOrganizationsUpdate,
-  showErrorMessageOfOrganizationExist,
-} from '@/utils';
+import { cn, oneOrganizationNormalizer } from '@/utils';
+import { serializeOrganizationsUpdate } from '@/utils/serializer';
+import { showErrorMessageOfOrganizationExist } from '@/utils/helpers';
 import {
   Accordion,
   Button,

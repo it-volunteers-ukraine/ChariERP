@@ -8,7 +8,8 @@ import logger from '@/utils/logger/logger';
 import { IEditUser } from '@/types';
 import { routes } from '@/constants';
 import { showMessage } from '@/components';
-import { createFile, updateUserSerializer } from '@/utils';
+import { createFile } from '@/utils/helpers';
+import { updateUserSerializer } from '@/utils/serializer';
 import { useLoaderAdminPage, useUserInfo } from '@/context';
 import { getMemberByIdAction, updateMemberByIdAction } from '@/actions';
 

@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
-import { onCopy } from '@/utils';
+import { onCopy } from '@/utils/helpers';
 import { Copy } from '@/assets/icons';
 import { EllipsisText, Input } from '@/components';
 

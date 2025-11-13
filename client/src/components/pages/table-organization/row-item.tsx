@@ -5,7 +5,7 @@ import { MouseEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
-import { onCopy } from '@/utils';
+import { onCopy } from '@/utils/helpers';
 import { RowItemOrgProps } from '@/types';
 import { Copy, User } from '@/assets/icons';
 import { dateFormat, routes } from '@/constants';

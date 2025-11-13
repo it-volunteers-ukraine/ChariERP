@@ -49,6 +49,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Suppress Google Fonts errors if offline
+  onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
+  },
 };
 
 export default withNextIntl(nextConfig);
