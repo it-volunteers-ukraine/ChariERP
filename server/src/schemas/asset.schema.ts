@@ -27,7 +27,7 @@ export class Asset {
   @Prop()
   unit?: string;
   @Prop()
-  photo?: string;
+  images?: string[];
   @Prop()
   description?: string;
   @Prop({

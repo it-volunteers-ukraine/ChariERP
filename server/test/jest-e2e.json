@@ -6,9 +6,12 @@
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
-    "^.+\\.(t|j)s$": ["ts-jest", {
-      "useESM": true
-    }]
+    "^.+\\.(t|j)s$": [
+      "ts-jest",
+      {
+        "useESM": true
+      }
+    ]
   },
   "setupFilesAfterEnv": ["<rootDir>/../jest.setup.ts"],
   "moduleNameMapper": {

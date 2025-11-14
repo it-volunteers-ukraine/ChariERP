@@ -11,7 +11,12 @@ export class AssetService {
 
   constructor(@InjectModel(Asset.name) private assetModel: PaginateModel<AssetDocument>) {}
 
-  async create(createAssetDto: CreateAssetDto, userId: string, organizationId: string): Promise<Asset> {
+  async create(
+    createAssetDto: CreateAssetDto,
+    userId: string,
+    organizationId: string,
+    imagesKeys?: string[],
+  ): Promise<Asset> {
     const { name } = createAssetDto;
 
     const existing = await this.assetModel.countDocuments({ name: { $eq: name } });
@@ -23,6 +28,7 @@ export class AssetService {
 
     const createdAsset = await this.assetModel.create({
       ...createAssetDto,
+      images: imagesKeys,
       createdBy: userId,
       organizationId,
       createdAt: new Date(),
@@ -45,6 +51,7 @@ export class AssetService {
       page,
       limit,
       lean: true,
+      leanWithId: false,
     });
 
     if (!result.totalDocs) {
@@ -61,11 +68,11 @@ export class AssetService {
     };
   }
 
-  async update(updateAssetDto: UpdateAssetDto, assetId: string): Promise<Asset> {
+  async update(updateAssetDto: UpdateAssetDto, assetId: string, imagesKeys?: string[]): Promise<Asset> {
     const updatedAsset = await this.assetModel
       .findOneAndUpdate(
         { _id: { $eq: assetId } },
-        { $set: updateAssetDto, $currentDate: { updatedAt: true } },
+        { $set: updateAssetDto, images: imagesKeys, $currentDate: { updatedAt: true } },
         { lean: true, new: true },
       )
       .exec();
