@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import { Field, FieldProps } from 'formik';
 
 import 'react-datepicker/dist/react-datepicker.css';

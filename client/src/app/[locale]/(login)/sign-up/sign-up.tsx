@@ -8,7 +8,8 @@ import logger from '@/utils/logger/logger';
 import { routes } from '@/constants';
 import { OrganizationFormValues } from '@/types';
 import { createOrganizationAction } from '@/actions';
-import { serializeOrganizationsCreate, showErrorMessageOfOrganizationExist } from '@/utils';
+import { serializeOrganizationsCreate } from '@/utils/serializer';
+import { showErrorMessageOfOrganizationExist } from '@/utils/helpers';
 import {
   Title,
   Button,
@@ -93,7 +94,7 @@ const SignUp = () => {
     >
       {({ values }) => {
         return (
-          <Form className="desktop:gap-18 flex w-full flex-col gap-12 tablet:gap-16">
+          <Form className="desktop:gap-18 tablet:gap-16 flex w-full flex-col gap-12">
             <ModalSuccessfulRegistration
               isOpen={isOpenModal}
               isLoading={isLoading}
@@ -104,7 +105,7 @@ const SignUp = () => {
               classNameBtn="w-[120px] uppercase"
               title={modal('successfulRegistration.title')}
               content={
-                <p className="text-roboto text-center font-normal text-comet">
+                <p className="text-roboto text-comet text-center font-normal">
                   {modal('successfulRegistration.firstPartText')}
                   <span className="font-medium italic">{email}</span>
                   {modal('successfulRegistration.secondPartText')}
@@ -115,10 +116,10 @@ const SignUp = () => {
             <div>
               <Title
                 title={text('title.basicInformation')}
-                className="mx-auto mb-8 w-fit font-scada text-[26px] uppercase tablet:mb-9"
+                className="font-scada tablet:mb-9 mx-auto mb-8 w-fit text-[26px] uppercase"
               />
 
-              <div className="flex flex-col gap-8 tablet:gap-[42px]">
+              <div className="tablet:gap-[42px] flex flex-col gap-8">
                 <InputField
                   required
                   name="organizationName"
@@ -166,10 +167,10 @@ const SignUp = () => {
             <div>
               <Title
                 title={text('title.contactInformation')}
-                className="mx-auto mb-8 w-fit font-scada text-[26px] uppercase tablet:mb-9"
+                className="font-scada tablet:mb-9 mx-auto mb-8 w-fit text-[26px] uppercase"
               />
 
-              <div className="flex flex-col gap-8 tablet:gap-[42px]">
+              <div className="tablet:gap-[42px] flex flex-col gap-8">
                 <InputField
                   required
                   name="position"
@@ -216,10 +217,10 @@ const SignUp = () => {
                   info={<span className={`${styles.spanStyles}`}>{text('email.information')}</span>}
                 />
 
-                <div className="flex flex-col gap-8 tablet:gap-6">
+                <div className="tablet:gap-6 flex flex-col gap-8">
                   <Title
                     title={text('title.media')}
-                    className="w-fit text-[18px] font-medium !leading-4 !text-title-media"
+                    className="text-title-media! w-fit text-[18px] leading-4! font-medium"
                   />
 
                   <InputField
@@ -266,13 +267,13 @@ const SignUp = () => {
                                 }
                               />
 
-                              <div className="mt-6 flex items-center justify-between laptop:max-w-[calc(50%-12px)]">
+                              <div className="laptop:max-w-[calc(50%-12px)] mt-6 flex items-center justify-between">
                                 {isRightLength && isLastIndex && (
                                   <SmallBtn
                                     type="add"
                                     text={btn('addField')}
                                     onClick={() => push('')}
-                                    className="flex justify-start !leading-4"
+                                    className="flex justify-start leading-4!"
                                   />
                                 )}
 
@@ -281,7 +282,7 @@ const SignUp = () => {
                                     type="delete"
                                     text={btn('deleteField')}
                                     onClick={() => remove(index)}
-                                    className={`flex ${isRightLength && isLastIndex ? 'justify-end' : 'ml-auto'} !leading-4`}
+                                    className={`flex ${isRightLength && isLastIndex ? 'justify-end' : 'ml-auto'} leading-4!`}
                                   />
                                 )}
                               </div>
@@ -300,7 +301,7 @@ const SignUp = () => {
               href={routes.privacyPolicy}
               label={text('checkbox.information')}
               hrefText={text('checkbox.privacyPolicy')}
-              className="!items-start laptop:mx-auto laptop:!items-center"
+              className="laptop:mx-auto laptop:items-center! items-start!"
             />
 
             <Button

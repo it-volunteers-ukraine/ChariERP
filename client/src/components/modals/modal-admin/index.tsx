@@ -19,15 +19,15 @@ export const ModalAdmin = ({
 
   return (
     <Overlay opened={isOpen} onClose={onClose}>
-      <div className="flex w-full flex-col justify-between gap-2 break-words tablet:gap-4">
+      <div className="tablet:gap-4 flex w-full flex-col justify-between gap-2 wrap-break-word">
         <div className="flex w-full flex-col gap-2">
-          <h1 className="text-center font-scada text-[20px] font-bold uppercase leading-6 text-mobster">{title}</h1>
+          <h1 className="font-scada text-mobster text-center text-[20px] leading-6 font-bold uppercase">{title}</h1>
 
-          {subtitle && <h2 className="text-roboto text-center font-normal text-dimGray">{subtitle}</h2>}
+          {subtitle && <h2 className="text-roboto text-dim-gray text-center font-normal">{subtitle}</h2>}
         </div>
 
         {content && isContentString && (
-          <span className="text-roboto text-center font-normal text-dimGray">{content}</span>
+          <span className="text-roboto text-dim-gray text-center font-normal">{content}</span>
         )}
 
         {content && !isContentString && content}

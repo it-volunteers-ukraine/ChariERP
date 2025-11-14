@@ -26,8 +26,8 @@ export const BaseOption = ({ id, value, classNameOption, activeSelected, onSelec
 
   return (
     <div className={style.wrapper} onClick={handleClick}>
-      <div className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-lightBlue">
-        {isActive && <div className="h-[10px] w-[10px] rounded-full bg-lightBlue" />}
+      <div className="border-light-blue flex h-5 w-5 items-center justify-center rounded-full border-2">
+        {isActive && <div className="bg-light-blue h-[10px] w-[10px] rounded-full" />}
       </div>
 
       <span className="text-dark-blue">{t(value)}</span>

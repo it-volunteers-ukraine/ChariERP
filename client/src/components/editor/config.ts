@@ -10,7 +10,7 @@ const theme = {
     bold: 'bold',
     italic: 'italic',
     underline: 'underline',
-    code: 'bg-[#f0f2f5] py-[1px] px-1 font-mono text-[94%]',
+    code: 'bg-[#f0f2f5] py-px px-1 font-mono text-[94%]',
     strikethrough: 'line-through',
     subscript: 'align-sub',
     superscript: 'align-super',

@@ -1,9 +1,13 @@
+@import 'tailwindcss' reference;
+
 .custom-pagination .rc-pagination-item,
 .custom-pagination .rc-pagination-prev,
 .custom-pagination .rc-pagination-next,
 .custom-pagination .rc-pagination-jump-prev,
 .custom-pagination .rc-pagination-jump-next {
-  @apply mx-2 flex h-[32px] w-[32px] cursor-pointer select-none list-none items-center justify-center rounded-full bg-white text-sm text-pagination-color shadow-circle outline-0;
+  @apply mx-2 flex h-[32px] w-[32px] cursor-pointer list-none items-center justify-center rounded-full bg-white text-sm outline-0 select-none;
+  color: var(--color-pagination-color);
+  box-shadow: var(--shadow-circle);
 }
 
 .custom-pagination .rc-pagination-item a,
@@ -16,7 +20,7 @@
 
 .custom-pagination .rc-pagination-prev,
 .custom-pagination .rc-pagination-next {
-  @apply text-pagination-iconColor;
+  color: var(--color-pagination-icon-color);
 }
 
 .custom-pagination .rc-pagination-item:hover,
@@ -24,17 +28,22 @@
 .custom-pagination .rc-pagination-next:hover,
 .custom-pagination .rc-pagination-jump-prev:hover button,
 .custom-pagination .rc-pagination-jump-next:hover button {
-  @apply scale-110 transform border-steelBlue bg-steelBlue text-white transition-all duration-300 ease-in-out;
+  @apply scale-110 transform text-white transition-all duration-300 ease-in-out;
+  border-color: var(--color-steel-blue);
+  background-color: var(--color-steel-blue);
 }
 
 .custom-pagination .rc-pagination-item:focus,
 .custom-pagination .rc-pagination-item-active {
-  @apply select-none border-lightBlue bg-lightBlue text-white;
+  @apply text-white select-none;
+  border-color: var(--color-light-blue);
+  background-color: var(--color-light-blue);
 }
 
 .custom-pagination .rc-pagination-jump-prev button,
 .custom-pagination .rc-pagination-jump-next button {
-  @apply h-[32px] w-[32px] cursor-pointer rounded-full text-pagination-color outline-0;
+  @apply h-[32px] w-[32px] cursor-pointer rounded-full outline-0;
+  color: var(--color-pagination-color);
 }
 
 .custom-pagination .rc-pagination-disabled {

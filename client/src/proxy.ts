@@ -13,7 +13,7 @@ const intlMiddleware = createMiddleware({
   localePrefix: 'never',
 });
 
-export async function middleware(request: NextRequest): Promise<NextResponse> {
+export async function proxy(request: NextRequest): Promise<NextResponse> {
   ensureDefaultLocale(request.cookies);
 
   return handleNavigation(request);

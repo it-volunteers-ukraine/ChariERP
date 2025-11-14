@@ -23,11 +23,11 @@ export const ModalSuccessfulRegistration = ({
 
   return (
     <Overlay opened={isOpen} onClose={onClose} classNameModal="max-w-[708px]">
-      <div className="flex w-full flex-col justify-between gap-4 break-words">
-        <h1 className="text-scada text-center text-[20px] font-bold uppercase leading-6 text-comet">{title}</h1>
+      <div className="flex w-full flex-col justify-between gap-4 wrap-break-word">
+        <h1 className="text-scada text-comet text-center text-[20px] leading-6 font-bold uppercase">{title}</h1>
 
         {content && isContentString && (
-          <span className="text-roboto text-center font-normal text-comet">{content}</span>
+          <span className="text-roboto text-comet text-center font-normal">{content}</span>
         )}
 
         {content && !isContentString && content}

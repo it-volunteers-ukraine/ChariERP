@@ -6,9 +6,9 @@ export const JobTitle = ({ jobTitle }: { jobTitle?: string }) => {
   }
 
   return (
-    <div className="w-[max-content] max-w-full rounded-[4px] bg-emeraldGreen p-[4px_6px] leading-[12px] text-white">
+    <div className="bg-emerald-green w-max max-w-full rounded-[4px] p-[4px_6px] leading-[12px] text-white">
       <EllipsisText content={jobTitle}>
-        <p className="overflow-hidden truncate text-ellipsis font-robotoCondensed text-xs leading-[12px] text-white">
+        <p className="font-roboto-condensed truncate overflow-hidden text-xs leading-[12px] text-ellipsis text-white">
           {jobTitle}
         </p>
       </EllipsisText>

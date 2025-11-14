@@ -6,7 +6,7 @@ export const getStyle = (isActive: boolean) => ({
   btn: cn(
     'group relative flex w-full items-center gap-4 rounded-[5px] p-4 shadow-[0_0_4px_0_#00000029] laptop:w-[264px]',
     {
-      'bg-lightBlue': isActive,
+      'bg-light-blue': isActive,
       'bg-white': !isActive,
     },
   ),
@@ -18,10 +18,10 @@ export const getStyle = (isActive: boolean) => ({
       'w-0': !isActive,
     },
   ),
-  icon: cn('h-full w-full', { 'text-white': isActive, 'text-lightBlue': !isActive }),
+  icon: cn('h-full w-full', { 'text-white': isActive, 'text-light-blue': !isActive }),
   nameBtn: cn(
     animation,
-    'font-roboto text-sm font-medium tablet:text-base laptop:text-2xl group-hover:text-lightBlue',
+    'font-roboto text-sm font-medium tablet:text-base laptop:text-2xl group-hover:text-light-blue',
     {
       'text-white group-hover:text-white': isActive,
       'text-lynch': !isActive,

@@ -40,7 +40,7 @@ const Dashboards = () => {
   const isLoadingBtn = isLoading || isEditing || isDeleting || isLoadingMove;
 
   return (
-    <div className="h-full bg-white px-4 pt-[40px] tablet:px-8 desktop:px-[64px] desktop:pt-[64px]">
+    <div className="tablet:px-8 desktop:px-[64px] desktop:pt-[64px] h-full bg-white px-4 pt-[40px]">
       {isRoleAccess && (
         <div className="flex flex-col gap-3">
           <Button
@@ -58,7 +58,7 @@ const Dashboards = () => {
             <span className={styles.text}>{board('limitExceeded', { int: limitOfCard })}</span>
           </div>
 
-          <div className="mt-5 h-[3px] rounded-50 bg-lightBlue" />
+          <div className="rounded-50 bg-light-blue mt-5 h-[3px]" />
         </div>
       )}
 
@@ -92,7 +92,7 @@ const Dashboards = () => {
         )}
 
         {isLaptop && (
-          <div className="flex w-full gap-6 desktop:max-w-[1088px]">
+          <div className="desktop:max-w-[1088px] flex w-full gap-6">
             <DragDropContext onDragEnd={(result) => onMoveDragEndLarge({ result, boards, setBoards })}>
               {columns &&
                 Object.keys(columns).map((key) => (

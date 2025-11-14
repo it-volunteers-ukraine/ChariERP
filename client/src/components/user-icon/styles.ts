@@ -10,7 +10,7 @@ export const getStyles = ({ width, withoutRing }: IStylesUserIcon) => {
 
   return {
     wrapper: cn(
-      `flex items-center justify-center overflow-hidden rounded-full text-white ring-2 ring-white bg-superBlue`,
+      `flex items-center justify-center overflow-hidden rounded-full text-white ring-2 ring-white bg-super-blue`,
       { 'h-10 w-10 [&>span]:text-[16px]': isBig, [`h-[${width}px] w-[${width}px] [&>span]:text-[12px]`]: !isBig },
       { 'ring-0': withoutRing },
     ),

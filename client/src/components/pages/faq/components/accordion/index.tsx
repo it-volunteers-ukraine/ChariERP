@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Plus } from '@/assets/icons';
 
 import { getStyles } from './styles';
