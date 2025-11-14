@@ -128,7 +128,7 @@ describe('AssetService', () => {
 
       expect(assetModel.paginate).toHaveBeenCalledWith(
         { organizationId: { $eq: organizationId } },
-        { page: DEFAULT_PAGE, limit: DEFAULT_LIMIT, lean: true },
+        { page: DEFAULT_PAGE, limit: DEFAULT_LIMIT, lean: true, leanWithId: false },
       );
 
       expect(result).toEqual({
@@ -162,7 +162,7 @@ describe('AssetService', () => {
 
       expect(assetModel.paginate).toHaveBeenCalledWith(
         { organizationId: { $eq: organizationId } },
-        { page: DEFAULT_PAGE, limit: DEFAULT_LIMIT, lean: true },
+        { page: DEFAULT_PAGE, limit: DEFAULT_LIMIT, lean: true, leanWithId: false },
       );
     });
   });
