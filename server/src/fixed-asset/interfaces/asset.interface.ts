@@ -5,7 +5,7 @@ export interface Asset {
   category?: string;
   origin?: string;
   financing?: string;
-  dateReceived?: string;
+  dateReceived?: Date;
   value?: number;
   currency?: string;
   unit?: string;

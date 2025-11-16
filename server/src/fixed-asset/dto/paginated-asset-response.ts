@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { AssetResponse } from './asset-response';
 
 export class PaginatedAssetResponse {
-  @ApiProperty()
+  @ApiProperty({ type: [AssetResponse] })
   assets: AssetResponse[];
 
   @ApiProperty({ example: 20, description: 'Total number of documents in collection that match a query' })

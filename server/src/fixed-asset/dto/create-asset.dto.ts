@@ -14,6 +14,7 @@ import {
 import { Transform, Type } from 'class-transformer';
 import { ASSET_NAME_REGEX, ASSET_DATE_REGEX } from '../../constants/regex.constants';
 import { VALIDATION_MESSAGES } from '../../constants/validation-messages';
+import { BadRequestException } from '@nestjs/common';
 
 export class CreateAssetDto implements Asset {
   @ApiProperty({ required: true, example: 'Стіл' })
@@ -51,10 +52,19 @@ export class CreateAssetDto implements Asset {
   @IsString()
   financing?: string;
 
-  @ApiProperty({ example: '15.07.2025', type: String })
+  @ApiProperty({ example: '15.07.2025' })
   @IsOptional()
-  @Matches(ASSET_DATE_REGEX, { message: VALIDATION_MESSAGES.ASSET.DATE_INVALID })
-  dateReceived?: string;
+  @Transform(({ value }: { value: string }) => {
+    if (!value) return undefined;
+
+    if (!ASSET_DATE_REGEX.test(value)) {
+      throw new BadRequestException('Asset date must be in the format DD.MM.YYYY');
+    }
+
+    const [day, month, year] = value.split('.');
+    return new Date(`${year}-${month}-${day}T00:00:00Z`);
+  })
+  dateReceived?: Date;
 
   @ApiProperty({ example: 3000.52 })
   @IsOptional()

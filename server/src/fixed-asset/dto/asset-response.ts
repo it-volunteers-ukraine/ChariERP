@@ -25,8 +25,8 @@ export class AssetResponse {
   @ApiProperty({ example: 'Voice' })
   financing?: string;
 
-  @ApiProperty({ example: '15.07.2025' })
-  dateReceived?: string;
+  @ApiProperty({ example: '"2025-07-15T00:00:00.000Z"' })
+  dateReceived?: Date;
 
   @ApiProperty({ example: 3000.5 })
   value?: number;

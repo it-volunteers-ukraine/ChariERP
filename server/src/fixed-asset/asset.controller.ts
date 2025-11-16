@@ -29,7 +29,6 @@ import {
   ApiForbiddenResponse,
   ApiOkResponse,
   ApiNoContentResponse,
-  ApiQuery,
   ApiParam,
   ApiNotFoundResponse,
   ApiConflictResponse,
@@ -40,7 +39,6 @@ import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.i
 import { plainToInstance } from 'class-transformer';
 import { PaginatedAssetResponse } from './dto/paginated-asset-response';
 import { ObjectIdValidationPipe } from '../pipes/object-id-validation.pipe';
-import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../constants/pagination.constants';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { OptionalFileValidationPipe } from '@/pipes/optional-file-validation.pipe';
 import type { MulterFile } from '../pipes/interfaces/file-validator.interface';
@@ -48,6 +46,7 @@ import { FileStorageService } from '@/file-storage/file-storage.service';
 import { FileStoreFolders } from '../schemas/enums';
 import { CreateAssetFormData } from './dto/create-asset-form-data';
 import { UpdateAssetFormData } from './dto/update-asset-form-data';
+import { AssetQueryDto } from './dto/asset-query.dto';
 
 @ApiTags('Asset')
 @Controller('assets')
@@ -97,22 +96,6 @@ export class AssetController {
   }
 
   @ApiOperation({ summary: 'Get all fixed assets' })
-  @ApiQuery({
-    name: 'page',
-    required: false,
-    type: 'string',
-    example: '1',
-    description: 'Page number',
-    schema: { default: '1' },
-  })
-  @ApiQuery({
-    name: 'limit',
-    required: false,
-    type: 'string',
-    example: '5',
-    description: 'Fixed assets per page',
-    schema: { default: '5' },
-  })
   @ApiOkResponse({
     type: PaginatedAssetResponse,
     description: 'Get all fixed assets',
@@ -120,17 +103,12 @@ export class AssetController {
   @ApiUnauthorizedResponse({ description: 'Invalid credentials' })
   @ApiNotFoundResponse({ description: 'No fixed assets found in organization' })
   @Get()
-  async findAll(
-    @Query('page') page: number = DEFAULT_PAGE,
-    @Query('limit') limit: number = DEFAULT_LIMIT,
-    @Req() req: AuthenticatedRequest,
-  ): Promise<PaginatedAssetResponse> {
+  async findAll(@Query() query: AssetQueryDto, @Req() req: AuthenticatedRequest): Promise<PaginatedAssetResponse> {
     const organizationId = req.user.organizationId;
 
     const { assets, totalDocs, perPage, currentPage, totalPages } = await this.assetService.findAll(
       organizationId,
-      page,
-      limit,
+      query,
     );
 
     return { assets: plainToInstance(AssetResponse, assets), totalDocs, perPage, currentPage, totalPages };

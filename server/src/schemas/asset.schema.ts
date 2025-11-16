@@ -19,7 +19,7 @@ export class Asset {
   @Prop()
   financing?: string;
   @Prop()
-  dateReceived?: string;
+  dateReceived?: Date;
   @Prop()
   value?: number;
   @Prop()

@@ -4,6 +4,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Asset, AssetDocument } from '@/schemas/asset.schema';
 import { CreateAssetDto } from './dto/create-asset.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
+import { SortOrder } from './enums/enums';
+import { AssetQueryDto } from './dto/asset-query.dto';
+import { DEFAULT_LIMIT, DEFAULT_PAGE } from '@/constants/pagination.constants';
 
 @Injectable()
 export class AssetService {
@@ -42,14 +45,21 @@ export class AssetService {
 
   async findAll(
     organizationId: string,
-    page: number,
-    limit: number,
+    query: AssetQueryDto,
   ): Promise<{ assets: Asset[]; totalDocs: number; perPage: number; currentPage: number; totalPages: number }> {
+    const { page = DEFAULT_PAGE, limit = DEFAULT_LIMIT, name, value } = query;
+
     const filter = { organizationId: { $eq: organizationId } };
+
+    const sort: Record<string, SortOrder> = {};
+
+    if (name) sort.name = name;
+    if (value) sort.value = value;
 
     const result: PaginateResult<Asset> = await this.assetModel.paginate(filter, {
       page,
       limit,
+      sort,
       lean: true,
       leanWithId: false,
     });
