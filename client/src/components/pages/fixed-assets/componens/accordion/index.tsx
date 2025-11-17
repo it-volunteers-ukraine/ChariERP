@@ -50,6 +50,7 @@ export const Accordion = ({ children, classNameTitle, classNameWrapper, isOpen =
         className={styles.children}
         style={{
           maxHeight: accordionHeight,
+          overflow: isOpen ? 'visible' : 'hidden',
           transition: isFirstRender.current ? 'none' : `max-height 0.3s ease `,
         }}
       >
