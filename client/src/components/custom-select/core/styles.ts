@@ -10,7 +10,7 @@ interface ISelectStyles {
 
 export const selectStyles = ({ classNameWrapper, classNameDropList, isOpen, isLoading, isManager }: ISelectStyles) => ({
   wrapper: cn(
-    'select-wrapper border w-full border-arctic-sky relative p-2 rounded-lg cursor-pointer',
+    'select-wrapper border w-full border-arctic-sky relative p-2 rounded-lg cursor-pointer hover:border-[#1D1B20] transition-all duration-300',
     classNameWrapper,
     { 'bg-light-blue-hover': isLoading },
     { 'rounded-b-none': isOpen },
