@@ -1,4 +1,4 @@
-import { Asset } from '../interfaces/asset.interface';
+import { Asset } from '../interfaces/asset.interfaces';
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsDefined,

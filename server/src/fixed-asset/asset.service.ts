@@ -4,9 +4,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Asset, AssetDocument } from '@/schemas/asset.schema';
 import { CreateAssetDto } from './dto/create-asset.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
-import { SortOrder } from './enums/enums';
+import { SortOrder, ValueRange } from './enums/enums';
 import { AssetQueryDto } from './dto/asset-query.dto';
 import { DEFAULT_LIMIT, DEFAULT_PAGE } from '@/constants/pagination.constants';
+import { Filter } from './interfaces/filter.interface';
+import { AssetDoc, UpdateAssetData } from './interfaces/asset.interfaces';
 
 @Injectable()
 export class AssetService {
@@ -29,32 +31,77 @@ export class AssetService {
       throw new ConflictException('Fixed asset with current name already exists');
     }
 
-    const createdAsset = await this.assetModel.create({
+    const assetDoc: AssetDoc = {
       ...createAssetDto,
-      images: imagesKeys,
       createdBy: userId,
       organizationId,
       createdAt: new Date(),
       updatedAt: new Date(),
-    });
+    };
+
+    if (imagesKeys && imagesKeys.length > 0) {
+      assetDoc.images = imagesKeys;
+    }
+
+    const createdAsset = await this.assetModel.create(assetDoc);
 
     this.logger.log(`Fixed asset '${name}' (ID: ${createdAsset.id}) successfully created by user '${userId}'`);
 
     return createdAsset.toObject();
   }
 
+  private buildFilter(organizationId: string, query: AssetQueryDto): Filter {
+    const { category, location, hasImage, valueRange } = query;
+
+    const filter: Filter = {
+      organizationId: { $eq: organizationId },
+    };
+
+    if (category) filter.category = category;
+    if (location) filter.location = location;
+
+    if (hasImage === true) {
+      filter.images = { $exists: hasImage };
+    }
+
+    if (hasImage === false) {
+      filter.images = { $exists: hasImage };
+    }
+
+    switch (valueRange) {
+      case ValueRange.LT_1000:
+        filter.value = { $lt: 1000 };
+        break;
+
+      case ValueRange.BETWEEN_1000_2000:
+        filter.value = { $gte: 1000, $lte: 2000 };
+        break;
+
+      case ValueRange.GT_2000:
+        filter.value = { $gt: 2000 };
+        break;
+    }
+
+    return filter;
+  }
+
+  private buildSort(query: AssetQueryDto): Record<string, SortOrder> {
+    const sort: Record<string, SortOrder> = {};
+
+    if (query.name) sort.name = query.name;
+    if (query.value) sort.value = query.value;
+
+    return sort;
+  }
+
   async findAll(
     organizationId: string,
     query: AssetQueryDto,
   ): Promise<{ assets: Asset[]; totalDocs: number; perPage: number; currentPage: number; totalPages: number }> {
-    const { page = DEFAULT_PAGE, limit = DEFAULT_LIMIT, name, value } = query;
+    const { page = DEFAULT_PAGE, limit = DEFAULT_LIMIT } = query;
 
-    const filter = { organizationId: { $eq: organizationId } };
-
-    const sort: Record<string, SortOrder> = {};
-
-    if (name) sort.name = name;
-    if (value) sort.value = value;
+    const filter = this.buildFilter(organizationId, query);
+    const sort = this.buildSort(query);
 
     const result: PaginateResult<Asset> = await this.assetModel.paginate(filter, {
       page,
@@ -79,10 +126,18 @@ export class AssetService {
   }
 
   async update(updateAssetDto: UpdateAssetDto, assetId: string, imagesKeys?: string[]): Promise<Asset> {
+    const updateData: UpdateAssetData = {
+      ...updateAssetDto,
+    };
+
+    if (imagesKeys && imagesKeys.length > 0) {
+      updateData.images = imagesKeys;
+    }
+
     const updatedAsset = await this.assetModel
       .findOneAndUpdate(
         { _id: { $eq: assetId } },
-        { $set: updateAssetDto, images: imagesKeys, $currentDate: { updatedAt: true } },
+        { $set: updateData, $currentDate: { updatedAt: true } },
         { lean: true, new: true },
       )
       .exec();
