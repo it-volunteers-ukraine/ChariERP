@@ -95,10 +95,10 @@ export class AssetController {
     return plainToInstance(AssetResponse, asset);
   }
 
-  @ApiOperation({ summary: 'Get all fixed assets with optional sorting' })
+  @ApiOperation({ summary: 'Get all fixed assets with optional filters and sorting' })
   @ApiOkResponse({
     type: PaginatedAssetResponse,
-    description: 'Get all fixed assets with optional sorting',
+    description: 'Get all fixed assets with optional filters and sorting',
   })
   @ApiUnauthorizedResponse({ description: 'Invalid credentials' })
   @ApiNotFoundResponse({ description: 'No fixed assets found in organization' })

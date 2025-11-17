@@ -26,7 +26,7 @@ export class AssetQueryDto {
   limit?: number;
 
   @ApiProperty({
-    description: 'Sort by name',
+    description: 'Sort by name (asc - A to Z, desc - Z to A)',
     enum: SortOrder,
     example: SortOrder.Ascending,
   })
@@ -35,7 +35,7 @@ export class AssetQueryDto {
   name?: SortOrder;
 
   @ApiProperty({
-    description: 'Sort by value',
+    description: 'Sort by value (asc - lowest first, desc - highest first)',
     enum: SortOrder,
     example: SortOrder.Descending,
   })
@@ -60,7 +60,7 @@ export class AssetQueryDto {
   location?: string;
 
   @ApiProperty({
-    description: 'Filter by image availability',
+    description: 'Filter by image availability (true - has image, false - no image)',
     example: 'Склад 2',
   })
   @IsOptional()
@@ -73,7 +73,7 @@ export class AssetQueryDto {
   hasImage?: boolean;
 
   @ApiProperty({
-    description: 'Filter by value range',
+    description: `Filter by value range (lt1000 - less than 1000, 1000-2000 - inclusive, gt2000 - greater than 2000).`,
     example: ValueRange.BETWEEN_1000_2000,
   })
   @IsOptional()

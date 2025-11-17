@@ -26,7 +26,10 @@ export class Asset {
   currency?: string;
   @Prop()
   unit?: string;
-  @Prop()
+  @Prop({
+    type: [String],
+    default: undefined,
+  })
   images?: string[];
   @Prop()
   description?: string;

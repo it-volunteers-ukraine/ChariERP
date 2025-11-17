@@ -220,11 +220,11 @@ describe('AssetController (e2e)', () => {
     describe('200 OK', () => {
       const roleTestCases = [
         {
-          description: `Should return paginated fixed assets for authorized user with role '${Roles.USER}'`,
+          description: `should return paginated fixed assets for authorized user with role '${Roles.USER}'`,
           role: Roles.USER,
         },
         {
-          description: `Should return paginated fixed assets for authorized user with role '${Roles.MANAGER}'`,
+          description: `should return paginated fixed assets for authorized user with role '${Roles.MANAGER}'`,
           role: Roles.MANAGER,
         },
       ];
@@ -264,6 +264,39 @@ describe('AssetController (e2e)', () => {
             totalPages: expect.any(Number),
           }),
         );
+      });
+
+      it(`should return only fixed assets with images when optional filter 'hasImage=true'`, async () => {
+        const testUser = createTestUser(Roles.USER);
+        const hashedPassword = await bcrypt.hash(testUser.password, 10);
+        const dbUser = await userModel.create({ ...testUser, password: hashedPassword });
+
+        const loginResponse = await request(app.getHttpServer())
+          .post('/auth/login')
+          .send({ email: testUser.email, password: testUser.password })
+          .expect(HttpStatus.OK);
+
+        const userToken = loginResponse.body.access_token;
+
+        const assetWithImage = await assetModel.create({
+          ...createValidAsset(dbUser.organizationId.toString(), dbUser._id.toString()),
+          images: [faker.image.url()],
+        });
+
+        await assetModel.create({
+          ...createValidAsset(dbUser.organizationId.toString(), dbUser._id.toString()),
+        });
+
+        const res = await request(app.getHttpServer())
+          .get('/assets')
+          .set('Authorization', `Bearer ${userToken}`)
+          .query({ hasImage: 'true' })
+          .expect(HttpStatus.OK);
+
+        expect(res.body.assets.length).toBe(1);
+        expect(res.body.assets[0]._id).toBe(assetWithImage._id.toString());
+        expect(res.body.assets[0].images).toBeDefined();
+        expect(res.body.assets[0].images.length).toBeGreaterThan(0);
       });
     });
 

@@ -13,6 +13,8 @@ import { UpdateAssetDto } from './dto/update-asset.dto';
 import { FileStorageService } from '@/file-storage/file-storage.service';
 import { FileStoreFolders } from '../schemas/enums';
 import type { MulterFile } from '@/pipes/interfaces/file-validator.interface';
+import { AssetQueryDto } from './dto/asset-query.dto';
+import { SortOrder } from './enums/enums';
 
 describe('AssetController', () => {
   let assetController: AssetController;
@@ -149,10 +151,19 @@ describe('AssetController', () => {
     expect(result).toEqual(plainToInstance(AssetResponse, mockCreatedAsset));
   });
 
-  it('should call assetService.findAll with correct arguments and return paginated fixed assets', async () => {
+  it(`should call assetService.findAll with correct arguments, including optional filters and sorting.
+    Return paginated fixed assets`, async () => {
     mockReq.user!.role = Roles.USER;
 
     const organizationId = mockReq.user!.organizationId;
+
+    const mockQuery: AssetQueryDto = {
+      page: DEFAULT_PAGE,
+      limit: DEFAULT_LIMIT,
+      name: SortOrder.Ascending,
+      hasImage: true,
+    };
+
     const createdAt = faker.date.past();
 
     const mockAssets = Array.from({ length: DEFAULT_LIMIT }, () => ({
@@ -177,9 +188,9 @@ describe('AssetController', () => {
 
     (assetService.findAll as jest.Mock).mockResolvedValue(mockPaginateResult);
 
-    const result = await assetController.findAll(DEFAULT_PAGE, DEFAULT_LIMIT, mockReq as AuthenticatedRequest);
+    const result = await assetController.findAll(mockQuery, mockReq as AuthenticatedRequest);
 
-    expect(assetService.findAll).toHaveBeenCalledWith(organizationId, DEFAULT_PAGE, DEFAULT_LIMIT);
+    expect(assetService.findAll).toHaveBeenCalledWith(organizationId, mockQuery);
 
     expect(result).toEqual(mockPaginateResult as PaginatedAssetResponse);
   });
