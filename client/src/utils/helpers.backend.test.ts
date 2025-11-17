@@ -1,4 +1,4 @@
-import { getExtensionForBase64, renameFile } from '@/utils/helpers';
+import { getExtensionForBase64, renameFile } from '@/utils/helpers.backend';
 
 describe('Rename file test', () => {
   it('should decode file name into URI style', () => {

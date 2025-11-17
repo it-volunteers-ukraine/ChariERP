@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface ITitle {
   title: string;
   className?: string;

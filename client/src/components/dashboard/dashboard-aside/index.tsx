@@ -79,11 +79,11 @@ export const DashboardAside = () => {
   return (
     <aside className={styles.aside} ref={ref}>
       <div>
-        <div className="flex h-[64px] w-full items-center border-b border-b-white pl-[16px] tablet:pl-[32px] desktop:h-[96px]">
+        <div className="tablet:pl-[32px] desktop:h-[96px] flex h-[64px] w-full items-center border-b border-b-white pl-[16px]">
           <Logo />
         </div>
 
-        <nav className="flex flex-col gap-3 p-[16px] pb-0 tablet:px-[32px] desktop:px-[36px] desktop:pt-[42px]">
+        <nav className="tablet:px-[32px] desktop:px-[36px] desktop:pt-[42px] flex flex-col gap-3 p-[16px] pb-0">
           {links.map(({ title, href, icon, disabled, children }, idx) => {
             return (
               <Fragment key={`${href}_${idx}`}>
@@ -129,7 +129,7 @@ export const DashboardAside = () => {
                                     {...providerItem.draggableProps}
                                     {...providerItem.dragHandleProps}
                                     className={cn(
-                                      snapshot.isDragging && 'rounded-[5px] bg-lightBlue shadow-cardShadow',
+                                      snapshot.isDragging && 'bg-light-blue shadow-card-shadow rounded-[5px]',
                                     )}
                                   >
                                     <NavItem
@@ -158,7 +158,7 @@ export const DashboardAside = () => {
         </nav>
       </div>
 
-      <div className="flex h-[88px] w-full items-center justify-between border-t border-t-white px-4 laptop:hidden laptop:px-8">
+      <div className="laptop:hidden laptop:px-8 flex h-[88px] w-full items-center justify-between border-t border-t-white px-4">
         <LanguageSwitcher />
         <button
           onClick={onExit}

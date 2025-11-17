@@ -11,7 +11,7 @@ export const Avatar = ({ img, name }: IAvatarProps) => {
   const { isTablet } = useWindowWidth();
 
   return (
-    <div className="cursor-pointer text-lightBlue transition-all duration-200 hover:drop-shadow-xl tablet:flex tablet:gap-2">
+    <div className="text-light-blue tablet:flex tablet:gap-2 cursor-pointer transition-all duration-200 hover:drop-shadow-xl">
       {img !== null ? (
         <Image src={img} alt={name} className="h-24 w-24 rounded-full" />
       ) : (

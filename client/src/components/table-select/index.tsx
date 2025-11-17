@@ -54,9 +54,9 @@ export const TableSelect = () => {
                 }}
               />
 
-              <div className="flex h-4 w-4 items-center justify-center rounded-full bg-scrollItemBg">
+              <div className="bg-scroll-item-bg flex h-4 w-4 items-center justify-center rounded-full">
                 <div className="flex h-3 w-3 items-center justify-center rounded-full bg-white">
-                  {selected === option && <div className="h-2 w-2 rounded-full bg-scrollItemBg" />}
+                  {selected === option && <div className="bg-scroll-item-bg h-2 w-2 rounded-full" />}
                 </div>
               </div>
 

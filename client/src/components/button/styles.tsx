@@ -11,24 +11,24 @@ interface IStylesButton {
 }
 
 const primaryClasses =
-  'enabled:shadow-btn-inset disabled:bg-btn-disabled enabled:bg-btnPrimaryGradient bg-repeat bg-200 bg-[top_left]';
+  'enabled:shadow-btn-inset disabled:bg-btn-disabled enabled:bg-btn-primary-gradient bg-repeat bg-200 bg-position-[top_left]';
 
 const iconSize = 'w-9 h-9';
 
-const blueSpinner = ['white', 'outline', 'secondary-outline', 'icon-secondary'];
+const blueSpinner = ['white', 'outline-solid', 'secondary-outline', 'icon-secondary'];
 
 export const getStyles = ({ disabled, isNarrow, styleType, className, isLoading }: IStylesButton) => ({
   btn: clsx(
-    'group flex items-center justify-center overflow-hidden relative text-btn-text rounded-[50px] transition-all duration-300',
+    'group flex items-center justify-center overflow-hidden relative text-btn-text rounded-50 transition-all duration-300',
     {
       [`${className}`]: className,
       [`${primaryClasses}`]: styleType === 'primary',
       'cursor-wait': isLoading,
 
       'bg-transparent  disabled:text-btn-outline-disabled disabled:border-btn-outline-disabled border enabled:border-btn-outline-border':
-        styleType === 'outline',
+        styleType === 'outline-solid',
       'enabled:active:border-transparent enabled:active:bg-btn-outline-active enabled:hover:bg-btn-outline enabled:hover:text-btn-outline-hover-text':
-        styleType === 'outline' && !isLoading,
+        styleType === 'outline-solid' && !isLoading,
 
       'border enabled:border-transparent enabled:bg-btn-secondary enabled:text-btn-secondary-text disabled:text-btn-secondary-disabled-text disabled:border-btn-secondary-disabled-border disabled:bg-btn-secondary-disabled-border disabled:text-btn-text':
         styleType === 'secondary',
@@ -47,36 +47,35 @@ export const getStyles = ({ disabled, isNarrow, styleType, className, isLoading 
       'enabled:hover:bg-btn-red-hover enabled:active:bg-btn-red-active': styleType === 'red' && !isLoading,
 
       [`${primaryClasses} ${iconSize}`]: styleType === 'icon-primary',
-      'hover:bg-[bottom_right]': (styleType === 'icon-primary' || styleType === 'primary') && !isLoading,
+      'hover:bg-position-[bottom_right]': (styleType === 'icon-primary' || styleType === 'primary') && !isLoading,
 
-      [`enabled:bg-whiteSecond disabled:bg-btn-disabled ${iconSize}`]: styleType === 'icon-secondary',
+      [`enabled:bg-white-second disabled:bg-btn-disabled ${iconSize}`]: styleType === 'icon-secondary',
 
-      'enabled:bg-whiteSecond enabled:text-dimGray items-center disabled:bg-btn-disabled disabled:text-btn-white ':
+      'enabled:bg-white-second enabled:text-dim-gray items-center disabled:bg-btn-disabled disabled:text-btn-white ':
         styleType === 'white',
-      'enabled:active:bg-lightBlue enabled:hover:bg-btn-steelBlue enabled:active:text-white enabled:hover:text-white':
+      'enabled:active:bg-light-blue enabled:hover:bg-btn-steel-blue enabled:active:text-white enabled:hover:text-white':
         styleType === 'white' && !isLoading,
 
-      'enabled:bg-transparent border enabled:border-lightBlue enabled:text-lightBlue items-center disabled:border-disabled disabled:text-disabled':
+      'enabled:bg-transparent border enabled:border-light-blue enabled:text-light-blue items-center disabled:border-disabled disabled:text-disabled':
         styleType === 'outline-blue',
       'enabled:hover:bg-transparent enabled:hover:border-dark-blue enabled:active:bg-transparent enabled:active-border-dark-blue enabled:active:text-dark-blue':
         styleType === 'outline-blue' && !isLoading,
     },
   ),
-  iconWrapper: 'z-[3]',
-  span: clsx('relative z-[1] select-none flex items-center justify-center font-scada', {
+  iconWrapper: 'z-3',
+  span: clsx('relative z-1 select-none flex items-center justify-center font-scada', {
     'text-base leading-4 h-[42px] px-[20px]': !isNarrow,
     'px-[12px] text-xs leading-[14px] h-[24px]': isNarrow,
-    'bg-clip-text text-transparent bg-outlineBlueBtnText bg-[bottom_right] group-hover:bg-[top_left] group-active:text-dark-blue bg-200 transition-all duration-300':
+    'bg-clip-text text-transparent bg-outline-blue-btn-text bg-position-[bottom_right] group-hover:bg-position-[top_left] group-active:text-dark-blue bg-200 transition-all duration-300':
       styleType === 'outline-blue' && !disabled,
   }),
   overlay: clsx(
-    'absolute top-0 enabled:shadow-btn-inset left-0 w-full h-full transition-all duration-300 opacity-0 z-[0] bg-btnActiveGradient',
+    'absolute top-0 enabled:shadow-btn-inset left-0 w-full h-full transition-all duration-300 opacity-0 z-0 bg-btn-active-gradient',
     {
       'group-active:opacity-100': !isLoading,
     },
   ),
-  loader:
-    'absolute top-0 left-0 w-full h-full flex items-center justify-center z-[4] backdrop-blur-[1px] rounded-[60px]',
+  loader: 'absolute top-0 left-0 w-full h-full flex items-center justify-center z-4 backdrop-blur-[1px] rounded-[60px]',
   spinner: clsx({
     'w-5 h-5': isNarrow,
     'w-6 h-6': !isNarrow,

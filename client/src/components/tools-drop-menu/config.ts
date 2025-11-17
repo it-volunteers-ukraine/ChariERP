@@ -1,4 +1,4 @@
 export const configAnimations = {
-  horizontal: { start: 'animate-openToolsMenu', end: 'animate-closeToolsMenu' },
-  fade: { start: 'animate-startExpand', end: 'animate-startCollapse' },
+  horizontal: { start: 'animate-open-tools-menu', end: 'animate-close-tools-menu' },
+  fade: { start: 'animate-start-expand', end: 'animate-start-collapse' },
 };

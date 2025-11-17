@@ -9,7 +9,7 @@ export default async function Layout({ children }: ChildrenProps) {
         <div className="flex h-dvh overflow-hidden">
           <DashboardAside />
 
-          <div className="flex max-w-full flex-1 flex-col bg-whiteSecond desktop:max-w-[calc(100%-290px)]">
+          <div className="bg-white-second desktop:max-w-[calc(100%-290px)] flex max-w-full flex-1 flex-col">
             <DashboardHeader />
 
             <LoaderAdminProvider>{children}</LoaderAdminProvider>

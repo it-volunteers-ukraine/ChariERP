@@ -1,10 +1,313 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-blue-border: #126dfb;
+  --color-blue-green: #2a505b;
+  --color-ebb: #e7e2e2;
+  --color-java: #14add6;
+  --color-white: #ffffff;
+  --color-new-black: #1d1b20;
+  --color-blue-crayola: #78d6ef;
+  --color-new-disabled: #d0cbcb;
+  --color-white-second: #f4f7fe;
+  --color-light-blue: #61b6db;
+  --color-light-blue-hover: #e8eefb;
+  --color-lynch: #687a95;
+  --color-disabled: #c2c3c5;
+  --color-dark-blue-focus: #0c6399;
+  --color-dark-gray: #49454f;
+  --color-comet: #5d647c;
+  --color-dim-gray: #656575b2;
+  --color-mobster: #79747e;
+  --color-mid-gray: #656575;
+  --color-emerald-green: #40bc6a;
+  --color-super-blue: #dff0f8;
+  --color-steel-blue: #3b91be;
+  --color-arctic-sky: #d0ddec;
+  --color-dark-blue: #2c73ac;
+  --color-yellow: #dbc553;
+  --color-error: #b3261e;
+  --color-green: #84bb46;
+  --color-green-active: #178d40;
+  --color-purple: #a86ccc;
+  --color-green-normal: #5bc780;
+  --color-red: #dd6b64;
+  --color-sky-blue: #5684c6;
+
+  --color-title-title: #61b6db;
+  --color-title-media: #5d647cb2;
+
+  --color-pagination-color: #656575b2;
+  --color-pagination-icon-color: #61b6db;
+
+  --color-input-text: #5d647c;
+  --color-input-error: #b3261e;
+  --color-input-star: #e23a81;
+  --color-input-hover: #79747e;
+  --color-input-focus: #2c73ac;
+  --color-input-caret: #61b6db;
+  --color-input-disabled: #d0cbcb;
+  --color-input-info: #687a9580;
+  --color-input-lite-gray: #a3a3a3;
+  --color-input-info-default: #687a95;
+  --color-input-link: #61b6db;
+
+  --color-checkbox-default-border: #687a95;
+  --color-checkbox-disabled-border: #d0cbcb;
+  --color-checkbox-disabled-selected-bg: #bec6d0;
+  --color-checkbox-default-text: #5d647c;
+  --color-checkbox-disabled-text: #d0cbcb;
+  --color-checkbox-disabled-selected-text: #bec6d0;
+  --color-checkbox-link-default: #61b6db;
+  --color-checkbox-link-disabled: #d0cbcb;
+  --color-checkbox-link-disabled-selected: #bec6d0;
+  --color-checkbox-disabled-check: #a8a8ad;
+
+  --color-radio-default-border: #61b6db;
+  --color-radio-disabled-border: #d0cbcb;
+  --color-radio-error: #b3261e;
+
+  --color-btn-text: #ffffff;
+  --color-btn-steel-blue: #3b91be;
+  --color-btn-secondary-text: #2c73ac;
+  --color-btn-secondary-hover: #84bb46;
+  --color-btn-secondary-hover-text: #ffffff;
+  --color-btn-secondary-active: #2c73ac;
+  --color-btn-secondary-disabled-text: #bec6d0;
+  --color-btn-secondary-disabled-border: #d0cbcb;
+  --color-btn-outline-border: #ffffff;
+  --color-btn-outline-hover-text: #2c73ac;
+  --color-btn-outline-disabled: rgba(104, 122, 149, 0.5);
+  --color-btn-disabled: #c2c3c5;
+  --color-btn-outline: #ffffff;
+  --color-btn-secondary: #ffffff;
+  --color-btn-outline-active: #d2e1ef;
+  --color-btn-green: #5bc780;
+  --color-btn-green-hover: #34ab5d;
+  --color-btn-green-active: #178d40;
+  --color-btn-red: #dd6b64;
+  --color-btn-red-hover: #c83c34;
+  --color-btn-red-active: #b3261e;
+
+  --color-nav-item-disabled: #a3aed0;
+
+  --color-overlay: #687a95;
+
+  --background-image-arrow-bg: linear-gradient(60deg, #78d6ef 0%, #3879b6 100%);
+  --background-image-burger: linear-gradient(315deg, #78d6ef 0%, #3879b6 100%);
+  --background-image-scroll-item-bg: linear-gradient(135deg, #78d6ef 0%, #1e619f 100%);
+  --background-image-board-aside: linear-gradient(135deg, #78d6ef 0%, #3879b6 100%);
+  --background-image-burger-tablet: linear-gradient(315deg, #3879b6 0%, #78d6ef 100%);
+  --background-image-header-gradient: linear-gradient(135deg, #78d6ef 0%, #3879b6 100%);
+  --background-image-btn-primary-gradient: linear-gradient(135deg, #78d6ef 0%, #3879b6 40%, #0c6399 65%, #60adf3 100%);
+  --background-image-btn-active-gradient: linear-gradient(135deg, #0c6399 0%, #0c6399 100%);
+  --background-image-bg-auth-gradient: linear-gradient(
+    90.36deg,
+    #cfedf8 0.31%,
+    #ffffff 25.15%,
+    #ffffff 74.85%,
+    #cfeef7 99.69%
+  );
+  --background-image-bg-auth-links: linear-gradient(135deg, #78d6ef 0%, #3879b6 100%);
+  --background-image-outline-blue-btn-text: linear-gradient(135deg, #0c6399 0%, #60adf3 50%, #61b6db 100%);
+  --background-image-bg-nGOs: linear-gradient(180deg, #0677ba 0%, #08335f 89%);
+  --background-image-bg-card-team: linear-gradient(150.18deg, #cfedf8 0%, rgba(255, 255, 255, 0.8) 98.08%);
+  --background-image-bg-sub-card-team: linear-gradient(180deg, #b3e3fa 0%, #68bae0 100%);
+  --background-image-bg-decor-card-team: linear-gradient(90deg, #9cd6f2 0%, #5eb4dd 100%);
+  --background-image-bg-banner: linear-gradient(135deg, #78d6ef 0%, #3879b6 100%);
+
+  --shadow-accordion-arrow-shadow: 0 0 4px rgba(0, 0, 0, 0.13);
+  --shadow-accordion-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
+  --shadow-btn-inset: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.1);
+  --shadow-auth: 0px 0px 10px 4px rgba(0, 0, 0, 0.05);
+  --shadow-circle: 0px 0px 3px 0px rgba(0, 0, 0, 0.13);
+  --shadow-dashboard: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  --shadow-button-aside: 0px 0px 3px 2px rgba(97, 182, 219, 0.4);
+  --shadow-switcher: 0px 0px 4px 0px rgba(0, 0, 0, 0.16);
+  --shadow-employee-card: 0px 0px 3px 1px #65657540;
+  --shadow-inner-bg: 0px 0px 10px 4px rgba(0, 0, 0, 0.05);
+  --shadow-password-change: 0px 0px 8px 0px rgba(0, 0, 0, 0.17);
+  --shadow-board-card: 0px 0px 3px 0px rgba(0, 0, 0, 0.13), 0px 2px 2px 0px rgba(101, 101, 117, 0.15);
+  --shadow-status: 0px 0px 2px 0px rgba(101, 101, 117, 0.37);
+  --shadow-create-column: 0px 0px 3px 0px #00000021, 0px 2px 2px 0px #65657526;
+  --shadow-board-column: 0px 0px 3px 0px #00000021, 0px 2px 2px 0px #65657526;
+  --shadow-team-card: 0px 2px 6px -1px rgba(12, 12, 13, 0.05), 2px 2px 6px -1px rgba(12, 12, 13, 0.1);
+  --shadow-about-us: 0px 4px 4px -1px rgba(12, 12, 13, 0.05), 0px 4px 4px -1px rgba(12, 12, 13, 0.1);
+  --shadow-card-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.16);
+  --shadow-faq-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.05);
+  --shadow-faq-acc-shadow: 0px 0px 3px 1px rgba(101, 101, 117, 0.25);
+  --shadow-task: 0px 0px 4px 0px rgba(0, 0, 0, 0.28);
+
+  --background-size-150: 150%;
+  --background-size-200: 201%;
+
+  --radius-50: 50px;
+
+  --font-montserrat: Montserrat, sans-serif;
+  --font-scada: var(--font-scada), sans-serif;
+  --font-roboto: var(--font-roboto), sans-serif;
+  --font-roboto-condensed: var(--font-robotoCondensed), sans-serif;
+
+  --breakpoint-tablet: 768px;
+  --breakpoint-laptop: 992px;
+  --breakpoint-desktop: 1440px;
+  --breakpoint-desktop-xl: 1919px;
+
+  --drop-shadow-logo: 4px 2px 2px rgba(0, 0, 0, 0.25), -4px -2px 3px rgba(0, 0, 0, 0.15);
+  --drop-shadow-modal: 0 0 15px rgba(0, 0, 0, 0.5);
+
+  --grid-template-columns-table-requests: minmax(170px, auto) 120px 74px 106px 154px;
+  --grid-template-columns-table-organization: minmax(170px, auto) 120px 74px 106px 252px;
+
+  --transition-property-rounded: border-radius;
+
+  --object-position-30-left: 30% center;
+
+  --animate-portal-open: appearanceOverlay ease-in-out forwards;
+  --animate-portal-close: disappearanceOverlay ease-in-out forwards;
+  --animate-modal-open: appearanceModal ease-in-out forwards;
+  --animate-modal-close: disappearanceModal ease-in-out forwards;
+  --animate-open-tools-menu: inToolsMenu ease-in-out forwards;
+  --animate-close-tools-menu: outToolsMenu ease-in-out forwards;
+  --animate-spinner: spinner 30s linear infinite;
+  --animate-not-rotate: notRotate 30s linear infinite;
+  --animate-start-expand: expandToolsMenu ease-in-out forwards;
+  --animate-start-collapse: collapseToolsMenu ease-in-out forwards;
+  --animate-open-selected-menu: selectedOpen 0.3s ease-in-out forwards;
+  --animate-close-selected-menu: selectedClose 0.2s ease-in-out forwards;
+
+  @keyframes spinner {
+    0% {
+      transform: rotate(-90deg);
+    }
+    100% {
+      transform: rotate(270deg);
+    }
+  }
+  @keyframes notRotate {
+    0% {
+      transform: translate(-50%, -50%) rotate(90deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(-270deg);
+    }
+  }
+  @keyframes appearBg {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      background: linear-gradient(135deg, #78d6ef 0%, #3879b6 100%);
+      opacity: 1;
+    }
+  }
+  @keyframes appearanceOverlay {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes disappearanceOverlay {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes appearanceModal {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes disappearanceModal {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0);
+    }
+  }
+  @keyframes inToolsMenu {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  @keyframes outToolsMenu {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  @keyframes expandToolsMenu {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes collapseToolsMenu {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes selectedOpen {
+    0% {
+      height: 0px;
+      opacity: 0;
+    }
+    100% {
+      height: 160px;
+      opacity: 1;
+    }
+  }
+  @keyframes selectedClose {
+    0% {
+      height: 160px;
+      opacity: 1;
+    }
+    100% {
+      height: 0px;
+      opacity: 0;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 @layer components {
   * {
-    @apply box-border font-roboto text-base font-normal text-inherit;
+    @apply font-roboto box-border text-base font-normal text-inherit;
   }
   input {
     @apply outline-none;
@@ -95,7 +398,7 @@ body {
 }
 
 .scroll-blue::-webkit-scrollbar {
-  @apply w-[12px] bg-superBlue;
+  @apply bg-super-blue w-[12px];
 }
 
 .scroll-blue::-webkit-scrollbar-track {
@@ -103,11 +406,11 @@ body {
 }
 
 .scroll-blue::-webkit-scrollbar-thumb {
-  @apply w-[7px] cursor-pointer rounded-[100px] bg-lightBlue;
+  @apply bg-light-blue w-[7px] cursor-pointer rounded-[100px];
 }
 
 .scroll-column.scroll-blue::-webkit-scrollbar-thumb {
-  @apply border-2 border-solid border-superBlue;
+  @apply border-super-blue border-2 border-solid;
 }
 
 .scroll-lightBlue::-webkit-scrollbar {
@@ -119,7 +422,7 @@ body {
 }
 
 .scroll-lightBlue::-webkit-scrollbar-thumb {
-  @apply w-[4px] rounded-full bg-arcticSky;
+  @apply bg-arctic-sky w-[4px] rounded-full;
   border: 2px solid transparent;
 }
 
@@ -128,7 +431,7 @@ body {
 }
 
 .scroll-textarea::-webkit-scrollbar-thumb {
-  @apply w-[6px] cursor-pointer rounded-[100px] bg-arcticSky;
+  @apply bg-arctic-sky w-[6px] cursor-pointer rounded-[100px];
 }
 
 .clip-angled {

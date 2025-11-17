@@ -4,5 +4,5 @@ export const getStyles = () => ({
   wrapper:
     'p-6 bg-dark-blue rounded-[40px] text-center tablet:w-[628px] tablet:mx-auto tablet:p-10 laptop:w-[722px] desktop:w-[754px] desktop:p-14',
   text: 'mb-4 font-scada font-bold text-[20px] leading-6 text-white uppercase tablet:text-[24px] tablet:leading-7 tablet:mb-8 laptop:text-[32px] laptop:leading-[38px] desktop:mb-10',
-  button: 'uppercase mx-auto !bg-bgBanner',
+  button: 'uppercase mx-auto bg-bg-banner!',
 });

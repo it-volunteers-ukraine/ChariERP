@@ -1,9 +1,9 @@
 import { NextRequest } from 'next/server';
 import { ActiveLanguage } from './types';
 import { cookiesLocale, routes } from './constants';
-import { middleware } from './middleware';
+import { proxy } from './proxy';
 
-describe('Middleware', () => {
+describe('Proxy', () => {
   const validId = '507f1f77bcf86cd799439011';
   const invalidId = 'invalid-id';
 
@@ -36,7 +36,7 @@ describe('Middleware', () => {
   describe('Locale handling', () => {
     test('sets default locale when not present', async () => {
       const request = createRequest('/');
-      const response = await middleware(request);
+      const response = await proxy(request);
 
       expect(request.cookies.set).toHaveBeenCalledWith(cookiesLocale, ActiveLanguage.UA);
       expectNoRedirect(response);
@@ -44,7 +44,7 @@ describe('Middleware', () => {
 
     test('preserves existing locale', async () => {
       const request = createRequest('/', { [cookiesLocale]: ActiveLanguage.EN });
-      const response = await middleware(request);
+      const response = await proxy(request);
 
       expect(request.cookies.set).not.toHaveBeenCalled();
       expectNoRedirect(response);
@@ -57,7 +57,7 @@ describe('Middleware', () => {
       { path: routes.login, id: validId, target: routes.requests },
     ])('redirects from $path to $target', async ({ path, id, target }) => {
       const request = createRequest(path, { id });
-      const response = await middleware(request);
+      const response = await proxy(request);
 
       expectRedirect(response, target);
     });
@@ -67,7 +67,7 @@ describe('Middleware', () => {
       { path: routes.login, id: invalidId },
     ])('allows access to $path', async ({ path, id }) => {
       const request = createRequest(path, { id });
-      const response = await middleware(request);
+      const response = await proxy(request);
 
       expectNoRedirect(response);
     });
@@ -85,14 +85,14 @@ describe('Middleware', () => {
 
     test.each(validIds)('valid ObjectId %s redirects from login to requests', async (id) => {
       const request = createRequest(routes.login, { id });
-      const response = await middleware(request);
+      const response = await proxy(request);
 
       expectRedirect(response, routes.requests);
     });
 
     test.each(invalidIds)('invalid ObjectId %s redirects from requests to login', async (id) => {
       const request = createRequest(routes.requests, { id });
-      const response = await middleware(request);
+      const response = await proxy(request);
 
       expectRedirect(response, routes.login);
     });

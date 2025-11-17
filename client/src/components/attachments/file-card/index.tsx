@@ -14,14 +14,16 @@ export const FileCard = ({ file, preview, removeFile, isDeleting, disabled }: Fi
       <div className="relative h-full max-h-[88px] w-full">
         <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-t-[8px]">
           {!isDeleting && <RenderFile file={file} preview={preview} />}
-          {isDeleting && <Loader className="h-8 w-8 text-dark-blue" />}
+          {isDeleting && <Loader className="text-dark-blue h-8 w-8" />}
         </div>
 
         <DotsWrapper removeFile={removeFile} preview={preview} fileName={file.name} disabled={disabled} />
       </div>
 
       <div className="flex min-h-[48px] w-full flex-col gap-1 p-[4px_8px_8px]">
-        <h1 className="ellipsis overflow-hidden truncate font-roboto text-sm font-medium text-darkGray">{file.name}</h1>
+        <h1 className="ellipsis font-roboto text-dark-gray truncate overflow-hidden text-sm font-medium">
+          {file.name}
+        </h1>
 
         <div className="flex w-full items-center gap-5">
           <span className="font-roboto text-[10px] leading-[120%]">{formattedDate}</span>

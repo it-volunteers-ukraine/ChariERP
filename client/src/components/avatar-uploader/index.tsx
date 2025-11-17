@@ -39,7 +39,7 @@ export const AvatarUploader = ({
   return (
     <div className={styles.wrapper}>
       <div className={styles.circle}>
-        <div className="relative z-[3] flex h-full items-center justify-center">
+        <div className="relative z-3 flex h-full items-center justify-center">
           {avatarUrl ? (
             <Image fill src={avatarUrl} alt="Avatar" className="aspect-square object-cover" />
           ) : (
@@ -47,7 +47,7 @@ export const AvatarUploader = ({
           )}
         </div>
 
-        <div className="absolute inset-0 z-[2] flex flex-col items-center justify-center space-y-2 bg-dark-blue opacity-0 transition-opacity duration-100 group-hover/avatar:z-[4] group-hover/avatar:opacity-100">
+        <div className="bg-dark-blue absolute inset-0 z-2 flex flex-col items-center justify-center space-y-2 opacity-0 transition-opacity duration-100 group-hover/avatar:z-4 group-hover/avatar:opacity-100">
           <label className={styles.cameraWrapper}>
             <Camera width={iconSize} height={iconSize} />
 
@@ -73,15 +73,15 @@ export const AvatarUploader = ({
           <div className="flex gap-3">
             <Warning width={24} height={24} />
 
-            <span className="text-[14px] text-input-error">{error}</span>
+            <span className="text-input-error text-[14px]">{error}</span>
           </div>
         )}
 
         {info && (
-          <div className="flex items-start gap-3 text-input-info tablet:items-center">
+          <div className="text-input-info tablet:items-center flex items-start gap-3">
             <Info width={24} height={24} className="min-w-[24px]" />
 
-            {typeof info === 'string' ? <span className="text-[14px] text-input-info">{info}</span> : <div>{info}</div>}
+            {typeof info === 'string' ? <span className="text-input-info text-[14px]">{info}</span> : <div>{info}</div>}
           </div>
         )}
       </div>

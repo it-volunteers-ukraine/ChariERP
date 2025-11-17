@@ -8,7 +8,7 @@ interface IGetStyles {
 }
 
 export const getStyles = ({ placeholder, placeholderItalic, value, inputClass }: IGetStyles) => ({
-  wrapper: cn('w-full flex cursor-pointer border border-arcticSky p-2 ', inputClass),
+  wrapper: cn('w-full flex cursor-pointer border border-arctic-sky p-2 ', inputClass),
   text: cn(' w-full items-center bg-transparent px-[14px] pl-0 text-dark-blue', {
     italic: placeholderItalic && !value,
     'text-input-info': placeholder && !value,

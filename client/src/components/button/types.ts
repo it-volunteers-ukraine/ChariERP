@@ -18,7 +18,7 @@ export type StyleType =
   | 'white'
   | 'green'
   | 'primary'
-  | 'outline'
+  | 'outline-solid'
   | 'secondary'
   | 'outline-blue'
   | 'icon-primary'

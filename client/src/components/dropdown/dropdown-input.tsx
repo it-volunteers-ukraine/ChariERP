@@ -14,7 +14,7 @@ export const DropdownInput = ({ checked, onChange }: IDropdownInputProps) => {
     <>
       <input type="checkbox" onChange={onChange} checked={checked} className="absolute appearance-none" />
 
-      <span className="mr-[10px] flex h-[18px] w-[18px] items-center justify-center rounded-sm border-2 border-lightBlue">
+      <span className="border-light-blue mr-[10px] flex h-[18px] w-[18px] items-center justify-center rounded-xs border-2">
         <Check className={checkboxStyles} />
       </span>
     </>

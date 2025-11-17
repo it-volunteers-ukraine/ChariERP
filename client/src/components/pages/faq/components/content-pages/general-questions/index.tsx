@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { MockData } from './mock';
 import { Accordion } from '../../accordion';
@@ -17,7 +17,7 @@ export const GeneralQuestions = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6 tablet:gap-8">
+    <div className="tablet:gap-8 flex flex-col gap-6">
       {MockData.map((item, i) => {
         return (
           <Accordion

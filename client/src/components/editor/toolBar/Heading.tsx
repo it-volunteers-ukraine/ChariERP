@@ -26,7 +26,7 @@ export const Heading = ({ className }: { className?: string }) => {
       {isDropdownOpen && (
         <div
           ref={ref}
-          className="absolute left-0 top-full z-10 mt-1 grid w-[120px] grid-cols-3 gap-2 rounded border border-gray-200 bg-white p-2 shadow-md"
+          className="absolute top-full left-0 z-10 mt-1 grid w-[120px] grid-cols-3 gap-2 rounded-sm border border-gray-200 bg-white p-2 shadow-md"
         >
           {tags.map((tag, index) => (
             <button

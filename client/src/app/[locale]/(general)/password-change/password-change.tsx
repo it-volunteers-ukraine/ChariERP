@@ -58,13 +58,13 @@ const PasswordChange = () => {
   };
 
   return (
-    <section className="flex h-full justify-center bg-bgAuthGradient px-4 py-16 shadow-passwordChange tablet:px-0">
+    <section className="bg-bg-auth-gradient shadow-password-change tablet:px-0 flex h-full justify-center px-4 py-16">
       <Formik onSubmit={onSubmit} initialValues={initialValues} validationSchema={validationSchema}>
         {() => (
-          <Form className="h-min w-full max-w-[611px] rounded-lg px-[20px] pb-[32px] pt-[44px] shadow-auth tablet:px-[56px] tablet:pb-[48px]">
+          <Form className="shadow-auth tablet:px-[56px] tablet:pb-[48px] h-min w-full max-w-[611px] rounded-lg px-[20px] pt-[44px] pb-[32px]">
             <Title
               title={passwordChangeText('title')}
-              className="mb-8 text-center font-scada text-[20px] uppercase leading-6 !text-midGray"
+              className="font-scada text-mid-gray! mb-8 text-center text-[20px] leading-6 uppercase"
             />
 
             <div className="flex flex-col gap-6">

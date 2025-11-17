@@ -108,8 +108,8 @@ export const ColumnTasks = ({
         >
           <div className={style.titleBox}>
             {isDisable && !!value ? (
-              <div className="w-[190px] border-[1px] border-transparent p-[8px_0px_8px_8px]">
-                <p className={cn('line-clamp-1 break-all font-scada text-xl font-bold uppercase text-comet')}>
+              <div className="w-[190px] border border-transparent p-[8px_0px_8px_8px]">
+                <p className={cn('font-scada text-comet line-clamp-1 text-xl font-bold break-all uppercase')}>
                   {value}
                 </p>
               </div>
@@ -129,7 +129,7 @@ export const ColumnTasks = ({
 
             {isManager && (
               <>
-                <button className="rounded hover:bg-arcticSky" onClick={() => setIsToolsMenu(true)}>
+                <button className="hover:bg-arctic-sky rounded-sm" onClick={() => setIsToolsMenu(true)}>
                   <DotsSettings className="h-6 w-6" />
                 </button>
 
@@ -159,7 +159,7 @@ export const ColumnTasks = ({
 
           <div className="pr-3">
             <div onClick={createTask} className={style.addTask}>
-              <span className="text-2xl font-bold leading-none">+</span>
+              <span className="text-2xl leading-none font-bold">+</span>
 
               <span className="text-sm leading-5">{translateBtn('addTask')}</span>
             </div>

@@ -62,6 +62,9 @@ jobs:
       do-access-token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       telegram-to: ${{ secrets.TELEGRAM_TO }}
       telegram-token: ${{ secrets.TELEGRAM_TOKEN }}
+    permissions:
+      id-token: write
+      contents: read
 
   deploy-frontend:
     needs: changes
@@ -78,3 +81,6 @@ jobs:
       do-access-token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       telegram-to: ${{ secrets.TELEGRAM_TO }}
       telegram-token: ${{ secrets.TELEGRAM_TOKEN }}
+    permissions:
+      id-token: write
+      contents: read

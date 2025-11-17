@@ -46,18 +46,18 @@ export const JoinSection = () => {
   return (
     <section className="relative overflow-hidden">
       {isTablet && (
-        <div className="absolute right-1/3 h-full w-[1440px] translate-x-2/4 laptop:right-2/4 desktop:w-full">
+        <div className="laptop:right-2/4 desktop:w-full absolute right-1/3 h-full w-[1440px] translate-x-2/4">
           <Image alt="bg" priority={true} src={bgJoin} className="h-full w-full object-cover" />
         </div>
       )}
-      <div className="px-4 pb-16 tablet:mx-auto tablet:w-[486px] tablet:p-0 tablet:py-24 desktop:ml-[139px] desktop:w-[552px] desktopXl:ml-[240px]">
+      <div className="tablet:mx-auto tablet:w-[486px] tablet:p-0 tablet:py-24 desktop:ml-[139px] desktop:w-[552px] desktopXl:ml-[240px] px-4 pb-16">
         <Formik onSubmit={onSubmit} validationSchema={validationSchema} initialValues={joinInitialValues}>
           {() => {
             return (
               <Form className="relative rounded-[24px] bg-white px-5 py-6">
                 <Title
                   title={text('joinTitle')}
-                  className="mb-4 text-center font-scada text-[24px] font-bold uppercase leading-7 tablet:text-[32px] tablet:leading-[38px] desktop:text-[36px] desktop:leading-[43px]"
+                  className="font-scada tablet:text-[32px] tablet:leading-[38px] desktop:text-[36px] desktop:leading-[43px] mb-4 text-center text-[24px] leading-7 font-bold uppercase"
                 />
                 <InputField wrapperClass="mb-6" required name="name" label={text('form.name')} />
                 <InputField wrapperClass="mb-6" required name="email" label={text('form.email')} />
@@ -76,14 +76,14 @@ export const JoinSection = () => {
                   name="message"
                   type="textarea"
                   label={text('form.message')}
-                  textAreaClass="scroll-textarea !overflow-y-auto !text-input-text resize-none text-wrap h-[167px] w-full"
+                  textAreaClass="scroll-textarea overflow-y-auto! text-input-text! resize-none text-wrap h-[167px] w-full"
                 />
                 <CheckboxField
                   name="agree"
                   href={routes.privacyPolicy}
                   label={privacyPolicy('checkbox.information')}
                   hrefText={privacyPolicy('checkbox.privacyPolicy')}
-                  className="mb-6 !items-start laptop:mx-auto laptop:!items-center"
+                  className="laptop:mx-auto laptop:items-center! mb-6 items-start!"
                 />
 
                 <Button

@@ -39,7 +39,7 @@ export const TableRequests = ({ data, getData, isPagination }: ITableRequestsPro
           onClick={() => requestSort('organizationName')}
           className="flex w-fit cursor-pointer items-center gap-2 truncate"
         >
-          <span className="font-robotoCondensed text-lg leading-[22px]">{table('organizationName')}</span>
+          <span className="font-roboto-condensed text-lg leading-[22px]">{table('organizationName')}</span>
           <Triangle className={styles.organization} />
         </div>
 
@@ -47,25 +47,25 @@ export const TableRequests = ({ data, getData, isPagination }: ITableRequestsPro
           onClick={() => requestSort('EDRPOU')}
           className="flex w-fit cursor-pointer items-center gap-2 place-self-center"
         >
-          <span className="font-robotoCondensed text-lg leading-[22px]">{table('EDRPOU')}</span>
+          <span className="font-roboto-condensed text-lg leading-[22px]">{table('EDRPOU')}</span>
           <Triangle className={styles.edrpou} />
         </div>
 
-        <div className="text-center font-robotoCondensed text-lg leading-[22px]">{table('document')}</div>
+        <div className="font-roboto-condensed text-center text-lg leading-[22px]">{table('document')}</div>
 
         <div
           onClick={() => requestSort('requestDate')}
           className="flex w-fit cursor-pointer items-center gap-2 place-self-center"
         >
-          <Calendar className="text-midGray" width={16} height={16} />
-          <span className="font-robotoCondensed text-lg leading-[22px]">{table('creationDate')}</span>
+          <Calendar className="text-mid-gray" width={16} height={16} />
+          <span className="font-roboto-condensed text-lg leading-[22px]">{table('creationDate')}</span>
           <Triangle className={styles.date} />
         </div>
 
         <div />
       </div>
 
-      <div className="grid grid-cols-1 gap-4 text-midGray tablet:grid-cols-2 tablet:gap-6 laptop:block laptop:gap-0">
+      <div className="text-mid-gray tablet:grid-cols-2 tablet:gap-6 laptop:block laptop:gap-0 grid grid-cols-1 gap-4">
         {items.map((item) => (
           <RowItem key={item.id} item={item} path={path} isLaptop={isLaptop} getData={getData} />
         ))}
