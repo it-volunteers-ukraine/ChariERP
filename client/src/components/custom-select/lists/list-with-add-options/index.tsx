@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 
 import { ISelectOption } from '../../types';
@@ -53,7 +55,7 @@ export const ListWithAddOptions = ({
         placeholder="+ Додати"
         onKeyDown={handleKeyDown}
         onChange={(e) => setNewOption(e.target.value)}
-        className="w-full border-b border-gray-300 px-2 py-1 outline-none focus:bg-gray-50"
+        className="w-full border-b border-gray-300 px-2 py-1 outline-hidden focus:bg-gray-50"
       />
     </div>
   );

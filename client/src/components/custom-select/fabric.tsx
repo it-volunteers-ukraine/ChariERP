@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { ISelectFactory } from './types';
 import { BaseSelectWithTranslate, SelectWithAddOptions } from './variant';
 

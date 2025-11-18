@@ -4,11 +4,11 @@ import { ForNGOs, KeyAdvantages, MainTheme, OpportunityChariCircle, RevealOnScro
 
 export const HomePage = () => {
   return (
-    <div className="bg-bgAuthGradient">
+    <div className="bg-bg-auth-gradient">
       <MainTheme />
 
-      <div className="m-auto flex max-w-[1920px] flex-col gap-[96px] pb-[96px] tablet:gap-[120px] tablet:pb-[100px] laptop:gap-[150px] laptop:pb-[150px]">
-        <div className="m-auto flex max-w-[1920px] flex-col gap-[96px] pb-[96px] tablet:gap-[120px] tablet:pb-[100px] laptop:gap-[150px] laptop:pb-[150px]">
+      <div className="tablet:gap-[120px] tablet:pb-[100px] laptop:gap-[150px] laptop:pb-[150px] m-auto flex max-w-[1920px] flex-col gap-[96px] pb-[96px]">
+        <div className="tablet:gap-[120px] tablet:pb-[100px] laptop:gap-[150px] laptop:pb-[150px] m-auto flex max-w-[1920px] flex-col gap-[96px] pb-[96px]">
           <RevealOnScroll />
 
           <OpportunityChariCircle />

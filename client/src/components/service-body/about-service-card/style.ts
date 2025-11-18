@@ -5,7 +5,7 @@ export const getStyleCard = (className?: string) => ({
   icon: cn('iconAboutService', 'h-[104px] w-[104px] tablet:w-[120px] tablet:h-[120px]'),
   title: cn(
     'titleAboutService',
-    'text-center font-scada text-[18px] font-bold uppercase leading-[22px] tablet:!leading-[25px] desktop:!text-2xl',
+    'text-center font-scada text-[18px] font-bold uppercase leading-[22px] tablet:leading-[25px]! desktop:text-2xl!',
   ),
   childrenWrapper: cn('childrenAboutService', 'list-disc pl-8 h-full'),
 });

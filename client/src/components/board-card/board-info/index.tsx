@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
-import { onCopy } from '@/utils';
+import { onCopy } from '@/utils/helpers';
 import { routes } from '@/constants';
 import { CopyBoard, Delete, PencilJust } from '@/assets/icons';
 
@@ -105,7 +105,7 @@ export const BoardInfo = ({ isRoleAccess, board, onReset, onEdit, onDelete }: IB
       href={!isCreateCard ? `${routes.managerDashboard}/${board._id}` : ''}
     >
       <div className="mb-8 flex w-full items-center justify-between">
-        <p className="text-[18px] font-medium leading-5 text-comet">#{board.order}</p>
+        <p className="text-comet text-[18px] leading-5 font-medium">#{board.order}</p>
 
         <div className="flex">
           {isRoleAccess && (

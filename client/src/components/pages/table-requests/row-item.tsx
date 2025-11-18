@@ -10,7 +10,7 @@ import { Copy, Doc } from '@/assets/icons';
 import { dateFormat, routes } from '@/constants';
 import { RequestOrganizationStatus, RowItemProps } from '@/types';
 import { Button, EllipsisText, ModalAdmin, ModalDecline, showMessage } from '@/components';
-import { onCopy, openNewWindowForCertificate, showErrorMessageOfOrganizationExist } from '@/utils';
+import { onCopy, openNewWindowForCertificate, showErrorMessageOfOrganizationExist } from '@/utils/helpers';
 import {
   declineOrganizationAction,
   deleteOrganizationAction,
@@ -138,48 +138,48 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
     <>
       <div
         onClick={handleRowClick}
-        className="grid cursor-pointer grid-cols-2 rounded-2xl border border-[#A3A3A359] p-3 transition-all duration-300 hover:bg-superBlue laptop:grid-cols-tableRequests laptop:items-center laptop:gap-5 laptop:rounded-none laptop:border-x-0 laptop:border-b laptop:border-t-0 laptop:py-[12px] laptop:pl-3 laptop:pr-0"
+        className="hover:bg-super-blue laptop:grid-cols-table-requests laptop:items-center laptop:gap-5 laptop:rounded-none laptop:border-x-0 laptop:border-b laptop:border-t-0 laptop:py-[12px] laptop:pl-3 laptop:pr-0 grid cursor-pointer grid-cols-2 rounded-2xl border border-[#A3A3A359] p-3 transition-all duration-300"
       >
         <EllipsisText
-          className="max-w-[300px] laptop:max-w-[380px] desktop:max-w-[500px]"
+          className="laptop:max-w-[380px] desktop:max-w-[500px] max-w-[300px]"
           content={item.organizationName}
         >
-          <div className="col-span-2 overflow-hidden truncate whitespace-nowrap font-robotoCondensed text-xl leading-6 text-midGray laptop:col-auto laptop:text-lg laptop:leading-[22px]">
+          <div className="font-roboto-condensed text-mid-gray laptop:col-auto laptop:text-lg laptop:leading-[22px] col-span-2 truncate overflow-hidden text-xl leading-6 whitespace-nowrap">
             {item.organizationName}
           </div>
         </EllipsisText>
 
-        <span className="mt-6 font-robotoCondensed text-lg leading-[22px] text-dimGray laptop:mt-0 laptop:hidden">
+        <span className="font-roboto-condensed text-dim-gray laptop:mt-0 laptop:hidden mt-6 text-lg leading-[22px]">
           {table('EDRPOU')}
         </span>
 
-        <div className="mt-6 flex items-center justify-end gap-1 text-sm laptop:mt-0 laptop:justify-center">
-          <span className="overflow-hidden truncate whitespace-nowrap font-robotoCondensed text-lg leading-[22px]">
+        <div className="laptop:mt-0 laptop:justify-center mt-6 flex items-center justify-end gap-1 text-sm">
+          <span className="font-roboto-condensed truncate overflow-hidden text-lg leading-[22px] whitespace-nowrap">
             {item.EDRPOU}
           </span>
 
           <Copy
-            className="h-[22px] w-[22px] flex-shrink-0 cursor-pointer text-lightBlue transition duration-300 hover:text-dark-blue active:text-greenActive active:transition-none"
+            className="text-light-blue hover:text-dark-blue active:text-green-active h-[22px] w-[22px] shrink-0 cursor-pointer transition duration-300 active:transition-none"
             onClick={(e: MouseEvent<SVGSVGElement>) => onCopy(e, item.EDRPOU, messagesCopy('messages'))}
           />
         </div>
 
-        <div className="mt-8 font-robotoCondensed text-lg leading-[22px] text-dimGray laptop:mt-0 laptop:hidden laptop:text-center">
+        <div className="font-roboto-condensed text-dim-gray laptop:mt-0 laptop:hidden laptop:text-center mt-8 text-lg leading-[22px]">
           {table('document')}
         </div>
 
-        <div className="mt-8 flex items-center justify-end laptop:mt-0 laptop:justify-center">
+        <div className="laptop:mt-0 laptop:justify-center mt-8 flex items-center justify-end">
           <button onClick={getCertificate} className="flex items-center justify-center">
             <Doc width={22} height={22} />
           </button>
         </div>
 
-        <div className="mt-6 font-robotoCondensed text-lg leading-[22px] laptop:mt-0 laptop:text-center">
+        <div className="font-roboto-condensed laptop:mt-0 laptop:text-center mt-6 text-lg leading-[22px]">
           {item.requestDate && format(new Date(item.requestDate), dateFormat)}
         </div>
 
         <div
-          className="col-span-2 mt-12 flex flex-col gap-3 laptop:col-auto laptop:mt-0 laptop:flex-row laptop:gap-4"
+          className="laptop:col-auto laptop:mt-0 laptop:flex-row laptop:gap-4 col-span-2 mt-12 flex flex-col gap-3"
           onClick={(e) => e.stopPropagation()}
         >
           <Button
@@ -187,14 +187,14 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
             styleType="green"
             isNarrow={isLaptop}
             onClick={() => setIsOpenRegister(true)}
-            className="uppercase laptop:normal-case"
+            className="laptop:normal-case uppercase"
           />
 
           <Button
             styleType="red"
             isNarrow={isLaptop}
             text={declined ? 'Decline' : 'Delete'}
-            className="uppercase laptop:normal-case"
+            className="laptop:normal-case uppercase"
             onClick={() => (declined ? setIsOpenReject(true) : setIsOpenRemove(true))}
           />
         </div>
@@ -210,7 +210,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
         title={modal('register.title')}
         onClose={() => setIsOpenRegister(false)}
         content={
-          <div className="lending-6 flex flex-col gap-1 text-center text-mobster">
+          <div className="lending-6 text-mobster flex flex-col gap-1 text-center">
             <span>{item.organizationName}</span>
             <span>
               {modal('register.text')} {item.email}
@@ -240,7 +240,7 @@ export const RowItem = ({ item, path, isLaptop, getData }: RowItemProps) => {
           title={modal('remove.title')}
           onClose={() => setIsOpenRemove(false)}
           content={
-            <div className="lending-6 flex flex-col gap-1 text-center text-mobster">
+            <div className="lending-6 text-mobster flex flex-col gap-1 text-center">
               <span>
                 {modal('remove.text')} {item.organizationName}
               </span>

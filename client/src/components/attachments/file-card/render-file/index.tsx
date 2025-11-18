@@ -24,5 +24,5 @@ export const RenderFile = ({ file, preview }: RenderFileProps) => {
     );
   }
 
-  return IconComponent ? <IconComponent /> : <Doc className="h-[50px] w-[50px] text-darkBlueFocus" />;
+  return IconComponent ? <IconComponent /> : <Doc className="text-dark-blue-focus h-[50px] w-[50px]" />;
 };

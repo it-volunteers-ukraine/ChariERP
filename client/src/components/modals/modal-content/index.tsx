@@ -20,10 +20,10 @@ export const ModalContent = ({ name, setFieldValue, organizationName, values, er
 
   return (
     <>
-      <div className="mb-1 flex flex-col gap-2 tablet:gap-4">
-        <div className="lending-6 flex flex-col text-center text-mobster">
+      <div className="tablet:gap-4 mb-1 flex flex-col gap-2">
+        <div className="lending-6 text-mobster flex flex-col text-center">
           <EllipsisText content={organizationName}>
-            <span className="line-clamp-1 break-words">{organizationName}</span>
+            <span className="line-clamp-1 wrap-break-word">{organizationName}</span>
           </EllipsisText>
           <span>{modal('subTitle')}</span>
         </div>
@@ -77,7 +77,7 @@ export const ModalContent = ({ name, setFieldValue, organizationName, values, er
           <div className="flex gap-3 pl-2">
             <Warning width={24} height={24} />
 
-            <span className="text-[14px] text-input-error">{error}</span>
+            <span className="text-input-error text-[14px]">{error}</span>
           </div>
         )}
       </div>

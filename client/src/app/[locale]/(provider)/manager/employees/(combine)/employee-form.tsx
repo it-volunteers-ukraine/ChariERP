@@ -64,8 +64,8 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
       validationSchema={!isCreate ? employeeValidation(error).omit(['password']) : employeeValidation(error)}
     >
       {({ values, validateForm, handleSubmit, setFieldValue, setValues }) => (
-        <div className="scroll-blue w-full overflow-y-auto bg-white p-[24px_16px_48px] tablet:p-[24px_32px_48px] desktop:p-[32px_36px_48px]">
-          <div className="m-auto w-full desktopXl:max-w-[1066px]">
+        <div className="scroll-blue tablet:p-[24px_32px_48px] desktop:p-[32px_36px_48px] w-full overflow-y-auto bg-white p-[24px_16px_48px]">
+          <div className="desktopXl:max-w-[1066px] m-auto w-full">
             <ModalAdmin
               isOpen={isOpenSave}
               classNameBtn="w-[82px]"
@@ -86,7 +86,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
 
               {!isCreate && (
                 <>
-                  <div className="flex items-center justify-start border-b-2 border-lightBlue pb-6">
+                  <div className="border-light-blue flex items-center justify-start border-b-2 pb-6">
                     <div className="flex w-fit items-center gap-4">
                       <ButtonIcon type="button" icon="back" iconType="primary" onClick={() => router.back()} />
 
@@ -106,7 +106,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                     isStatusSelect
                     fieldName="status"
                     email={values.email}
-                    classNameImg="!w-[92px]"
+                    classNameImg="w-[92px]!"
                     lastName={values.lastName}
                     position={values.position}
                     firstName={values.firstName}
@@ -114,26 +114,26 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                     middleName={values.middleName}
                     status={(values as IEditData).status}
                     lastLogin={(values as IEditData).lastLogin}
-                    className="!h-fit !items-center gap-[20px] !bg-white !p-[24px_0_32px] !shadow-none tablet:!flex-row tablet:gap-0 laptop:!gap-12 desktop:!py-8"
+                    className="tablet:flex-row! tablet:gap-0 laptop:gap-12! desktop:py-8! h-fit! items-center! gap-[20px] bg-white! p-[24px_0_32px]! shadow-none!"
                   />
                 </>
               )}
 
-              <div className="flex flex-col gap-9 laptop:gap-12">
+              <div className="laptop:gap-12 flex flex-col gap-9">
                 <Accordion
                   initialState
-                  classNameWrapper="!gap-3"
+                  classNameWrapper="gap-3!"
                   classNameTitle="text-[20px] uppercase"
                   title={text('title.basicInformation')}
                 >
                   <div className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
+                    <div className="laptop:flex-row laptop:gap-12 flex flex-col gap-4">
                       <InputField required name="lastName" label={text('lastName.label')} />
 
                       <InputField required name="firstName" label={text('name.label')} />
                     </div>
 
-                    <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
+                    <div className="laptop:flex-row laptop:gap-12 flex flex-col gap-4">
                       <InputField name="middleName" label={text('middleName.label')} />
 
                       <InputField
@@ -151,18 +151,18 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                       name="position"
                       label={text('positionOfMember.label')}
                       info={isCreate && text('positionOfMember.information')}
-                      wrapperClass={`${!isCreate && 'laptop:max-w-[calc(50%-24px)]'} gap-1 laptop:!gap-12`}
+                      wrapperClass={`${!isCreate && 'laptop:max-w-[calc(50%-24px)]'} gap-1 laptop:gap-12!`}
                     />
                   </div>
                 </Accordion>
 
                 <Accordion
                   initialState
-                  classNameWrapper="!gap-3"
+                  classNameWrapper="gap-3!"
                   classNameTitle="text-[20px] uppercase"
                   title={text('title.loginInformation')}
                 >
-                  <div className={cn('flex flex-col', { 'gap-4 laptop:flex-row laptop:gap-12': isCreate })}>
+                  <div className={cn('flex flex-col', { 'laptop:flex-row laptop:gap-12 gap-4': isCreate })}>
                     <InputField
                       required
                       name="email"
@@ -191,13 +191,13 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
 
                 <Accordion
                   initialState
-                  classNameWrapper="!gap-3"
+                  classNameWrapper="gap-3!"
                   classNameTitle="text-[20px] uppercase"
                   title={text('title.additionalInformation')}
                 >
                   <div className="box-border flex flex-col gap-3">
-                    <div className="flex flex-col gap-4 laptop:flex-row laptop:gap-12">
-                      <div className="flex flex-col gap-4 laptop:w-[calc(50%-24px)]">
+                    <div className="laptop:flex-row laptop:gap-12 flex flex-col gap-4">
+                      <div className="laptop:w-[calc(50%-24px)] flex flex-col gap-4">
                         <DateField
                           placeholderItalic
                           name="dateOfBirth"
@@ -222,7 +222,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                         lang={changeLocale}
                         label={text('notes.label')}
                         wrapperClass="laptop:max-w-[calc(50%-24px)]"
-                        textAreaClass="!p-[0_4px_0_16px] mr-[6px] min-h-[183px] scroll-textarea !text-input-text resize-none  !overflow-y-scroll break-words hyphens-auto whitespace-pre-wrap"
+                        textAreaClass="p-[0_4px_0_16px]! mr-[6px] min-h-[183px] scroll-textarea text-input-text! resize-none  overflow-y-scroll! wrap-break-word hyphens-auto whitespace-pre-wrap"
                       />
                     </div>
                   </div>
@@ -238,7 +238,7 @@ export const EmployeeForm = ({ isCreate, onSubmit, initialValues, isLoading }: I
                       text={btn('deleteEmployee')}
                     />
                   )}
-                  <div className={`${styles.btnWrapper} w-full tablet:w-fit`}>
+                  <div className={`${styles.btnWrapper} tablet:w-fit w-full`}>
                     <Button
                       type="submit"
                       styleType="green"

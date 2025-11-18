@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 import { useUserInfo } from '@/context';
@@ -68,7 +68,7 @@ export const ParticipantsBoard = ({ boardId, usersInTasks }: { boardId: string; 
       {isManager && isLoading && (
         <div className="flex cursor-pointer items-center gap-2" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
           <AddUsers />
-          <span className="hidden text-base text-lightBlue tablet:inline desktop:hidden">{boardText('addUser')}</span>
+          <span className="text-light-blue tablet:inline desktop:hidden hidden text-base">{boardText('addUser')}</span>
         </div>
       )}
     </div>

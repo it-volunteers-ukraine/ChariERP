@@ -49,7 +49,7 @@ export const CommentEditor = () => {
 
   return (
     <div className="p-1">
-      <div className="flex items-center gap-3 [&>:first-child]:min-w-6">
+      <div className="flex items-center gap-3 *:first:min-w-6">
         <UserIcon avatarUrl={img} firstName={firstName as string} lastName={lastName as string} />
         <div className="flex w-full flex-col gap-y-3">
           <Editor
@@ -59,7 +59,7 @@ export const CommentEditor = () => {
             placeholder={placeholder('placeholder')}
             classNamePlaceholder="top-[13px] left-[20px]"
             className={cn(
-              'rounded-lg border border-[#65657526] px-4 py-3 shadow-md outline-none focus:border-darkBlueFocus',
+              'focus:border-dark-blue-focus rounded-lg border border-[#65657526] px-4 py-3 shadow-md outline-hidden',
               isCreating ? 'min-h-[100px]' : 'min-h-[48px]',
             )}
           />

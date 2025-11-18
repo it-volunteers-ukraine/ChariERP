@@ -7,7 +7,7 @@ export interface ISelectOption {
 
 export type ISelectOptionSelected = ISelectOption | ISelectOption[];
 
-type VariantKey = 'default' | 'with-add-options';
+export type VariantKey = 'default' | 'with-add-options';
 
 export interface ISelectFactory {
   name: string;

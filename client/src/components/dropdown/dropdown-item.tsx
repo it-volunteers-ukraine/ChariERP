@@ -12,7 +12,7 @@ interface IDropdownItemProps {
 export const DropdownItem = ({ lastName, firstName, avatarUrl, checkbox }: IDropdownItemProps) => {
   return (
     <label
-      className={clsx('mb-2 flex items-center gap-x-2 border-b border-arcticSky p-[6px_8px] hover:bg-superBlue', {
+      className={clsx('border-arctic-sky hover:bg-super-blue mb-2 flex items-center gap-x-2 border-b p-[6px_8px]', {
         'cursor-pointer': checkbox !== undefined,
       })}
     >
@@ -20,7 +20,7 @@ export const DropdownItem = ({ lastName, firstName, avatarUrl, checkbox }: IDrop
 
       <UserIcon withoutRing lastName={lastName} firstName={firstName} avatarUrl={avatarUrl} />
 
-      <p className="line-clamp-1 max-w-[200px] break-all font-robotoCondensed text-base text-comet">
+      <p className="font-roboto-condensed text-comet line-clamp-1 max-w-[200px] text-base break-all">
         {`${firstName} ${lastName}`}
       </p>
     </label>

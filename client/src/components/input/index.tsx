@@ -4,7 +4,7 @@ import React, { useState, forwardRef, MouseEvent } from 'react';
 import { useTranslations } from 'next-intl';
 import { PatternFormat } from 'react-number-format';
 
-import { onCopy } from '@/utils';
+import { onCopy } from '@/utils/helpers';
 import { Eye, Info, Clip, Copy, EyeOff, Search, Warning, Calendar, InputClose } from '@/assets/icons';
 
 import { getStyles } from './styles';
@@ -200,8 +200,8 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
           )}
         </label>
         {info && (
-          <div className="relative top-1 flex w-full items-center text-input-info">
-            <Info width={24} height={24} className="mr-3 shrink-0 self-center text-input-info tablet:flex" />
+          <div className="text-input-info relative top-1 flex w-full items-center">
+            <Info width={24} height={24} className="text-input-info tablet:flex mr-3 shrink-0 self-center" />
 
             <span className={styles.infoSpan}>{info}</span>
           </div>

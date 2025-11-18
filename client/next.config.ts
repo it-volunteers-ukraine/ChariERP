@@ -8,6 +8,20 @@ const withNextIntl = next_intl('./src/i18n.ts');
 process.env.TZ = 'Europe/Kyiv';
 
 const nextConfig: NextConfig = {
+  reactCompiler: true,
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
+  },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '5mb',
+    },
+  },
   output: 'standalone',
   logging: {
     fetches: {
@@ -15,6 +29,17 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
+    localPatterns: [
+      {
+        pathname: '/assets/**',
+      },
+      {
+        pathname: '/_next/static/media/**',
+      },
+      {
+        pathname: '/src/assets/icons/**',
+      },
+    ],
     remotePatterns: [
       {
         protocol: 'https',
@@ -24,45 +49,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  experimental: {
-    serverActions: {
-      bodySizeLimit: '5mb',
-    },
-  },
-  webpack(config, { isServer }) {
-    // Basic Node.js fallbacks for client-side
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        os: false,
-        path: false,
-      };
-    }
-
-    // Modify SVG handling to use @svgr/webpack
-    const fileLoaderRule = config.module.rules.find((rule: { test: { test: (arg0: string) => never } }) =>
-      rule.test?.test?.('.svg'),
-    );
-
-    config.module.rules.push(
-      {
-        ...fileLoaderRule,
-        test: /\.svg$/i,
-        resourceQuery: /url/,
-      },
-      {
-        test: /\.svg$/i,
-        issuer: fileLoaderRule.issuer,
-        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] },
-        use: ['@svgr/webpack'],
-      },
-    );
-
-    fileLoaderRule.exclude = /\.svg$/i;
-
-    return config;
+  // Suppress Google Fonts errors if offline
+  onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
   },
 };
 
-module.exports = withNextIntl(nextConfig);
+export default withNextIntl(nextConfig);
