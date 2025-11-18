@@ -6,15 +6,21 @@ import { CreateAssetDto } from './dto/create-asset.dto';
 import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
 import { Roles } from '../schemas/enums';
 import { plainToInstance } from 'class-transformer';
-import { AssetResponseDto } from './dto/asset-response.dto';
+import { AssetResponse } from './dto/asset-response';
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../constants/pagination.constants';
-import { PaginatedAssetResponseDto } from './dto/paginated-asset-response.dto';
+import { PaginatedAssetResponse } from './dto/paginated-asset-response';
 import { UpdateAssetDto } from './dto/update-asset.dto';
+import { FileStorageService } from '@/file-storage/file-storage.service';
+import { FileStoreFolders } from '../schemas/enums';
+import type { MulterFile } from '@/pipes/interfaces/file-validator.interface';
+import { AssetQueryDto } from './dto/asset-query.dto';
+import { SortOrder } from './enums/enums';
 
 describe('AssetController', () => {
   let assetController: AssetController;
   let assetService: AssetService;
   let mockReq: Partial<AuthenticatedRequest>;
+  let fileStorageService: FileStorageService;
 
   beforeEach(async () => {
     const mockAssetService = {
@@ -24,6 +30,10 @@ describe('AssetController', () => {
       deleteOne: jest.fn(),
     };
 
+    const mockFileStorageService = {
+      uploadFiles: jest.fn(),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AssetController],
       providers: [
@@ -31,11 +41,17 @@ describe('AssetController', () => {
           provide: AssetService,
           useValue: mockAssetService,
         },
+        {
+          provide: FileStorageService,
+          useValue: mockFileStorageService,
+        },
       ],
     }).compile();
 
     assetController = module.get<AssetController>(AssetController);
     assetService = module.get<AssetService>(AssetService);
+    fileStorageService = module.get<FileStorageService>(FileStorageService);
+
     mockReq = {
       user: {
         sub: faker.database.mongodbObjectId(),
@@ -53,7 +69,11 @@ describe('AssetController', () => {
     jest.clearAllMocks();
   });
 
-  it('should call assetService.create with correct arguments and return created fixed asset', async () => {
+  it(`create - without images:
+    should call assetService.create with correct arguments and should not call fileStorageService.uploadFiles.
+    Return created fixed asset`, async () => {
+    const mockImages = [];
+
     const createAssetDto: CreateAssetDto = {
       name: faker.commerce.product(),
       location: faker.location.buildingNumber(),
@@ -74,17 +94,76 @@ describe('AssetController', () => {
 
     (assetService.create as jest.Mock).mockResolvedValue(mockCreatedAsset);
 
-    const result = await assetController.create(createAssetDto, mockReq as AuthenticatedRequest);
+    const result = await assetController.create(mockImages, createAssetDto, mockReq as AuthenticatedRequest);
+
+    expect(fileStorageService.uploadFiles).not.toHaveBeenCalled();
 
     expect(assetService.create).toHaveBeenCalledWith(createAssetDto, userId, organizationId);
 
-    expect(result).toEqual(plainToInstance(AssetResponseDto, mockCreatedAsset));
+    expect(result).toEqual(plainToInstance(AssetResponse, mockCreatedAsset));
   });
 
-  it('should call assetService.findAll with correct arguments and return paginated fixed assets', async () => {
+  it(`create - with images:
+    should call fileStorageService.uploadFiles and assetService.create with correct arguments.
+    Return created fixed asset`, async () => {
+    const mockImages: MulterFile[] = [
+      {
+        fieldname: 'images',
+        originalname: faker.system.commonFileName('jpg'),
+        encoding: '7bit',
+        mimetype: faker.system.mimeType(),
+        buffer: Buffer.from(faker.string.alphanumeric()),
+        size: faker.number.int(),
+      },
+    ];
+
+    const createAssetDto: CreateAssetDto = {
+      name: faker.commerce.product(),
+      location: faker.location.buildingNumber(),
+      storageFloor: faker.string.numeric(),
+    };
+
+    const userId = mockReq.user!.sub;
+    const organizationId = mockReq.user!.organizationId;
+
+    const imagesKeys = [faker.image.url()];
+
+    (fileStorageService.uploadFiles as jest.Mock).mockResolvedValue(imagesKeys);
+
+    const mockCreatedAsset = {
+      _id: faker.database.mongodbObjectId(),
+      ...createAssetDto,
+      images: imagesKeys,
+      createdBy: userId,
+      organizationId,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    (assetService.create as jest.Mock).mockResolvedValue(mockCreatedAsset);
+
+    const result = await assetController.create(mockImages, createAssetDto, mockReq as AuthenticatedRequest);
+
+    expect(fileStorageService.uploadFiles).toHaveBeenCalledWith(organizationId, FileStoreFolders.Assets, mockImages);
+
+    expect(assetService.create).toHaveBeenCalledWith(createAssetDto, userId, organizationId, imagesKeys);
+
+    expect(result).toEqual(plainToInstance(AssetResponse, mockCreatedAsset));
+  });
+
+  it(`should call assetService.findAll with correct arguments, including optional filters and sorting.
+    Return paginated fixed assets`, async () => {
     mockReq.user!.role = Roles.USER;
 
     const organizationId = mockReq.user!.organizationId;
+
+    const mockQuery: AssetQueryDto = {
+      page: DEFAULT_PAGE,
+      limit: DEFAULT_LIMIT,
+      name: SortOrder.Ascending,
+      hasImage: true,
+    };
+
     const createdAt = faker.date.past();
 
     const mockAssets = Array.from({ length: DEFAULT_LIMIT }, () => ({
@@ -109,34 +188,85 @@ describe('AssetController', () => {
 
     (assetService.findAll as jest.Mock).mockResolvedValue(mockPaginateResult);
 
-    const result = await assetController.findAll(DEFAULT_PAGE, DEFAULT_LIMIT, mockReq as AuthenticatedRequest);
+    const result = await assetController.findAll(mockQuery, mockReq as AuthenticatedRequest);
 
-    expect(assetService.findAll).toHaveBeenCalledWith(organizationId, DEFAULT_PAGE, DEFAULT_LIMIT);
+    expect(assetService.findAll).toHaveBeenCalledWith(organizationId, mockQuery);
 
-    expect(result).toEqual(mockPaginateResult as PaginatedAssetResponseDto);
+    expect(result).toEqual(mockPaginateResult as PaginatedAssetResponse);
   });
 
-  it('should call assetService.update with correct arguments and return updated fixed asset', async () => {
+  it(`update - without images:
+    should call assetService.update with correct arguments and should not call fileStorageService.uploadFiles.
+    Return updated fixed asset`, async () => {
+    const mockImages = [];
+
     const updateAssetDto: UpdateAssetDto = {
       name: faker.commerce.product(),
     };
 
     const assetId = faker.database.mongodbObjectId();
+    const organizationId = mockReq.user!.organizationId;
 
     const mockUpdatedAsset = {
       _id: assetId,
       ...updateAssetDto,
-      organizationId: mockReq.user!.organizationId,
+      organizationId,
       createdAt: faker.date.past(),
       updatedAt: new Date(),
     };
 
     (assetService.update as jest.Mock).mockResolvedValue(mockUpdatedAsset);
 
-    const result = await assetController.update(assetId, updateAssetDto);
+    const result = await assetController.update(mockImages, assetId, updateAssetDto, mockReq as AuthenticatedRequest);
+
+    expect(fileStorageService.uploadFiles).not.toHaveBeenCalled();
 
     expect(assetService.update).toHaveBeenCalledWith(updateAssetDto, assetId);
-    expect(result).toEqual(plainToInstance(AssetResponseDto, mockUpdatedAsset));
+    expect(result).toEqual(plainToInstance(AssetResponse, mockUpdatedAsset));
+  });
+
+  it(`update - with images:
+    should call fileStorageService.uploadFiles and assetService.update with correct arguments.
+    Return updated fixed asset`, async () => {
+    const mockImages: MulterFile[] = [
+      {
+        fieldname: 'images',
+        originalname: faker.system.commonFileName('jpg'),
+        encoding: '7bit',
+        mimetype: faker.system.mimeType(),
+        buffer: Buffer.from(faker.string.alphanumeric()),
+        size: faker.number.int(),
+      },
+    ];
+
+    const updateAssetDto: UpdateAssetDto = {
+      name: faker.commerce.product(),
+    };
+
+    const assetId = faker.database.mongodbObjectId();
+    const organizationId = mockReq.user!.organizationId;
+
+    const imagesKeys = [faker.image.url()];
+
+    (fileStorageService.uploadFiles as jest.Mock).mockResolvedValue(imagesKeys);
+
+    const mockUpdatedAsset = {
+      _id: assetId,
+      ...updateAssetDto,
+      images: imagesKeys,
+      organizationId,
+      createdAt: faker.date.past(),
+      updatedAt: new Date(),
+    };
+
+    (assetService.update as jest.Mock).mockResolvedValue(mockUpdatedAsset);
+
+    const result = await assetController.update(mockImages, assetId, updateAssetDto, mockReq as AuthenticatedRequest);
+
+    expect(fileStorageService.uploadFiles).toHaveBeenCalledWith(organizationId, FileStoreFolders.Assets, mockImages);
+
+    expect(assetService.update).toHaveBeenCalledWith(updateAssetDto, assetId, imagesKeys);
+    expect(result).toEqual(plainToInstance(AssetResponse, mockUpdatedAsset));
   });
 
   it('should call assetService.deleteOne with correct id', async () => {

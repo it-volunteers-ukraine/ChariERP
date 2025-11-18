@@ -38,7 +38,7 @@ import { FileStorageService } from './file-storage.service';
 import { AuthenticatedRequest } from '@/auth/interfaces/authenticated-request.interface';
 import { FileValidationPipe } from '@/pipes/file-validation.pipe';
 import { FolderValidationPipe } from '@/pipes/folder-validation.pipe';
-import { UploadFilesResponse } from './dto/upload-files-response';
+import { UploadFileResponse } from './dto/upload-file-response';
 import { MulterFile } from '@/pipes/interfaces/file-validator.interface';
 
 @ApiTags('File')
@@ -72,7 +72,7 @@ export class FileStorageController {
   })
   @ApiAcceptedResponse({
     description: 'File(s) uploaded successfully',
-    type: UploadFilesResponse,
+    type: UploadFileResponse,
   })
   @ApiBadRequestResponse({ description: 'Invalid file' })
   @ApiInternalServerErrorResponse({ description: 'Failed to upload file(s)' })
@@ -80,7 +80,7 @@ export class FileStorageController {
     @UploadedFiles(FileValidationPipe) files: MulterFile[],
     @Body('folder', FolderValidationPipe) folder: FileStoreFolders,
     @Req() req: AuthenticatedRequest,
-  ): Promise<UploadFilesResponse> {
+  ): Promise<UploadFileResponse> {
     const { organizationId } = req.user;
 
     const createdFiles = await this.fileStorageService.uploadFiles(organizationId, folder, files);
@@ -101,8 +101,14 @@ export class FileStorageController {
   @ApiOkResponse({ description: 'File retrieved successfully. Returns streamable file' })
   @ApiNotFoundResponse({ description: 'File not found' })
   @ApiInternalServerErrorResponse({ description: 'Failed to retrieve file' })
-  async getFile(@Query('key') key: string, @Res({ passthrough: true }) res: Response): Promise<StreamableFile> {
-    const file = await this.fileStorageService.getFile(key);
+  async getFile(
+    @Query('key') key: string,
+    @Req() req: AuthenticatedRequest,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<StreamableFile> {
+    const { organizationId } = req.user;
+
+    const file = await this.fileStorageService.getFile(key, organizationId);
 
     const { stream, contentType, contentLength } = file;
 
@@ -123,8 +129,10 @@ export class FileStorageController {
   @ApiQuery({ name: 'key', required: true, description: 'Key name of the file to delete' })
   @ApiNoContentResponse({ description: 'File deleted successfully, or it did not exist' })
   @ApiInternalServerErrorResponse({ description: 'Failed to delete file' })
-  async deleteFile(@Query('key') key: string): Promise<void> {
-    await this.fileStorageService.deleteFile(key);
+  async deleteFile(@Query('key') key: string, @Req() req: AuthenticatedRequest): Promise<void> {
+    const { organizationId } = req.user;
+
+    await this.fileStorageService.deleteFile(key, organizationId);
   }
 
   @Delete('folder')

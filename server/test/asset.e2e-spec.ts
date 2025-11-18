@@ -12,7 +12,9 @@ import { CreateAssetDto } from '@/fixed-asset/dto/create-asset.dto';
 import { VALIDATION_MESSAGES } from '@/constants/validation-messages';
 import { Asset } from '@/schemas/asset.schema';
 import { DEFAULT_LIMIT, DEFAULT_PAGE } from '@/constants/pagination.constants';
-import { UpdateAssetDto } from '@/fixed-asset/dto/update-asset.dto';
+import type { MulterFile } from '@/pipes/interfaces/file-validator.interface';
+import { FileStorageService } from '@/file-storage/file-storage.service';
+import { FILE_VALIDATION } from '@/constants/file-storage.constants';
 
 const createTestUser = (role: Roles) => ({
   firstName: faker.person.firstName(),
@@ -41,6 +43,8 @@ const createValidAsset = (organizationId: string, createdBy: string) => ({
   updatedAt: new Date(),
 });
 
+const imagesKeys = [faker.image.url()];
+
 describe('AssetController (e2e)', () => {
   let app: INestApplication;
   let userModel: Model<User>;
@@ -48,9 +52,16 @@ describe('AssetController (e2e)', () => {
   let managerToken: string;
 
   beforeAll(async () => {
+    const mockFileStorageService = {
+      uploadFiles: jest.fn().mockResolvedValue(imagesKeys),
+    };
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(FileStorageService)
+      .useValue(mockFileStorageService)
+      .compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe({ transform: true }));
@@ -87,16 +98,30 @@ describe('AssetController (e2e)', () => {
       it(`should create fixed asset successfully for user with role '${Roles.MANAGER}'`, async () => {
         const payload = createValidAssetPayload();
 
+        const mockImage: MulterFile = {
+          fieldname: 'images',
+          originalname: faker.system.commonFileName('jpg'),
+          encoding: '7bit',
+          mimetype: 'image/jpeg',
+          buffer: Buffer.from(faker.string.alphanumeric()),
+          size: faker.number.int(),
+        };
+
         const res = await request(app.getHttpServer())
           .post('/assets')
           .set('Authorization', `Bearer ${managerToken}`)
-          .send(payload)
+          .field('name', payload.name)
+          .attach(mockImage.fieldname, mockImage.buffer, {
+            filename: mockImage.originalname,
+            contentType: mockImage.mimetype,
+          })
           .expect(HttpStatus.CREATED);
 
         expect(res.body).toEqual(
           expect.objectContaining({
             _id: expect.any(String),
             name: payload.name,
+            images: imagesKeys,
             organizationId: expect.any(String),
             createdBy: expect.any(String),
           }),
@@ -111,12 +136,40 @@ describe('AssetController (e2e)', () => {
         const res = await request(app.getHttpServer())
           .post('/assets')
           .set('Authorization', `Bearer ${managerToken}`)
-          .send(payload)
+          .type('form')
+          .field('location', payload.location)
           .expect(HttpStatus.BAD_REQUEST);
 
         expect(res.body).toHaveProperty('statusCode', HttpStatus.BAD_REQUEST);
         expect(res.body).toHaveProperty('message');
         expect(res.body.message).toContain(VALIDATION_MESSAGES.REQUIRED);
+      });
+
+      it(`should return 400 if image type is invalid.
+        Allowed types: ${FILE_VALIDATION.ALLOWED_TYPES.join(', ')} (OptionalFileValidationPipe)`, async () => {
+        const payload = createValidAssetPayload();
+
+        const invalidImage: MulterFile = {
+          fieldname: 'images',
+          originalname: faker.system.commonFileName('jpg'),
+          encoding: '7bit',
+          mimetype: 'application/pdf',
+          buffer: Buffer.from(faker.string.alphanumeric()),
+          size: faker.number.int(),
+        };
+
+        const res = await request(app.getHttpServer())
+          .post('/assets')
+          .set('Authorization', `Bearer ${managerToken}`)
+          .field('name', payload.name)
+          .attach(invalidImage.fieldname, invalidImage.buffer, {
+            filename: invalidImage.originalname,
+            contentType: invalidImage.mimetype,
+          })
+          .expect(HttpStatus.BAD_REQUEST);
+
+        expect(res.body).toHaveProperty('statusCode', HttpStatus.BAD_REQUEST);
+        expect(res.body).toHaveProperty('message', 'Invalid file type');
       });
     });
 
@@ -124,7 +177,11 @@ describe('AssetController (e2e)', () => {
       it('should return 401 if no token provided', async () => {
         const payload = createValidAssetPayload();
 
-        const res = await request(app.getHttpServer()).post('/assets').send(payload).expect(HttpStatus.UNAUTHORIZED);
+        const res = await request(app.getHttpServer())
+          .post('/assets')
+          .type('form')
+          .field('name', payload.name)
+          .expect(HttpStatus.UNAUTHORIZED);
 
         expect(res.body).toHaveProperty('statusCode', HttpStatus.UNAUTHORIZED);
         expect(res.body).toHaveProperty('message', 'Unauthorized');
@@ -149,7 +206,8 @@ describe('AssetController (e2e)', () => {
         const res = await request(app.getHttpServer())
           .post('/assets')
           .set('Authorization', `Bearer ${userToken}`)
-          .send(payload)
+          .type('form')
+          .field('name', payload.name)
           .expect(HttpStatus.FORBIDDEN);
 
         expect(res.body).toHaveProperty('statusCode', HttpStatus.FORBIDDEN);
@@ -162,11 +220,11 @@ describe('AssetController (e2e)', () => {
     describe('200 OK', () => {
       const roleTestCases = [
         {
-          description: `Should return paginated fixed assets for authorized user with role '${Roles.USER}'`,
+          description: `should return paginated fixed assets for authorized user with role '${Roles.USER}'`,
           role: Roles.USER,
         },
         {
-          description: `Should return paginated fixed assets for authorized user with role '${Roles.MANAGER}'`,
+          description: `should return paginated fixed assets for authorized user with role '${Roles.MANAGER}'`,
           role: Roles.MANAGER,
         },
       ];
@@ -206,6 +264,39 @@ describe('AssetController (e2e)', () => {
             totalPages: expect.any(Number),
           }),
         );
+      });
+
+      it(`should return only fixed assets with images when optional filter 'hasImage=true'`, async () => {
+        const testUser = createTestUser(Roles.USER);
+        const hashedPassword = await bcrypt.hash(testUser.password, 10);
+        const dbUser = await userModel.create({ ...testUser, password: hashedPassword });
+
+        const loginResponse = await request(app.getHttpServer())
+          .post('/auth/login')
+          .send({ email: testUser.email, password: testUser.password })
+          .expect(HttpStatus.OK);
+
+        const userToken = loginResponse.body.access_token;
+
+        const assetWithImage = await assetModel.create({
+          ...createValidAsset(dbUser.organizationId.toString(), dbUser._id.toString()),
+          images: [faker.image.url()],
+        });
+
+        await assetModel.create({
+          ...createValidAsset(dbUser.organizationId.toString(), dbUser._id.toString()),
+        });
+
+        const res = await request(app.getHttpServer())
+          .get('/assets')
+          .set('Authorization', `Bearer ${userToken}`)
+          .query({ hasImage: 'true' })
+          .expect(HttpStatus.OK);
+
+        expect(res.body.assets.length).toBe(1);
+        expect(res.body.assets[0]._id).toBe(assetWithImage._id.toString());
+        expect(res.body.assets[0].images).toBeDefined();
+        expect(res.body.assets[0].images.length).toBeGreaterThan(0);
       });
     });
 
@@ -266,18 +357,32 @@ describe('AssetController (e2e)', () => {
           createValidAsset(dbUser.organizationId.toString(), dbUser._id.toString()),
         );
 
-        const updateAssetDto: UpdateAssetDto = { name: 'Updated asset name' };
+        const updateAssetDto = { name: 'Updated asset name' };
+
+        const mockImage: MulterFile = {
+          fieldname: 'images',
+          originalname: faker.system.commonFileName('jpg'),
+          encoding: '7bit',
+          mimetype: 'image/jpeg',
+          buffer: Buffer.from(faker.string.alphanumeric()),
+          size: faker.number.int(),
+        };
 
         const res = await request(app.getHttpServer())
           .patch(`/assets/${createdAsset._id}`)
           .set('Authorization', `Bearer ${userToken}`)
-          .send(updateAssetDto)
+          .field('name', updateAssetDto.name)
+          .attach(mockImage.fieldname, mockImage.buffer, {
+            filename: mockImage.originalname,
+            contentType: mockImage.mimetype,
+          })
           .expect(HttpStatus.OK);
 
         expect(res.body).toEqual(
           expect.objectContaining({
             _id: createdAsset._id.toString(),
             name: updateAssetDto.name,
+            images: imagesKeys,
             organizationId: dbUser.organizationId.toString(),
             createdBy: dbUser._id.toString(),
           }),
@@ -288,27 +393,76 @@ describe('AssetController (e2e)', () => {
     describe('400 BAD REQUEST', () => {
       it('should return 400 if id is invalid (ObjectIdValidationPipe)', async () => {
         const invalidId = 'Invalid id';
-        const updateAssetDto: UpdateAssetDto = { name: faker.commerce.product() };
+        const updateAssetDto = { name: faker.commerce.product() };
 
         const res = await request(app.getHttpServer())
           .patch(`/assets/${invalidId}`)
           .set('Authorization', `Bearer ${managerToken}`)
-          .send(updateAssetDto)
+          .type('form')
+          .field('name', updateAssetDto.name)
           .expect(HttpStatus.BAD_REQUEST);
 
         expect(res.body).toHaveProperty('statusCode', HttpStatus.BAD_REQUEST);
         expect(res.body.message).toBe('Invalid ID format');
+      });
+
+      const maxSizeMB = Math.round(FILE_VALIDATION.MAX_SIZE / 1024 / 1024);
+
+      it(`should return 400 if uploaded image exceeds ${maxSizeMB} MB limit (OptionalFileValidationPipe)`, async () => {
+        const testUser = createTestUser(Roles.MANAGER);
+        const dbUser = await userModel.create({
+          ...testUser,
+          password: await bcrypt.hash(testUser.password, 10),
+        });
+
+        const loginResponse = await request(app.getHttpServer())
+          .post('/auth/login')
+          .send({ email: testUser.email, password: testUser.password })
+          .expect(HttpStatus.OK);
+
+        const userToken = loginResponse.body.access_token;
+
+        const createdAsset = await assetModel.create(
+          createValidAsset(dbUser.organizationId.toString(), dbUser._id.toString()),
+        );
+
+        const updateAssetDto = { name: faker.commerce.product() };
+
+        const invalidImage: MulterFile = {
+          fieldname: 'images',
+          originalname: faker.system.commonFileName('jpg'),
+          encoding: '7bit',
+          mimetype: 'image/jpeg',
+          buffer: Buffer.alloc(FILE_VALIDATION.MAX_SIZE + 1),
+          size: FILE_VALIDATION.MAX_SIZE + 1,
+        };
+
+        const res = await request(app.getHttpServer())
+          .patch(`/assets/${createdAsset._id}`)
+          .set('Authorization', `Bearer ${userToken}`)
+          .field('name', updateAssetDto.name)
+          .attach(invalidImage.fieldname, invalidImage.buffer, {
+            filename: invalidImage.originalname,
+            contentType: invalidImage.mimetype,
+          })
+          .expect(HttpStatus.BAD_REQUEST);
+
+        expect(res.body).toHaveProperty('statusCode', HttpStatus.BAD_REQUEST);
+        expect(res.body.message).toBe(
+          `File '${invalidImage.originalname}' exceeds the maximum allowed size of ${maxSizeMB} MB`,
+        );
       });
     });
 
     describe('401 UNAUTHORIZED', () => {
       it('should return 401 if no token provided', async () => {
         const assetId = faker.database.mongodbObjectId();
-        const updateAssetDto: UpdateAssetDto = { name: faker.commerce.product() };
+        const updateAssetDto = { name: faker.commerce.product() };
 
         const res = await request(app.getHttpServer())
           .patch(`/assets/${assetId}`)
-          .send(updateAssetDto)
+          .type('form')
+          .field('name', updateAssetDto.name)
           .expect(HttpStatus.UNAUTHORIZED);
 
         expect(res.body).toHaveProperty('statusCode', HttpStatus.UNAUTHORIZED);
@@ -330,12 +484,13 @@ describe('AssetController (e2e)', () => {
         const userToken = loginResponse.body.access_token;
 
         const assetId = faker.database.mongodbObjectId();
-        const updateAssetDto: UpdateAssetDto = { name: faker.commerce.product() };
+        const updateAssetDto = { name: faker.commerce.product() };
 
         const res = await request(app.getHttpServer())
           .patch(`/assets/${assetId}`)
           .set('Authorization', `Bearer ${userToken}`)
-          .send(updateAssetDto)
+          .type('form')
+          .field('name', updateAssetDto.name)
           .expect(HttpStatus.FORBIDDEN);
 
         expect(res.body).toHaveProperty('statusCode', HttpStatus.FORBIDDEN);
@@ -346,12 +501,13 @@ describe('AssetController (e2e)', () => {
     describe('404 NOT FOUND', () => {
       it('should return 404 if fixed asset not found', async () => {
         const assetId = faker.database.mongodbObjectId();
-        const updateAssetDto: UpdateAssetDto = { name: faker.commerce.product() };
+        const updateAssetDto = { name: faker.commerce.product() };
 
         const res = await request(app.getHttpServer())
           .patch(`/assets/${assetId}`)
           .set('Authorization', `Bearer ${managerToken}`)
-          .send(updateAssetDto)
+          .type('form')
+          .field('name', updateAssetDto.name)
           .expect(HttpStatus.NOT_FOUND);
 
         expect(res.body).toHaveProperty('statusCode', HttpStatus.NOT_FOUND);
