@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
@@ -34,15 +36,12 @@ export const SelectWithAddOptions = ({
   withTranslate = false,
   options: initialOptions,
 }: ISelectWithAddOptions) => {
-  const [activeSelected, setActiveSelected] = useState<ISelectOption>(selected);
   const [options, setOptions] = useState<ISelectOption[]>(initialOptions);
 
   const t = useTranslations(translation);
 
-  const handleSelect = (options: ISelectOption) => {
-    if (activeSelected?.id !== options.id) {
-      setActiveSelected(options);
-    }
+  const handleSelect = (option: ISelectOption) => {
+    onChange(option);
   };
 
   const handleAddOption = (newOption: ISelectOption) => {
@@ -56,7 +55,7 @@ export const SelectWithAddOptions = ({
       options={options}
       userRole={role}
       onChange={onChange}
-      selected={activeSelected}
+      selected={selected}
       isLoading={isLoading}
       classNameWrapper={classNameWrapper}
       classNameDropList={classNameDropList}
@@ -68,7 +67,7 @@ export const SelectWithAddOptions = ({
           options={options}
           setIsOpen={setIsOpen}
           onChange={handleSelect}
-          activeSelected={activeSelected}
+          activeSelected={selected}
           onAddOption={handleAddOption}
         />
       )}
