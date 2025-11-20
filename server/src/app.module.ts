@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { TaskModule } from './task/task.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { AssetModule } from './fixed-asset/asset.module';
+import { FileStorageModule } from './file-storage/file-storage.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { AssetModule } from './fixed-asset/asset.module';
     TaskModule,
     AssetModule,
     FeedbackModule,
+    FileStorageModule,
   ],
 })
 export class AppModule {}

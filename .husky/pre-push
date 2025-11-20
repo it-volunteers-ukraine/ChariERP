@@ -1,0 +1,24 @@
+#!/bin/sh
+echo "🔍 Detecting changes in push..."
+
+CHANGED_FILES=$(git diff origin/main...HEAD --name-only)
+
+if echo "$CHANGED_FILES" | grep -qE "^client/"; then
+    echo "🚀 Client changes detected, running pre-push checks..."
+    echo "📝 Type checking client..."
+    npm run compile --workspace client
+    echo "🧪 Testing client..."
+    npm run test --workspace client
+fi
+
+if echo "$CHANGED_FILES" | grep -qE "^server/"; then
+    echo "🚀 Server changes detected, running pre-push checks..."
+    echo "📝 Type checking server..."
+    npm run type-check --workspace server
+    echo "🔍 Linting server..."
+    npm run lint --workspace server
+    echo "🧪 Testing server..."
+    npm run test --workspace server
+fi
+
+echo "✅ All applicable pre-push checks passed!"

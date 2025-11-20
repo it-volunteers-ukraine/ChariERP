@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, Dispatch, SetStateAction } from 'react';
+import logger from '@/utils/logger/logger';
 
 import { getBoardsAction } from '@/actions';
 import { IBoardData, showMessage } from '@/components';
@@ -41,7 +42,7 @@ export const BoardsProvider = ({ children }: ChildrenProps) => {
         return;
       }
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoading(false);
     }

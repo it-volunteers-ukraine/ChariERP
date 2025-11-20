@@ -92,7 +92,7 @@ export const ColorButton = ({ className, type }: IColorButton) => {
             <div className="mt-2 flex h-7">
               <div
                 style={{ backgroundColor: selectedColor }}
-                className="mr-2 w-full rounded p-2 hover:bg-gray-300"
+                className="mr-2 w-full rounded-sm p-2 hover:bg-gray-300"
               ></div>
               <button className={cn(className, 'p-2 text-center text-sm')} onClick={() => applyColor(selectedColor)}>
                 Ok

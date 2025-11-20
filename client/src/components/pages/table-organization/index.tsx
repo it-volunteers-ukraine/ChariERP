@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import logger from '@/utils/logger/logger';
 
 import { useSortableData } from '@/hooks';
 import { useLoaderAdminPage } from '@/context';
@@ -51,7 +52,7 @@ export const TableOrganization = () => {
       setOrganizations(data.results as IOrganizationPageProps[]);
       setTotalRecords(data.totalItems);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -73,12 +74,12 @@ export const TableOrganization = () => {
         />
 
         <div className={wrapper}>
-          <div className="sticky top-0 z-[9] hidden select-none gap-5 border-b border-[#A3A3A359] bg-whiteSecond py-[14px] pl-3 text-dimGray laptop:grid laptop:grid-cols-tableOrganization">
+          <div className="bg-white-second text-dim-gray laptop:grid laptop:grid-cols-table-organization sticky top-0 z-9 hidden gap-5 border-b border-[#A3A3A359] py-[14px] pl-3 select-none">
             <div
               onClick={() => requestSort('organizationName')}
               className="flex w-fit cursor-pointer items-center gap-2 truncate"
             >
-              <span className="font-robotoCondensed text-lg leading-[22px]">{table('organizationName')}</span>
+              <span className="font-roboto-condensed text-lg leading-[22px]">{table('organizationName')}</span>
               <Triangle className={styles.organization} />
             </div>
 
@@ -86,7 +87,7 @@ export const TableOrganization = () => {
               onClick={() => requestSort('EDRPOU')}
               className="flex w-fit cursor-pointer items-center gap-2 place-self-center"
             >
-              <span className="font-robotoCondensed text-lg leading-[22px]">{table('EDRPOU')}</span>
+              <span className="font-roboto-condensed text-lg leading-[22px]">{table('EDRPOU')}</span>
               <Triangle className={styles.edrpou} />
             </div>
 
@@ -94,7 +95,7 @@ export const TableOrganization = () => {
               onClick={() => requestSort('users')}
               className="flex w-fit cursor-pointer items-center gap-2 place-self-center"
             >
-              <User className="text-midGray" width={14.5} height={14.5} />
+              <User className="text-mid-gray" width={14.5} height={14.5} />
               <Triangle className={styles.user} />
             </div>
 
@@ -102,8 +103,8 @@ export const TableOrganization = () => {
               onClick={() => requestSort('approvalDate')}
               className="flex w-fit cursor-pointer items-center gap-2 place-self-center"
             >
-              <Calendar className="text-midGray" width={16} height={16} />
-              <span className="font-robotoCondensed text-lg leading-[22px]">{table('registrationDate')}</span>
+              <Calendar className="text-mid-gray" width={16} height={16} />
+              <span className="font-roboto-condensed text-lg leading-[22px]">{table('registrationDate')}</span>
               <Triangle className={styles.date} />
             </div>
 
@@ -111,12 +112,12 @@ export const TableOrganization = () => {
               onClick={() => requestSort('email')}
               className="flex w-fit cursor-pointer items-center justify-start gap-2 pl-2"
             >
-              <span className="font-robotoCondensed text-lg leading-[22px]">{table('email')}</span>
+              <span className="font-roboto-condensed text-lg leading-[22px]">{table('email')}</span>
               <Triangle className={styles.email} />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 text-midGray tablet:grid-cols-2 tablet:gap-6 laptop:block laptop:gap-0">
+          <div className="text-mid-gray tablet:grid-cols-2 tablet:gap-6 laptop:block laptop:gap-0 grid grid-cols-1 gap-4">
             {items.map((item) => (
               <RowItem key={item.id} item={item} />
             ))}
@@ -129,7 +130,7 @@ export const TableOrganization = () => {
         onChange={setPage}
         pageSize={pageSize}
         total={totalRecords}
-        className="my-auto max-w-[440px] desktop:ml-16"
+        className="desktop:ml-16 my-auto max-w-[440px]"
       />
     </>
   );

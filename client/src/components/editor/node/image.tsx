@@ -1,7 +1,6 @@
 import { JSX } from 'react';
 import Image from 'next/image';
-import { SerializedLexicalNode } from 'lexical';
-import { createCommand, DecoratorNode } from 'lexical';
+import { createCommand, DecoratorNode, SerializedLexicalNode } from 'lexical';
 
 import { ModalImg } from '@/components/modalImg';
 

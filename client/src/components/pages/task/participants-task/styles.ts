@@ -6,7 +6,7 @@ interface IGetStyle {
 }
 
 export const getStyle = ({ isOpenMenu, isLoading }: IGetStyle) => ({
-  wrapper: 'border w-full border-arcticSky relative p-2 rounded-lg desktop:w-[291px]',
+  wrapper: 'border w-full border-arctic-sky relative p-2 rounded-lg desktop:w-[291px]',
   button: clsx('flex w-full items-center justify-between text-dark-blue', {
     'cursor-pointer': !isLoading,
   }),

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import logger from '@/utils/logger/logger';
 
 import { ResponseGetType } from '@/types';
 import { showMessage } from '@/components';
@@ -65,7 +66,7 @@ export const useEditBoard = (userId: string | undefined) => {
         return;
       }
     } catch (error) {
-      console.log(error);
+      logger.error(error);
 
       if (isEdit) {
         setBoards(oldBoards);

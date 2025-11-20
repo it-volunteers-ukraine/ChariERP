@@ -58,7 +58,7 @@ export const DropdownList = ({
 
   return (
     <div ref={ref} className={styles.wrapper}>
-      <div className="flex items-center justify-between p-3 font-scada text-lg text-black">
+      <div className="font-scada flex items-center justify-between p-3 text-lg text-black">
         <p className="font-scada uppercase">
           {taskUsers ? translateTask('performers') : translateBoard('allParticipants')}
         </p>
@@ -68,14 +68,14 @@ export const DropdownList = ({
         </button>
       </div>
 
-      <div className="scroll-textarea max-h-[486px] overflow-y-scroll bg-white pb-[1px] pl-4 pr-2 pt-2">
-        <label className="mb-4 flex gap-2 rounded border-[1px] p-2 text-disabled">
+      <div className="scroll-textarea max-h-[486px] overflow-y-scroll bg-white pt-2 pr-2 pb-px pl-4">
+        <label className="text-disabled mb-4 flex gap-2 rounded-sm border p-2">
           <Search className="w-6" />
 
           <input
             type="text"
             onChange={handleInputChange}
-            className="w-full text-comet"
+            className="text-comet w-full"
             placeholder={translateSearch('search')}
           />
         </label>

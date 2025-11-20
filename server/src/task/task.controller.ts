@@ -7,7 +7,8 @@ import {
   ApiNotFoundResponse,
   ApiForbiddenResponse,
   ApiBadRequestResponse,
-  ApiUnauthorizedResponse, ApiBearerAuth,
+  ApiUnauthorizedResponse,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 
 import { Roles } from '../schemas/enums';

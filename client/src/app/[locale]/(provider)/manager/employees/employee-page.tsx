@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import logger from '@/utils/logger/logger';
 
 import { routes } from '@/constants';
 import { normalizeUsersWithoutAvatar } from '@/utils';
@@ -41,7 +42,7 @@ function EmployeesPage() {
       setData(usersWithAvatar);
       setTotalItems(users.totalItems);
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -64,7 +65,7 @@ function EmployeesPage() {
   return (
     <>
       <div className={wrapper}>
-        <div className="flex w-full flex-col gap-4 pb-5 tablet:flex-row tablet:gap-8 tablet:pb-6 laptop:justify-between">
+        <div className="tablet:flex-row tablet:gap-8 tablet:pb-6 laptop:justify-between flex w-full flex-col gap-4 pb-5">
           <Input
             type="search"
             label="Search"
@@ -77,7 +78,7 @@ function EmployeesPage() {
             <Button
               styleType="primary"
               text={t('employeesPage.btnAdd')}
-              className="w-full uppercase tablet:max-w-[216px]"
+              className="tablet:max-w-[216px] w-full uppercase"
               onClick={() => router.push(`${routes.employees}/create`)}
             />
           )}
@@ -99,7 +100,7 @@ function EmployeesPage() {
         onChange={setPage}
         total={totalItems}
         pageSize={recordsPerPage}
-        className="max-w-[320px] desktop:mx-0"
+        className="desktop:mx-0 max-w-[320px]"
       />
     </>
   );

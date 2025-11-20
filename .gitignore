@@ -1,23 +1,42 @@
-### Intellij template
-# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
-# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+# Root-level Node.js files
+/node_modules/
 
-# User-specific stuff
+# Root-level environment files
+.env
+.env.*.local
+
+# Root-level logs and temporary files
+*.log
+.tmp/
+.temp/
+
+# IDE files (IntelliJ)
 .idea/
-.idea/**
-
-# File-based project format
 *.iws
-
-# IntelliJ
+*.iml
 out/
 
-# Docker compose Mongo DB volume
-mongo-init
+# OS files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
 
-# dotenv environment variable files
-.env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
+# Docker compose volumes
+mongo-init/
+
+# Root-level build artifacts
+/dist/
+/build/
+/coverage/
+
+# Husky (should be tracked, but in case you want to ignore something)
+# .husky/_
+
+# Project documentation builds
+documentation/build/
+
+# Child modules package-lock.json files
+client/package-lock.json
+server/package-lock.json
+

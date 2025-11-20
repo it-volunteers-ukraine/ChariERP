@@ -1,56 +1,117 @@
 services:
-    client:
-        image: node:22-alpine
-        working_dir: /client
-        restart: unless-stopped
-        volumes:
-            - ./client:/client
-            - client_node_modules:/client/node_modules
-        command: sh -c "npm ci && npm run dev"
-        ports:
-            - "3000:3000"
-        environment:
-            - NODE_ENV=development
-        env_file:
-            - .env
-        depends_on:
-            database:
-                condition: service_started
+  # Development services
+  client-dev:
+    image: node:22-alpine
+    working_dir: /workspace
+    restart: unless-stopped
+    volumes:
+      - .:/workspace
+      - client_node_modules:/workspace/client/node_modules
+      - server_node_modules:/workspace/server/node_modules
+      - root_node_modules:/workspace/node_modules
+    command: sh -c "npm ci && npm run dev --workspace client"
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_TELEMETRY_DISABLED=1
+      - HOSTNAME=0.0.0.0
+    env_file:
+      - .env
+    depends_on:
+      - database
+    profiles:
+      - dev
 
-    server:
-        image: node:22-alpine
-        working_dir: /server
-        restart: unless-stopped
-        volumes:
-            - ./server:/server
-            - server_node_modules:/server/node_modules
-        command: sh -c "npm ci && npm run start:dev"
-        ports:
-            - "8080:8080"
-        environment:
-            - NODE_ENV=development
-        env_file:
-            - .env
-        depends_on:
-            database:
-                condition: service_started
+  server-dev:
+    image: node:22-alpine
+    working_dir: /workspace
+    restart: unless-stopped
+    volumes:
+      - .:/workspace
+      - client_node_modules:/workspace/client/node_modules
+      - server_node_modules:/workspace/server/node_modules
+      - root_node_modules:/workspace/node_modules
+    command: sh -c "npm ci && npm run start:dev --workspace server"
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - PORT=8080
+    env_file:
+      - .env
+    depends_on:
+      - database
+    profiles:
+      - dev
 
-    database:
-        image: mongo:latest
-        restart: unless-stopped
-        volumes:
-            - mongo_data:/data/db
-            - ./mongo-init:/docker-entrypoint-initdb.d:ro
-        ports:
-            - "27017:27017"
-        environment:
-            - MONGO_INITDB_ROOT_USERNAME=root
-            - MONGO_INITDB_ROOT_PASSWORD=123456
-            - MONGO_INITDB_DATABASE=mydatabase
-        env_file:
-            - .env
+  # Production services
+  client-prod:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - HOSTNAME=0.0.0.0
+      - PORT=3000
+    env_file:
+      - .env
+    depends_on:
+      - database
+
+  server-prod:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      - HOST=0.0.0.0
+      - PORT=8080
+    env_file:
+      - .env
+    depends_on:
+      - database
+    networks:
+      - default
+
+  # Database service
+  database:
+    image: mongo:7-jammy
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME:-admin}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD:-password}
+      - MONGO_INITDB_DATABASE=${MONGO_DATABASE:-ChariERP}
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - default
 
 volumes:
-    mongo_data:
-    client_node_modules:
-    server_node_modules:
+  mongo_data:
+  client_node_modules:
+  server_node_modules:
+  root_node_modules:
+
+networks:
+  default:
+    name: charierp-network

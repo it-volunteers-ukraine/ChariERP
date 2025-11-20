@@ -10,9 +10,9 @@ export const getStyles = () => ({
     'tablet:text-[22px] tablet:leading-[28px] ' +
     'desktop:text-[26px] desktop:leading-[32px] ',
   link:
-    'font-scada font-normal text-[12px] uppercase underline text-newBlack leading-[20px] hover:text-dark-blue focus:text-dark-blue active:text-darkBlueFocus ' +
+    'font-scada font-normal text-[12px] uppercase underline text-new-black leading-[20px] hover:text-dark-blue focus:text-dark-blue active:text-dark-blue-focus ' +
     'tablet:text-[15px] tablet:leading-[26px] ' +
     'desktop:text-[18px] desktop:leading-[22px] ',
   wrapper:
-    'min-h-full bg-bgAuthGradient text-center px-4 pt-10 pb-16 tablet:px-8 desktop:pt-16 desktop:px-[136px] desktopXl:px-[240px]',
+    'min-h-full bg-bg-auth-gradient text-center px-4 pt-10 pb-16 tablet:px-8 desktop:pt-16 desktop:px-[136px] desktopXl:px-[240px]',
 });

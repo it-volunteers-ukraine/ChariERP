@@ -24,7 +24,9 @@ export const ToolsDropMenu = ({
 
   useOutsideClick(() => onClose(), ref);
 
-  if (!unmounted || !children) return null;
+  if (!unmounted || !children) {
+    return null;
+  }
 
   return (
     <div ref={ref} className={style.toolsMenu} style={{ animationDuration: `${duration}ms` }}>

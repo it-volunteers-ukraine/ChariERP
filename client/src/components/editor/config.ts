@@ -1,6 +1,7 @@
 import { LinkNode } from '@lexical/link';
 import { HeadingNode } from '@lexical/rich-text';
 import { ListItemNode, ListNode } from '@lexical/list';
+import logger from '@/utils/logger/logger';
 
 import { ImageNode } from './node';
 
@@ -9,7 +10,7 @@ const theme = {
     bold: 'bold',
     italic: 'italic',
     underline: 'underline',
-    code: 'bg-[#f0f2f5] py-[1px] px-1 font-mono text-[94%]',
+    code: 'bg-[#f0f2f5] py-px px-1 font-mono text-[94%]',
     strikethrough: 'line-through',
     subscript: 'align-sub',
     superscript: 'align-super',
@@ -41,7 +42,7 @@ export const initialConfig = ({ initialState, isEditing = false }: IInitialConfi
     editorState: initialState === '' ? undefined : initialState,
     nodes: [HeadingNode, ListNode, ListItemNode, ImageNode, LinkNode],
     onError: (e: Error) => {
-      console.log('ERROR:', e);
+      logger.error(e);
     },
   };
 };

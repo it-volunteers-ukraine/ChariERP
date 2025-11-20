@@ -1,8 +1,9 @@
-import { IFeedback } from '../../feedback/interfaces/feedback.interface';
+import { IFeedback } from '@/feedback/interfaces/feedback.interface';
 
 export function generateFeedbackEmailTemplate(feedback: IFeedback): string {
   return `
-    <div style="display: none; font-size: 1px; color: #ffffff; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
+    <div style="display: none; font-size: 1px; color: #ffffff; line-height: 1px; max-height: 0; max-width: 0; 
+    opacity: 0; overflow: hidden;">
       You've received a new message from ChariERP website feedback form. ${'&zwnj;'.repeat(500)}
     </div>
     <table border="1" cellpadding="5" cellspacing="0">

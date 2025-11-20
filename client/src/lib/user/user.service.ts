@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import { getPaginate } from '@/utils';
 import { IAdmin, IUsers, IUsersByOrganizationProps, Roles, UserStatus } from '@/types';
 import { BucketFolders, deleteFileFromBucket, uploadFileToBucket } from '@/services';
+import logger from '@/utils/logger/logger';
 
 import { Admin, Organizations, Users } from '..';
 import { ImageService } from '../image/image.service';
@@ -24,7 +25,9 @@ class UserService extends BaseService {
     const adminsNumber = await Admin.countDocuments();
 
     if (adminsNumber > 0) {
-      console.warn(`An attempt to create an admin with email: ${email}`);
+      const sanitizedEmail = email.replaceAll(/[\r\n]/g, '');
+
+      logger.info(`An attempt to create an admin with email: '${sanitizedEmail}'`);
 
       return { message: 'Admin already exists', success: false };
     }
@@ -45,7 +48,7 @@ class UserService extends BaseService {
       let foundUser = admin || user;
 
       if (foundUser.status === UserStatus.BLOCKED) {
-        console.warn(`Attempt to sign in with blocked account for user: ${foundUser?._id}`);
+        logger.info(`Attempt to sign in with blocked account for user: ${foundUser?._id}`);
 
         return { success: false, message: 'blockedAccount' };
       }
@@ -67,7 +70,7 @@ class UserService extends BaseService {
           },
         );
       }
-      console.info(`User '${foundUser?._id}' successfully signed in`);
+      logger.info(`User '${foundUser?._id}' successfully signed in`);
 
       return { success: true, user: JSON.stringify(foundUser) };
     }
@@ -130,7 +133,7 @@ class UserService extends BaseService {
       user.avatarUrl = response.success ? response.image : '';
       imageName = response.imageName;
     }
-    console.info(`User '${userId}' from organization '${organizationId}' is extracted from DB`);
+    logger.info(`User '${userId}' from organization '${organizationId}' is extracted from DB`);
 
     return { success: true, user: JSON.stringify(user), imageName };
   }
@@ -183,7 +186,7 @@ class UserService extends BaseService {
     const newUser = await Users.create(body);
 
     await Organizations.findByIdAndUpdate(organizationId, { $push: { users: newUser._id } });
-    console.info(`New user ${newUser.id} was created in organization '${organizationId}'`);
+    logger.info(`New user ${newUser.id} was created in organization '${organizationId}'`);
 
     return { success: true, message: 'User created', userId: newUser.id };
   }
@@ -231,7 +234,7 @@ class UserService extends BaseService {
 
     const response = await Users.findByIdAndUpdate(id, { $set: body }, { new: true });
 
-    console.info(`User '${user.id}' was successfully updated`);
+    logger.info(`User '${user.id}' was successfully updated`);
 
     return { success: true, message: 'User updated', user: JSON.stringify(response) };
   }

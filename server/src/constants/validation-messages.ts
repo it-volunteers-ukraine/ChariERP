@@ -18,7 +18,7 @@ export const VALIDATION_MESSAGES = {
     NAME_MAX_LENGTH: 'Asset name must be no more 100 characters long',
     DATE_INVALID: 'Asset date must be in the format DD.MM.YYYY',
     VALUE_DECIMAL: 'Asset value must have no more than 2 decimal places',
-    DESC_MAX_LENGTH: 'Asset description must be no more 500 characters long'
+    DESC_MAX_LENGTH: 'Asset description must be no more 500 characters long',
   },
   REQUIRED: 'This field is required',
   STRING: 'This field must be a string',

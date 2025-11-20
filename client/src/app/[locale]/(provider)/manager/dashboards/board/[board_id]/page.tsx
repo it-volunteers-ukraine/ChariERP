@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { cookies } from 'next/headers';
+import logger from '@/utils/logger/logger';
 
 import { IBoardServerColumns } from '@/types';
 import { WrapperColumns } from '@/components';
@@ -28,7 +29,7 @@ export const getData = async (boardId: string) => {
 
     return parsedResponse as IBoardServerColumns;
   } catch (e) {
-    console.log({ e });
+    logger.error({ e });
   }
 };
 

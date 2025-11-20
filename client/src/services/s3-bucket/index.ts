@@ -9,6 +9,7 @@ import {
   PutObjectCommandInput,
   S3Client,
 } from '@aws-sdk/client-s3';
+import logger from '@/utils/logger/logger';
 
 const region = 'fra1';
 const endpoint = `https://${region}.digitaloceanspaces.com`;
@@ -52,11 +53,11 @@ const uploadFileToBucket = async (organizationName: string, folder: BucketFolder
   try {
     await s3Client.send(new PutObjectCommand(params));
 
-    console.log(`Successfully uploaded object: ${params.Key}`);
+    logger.info(`Successfully uploaded object: ${params.Key}`);
 
     return params.Key;
-  } catch (err) {
-    console.log('Error while transferring a file to S3 bucket:', err);
+  } catch (error) {
+    logger.error('Error while transferring a file to S3 bucket', error);
 
     return false;
   }
@@ -71,11 +72,11 @@ const downloadFileFromBucket = async (fileName: string) => {
   try {
     const downloadedFile = await s3Client.send(new GetObjectCommand(params));
 
-    console.log(`Successfully downloaded object: ${params.Key}`);
+    logger.info(`Successfully downloaded object: ${params.Key}`);
 
     return downloadedFile.Body;
-  } catch (err) {
-    console.log('Error while downloading a file from S3 bucket:', err);
+  } catch (error) {
+    logger.error('Error while downloading a file from S3 bucket', error);
   }
 };
 
@@ -88,11 +89,11 @@ const deleteFileFromBucket = async (fileName: string) => {
   try {
     await s3Client.send(new DeleteObjectCommand(params));
 
-    console.log(`Successfully deleted object: ${params.Key}`);
+    logger.info(`Successfully deleted object: ${params.Key}`);
 
     return true;
-  } catch (err) {
-    console.log('Error while deleting a file from S3 bucket:', err);
+  } catch (error) {
+    logger.error('Error while deleting a file from S3 bucket', error);
 
     return false;
   }
@@ -108,7 +109,9 @@ const deleteFolderFromBucket = async (folderName: string) => {
       }),
     );
 
-    if (!Contents) return;
+    if (!Contents) {
+      return;
+    }
 
     Contents.forEach(({ Key }) => {
       DeletePromises.push(
@@ -122,11 +125,11 @@ const deleteFolderFromBucket = async (folderName: string) => {
     });
 
     await Promise.all(DeletePromises);
-    console.log(`Successfully deleted object: ${folderName}`);
+    logger.info(`Successfully deleted object: ${folderName}`);
 
     return true;
   } catch (error) {
-    console.log('Error while deleting a folder from S3 bucket:', error);
+    logger.error('Error while deleting a folder from S3 bucket:', error);
 
     return false;
   }

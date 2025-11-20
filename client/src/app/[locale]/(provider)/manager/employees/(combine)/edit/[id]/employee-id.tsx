@@ -3,11 +3,13 @@
 import { useEffect, useState } from 'react';
 import { FormikValues } from 'formik';
 import { useParams, useRouter } from 'next/navigation';
+import logger from '@/utils/logger/logger';
 
 import { IEditUser } from '@/types';
 import { routes } from '@/constants';
 import { showMessage } from '@/components';
-import { createFile, updateUserSerializer } from '@/utils';
+import { createFile } from '@/utils/helpers';
+import { updateUserSerializer } from '@/utils/serializer';
 import { useLoaderAdminPage, useUserInfo } from '@/context';
 import { getMemberByIdAction, updateMemberByIdAction } from '@/actions';
 
@@ -65,7 +67,7 @@ const EmployeeId = () => {
         showMessage.error(res.message);
       }
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoadingUpdate(false);
       setIsLoading(false);
@@ -87,7 +89,7 @@ const EmployeeId = () => {
 
       setData(JSON.parse(response.user as string));
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoading(false);
     }

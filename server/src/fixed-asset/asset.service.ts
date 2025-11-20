@@ -1,7 +1,7 @@
 import { PaginateModel, PaginateResult } from 'mongoose';
 import { Injectable, Logger, ConflictException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Asset, AssetDocument } from '../schemas/asset.schema';
+import { Asset, AssetDocument } from '@/schemas/asset.schema';
 import { CreateAssetDto } from './dto/create-asset.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
 
@@ -14,14 +14,11 @@ export class AssetService {
   async create(createAssetDto: CreateAssetDto, userId: string, organizationId: string): Promise<Asset> {
     const { name } = createAssetDto;
 
-    const existing = await this.assetModel
-      .findOne({ name: { $eq: name } })
-      .lean()
-      .exec();
+    const existing = await this.assetModel.countDocuments({ name: { $eq: name } });
 
     if (existing) {
-      this.logger.warn(`Asset with name '${name}' already exists`);
-      throw new ConflictException('Asset with this name already exists');
+      this.logger.warn(`Fixed asset with name '${name}' already exists`);
+      throw new ConflictException('Fixed asset with current name already exists');
     }
 
     const createdAsset = await this.assetModel.create({
@@ -32,7 +29,7 @@ export class AssetService {
       updatedAt: new Date(),
     });
 
-    this.logger.log(`Fixed asset '${name}' (ID: ${createdAsset._id}) successfully created by user '${userId}'`);
+    this.logger.log(`Fixed asset '${name}' (ID: ${createdAsset.id}) successfully created by user '${userId}'`);
 
     return createdAsset.toObject();
   }
@@ -49,6 +46,11 @@ export class AssetService {
       limit,
       lean: true,
     });
+
+    if (!result.totalDocs) {
+      this.logger.warn(`No fixed assets found in organization '${organizationId}'`);
+      throw new NotFoundException('No fixed assets found in organization');
+    }
 
     return {
       assets: result.docs,
@@ -69,8 +71,8 @@ export class AssetService {
       .exec();
 
     if (!updatedAsset) {
-      this.logger.error(`Asset with ID '${assetId}' not found or update did not occur`);
-      throw new NotFoundException(`Asset with ID '${assetId}' not found or update did not occur`);
+      this.logger.error(`Fixed asset with ID '${assetId}' not found`);
+      throw new NotFoundException('Fixed asset not found');
     }
 
     this.logger.log(`Fixed asset '${assetId}' successfully updated`);
@@ -79,7 +81,12 @@ export class AssetService {
   }
 
   async deleteOne(assetId: string): Promise<void> {
-    await this.assetModel.deleteOne({ _id: { $eq: assetId } });
+    const deletedAsset = await this.assetModel.findByIdAndDelete(assetId).lean().exec();
+
+    if (!deletedAsset) {
+      this.logger.error(`Fixed asset with ID '${assetId}' not found`);
+      throw new NotFoundException('Fixed asset not found');
+    }
 
     this.logger.log(`Fixed asset '${assetId}' successfully deleted`);
   }

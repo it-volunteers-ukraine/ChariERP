@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
+import logger from '@/utils/logger/logger';
 
 import { ArrowUp } from '@/assets/icons';
 
@@ -59,19 +60,19 @@ export const Accordion = ({
   const styles = getStyles({ isOpen, classNameTitle, classNameWrapper });
 
   if (React.Children.count(children) !== 1) {
-    console.error('Children має бути лише один елемент.');
+    logger.error('Children має бути лише один елемент.');
   }
 
   return (
     <div className={styles.wrapper}>
       <div onClick={toggleAccordion} className="flex w-fit cursor-pointer items-center justify-start">
         <div className="flex items-center gap-2">
-          {Icon && <Icon className="h-6 w-6 text-inherit text-title-title" />}
+          {Icon && <Icon className="text-title-title h-6 w-6 text-inherit" />}
           <Title className={styles.title} title={title} />
         </div>
 
         <div className={styles.arrow}>
-          <ArrowUp width={24} height={24} className="text-lightBlue" />
+          <ArrowUp width={24} height={24} className="text-light-blue" />
         </div>
       </div>
 

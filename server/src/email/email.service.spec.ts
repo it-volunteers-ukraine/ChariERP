@@ -1,16 +1,15 @@
 import { EmailService } from './email.service';
-import * as sgMail from '@sendgrid/mail';
+import { Resend } from 'resend';
 import { IFeedback } from '../feedback/interfaces/feedback.interface';
 import { faker } from '@faker-js/faker';
 
-jest.mock('@sendgrid/mail', () => ({
-  __esModule: true,
-  setApiKey: jest.fn(),
-  send: jest.fn(),
+jest.mock('resend', () => ({
+  Resend: jest.fn().mockImplementation(() => ({
+    emails: {
+      send: jest.fn(),
+    },
+  })),
 }));
-
-const setApiKeyMock = sgMail.setApiKey as jest.Mock;
-const sendMock = sgMail.send as jest.Mock;
 
 const createTestFeedback = (): IFeedback => ({
   lastname: faker.person.lastName(),
@@ -22,6 +21,7 @@ const createTestFeedback = (): IFeedback => ({
 
 describe('EmailService', () => {
   let emailService: EmailService;
+  let mockResendSend: jest.Mock;
 
   const OLD_ENV = process.env;
 
@@ -29,9 +29,17 @@ describe('EmailService', () => {
     jest.resetModules();
     process.env = {
       ...OLD_ENV,
-      SEND_GRID_API_KEY: 'fake-key',
+      RESEND_API_KEY: 'fake-resend-key',
       EMAIL_FROM: faker.internet.email(),
     };
+
+    mockResendSend = jest.fn();
+    (Resend as jest.Mock).mockImplementation(() => ({
+      emails: {
+        send: mockResendSend,
+      },
+    }));
+
     emailService = new EmailService();
   });
 
@@ -40,7 +48,7 @@ describe('EmailService', () => {
     jest.clearAllMocks();
   });
 
-  it('should send email automatically', async () => {
+  it('should send email successfully', async () => {
     const mockPayload = {
       to: process.env.EMAIL_FROM!,
       from: process.env.EMAIL_FROM!,
@@ -49,43 +57,60 @@ describe('EmailService', () => {
       html: `<p>${faker.lorem.paragraph()}</p>`,
     };
 
-    sendMock.mockResolvedValueOnce({});
+    mockResendSend.mockResolvedValueOnce({
+      data: { id: 'test-email-id' },
+      error: null,
+    });
 
     await expect(emailService.send(mockPayload)).resolves.toBeUndefined();
 
-    expect(setApiKeyMock).toHaveBeenCalledWith('fake-key');
-    expect(sendMock).toHaveBeenCalledWith(mockPayload);
+    expect(mockResendSend).toHaveBeenCalledWith({
+      from: mockPayload.from,
+      to: mockPayload.to,
+      subject: mockPayload.subject,
+      text: mockPayload.text,
+      html: mockPayload.html,
+    });
   });
 
-  it('should throw error if SEND_GRID_API_KEY is missing', async () => {
-    delete process.env.SEND_GRID_API_KEY;
+  it('should throw error if RESEND_API_KEY is missing', () => {
+    delete process.env.RESEND_API_KEY;
 
+    expect(() => new EmailService()).toThrow('Missing RESEND_API_KEY');
+  });
+
+  it('should throw error when Resend API returns error', async () => {
     const mockPayload = {
       to: process.env.EMAIL_FROM!,
       from: process.env.EMAIL_FROM!,
-      subject: 'Missing key',
-      text: 'Test text',
-      html: '<p>Test</p>',
+      subject: 'Failure case',
+      text: 'fail',
+      html: '<p>fail</p>',
     };
 
-    await expect(emailService.send(mockPayload)).rejects.toThrow('Missing SEND_GRID_API_KEY');
-    expect(sendMock).not.toHaveBeenCalled();
+    mockResendSend.mockResolvedValueOnce({
+      data: null,
+      error: { message: 'Invalid API key' },
+    });
+
+    await expect(emailService.send(mockPayload)).rejects.toThrow('Resend API error: Invalid API key');
   });
 
-  it('should throw error when sending email fails', async () => {
-    sendMock.mockRejectedValueOnce(new Error('Failed to send email'));
-    await expect(
-      emailService.send({
-        to: process.env.EMAIL_FROM!,
-        from: process.env.EMAIL_FROM!,
-        subject: 'Failure case',
-        text: 'fail',
-        html: '<p>fail</p>',
-      }),
-    ).rejects.toThrow('Failed to send email');
+  it('should throw error when network/other error occurs', async () => {
+    const mockPayload = {
+      to: process.env.EMAIL_FROM!,
+      from: process.env.EMAIL_FROM!,
+      subject: 'Network failure case',
+      text: 'fail',
+      html: '<p>fail</p>',
+    };
+
+    mockResendSend.mockRejectedValueOnce(new Error('Network error'));
+
+    await expect(emailService.send(mockPayload)).rejects.toThrow('Network error');
   });
 
-  it('should throw error if EMAIL_FROM is not set in sendFeeback', async () => {
+  it('should throw error if EMAIL_FROM is not set in sendFeedback', async () => {
     delete process.env.EMAIL_FROM;
 
     emailService = new EmailService();
@@ -98,7 +123,7 @@ describe('EmailService', () => {
   it('should generate and send feedback email', async () => {
     const feedback = createTestFeedback();
 
-    const emailServiceSendMock = jest.fn();
+    const emailServiceSendMock = jest.fn().mockResolvedValue(undefined);
     emailService.send = emailServiceSendMock;
 
     await emailService.sendFeedback(feedback);

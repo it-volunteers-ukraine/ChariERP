@@ -1,0 +1,86 @@
+name: "Deploy Full Stack to Digital Ocean"
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+      deploy-backend:
+        description: 'Force deploy backend'
+        type: boolean
+        default: false
+      deploy-frontend:
+        description: 'Force deploy frontend'
+        type: boolean
+        default: false
+
+jobs:
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'server/**'
+            frontend:
+              - 'client/**'
+            ignore:
+              - '.github/**'
+              - '**/*.md'
+              - '**/*.txt'
+              - 'documentation/**'
+              - 'README*'
+
+  deploy-backend:
+    needs: changes
+    if: ${{ inputs.deploy-backend || needs.changes.outputs.backend == 'true' }}
+    name: Deploy Backend
+    uses: ./.github/workflows/digitalocean-deploy.yml
+    with:
+      working-directory: ./server
+      container-name: chari_erp_be
+      dockerfile-path: ./server/Dockerfile
+      workspace-name: server
+      environment: ${{ inputs.environment }}
+    secrets:
+      do-access-token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      telegram-to: ${{ secrets.TELEGRAM_TO }}
+      telegram-token: ${{ secrets.TELEGRAM_TOKEN }}
+    permissions:
+      id-token: write
+      contents: read
+
+  deploy-frontend:
+    needs: changes
+    if: ${{ inputs.deploy-frontend || needs.changes.outputs.frontend == 'true' }}
+    name: Deploy Frontend
+    uses: ./.github/workflows/digitalocean-deploy.yml
+    with:
+      working-directory: ./client
+      container-name: chari_erp_ui
+      dockerfile-path: ./client/Dockerfile
+      workspace-name: client
+      environment: ${{ inputs.environment }}
+    secrets:
+      do-access-token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      telegram-to: ${{ secrets.TELEGRAM_TO }}
+      telegram-token: ${{ secrets.TELEGRAM_TOKEN }}
+    permissions:
+      id-token: write
+      contents: read

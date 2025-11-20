@@ -1,6 +1,7 @@
 import { showMessage } from '@/components';
 import { deleteColumnAction } from '@/actions';
 import { IUseColumns, ResponseGetType } from '@/types';
+import logger from '@/utils/logger/logger';
 
 import { IUseStateBoardColumns } from './types';
 
@@ -25,7 +26,7 @@ export const useDeleteColumn = ({ boardId, userId }: IUseColumns) => {
         setColumns(oldResponse);
       }
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       setColumns(oldResponse);
     }
   };

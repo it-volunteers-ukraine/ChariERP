@@ -778,9 +778,13 @@ class TaskService extends BaseService {
       if (isTooLarge || isInvalidExtension) {
         const reasons = [];
 
-        if (isTooLarge) reasons.push(`too large more ${fileConfigAttachment.size / (1024 * 1024)} MB,`);
+        if (isTooLarge) {
+          reasons.push(`too large more ${fileConfigAttachment.size / (1024 * 1024)} MB,`);
+        }
 
-        if (isInvalidExtension) reasons.push(`invalid extension: .${extension}`);
+        if (isInvalidExtension) {
+          reasons.push(`invalid extension: .${extension}`);
+        }
 
         acc.push(`"${file.name}" ${reasons.join(', ')}`);
       }

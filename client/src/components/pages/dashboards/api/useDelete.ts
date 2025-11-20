@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import logger from '@/utils/logger/logger';
 
 import { ResponseGetType } from '@/types';
 import { showMessage } from '@/components';
@@ -34,7 +35,7 @@ export const useDeleteBoard = (userId: string | undefined) => {
         setBoards(oldBoards);
       }
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     } finally {
       setIsLoading(false);
     }

@@ -8,6 +8,20 @@ const withNextIntl = next_intl('./src/i18n.ts');
 process.env.TZ = 'Europe/Kyiv';
 
 const nextConfig: NextConfig = {
+  reactCompiler: true,
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
+  },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '5mb',
+    },
+  },
   output: 'standalone',
   logging: {
     fetches: {
@@ -15,6 +29,17 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
+    localPatterns: [
+      {
+        pathname: '/assets/**',
+      },
+      {
+        pathname: '/_next/static/media/**',
+      },
+      {
+        pathname: '/src/assets/icons/**',
+      },
+    ],
     remotePatterns: [
       {
         protocol: 'https',
@@ -24,40 +49,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  experimental: {
-    serverActions: {
-      bodySizeLimit: '5mb',
-    },
-  },
-  webpack(config) {
-    // Grab the existing rule that handles SVG imports
-    const fileLoaderRule = config.module.rules.find((rule: { test: { test: (arg0: string) => never } }) =>
-      rule.test?.test?.('.svg'),
-    );
-
-    config.module.rules.push(
-      // Reapply the existing rule, but only for svg imports ending in ?url
-      {
-        ...fileLoaderRule,
-        test: /\.svg$/i,
-        resourceQuery: /url/, // *.svg?url
-      },
-      // Convert all other *.svg imports to React components
-      {
-        test: /\.svg$/i,
-        issuer: fileLoaderRule.issuer,
-        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
-        use: ['@svgr/webpack'],
-      },
-    );
-
-    // Modify the file loader rule to ignore *.svg, since we have it handled now.
-    fileLoaderRule.exclude = /\.svg$/i;
-
-    console.log(`SERVER DATE: ${new Date()}`);
-
-    return config;
+  // Suppress Google Fonts errors if offline
+  onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
   },
 };
 
-module.exports = withNextIntl(nextConfig);
+export default withNextIntl(nextConfig);

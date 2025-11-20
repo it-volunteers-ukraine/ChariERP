@@ -1,9 +1,9 @@
 import * as bcrypt from 'bcrypt';
 import { Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from '../schemas/user.schema';
+import { User } from '@/schemas/user.schema';
 import { Model } from 'mongoose';
-import { UserStatus } from '../schemas/enums';
+import { UserStatus } from '@/schemas/enums';
 import { UserLoginRequest } from './dto/user-login.request';
 import { JwtService } from '@nestjs/jwt';
 
@@ -38,13 +38,13 @@ export class AuthService {
     }
 
     if (user.status === UserStatus.BLOCKED) {
-      this.logger.warn(`Attempt to sign in with blocked account for user: ${user._id}`);
+      this.logger.warn(`Attempt to sign in with blocked account for user: ${user._id.toString()}`);
       throw new UnauthorizedException('Account is blocked');
     }
 
     await this.userModel.findByIdAndUpdate(user._id, { lastLogin: new Date() });
 
-    this.logger.log(`User '${user._id}' successfully signed in`);
+    this.logger.log(`User '${user._id.toString()}' successfully signed in`);
     const payload = {
       sub: user._id,
       firstName: user.firstName,

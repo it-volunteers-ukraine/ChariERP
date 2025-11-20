@@ -1,45 +1,54 @@
-# Stage 1: Install dependencies
+# Build-time node version configuration
 ARG NODE_VERSION=22
-FROM node:${NODE_VERSION}-alpine AS deps
-WORKDIR /server
-COPY package*.json ./
-RUN npm ci
 
-# Stage 2: Build application
+# Stage 1: Dependencies
+FROM node:${NODE_VERSION}-alpine AS dependencies
+WORKDIR /app
+RUN apk add --no-cache g++ make python3
+COPY package.json package-lock.json* ./
+RUN npm i --include=optional --ignore-scripts
+
+# Stage 2: Build
 FROM node:${NODE_VERSION}-alpine AS builder
-WORKDIR /server
-COPY --from=deps /server/node_modules ./node_modules
+WORKDIR /app
+RUN apk add --no-cache g++ make python3
+
+COPY --from=dependencies /app/node_modules ./node_modules
+COPY package.json package-lock.json* ./
 COPY . .
-RUN chmod +x node_modules/.bin/* || true
+
 RUN npm run build
 
-# Stage 3: Production runtime
-FROM node:${NODE_VERSION}-alpine AS production
-WORKDIR /server
+# Stage 3: Production dependencies only
+FROM node:${NODE_VERSION}-alpine AS prod-deps
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm i --include=optional --omit=dev --ignore-scripts && \
+    npm cache clean --force
 
-# Set production environment
-ARG PORT=8080
+# Stage 4: Minimal production runtime
+FROM node:${NODE_VERSION}-alpine AS runner
+WORKDIR /app
+
+# Install minimal runtime dependencies
+RUN apk add --no-cache dumb-init && \
+    addgroup -g 1001 -S nodejs && \
+    adduser -S nestjs -u 1001
+
 ENV NODE_ENV=production \
-    PORT=${PORT} \
-    HOSTNAME=0.0.0.0
+    PORT=8080 \
+    HOST=0.0.0.0
 
-# Create user and setup permissions
-ARG USER=nestjs
-ARG GROUP=nodejs
-ARG UID=1001
-ARG GID=1001
-RUN addgroup --system --gid ${GID} ${GROUP} && \
-    adduser --system --uid ${UID} ${USER} && \
-    mkdir -p dist && \
-    chown ${USER}:${GROUP} dist
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package.json ./package.json
 
-# Copy built application
-COPY package*.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+# Set ownership
+RUN chown -R nestjs:nodejs /app
 
-COPY --from=builder --chown=${USER}:${GROUP} /server/dist/ ./dist/
+USER nestjs
 
-USER ${USER}
-EXPOSE ${PORT}
+EXPOSE 8080
 
+ENTRYPOINT ["dumb-init", "--"]
 CMD ["node", "dist/src/main.js"]

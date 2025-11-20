@@ -51,7 +51,9 @@ export const MaterialTable = () => {
   };
 
   const handleConfirmDelete = () => {
-    if (selectedRowId === null) return;
+    if (selectedRowId === null) {
+      return;
+    }
 
     setDeleteItem((prev) => prev.filter((item) => item.id !== selectedRowId));
     setModalOpen(false);

@@ -51,10 +51,10 @@ export const Burger = ({ isLoggedIn }: IBurgerProps) => {
             )}
 
             <Button
-              styleType="outline"
+              styleType="secondary"
               text={auth('login')}
               onClick={() => onHandleClick(routes.login)}
-              className="min-w-[138px] uppercase tablet:min-w-[89px]"
+              className="tablet:min-w-[89px] min-w-[138px] uppercase"
             />
             <LanguageSwitcher className="tablet:ml-auto" />
           </div>

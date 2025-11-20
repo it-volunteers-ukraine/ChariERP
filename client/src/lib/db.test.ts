@@ -1,3 +1,4 @@
+/** @jest-environment node */
 import connectDB from '@/lib/db';
 import mongoose, { ConnectionStates } from 'mongoose';
 import { faker } from '@faker-js/faker';
@@ -27,6 +28,16 @@ describe('Database connection test', () => {
   };
 
   it('should throw Error when MONGO_URI is blank', async () => {
+    delete process.env.MONGO_URI;
+
+    Object.defineProperty(mongoose, 'connection', {
+      get: () => ({
+        readyState: mongoose.ConnectionStates.disconnected,
+        db: undefined,
+      }),
+      configurable: true,
+    });
+
     const expectedErrorMessage = 'Please define the MONGO_URI environment variable inside .env';
     const actual = async () => await connectDB();
 

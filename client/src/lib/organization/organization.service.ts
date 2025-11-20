@@ -2,26 +2,27 @@ import bcrypt from 'bcrypt';
 import { SortOrder } from 'mongoose';
 
 import {
-  getPaginate,
-  generatePassword,
-  getHtmlCodeForPassword,
-  pendingDeclineNormalizer,
   approveOrganizationsNormalizer,
   checkFieldsToUniqueOfOrganization,
+  generatePassword,
+  getHtmlCodeForPassword,
+  getPaginate,
+  pendingDeclineNormalizer,
 } from '@/utils';
 import {
-  Roles,
-  IUsers,
-  UserStatus,
+  AdminOrganizationProps,
   IOrganizations,
   IOrganizationsUpdate,
-  AdminOrganizationProps,
-  OrganizationUpdateValues,
-  OrganizationCreateValues,
-  RequestOrganizationStatus,
   IUpdateOrganizationByManager,
+  IUsers,
+  OrganizationCreateValues,
+  OrganizationUpdateValues,
+  RequestOrganizationStatus,
+  Roles,
+  UserStatus,
 } from '@/types';
 import { BucketFolders, deleteFileFromBucket, deleteFolderFromBucket, sendEmail, uploadFileToBucket } from '@/services';
+import logger from '@/utils/logger/logger';
 
 import { Admin, Organizations, Users } from '..';
 import { BaseService } from '../database/base.service';
@@ -402,7 +403,7 @@ class OrganizationService extends BaseService {
           to: body.contactData.email,
         });
       } catch (error) {
-        console.log('Send email', error);
+        logger.error('Error while sending email with login credentials to new organization manager', error);
       }
     }
 

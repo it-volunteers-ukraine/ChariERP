@@ -8,7 +8,9 @@ interface IPortalProps {
 }
 
 export const Portal = ({ children, opened }: ChildrenProps<IPortalProps>) => {
-  if (!opened) return null;
+  if (!opened) {
+    return null;
+  }
 
   return createPortal(children, document.body);
 };
