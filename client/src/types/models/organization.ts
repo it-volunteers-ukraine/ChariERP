@@ -1,6 +1,6 @@
-import { Schema, Document } from 'mongoose';
+import { Document, Schema } from 'mongoose';
 
-import { RequestOrganizationStatus } from '../enums';
+import { RequestOrganizationStatus } from '@/types';
 
 export interface IOrganizationData {
   edrpou: string;
@@ -30,7 +30,6 @@ export interface IOrganizations extends Document {
   mediaData: IMediaData;
   declineReason?: string;
   contactData: IContactData;
-  _id: Schema.Types.ObjectId;
   users: Schema.Types.ObjectId[];
   request: RequestOrganizationStatus;
   organizationData: IOrganizationData;

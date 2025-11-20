@@ -1,3 +1,4 @@
+/** @jest-environment node */
 import { Admin, Organizations, Users, userService } from '@/lib';
 import { testMongoConfig } from '@/lib/in-memory.mongo.config';
 import { IAdmin, IOrganizations, IUsers, RequestOrganizationStatus, Roles, UserStatus } from '@/types';
@@ -155,7 +156,7 @@ describe('User Service:', () => {
     it('should login user when credentials valid and update last login time', async () => {
       // given
       const organization = await createOrganization();
-      const user = await createUser(organization._id);
+      const user = await createUser(organization.id);
 
       expect(user.lastLogin).toBeUndefined();
 
@@ -173,7 +174,7 @@ describe('User Service:', () => {
       // given
       const organization = await createOrganization();
 
-      await createUser(organization._id, UserStatus.BLOCKED);
+      await createUser(organization.id, UserStatus.BLOCKED);
 
       // when
       const loginUserResult = await userService.login(email, hashedPwd);
@@ -187,7 +188,7 @@ describe('User Service:', () => {
       // given
       const organization = await createOrganization();
 
-      await createUser(organization._id);
+      await createUser(organization.id);
 
       // when
       const loginUserResult = await userService.login(email, 'incorrect-pswd');
@@ -211,7 +212,7 @@ describe('User Service:', () => {
     it('should return paged users when organization exists', async () => {
       // given
       const organization = await createOrganization();
-      const user = await createUser(organization._id);
+      const user = await createUser(organization.id);
 
       // when
       const allOrgUsers = await userService.getAllByOrganizationId({ id: organization.id, page: 1 });
@@ -226,7 +227,7 @@ describe('User Service:', () => {
     it(`should get user when exists`, async () => {
       // given
       const organization = await createOrganization();
-      const existingUser = await createUser(organization._id);
+      const existingUser = await createUser(organization.id);
 
       // when
       const getUserResult = await userService.getUserById(existingUser.id);
@@ -265,7 +266,7 @@ describe('User Service:', () => {
     it('should return user when both organization and user exist', async () => {
       // given
       const organization = await createOrganization();
-      const existingUser = await createUser(organization._id);
+      const existingUser = await createUser(organization.id);
 
       // when
       const getByOrgAndUserIdResult = await userService.getOrganizationMemberById(existingUser.id, organization.id);
@@ -320,7 +321,7 @@ describe('User Service:', () => {
       const { formData, data } = populateFormWithUserData();
 
       formData.append('avatarUrl', faker.image.avatar());
-      formData.append('organizationId', `${organization._id}`);
+      formData.append('organizationId', `${organization.id}`);
       formData.append('data', JSON.stringify(data));
 
       // when
@@ -350,7 +351,7 @@ describe('User Service:', () => {
     it('should NOT create a user when already exists', async () => {
       // given
       const organization = await createOrganization();
-      const existingUser = await createUser(organization._id);
+      const existingUser = await createUser(organization.id);
 
       const { formData, data } = populateFormWithUserData();
 
@@ -407,7 +408,7 @@ describe('User Service:', () => {
       const s3BucketMock = jest.spyOn(s3BucketClient, 'deleteFileFromBucket').mockResolvedValue(true);
 
       const organization = await createOrganization();
-      const user = await createUser(organization._id);
+      const user = await createUser(organization.id);
       const formData = await createValidUserDataForUpdate();
 
       formData.append('id', user.id);
@@ -441,7 +442,7 @@ describe('User Service:', () => {
     it('should NOT update user when formData contains validation errors', async () => {
       // given
       const organization = await createOrganization();
-      const user = await createUser(organization._id);
+      const user = await createUser(organization.id);
       const formData = new FormData();
 
       formData.append('id', user.id);
@@ -459,7 +460,7 @@ describe('User Service:', () => {
     it('should NOT update existing user email when conflict', async () => {
       // given
       const organization = await createOrganization();
-      const user = await createUser(organization._id);
+      const user = await createUser(organization.id);
       const clone = user.$clone();
 
       clone._id = new mongoose.Types.ObjectId() as never;
@@ -484,7 +485,7 @@ describe('User Service:', () => {
       // given
       const s3BucketMock = jest.spyOn(s3BucketClient, 'deleteFileFromBucket').mockResolvedValue(false);
       const organization = await createOrganization();
-      const user = await createUser(organization._id);
+      const user = await createUser(organization.id);
       const formData = await createValidUserDataForUpdate();
 
       formData.append('id', user.id);
@@ -516,6 +517,7 @@ describe('User Service:', () => {
       expect(s3BucketMock).toHaveBeenCalled();
     });
 
+    // TODO: uncomment after fixing the issue with the avatar upload
     it.skip('should just remove previous avatar when there is NO new one', async () => {
       // given
       const s3BucketMock = jest.spyOn(s3BucketClient, 'deleteFileFromBucket').mockResolvedValue(true);
@@ -545,6 +547,7 @@ describe('User Service:', () => {
       expect(s3BucketMock).not.toHaveBeenCalled();
     });
 
+    // TODO: uncomment after fixing the issue with the avatar upload
     it.skip('should NOT upload avatar when absent and NOT remove previous when did not have one', async () => {
       // given
       const s3BucketMock = jest.spyOn(s3BucketClient, 'deleteFileFromBucket');

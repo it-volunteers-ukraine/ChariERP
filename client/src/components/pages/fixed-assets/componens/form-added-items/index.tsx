@@ -14,6 +14,7 @@ import { Accordion } from '../accordion';
 import { SelectField } from '../select-field';
 import { IFormAddedItemsValues } from './type';
 import { validationSchema } from './validation-schema';
+import logger from '@/utils/logger/logger';
 
 const mock = [
   { id: '1', title: 'Material 1' },
@@ -54,7 +55,7 @@ export const FormAddedItems = () => {
           enableReinitialize
           initialValues={initialValues}
           onSubmit={(values, { resetForm }) => {
-            console.log('Formik values:', values);
+            logger.info('Formik values:', values);
 
             resetForm();
           }}

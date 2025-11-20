@@ -1,4 +1,3 @@
-import React from 'react';
 import { MRT_ColumnDef } from 'material-react-table';
 import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
 
@@ -46,10 +45,18 @@ const columnWidths: Record<string, number> = {
 };
 
 const formatValue = (value: unknown): string => {
-  if (value === null || value === undefined) return '';
-  if (typeof value === 'string' || typeof value === 'number') return String(value);
-  if (Array.isArray(value)) return value.length.toString();
-  if (typeof value === 'object') return JSON.stringify(value);
+  if (value === null || value === undefined) {
+    return '';
+  }
+  if (typeof value === 'string' || typeof value === 'number') {
+    return String(value);
+  }
+  if (Array.isArray(value)) {
+    return value.length.toString();
+  }
+  if (typeof value === 'object') {
+    return JSON.stringify(value);
+  }
 
   return '';
 };

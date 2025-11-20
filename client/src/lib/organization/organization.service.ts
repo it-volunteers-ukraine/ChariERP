@@ -200,7 +200,7 @@ class OrganizationService extends BaseService {
     let uploadedFileUrl;
 
     if (isNewCertificate) {
-      uploadedFileUrl = await uploadFileToBucket(organization._id, BucketFolders.CertificateOfRegister, certificate);
+      uploadedFileUrl = await uploadFileToBucket(organization.id, BucketFolders.CertificateOfRegister, certificate);
 
       if (!uploadedFileUrl) {
         return { message: 'error-upload', success: false };
@@ -340,7 +340,7 @@ class OrganizationService extends BaseService {
     let uploadedFileUrl;
 
     if (isNewCertificate) {
-      uploadedFileUrl = await uploadFileToBucket(organization._id, BucketFolders.CertificateOfRegister, certificate);
+      uploadedFileUrl = await uploadFileToBucket(organization.id, BucketFolders.CertificateOfRegister, certificate);
 
       if (!uploadedFileUrl) {
         return { message: 'error-upload', success: false };
@@ -384,7 +384,7 @@ class OrganizationService extends BaseService {
         status: UserStatus.ACTIVE,
         role: Roles.MANAGER,
         password: hash,
-        organizationId: organization._id,
+        organizationId: organization.id,
       });
 
       const response = await newUser.save();

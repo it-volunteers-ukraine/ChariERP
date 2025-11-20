@@ -23,7 +23,9 @@ export const ModalExport = ({ title, isOpen, onClose, onExportPdf, onExportExcel
   const [isLoading, setIsLoading] = useState(false);
 
   const handleExport = async () => {
-    if (!selectedFormat) return;
+    if (!selectedFormat) {
+      return;
+    }
 
     setIsLoading(true);
 
@@ -43,9 +45,9 @@ export const ModalExport = ({ title, isOpen, onClose, onExportPdf, onExportExcel
 
   return (
     <Overlay opened={isOpen} onClose={onClose} classNameModal="max-w-[400px]">
-      <div className="flex w-full flex-col justify-between gap-2 break-words tablet:gap-6">
+      <div className="tablet:gap-6 flex w-full flex-col justify-between gap-2 break-words">
         <div className="flex w-full flex-col gap-4">
-          <h1 className="text-center font-scada text-[20px] font-bold uppercase leading-6 text-mobster">{title}</h1>
+          <h1 className="font-scada text-mobster text-center text-[20px] leading-6 font-bold uppercase">{title}</h1>
 
           <div className="flex w-full flex-col gap-y-4 text-2xl">
             {formats.map((format) => (

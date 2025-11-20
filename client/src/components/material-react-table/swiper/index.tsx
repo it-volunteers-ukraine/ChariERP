@@ -35,7 +35,9 @@ export const GalleryModal = ({ photos, isOpen, setIsOpen, onAddPhoto, onDeletePh
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleClose = (e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
+    if (e) {
+      e.stopPropagation();
+    }
     setIsOpen(false);
   };
 
@@ -59,7 +61,9 @@ export const GalleryModal = ({ photos, isOpen, setIsOpen, onAddPhoto, onDeletePh
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
-    if (!file) return;
+    if (!file) {
+      return;
+    }
 
     const reader = new FileReader();
 
@@ -76,12 +80,14 @@ export const GalleryModal = ({ photos, isOpen, setIsOpen, onAddPhoto, onDeletePh
     e.target.value = '';
   };
 
-  if (!isOpen) return null;
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <Overlay isImg opened={isOpen} onClose={handleClose} classNameModal="!h-[70vh]">
       <button
-        className="absolute right-2 top-2 z-40 cursor-pointer rounded p-1 text-white transition hover:scale-125"
+        className="absolute top-2 right-2 z-40 cursor-pointer rounded p-1 text-white transition hover:scale-125"
         onClick={handleClose}
         aria-label="Close modal"
       >
@@ -117,7 +123,7 @@ export const GalleryModal = ({ photos, isOpen, setIsOpen, onAddPhoto, onDeletePh
 
                   <button
                     onClick={() => handleDelete(photo.id)}
-                    className="absolute right-0 top-[-32px] rounded p-1 text-white transition hover:scale-110 hover:text-red"
+                    className="hover:text-red absolute top-[-32px] right-0 rounded p-1 text-white transition hover:scale-110"
                     aria-label="Delete photo"
                   >
                     <Delete className="mx-auto h-6 w-6" />

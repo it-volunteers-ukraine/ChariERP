@@ -1,6 +1,6 @@
 import { Document, Schema } from 'mongoose';
 
-import { Roles, UserStatus } from '../enums';
+import { Roles, UserStatus } from '@/types';
 
 export interface IUsers extends Document {
   role: Roles;
@@ -18,7 +18,6 @@ export interface IUsers extends Document {
   avatarUrl?: string;
   middleName: string;
   status: UserStatus;
-  _id: Schema.Types.ObjectId;
   organizationId: Schema.Types.ObjectId;
 }
 

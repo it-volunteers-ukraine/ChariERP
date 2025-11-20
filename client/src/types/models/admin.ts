@@ -1,10 +1,9 @@
-import { Document, Schema } from 'mongoose';
+import { Document } from 'mongoose';
 
-import { Roles } from '../enums';
+import { Roles } from '@/types';
 
 export interface IAdmin extends Document {
   role: Roles;
   email: string;
   password: string;
-  _id: Schema.Types.ObjectId;
 }

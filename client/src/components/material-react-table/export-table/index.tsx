@@ -53,7 +53,7 @@ export const CustomDownloadButton = ({ table, data, columns }: Props) => {
 
     const worksheet = XLSX.utils.json_to_sheet(exportData);
 
-    const colWidths = exportColumns.map((col) => {
+    worksheet['!cols'] = exportColumns.map((col) => {
       const header = col.header;
 
       let maxLength = header.length;
@@ -64,14 +64,14 @@ export const CustomDownloadButton = ({ table, data, columns }: Props) => {
         if (val) {
           const length = String(val).length;
 
-          if (length > maxLength) maxLength = length;
+          if (length > maxLength) {
+            maxLength = length;
+          }
         }
       });
 
       return { wch: maxLength + 1 };
     });
-
-    worksheet['!cols'] = colWidths;
 
     const workbook = XLSX.utils.book_new();
 
