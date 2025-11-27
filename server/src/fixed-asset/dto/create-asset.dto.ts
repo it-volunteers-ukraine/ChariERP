@@ -12,9 +12,9 @@ import {
   IsPositive,
 } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
-import { ASSET_NAME_REGEX, ASSET_DATE_REGEX } from '../../constants/regex.constants';
+import { ASSET_NAME_REGEX } from '../../constants/regex.constants';
 import { VALIDATION_MESSAGES } from '../../constants/validation-messages';
-import { BadRequestException } from '@nestjs/common';
+import { ToDate } from '../transformers/to-date.transform';
 
 export class CreateAssetDto implements Asset {
   @ApiProperty({ required: true, example: 'Стіл' })
@@ -54,16 +54,7 @@ export class CreateAssetDto implements Asset {
 
   @ApiProperty({ example: '15.07.2025' })
   @IsOptional()
-  @Transform(({ value }: { value: string }) => {
-    if (!value) return undefined;
-
-    if (!ASSET_DATE_REGEX.test(value)) {
-      throw new BadRequestException('Asset date must be in the format DD.MM.YYYY');
-    }
-
-    const [day, month, year] = value.split('.');
-    return new Date(`${year}-${month}-${day}T00:00:00Z`);
-  })
+  @ToDate()
   dateReceived?: Date;
 
   @ApiProperty({ example: 3000.52 })

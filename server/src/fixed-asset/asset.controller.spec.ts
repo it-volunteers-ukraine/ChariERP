@@ -97,9 +97,7 @@ describe('AssetController', () => {
     const result = await assetController.create(mockImages, createAssetDto, mockReq as AuthenticatedRequest);
 
     expect(fileStorageService.uploadFiles).not.toHaveBeenCalled();
-
     expect(assetService.create).toHaveBeenCalledWith(createAssetDto, userId, organizationId);
-
     expect(result).toEqual(plainToInstance(AssetResponse, mockCreatedAsset));
   });
 
@@ -145,9 +143,7 @@ describe('AssetController', () => {
     const result = await assetController.create(mockImages, createAssetDto, mockReq as AuthenticatedRequest);
 
     expect(fileStorageService.uploadFiles).toHaveBeenCalledWith(organizationId, FileStoreFolders.Assets, mockImages);
-
     expect(assetService.create).toHaveBeenCalledWith(createAssetDto, userId, organizationId, imagesKeys);
-
     expect(result).toEqual(plainToInstance(AssetResponse, mockCreatedAsset));
   });
 
@@ -191,7 +187,6 @@ describe('AssetController', () => {
     const result = await assetController.findAll(mockQuery, mockReq as AuthenticatedRequest);
 
     expect(assetService.findAll).toHaveBeenCalledWith(organizationId, mockQuery);
-
     expect(result).toEqual(mockPaginateResult as PaginatedAssetResponse);
   });
 
@@ -220,7 +215,6 @@ describe('AssetController', () => {
     const result = await assetController.update(mockImages, assetId, updateAssetDto, mockReq as AuthenticatedRequest);
 
     expect(fileStorageService.uploadFiles).not.toHaveBeenCalled();
-
     expect(assetService.update).toHaveBeenCalledWith(updateAssetDto, assetId);
     expect(result).toEqual(plainToInstance(AssetResponse, mockUpdatedAsset));
   });
@@ -264,7 +258,6 @@ describe('AssetController', () => {
     const result = await assetController.update(mockImages, assetId, updateAssetDto, mockReq as AuthenticatedRequest);
 
     expect(fileStorageService.uploadFiles).toHaveBeenCalledWith(organizationId, FileStoreFolders.Assets, mockImages);
-
     expect(assetService.update).toHaveBeenCalledWith(updateAssetDto, assetId, imagesKeys);
     expect(result).toEqual(plainToInstance(AssetResponse, mockUpdatedAsset));
   });

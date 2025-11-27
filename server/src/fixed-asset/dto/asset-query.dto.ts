@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { SortOrder, ValueRange } from '../enums/enums';
 import { IsOptional, IsNumber, IsEnum, IsString, IsBoolean } from 'class-validator';
-import { Transform, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../../constants/pagination.constants';
+import { ToBoolean } from '../transformers/to-boolean.transform';
 
 export class AssetQueryDto {
   @ApiProperty({
@@ -64,11 +65,7 @@ export class AssetQueryDto {
     example: 'Склад 2',
   })
   @IsOptional()
-  @Transform(({ value }: { value: string }) => {
-    if (value === 'true') return true;
-    if (value === 'false') return false;
-    return undefined;
-  })
+  @ToBoolean()
   @IsBoolean()
   hasImage?: boolean;
 

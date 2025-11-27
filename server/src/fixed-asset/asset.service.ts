@@ -60,26 +60,18 @@ export class AssetService {
     if (category) filter.category = category;
     if (location) filter.location = location;
 
-    if (hasImage === true) {
+    if (typeof hasImage === 'boolean') {
       filter.images = { $exists: hasImage };
     }
 
-    if (hasImage === false) {
-      filter.images = { $exists: hasImage };
-    }
+    const rangeMap: Record<ValueRange, object> = {
+      [ValueRange.LT_1000]: { $lt: 1000 },
+      [ValueRange.BETWEEN_1000_2000]: { $gte: 1000, $lte: 2000 },
+      [ValueRange.GT_2000]: { $gt: 2000 },
+    };
 
-    switch (valueRange) {
-      case ValueRange.LT_1000:
-        filter.value = { $lt: 1000 };
-        break;
-
-      case ValueRange.BETWEEN_1000_2000:
-        filter.value = { $gte: 1000, $lte: 2000 };
-        break;
-
-      case ValueRange.GT_2000:
-        filter.value = { $gt: 2000 };
-        break;
+    if (valueRange && rangeMap[valueRange]) {
+      filter.value = rangeMap[valueRange];
     }
 
     return filter;
