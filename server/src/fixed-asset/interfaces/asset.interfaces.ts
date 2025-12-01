@@ -1,5 +1,6 @@
 import { CreateAssetDto } from '../dto/create-asset.dto';
 import { UpdateAssetDto } from '../dto/update-asset.dto';
+import { Types } from 'mongoose';
 
 export interface Asset {
   name: string;
@@ -16,8 +17,8 @@ export interface Asset {
 }
 
 export interface AssetDoc extends CreateAssetDto {
-  createdBy: string;
-  organizationId: string;
+  createdBy: Types.ObjectId;
+  organizationId: Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
   images?: string[];

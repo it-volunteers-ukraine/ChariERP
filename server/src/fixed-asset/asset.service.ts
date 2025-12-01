@@ -1,4 +1,4 @@
-import { PaginateModel, PaginateResult, Types } from 'mongoose';
+import * as mongoose from 'mongoose';
 import { Injectable, Logger, ConflictException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Asset, AssetDocument } from '@/schemas/asset.schema';
@@ -9,12 +9,13 @@ import { AssetQueryDto } from './dto/asset-query.dto';
 import { DEFAULT_LIMIT, DEFAULT_PAGE } from '@/constants/pagination.constants';
 import { Filter } from './interfaces/filter.interface';
 import { AssetDoc, UpdateAssetData } from './interfaces/asset.interfaces';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class AssetService {
   private readonly logger = new Logger(AssetService.name);
 
-  constructor(@InjectModel(Asset.name) private assetModel: PaginateModel<AssetDocument>) {}
+  constructor(@InjectModel(Asset.name) private assetModel: mongoose.PaginateModel<AssetDocument>) {}
 
   async create(
     createAssetDto: CreateAssetDto,
@@ -97,7 +98,7 @@ export class AssetService {
     const filter = this.buildFilter(organizationId, query);
     const sort = this.buildSort(query);
 
-    const result: PaginateResult<Asset> = await this.assetModel.paginate(filter, {
+    const result: mongoose.PaginateResult<Asset> = await this.assetModel.paginate(filter, {
       page,
       limit,
       sort,

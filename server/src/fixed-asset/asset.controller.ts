@@ -1,49 +1,48 @@
 import {
-  Controller,
-  Post,
-  Patch,
   Body,
-  Req,
-  Get,
+  Controller,
   Delete,
-  Param,
-  Query,
+  Get,
   HttpCode,
   HttpStatus,
-  UseInterceptors,
+  Param,
+  Patch,
+  Post,
+  Query,
+  Req,
   UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AssetService } from './asset.service';
 import { CreateAssetDto } from './dto/create-asset.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
 import { AssetResponse } from './dto/asset-response';
 import {
-  ApiTags,
-  ApiBearerAuth,
-  ApiOperation,
-  ApiConsumes,
-  ApiBody,
-  ApiCreatedResponse,
   ApiBadRequestResponse,
-  ApiUnauthorizedResponse,
-  ApiForbiddenResponse,
-  ApiOkResponse,
-  ApiNoContentResponse,
-  ApiParam,
-  ApiNotFoundResponse,
+  ApiBearerAuth,
+  ApiBody,
   ApiConflictResponse,
+  ApiConsumes,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiNoContentResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+  ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { UserRoles } from '../auth/roles.guard';
-import { Roles } from '../schemas/enums';
-import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
+import { UserRoles } from '@/auth/roles.guard';
+import { FileStoreFolders, Roles } from '@/schemas/enums';
+import * as authenticatedRequestInterface from '../auth/interfaces/authenticated-request.interface';
 import { plainToInstance } from 'class-transformer';
 import { PaginatedAssetResponse } from './dto/paginated-asset-response';
-import { ObjectIdValidationPipe } from '../pipes/object-id-validation.pipe';
+import { ObjectIdValidationPipe } from '@/pipes/object-id-validation.pipe';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { OptionalFileValidationPipe } from '@/pipes/optional-file-validation.pipe';
-import type { MulterFile } from '../pipes/interfaces/file-validator.interface';
+import type { MulterFile } from '@/pipes/interfaces/file-validator.interface';
 import { FileStorageService } from '@/file-storage/file-storage.service';
-import { FileStoreFolders } from '../schemas/enums';
 import { CreateAssetFormData } from './dto/create-asset-form-data';
 import { UpdateAssetFormData } from './dto/update-asset-form-data';
 import { AssetQueryDto } from './dto/asset-query.dto';
@@ -77,7 +76,7 @@ export class AssetController {
   async create(
     @UploadedFiles(OptionalFileValidationPipe) images: MulterFile[],
     @Body() createAssetDto: CreateAssetDto,
-    @Req() req: AuthenticatedRequest,
+    @Req() req: authenticatedRequestInterface.AuthenticatedRequest,
   ): Promise<AssetResponse> {
     const userId = req.user.sub;
     const organizationId = req.user.organizationId;
@@ -103,7 +102,10 @@ export class AssetController {
   @ApiUnauthorizedResponse({ description: 'Invalid credentials' })
   @ApiNotFoundResponse({ description: 'No fixed assets found in organization' })
   @Get()
-  async findAll(@Query() query: AssetQueryDto, @Req() req: AuthenticatedRequest): Promise<PaginatedAssetResponse> {
+  async findAll(
+    @Query() query: AssetQueryDto,
+    @Req() req: authenticatedRequestInterface.AuthenticatedRequest,
+  ): Promise<PaginatedAssetResponse> {
     const organizationId = req.user.organizationId;
 
     const { assets, totalDocs, perPage, currentPage, totalPages } = await this.assetService.findAll(
@@ -136,7 +138,7 @@ export class AssetController {
     @UploadedFiles(OptionalFileValidationPipe) images: MulterFile[],
     @Param('id', ObjectIdValidationPipe) assetId: string,
     @Body() updateAssetDto: UpdateAssetDto,
-    @Req() req: AuthenticatedRequest,
+    @Req() req: authenticatedRequestInterface.AuthenticatedRequest,
   ): Promise<AssetResponse> {
     const { organizationId } = req.user;
 

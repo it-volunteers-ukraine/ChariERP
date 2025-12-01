@@ -1,41 +1,41 @@
-import { Response } from 'express';
+import express from 'express';
 import { FileStoreFolders, Roles } from '@/schemas/enums';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { UserRoles } from '@/auth/roles.guard';
 import {
-  ApiTags,
-  ApiBearerAuth,
-  ApiOperation,
-  ApiConsumes,
-  ApiHeader,
-  ApiBody,
-  ApiQuery,
-  ApiOkResponse,
   ApiAcceptedResponse,
-  ApiNoContentResponse,
-  ApiUnauthorizedResponse,
-  ApiForbiddenResponse,
   ApiBadRequestResponse,
-  ApiNotFoundResponse,
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiForbiddenResponse,
+  ApiHeader,
   ApiInternalServerErrorResponse,
+  ApiNoContentResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import {
-  Get,
-  Req,
-  Res,
-  Post,
   Body,
-  Query,
-  Delete,
   Controller,
-  UploadedFiles,
-  StreamableFile,
-  UseInterceptors,
+  Delete,
+  Get,
   HttpCode,
   HttpStatus,
+  Post,
+  Query,
+  Req,
+  Res,
+  StreamableFile,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import { FileStorageService } from './file-storage.service';
-import { AuthenticatedRequest } from '@/auth/interfaces/authenticated-request.interface';
+import * as authenticatedRequestInterface from '@/auth/interfaces/authenticated-request.interface';
 import { FileValidationPipe } from '@/pipes/file-validation.pipe';
 import { FolderValidationPipe } from '@/pipes/folder-validation.pipe';
 import { UploadFileResponse } from './dto/upload-file-response';
@@ -79,7 +79,7 @@ export class FileStorageController {
   async uploadFiles(
     @UploadedFiles(FileValidationPipe) files: MulterFile[],
     @Body('folder', FolderValidationPipe) folder: FileStoreFolders,
-    @Req() req: AuthenticatedRequest,
+    @Req() req: authenticatedRequestInterface.AuthenticatedRequest,
   ): Promise<UploadFileResponse> {
     const { organizationId } = req.user;
 
@@ -103,8 +103,8 @@ export class FileStorageController {
   @ApiInternalServerErrorResponse({ description: 'Failed to retrieve file' })
   async getFile(
     @Query('key') key: string,
-    @Req() req: AuthenticatedRequest,
-    @Res({ passthrough: true }) res: Response,
+    @Req() req: authenticatedRequestInterface.AuthenticatedRequest,
+    @Res({ passthrough: true }) res: express.Response,
   ): Promise<StreamableFile> {
     const { organizationId } = req.user;
 
@@ -129,7 +129,10 @@ export class FileStorageController {
   @ApiQuery({ name: 'key', required: true, description: 'Key name of the file to delete' })
   @ApiNoContentResponse({ description: 'File deleted successfully, or it did not exist' })
   @ApiInternalServerErrorResponse({ description: 'Failed to delete file' })
-  async deleteFile(@Query('key') key: string, @Req() req: AuthenticatedRequest): Promise<void> {
+  async deleteFile(
+    @Query('key') key: string,
+    @Req() req: authenticatedRequestInterface.AuthenticatedRequest,
+  ): Promise<void> {
     const { organizationId } = req.user;
 
     await this.fileStorageService.deleteFile(key, organizationId);
@@ -149,7 +152,7 @@ export class FileStorageController {
   @ApiInternalServerErrorResponse({ description: 'Failed to delete files within a folder' })
   async deleteFolder(
     @Query('folder', FolderValidationPipe) folder: FileStoreFolders,
-    @Req() req: AuthenticatedRequest,
+    @Req() req: authenticatedRequestInterface.AuthenticatedRequest,
   ): Promise<void> {
     const { organizationId } = req.user;
 
