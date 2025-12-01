@@ -1,17 +1,18 @@
-import fs from 'node:fs';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import js from '@eslint/js';
+import prettier from 'eslint-plugin-prettier';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-import prettierPlugin from 'eslint-plugin-prettier';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+import type { FlatConfig } from 'typescript-eslint';
 
-// @ts-ignore
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const prettierPlugin = prettier;
 const prettierConfig = JSON.parse(
-  fs.readFileSync(join(__dirname, '.prettierrc'), 'utf8')
+  readFileSync(resolve(import.meta.dirname, '.prettierrc'), 'utf-8'),
 );
 
-export default [
+const config: FlatConfig.Config[] = [
+  js.configs.recommended,
   ...tseslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
 
@@ -23,7 +24,7 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        tsconfigRootDir: __dirname,
+        tsconfigRootDir: import.meta.dirname,
         project: './tsconfig.json',
       },
       globals: { ...globals.node },
@@ -45,7 +46,7 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        tsconfigRootDir: __dirname,
+        tsconfigRootDir: import.meta.dirname,
         project: './tsconfig.json',
       },
       globals: { ...globals.node, ...globals.jest },
@@ -65,3 +66,5 @@ export default [
     },
   },
 ];
+
+export default config;
