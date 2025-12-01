@@ -1,9 +1,9 @@
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 
 import { CreateTaskRequest } from './dto/create-task.request';
-import { Task } from '../schemas/task.schema';
+import { Task } from '@/schemas/task.schema';
 
 @Injectable()
 export class TaskService {
@@ -12,8 +12,8 @@ export class TaskService {
   public async createTask(createTaskDto: CreateTaskRequest): Promise<{ id: string }> {
     const task = await this.taskModel.create({
       title: 'New Task',
-      assignees: [createTaskDto.userId],
-      activeColumn: createTaskDto.columnId,
+      assignees: [new Types.ObjectId(createTaskDto.userId)],
+      activeColumn: new Types.ObjectId(createTaskDto.columnId),
       //TODO: add board ID
     });
 

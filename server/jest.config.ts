@@ -12,6 +12,9 @@ const config: Config = {
       useESM: true
     }],
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!@faker-js).+',
+  ],
   collectCoverageFrom: [
     '**/*.(t|j)s',
   ],

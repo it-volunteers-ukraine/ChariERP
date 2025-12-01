@@ -10,6 +10,9 @@
       "useESM": true
     }]
   },
+  "transformIgnorePatterns": [
+    "node_modules/(?!@faker-js).+"
+  ],
   "setupFilesAfterEnv": ["<rootDir>/../jest.setup.ts"],
   "moduleNameMapper": {
     "^@/(.*)$": "<rootDir>/../src/$1"

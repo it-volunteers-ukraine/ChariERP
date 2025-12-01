@@ -1,4 +1,4 @@
-import { PaginateModel, PaginateResult } from 'mongoose';
+import { PaginateModel, PaginateResult, Types } from 'mongoose';
 import { Injectable, Logger, ConflictException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Asset, AssetDocument } from '@/schemas/asset.schema';
@@ -23,13 +23,15 @@ export class AssetService {
 
     const createdAsset = await this.assetModel.create({
       ...createAssetDto,
-      createdBy: userId,
-      organizationId,
+      createdBy: new Types.ObjectId(userId),
+      organizationId: new Types.ObjectId(organizationId),
       createdAt: new Date(),
       updatedAt: new Date(),
     });
 
-    this.logger.log(`Fixed asset '${name}' (ID: ${createdAsset.id}) successfully created by user '${userId}'`);
+    this.logger.log(
+      `Fixed asset '${name}' (ID: ${createdAsset._id.toString()}) successfully created by user '${userId}'`,
+    );
 
     return createdAsset.toObject();
   }

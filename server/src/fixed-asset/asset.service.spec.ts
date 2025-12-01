@@ -7,6 +7,7 @@ import { ConflictException, NotFoundException } from '@nestjs/common';
 import { faker } from '@faker-js/faker';
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@/constants/pagination.constants';
 import { UpdateAssetDto } from './dto/update-asset.dto';
+import { Types } from 'mongoose';
 
 describe('AssetService', () => {
   let assetService: AssetService;
@@ -65,6 +66,7 @@ describe('AssetService', () => {
       };
 
       assetModel.create.mockResolvedValue({
+        _id: mockCreatedAsset._id,
         toObject: () => mockCreatedAsset,
       });
 
@@ -74,8 +76,8 @@ describe('AssetService', () => {
       expect(assetModel.create).toHaveBeenCalledWith(
         expect.objectContaining({
           ...createAssetDto,
-          createdBy: userId,
-          organizationId,
+          createdBy: new Types.ObjectId(userId),
+          organizationId: new Types.ObjectId(organizationId),
           createdAt: expect.any(Date),
           updatedAt: expect.any(Date),
         }),

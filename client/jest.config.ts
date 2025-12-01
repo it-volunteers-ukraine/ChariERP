@@ -13,7 +13,6 @@ const config: Config = {
   coverageProvider: 'v8',
   collectCoverageFrom: ['src/**/*.{ts,tsx}'],
   coverageReporters: ['text-summary'],
-  preset: 'ts-jest',
   testEnvironment: 'node',
 
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
@@ -23,7 +22,7 @@ const config: Config = {
   testEnvironmentOptions: {
     url: 'http://localhost:3000',
   },
-  transformIgnorePatterns: ['/node_modules/', '^.+\\.module\\.(css|sass|scss)$'],
+  transformIgnorePatterns: ['node_modules/(?!(@faker-js|jose|uuid)/)', '^.+\\.module\\.(css|sass|scss)$'],
   errorOnDeprecated: false,
 };
 
