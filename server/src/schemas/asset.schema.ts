@@ -19,15 +19,18 @@ export class Asset {
   @Prop()
   financing?: string;
   @Prop()
-  dateReceived?: string;
+  dateReceived?: Date;
   @Prop()
   value?: number;
   @Prop()
   currency?: string;
   @Prop()
   unit?: string;
-  @Prop()
-  photo?: string;
+  @Prop({
+    type: [String],
+    default: undefined,
+  })
+  images?: string[];
   @Prop()
   description?: string;
   @Prop({

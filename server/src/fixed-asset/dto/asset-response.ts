@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class AssetResponseDto {
+export class AssetResponse {
   @ApiProperty({ example: '65f1c7a4e52891827ad41234' })
   _id: string;
 
@@ -25,8 +25,8 @@ export class AssetResponseDto {
   @ApiProperty({ example: 'Voice' })
   financing?: string;
 
-  @ApiProperty({ example: '15.07.2025' })
-  dateReceived?: string;
+  @ApiProperty({ example: '"2025-07-15T00:00:00.000Z"' })
+  dateReceived?: Date;
 
   @ApiProperty({ example: 3000.5 })
   value?: number;
@@ -37,8 +37,8 @@ export class AssetResponseDto {
   @ApiProperty({ example: 'шт' })
   unit?: string;
 
-  @ApiProperty({ example: 'https://chari-erp-bucket.s3.eu-central-1.amazonaws.com/fixed-asset-photos/table.jpg' })
-  photo?: string;
+  @ApiProperty({ example: ['DEV/69026540686d2686154f87fe/fixed-assets/table.jpeg'] })
+  images?: string[];
 
   @ApiProperty({ example: 'примітка' })
   description?: string;

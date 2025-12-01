@@ -7,6 +7,9 @@ import { ConflictException, NotFoundException } from '@nestjs/common';
 import { faker } from '@faker-js/faker';
 import { DEFAULT_PAGE, DEFAULT_LIMIT } from '@/constants/pagination.constants';
 import { UpdateAssetDto } from './dto/update-asset.dto';
+import { SortOrder } from './enums/enums';
+import { AssetQueryDto } from './dto/asset-query.dto';
+import { UpdateAssetData } from './interfaces/asset.interfaces';
 import { Types } from 'mongoose';
 
 describe('AssetService', () => {
@@ -44,7 +47,52 @@ describe('AssetService', () => {
   });
 
   describe('create', () => {
-    it('should create a fixed asset if it does not exist', async () => {
+    it('should create a fixed asset if it does not exist, with images when imageKeys are provided', async () => {
+      assetModel.countDocuments.mockResolvedValue(0);
+
+      const createAssetDto: CreateAssetDto = {
+        name: faker.commerce.product(),
+        location: faker.location.buildingNumber(),
+        storageFloor: faker.string.numeric(),
+      };
+
+      const userId = faker.database.mongodbObjectId();
+      const organizationId = faker.database.mongodbObjectId();
+
+      const imagesKeys = [faker.image.url()];
+
+      const mockCreatedAsset = {
+        _id: faker.database.mongodbObjectId(),
+        ...createAssetDto,
+        images: imagesKeys,
+        createdBy: userId,
+        organizationId,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      assetModel.create.mockResolvedValue({
+        _id: mockCreatedAsset._id,
+        toObject: () => mockCreatedAsset,
+      });
+
+      const result = await assetService.create(createAssetDto, userId, organizationId, imagesKeys);
+
+      expect(assetModel.countDocuments).toHaveBeenCalledWith({ name: { $eq: createAssetDto.name } });
+      expect(assetModel.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          ...createAssetDto,
+          images: imagesKeys,
+          createdBy: userId,
+          organizationId,
+          createdAt: expect.any(Date),
+          updatedAt: expect.any(Date),
+        }),
+      );
+      expect(result).toEqual(mockCreatedAsset);
+    });
+
+    it('should create a fixed asset if it does not exist, without images when imagesKeys not provided', async () => {
       assetModel.countDocuments.mockResolvedValue(0);
 
       const createAssetDto: CreateAssetDto = {
@@ -66,13 +114,11 @@ describe('AssetService', () => {
       };
 
       assetModel.create.mockResolvedValue({
-        _id: mockCreatedAsset._id,
         toObject: () => mockCreatedAsset,
       });
 
       const result = await assetService.create(createAssetDto, userId, organizationId);
 
-      expect(assetModel.countDocuments).toHaveBeenCalledWith({ name: { $eq: createAssetDto.name } });
       expect(assetModel.create).toHaveBeenCalledWith(
         expect.objectContaining({
           ...createAssetDto,
@@ -82,6 +128,7 @@ describe('AssetService', () => {
           updatedAt: expect.any(Date),
         }),
       );
+
       expect(result).toEqual(mockCreatedAsset);
     });
 
@@ -99,8 +146,25 @@ describe('AssetService', () => {
   });
 
   describe('findAll', () => {
-    it('should return paginated fixed assets', async () => {
+    it('should return paginated fixed assets (with filter and sorting)', async () => {
       const organizationId = faker.database.mongodbObjectId();
+
+      const mockQuery: AssetQueryDto = {
+        page: DEFAULT_PAGE,
+        limit: DEFAULT_LIMIT,
+        name: SortOrder.Ascending,
+        hasImage: true,
+      };
+
+      const mockFilter = {
+        organizationId: { $eq: organizationId },
+        images: { $exists: true },
+      };
+
+      const mockSort = {
+        name: SortOrder.Ascending,
+      };
+
       const createdAt = faker.date.past();
 
       const mockAssets = Array.from({ length: DEFAULT_LIMIT }, () => ({
@@ -126,12 +190,15 @@ describe('AssetService', () => {
 
       assetModel.paginate.mockResolvedValue(mockPaginateResult);
 
-      const result = await assetService.findAll(organizationId, DEFAULT_PAGE, DEFAULT_LIMIT);
+      const result = await assetService.findAll(organizationId, mockQuery);
 
-      expect(assetModel.paginate).toHaveBeenCalledWith(
-        { organizationId: { $eq: organizationId } },
-        { page: DEFAULT_PAGE, limit: DEFAULT_LIMIT, lean: true },
-      );
+      expect(assetModel.paginate).toHaveBeenCalledWith(mockFilter, {
+        page: DEFAULT_PAGE,
+        limit: DEFAULT_LIMIT,
+        sort: mockSort,
+        lean: true,
+        leanWithId: false,
+      });
 
       expect(result).toEqual({
         assets: mockAssets,
@@ -144,6 +211,22 @@ describe('AssetService', () => {
 
     it('should throw NotFoundException if fixed assets not found in organization', async () => {
       const organizationId = faker.database.mongodbObjectId();
+
+      const mockQuery: AssetQueryDto = {
+        page: DEFAULT_PAGE,
+        limit: DEFAULT_LIMIT,
+        name: SortOrder.Ascending,
+        hasImage: true,
+      };
+
+      const mockFilter = {
+        organizationId: { $eq: organizationId },
+        images: { $exists: true },
+      };
+
+      const mockSort = {
+        name: SortOrder.Ascending,
+      };
 
       const mockAssets = [];
       const totalDocs = 0;
@@ -158,29 +241,75 @@ describe('AssetService', () => {
 
       assetModel.paginate.mockResolvedValue(mockPaginateResult);
 
-      await expect(assetService.findAll(organizationId, DEFAULT_PAGE, DEFAULT_LIMIT)).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(assetService.findAll(organizationId, mockQuery)).rejects.toThrow(NotFoundException);
 
-      expect(assetModel.paginate).toHaveBeenCalledWith(
-        { organizationId: { $eq: organizationId } },
-        { page: DEFAULT_PAGE, limit: DEFAULT_LIMIT, lean: true },
-      );
+      expect(assetModel.paginate).toHaveBeenCalledWith(mockFilter, {
+        page: DEFAULT_PAGE,
+        limit: DEFAULT_LIMIT,
+        sort: mockSort,
+        lean: true,
+        leanWithId: false,
+      });
     });
   });
 
   describe('update', () => {
-    it('should update a fixed asset and return it', async () => {
+    it('should update a fixed asset with images if provided and return updated doc', async () => {
+      const name = faker.commerce.product();
+
       const updateAssetDto: UpdateAssetDto = {
-        name: faker.commerce.product(),
+        name,
       };
 
       const assetId = faker.database.mongodbObjectId();
 
+      const imagesKeys = [faker.image.url()];
+
+      const updateData: UpdateAssetData = {
+        name,
+        images: imagesKeys,
+      };
+
       const mockUpdatedAsset = {
         _id: assetId,
         organizationId: faker.database.mongodbObjectId(),
-        ...updateAssetDto,
+        ...updateData,
+        createdBy: faker.database.mongodbObjectId(),
+        createdAt: faker.date.past(),
+        updatedAt: new Date(),
+      };
+
+      assetModel.exec.mockResolvedValue(mockUpdatedAsset);
+
+      const result = await assetService.update(updateAssetDto, assetId, imagesKeys);
+
+      expect(assetModel.findOneAndUpdate).toHaveBeenCalledWith(
+        { _id: { $eq: assetId } },
+        { $set: updateData, $currentDate: { updatedAt: true } },
+        { lean: true, new: true },
+      );
+
+      expect(assetModel.exec).toHaveBeenCalled();
+      expect(result).toEqual(mockUpdatedAsset);
+    });
+
+    it('should update a fixed asset without images if not provided and return updated doc', async () => {
+      const name = faker.commerce.product();
+
+      const updateAssetDto: UpdateAssetDto = {
+        name,
+      };
+
+      const assetId = faker.database.mongodbObjectId();
+
+      const updateData: UpdateAssetData = {
+        name,
+      };
+
+      const mockUpdatedAsset = {
+        _id: assetId,
+        organizationId: faker.database.mongodbObjectId(),
+        ...updateData,
         createdBy: faker.database.mongodbObjectId(),
         createdAt: faker.date.past(),
         updatedAt: new Date(),
@@ -192,7 +321,7 @@ describe('AssetService', () => {
 
       expect(assetModel.findOneAndUpdate).toHaveBeenCalledWith(
         { _id: { $eq: assetId } },
-        { $set: updateAssetDto, $currentDate: { updatedAt: true } },
+        { $set: updateData, $currentDate: { updatedAt: true } },
         { lean: true, new: true },
       );
 
