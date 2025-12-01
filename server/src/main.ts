@@ -10,16 +10,16 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .addBearerAuth()
-    .setTitle('Chari ERP server API' as string)
+    .setTitle('Chari ERP server API')
     .setDescription('General API of the back-end part of the project')
     .setVersion('1.0.0')
-    .addGlobalResponse({
-      status: 500,
-      description: 'Internal Server Error',
-    })
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, config, {
+    extraModels: [],
+    deepScanRoutes: true,
+  });
+
   SwaggerModule.setup('api', app, document);
 
   await app.listen(process.env.PORT ?? 8080);

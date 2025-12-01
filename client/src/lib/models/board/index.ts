@@ -15,8 +15,9 @@ const BoardSchema = new Schema<IBoard>({
   ],
 });
 
-BoardSchema.pre('findOneAndDelete', async function (next) {
-  const board = await this.model.findOne(this.getFilter()).populate('boardColumns');
+BoardSchema.pre('findOneAndDelete', async function () {
+  const filter = this.getFilter();
+  const board = await this.model.findOne(filter).populate('boardColumns');
 
   const usersBoard = await UsersBoards.find({ board_id: this.getFilter() });
 
@@ -27,8 +28,6 @@ BoardSchema.pre('findOneAndDelete', async function (next) {
   if (board) {
     await BoardColumn.deleteMany({ _id: { $in: board.board_columns } });
   }
-
-  next();
 });
 
 export default models.Board || model<IBoard>('Board', BoardSchema);

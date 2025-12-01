@@ -26,13 +26,13 @@ const UsersBoardsSchema = new Schema<IUsersBoards>(
   },
 );
 
-UsersBoardsSchema.pre('findOneAndDelete', async function (next) {
+UsersBoardsSchema.pre('findOneAndDelete', async function () {
   const filter = this.getFilter();
 
   const usersBoard = await this.model.findOne(filter).populate('board_id');
 
   if (!usersBoard) {
-    return next();
+    return;
   }
 
   const revokeUserId = String(usersBoard.user_id);
@@ -42,14 +42,12 @@ UsersBoardsSchema.pre('findOneAndDelete', async function (next) {
   });
 
   if (!tasks) {
-    return next();
+    return;
   }
 
   const taskIds = tasks.map((task: ITask) => task._id);
 
   await Task.updateMany({ _id: { $in: taskIds } }, { $pull: { users: revokeUserId } });
-
-  next();
 });
 
 export default models.Users_Boards || model<IUsersBoards>('Users_Boards', UsersBoardsSchema);

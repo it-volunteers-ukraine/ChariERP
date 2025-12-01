@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { SortOrder } from 'mongoose';
+import { SortOrder, Types } from 'mongoose';
 
 import {
   approveOrganizationsNormalizer,
@@ -179,7 +179,7 @@ class OrganizationService extends BaseService {
 
     const organizationExist = await Organizations.find({
       $or: [
-        { 'organizationData.edrpou': data.edrpou, _id: { $ne: organizationId } },
+        { 'organizationData.edrpou': data.edrpou, _id: { $ne: new Types.ObjectId(organizationId) } },
         { 'contactData.email': data.email },
       ],
       _id: { $ne: organizationId },
@@ -319,7 +319,7 @@ class OrganizationService extends BaseService {
 
     const organizationExist = await Organizations.find({
       $or: [
-        { 'organizationData.edrpou': data.edrpou, _id: { $ne: organizationId } },
+        { 'organizationData.edrpou': data.edrpou, _id: { $ne: new Types.ObjectId(organizationId) } },
         { 'contactData.email': data.email },
       ],
       _id: { $ne: organizationId },

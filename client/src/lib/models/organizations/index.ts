@@ -35,14 +35,13 @@ const organizationsSchema = new Schema<IOrganizations>({
   ],
 });
 
-organizationsSchema.pre('findOneAndDelete', async function (next) {
-  const organization = await this.model.findOne(this.getFilter()).populate('users');
+organizationsSchema.pre('findOneAndDelete', async function () {
+  const filter = this.getFilter();
+  const organization = await this.model.findOne(filter).populate('users');
 
   if (organization) {
     await Users.deleteMany({ _id: { $in: organization.users } });
   }
-
-  next();
 });
 
 export default models.Organizations || model<IOrganizations>('Organizations', organizationsSchema);

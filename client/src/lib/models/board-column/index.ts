@@ -14,14 +14,18 @@ const BoardColumnSchema = new Schema<IBoardColumn>({
   task_ids: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
 });
 
-BoardColumnSchema.pre('findOneAndDelete', async function (next) {
-  const boardColumn = await this.model.findOne(this.getFilter()).populate('task_ids');
+BoardColumnSchema.pre('findOneAndDelete', async function () {
+  const filter = this.getFilter();
 
-  if (boardColumn) {
-    await Task.deleteMany({ _id: { $in: boardColumn.task_ids } });
+  const boardColumn = await this.model.findOne(filter);
+
+  if (!boardColumn) {
+    return;
   }
 
-  next();
+  if (boardColumn.task_ids && boardColumn.task_ids.length > 0) {
+    await Task.deleteMany({ _id: { $in: boardColumn.task_ids } });
+  }
 });
 
 export default models.Board_Column || model<IBoardColumn>('Board_Column', BoardColumnSchema);

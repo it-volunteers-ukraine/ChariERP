@@ -183,7 +183,7 @@ class UserService extends BaseService {
       body.avatarUrl = uploadedFileUrl;
     }
 
-    const newUser = await Users.create(body);
+    const newUser = await Users.insertOne(body);
 
     await Organizations.findByIdAndUpdate(organizationId, { $push: { users: newUser._id } });
     logger.info(`New user ${newUser.id} was created in organization '${organizationId}'`);
@@ -234,7 +234,7 @@ class UserService extends BaseService {
 
     const response = await Users.findByIdAndUpdate(id, { $set: body }, { new: true });
 
-    logger.info(`User '${user.id}' was successfully updated`);
+    logger.info(`User '${user._id}' was successfully updated`);
 
     return { success: true, message: 'User updated', user: JSON.stringify(response) };
   }
