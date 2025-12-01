@@ -58,7 +58,6 @@ describe('AssetService', () => {
 
       const userId = faker.database.mongodbObjectId();
       const organizationId = faker.database.mongodbObjectId();
-
       const imagesKeys = [faker.image.url()];
 
       const mockCreatedAsset = {
@@ -72,7 +71,7 @@ describe('AssetService', () => {
       };
 
       assetModel.create.mockResolvedValue({
-        _id: mockCreatedAsset._id,
+        _id: new Types.ObjectId(mockCreatedAsset._id),
         toObject: () => mockCreatedAsset,
       });
 
@@ -83,8 +82,8 @@ describe('AssetService', () => {
         expect.objectContaining({
           ...createAssetDto,
           images: imagesKeys,
-          createdBy: userId,
-          organizationId,
+          createdBy: new Types.ObjectId(userId),
+          organizationId: new Types.ObjectId(organizationId),
           createdAt: expect.any(Date),
           updatedAt: expect.any(Date),
         }),
@@ -114,6 +113,7 @@ describe('AssetService', () => {
       };
 
       assetModel.create.mockResolvedValue({
+        _id: new Types.ObjectId(mockCreatedAsset._id),
         toObject: () => mockCreatedAsset,
       });
 
