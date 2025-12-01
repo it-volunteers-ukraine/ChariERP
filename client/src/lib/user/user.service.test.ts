@@ -3,7 +3,7 @@ import { Admin, Organizations, Users, userService } from '@/lib';
 import { testMongoConfig } from '@/lib/in-memory.mongo.config';
 import { IAdmin, IOrganizations, IUsers, RequestOrganizationStatus, Roles, UserStatus } from '@/types';
 import * as s3BucketClient from '@/services/s3-bucket/index';
-import mongoose, { ObjectId } from 'mongoose';
+import mongoose, { ObjectId, Types } from 'mongoose';
 import { faker } from '@faker-js/faker';
 
 jest.mock('../../services/s3-bucket/index');
@@ -59,7 +59,7 @@ async function createOrganization(): Promise<IOrganizations> {
   return organization;
 }
 
-async function createUser(organizationId: ObjectId, status: UserStatus = UserStatus.ACTIVE): Promise<IUsers> {
+async function createUser(organizationId: Types.ObjectId, status: UserStatus = UserStatus.ACTIVE): Promise<IUsers> {
   const user = await new Users({
     avatarUrl: faker.image.avatar(),
     lastName: faker.person.lastName(),
@@ -150,13 +150,13 @@ describe('User Service:', () => {
 
       // then
       expect(loginResult.success).toBeTruthy();
-      expect(loginResult.user).toContain(admin.id);
+      expect(loginResult.user).toContain(admin._id.toHexString());
     });
 
     it('should login user when credentials valid and update last login time', async () => {
       // given
       const organization = await createOrganization();
-      const user = await createUser(organization.id);
+      const user = await createUser(organization._id);
 
       expect(user.lastLogin).toBeUndefined();
 
@@ -165,8 +165,8 @@ describe('User Service:', () => {
 
       // then
       expect(loginResult.success).toBeTruthy();
-      expect(loginResult.user).toContain(user.id);
-      expect(loginResult.user).toContain(organization.id);
+      expect(loginResult.user).toContain(user._id.toHexString());
+      expect(loginResult.user).toContain(organization._id.toHexString());
       expect(loginResult.user).toContain('lastLogin');
     });
 
@@ -174,7 +174,7 @@ describe('User Service:', () => {
       // given
       const organization = await createOrganization();
 
-      await createUser(organization.id, UserStatus.BLOCKED);
+      await createUser(organization._id, UserStatus.BLOCKED);
 
       // when
       const loginUserResult = await userService.login(email, hashedPwd);
@@ -188,7 +188,7 @@ describe('User Service:', () => {
       // given
       const organization = await createOrganization();
 
-      await createUser(organization.id);
+      await createUser(organization._id);
 
       // when
       const loginUserResult = await userService.login(email, 'incorrect-pswd');
@@ -212,14 +212,14 @@ describe('User Service:', () => {
     it('should return paged users when organization exists', async () => {
       // given
       const organization = await createOrganization();
-      const user = await createUser(organization.id);
+      const user = await createUser(organization._id);
 
       // when
-      const allOrgUsers = await userService.getAllByOrganizationId({ id: organization.id, page: 1 });
+      const allOrgUsers = await userService.getAllByOrganizationId({ id: organization._id.toHexString(), page: 1 });
 
       // then
       expect(allOrgUsers.success).toBeTruthy();
-      expect(allOrgUsers.users).toContain(user.id);
+      expect(allOrgUsers.users).toContain(user._id.toHexString());
     });
   });
 
@@ -227,14 +227,14 @@ describe('User Service:', () => {
     it(`should get user when exists`, async () => {
       // given
       const organization = await createOrganization();
-      const existingUser = await createUser(organization.id);
+      const existingUser = await createUser(organization._id);
 
       // when
-      const getUserResult = await userService.getUserById(existingUser.id);
+      const getUserResult = await userService.getUserById(existingUser._id.toHexString());
 
       // then
       expect(getUserResult.success).toBeTruthy();
-      expect(getUserResult.user).toContain(existingUser.id);
+      expect(getUserResult.user).toContain(existingUser._id.toHexString());
     });
 
     it(`should get admin when exists`, async () => {
@@ -242,11 +242,11 @@ describe('User Service:', () => {
       const existingAdmin = await createAdmin();
 
       // when
-      const getUserResult = await userService.getUserById(existingAdmin.id);
+      const getUserResult = await userService.getUserById(existingAdmin._id.toHexString());
 
       // then
       expect(getUserResult.success).toBeTruthy();
-      expect(getUserResult.user).toContain(existingAdmin.id);
+      expect(getUserResult.user).toContain(existingAdmin._id.toHexString());
     });
 
     it(`should NOT get any user when NOT exist`, async () => {
@@ -266,15 +266,18 @@ describe('User Service:', () => {
     it('should return user when both organization and user exist', async () => {
       // given
       const organization = await createOrganization();
-      const existingUser = await createUser(organization.id);
+      const existingUser = await createUser(organization._id);
 
       // when
-      const getByOrgAndUserIdResult = await userService.getOrganizationMemberById(existingUser.id, organization.id);
+      const getByOrgAndUserIdResult = await userService.getOrganizationMemberById(
+        existingUser._id.toHexString(),
+        organization._id.toHexString(),
+      );
 
       // then
       expect(getByOrgAndUserIdResult.success).toBeTruthy();
-      expect(getByOrgAndUserIdResult.user).toContain(existingUser.id);
-      expect(getByOrgAndUserIdResult.user).toContain(organization.id);
+      expect(getByOrgAndUserIdResult.user).toContain(existingUser._id.toHexString());
+      expect(getByOrgAndUserIdResult.user).toContain(organization._id.toHexString());
       expect(getByOrgAndUserIdResult.imageName).toEqual('some-image-file.jpeg');
     });
 
@@ -285,7 +288,7 @@ describe('User Service:', () => {
 
       // when
       const getByOrgAndUserIdResult = await userService.getOrganizationMemberById(
-        existingUser.id,
+        existingUser._id.toHexString(),
         randomOrgId.toHexString(),
       );
 
@@ -302,7 +305,7 @@ describe('User Service:', () => {
       // when
       const getByOrgAndUserIdResult = await userService.getOrganizationMemberById(
         randomUserId.toHexString(),
-        organization.id,
+        organization._id.toHexString(),
       );
 
       // then
@@ -321,7 +324,7 @@ describe('User Service:', () => {
       const { formData, data } = populateFormWithUserData();
 
       formData.append('avatarUrl', faker.image.avatar());
-      formData.append('organizationId', `${organization.id}`);
+      formData.append('organizationId', `${organization._id}`);
       formData.append('data', JSON.stringify(data));
 
       // when
@@ -351,7 +354,7 @@ describe('User Service:', () => {
     it('should NOT create a user when already exists', async () => {
       // given
       const organization = await createOrganization();
-      const existingUser = await createUser(organization.id);
+      const existingUser = await createUser(organization._id);
 
       const { formData, data } = populateFormWithUserData();
 
@@ -389,7 +392,7 @@ describe('User Service:', () => {
       const { formData, data } = populateFormWithUserData();
 
       formData.append('avatarUrl', faker.image.avatar());
-      formData.append('organizationId', organization.id);
+      formData.append('organizationId', organization._id.toHexString());
       formData.append('data', JSON.stringify(data));
 
       // when
@@ -408,10 +411,10 @@ describe('User Service:', () => {
       const s3BucketMock = jest.spyOn(s3BucketClient, 'deleteFileFromBucket').mockResolvedValue(true);
 
       const organization = await createOrganization();
-      const user = await createUser(organization.id);
+      const user = await createUser(organization._id);
       const formData = await createValidUserDataForUpdate();
 
-      formData.append('id', user.id);
+      formData.append('id', user._id.toHexString());
 
       // when
       const updateMemberResult = await userService.updateMemberById(formData);
@@ -442,10 +445,10 @@ describe('User Service:', () => {
     it('should NOT update user when formData contains validation errors', async () => {
       // given
       const organization = await createOrganization();
-      const user = await createUser(organization.id);
+      const user = await createUser(organization._id);
       const formData = new FormData();
 
-      formData.append('id', user.id);
+      formData.append('id', user._id.toHexString());
       formData.append('data', JSON.stringify({}));
       const expectedErrorMessage = 'Email %s,Name %s,Last name %s,Phone %s'.replaceAll('%s', 'is required');
 
@@ -460,7 +463,7 @@ describe('User Service:', () => {
     it('should NOT update existing user email when conflict', async () => {
       // given
       const organization = await createOrganization();
-      const user = await createUser(organization.id);
+      const user = await createUser(organization._id);
       const clone = user.$clone();
 
       clone._id = new mongoose.Types.ObjectId() as never;
@@ -470,7 +473,7 @@ describe('User Service:', () => {
       const { formData, data } = populateFormWithUserData();
 
       data.email = email;
-      formData.append('id', userForUpdate.id);
+      formData.append('id', userForUpdate._id.toHexString());
       formData.append('data', JSON.stringify(data));
 
       // when
@@ -485,10 +488,10 @@ describe('User Service:', () => {
       // given
       const s3BucketMock = jest.spyOn(s3BucketClient, 'deleteFileFromBucket').mockResolvedValue(false);
       const organization = await createOrganization();
-      const user = await createUser(organization.id);
+      const user = await createUser(organization._id);
       const formData = await createValidUserDataForUpdate();
 
-      formData.append('id', user.id);
+      formData.append('id', user._id.toHexString());
 
       // when
       const updateMemberResult = await userService.updateMemberById(formData);
