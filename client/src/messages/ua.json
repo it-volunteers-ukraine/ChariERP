@@ -264,6 +264,8 @@
     }
   },
   "errors": {
+    "or": "або",
+    "companyAlreadyRegistered": "Компанія с {errors} вже зареєстрована",
     "login": {
       "userIncorrect": "Неправильний email або пароль",
       "userNotFound": "E-mail або пароль некоректний",

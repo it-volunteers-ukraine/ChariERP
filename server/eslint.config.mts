@@ -7,9 +7,7 @@ import { resolve } from 'path';
 import type { FlatConfig } from 'typescript-eslint';
 
 const prettierPlugin = prettier;
-const prettierConfig = JSON.parse(
-  readFileSync(resolve(import.meta.dirname, '.prettierrc'), 'utf-8'),
-);
+const prettierConfig = JSON.parse(readFileSync(resolve(import.meta.dirname, '.prettierrc'), 'utf-8'));
 
 const config: FlatConfig.Config[] = [
   js.configs.recommended,
@@ -24,7 +22,7 @@ const config: FlatConfig.Config[] = [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        tsconfigRootDir: import.meta.dirname,
+        tsconfigRootDir: __dirname,
         project: './tsconfig.json',
       },
       globals: { ...globals.node },

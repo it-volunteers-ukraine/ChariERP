@@ -9,6 +9,7 @@
 *.log
 .tmp/
 .temp/
+.vscode/
 
 # IDE files (IntelliJ)
 .idea/

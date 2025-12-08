@@ -16,6 +16,8 @@ export default defineConfig([
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
+        tsconfigRootDir: __dirname,
+        project: './tsconfig.json',
         ecmaFeatures: { jsx: true },
       },
     },
@@ -43,10 +45,7 @@ export default defineConfig([
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-var-requires': 'off',
       'no-multiple-empty-lines': ['error', { max: 1, maxBOF: 1 }],
-      '@typescript-eslint/no-empty-interface': [
-        'error',
-        { allowSingleExtends: true },
-      ],
+      '@typescript-eslint/no-empty-interface': ['error', { allowSingleExtends: true }],
 
       /* === Unified unused vars handling === */
       'no-unused-vars': 'off',
@@ -73,9 +72,9 @@ export default defineConfig([
       ],
 
       /* === General best practices (implicit before, explicit now) === */
-      'eqeqeq': 'error',
+      eqeqeq: 'error',
       'no-console': 'warn',
-      'curly': 'error',
+      curly: 'error',
       'no-debugger': 'error',
       'no-duplicate-imports': 'error',
     },

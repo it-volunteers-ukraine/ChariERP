@@ -13,11 +13,14 @@ import { getErrors, requiredUsers, requiredUsersUpdate } from './helpers';
 import { ObjectId } from 'mongoose';
 
 class UserService extends BaseService {
-  imageService: ImageService;
+  private imageService?: ImageService;
 
-  constructor() {
-    super();
-    this.imageService = new ImageService();
+  private getImageService(): ImageService {
+    if (!this.imageService) {
+      this.imageService = new ImageService();
+    }
+
+    return this.imageService;
   }
 
   async createAdmin(email: string, password: string) {
@@ -128,7 +131,7 @@ class UserService extends BaseService {
     let imageName;
 
     if (user.avatarUrl) {
-      const response = await this.imageService.getImage(user.avatarUrl);
+      const response = await this.getImageService().getImage(user.avatarUrl);
 
       user.avatarUrl = response.success ? response.image : '';
       imageName = response.imageName;
@@ -247,11 +250,10 @@ class UserService extends BaseService {
     }
 
     if (isPreviousOperationSuccessful) {
-      return await this.imageService.uploadAvatar(newAvatar, organizationId as unknown as string);
+      return await this.getImageService().uploadAvatar(newAvatar, organizationId as unknown as string);
     }
 
     return false;
   }
 }
-
 export const userService = new UserService();
