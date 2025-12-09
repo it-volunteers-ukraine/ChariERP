@@ -29,6 +29,7 @@
     "bcrypt": "^6.0.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "exceljs": "^4.4.0",
     "formik": "^2.4.9",
     "framer-motion": "^12.23.25",
     "jiti": "^2.6.1",
@@ -55,7 +56,6 @@
     "swiper": "^12.0.3",
     "tailwind-merge": "^3.4.0",
     "winston": "^3.18.3",
-    "xlsx": "^0.18.5",
     "yup": "^1.7.1"
   },
   "devDependencies": {

@@ -22,7 +22,7 @@ const config: FlatConfig.Config[] = [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        tsconfigRootDir: __dirname,
+        tsconfigRootDir: import.meta.dirname,
         project: './tsconfig.json',
       },
       globals: { ...globals.node },

@@ -16,7 +16,7 @@ export default defineConfig([
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        tsconfigRootDir: __dirname,
+        tsconfigRootDir: import.meta.dirname,
         project: './tsconfig.json',
         ecmaFeatures: { jsx: true },
       },

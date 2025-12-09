@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import * as XLSX from 'xlsx';
 import { pdf } from '@react-pdf/renderer';
 import { IconButton, Tooltip } from '@mui/material';
 import { MRT_ColumnDef, MRT_TableInstance } from 'material-react-table';
@@ -34,49 +33,62 @@ export const CustomDownloadButton = ({ table, data, columns }: Props) => {
     return value as ExportableValue;
   };
 
-  const handleExportExcel = (): void => {
+  const handleExportExcel = async (): Promise<void> => {
+    const ExcelJS = await import('exceljs');
+
     const exportColumns = columns.filter((col) => col.accessorKey && col.header && col.accessorKey !== 'photos');
 
-    const exportData: Record<string, ExportableValue>[] = table.getRowModel().rows.map((row) => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Table');
+
+    worksheet.columns = exportColumns.map((col) => {
+      return {
+        header: col.header,
+        key: col.accessorKey as string,
+        width: 20,
+      };
+    });
+
+    const exportData = table.getRowModel().rows.map((row) => {
       const obj: Record<string, ExportableValue> = {};
 
       exportColumns.forEach((col) => {
         const key = col.accessorKey as keyof Person;
-        const header = col.header;
-        const value = row.original[key];
 
-        obj[header] = formatValueForExport(key, value);
+        obj[key] = formatValueForExport(key, row.original[key]);
       });
 
       return obj;
     });
 
-    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    worksheet.addRows(exportData);
 
-    worksheet['!cols'] = exportColumns.map((col) => {
-      const header = col.header;
+    worksheet.columns.forEach((column) => {
+      let maxLength = 0;
 
-      let maxLength = header.length;
+      if (column.header) {
+        maxLength = column.header.length;
+      }
 
-      exportData.forEach((row) => {
-        const val = row[header];
+      column.eachCell?.({ includeEmpty: true }, (cell) => {
+        const columnLength = cell.value ? cell.value.toString().length : 0;
 
-        if (val) {
-          const length = String(val).length;
-
-          if (length > maxLength) {
-            maxLength = length;
-          }
+        if (columnLength > maxLength) {
+          maxLength = columnLength;
         }
       });
-
-      return { wch: maxLength + 1 };
+      column.width = maxLength < 10 ? 10 : maxLength + 2;
     });
 
-    const workbook = XLSX.utils.book_new();
+    const buffer = await workbook.xlsx.writeBuffer();
 
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Table');
-    XLSX.writeFile(workbook, 'export.xlsx');
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.download = 'export.xlsx';
+    link.click();
   };
 
   const handleExportPdf = async () => {
